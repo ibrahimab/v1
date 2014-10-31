@@ -208,7 +208,7 @@ if($_GET["schoonmaakkosten"]) {
 			# Overzicht types
 			echo "<hr>";
 			echo "<b>Types</b>";
-			$db->query("SELECT t.type_id, a.accommodatie_id, a.soortaccommodatie, a.naam, a.bestelnaam AS abestelnaam, a.wzt, t.naam AS tnaam, t.leverancierscode, UNIX_TIMESTAMP(t.xml_laatsteimport) AS xml_laatsteimport, a.leverancierscode AS aleverancierscode, p.naam AS plaats, l.begincode FROM accommodatie a, type t, plaats p, land l WHERE p.land_id=l.land_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.leverancier_id='".addslashes($_GET["8k0"])."' AND a.archief=0".($vars["lokale_testserver"] ? "" : " AND a.tonen=1 AND t.tonen=1 ")." ORDER BY a.wzt, p.naam, a.naam, t.naam;");
+			$db->query("SELECT t.type_id, a.accommodatie_id, a.soortaccommodatie, a.naam, a.bestelnaam AS abestelnaam, a.wzt, t.naam AS tnaam, t.leverancierscode, UNIX_TIMESTAMP(t.xml_laatsteimport) AS xml_laatsteimport, a.leverancierscode AS aleverancierscode, p.naam AS plaats, l.begincode FROM accommodatie a, type t, plaats p, land l WHERE p.land_id=l.land_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.leverancier_id='".addslashes($_GET["8k0"])."' AND a.archief=0".($vars["lokale_testserver"] ? "" : " AND a.tonen=1 AND t.tonen=1 ")." ORDER BY a.wzt, p.naam, a.naam, t.naam, t.type_id;");
 			if($db->num_rows()) {
 				if($leveranciergegevens["xml_type"]) {
 					echo "<p><span style=\"background-color:#f4f38d;\">geel</span> = de laatste 30 dagen geen XML-import geconstateerd (m.b.t. de beschikbaarheid)<p>";
@@ -245,11 +245,7 @@ if($_GET["schoonmaakkosten"]) {
 						}
 						if($db->f("xml_laatsteimport")) {
 							echo " / laatste import: ";
-							if($login->userlevel>=10) {
-								echo date("d-m-Y, H:i",$db->f("xml_laatsteimport"));
-							} else {
-								echo date("d-m-Y",$db->f("xml_laatsteimport"));
-							}
+							echo date("d-m-Y, H:i",$db->f("xml_laatsteimport"));
 						}
 						echo ")";
 					}

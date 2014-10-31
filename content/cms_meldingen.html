@@ -774,11 +774,7 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[12]]["xml"]["tarieven"]) {
 			}
 			echo " / laatste import: ";
 			if($db->f("xml_laatsteimport")) {
-				if($login->userlevel>=10) {
-					echo date("d-m-Y, H:i",$db->f("xml_laatsteimport"));
-				} else {
-					echo date("d-m-Y",$db->f("xml_laatsteimport"));
-				}
+				echo date("d-m-Y, H:i",$db->f("xml_laatsteimport"));
 			} else {
 				echo " <span class=\"error\">nog nooit</span>";
 			}
