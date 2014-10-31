@@ -1203,7 +1203,7 @@ while(list($key,$value)=@each($soap_urls)) {
 					}
 
 					$availabilities = $direktHolidays->getAvailability($html, $start_date, $end_date, $accCode);
-					
+
 					$availability = $availabilities['availability'];
 					$prices = $availabilities['price'];
 					if(isset($availability)) {
