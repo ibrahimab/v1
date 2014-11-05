@@ -1,5 +1,8 @@
 <?php
 
+// phpinfo();
+// exit;
+
 if(defined("wt_test_name") and wt_test_name=="macbook") {
 	include("admin/vars.php");
 

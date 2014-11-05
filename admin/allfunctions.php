@@ -162,6 +162,15 @@ switch ($errno) {
 	return true;
 }
 
+function wt_debugbar_message($message, $label="info", $collector="messages") {
+	//
+	// send messages to phpdebugbar (http://phpdebugbar.com/)
+	//
+	if(is_object($wt_debugbar)) {
+		$wt_debugbar->getCollector($collector)->addMessage($message, $label);
+	}
+}
+
 function wt_404($redirect=false) {
 	if($_GET["wtfatalerror"]) {
 		if($_SERVER["HTTP_REFERER"]) {
@@ -3536,7 +3545,7 @@ global $ADODB_DATE_LOCALE;
 }
 
 // Constants
-if(!defined("WT_trackmailaddress")) define("WT_trackmailaddress","track@webtastic.nl");
+if(!defined("WT_trackmailaddress")) define("WT_trackmailaddress","webtasticnl+track@gmail.com");
 
 
 ?>

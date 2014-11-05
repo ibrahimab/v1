@@ -22,6 +22,14 @@ class wt_add_collector extends DebugBar\DataCollector\MessagesCollector implemen
 	}
 }
 
-$wt_debugbar->addCollector(new wt_add_collector("Database"));
+if(defined("wt_redis_host")) {
+	$wt_debugbar->addCollector(new wt_add_collector("redis"));
+}
+
+$wt_debugbar->addCollector(new wt_add_collector("database"));
+
+
 // $wt_debugbar->addCollector(new wt_add_collector("rpc-json"));
+
+
 

@@ -152,7 +152,7 @@ class DB_Sql {
 	/* public: perform a query */
 	function query( $Query_String ) {
 
-		global $wt_debugbar;
+		global $wt_debugbar, $vars;
 
 		$this->lastquery=$Query_String;
 		$this->lq=$Query_String;
@@ -229,8 +229,23 @@ class DB_Sql {
 		}
 
 		if(is_object($wt_debugbar) and $Query_String) {
+
+
+			$debug=@debug_backtrace();
+			if ( is_array( $debug ) ) {
+				while ( list( $key, $value )=each( $debug ) ) {
+					if ( $value["class"]=="DB_Sql" and $value["function"] and $value["function"]<>"halt" ) {
+						$filename=$value["file"];
+						if($vars["unixdir"]) {
+							$filename = str_replace($vars["unixdir"], "", $filename);
+						}
+						$linenumber=$value["line"];
+					}
+				}
+			}
+
 			$number_of_results = @mysql_num_rows( $this->Query_ID );
-			$wt_debugbar->getCollector("Database")->addMessage($Query_String." (results: ".intval($number_of_results)." - ".number_format($query_time, 4)." sec.)", "query");
+			$wt_debugbar->getCollector("database")->addMessage($filename." ".$linenumber." ".$Query_String." (results: ".intval($number_of_results)." - ".number_format($query_time, 4)." sec.)", "query");
 		}
 
 
