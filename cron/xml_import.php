@@ -363,9 +363,9 @@ if($testsysteem) {
 	// $xml_urls[6][2]=$test_tmpdir."Preise.xml";
 	// $xml_urls[7][1]=$test_tmpdir."bel.xml";
 	// $xml_urls[7][2]=$test_tmpdir."belt.xml";
-	$xml_urls[8][1]=$test_tmpdir."availability.xml";
-	$xml_urls[8][2]=$test_tmpdir."unitrates.xml";
-	$xml_urls[8][3]=$test_tmpdir."unit.xml";
+	// $xml_urls[8][1]=$test_tmpdir."availability.xml";
+	// $xml_urls[8][2]=$test_tmpdir."unitrates.xml";
+	// $xml_urls[8][3]=$test_tmpdir."unit.xml";
 	// $xml_urls[9][2]=$test_tmpdir."nl";
 	// $xml_urls[10][1]=$test_tmpdir."1.xml";
 	// $xml_urls[11][1]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
@@ -379,7 +379,7 @@ if($testsysteem) {
 	// $xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
 	// $xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 	// $xml_urls[17][1]=$test_tmpdir."lev.xml";
-	// $xml_urls[18][1]=$test_tmpdir."agence.xml";
+	$xml_urls[18][1]=$test_tmpdir."agence.xml";
 	// $xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
 	// $xml_urls[20][1]="/tmp/locative.xml";
 	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
@@ -1686,15 +1686,6 @@ while($db->next_record()) {
 
 			$aantal_beschikbaar[$db->f("xml_type")][$db->f("type_id")]++;
 
-			# Beschikbaarheid
-			if(is_array($xml_niet_beschikbaar[$db->f("xml_type")][$value])) {
-				reset($xml_niet_beschikbaar[$db->f("xml_type")][$value]);
-				while(list($key2,$value2)=each($xml_niet_beschikbaar[$db->f("xml_type")][$value])) {
-#					$nietbeschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]=$value2;
-					$nietbeschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]++;
-					$xml_laatsteimport[$db->f("type_id")]=true;
-				}
-			}
 
 			# Tarieven
 			unset($xml);
@@ -1729,11 +1720,23 @@ while($db->next_record()) {
 			if($xml=@simplexml_load_file($xml_url)) {
 
 			}
-			if(is_object($xml)) {
+			if(is_object($xml->Tarif) and $xml->Tarif->count()>0) {
 				foreach($xml->Tarif as $value3) {
 					$unixtime=strtotime(ereg_replace("/","-",$value3->ptar_debut));
 					$xml_brutoprijs[$db->f("xml_type")][trim($value3->lot_ref)][$unixtime]=trim($value3->ptar_montant);
 				}
+
+				# Beschikbaarheid
+				if(is_array($xml_niet_beschikbaar[$db->f("xml_type")][$value])) {
+					reset($xml_niet_beschikbaar[$db->f("xml_type")][$value]);
+					while(list($key2,$value2)=each($xml_niet_beschikbaar[$db->f("xml_type")][$value])) {
+						$nietbeschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]++;
+						$xml_laatsteimport[$db->f("type_id")]=true;
+					}
+				}
+
+			} else {
+				$aantal_beschikbaar[$db->f("xml_type")][$db->f("type_id")]--;
 			}
 
 		} elseif($db->f("xml_type")==8) {
@@ -2631,6 +2634,7 @@ if($mailtxt or $tarievenbijgewerkt) {
 		$mail->from="system@chalet.nl";
 		$mail->toname="Chalet.nl";
 		$mail->to="info@chalet.nl";
+// $mail->to="jeroen@webtastic.nl";
 		if($sendmailtxt1 and $sendmailtxt2) {
 			$mail->subject="Beschikbaarheid gewijzigd + nieuwe tarieven";
 		} elseif($sendmailtxt1) {
