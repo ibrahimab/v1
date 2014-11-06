@@ -268,7 +268,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 						}
 					}
 					if($error) {
-						trigger_error("notice: ".$soap_systeemnaam."-foutmelding (partnercode: ".$soap_partnercode."): ".$error." - request: ".$full_request,E_USER_NOTICE);
+						trigger_error("_notice: ".$soap_systeemnaam."-foutmelding (partnercode: ".$soap_partnercode."): ".$error." - request: ".$full_request,E_USER_NOTICE);
 					} else {
 						$base_product_code=utf8_decode($result->distribProposal->base_product_code);
 					}
@@ -340,7 +340,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 								save_aan_leverancier_doorgegeven_naam();
 							} else {
 								echo "<span class=\"error\">Boeken niet gelukt.<br><br>Foutmelding van het ".$soap_systeemnaam."-systeem: ".wt_he(($error ? $error : "onbekende fout"))."</span><p>";
-								trigger_error("notice: ".$soap_systeemnaam."-foutmelding ".$error,E_USER_NOTICE);
+								trigger_error("_notice: ".$soap_systeemnaam."-foutmelding ".$error,E_USER_NOTICE);
 							}
 
 	#						echo "<pre>";
