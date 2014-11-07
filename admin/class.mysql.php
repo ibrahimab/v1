@@ -245,7 +245,7 @@ class DB_Sql {
 			}
 
 			$number_of_results = @mysql_num_rows( $this->Query_ID );
-			$wt_debugbar->getCollector("database")->addMessage($filename." ".$linenumber." ".$Query_String." (results: ".intval($number_of_results)." - ".number_format($query_time, 4)." sec.)", "query");
+			$wt_debugbar->getCollector("database")->addMessage($filename." ".$linenumber." ".$Query_String." (results: ".intval($number_of_results)." - ".number_format($query_time, 4)." sec.)", (floatval($query_time)>0.1 ? "slowquery" : "query"));
 		}
 
 

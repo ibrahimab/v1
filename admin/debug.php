@@ -2,9 +2,15 @@
 
 include "/home/webtastic/html/vendor/autoload.php";
 
+// wt_session_start();
+
+
 use DebugBar\StandardDebugBar;
 $wt_debugbar = new StandardDebugBar();
 $wt_debugbar->setStorage(new DebugBar\Storage\FileStorage('/tmp/phpdebugbar'));
+
+// $wt_debugbar->stackData();
+
 $debugbarRenderer = $wt_debugbar->getJavascriptRenderer();
 
 // $debugbarRenderer->setOpenHandlerUrl("rpc_json.php");
