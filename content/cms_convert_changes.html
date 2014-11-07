@@ -1,0 +1,11 @@
+<?php
+
+
+if($_GET["omzetten"]) {
+	convert_changes::surtax_extra_persons_to_bijkomendekosten(true, true);
+} else {
+	convert_changes::surtax_extra_persons_to_bijkomendekosten(false, true);
+}
+
+
+?>
