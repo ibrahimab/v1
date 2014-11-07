@@ -3,7 +3,8 @@
 // phpinfo();
 // exit;
 
-if(defined("wt_test_name") and wt_test_name=="macbook") {
+
+if(defined("wt_test_name") and (wt_test_name=="macbook" or wt_test_name=="ss")) {
 	include("admin/vars.php");
 
 	$bijkomendekosten = new bijkomendekosten;
