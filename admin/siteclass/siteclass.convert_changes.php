@@ -28,7 +28,7 @@ class convert_changes {
 		while($db->next_record()) {
 			$inquery2.=",".$db->f("optie_onderdeel_id");
 		}
-		if($inquery2) {
+		if($inquery1 and $inquery2) {
 
 			// which optie_onderdeel_id are connected to current bookings?
 			$db->query("SELECT b.boekingsnummer, t.type_id, bo.optie_onderdeel_id, v.optie_groep_id, b.boeking_id, t.accommodatie_id FROM boeking_optie bo, boeking b, type t, view_optie v WHERE v.optie_onderdeel_id=bo.optie_onderdeel_id AND b.type_id=t.type_id AND b.boeking_id=bo.boeking_id AND b.aankomstdatum_exact>".time()." AND bo.optie_onderdeel_id IN (".substr($inquery2,1).") AND b.boekingsnummer<>'' AND (t.bijkomendekosten1_id IN (".substr($inquery1,1).") OR t.bijkomendekosten2_id IN (".substr($inquery1,1).") OR t.bijkomendekosten3_id IN (".substr($inquery1,1).") OR t.bijkomendekosten4_id IN (".substr($inquery1,1).") OR t.bijkomendekosten5_id IN (".substr($inquery1,1).") OR t.bijkomendekosten6_id IN (".substr($inquery1,1).")) ORDER BY boeking_id;");
@@ -62,13 +62,12 @@ class convert_changes {
 			}
 			echo $output;
 			echo "</ul>";
-			if(!$save_changes) {
+			if(!$save_changes and $output) {
 				echo "<p><a href=\"cms_convert_changes.php?omzetten=1\">NU OMZETTEN &raquo;</a></p>";
 			}
 		}
 	}
 }
-
 
 
 ?>

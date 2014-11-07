@@ -3314,9 +3314,65 @@ function bereken_bijkomendekosten($boekingid) {
 						//
 						// check for number of persons for this booking (min_personen / max_personen)
 						//
-						for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
-							if($i>=$db->f("min_personen") and $i<=$db->f("max_personen")) {
-								if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
+						if($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
+
+							unset($geboortedatum_sort);
+							$all_birthdates_known = true;
+
+							for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+								if(isset($gegevens["stap3"][$i]["geboortedatum"])) {
+									$geboortedatum_sort[$i] = $gegevens["stap3"][$i]["geboortedatum"];
+								} else {
+									$all_birthdates_known = false;
+								}
+							}
+
+							if($all_birthdates_known) {
+								//
+								// all_birthdates_known: check for age
+								//
+
+								// order by age (from old to young)
+								asort($geboortedatum_sort);
+								unset($persoon_counter);
+								foreach ($geboortedatum_sort as $i => $geboortedatum) {
+									$persoon_counter++;
+									if($persoon_counter>=$db->f("min_personen") and $persoon_counter<=$db->f("max_personen")) {
+
+										$leeftijd=wt_leeftijd($geboortedatum, mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
+										if($db->f("min_leeftijd") and $db->f("max_leeftijd")) {
+											if($leeftijd>=$db->f("min_leeftijd") and $leeftijd<=$db->f("max_leeftijd")) {
+												if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
+											}
+										} elseif($db->f("min_leeftijd")) {
+											if($leeftijd>=$db->f("min_leeftijd")) {
+												if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
+											}
+										} elseif($db->f("max_leeftijd")) {
+											if($leeftijd<=$db->f("max_leeftijd")) {
+												if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
+											}
+										}
+									}
+								}
+
+							} elseif($db->f("zonderleeftijd")) {
+
+								//
+								// not all_birthdates_known: apply bijkomendekosten with "zonderleeftijd" selected
+								//
+
+								for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+									if($i>=$db->f("min_personen") and $i<=$db->f("max_personen")) {
+										if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
+									}
+								}
+							}
+						} else {
+							for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+								if($i>=$db->f("min_personen") and $i<=$db->f("max_personen")) {
+									if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
+								}
 							}
 						}
 					} elseif($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
