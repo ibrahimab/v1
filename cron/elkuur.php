@@ -37,7 +37,7 @@ $huidig_uur = date("H");
 
 
 // Wisselkoers pond opvragen
-if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+if($huidig_uur==8 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
 	$koers_json=file_get_contents("http://rate-exchange.appspot.com/currency?from=EUR&to=GBP");
 	if($koers_json) {
 		$koers_array=json_decode($koers_json, true);
