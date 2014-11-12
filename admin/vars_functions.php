@@ -2068,7 +2068,7 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 			# Commissie BTW
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("commissie_btw","vars");
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."".$temp_class."><td style=\"padding-right:10px;vertical-align:top;\">".html("commissie_btw","vars");
 			$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["fin"]["commissie_accommodatie"]+$gegevens["fin"]["commissie_opties"],2,',','.')."</td>";
 			$return.="<td style=\"padding-right:10px;vertical-align:top;\" nowrap> x ".getal_met_juist_aantal_decimalen_weergeven($gegevens["stap1"]["btw_over_commissie_percentage"])."%</td><td style=\"padding-right:10px\">=</td>";
 			$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
