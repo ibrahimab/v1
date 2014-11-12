@@ -1,7 +1,45 @@
 <?php
 
-// phpinfo();
+set_time_limit(0);
+
+
+phpinfo();
+exit;
+// include("admin/vars.php");
+// include("/home/webtastic/html/vendor/autoload.php");
+
+
+// $redis1 = new Predis\Client([
+//     'scheme' => 'tcp',
+//     'host'   => '127.0.0.1',
+//     'port'   => 6379,
+// ]);
+
+// echo "AAB";
+// $redis = new Redis();
+// $redis->connect("127.0.0.1", 6379);
+// wt_debugtimer();
+// $allKeys = $redis->keys('*');
+// wt_debugtimer();
+
+// foreach ($allKeys as $key => $value) {
+// 	# code...
+// 	if(preg_match("@test_@", $value)) {
+// 		// echo $value."<br/>";
+// 		$teller++;
+// 		$data = $redis->Get($value);
+// 		// $redis->set("test_".$value, $data);
+// 		echo wt_dump($data)."<hr>";
+// 		// exit;
+// 	}
+// }
+// // echo wt_dump($allKeys);
+// wt_debugtimer();
+// echo "Totaal: ".$teller;
+
 // exit;
+
+// $redis->scan("")
 
 
 if(defined("wt_test_name") and (wt_test_name=="macbook" or wt_test_name=="ss")) {

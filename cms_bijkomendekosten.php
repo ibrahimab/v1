@@ -19,6 +19,14 @@ if(!$_GET["33k0"]) {
 }
 
 
+if($_GET["cmsversie"]=="huidig") {
+	$cms->db[33]["where"]="temp_old_system='1'";
+	$cms->db[33]["set"]="temp_old_system='1'";
+} else {
+	$cms->db[33]["where"]="temp_old_system='0'";
+	$cms->db[33]["set"]="temp_old_system='0'";
+}
+
 #
 # Database-declaratie
 #
