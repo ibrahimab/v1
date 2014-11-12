@@ -9,14 +9,29 @@ if(!$login->has_priv("31")) {
 	exit;
 }
 
+# wzt opvragen indien niet meegegeven met query_string
+if(!$_GET["wzt"]) {
+	if($_GET["57k0"]) {
+		$db->query("SELECT wzt FROM bk_soort WHERE bk_soort_id='".intval($_GET["57k0"])."';");
+		if($db->next_record()) {
+			$_GET["wzt"]=$db->f("wzt");
+		}
+	} else {
+		$_GET["wzt"]=1;
+	}
+}
+
 
 // nieuwe waarde volgorde bepalen
-$db->query("SELECT MAX(volgorde) AS volgorde FROM bk_soort WHERE 1=1;");
+$db->query("SELECT MAX(volgorde) AS volgorde FROM bk_soort WHERE wzt='".intval($_GET["wzt"])."';");
 if($db->next_record()) {
 	$volgorde = $db->f("volgorde");
 }
 $volgorde=$volgorde+10;
 
+
+$cms->db[57]["where"]="wzt='".intval($_GET["wzt"])."'";
+$cms->db[57]["set"]="wzt='".intval($_GET["wzt"])."'";
 
 #
 # Database-declaratie
@@ -150,7 +165,7 @@ function form_before_goto($form) {
 	global $login,$vars;
 
 	$volgorde=0;
-	$db->query("SELECT bk_soort_id FROM bk_soort WHERE 1=1 ORDER BY volgorde;");
+	$db->query("SELECT bk_soort_id FROM bk_soort WHERE wzt='".intval($_GET["wzt"])."' ORDER BY volgorde;");
 	while($db->next_record()) {
 		$volgorde=$volgorde+10;
 		$db2->query("UPDATE bk_soort SET volgorde='".$volgorde."' WHERE bk_soort_id='".$db->f("bk_soort_id")."';");

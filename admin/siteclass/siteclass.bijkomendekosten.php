@@ -71,7 +71,7 @@ class bijkomendekosten {
 
 			// get seasons
 			$this->seizoen_inquery .= ",0";
-			$db->query("SELECT seizoen_id, naam FROM seizoen WHERE eind>=(NOW() - INTERVAL 1 DAY) AND type='".intval($this->wzt)."' ORDER BY begin, eind;");
+			$db->query("SELECT seizoen_id, naam FROM seizoen WHERE eind>=(NOW() - INTERVAL 1 DAY) AND type='".intval($this->wzt)."'".($this->hide_inactive_seasons ? " AND tonen<>1" : "")." ORDER BY begin, eind;");
 			// echo $db->lq;
 			while($db->next_record()) {
 				$this->cms_data_seizoenen[$db->f("seizoen_id")] = $db->f("naam");
@@ -164,7 +164,7 @@ class bijkomendekosten {
 				$this->cms_data_tmp_teksten_omgezet = $db->f("tmp_teksten_omgezet");
 			}
 
-			$db->query("SELECT bk_soort_id, volgorde, naam".$vars["ttv"]." AS naam, eenheden, altijd_invullen, prijs_per_nacht, borg, hoort_bij_accommodatieinkoop FROM bk_soort ORDER BY volgorde, bk_soort_id;");
+			$db->query("SELECT bk_soort_id, volgorde, naam".$vars["ttv"]." AS naam, eenheden, altijd_invullen, prijs_per_nacht, borg, hoort_bij_accommodatieinkoop FROM bk_soort WHERE wzt='".intval($this->wzt)."' ORDER BY volgorde, bk_soort_id;");
 			while($db->next_record()) {
 				$this->cms_data_bk_soorten[$db->f("bk_soort_id")]["volgorde"] = $db->f("volgorde");
 				$this->cms_data_bk_soorten[$db->f("bk_soort_id")]["naam"] = $db->f("naam");
@@ -250,6 +250,9 @@ class bijkomendekosten {
 	public function cms_enter_costs_per_acc_type() {
 
 		global $vars, $login;
+
+		// hide seasons that are inactive
+		$this->hide_inactive_seasons = true;
 
 		$this->get_cms_data();
 
