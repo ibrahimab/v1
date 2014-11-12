@@ -1438,6 +1438,8 @@ class form2 {
 					$return.="<input type=\"file\" name=\"input[".$id."][".$i."]\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\"";
 					if($this->fields["options"][$id]["must_be_filetype"]=="jpg") {
 						$return.=" accept=\"image/jpeg\"";
+					} elseif($this->fields["options"][$id]["accept_element"]) {
+						$return.=" accept=\"".$this->fields["options"][$id]["accept_element"]."\"";
 					}
 					$return.=">";
 
