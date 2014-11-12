@@ -3,13 +3,17 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+11-nov-2014 17:19
+ALTER TABLE `bijkomendekosten` ADD `temp_old_system` TINYINT( 1 ) NOT NULL AFTER `internenaam` ;
+UPDATE `bijkomendekosten` SET `temp_old_system`=1 WHERE min_personen IS NULL;
+ALTER TABLE `bk_soort` ADD `wzt` TINYINT(1) NOT NULL DEFAULT '1' AFTER `bk_soort_id`;
+
 19-sep-2014 11:42
 ALTER TABLE `bijkomendekosten` ADD `min_personen` INT NULL DEFAULT NULL AFTER `zonderleeftijd` ,
 ADD `max_personen` INT NULL DEFAULT NULL AFTER `min_personen` ;
 
 11-sep-2014 12:48
 ALTER TABLE `accommodatie` ADD `bk_opmerkingen_intern` TEXT NULL DEFAULT NULL AFTER `bijkomendekosten6_id` ;
-
 
 9-sep-2014 13:35
 ALTER TABLE `bk_soort` ADD `min_leeftijd` TINYINT NULL DEFAULT NULL AFTER `borg` ,
