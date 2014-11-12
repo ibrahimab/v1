@@ -366,7 +366,9 @@ if($mustlogin) {
 	if($login->has_priv("31")) {
 		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true,false,array("slide"=>true));
 		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","huidig systeem",array("cmsversie"=>"huidig"),true);
-		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw systeem",array("cmsversie"=>"nieuw"),true);
+		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","nieuw: variabel per week",array("cmsversie"=>"nieuw1"),true);
+		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast winter",array("cmsversie"=>"nieuw2", "wzt"=>1),true);
+		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast zomer",array("cmsversie"=>"nieuw3", "wzt"=>2),true);
 	} else {
 		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true);
 	}
