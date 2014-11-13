@@ -500,6 +500,10 @@ php_value max_input_vars 50000
 php_value memory_limit 256M
 </Files>
 
+<Files cms.php>
+php_value memory_limit 384M
+</Files>
+
 <Files cms_financien.php>
 php_value memory_limit 384M
 </Files>
