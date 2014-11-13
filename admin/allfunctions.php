@@ -129,7 +129,7 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			}
 
 			$url="http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
-			$fp=@fopen("http://owp.webtastic.nl/error_log.php?req=".$_SERVER["REQUEST_METHOD"]."&l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script),"r");
+			$fp=@fopen("https://owp.webtastic.nl/error_log.php?req=".$_SERVER["REQUEST_METHOD"]."&l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script),"r");
 			$GLOBALS["errorcounter"]++;
 		}
 	}
@@ -184,8 +184,8 @@ function wt_404($redirect=false) {
 			$errfile=$regs[1];
 			$errline=$regs[2];
 		}
-#		mail("systeembeheer@webtastic.nl","Error","Fout: http://owp.webtastic.nl/error_log.php?l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script));
-		$fp=@fopen("http://owp.webtastic.nl/error_log.php?l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script),"r");
+#		mail("systeembeheer@webtastic.nl","Error","Fout: https://owp.webtastic.nl/error_log.php?l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script));
+		$fp=@fopen("https://owp.webtastic.nl/error_log.php?l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script),"r");
 	} elseif($_SERVER["REDIRECT_STATUS"]=="404") {
 		if($redirect) {
 			if(ereg("\.php\)\.$",$_SERVER["REQUEST_URI"],$regs)) {
@@ -229,7 +229,7 @@ function wt_404($redirect=false) {
 		}
 		if(!$niet_melden) {
 			$url="http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
-			$fp=@fopen("http://owp.webtastic.nl/error_log.php?u=".urlencode($url)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&b=".urlencode($_SERVER["HTTP_USER_AGENT"]),"r");
+			$fp=@fopen("https://owp.webtastic.nl/error_log.php?u=".urlencode($url)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&b=".urlencode($_SERVER["HTTP_USER_AGENT"]),"r");
 		}
 	}
 }
@@ -687,7 +687,7 @@ class wt_mail {
 }
 
 function wt_jabber($to,$msg) {
-	$filename="http://owp.webtastic.nl/jabber.php?t=".urlencode($to)."&m=".urlencode($msg);
+	$filename="https://owp.webtastic.nl/jabber.php?t=".urlencode($to)."&m=".urlencode($msg);
 #	$filename="http://ss.postvak.net/werkplek/jabber.php?t=".urlencode($to)."&m=".urlencode($msg);
 	$dataFile=@fopen($filename,"r");
 #	echo "\n\n".$filename."\n\n";
