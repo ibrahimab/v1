@@ -2300,6 +2300,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 	if(@count($newresults_acc)>0) {
 		ksort($newresults_acc);
 		unset($results);
+		unset($viewed_products);
 		unset($aantalresultaten_zonder_gekoppeld_skigebied);
 
 		# Resultaten laten afvallen bij gekoppelde skigebieden (maximaal 10 skigebieden koppelen)
@@ -2343,6 +2344,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 			}
 
 			$results_teller++;
+			$viewed_products[$results_teller] = $value2;
 			$results[$results_teller].="<tr><td colspan=\"5\">";
 
 			$results[$results_teller].="<div class=\"zoekresultaat_block boxshadow\">";
@@ -3741,7 +3743,9 @@ if($resultaten_tonen) {
 			echo "</div>";
 		}
 
+		$product_impressions = array();
 		unset($resultcounter);
+		unset($product_impressions);
 		while(list($key,$value)=each($results)) {
 			$resultcounter++;
 
@@ -3776,11 +3780,17 @@ if($resultaten_tonen) {
 					echo "</td></tr>";
 					$onderstaandeanderskigebied=true;
 				}
+				$product_impressions[] =$viewed_products[$key];
 				echo $value;
 			}
 		}
 		echo "</table>";
 
+		if (isset($product_impressions) and count($product_impressions) > 0) {
+			$google_tagmanager = new google_tagmanager;
+			$list = ($vars["zoekform_aanbiedingen"]) ? 'Aanbiedingen' : 'Zoek en boek';
+			echo $google_tagmanager->product_impressions($product_impressions, $list);
+		}
 		if(ceil(count($results)/$vars["resultsperpage"])>1) {
 
 			# links naar pagina's met meer resultaten pagination

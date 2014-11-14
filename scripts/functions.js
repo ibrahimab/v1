@@ -1563,6 +1563,16 @@ $(document).ready(function() {
 					}
 
 					var nieuwe_url=$(this).attr("href");
+					
+					// retrieving the price based on the selected container: accommodation or type
+					var match_price = 0;
+					if ($(this).attr('class') == 'zoekresultaat_type') {
+						var price_str = $(this).find('.zoekresultaat_type_prijs').html();
+						match_price = price_str.match(/[0-9]+/g);
+					} else if($(this).attr('class') == 'zoekresultaat') {
+						var price_str = $(this).find('.zoekresultaat_prijs_bedrag').html();
+						match_price = price_str.match(/[0-9]+/g);
+					}
 
 					var back_url = getQueryStringValueOfURL("back", nieuwe_url);
 
@@ -1613,7 +1623,24 @@ $(document).ready(function() {
 						// anders: even wachten om Analytics te kunnen sturen
 						setTimeout(function() {
 							// heel even wachten zodat Analytics kan laden
-							document.location.href = nieuwe_url;
+							if(nieuwe_url.match(/zoek-en-boek/g) || nieuwe_url.match(/aanbiedingen/g)){
+								var list = 'Zoek-en-boek';
+								if (nieuwe_url.match(/aanbiedingen/g)) list = 'Aanbiedingen';
+								var url = nieuwe_url.split('/');
+								var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");
+								$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
+								$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":match_type[2], "price":match_price[0], "url":nieuwe_url, "list":list}, function(data){
+									if(data.ok) {
+										var callBackJson={'eventCallback': function(){
+											document.location = nieuwe_url;
+											}};
+										var object = $.extend({}, data.dataLayer, callBackJson);
+										dataLayer.push(object);
+									}
+								});
+							} else {
+								document.location.href = nieuwe_url;
+							}
 						},100);
 
 						return false;

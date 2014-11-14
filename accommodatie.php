@@ -128,6 +128,9 @@ if($url[0]) {
 		$breadcrumbs[txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/"."#beschrijving"]=$db->f("skigebied");
 		$breadcrumbs[txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/"."#beschrijving"]=$db->f("plaats");
 		$breadcrumbs["last"]=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam");
+		$product_details_impressions['name'] = wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"));
+		$product_details_impressions['category'] = $db->f("land");
+		$product_details_impressions['variant'] = $db->f("plaats");	
 	}
 } else {
 #	if($_SERVER["HTTP_REFERER"]) trigger_error("accommodatie niet beschikbaar",E_USER_NOTICE);
