@@ -73,14 +73,6 @@ function ajaxMailFunction() {
 			document.getElementById("errorLabel").style.backgroundColor = '<?php echo $vars["balkkleur"]; ?>';
 			document.getElementById("errorLabel").style.color = 'black';
 			document.getElementById('errorLabel').innerHTML='<?php echo html("emailszijnverzonden","favorieten"); ?>';
-			// send Google Tag Manager-tracking
-			try {
-				dataLayer.push (data.dataLayer);
-			}
-			catch(err) {
-
-			}
-			
 			$("#mailForm").slideUp("normal",function() {
 				document.getElementById('verzenderAdres').value="";
 				document.getElementById('EmailOntvanger').value="";
