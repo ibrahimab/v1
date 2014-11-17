@@ -1630,7 +1630,7 @@ $(document).ready(function() {
 								var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");
 								$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
 								$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":match_type[2], "price":match_price[0], "url":nieuwe_url, "list":list}, function(data){
-									if(data.ok && typeof dataLayer !== 'undefined') {
+									if(data.ok && typeof dataLayer !== 'undefined' && dataLayer !== null) {
 										var callBackJson={'eventCallback': function(){
 											document.location = nieuwe_url;
 											}};
