@@ -1,6 +1,6 @@
 <?php
 
-$mustlogin=true;
+$mustlogin=false;
 include("admin/vars.php");
 
 header("Content-Type: application/javascript");
