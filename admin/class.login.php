@@ -278,7 +278,7 @@ class Login {
 			echo $this->settings["message"]["login"];
 			if($this->settings["loginform_nobr"]) echo "</nobr>";
 			if($this->settings["font"]["face"]) echo "</FONT>";
-			echo "</TD><TD width=\"99%\"><INPUT TYPE=\"text\" name=\"username[".$this->settings["name"]."]\" size=\"20\" maxlength=\"128\"";
+			echo "</TD><TD width=\"99%\"><INPUT TYPE=\"text\" name=\"username[".$this->settings["name"]."]\" size=\"20\" maxlength=\"128\" autocorrect=\"off\" autocapitalize=\"none\"";
 			if($_POST["loginfilled"]) {
 				echo " VALUE=\"".wt_he($_POST["username"][$this->settings["name"]])."\"";
 			} elseif($_GET["username"]) {
@@ -334,7 +334,7 @@ class Login {
 			echo "<label class=\"wtlogin_label_username\">";
 			echo $this->settings["message"]["login"];
 			echo "</label>";
-			echo "<input type=\"".$this->settings["username_type"]."\" name=\"username[".$this->settings["name"]."]\" size=\"20\" maxlength=\"128\"";
+			echo "<input type=\"".$this->settings["username_type"]."\" name=\"username[".$this->settings["name"]."]\" autocorrect=\"off\" autocapitalize=\"none\" size=\"20\" maxlength=\"128\"";
 			if($_POST["loginfilled"]) {
 				echo " value=\"".wt_he($_POST["username"][$this->settings["name"]])."\"";
 			} elseif($_GET["username"]) {
