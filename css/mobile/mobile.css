@@ -1,12 +1,12 @@
 body {
 	background: #FFFFFF;
 	min-width: 320px;
-        overflow-y: hidden;
+		overflow-y: hidden;
 }
 
 a {
 	/*text-decoration: none;*/
-        font-size: 14px;
+		font-size: 14px;
 }
 
 /* ----- Additional ----- */
@@ -17,11 +17,11 @@ a.popwindow {
 }
 
 #terugnaarboven a {
-        font-size:18px;
+		font-size:18px;
 }
 
 #terugnaarboven {
-    margin:20px 0 20px 0px;
+	margin:20px 0 20px 0px;
 }
 
 .clear {
@@ -51,7 +51,7 @@ a.popwindow {
 	position: static;
 	text-align: right;
 	margin-right: 0;
-        margin-top:15px;
+		margin-top:15px;
 }
 
 #cookie_bottombar_wrapper {
@@ -73,13 +73,13 @@ a.popwindow {
 	background: transparent url(../../pic/mobile/icon_arrow_right.png) no-repeat right 60%;
 	margin-left: 25px;
 	text-decoration: none;
-        
-        font-size: 18px !important;
-        margin-left: auto !important;
-        margin-right: auto !important;
-        margin-top: 20px !important;
-        padding: 5px 20px 5px 0;
-        width: 80% !important;
+
+		font-size: 18px !important;
+		margin-left: auto !important;
+		margin-right: auto !important;
+		margin-top: 20px !important;
+		padding: 5px 20px 5px 0;
+		width: 80% !important;
 }
 
 /* ----- Main Class's ----- */
@@ -134,12 +134,13 @@ a.popwindow {
 	float: left;
 	width: 50px;
 	height: 50px;
-	margin: 10px 10px 0 30px;
-	border: none;
-        font-size:50px;
-        background: #FFFFFF url(../../pic/mobile/i-ico-t.png) center top no-repeat;
 	text-decoration: none;
-        
+	margin: 11px 10px 0 30px;
+	border: none;
+	font-size:50px;
+	background: #FFFFFF url(../../pic/mobile/hamburger-icon.png) center top no-repeat;
+	-webkit-background-size: 45px 45px;
+	background-size: 45px 45px;
 }
 
 .header .topfoto {
@@ -245,7 +246,7 @@ a.popwindow {
 	height: 17px;
 	text-align: center;
 	color: #FFF;
-        font-size:0.85em !important;
+		font-size:0.85em !important;
 }
 
 /* ----- Tables ----- */
@@ -258,7 +259,7 @@ a.popwindow {
 }
 
 .wtform_error_input {
-    color: #FF0000;
+	color: #FF0000;
 }
 
 .wtform_table {
@@ -299,7 +300,7 @@ a.popwindow {
 }
 
 .mobile_row td .costs {
-        float:right;
+		float:right;
 	white-space: nowrap;
 	text-align: right;
 }
@@ -310,43 +311,43 @@ ul.mobile_list {
 }
 
 ul.mobile_list.small {
-    margin-top: -5px;
-    margin-bottom: 10px;
+	margin-top: -5px;
+	margin-bottom: 10px;
 }
 
 ul.mobile_list li {
-    display: block;
-    background: #eaf0fc;
-    /*#D5E1F9*/ 
+	display: block;
+	background: #eaf0fc;
+	/*#D5E1F9*/
 	width: 100%;
 	height: auto;
-    padding-top: 11px;
-    padding-bottom: 11px;
-    margin: 0 0 15px;
-    font-size: 20px;
-    font-weight: normal;
-    text-align: center;    
+	padding-top: 11px;
+	padding-bottom: 11px;
+	margin: 0 0 15px;
+	font-size: 20px;
+	font-weight: normal;
+	text-align: center;
 }
 
 ul.mobile_list.small li {
-    margin: 5px 0 5px 10px;    
+	margin: 5px 0 5px 10px;
 }
 
 ul.mobile_list li a {
-    display: block;
-    padding: 0px 11px 0px 11px;
-    font-size: 20px;
-    text-decoration: none;
+	display: block;
+	padding: 0px 11px 0px 11px;
+	font-size: 20px;
+	text-decoration: none;
 }
 
 .myBookingsSmallButton{
-    font-size:14px !important;
+	font-size:14px !important;
 }
 
 ol.mobile_list li {
-    padding-bottom: 0;
-    line-height: 175%;
-    margin-bottom: 5px
+	padding-bottom: 0;
+	line-height: 175%;
+	margin-bottom: 5px
 }
 
 .boekingstabel_bewerk {
@@ -356,10 +357,10 @@ color: #FFFFFF;
 }
 
 #zoekblok input[name="fzt"]{
-    width:100%;
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-    box-sizing: border-box;  
+	width:100%;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;
 }
 
 /* ----- Search page ----- */
@@ -375,7 +376,7 @@ color: #FFFFFF;
 
 .zoekresultaat_type_typenaam {
 	width: 27%;
-        white-space: normal !important;
+		white-space: normal !important;
 }
 
 .zoekresultaat_type_typenaam,
@@ -385,34 +386,34 @@ color: #FFFFFF;
 }
 
 .chzn-container-single .chzn-single div {
-    height:28px !important;
+	height:28px !important;
 }
 
 
 .zoekresultaat_type_slaapkamers {
-    overflow: normal;
-    white-space: normal;
+	overflow: normal;
+	white-space: normal;
 }
 .zoekresultaat_type_personen {
-    overflow: normal;
-    white-space: normal;
+	overflow: normal;
+	white-space: normal;
 }
 
 .submitbutton {
-    height: 36px !important;
+	height: 36px !important;
 }
 
 .alle_selecties_wissen {
-    font-size:14px !important;
+	font-size:14px !important;
 }
 
 .zoekresultaat_type_prijs{
-    padding-top:7px;
-    display:table-cell;
-    padding-bottom:7px;
-    float:none;
-    width:25% !important;
-    vertical-align:middle;
+	padding-top:7px;
+	display:table-cell;
+	padding-bottom:7px;
+	float:none;
+	width:25% !important;
+	vertical-align:middle;
 }
 
 #meldingen {
@@ -429,13 +430,13 @@ color: #FFFFFF;
 }
 
 #toonaccommodatie_kopteksten h1 {
-    font-size:1.5em;
-    padding-bottom:15px;
+	font-size:1.5em;
+	padding-bottom:15px;
 }
 
 .tarieventabel_newpricesmail_form {
-    width: 100% !important;
-    border:none !important;
+	width: 100% !important;
+	border:none !important;
 }
 
 .zoekresultaat_content {
@@ -454,20 +455,20 @@ color: #FFFFFF;
 }
 
 .zoekblok_subtitel {
-    margin-left:20px !important;
-    margin-right:20px !important;
+	margin-left:20px !important;
+	margin-right:20px !important;
 }
 
 .zoekresultaten_opmerking_tussen_resultaten, .zoekresultaten_aantalgevonden{
-    width:auto !important;
+	width:auto !important;
 }
 
 .zoekblok_field {
 	margin-left: 4%;
-        width:92%;
+		width:92%;
 }
 .zoekblok_alleswissen{
-    margin-left:20px !important;
+	margin-left:20px !important;
 }
 
 
@@ -498,18 +499,18 @@ color: #FFFFFF;
 
 .zoekresultaat_type, .zoekresultaat_type_een_resultaat {
 	font-size: 14px;
-        display:table;
-        width:100%;
-        border-right:none;
+		display:table;
+		width:100%;
+		border-right:none;
 }
 
 .zoekresultaat_type_titel {
-    display:table-cell;
-    padding-top:5px;
-    padding-bottom:5px;
-    font-size:14px;
-    width: 75%;
-    float:none;
+	display:table-cell;
+	padding-top:5px;
+	padding-bottom:5px;
+	font-size:14px;
+	width: 75%;
+	float:none;
 }
 
 .zoekresultaat_titel {
@@ -587,7 +588,7 @@ color: #FFFFFF;
 	padding: 12px 0;
 	position: relative;
 	color: #FFF;
-        font-size:14px;
+		font-size:14px;
 	background: #036;
 }
 
@@ -618,7 +619,7 @@ color: #FFFFFF;
 	position: relative;
 	padding-left: 20px;
 	padding-top: 12px;
-        font-size:14px;
+		font-size:14px;
 	padding-bottom: 12px;
 }
 
@@ -682,33 +683,33 @@ color: #FFFFFF;
 }
 
 .tarieventabel_top_right {
-    width:50% !important;
+	width:50% !important;
 }
 .tarieventabel_top_left {
-    width:50% !important;
+	width:50% !important;
 }
 .tarieventabel_top {
-    min-height: 89px !important;
+	min-height: 89px !important;
 }
 .tarieventabel_top_valuta_toelichting1, .tarieventabel_top_valuta_toelichting2{
-    position:absolute;
-    width:282px;
-    top:55px;
-    left:0px;
-    font-size:0.7em !important;
-    
+	position:absolute;
+	width:282px;
+	top:55px;
+	left:0px;
+	font-size:0.7em !important;
+
 }
 .tarieventabel_top_valuta_toelichting2 {
-    top: 69px !important;
+	top: 69px !important;
 }
 .tarieventabel_top_valuta {
-    overflow:initial !important;
+	overflow:initial !important;
 }
 
 #accordion.ui-accordion .ui-accordion-content {
 	padding-left: 0;
 	padding-right: 0;
-        overflow-x: hidden;
+		overflow-x: hidden;
 }
 
 #toonaccommodatie_kenmerken_klassering {
@@ -753,21 +754,21 @@ color: #FFFFFF;
 }
 
 .button {
-    padding-top:11px;
-    padding-bottom:11px;
-    font-size:20px;
-    height: auto;
+	padding-top:11px;
+	padding-bottom:11px;
+	font-size:20px;
+	height: auto;
 }
 
 .button_accpagina {
 	width: 100%;
 	height: auto;
-    padding-top: 11px;
-    padding-bottom:11px;
-    margin: 0 0 15px;
-    font-size: 20px;
-    font-weight: normal;
-    text-align: center;     
+	padding-top: 11px;
+	padding-bottom:11px;
+	margin: 0 0 15px;
+	font-size: 20px;
+	font-weight: normal;
+	text-align: center;
 }
 
 #body_toonaccommodatie #map_canvas {
@@ -794,24 +795,24 @@ color: #FFFFFF;
 }
 
 .chzn-container-single .chzn-default{
-    height:28px !important;
-    line-height:28px !important;
+	height:28px !important;
+	line-height:28px !important;
 }
 
 .zoekblok_field input {
-    height:28px !important;
-    line-height:28px !important;
+	height:28px !important;
+	line-height:28px !important;
 }
 
 #body_toonaccommodatie .ui-accordion .ui-accordion-header {
 }
 
 #body_toonaccommodatie .ui-accordion .ui-accordion-header {
-    padding: 11px;
-    margin: 0 0 15px;
-    font-size: 20px;
-    font-weight: normal;
-    text-align: center;    
+	padding: 11px;
+	margin: 0 0 15px;
+	font-size: 20px;
+	font-weight: normal;
+	text-align: center;
 }
 
 #body_toonaccommodatie .ui-icon-triangle-1-s {
@@ -1042,28 +1043,28 @@ color: #FFFFFF;
 }
 
 .contactTable tr td{
-    padding-top:5px;
-    padding-bottom:5px;
-    line-height:1.5;
+	padding-top:5px;
+	padding-bottom:5px;
+	line-height:1.5;
 }
 .faq_vraag {
-    padding:11px !important;
-    font-size:18px !important;
-    margin-top:15px !important;
-    margin-bottom:15px !important;
+	padding:11px !important;
+	font-size:18px !important;
+	margin-top:15px !important;
+	margin-bottom:15px !important;
 }
 
 #ajaxloader_page {
-    left: 40% !important;
+	left: 40% !important;
 }
 
 .result_row {
-    display:table;
-    width:100%;
-    margin-bottom:5px;
+	display:table;
+	width:100%;
+	margin-bottom:5px;
 }
 
 #body_boeken .wtform_table .wtform_cell_right{
-    border-bottom:  1px solid #D5E1F9;
-    padding-bottom:10px;
+	border-bottom:  1px solid #D5E1F9;
+	padding-bottom:10px;
 }
