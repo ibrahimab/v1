@@ -177,7 +177,6 @@ echo $opmaak->header_end();
 echo "</head>";
 
 echo $opmaak->body_tag();
-echo $opmaak->google_tag_manager();
 echo "\n";
 
 	echo "<div onclick='' class=\"header\">\n";
