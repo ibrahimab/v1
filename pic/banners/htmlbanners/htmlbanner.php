@@ -371,13 +371,13 @@ function formsubmit(type) {
 			if(document.frm.t.value==6) url='https://www.chalet.be/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.t.value==7) url='https://www.chalet.be/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
 		<?php } else { ?>
-			if(document.frm.t.value==1) url='https://www.chalet.nl/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==2) url='https://www.chalet.nl/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==3) url='https://www.chalet.nl/thema/catering/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==4) url='https://www.chalet.nl/thema/kids/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==5) url='https://www.chalet.nl/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==6) url='https://www.chalet.nl/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==7) url='https://www.chalet.nl/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==1) url='https://www.chalet.nl/wintersport/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==2) url='https://www.chalet.nl/wintersport/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==3) url='https://www.chalet.nl/wintersport/thema/catering/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==4) url='https://www.chalet.nl/wintersport/thema/kids/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==5) url='https://www.chalet.nl/wintersport/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==6) url='https://www.chalet.nl/wintersport/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==7) url='https://www.chalet.nl/wintersport/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
 		<?php } ?>
 		} else {
 		<?php if($_GET["wzt"]==2) { ?>

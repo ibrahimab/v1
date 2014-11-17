@@ -24,7 +24,7 @@ if($db->num_rows()) {
 			}
 		} elseif($db->f("url")) {
 			# Interne URL
-			$url=$vars["path"].txt("menu_thema")."/".$db->f("url")."/";
+			$url=$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_thema")."/".$db->f("url")."/";
 		}
 
 		# Controleren of het thema een naam heeft (kan bij de Engelse vertaling wel eens vergeten worden)

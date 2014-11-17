@@ -12,6 +12,15 @@ if($vars["websitetype"]==7 or $vars["websitetype"]==8 or $vars["websitetype"]==9
 	exit;
 }
 
+if($vars["seizoentype"]==1 and !preg_match("@".txt("canonical_accommodatiepagina")."@", $_SERVER["REQUEST_URI"])) {
+	// URL without "wintersport" ==> 301 redirect
+	$new_url = $_SERVER["REQUEST_URI"];
+	$new_url = preg_replace("@^/".txt("menu_thema")."/@", "/".txt("canonical_accommodatiepagina")."/".txt("menu_thema")."/", $new_url);
+	header("Location: ".$new_url, true, 301);
+	exit;
+}
+
+
 # jQuery UI theme laden (t.b.v. autocomplete)
 $vars["page_with_jqueryui"]=true;
 
