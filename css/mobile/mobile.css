@@ -1068,3 +1068,11 @@ color: #FFFFFF;
 	border-bottom:  1px solid #D5E1F9;
 	padding-bottom:10px;
 }
+
+.bijkomendekosten_table .nowrap {
+	white-space: normal;
+}
+
+.bijkomendekosten_table .berekentotaalbedrag {
+	display: none;
+}
