@@ -1064,9 +1064,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			$commissie_totaal+=$losseboeking_commissie[$db->f("boeking_id")];
 
 			# btw berekenen
-			$commissie_btw+=$commissie_totaal*($db->f("btw_over_commissie_percentage")/100);
+			$commissie_btw = $commissie_totaal*($db->f("btw_over_commissie_percentage")/100);
 		} else {
-			$commissie_btw=0;
+			$commissie_btw = 0;
 		}
 
 
