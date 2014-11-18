@@ -12,7 +12,7 @@ if($vars["websitetype"]==7 or $vars["websitetype"]==8 or $vars["websitetype"]==9
 	exit;
 }
 
-if($vars["seizoentype"]==1 and !preg_match("@".txt("canonical_accommodatiepagina")."@", $_SERVER["REQUEST_URI"])) {
+if($vars["seizoentype"]==1 and preg_match("@^/".txt("menu_thema")."/@", $_SERVER["REQUEST_URI"]) and !preg_match("@".txt("canonical_accommodatiepagina")."@", $_SERVER["REQUEST_URI"])) {
 	// URL without "wintersport" ==> 301 redirect
 	$new_url = $_SERVER["REQUEST_URI"];
 	$new_url = preg_replace("@^/".txt("menu_thema")."/@", "/".txt("canonical_accommodatiepagina")."/".txt("menu_thema")."/", $new_url);
