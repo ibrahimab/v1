@@ -1097,7 +1097,7 @@ class tarieventabel {
 		}
 
 		if($bijkomendekosten_inquery) {
-			$db2->query("SELECT b.bijkomendekosten_id, b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.perboekingpersoon FROM bijkomendekosten b WHERE b.bijkomendekosten_id IN (".$bijkomendekosten_inquery.") ORDER BY b.naam".$vars["ttv"].";");
+			$db2->query("SELECT b.bijkomendekosten_id, b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.perboekingpersoon, b.min_personen FROM bijkomendekosten b WHERE b.bijkomendekosten_id IN (".$bijkomendekosten_inquery.") ORDER BY b.naam".$vars["ttv"].";");
 			if($db2->num_rows()) {
 				while($db2->next_record()) {
 #					$db3->query("SELECT DISTINCT week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".$db2->f("bijkomendekosten_id")."' AND seizoen_id IN (".$seizoenen_inquery.")".($_GET["optie_datum"] ? " AND week='".addslashes($_GET["optie_datum"])."'" : "").";");
@@ -1129,11 +1129,11 @@ class tarieventabel {
 						// $bijkomendekosten_table.="<tr><td>";
 						$bijkomendekosten_table.="<table cellspacing=\"0\" border=\"0\">";
 						$bijkomendekosten_table.="<tr>";
-						$bijkomendekosten_table.="<td width=\"440\">".wt_he($db2->f("naam"));
+						$bijkomendekosten_table.="<td width=\"440\" class=\"nowrap".($db2->f("min_personen") ? " valigntop" : "")."\">".wt_he($db2->f("naam"));
 						if($db2->f("omschrijving")) {
 							$bijkomendekosten_table.="&nbsp;<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?id=bijkomendekosten&bkid=".$db2->f("bijkomendekosten_id")."');\">&#187;</a>";
 						}
-						$bijkomendekosten_table.="</td><td align=\"right\">";
+						$bijkomendekosten_table.="</td><td align=\"right\" class=\"nowrap\">";
 						if($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"]==$bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"] or $bijkomendekosten[$db2->f("bijkomendekosten_id")]["exact"]<>0) {
 
 							if($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"]<>$bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"]) {
@@ -1159,7 +1159,14 @@ class tarieventabel {
 							$bijkomendekosten_table.="<td align=\"right\">&euro;</td>";
 							$bijkomendekosten_table.="<td width=\"60\" align=\"right\">".number_format(abs($bijkomendekosten_bedrag),2,',','.')."</td>";
 						} else {
-							$bijkomendekosten_table.="<td colspan=\"4\" align=\"right\">".html("afhankelijkvandatum","toonaccommodatie")."</td>";
+							if(isset($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"]) and $bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"]>0 and $db2->f("min_personen")) {
+								//
+								// surcharge extra persons with variable prices
+								//
+								$bijkomendekosten_table.="<td colspan=\"4\" align=\"right\" class=\"nowrap\">".html("maximaalXeuro","toonaccommodatie", array("v_bedragmin"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"], 2, ",", "."), "v_bedragmax"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"], 2, ",", ".")))."<br/>(<a href=\"".wt_he($vars["path"].txt("menu_calc").".php?tid=".$this->type_id."&back=".urlencode($_SERVER["REQUEST_URI"]."#prijsinformatie"))."\">".html("berekentotaalbedrag", "toonaccommodatie")."</a>)</td>";
+							} else {
+								$bijkomendekosten_table.="<td colspan=\"4\" align=\"right\">".html("afhankelijkvandatum","toonaccommodatie")."</td>";
+							}
 							$bijkomendekosten_afhankelijkvandatum=true;
 						}
 						$bijkomendekosten_table.="</tr>";

@@ -2055,8 +2055,14 @@ $txt["en"]["toonaccommodatie"]["meerinformatie"]="more information";
 $txt["nl"]["toonaccommodatie"]["gratis"]="gratis";
 $txt["en"]["toonaccommodatie"]["gratis"]="free";
 
-$txt["nl"]["toonaccommodatie"]["afhankelijkvandatum"]="afhankelijk van datum";
-$txt["en"]["toonaccommodatie"]["afhankelijkvandatum"]="depending on date";
+$txt["nl"]["toonaccommodatie"]["afhankelijkvandatum"]="afhankelijk van week";
+$txt["en"]["toonaccommodatie"]["afhankelijkvandatum"]="depending on week";
+
+$txt["nl"]["toonaccommodatie"]["maximaalXeuro"]="€ [[v_bedragmin]] tot € [[v_bedragmax]] p.p., afhankelijk van week";
+$txt["en"]["toonaccommodatie"]["maximaalXeuro"]="€ [[v_bedragmin]] to € [[v_bedragmax]] p.p., depending on week";
+
+$txt["nl"]["toonaccommodatie"]["berekentotaalbedrag"]="bereken totaalbedrag";
+$txt["en"]["toonaccommodatie"]["berekentotaalbedrag"]="calculate total price";
 
 $txt["nl"]["toonaccommodatie"]["opties"]="Opties";
 $txt["en"]["toonaccommodatie"]["opties"]="Options";

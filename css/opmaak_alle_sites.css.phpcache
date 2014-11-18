@@ -113,6 +113,10 @@ span.x-small {
 	white-space: nowrap;
 }
 
+.valigntop {
+	vertical-align: top;
+}
+
 .gekleurdetekst {
 	color: <?php echo $rood; ?>;
 }
