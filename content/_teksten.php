@@ -5617,7 +5617,7 @@ $txt["nl"]["vertrekinfo"]["routenaarplaats"]="Route naar [[v_plaats]]";
 $txt["en"]["vertrekinfo"]["routenaarplaats"]="Route to [[v_plaats]]";
 
 $txt["nl"]["vertrekinfo"]["routenaarbeheer"]="Route naar [[v_beheer]] van [[v_accommodatie]]";
-$txt["en"]["vertrekinfo"]["routenaarbeheer"]="Route to  [[v_beheer]] van [[v_accommodatie]]";
+$txt["en"]["vertrekinfo"]["routenaarbeheer"]="Route to [[v_beheer]] of [[v_accommodatie]]";
 
 $txt["nl"]["vertrekinfo"]["gps_coordinaten"]="GPS-coördinaten: [[v_gpslat]], [[v_gpslong]]";
 $txt["en"]["vertrekinfo"]["gps_coordinaten"]="GPS Coordinates: [[v_gpslat]], [[v_gpslong]]";
