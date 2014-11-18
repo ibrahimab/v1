@@ -1272,6 +1272,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$totalen["totaal"]["totale_reissom"][$key]=$totalen["omzet_gar"]["totale_reissom"][$key]+$totalen["omzet_ov"]["totale_reissom"][$key]+$totalen["voorraad"]["totale_reissom"][$key];
 		$totalen["totaal"]["totale_reissom_inkoop"][$key]=$totalen["omzet_gar"]["totale_reissom_inkoop"][$key]+$totalen["omzet_ov"]["totale_reissom_inkoop"][$key]+$totalen["voorraad"]["totale_reissom_inkoop"][$key];
 		$totalen["totaal"]["betaald_bedrag_goedgekeurd"][$key]=$totalen["omzet_gar"]["betaald_bedrag_goedgekeurd"][$key]+$totalen["omzet_ov"]["betaald_bedrag_goedgekeurd"][$key]+$totalen["voorraad"]["betaald_bedrag_goedgekeurd"][$key];
+		$totalen["totaal"]["commissie_btw"][$key]=$totalen["omzet_gar"]["commissie_btw"][$key]+$totalen["omzet_ov"]["commissie_btw"][$key]+$totalen["voorraad"]["commissie_btw"][$key];
 
 		# opties
 		reset($optie_cat);
