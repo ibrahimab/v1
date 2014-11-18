@@ -84,8 +84,39 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 		if($reisbureau_user_blokkeren) $reisbureau_user_blokkeren.=",".$db->f("user_id"); else $reisbureau_user_blokkeren=$db->f("user_id");
 	}
 
+	// sort by: options
+	if(!$_GET["sort"]) {
+		$_GET["sort"] = 1;
+	}
+	echo "<div style=\"padding:5px;border:1px solid #cccccc;width:250px;margin: 10px 0 10px 0;\">Sorteren op:&nbsp;&nbsp;";
+	if($_GET["sort"]==1) {
+		echo "<a href=\"cms_mailteksten_versturen.php?sort=2\">";
+	} else {
+		echo "<b>";
+	}
+	echo "Boeking";
+	if($_GET["sort"]==1) {
+		echo "</a>";
+	} else {
+		echo "</b>";
+	}
+	echo "&nbsp;&nbsp;-&nbsp;&nbsp;";
+	if($_GET["sort"]==2) {
+		echo "<a href=\"cms_mailteksten_versturen.php?sort=1\">";
+	} else {
+		echo "<b>";
+	}
+	echo "Aankomst";
+	if($_GET["sort"]==2) {
+		echo "</a>";
+	} else {
+		echo "</b>";
+	}
+	echo "</div>";
+
+
 	# Kijken welke winterboekingen een mail moeten ontvangen
-	$db->query("SELECT b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.seizoen_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_opties, a.naam, a.mailtekst_id, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".mktime(0,0,0,date("m"),date("d")+1,date("Y"))."' AND b.aankomstdatum<='".$vars["zaterdag_over_8_weken"]."' AND a.wzt=1 AND b.mailblokkeren_opties=0".($reisbureau_user_blokkeren ? " AND (b.reisbureau_user_id IS NULL OR b.reisbureau_user_id NOT IN (".$reisbureau_user_blokkeren."))" : "")." ORDER BY b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
+	$db->query("SELECT b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.seizoen_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_opties, a.naam, a.mailtekst_id, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".mktime(0,0,0,date("m"),date("d")+1,date("Y"))."' AND b.aankomstdatum<='".$vars["zaterdag_over_8_weken"]."' AND a.wzt=1 AND b.mailblokkeren_opties=0".($reisbureau_user_blokkeren ? " AND (b.reisbureau_user_id IS NULL OR b.reisbureau_user_id NOT IN (".$reisbureau_user_blokkeren."))" : "")." ORDER BY ".($_GET["sort"]==2 ? "b.boekingsnummer, " : "")."b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
 	// echo $db->lastquery;
 	if($db->num_rows()) {
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
