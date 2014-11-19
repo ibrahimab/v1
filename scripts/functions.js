@@ -1563,7 +1563,7 @@ $(document).ready(function() {
 					}
 
 					var nieuwe_url=$(this).attr("href");
-					
+
 					// retrieving the price based on the selected container: accommodation or type
 					var match_price = 0;
 					if ($(this).attr('class') == 'zoekresultaat_type') {
@@ -1627,7 +1627,11 @@ $(document).ready(function() {
 								var list = 'Zoek-en-boek';
 								if (nieuwe_url.match(/aanbiedingen/g)) list = 'Aanbiedingen';
 								var url = nieuwe_url.split('/');
-								var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");
+								if(lokale_testserver) {
+									var match_type = url[3].match("^([A-Z]{1,2})([0-9]+)");
+								} else {
+									var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");
+								}
 								$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
 								$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":match_type[2], "price":match_price[0], "url":nieuwe_url, "list":list}, function(data){
 									if(data.ok && typeof dataLayer !== 'undefined' && dataLayer !== null) {
