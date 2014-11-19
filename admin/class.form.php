@@ -844,7 +844,7 @@ class form2 {
 					$return.=htmlentities($this->fields["title"][$id],ENT_QUOTES,"iso-8859-15");
 				}
 			}
-			if($this->settings["layout"]["stars"] and $this->fields["obl"][$id] and substr($return,-1)<>"*") $return.="*";
+			if($this->settings["layout"]["stars"] and $this->fields["obl"][$id] and substr($return,-1)<>"*" and !$this->fields["layout"][$id]["hide_asterisk"]) $return.="*";
 			if($this->error[$id]) $return.="</span>";
 			if($this->fields["layout"][$id]["add_html_after_title"]) $return.=$this->fields["layout"][$id]["add_html_after_title"];
 #			if($this->fields["checktype"][$id]=="currency") $return.="</span><span style=\"float:right;\">&euro;</span>";
