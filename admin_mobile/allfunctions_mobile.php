@@ -4,7 +4,7 @@
 
 
 function wt_naam($voornaam='',$tussenvoegsel='',$achternaam,$achternaameerst=false,$voorletters=false) {
-		global $vars, $isMobile;
+	global $vars, $isMobile;
 
 	if($voornaam) $voornaam=trim($voornaam);
 	if($tussenvoegsel) $tussenvoegsel=trim($tussenvoegsel);
@@ -25,22 +25,22 @@ function wt_naam($voornaam='',$tussenvoegsel='',$achternaam,$achternaameerst=fal
 	}
 
 	$return = preg_replace("@ {2,}@"," ",$return);
-		if($isMobile){
-				$nameInTussenvoegsel = explode(" ", $return);
+	if($isMobile){
+		$nameInTussenvoegsel = explode(" ", $return);
 
-				foreach($nameInTussenvoegsel as $name){
-					if(in_array(strtolower($name), $vars["availableTussenvoegsel"])){
-						$names[] = lcfirst($name);
-					}else{
-						$names[] = $name;
-					}
-				}
-				$finalName = implode(" ", $names);
-
-				return $finalName;
-		}else {
-				return $return;
+		foreach($nameInTussenvoegsel as $name) {
+			if(in_array(strtolower($name), $vars["availableTussenvoegsel"])) {
+				$names[] = lcfirst($name);
+			} else {
+				$names[] = $name;
+			}
 		}
+		$finalName = implode(" ", $names);
+
+		return $finalName;
+	} else {
+		return $return;
+	}
 }
 
 ?>

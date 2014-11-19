@@ -3107,7 +3107,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					foreach($nameInTussenvoegsel as $name){
 						if(in_array(strtolower($name), $vars["availableTussenvoegsel"])){
 							$names[] = lcfirst($name);
-						}else{
+						} else {
 							$names[] = $name;
 						}
 					}
