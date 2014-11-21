@@ -174,16 +174,13 @@ class tablelist {
 			$return.="Resultaten ".$van." - ".$tot." van ".$aantal."<p>";
 		}
 		if($paginas) {
-			@reset($_GET);
-			while(list($key,$value)=@each($_GET)) {
-				if($key<>$this->settings["systemid"]."page") {
-					if($querystring) $querystring.="&".$key."=".urlencode($value); else $querystring="?".$key."=".urlencode($value);
-				}
-			}
-			if($querystring) {
-				$querystring.="&".$this->settings["systemid"]."page=";
+			if($_SERVER["QUERY_STRING"]) {
+				$querystring = "?".$_SERVER["QUERY_STRING"];
+				$querystring = preg_replace("@\?".$this->settings["systemid"]."page=[0-9]+@", "?", $querystring);
+				$querystring = preg_replace("@\&".$this->settings["systemid"]."page=[0-9]+@", "", $querystring);
+				$querystring .= "&".$this->settings["systemid"]."page=";
 			} else {
-				$querystring="?".$this->settings["systemid"]."page=";
+				$querystring = "?".$this->settings["systemid"]."page=";
 			}
 
 #			$return.="<p>";
