@@ -1408,7 +1408,7 @@ if($_COOKIE["sch"] and !$geen_tracker_cookie) {
 				}
 			}
 			if($last_acc_inquery) {
-				$db->query("SELECT begincode, type_id, accommodatie_id, naam, tnaam".$vars["ttv"]." AS tnaam, optimaalaantalpersonen, maxaantalpersonen, plaats, skigebied, land FROM view_accommodatie WHERE type_id IN (".$last_acc_inquery.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(type_id,'".$last_acc_inquery."') DESC;");
+				$db->query("SELECT begincode, type_id, accommodatie_id, naam, tnaam".$vars["ttv"]." AS tnaam, optimaalaantalpersonen, maxaantalpersonen, plaats".$vars["ttv"]." AS plaats, skigebied, land".$vars["ttv"]." AS land FROM view_accommodatie WHERE type_id IN (".$last_acc_inquery.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(type_id,'".$last_acc_inquery."') DESC;");
 				while($db->next_record()) {
 					$last_acc[$db->f("type_id")]["begincode"]=$db->f("begincode");
 					$last_acc[$db->f("type_id")]["naam"]=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".txt("pers").")";
