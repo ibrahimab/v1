@@ -713,47 +713,51 @@ class bijkomendekosten {
 
 		$this->wt_redis->del("bk:".$this->wzt.":".$type_id);
 
-		foreach ($this->data as $seizoen_id => $data) {
+		if(is_array($this->data)) {
+			foreach ($this->data as $seizoen_id => $data) {
 
-			unset($per_person, $per_accommodation);
+				unset($per_person, $per_accommodation);
 
-			// reservation costs
-			$per_accommodation += $vars["reserveringskosten"];
+				// reservation costs
+				$per_accommodation += $vars["reserveringskosten"];
 
-			foreach ($data as $key => $value) {
+				foreach ($data as $key => $value) {
 
-				if($value["filled"] and $value["verplicht"]==1 and $value["inclusief"]<>1 and $value["bedrag"]>0 and !$value["borg_soort"]) {
+					if($value["filled"] and $value["verplicht"]==1 and $value["inclusief"]<>1 and $value["bedrag"]>0 and !$value["borg_soort"]) {
 
-					if($value["prijs_per_nacht"]) {
-						$value["bedrag"] = $value["bedrag"] * 7;
-					}
+						if($value["prijs_per_nacht"]) {
+							$value["bedrag"] = $value["bedrag"] * 7;
+						}
 
-					if($value["eenheid"]==2) {
-						// per person
-						$per_person += $value["bedrag"];
-					} else {
-						// per accommodation
-						$per_accommodation += $value["bedrag"];
+						if($value["eenheid"]==2) {
+							// per person
+							$per_person += $value["bedrag"];
+						} else {
+							// per accommodation
+							$per_accommodation += $value["bedrag"];
+						}
 					}
 				}
-			}
 
-			for($i=$this->maxaantalpersonen;$i>=1;$i--) {
-				$total = $per_accommodation + $i * $per_person;
-				$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, $seizoen_id.":".$i, $total);
-				if($vars["tmp_info_tonen"]) {
-					echo "bk:".$this->wzt.":".$type_id." - ".$seizoen_id.":".$i." - ".$total."<br/>";
-					flush();
+				for($i=$this->maxaantalpersonen;$i>=1;$i--) {
+					$total = $per_accommodation + $i * $per_person;
+					$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, $seizoen_id.":".$i, $total);
+					if($vars["tmp_info_tonen"]) {
+						echo "bk:".$this->wzt.":".$type_id." - ".$seizoen_id.":".$i." - ".$total."<br/>";
+						flush();
+					}
 				}
+
+
+				// toeslag extra personen
+
+
 			}
-
-
-			// toeslag extra personen
-
-
-
-
+		} else {
+			trigger_error("_notice: no this->data for type-id ".$type_id,E_USER_NOTICE);
 		}
+
+
 		$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, "saved", time());
 
 		if(!$GLOBALS["class_bijkomendekosten_register_shutdown_".$this->wzt]) {
