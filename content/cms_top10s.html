@@ -165,6 +165,11 @@ if($_GET["show"]==18) {
 						echo "<tr><td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\" VOLGORDE OPSLAAN \"></td></tr>";
 						echo "</form>";
 						echo "</table>";
+
+						if($_GET["from"]) {
+							echo "<p><a href=\"".wt_he($_GET["from"])."\">&laquo; terug naar overzicht</a></p>";
+						}
+
 						if($key==1) {
 							echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frmcopydate\">";
 							echo "<input type=\"hidden\" name=\"copydate_fromsite\" value=\"1\">";
@@ -240,7 +245,7 @@ if($_GET["show"]==18) {
 		$timeteller=$vars["tempseizoen"]["begin"];
 		while($timeteller<=$vars["tempseizoen"]["eind"]) {
 			echo "<tr>";
-			echo "<td><a href=\"".$vars["path"]."cms_top10s.php?".$_SERVER["QUERY_STRING"]."&week=".$timeteller."\">".DATUM("D MAAND JJJJ",$timeteller)."</a></td>";
+			echo "<td><a href=\"".wt_he($vars["path"]."cms_top10s.php?".$_SERVER["QUERY_STRING"]."&week=".$timeteller."&from=".urlencode($_SERVER["REQUEST_URI"]))."\">".DATUM("D MAAND JJJJ",$timeteller)."</a></td>";
 			echo "<td align=\"center\"><input type=\"text\" maxlength=\"3\" style=\"width:20px;\" value=\"".wt_he($blokvolgorde[$timeteller])."\" name=\"blokvolgorde[".$timeteller."]\"></td>";
 			echo "<td><input type=\"text\" maxlength=\"35\" style=\"width:250px;\" value=\"".wt_he($bloknaam[$timeteller])."\" name=\"bloknaam[".$timeteller."]\"></td>";
 			echo "<input type=\"hidden\" name=\"blokweken[".$timeteller."]\" value=\"1\">";
