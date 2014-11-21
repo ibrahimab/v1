@@ -62,11 +62,14 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 	echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"])."\">&laquo; terug naar de lijst</a></p>";
 
 } else {
-	echo "<i>Zomerboekingen ontvangen automatisch een optie-bijboeken-mailtje (50 dagen voor vertrek)</i><p>";
-	echo "Onderstaande winterboekingen (met een aankomstdatum tot ".DATUM("D MAAND JJJJ",$vars["zaterdag_over_8_weken"]).") hebben nog geen optie-bijboeken-mailtje gehad.<p>";
-	echo "<span style=\"background-color:#fdff86;\">Geel</span> = accommodatie waarbij de mailtekst nog niet is geselecteerd<br>";
-#	echo "<span style=\"background-color:#ffa9a9;\">Rood</span> = boeking waarbij optie-bijboeken-mailtje is uitgezet<br>";
-	echo "<span style=\"background-color:#e587f6;\">Paars</span> = mailtekst is niet goedgekeurd voor het betreffende seizoen<p>";
+	echo "<p><i>Zomerboekingen ontvangen automatisch een optie-bijboeken-mailtje (50 dagen voor vertrek)</i></p>";
+	echo "<p>Onderstaande winterboekingen (met een aankomstdatum tot ".DATUM("D MAAND JJJJ",$vars["zaterdag_over_8_weken"]).") hebben nog geen optie-bijboeken-mailtje gehad.</p>";
+	echo "<table style=\"margin:20px 0;\">";
+	echo "<tr><td><span style=\"background-color:#fdff86;\">Geel</span></td><td> = </td><td>accommodatie waarbij de mailtekst nog niet is geselecteerd</td></tr>";
+#	echo "<tr><td><span style=\"background-color:#ffa9a9;\">Rood</span></td><td> = </td><td>boeking waarbij optie-bijboeken-mailtje is uitgezet</td></tr>";
+	echo "<tr><td><span style=\"background-color:#e587f6;\">Paars</span></td><td> = </td><td>mailtekst is niet goedgekeurd voor het betreffende seizoen</td></tr>";
+	echo "<tr><td><span style=\"background-color:#d5e1f9;\">Lichtblauw</span></td><td> = </td><td>eerste factuur is minder dan 7 dagen geleden</td></tr>";
+	echo "</table>";
 #	$db->query("SELECT b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.aankomstdatum_exact, b.website, b.mailtekst_opties, a.naam, a.mailtekst_id, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".$vars["zaterdag_over_6_weken"]."' AND b.aankomstdatum<='".$vars["zaterdag_over_8_weken"]."' ORDER BY b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
 
 	# Koppeling seizoenen-mailteksten bepalen
@@ -116,14 +119,22 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 
 
 	# Kijken welke winterboekingen een mail moeten ontvangen
-	$db->query("SELECT b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.seizoen_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_opties, a.naam, a.mailtekst_id, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".mktime(0,0,0,date("m"),date("d")+1,date("Y"))."' AND b.aankomstdatum<='".$vars["zaterdag_over_8_weken"]."' AND a.wzt=1 AND b.mailblokkeren_opties=0".($reisbureau_user_blokkeren ? " AND (b.reisbureau_user_id IS NULL OR b.reisbureau_user_id NOT IN (".$reisbureau_user_blokkeren."))" : "")." ORDER BY ".($_GET["sort"]==2 ? "b.boekingsnummer, " : "")."b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
+	$db->query("SELECT b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.seizoen_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_opties, UNIX_TIMESTAMP(b.factuurdatum_eerste_factuur) AS factuurdatum_eerste_factuur, a.naam, a.mailtekst_id, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".mktime(0,0,0,date("m"),date("d")+1,date("Y"))."' AND b.aankomstdatum<='".$vars["zaterdag_over_8_weken"]."' AND a.wzt=1 AND b.mailblokkeren_opties=0".($reisbureau_user_blokkeren ? " AND (b.reisbureau_user_id IS NULL OR b.reisbureau_user_id NOT IN (".$reisbureau_user_blokkeren."))" : "")." ORDER BY ".($_GET["sort"]==2 ? "b.boekingsnummer, " : "")."b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
 	// echo $db->lastquery;
 	if($db->num_rows()) {
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
 		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
-		echo "<tr><th>Wis</th><th>Boeking</th><th>Accommodatie</th><th>Aankomst</th><th>Tekst</th><th>Bewerkt</th><th>Versturen</th></tr>";
+		echo "<tr><th>wis</th><th>boeking</th><th>accommodatie</th><th>1e&nbsp;factuur</th><th>aankomst</th><th>tekst</th><th>bewerkt</th><th>versturen</th></tr>";
 		while($db->next_record()) {
-			echo "<tr><td><input type=\"checkbox\" name=\"hide_boeking[".$db->f("boeking_id")."]\" value=\"1\"></td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a></td>";
+			echo "<tr>";
+
+			// wis
+			echo "<td><input type=\"checkbox\" name=\"hide_boeking[".$db->f("boeking_id")."]\" value=\"1\"></td>";
+
+			// boeking
+			echo "<td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a></td>";
+
+			// accommodatie
 			echo "<td style=\"";
 			if($db->f("mailtekst_id")==0) {
 				echo "background-color:#fdff86;";
@@ -131,7 +142,19 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 				echo "background-color:#e587f6;";
 			}
 			echo "\">";
-			echo "<a href=\"".$vars["websites_basehref"][$db->f("website")]."accommodatie/".$db->f("begincode").$db->f("type_id")."/\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a></td><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td align=\"center\">";
+			echo "<a href=\"".$vars["websites_basehref"][$db->f("website")]."accommodatie/".$db->f("begincode").$db->f("type_id")."/\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a></td>";
+
+
+			// 1e factuur
+			echo "<td nowrap style=\"".($db->f("factuurdatum_eerste_factuur")>strtotime("-7 days") ? "background-color:#d5e1f9;" : "")."\">".($db->f("factuurdatum_eerste_factuur") ? date("d-m-Y",$db->f("factuurdatum_eerste_factuur")) : "&nbsp;")."</td>";
+
+
+
+			// aankomst
+			echo "<td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
+
+			// tekst
+			echo "<td align=\"center\">";
 			if($seizoengoedgekeurd[$db->f("mailtekst_id")][$db->f("seizoen_id")]) {
 				echo "<a href=\"javascript:popwindowXY(750,500,'".$vars["path"]."popup.php?id=cms_mailtekst_bewerken&bid=".$db->f("boeking_id")."','center');\">bewerken</a>";
 			} elseif($db->f("mailtekst_id")) {
@@ -139,19 +162,27 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 			} else {
 				echo "&nbsp;";
 			}
-			echo "</td><td align=\"center\">&nbsp;";
+			echo "</td>";
+
+			// bewerkt
+			echo "<td align=\"center\">&nbsp;";
 			echo "<span id=\"bewerk".$db->f("boeking_id")."\" style=\"".($db->f("mailtekst_opties")=="" ? "display:none;" : "")."\">";
 			echo "ja";
 			echo "</span>";
-			echo "&nbsp;</td><td align=\"center\"".($db->f("mailblokkeren_opties") ? " style=\"background-color:#ffa9a9;\"" : "").">";
+			echo "&nbsp;</td>";
+
+			// versturen
+			echo "<td align=\"center\"".($db->f("mailblokkeren_opties") ? " style=\"background-color:#ffa9a9;\"" : "").">";
 			if($seizoengoedgekeurd[$db->f("mailtekst_id")][$db->f("seizoen_id")]) {
 				echo "<input type=\"checkbox\" name=\"boeking[".$db->f("boeking_id")."]\" value=\"1\">";
 			} else {
 				echo "&nbsp;";
 			}
-			echo "</td></tr>\n";
+			echo "</td>";
+
+			echo "</tr>\n";
 		}
-		echo "<tr><td colspan=\"7\" align=\"center\"><input type=\"submit\" value=\" MAILTJES VERSTUREN / GEGEVENS VERWERKEN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"></td></tr>";
+		echo "<tr><td colspan=\"8\" align=\"center\"><input type=\"submit\" value=\" MAILTJES VERSTUREN / GEGEVENS VERWERKEN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"></td></tr>";
 		echo "</form>";
 		echo "</table>";
 	} else {
