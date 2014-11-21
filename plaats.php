@@ -46,7 +46,7 @@ if(!preg_match("@".txt("canonical_accommodatiepagina")."@", $_SERVER["REQUEST_UR
 }
 
 $plaatsid=0;
-$db->query("SELECT plaats_id, naam".$vars["ttv"]." AS naam, descriptiontag".$vars["ttv"]." AS descriptiontag FROM plaats WHERE wzt='".addslashes($vars["seizoentype"])."';");
+$db->query("SELECT plaats_id, naam".$vars["ttv"]." AS naam, naam AS naam_nl, descriptiontag".$vars["ttv"]." AS descriptiontag FROM plaats WHERE wzt='".addslashes($vars["seizoentype"])."';");
 while($db->next_record()) {
 	if(wt_convert2url_oud($url[0])<>wt_convert2url($url[0])) {
 		# heel oude url's forwarden
@@ -65,6 +65,9 @@ while($db->next_record()) {
 		}
 		break;
 	} elseif(strtolower(wt_convert2url_seo($url[0]))==strtolower(wt_convert2url_seo($db->f("naam")))) {
+		header("Location: ".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("naam"))."/",true,301);
+		exit;
+	} elseif($db->f("naam")<>$db->f("naam_nl") and strtolower(wt_convert2url_seo($url[0]))==strtolower(wt_convert2url_seo($db->f("naam_nl")))) {
 		header("Location: ".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("naam"))."/",true,301);
 		exit;
 	}
