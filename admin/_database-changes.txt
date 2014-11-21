@@ -3,6 +3,11 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+21-nov-2014 17:30
+ALTER TABLE `plaats` ADD `naam_de` VARCHAR( 100 ) NOT NULL AFTER `naam` ,
+ADD `naam_en` VARCHAR( 100 ) NOT NULL AFTER `naam_de` ,
+ADD `naam_fr` VARCHAR( 100 ) NOT NULL AFTER `naam_en` ;
+
 11-nov-2014 17:19
 ALTER TABLE `bijkomendekosten` ADD `temp_old_system` TINYINT( 1 ) NOT NULL AFTER `internenaam` ;
 UPDATE `bijkomendekosten` SET `temp_old_system`=1 WHERE min_personen IS NULL;
