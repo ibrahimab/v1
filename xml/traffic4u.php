@@ -46,7 +46,7 @@ $cachefile=$unixdir."cache/feed_traffic4u_".basename($_GET["feed"])."_".$vars["w
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	header("Content-Type: text/plain; charset=utf-8");
-	// header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
+	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 
 	# UTF-8 BOM
 	echo "\xEF\xBB\xBF";
@@ -176,7 +176,7 @@ if($_GET["feed"]=="accommodaties") {
 		if($_GET["feed"]=="bestemmingen-aantal-personen") {
 			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."URL skigebied + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties skigebied + aantal personen".wt_csvconvert_delimiter."URL plaats + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties plaats + aantal personen\n";
 		} else {
-			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL skigebied + thema".wt_csvconvert_delimiter."Aantal accommodaties skigebied + thema".wt_csvconvert_delimiter."URL plaats + thema".wt_csvconvert_delimiter."Aantal accommodaties plaats + thema\n";
+			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL skigebied".wt_csvconvert_delimiter."URL plaats".wt_csvconvert_delimiter."URL skigebied + thema".wt_csvconvert_delimiter."Aantal accommodaties skigebied + thema".wt_csvconvert_delimiter."URL plaats + thema".wt_csvconvert_delimiter."Aantal accommodaties plaats + thema\n";
 		}
 
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
@@ -214,7 +214,7 @@ if($_GET["feed"]=="accommodaties") {
 		if($_GET["feed"]=="bestemmingen-aantal-personen") {
 			echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."URL regio + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties regio + aantal personen\n";
 		} else {
-			echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL regio + thema".wt_csvconvert_delimiter."Aantal accommodaties regio + thema\n";
+			echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL regio".wt_csvconvert_delimiter."URL regio + thema".wt_csvconvert_delimiter."Aantal accommodaties regio + thema\n";
 		}
 
 		$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id;");
@@ -226,7 +226,7 @@ if($_GET["feed"]=="accommodaties") {
 
 		$result_teller++;
 
-		// if($_GET["feed"]=="bestemmingen-aantal-personen" and $result_teller>=4) {
+		// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $_GET["feed"]=="bestemmingen" and $result_teller>=4) {
 		// 	continue;
 		// }
 
@@ -290,6 +290,24 @@ if($_GET["feed"]=="accommodaties") {
 					echo wt_csvconvert(utf8_encode($db4->f("plaats"))).wt_csvconvert_delimiter;
 				}
 				echo wt_csvconvert(utf8_encode($value99)).wt_csvconvert_delimiter;
+
+
+				if($_GET["feed"]=="bestemmingen") {
+					//
+					// show direct links to regions and vilages
+					//
+
+					// region
+					$regio_url=$vars["basehref"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$db4->f("land_id")."-".$db4->f("skigebied_id");
+					echo wt_csvconvert(utf8_encode($regio_url)).wt_csvconvert_delimiter;
+
+					if($vars["seizoentype"]==1) {
+						// village (only winter sites)
+						$plaats_url=$vars["basehref"].txt("menu_zoek-en-boek").".php?filled=1&fsg=pl".$db4->f("plaats_id");
+						echo wt_csvconvert(utf8_encode($plaats_url)).wt_csvconvert_delimiter;
+					}
+				}
+
 				if($aantal_resultaten_skigebied>=$vars["min_aantal_resultaten_traffic4u"]) {
 					echo wt_csvconvert(utf8_encode($temp_skigebied_url));
 				}
