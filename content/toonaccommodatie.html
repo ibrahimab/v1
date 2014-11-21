@@ -1615,7 +1615,8 @@ if($db->next_record()) {
 								//
 								// surcharge extra persons with variable prices
 								//
-								$bijkomendekosten_table.="<td colspan=\"4\" align=\"right\" class=\"nowrap\">".html("maximaalXeuro","toonaccommodatie", array("v_bedragmin"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"], 2, ",", "."), "v_bedragmax"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"], 2, ",", ".")))."<br/>(<a href=\"".wt_he($vars["path"].txt("menu_calc").".php?tid=".$typeid."&back=".urlencode($_SERVER["REQUEST_URI"]."#prijsinformatie"))."\">".html("berekentotaalbedrag", "toonaccommodatie")."</a>)</td>";
+								// $bijkomendekosten_table.="<td colspan=\"4\" align=\"right\" class=\"nowrap\">".html("maximaalXeuro","toonaccommodatie", array("v_bedragmin"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"], 2, ",", "."), "v_bedragmax"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"], 2, ",", ".")))."<br/>(<a href=\"".wt_he($vars["path"].txt("menu_calc").".php?tid=".$typeid."&back=".urlencode($_SERVER["REQUEST_URI"]."#prijsinformatie"))."\">".html("berekentotaalbedrag", "toonaccommodatie")."</a>)</td>";
+								$bijkomendekosten_table.="<td colspan=\"4\" align=\"right\" class=\"nowrap\">".html("maximaalXeuro","toonaccommodatie", array("v_bedragmin"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"], 2, ",", "."), "v_bedragmax"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"], 2, ",", "."), "h_1"=>"<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?tid=".intval($typeid)."&id=bijkomendekosten&bkid=".$db2->f("bijkomendekosten_id")."');\">", "h_2"=>"</a>"))."</td>";
 							} else {
 								$bijkomendekosten_table.="<td colspan=\"4\" align=\"right\">".html("afhankelijkvandatum","toonaccommodatie")."</td>";
 							}

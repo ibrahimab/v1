@@ -572,6 +572,24 @@ $txt["en"]["popup_stuurdoor"]["mailsubject"]="Link [[v_websitenaam]]";
 $txt["nl"]["popup_stuurdoor"]["mailbody1"]="[[v_naam]] wil je graag attenderen op de volgende accommodatie bij [[v_websitenaam]]:";
 $txt["en"]["popup_stuurdoor"]["mailbody1"]="[[v_naam]] would like to draw your attention to the following accommodation at [[v_websitenaam]]:";
 
+
+#
+# Pop-up bijkomendekosten (https://www.chalet.nl/popup.php?id=bijkomendekosten&bkid=375)
+#
+$txt["nl"]["popup_bijkomendekosten"]["aankomstdatum"]="aankomstdatum";
+$txt["en"]["popup_bijkomendekosten"]["aankomstdatum"]="date of arrival";
+
+$txt["nl"]["popup_bijkomendekosten"]["toeslag"]="toeslag p.p.";
+$txt["en"]["popup_bijkomendekosten"]["toeslag"]="surcharge p.p.";
+
+$txt["nl"]["popup_bijkomendekosten"][""]="";
+$txt["en"]["popup_bijkomendekosten"][""]="";
+
+$txt["nl"]["popup_bijkomendekosten"][""]="";
+$txt["en"]["popup_bijkomendekosten"][""]="";
+
+
+
 #
 # Reissom-tabel (te zien bij stap 5 bij het boeken van een accommodatie)
 #
@@ -2058,8 +2076,8 @@ $txt["en"]["toonaccommodatie"]["gratis"]="free";
 $txt["nl"]["toonaccommodatie"]["afhankelijkvandatum"]="afhankelijk van week";
 $txt["en"]["toonaccommodatie"]["afhankelijkvandatum"]="depending on week";
 
-$txt["nl"]["toonaccommodatie"]["maximaalXeuro"]="€ [[v_bedragmin]] tot € [[v_bedragmax]] p.p., afhankelijk van week";
-$txt["en"]["toonaccommodatie"]["maximaalXeuro"]="€ [[v_bedragmin]] to € [[v_bedragmax]] p.p., depending on week";
+$txt["nl"]["toonaccommodatie"]["maximaalXeuro"]="€ [[v_bedragmin]] tot € [[v_bedragmax]] p.p., [[h_1]]afhankelijk van week[[h_2]]";
+$txt["en"]["toonaccommodatie"]["maximaalXeuro"]="€ [[v_bedragmin]] to € [[v_bedragmax]] p.p., [[h_1]]depending on week[[h_2]]";
 
 $txt["nl"]["toonaccommodatie"]["berekentotaalbedrag"]="bereken totaalbedrag";
 $txt["en"]["toonaccommodatie"]["berekentotaalbedrag"]="calculate total price";

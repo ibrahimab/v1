@@ -3,4 +3,35 @@
 echo "<b>".wt_he($db->f("naam"))."</b><p>";
 echo $omschrijving;
 
+if($min_personen) {
+
+	// Controle op vertrekdagaanpassing?
+	if($_GET["tid"]) {
+		$typeid = intval($_GET["tid"]);
+		include($vars["unixdir"]."content/vertrekdagaanpassing.html");
+		$accinfo = accinfo($typeid);
+	}
+
+	$db->query("SELECT seizoen_id, week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".intval($_GET["bkid"])."' AND verkoop>0 ORDER BY week;");
+	if($db->num_rows()) {
+		echo "<table class=\"toeslagtabel\">";
+		echo "<tr><th>".html("aankomstdatum", "popup_bijkomendekosten")."</th><th>".html("toeslag", "popup_bijkomendekosten")."</th></tr>";
+		while($db->next_record()) {
+
+			$week = $db->f("week");
+			if($vertrekdag[$db->f("seizoen_id")][date("dm",$week)] or $accinfo["aankomst_plusmin"]) {
+				$aangepaste_unixtime=mktime(0,0,0,date("m",$week),date("d",$week)+$vertrekdag[$db->f("seizoen_id")][date("dm",$week)]+$accinfo["aankomst_plusmin"],date("Y",$week));
+			} else {
+				$aangepaste_unixtime=$week;
+			}
+
+			echo "<tr>";
+			echo "<td>".DATUM("D MAAND JJJJ", $aangepaste_unixtime, $vars["taal"])."</td>";
+			echo "<td align=\"right\">&euro;&nbsp;".number_format($db->f("verkoop"), 2, ",", ".")."</td>";
+			echo "</tr>";
+		}
+		echo "</table>";
+	}
+}
+
 ?>

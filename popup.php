@@ -67,9 +67,14 @@ if($_GET["gid"]) {
 }
 
 if($_GET["bkid"]) {
-	$db->query("SELECT b.naam, b.omschrijving".$vars["ttv"]." AS omschrijving FROM bijkomendekosten b WHERE b.bijkomendekosten_id='".addslashes($_GET["bkid"])."';");
+	$db->query("SELECT b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.min_personen FROM bijkomendekosten b WHERE b.bijkomendekosten_id='".addslashes($_GET["bkid"])."';");
 	if($db->next_record()) {
-		$omschrijving=nl2br(wt_htmlent($db->f("omschrijving"),true,true))."<br>";
+		if($db->f("omschrijving")) {
+			$omschrijving=nl2br(wt_htmlent($db->f("omschrijving"),true,true))."<br>";
+		}
+		if($db->f("min_personen")) {
+			$min_personen = $db->f("min_personen");
+		}
 	}
 }
 
@@ -135,17 +140,17 @@ a.venstersluiten:hover {
 	color: #878481;
 }
 
-TD {
+td {
 	font-family: <?php echo $font; ?>;
 	font-size: 0.8em;
 }
 
-UL {
+ul {
 	margin-top: 7px;
 	margin-bottom: 0px;
 }
 
-LI {
+li {
 	padding-bottom: 5px;
 }
 
@@ -211,6 +216,25 @@ LI {
 	font-weight: bold;
 	margin-left: 22px;
 }
+
+
+.toeslagtabel {
+	border-spacing: 0px;
+	border-collapse: separate;
+	border: 1px solid #cccccc;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.toeslagtabel th {
+	font-size: 0.8em;
+}
+
+.toeslagtabel td, .toeslagtabel th {
+	border: 1px solid #cccccc;
+	padding: 5px;
+}
+
 
 <?php if($vars["websitetype"]==7) { ?>
 
