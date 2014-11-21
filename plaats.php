@@ -46,7 +46,7 @@ if(!preg_match("@".txt("canonical_accommodatiepagina")."@", $_SERVER["REQUEST_UR
 }
 
 $plaatsid=0;
-$db->query("SELECT plaats_id, naam, descriptiontag".$vars["ttv"]." AS descriptiontag FROM plaats WHERE wzt='".addslashes($vars["seizoentype"])."';");
+$db->query("SELECT plaats_id, naam".$vars["ttv"]." AS naam, descriptiontag".$vars["ttv"]." AS descriptiontag FROM plaats WHERE wzt='".addslashes($vars["seizoentype"])."';");
 while($db->next_record()) {
 	if(wt_convert2url_oud($url[0])<>wt_convert2url($url[0])) {
 		# heel oude url's forwarden
@@ -73,10 +73,10 @@ while($db->next_record()) {
 if($plaatsid) {
 	if($voorkant_cms) {
 		# Ook bij geen accommodaties: gegevens ophalen
-		$db->query("SELECT p.naam, s.naam".$vars["ttv"]." AS skigebied, l.naam".$vars["ttv"]." AS land, l.land_id, s.skigebied_id FROM plaats p, skigebied s, land l WHERE p.plaats_id='".addslashes($plaatsid)."' AND p.land_id=l.land_id AND s.skigebied_id=p.skigebied_id AND p.wzt='".addslashes($vars["seizoentype"])."';");
+		$db->query("SELECT p.naam".$vars["ttv"]." AS naam, s.naam".$vars["ttv"]." AS skigebied, l.naam".$vars["ttv"]." AS land, l.land_id, s.skigebied_id FROM plaats p, skigebied s, land l WHERE p.plaats_id='".addslashes($plaatsid)."' AND p.land_id=l.land_id AND s.skigebied_id=p.skigebied_id AND p.wzt='".addslashes($vars["seizoentype"])."';");
 	} else {
 		# Alleen bij accommodaties: gegevens ophalen
-		$db->query("SELECT p.naam, s.naam".$vars["ttv"]." AS skigebied, l.naam".$vars["ttv"]." AS land, l.land_id, s.skigebied_id FROM plaats p, skigebied s, land l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.plaats_id='".addslashes($plaatsid)."' AND p.land_id=l.land_id AND s.skigebied_id=p.skigebied_id AND p.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1 AND a.archief=0;");
+		$db->query("SELECT p.naam".$vars["ttv"]." AS naam, s.naam".$vars["ttv"]." AS skigebied, l.naam".$vars["ttv"]." AS land, l.land_id, s.skigebied_id FROM plaats p, skigebied s, land l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.plaats_id='".addslashes($plaatsid)."' AND p.land_id=l.land_id AND s.skigebied_id=p.skigebied_id AND p.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1 AND a.archief=0;");
 	}
 
 	if($db->next_record()) {
@@ -159,7 +159,7 @@ if($plaatsid) {
 		}
 	}
 } else {
-	$db->query("SELECT p.naam AS nieuwenaam, c.previous FROM plaats p, cmslog c WHERE c.table_name='plaats' AND c.field='naam' AND c.previous<>'' AND c.record_id=p.plaats_id AND p.wzt='".addslashes($vars["seizoentype"])."' ORDER BY c.savedate DESC;");
+	$db->query("SELECT p.naam".$vars["ttv"]." AS nieuwenaam, c.previous FROM plaats p, cmslog c WHERE c.table_name='plaats' AND c.field='naam' AND c.previous<>'' AND c.record_id=p.plaats_id AND p.wzt='".addslashes($vars["seizoentype"])."' ORDER BY c.savedate DESC;");
 	while($db->next_record()) {
 		if(wt_convert2url_seo($db->f("previous"))==wt_convert2url_seo($url[0])) {
 			header("Location: ".$path.txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("nieuwenaam"))."/",true,301);

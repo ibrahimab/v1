@@ -3081,6 +3081,10 @@ $txt["en"]["toonplaats"]["bekijkalleaccommodaties"]="View all chalets and apartm
 $txt["nl_z"]["toonplaats"]["bekijkalleaccommodaties"]="Bekijk alle vakantiehuizen in [[v_skigebied]]";
 $txt["en_z"]["toonplaats"]["bekijkalleaccommodaties"]="View all holiday homes in [[v_skigebied]]";
 
+$txt["nl"]["toonplaats"]["plaatsnietgevonden"]="Plaats niet gevonden. Onze excuses voor het ongemak.";
+$txt["en"]["toonplaats"]["plaatsnietgevonden"]="Place not found. Our apologies for the inconvenience.";
+
+
 #
 # Overzicht skigebieden (https://www.chalet.nl/skigebieden.php)
 #

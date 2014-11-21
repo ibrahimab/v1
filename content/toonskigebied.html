@@ -285,7 +285,7 @@ hr {
 
 	if($vars["websitetype"]<>6) {
 		echo "<div id=\"plaatsen\">";
-		$db2->query("SELECT DISTINCT p.naam, p.plaats_id, l.naam".$vars["ttv"]." AS land FROM plaats p, land l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND l.land_id=p.land_id AND p.skigebied_id=".$skigebiedid." AND p.websites LIKE '%".$vars["website"]."%' ORDER BY naam;");
+		$db2->query("SELECT DISTINCT p.naam".$vars["ttv"]." AS naam, p.plaats_id, l.naam".$vars["ttv"]." AS land FROM plaats p, land l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND l.land_id=p.land_id AND p.skigebied_id=".$skigebiedid." AND p.websites LIKE '%".$vars["website"]."%' ORDER BY naam;");
 		if($db2->num_rows()) {
 
 			if($vars["websitetype"]==7) {

@@ -76,6 +76,8 @@ $cms->db[4]["set"]="wzt='".addslashes($_GET["wzt"])."'";
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(4,"text","naam");
+if($vars["cmstaal"]) $cms->db_field(4,"text","naam_".$vars["cmstaal"]);
+
 
 # inactieve sites uitzetten
 while(list($key,$value)=each($vars["websites_inactief"])) {
@@ -159,7 +161,12 @@ $cms->list_field(4,"websites","Sites");
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(4,0,"websites","Toon in totaaloverzicht op",array("selection"=>($_GET["wzt"]==1 ? "B,C,T,W" : "N,O,Z")),"",array("one_per_line"=>true));
-$cms->edit_field(4,1,"naam");
+if($vars["cmstaal"]) {
+	$cms->edit_field(4,1,"naam", "Naam NL","",array("noedit"=>true));
+	$cms->edit_field(4,1,"naam_".$vars["cmstaal"], "Naam ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(4,1,"naam");
+}
 $cms->edit_field(4,0,"altnaam","Zoekwoorden (zoekformulier)");
 $cms->edit_field(4,0,"altnaam_zichtbaar","Alternatieve spelling (zoekformulier)");
 $cms->edit_field(4,0,"htmlrow","<hr><b>Google</b><br><br><i>Gebruik geen sitenamen in Google-teksten (dit wordt automatisch door het systeem gedaan).</i>");
