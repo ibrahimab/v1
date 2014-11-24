@@ -107,7 +107,6 @@ if($gegevens["stap1"]["boekingid"]) {
 				$_GET["stap"]=$gegevens["stap1"]["stap_voltooid"]+1;
 				if($_GET["stap"]>5) {
 					unset($_SESSION["boeking"]);
-					unset($_SESSION["boeking"]);
 					unset($_COOKIE["CHALET"]["boeking"]["boekingid"]);
 					setcookie("CHALET[boeking][boekingid]","_leeg_",time()+60);
 					setcookie("CHALET[boeking][boekingid]","",time()-864000);
@@ -1723,7 +1722,12 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				//
 
 				// check for ELKEBOEKING
-				if(!$_SESSION["boeking"]["kortingscode"] and !$form->input["kortingscode"]) {
+				$kortingscode_allowed = true;
+				// don't use ELKEBOEKING when kortingscode is already active
+				if(isset($gegevens) and $gegevens["stap1"]["kortingscode_id"]) {
+					$kortingscode_allowed = false;
+				}
+				if($kortingscode_allowed and !$form->input["kortingscode"]) {
 					$db->query("SELECT kortingscode_id FROM kortingscode WHERE websites LIKE '%".$vars["website"]."%' AND (UNIX_TIMESTAMP(einddatum)>='".mktime(0,0,0,date("m"),date("d"),date("Y"))."' OR einddatum IS NULL) AND archief=0 AND code='ELKEBOEKING';");
 					if($db->next_record()) {
 						$form->input["kortingscode"] = "ELKEBOEKING";
