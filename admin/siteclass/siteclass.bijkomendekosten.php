@@ -754,7 +754,7 @@ class bijkomendekosten {
 
 			}
 		} else {
-			trigger_error("_notice: no this->data for type-id ".$type_id,E_USER_NOTICE);
+			// trigger_error("_notice: no this->data for type-id ".$type_id,E_USER_NOTICE);
 		}
 
 
