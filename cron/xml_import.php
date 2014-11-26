@@ -265,7 +265,7 @@ $xml_urls[7][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=e
 #$xml_urls[7][2]="CIS / Bellecôte Chalets (VVE)" (tarieven werken met losse XML's per accommodatie)
 
 # Posarelli
-if(get_slow_suppliers(8)) {
+if(get_slow_suppliers(8) or $argv[1]) {
 	$xml_urls[8][1]="http://export.easyreserve.com/availability.xml";
 	$xml_urls[8][2]="http://export.easyreserve.com/unitrates.xml";
 	$xml_urls[8][3]="http://export.easyreserve.com/unit.xml"; # lastminutes
@@ -291,7 +291,7 @@ $xml_urls[12][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=122&top=3037&qry=
 $soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
 
 # Marche Holiday
-if(get_slow_suppliers(14)) {
+if(get_slow_suppliers(14) or $argv[1]) {
 	$soap_urls[14] = $unixdir."suppliers/marche/index.php";
 }
 
@@ -331,12 +331,12 @@ $xml_urls[22][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=ex
 #$xml_urls[22][2]="Nexity" (tarieven werken met losse XML's per accommodatie)
 
 #Interhome
-if(get_slow_suppliers(23)) {
+if(get_slow_suppliers(23)or $argv[1]) {
 	$soap_urls[23] = $unixdir."suppliers/interhome/index.php";
 }
 
 # Direkt Holidays
-if(get_slow_suppliers(24)) {
+if(get_slow_suppliers(24)or $argv[1]) {
 	$soap_urls[24] = $unixdir."suppliers/direktholidays/index.php";
 }
 
