@@ -9,7 +9,7 @@
 /*
 
 
-every supplier at 03, 11, 15 and 19 h. Posarelli and Interhome only at 03h.
+every supplier at 03, 11, 15 and 19 h. Posarelli, Interhome and Direkt Holidays only at 03h.
 
 
 
@@ -74,11 +74,10 @@ function get_slow_suppliers($xml_type) {
 		}
 	} elseif($xml_type==24) {
 		// Direkt Holidays (24)
-		if($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==10 or $current_hour==13 or $current_hour==16 or $current_hour==19 or $current_hour==22) {
+		if($current_hour==3) {
 			return true;
 		} else {
 			return false;
-			//return true;
 		}
 	}
 }
