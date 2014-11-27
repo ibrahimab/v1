@@ -2706,11 +2706,11 @@ function wt_dump_with_unixtime($array,$html=true) {
 }
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	echo "0: ".wt_dump($db0->querycounter)."<br/>";
-	echo "1: ".wt_dump($db->querycounter)."<br/>";
-	echo "2: ".wt_dump($db2->querycounter)."<br/>";
-	echo "3: ".wt_dump($db3->querycounter)."<br/>";
-	echo "4: ".wt_dump($db4->querycounter)."<br/>";
+	echo "0: ".wt_dump($db0->querycounter, false)."<br/>";
+	echo "1: ".wt_dump($db->querycounter, false)."<br/>";
+	echo "2: ".wt_dump($db2->querycounter, false)."<br/>";
+	echo "3: ".wt_dump($db3->querycounter, false)."<br/>";
+	echo "4: ".wt_dump($db4->querycounter, false)."<br/>";
 }
 
 echo "\n\nFinish: ".date("r")."\n";
