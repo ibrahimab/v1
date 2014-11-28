@@ -114,8 +114,8 @@ EOT;
 		
 		$send["ecommerce"]["purchase"]["products"] = array();
 		array_push($send["ecommerce"]["purchase"]["products"], array(
-			"name"=>wt_he(wt_stripaccents($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"])),
-			"id"=>self::ID,			
+			"name"=>wt_he(wt_stripaccents(ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"]) . " " . $gegevens["stap1"]["accinfo"]["accommodatie"])),
+			"id"=>$gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"],
 			"price"=>$gegevens["fin"]["accommodatie_totaalprijs"],
 			"brand" => self::BRAND,
 			"category"=>wt_he(wt_stripaccents($gegevens["stap1"]["accinfo"]["plaats"])),
@@ -136,7 +136,7 @@ EOT;
 	 * @param type $product_impressions
 	 * @return string $return
 	 */
-	public function product_impressions($product_impressions, $list = 'Zoek-en-boek') {
+	public function product_impressions($product_impressions, $list = 'Zoek en boek') {
 		global $vars;	
 
 		$send = array();
@@ -147,7 +147,7 @@ EOT;
 			foreach ($product_impressions as $product_key => $product_value) {
 				array_push($send["ecommerce"]["impressions"], array(
 					"name"=>wt_he(wt_stripaccents(ucfirst($vars["soortaccommodatie"][(int)$product_value['soortaccommodatie']]) . " " . $product_value['naam'])),
-					"id"=>self::ID,
+					"id"=>$product_value['begincode'].$product_value['type_id'],
 					"price"=>(string)$product_value['tarief'],
 					"brand"=>self::BRAND,
 					"category"=>wt_he(wt_stripaccents($product_value['land'])),
@@ -177,7 +177,7 @@ EOT;
 		$send["ecommerce"]["click"]["actionField"]["list"] = $product_click['list'];
 		array_push($send["ecommerce"]["click"]["products"], array(
 			"name"=>wt_he(wt_stripaccents($product_click['name'])),
-			"id"=>self::ID,
+			"id"=>$product_click['id'],
 			"price"=>"",
 			"brand"=>self::BRAND,
 			"category"=>wt_he(wt_stripaccents($product_click['land'])),
@@ -199,8 +199,8 @@ EOT;
 		$send["ecommerce"]["detail"]["actionField"]["list"]= 'Detailpagina weergave';
 		$send["ecommerce"]["detail"]["products"] = array();
 		array_push($send["ecommerce"]["detail"]["products"], array(
-			"name"=>wt_stripaccents(wt_stripaccents($product_details_impressions['name'])),
-			"id"=>self::ID,
+			"name"=>wt_he(wt_stripaccents($product_details_impressions['name'])),
+			"id"=>$product_details_impressions['id'],
 			"price"=>"",
 			"brand"=>self::BRAND,
 			"category"=>wt_he(wt_stripaccents($product_details_impressions['category'])),

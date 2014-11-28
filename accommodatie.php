@@ -131,6 +131,7 @@ if($url[0]) {
 		$product_details_impressions['name'] = wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"));
 		$product_details_impressions['category'] = $db->f("land");
 		$product_details_impressions['variant'] = $db->f("plaats");
+		$product_details_impressions['id'] = $db->f("begincode").$typeid;
 	}
 } else {
 #	if($_SERVER["HTTP_REFERER"]) trigger_error("accommodatie niet beschikbaar",E_USER_NOTICE);

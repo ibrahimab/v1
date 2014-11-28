@@ -1629,7 +1629,7 @@ $(document).ready(function() {
 					setTimeout(function() {
 						// heel even wachten zodat Analytics kan laden
 						if(nieuwe_url.match(/zoek-en-boek/g) || nieuwe_url.match(/aanbiedingen/g)) {
-								var list = 'Zoek-en-boek';
+								var list = 'Zoek en boek';
 								if (nieuwe_url.match(/aanbiedingen/g)) list = 'Aanbiedingen';
 								var url = nieuwe_url.split('/');
 								var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");

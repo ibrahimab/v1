@@ -3701,7 +3701,7 @@ if($resultaten_tonen) {
 
 		if (isset($product_impressions) and count($product_impressions) > 0) {
 			$google_tagmanager = new google_tagmanager;
-			$list = ($vars["zoekform_aanbiedingen"]) ? 'Aanbiedingen' : 'Zoek-en-boek';
+			$list = ($vars["zoekform_aanbiedingen"]) ? 'Aanbiedingen' : 'Zoek en boek';
 			echo $google_tagmanager->product_impressions($product_impressions, $list);
 		}
 
