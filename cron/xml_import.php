@@ -162,7 +162,7 @@ if($argv[1]=="test.chalet.nl") {
 			# Alle leveranciers worden doorlopen tussen 8 en 20 uur
 		} elseif(date("i")==5 and ($current_hour==3 or $current_hour==11 or $current_hour==15 or $current_hour==19)) {
 			// temporarily: only import at 3, 11, 15 and 19 h
-		} elseif(date("i")==5 and ($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==22)) {
+		} elseif(date("i")==5 and ($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==22) and $NU_EVEN_NIET) {
 			# Alle leveranciers worden doorlopen om 0, 3, 6 en 22 uur
 		} elseif($current_hour==10 and date("i")==20 and $NU_EVEN_NIET) {
 			# Om alle leveranciers als test allemaal te kunnen nalopen
@@ -2706,11 +2706,11 @@ function wt_dump_with_unixtime($array,$html=true) {
 }
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	echo "0: ".wt_dump($db0->querycounter, false)."<br/>";
-	echo "1: ".wt_dump($db->querycounter, false)."<br/>";
-	echo "2: ".wt_dump($db2->querycounter, false)."<br/>";
-	echo "3: ".wt_dump($db3->querycounter, false)."<br/>";
-	echo "4: ".wt_dump($db4->querycounter, false)."<br/>";
+	echo "db0: ".wt_dump($db0->querycounter, false)."\n";
+	echo "db: ".wt_dump($db->querycounter, false)."\n";
+	echo "db2: ".wt_dump($db2->querycounter, false)."\n";
+	echo "db3: ".wt_dump($db3->querycounter, false)."\n";
+	echo "db4: ".wt_dump($db4->querycounter, false)."\n";
 }
 
 echo "\n\nFinish: ".date("r")."\n";
