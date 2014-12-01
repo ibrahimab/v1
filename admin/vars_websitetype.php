@@ -115,6 +115,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["schadeverzekering_mogelijk"]=0;
 	$vars["wederverkoop"]=true;
 	$vars["livechat_code"]=false;
+	$vars["trustpilot_code"]="5aa723efa5@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
 	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 		$vars["docdata_payments"] = array(

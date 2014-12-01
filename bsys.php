@@ -63,9 +63,16 @@ if($_POST["factuurakkoord"] and $_POST["goedkeur1"] and $_POST["goedkeur2"]) {
 
 		// $mail->plaintext="Customer Email: ".utf8_encode($gegevens["stap2"]["email"])."\n\nCustomer Name: ".utf8_encode(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."\n\n";
 
+		if($vars["taal"]=="en") {
+			$tp_lang = "en-GB";
+			$tp_tld = "com";
+		} else {
+			$tp_lang = "nl-NL";
+			$tp_tld = "nl";
+		}
 		$mail->html="<!--
-		tp_lang: nl-NL
-		tp_tld: nl
+		tp_lang: ".$tp_lang."
+		tp_tld: ".$tp_tld."
 		-->
 		Customer Email: ".wt_he($gegevens["stap2"]["email"])."<br/>\nCustomer Name: ".wt_he(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."<br/>\n";
 
