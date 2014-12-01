@@ -149,6 +149,7 @@ if($_POST["kopieergroep"] and $_POST["naam"] and $_POST["leverancier"] and $_GET
 		# Vouchter-logo
 		if(file_exists("pic/cms/voucherlogo_optie/".$optie_groep_id.".jpg")) {
 			copy("pic/cms/voucherlogo_optie/".$optie_groep_id.".jpg","pic/cms/voucherlogo_optie/".$newoptie_groep_id.".jpg");
+			filesync::add_to_filesync_table("pic/cms/voucherlogo_optie/".$newoptie_groep_id.".jpg");
 		}
 
 		# tabel optie_onderdeel
