@@ -114,6 +114,12 @@ li {
 	color: #D40139;
 }
 
+#logout .cmssearch {
+	margin-top: 3px;
+	margin-left: 10px;
+	display: inline-block;
+}
+
 #menu {
 	float: left;
 	width: 155px;

@@ -328,6 +328,7 @@ if($mustlogin) {
 
 	if($vars["cmstaal"] and $vars["cmstaal"]<>"nl") $layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_anderetaal.css";
 	if($login->logged_in) {
+
 		if(defined("wt_server_name")) {
 			$layout->settings["logout_extra"] .= " - server: ".wt_server_name;
 		}
@@ -335,7 +336,9 @@ if($mustlogin) {
 			$layout->settings["logout_extra"] .= " - sessieduur: ".(time()-$_SESSION["wt_session_start_time"]);
 		}
 
-		$layout->settings["logout_extra"] .= "<div style=\"margin-top:3px;\"><form method=\"get\" style=\"margin:0px;\" action=\"".$vars["path"]."cms.php\"><input type=\"hidden\" name=\"bc\" value=\"".wt_he($_GET["bc"])."\"><input type=\"text\" name=\"cmssearch\">&nbsp;<input type=\"submit\" value=\" OK \"></form></div>";
+		$layout->settings["logout_extra"] .= "<div class=\"cmssearch\"><form method=\"get\" style=\"margin:0px;\" action=\"".$vars["path"]."cms.php\"><input type=\"hidden\" name=\"bc\" value=\"".wt_he($_GET["bc"])."\"><input type=\"text\" name=\"cmssearch\" tabindex=\"1\">&nbsp;<input type=\"submit\" value=\" OK \"></form></div>";
+
+
 	}
 	$layout->menu_item("cms","Hoofdpagina","",false);
 

@@ -136,7 +136,7 @@ class cms_layout {
 		}
 		echo "<meta name=\"robots\" content=\"noindex,nofollow\" />\n";
 
-		$css_cachetime = @filemtime($this->settings["css_folder"]."cms_layout.css");
+		$css_cachetime = @filemtime($vars["unixdir"].$this->settings["css_folder"]."cms_layout.css");
 		echo "<link href=\"".($this->settings["css_folder"] ? $this->settings["css_folder"] : "")."cms_layout.css".($css_cachetime ? "?c=".$css_cachetime : "")."\" rel=\"stylesheet\" type=\"text/css\" />\n";
 		if(is_array($this->settings["extra_cssfiles"])) {
 			while(list($key,$value)=each($this->settings["extra_cssfiles"])) {
@@ -225,6 +225,8 @@ class cms_layout {
 		if($this->pageid<>$this->settings["mainpage"]) echo "</a>";
 		echo "</div>\n";
 		echo "<div id=\"logout\">";
+		if($this->settings["logout_pre"]) echo $this->settings["logout_pre"];
+
 		if($login->logged_in) {
 			echo "<a href=\"".$login->settings["loginpage"]."?logout=1\">";
 			if($this->settings["loginname_field"]) {
@@ -234,7 +236,7 @@ class cms_layout {
 			}
 			echo "</a>";
 		}
-		if($lists[$_GET["listid"]]) echo "<br><h1>".wt_he($lists[$_GET["listid"]])."</h1>";
+		// if($lists[$_GET["listid"]]) echo "<br><h1>".wt_he($lists[$_GET["listid"]])."</h1>";
 		if($this->settings["logout_extra"]) echo $this->settings["logout_extra"];
 		echo "</div></div><div id=\"menu\"><div id=\"meet_hoogte_menu\"><ul>";
 		while(list($key,$value)=each($this->menu_item)) {
