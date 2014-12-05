@@ -22,17 +22,19 @@ class DirektHolidays {
 								11 => "November",
 								12 => "Dezember");
 	
-	CONST ROOT_PAGE = "http://www.direktholidays.at/WebCenter/listView/sort:VOStamm.objektname/direction:asc/page:";
-	CONST CHECK_AVAILABILITY_URL = "http://www.direktholidays.at/Ajax/checkArrivalDepartureOnObject";
-	CONST DETAIL_VIEW_URL = "http://www.direktholidays.at/WebCenter/detailView/";
+	CONST ROOT_PAGE = "https://www.direktholidays.at/WebCenter/listView/sort:VOStamm.objektname/direction:asc/page:";
+	CONST CHECK_AVAILABILITY_URL = "https://www.direktholidays.at/Ajax/checkArrivalDepartureOnObject";
+	CONST DETAIL_VIEW_URL = "https://www.direktholidays.at/WebCenter/detailView/";
 	CONST ZILLERTAL_REGION = "Zillertal"; // We assume that all the accommodations are in the Zillertal region
-	CONST ROOT_URL = "http://www.direktholidays.at/";
-	CONST AJAX_FILTER_URL = "http://www.direktholidays.at/Ajax/objFilter";
+	CONST ROOT_URL = "https://www.direktholidays.at/";
+	CONST AJAX_FILTER_URL = "https://www.direktholidays.at/Ajax/objFilter";
 	
 
 	public function __construct($process = false) {	
+		$available = true;
 		if($process)
-			$this->processDirektHolidays();
+			$available = $this->processDirektHolidays();
+		if (!$available) throw new Exception();
 	}
 	
 	/**
@@ -43,19 +45,24 @@ class DirektHolidays {
 	public function processDirektHolidays() {
 		$first_page_url = self::ROOT_PAGE . "1";
 		$output = $this->execute($first_page_url);
-		$xPath = $this->getXPath();
-		$page_node = $xPath->query("//div[@class='container']/div[@class='container pagecontainer offset-0']/div[@class='col-md-3 col-md-pull-9 filters offset-0']/div[@class='filtertip']/div[@class='padding20']/p[@class='size13']/span[@class='size28 bold counthotel']");
+		if ($output) {
+			$xPath = $this->getXPath();
+			$page_node = $xPath->query("//div[@class='container']/div[@class='container pagecontainer offset-0']/div[@class='col-md-3 col-md-pull-9 filters offset-0']/div[@class='filtertip']/div[@class='padding20']/p[@class='size13']/span[@class='size28 bold counthotel']");
 
-		$pages = floor((int)$page_node->item(0)->nodeValue / 20);
+			$pages = floor((int)$page_node->item(0)->nodeValue / 20);
 
-		$links = array();
-		for($i = 0; $i <= $pages; $i++) {
-			$page_links = $this->getAjaxAccommodations($i+1);
-			foreach($page_links as $item) {
-				array_push($links, $item);
+			$links = array();
+			for($i = 0; $i <= $pages; $i++) {
+				$page_links = $this->getAjaxAccommodations($i+1);
+				foreach($page_links as $item) {
+					array_push($links, $item);
+				}
 			}
+			$this->_links = $links;			
+		} else {
+			return false;
 		}
-		$this->_links = $links;
+		return true;
 	}
 
 	/* gets the data from a URL */

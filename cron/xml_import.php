@@ -1162,69 +1162,77 @@ while(list($key,$value)=@each($soap_urls)) {
 			require_once($value);
 
 			// Instantiate the DirektHolidays class
-			$direktHolidays = new DirektHolidays(true);
-
-			// Get the last dates for each season type (winter=1, summer=2)
-			$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
-			$db->query($q);
-			while($db->next_record()) {
-				$endDate[$db->f("type")][] = $db->f("end");
-				$startDate[$db->f("type")][] = $db->f("begin");
+			try {
+				$is_available = true;
+				$direktHolidays = new DirektHolidays(true);
+			} catch (Exception $e) {
+				trigger_error("DirektHoliday website is not available", E_USER_NOTICE);
+				$is_available = false;
 			}
-			// Get all accommodations from Direkt Holidays (35)
-			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '35' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> '';";
-			$db->query($q);
 
-			// Loop through all the database accommodations
-			while($db->next_record()) {
-
-				if($db->f("leverancierscode_negeertarief") != NULL) {
-					$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
-					$leverancierscode = explode(",",$db->f("leverancierscode"));
-
-					$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
-					$accCode = array_shift($accCode);
-				} else {
-					$accCode = $db->f("leverancierscode");
+			if ($is_available) {
+				// Get the last dates for each season type (winter=1, summer=2)
+				$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
+				$db->query($q);
+				while($db->next_record()) {
+					$endDate[$db->f("type")][] = $db->f("end");
+					$startDate[$db->f("type")][] = $db->f("begin");
 				}
+				// Get all accommodations from Direkt Holidays (35)
+				$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '35' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> '';";
+				$db->query($q);
 
-				$seasonId = $db->f("wzt");
-				foreach($endDate[$seasonId] as $endDatekey => $endDateValue) {
-					$x = strtotime($endDateValue);
-					$end_date = strtotime("+ 7 days", $x);
-					$end_date = date("Y-m-d", $end_date);
+				// Loop through all the database accommodations
+				while($db->next_record()) {
 
-					$url = $direktHolidays->getAccommodationURL($accCode);
-					$html = $direktHolidays->getAccomodationHTML($url);
-					$start_date = $startDate[$seasonId][$endDatekey];
-					if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
-						$start_date = date("Y-m-d");
+					if($db->f("leverancierscode_negeertarief") != NULL) {
+						$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
+						$leverancierscode = explode(",",$db->f("leverancierscode"));
+
+						$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
+						$accCode = array_shift($accCode);
+					} else {
+						$accCode = $db->f("leverancierscode");
 					}
 
-					$availabilities = $direktHolidays->getAvailability($html, $start_date, $end_date, $accCode);
+					$seasonId = $db->f("wzt");
+					foreach($endDate[$seasonId] as $endDatekey => $endDateValue) {
+						$x = strtotime($endDateValue);
+						$end_date = strtotime("+ 7 days", $x);
+						$end_date = date("Y-m-d", $end_date);
 
-					$availability = $availabilities['availability'];
-					$prices = $availabilities['price'];
-					if(isset($availability)) {
-						// Get the availability
-						if(isset($xml_beschikbaar[$key][$accCode])) {
-								$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-						} else {
-								$xml_beschikbaar[$key][$accCode] = $availability;
+						$url = $direktHolidays->getAccommodationURL($accCode);
+						$html = $direktHolidays->getAccomodationHTML($url);
+						$start_date = $startDate[$seasonId][$endDatekey];
+						if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+							$start_date = date("Y-m-d");
+						}
+
+						$availabilities = $direktHolidays->getAvailability($html, $start_date, $end_date, $accCode);
+
+						$availability = $availabilities['availability'];
+						$prices = $availabilities['price'];
+						if(isset($availability)) {
+							// Get the availability
+							if(isset($xml_beschikbaar[$key][$accCode])) {
+									$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+							} else {
+									$xml_beschikbaar[$key][$accCode] = $availability;
+							}
+						}
+
+						if(isset($prices)) {
+							// Get the prices
+							if(isset($xml_brutoprijs[$key][$accCode])) {
+									$xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
+							} else {
+									$xml_brutoprijs[$key][$accCode] = $prices;
+							}
 						}
 					}
-
-					if(isset($prices)) {
-						// Get the prices
-						if(isset($xml_brutoprijs[$key][$accCode])) {
-								$xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
-						} else {
-								$xml_brutoprijs[$key][$accCode] = $prices;
-						}
-					}
 				}
+				$xml_laatsteimport_leverancier[$key]=true;
 			}
-			$xml_laatsteimport_leverancier[$key]=true;
 		}
 	} elseif($key==25) {
 		//
