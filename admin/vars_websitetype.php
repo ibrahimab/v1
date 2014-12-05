@@ -143,6 +143,51 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 			)
 		);
 	// }
+	} elseif($_SERVER["HTTP_HOST"]=="de.chalet.eu" or $_SERVER["HTTP_HOST"]=="test-de.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="D")) {
+		# Winter Chalet.eu Engelstalig
+		$vars["websitetype"]=1;
+		$vars["websitenaam"]="Chalet.eu";
+		$vars["langewebsitenaam"]="Chalet.eu";
+		$vars["seizoentype"]=1;
+		$vars["website"]="D";
+		$vars["taal"]="de";
+		$vars["websiteland"]="de";
+		$vars["ttv"]="_de";
+		$vars["basehref"]="https://de.chalet.eu/";
+		$vars["email"]="info@chalet.eu";
+		$path="/";
+		$vars["googleanalytics"]="UA-2078202-20";
+		$vars["annverzekering_mogelijk"]=1;
+		$vars["reisverzekering_mogelijk"]=0;
+		$vars["schadeverzekering_mogelijk"]=0;
+		$vars["wederverkoop"]=true;
+		$vars["livechat_code"]=false;
+		// $vars["trustpilot_code"]="5aa723efa5@trustpilotservice.com";
+		$vars["valt_onder_bedrijf"]=1;
+		// $vars["docdata_payments"] = array(
+		// 	"docdata_vi" => array(
+		// 		"title"	=> 	"Visa",
+		// 		"icon"	=>	"pic/payment_icons/visa.png",
+		// 		"by"	=> 	"vi"
+		// 	),
+		// 	"docdata_mc" => array(
+		// 		"title"	=> 	"MasterCard",
+		// 		"icon"	=>	"pic/payment_icons/mastercard.png",
+		// 		"by"	=> 	"mc"
+		// 	),
+		// 	"docdata_idl" => array(
+		// 		"title"	=> 	"iDEAL",
+		// 		"icon"	=>	"pic/payment_icons/ideal.png",
+		// 		"by"	=> 	"idl",
+		// 		"country" => array("NL")
+		// 	),
+		// 	"docdata_mrc" => array(
+		// 		"title" =>	"Mister Cash",
+		// 		"icon"	=>	"pic/payment_icons/mrcash.png",
+		// 		"by"	=>	"mrc",
+		// 		"country" => array("BE")
+		// 	)
+		// );
 } elseif($_SERVER["HTTP_HOST"]=="www.chalettour.nl" or $_SERVER["HTTP_HOST"]=="test.chalettour.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="T")) {
 	# Chalettour Winter
 	$vars["websitetype"]=4;
