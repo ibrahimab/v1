@@ -98,9 +98,6 @@ $txt["en"]["vars"]["pension"]="pension";
 $txt["nl"]["vars"]["pensions"]="pensions";
 $txt["en"]["vars"]["pensions"]="pensions";
 
-#$txt["nl"]["vars"]["groepsreis"]="groepsreis";
-#$txt["en"]["vars"]["groepsreis"]="group";
-
 $txt["nl"]["vars"]["referentie_1"]="een zoekmachine";
 $txt["en"]["vars"]["referentie_1"]="a search engine";
 
@@ -874,8 +871,6 @@ $txt["en"]["index"]["onze_bestemmingen"]="Our destinations";
 #
 # Accommodatie-zoekpagina (bijvoorbeeld https://www.chalet.nl/accommodaties.php?filled=1)
 #
-#$txt["nl"]["accommodaties"]["inleiding"]="Ons aanbod van accommodaties is te bekijken via de [[l1]]aanbiedingen[[/l1]] en de [[l2]]Top 10 per week[[/l2]]. Door middel van onderstaand formulier kun je zoeken in alle accommodaties die [[v_websitenaam]] aanbiedt. Vul de velden in waarop je wilt zoeken en klik daarna op \"ZOEKEN\"";
-#$txt["en"]["accommodaties"]["inleiding"]="Our accommodations can be viewed through our [[l1]]special offers[[/l1]] and the [[l2]]weekly top 10[[/l2]]. The form below allows you to search in all accommodations offered by [[v_websitenaam]]. Fill in the fields you want to search and then click on \"SEARCH\"";
 
 $txt["nl"]["accommodaties"]["inleiding"]="Vul bij onderstaand formulier de velden in waarop je wilt zoeken. Gebruik de tabel aan de linkerkant om je zoekopdracht nog verder te verfijnen. Bekijk ook onze [[l1]]aanbiedingen[[/l1]].";
 $txt["en"]["accommodaties"]["inleiding"]="Please fill in the fields in the form below. Also look at our [[l1]]special offers[[/l1]].";
@@ -963,12 +958,6 @@ $txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen2"]="There were no
 
 $txt["nl"]["accommodaties"]["helaasgeenresultaten_aanbiedingen_toelichting"]="Zet het vinkje \"zoek alleen naar aanbiedingen\" uit om ons volledige aanbod te doorzoeken.";
 $txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen_toelichting"]="Please tick off \"only search for special offers\" to search our total programme.";
-
-#$txt["nl"]["accommodaties"]["probeernieuwezoekopdracht"]="Probeer een nieuwe zoekopdracht met minder voorwaarden.";
-#$txt["en"]["accommodaties"]["probeernieuwezoekopdracht"]="Start a new search with fewer criteria.";
-
-#$txt["nl"]["accommodaties"]["zoekopdrachtenwordengemeld"]="De zoekopdrachten die geen resultaten opleveren worden gemeld aan ons. Wij houden bij de uitbreiding van ons assortiment rekening met deze resultaten. Wellicht levert je zoekopdracht in de toekomst dus wel een resultaat op.";
-#$txt["en"]["accommodaties"]["zoekopdrachtenwordengemeld"]="We are informed of the search commands that do not return any results. We take account of these results when enlarging our assortment. Your search may therefore produce results when you try again later.";
 
 if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==7) {
 	// sites die "vraag ons advies" aanbieden
@@ -1090,15 +1079,6 @@ $txt["en"]["zoek-en-boek"]["minimaal2"]="minimum 2";
 
 $txt["nl"]["zoek-en-boek"]["minimaal2"]="minimaal 2";
 $txt["en"]["zoek-en-boek"]["minimaal2"]="minimum 2";
-
-#$txt["nl"]["zoek-en-boek"]["minimaal"]="minimaal";
-#$txt["en"]["zoek-en-boek"]["minimaal"]="minimum";
-
-#$txt["nl"]["zoek-en-boek"]["badkamer"]="badkamer";
-#$txt["en"]["zoek-en-boek"]["badkamer"]="bathroom";
-
-#$txt["nl"]["zoek-en-boek"]["badkamers"]="badkamers";
-#$txt["en"]["zoek-en-boek"]["badkamers"]="bathrooms";
 
 $txt["nl"]["zoek-en-boek"]["kenmerken"]="Speciale wensen";
 $txt["en"]["zoek-en-boek"]["kenmerken"]="Special wishes";
@@ -1908,9 +1888,6 @@ $txt["en"]["accommodatiemail"]["nietallevelden"]="not all fields are filled out 
 $txt["nl"]["toonaccommodatie"]["accommodatienietgevonden"]="Accommodatie niet gevonden";
 $txt["en"]["toonaccommodatie"]["accommodatienietgevonden"]="Accommodation not found";
 
-#$txt["nl"]["toonaccommodatie"]["accommodatienietgevonden_lang"]="De website van [[v_websitenaam]] is vernieuwd. Hierdoor zijn enkele accommodaties naar een andere pagina verhuisd. Gebruik ons [[l1]]zoekformulier[[/l1]] om de gewenste accommodatie te vinden.";
-#$txt["en"]["toonaccommodatie"]["accommodatienietgevonden_lang"]="The website of [[v_websitenaam]] has been renewed. Some accommodations have moved to a different place. Use our [[l1]]search form[[/l1]] to find the accommodation you are looking for.";
-
 $txt["nl"]["toonaccommodatie"]["accommodatienietgevonden_lang"]="De gezochte accommodatie is op dit moment niet beschikbaar. Gebruik ons [[l1]]zoekformulier[[/l1]] om een andere accommodatie te vinden.";
 $txt["en"]["toonaccommodatie"]["accommodatienietgevonden_lang"]="This accommodation is not available right now. Use our [[l1]]search form[[/l1]] to find another accommodation.";
 
@@ -2507,12 +2484,6 @@ $txt["en"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations 
 $txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
 $txt["en_z"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
-#$txt["nl"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale winteraanbod)";
-#$txt["en"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of types with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
-
-#$txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
-#$txt["en_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
-
 $txt["nl"]["thema"]["zoekcriteriaopgeven"]="Zoekcriteria opgeven";
 $txt["en"]["thema"]["zoekcriteriaopgeven"]="Enter search criteria";
 
@@ -2752,9 +2723,6 @@ $txt["en"]["tarieventabel"]["klik-op-datum-personen"]="Click in the above pricin
 $txt["nl"]["toonskigebied"]["piste"]="piste";
 $txt["en"]["toonskigebied"]["piste"]="piste";
 
-#$txt["nl"]["toonskigebied"]["tab_overzicht"]="overzicht";
-#$txt["en"]["toonskigebied"]["tab_overzicht"]="overview";
-
 $txt["nl"]["toonskigebied"]["tab_beschrijving"]="beschrijving";
 $txt["en"]["toonskigebied"]["tab_beschrijving"]="description";
 
@@ -2936,9 +2904,6 @@ $txt["en"]["toonskigebied"]["accommodaties-in-regio"]="accommodations in [[v_reg
 #
 $txt["nl"]["toonplaats"]["bekijkonzeaccommodatie"]="Bekijk onze [[l1]]accommodatie[[/l1]] in [[v_plaatsnaam]].";
 $txt["en"]["toonplaats"]["bekijkonzeaccommodatie"]="View our [[l1]]accommodation[[/l1]] in [[v_plaatsnaam]].";
-
-#$txt["nl"]["toonplaats"]["bekijkonzeaccommodaties"]="Bekijk onze [[l1]][[v_aantal]] accommodaties[[/l1]] in [[v_plaatsnaam]].";
-#$txt["en"]["toonplaats"]["bekijkonzeaccommodaties"]="View our [[l1]][[v_aantal]] accommodations[[/l1]] in [[v_plaatsnaam]].";
 
 $txt["nl"]["toonplaats"]["bekijkonzeaccommodaties"]="Bekijk onze [[l1]][[v_aantal]] chalets en appartementen[[/l1]] in [[v_plaatsnaam]]";
 $txt["en"]["toonplaats"]["bekijkonzeaccommodaties"]="Have a look at our [[l1]][[v_aantal]] chalets and apartments[[/l1]] in [[v_plaatsnaam]]";
@@ -3353,9 +3318,6 @@ $txt["en"]["boeken"]["vertrekdatum"]="Date of departure";
 
 $txt["nl"]["boeken"]["verblijfsduur"]="Verblijfsduur";
 $txt["en"]["boeken"]["verblijfsduur"]="Length of stay";
-
-#$txt["nl"]["boeken"]["kortingscodeoptioneel"]="Referentiecode [[h_1]](optioneel)[[h_2]]";
-#$txt["en"]["boeken"]["kortingscodeoptioneel"]="Reference code [[h_1]](optional)[[h_2]]";
 
 $txt["nl"]["boeken"]["gekozenperiodenietbeschikbaar"]="Gekozen periode niet beschikbaar";
 $txt["en"]["boeken"]["gekozenperiodenietbeschikbaar"]="Selected period is not available";
@@ -4598,7 +4560,6 @@ $txt["en"]["factuur"]["medewerkerswebsitenaam"]="Staff [[v_websitenaam]]";
 $txt["nl"]["factuur"]["voorakkoordnaamhandtekening"]="Voor akkoord (naam + handtekening)";
 $txt["en"]["factuur"]["voorakkoordnaamhandtekening"]="For approval (name + signature)";
 
-#$txt["nl"]["factuur"]["opdezeovereenkomstalgvoorwaarden"]="Op deze overeenkomst zijn onze Algemene reis- en verkoopvoorwaarden, alsmede de voorwaarden van de garantieregeling van de Stichting Garantiefonds Reisgelden (SGR) van toepassing. Indien een annulerings- of reisverzekering via ons afgesloten is, geldt het reserveringsnummer tevens als polisnummer.";
 $txt["nl"]["factuur"]["opdezeovereenkomstalgvoorwaarden"]="Op deze overeenkomst zijn onze Algemene reis- en verkoopvoorwaarden van toepassing. Indien een annulerings- of reisverzekering via ons afgesloten is, geldt het reserveringsnummer tevens als polisnummer.";
 $txt["en"]["factuur"]["opdezeovereenkomstalgvoorwaarden"]="This agreement is subject to our General travel and sales conditions. If a cancellation insurance or travel insurance has been taken out through us, the reservation number will also be your policy number.";
 
@@ -4839,9 +4800,6 @@ $txta["en_z"]["anderesite"]="winter programme";
 $txt["nl"]["404"]["inleiding"]="Deze pagina kan helaas niet worden gevonden.\n\nGebruik ons [[l1]]zoekformulier[[/l1]] om de door jou gewenste accommodatie te vinden.";
 $txt["en"]["404"]["inleiding"]="Page not found. Please use our [[l1]]search form[[/l1]] to find a accommodation.";
 
-#$txt["nl"]["404"]["test"]="Dit is even een test";
-#$txt["en"]["404"]["test"]="";
-
 
 
 $txt["nl"]["betalingen"]["mailonderwerp"]="Betaling ontvangen";
@@ -4887,9 +4845,6 @@ $txt["en"]["optieaanvraag"]["mail_af_body"]="Dear [VOORNAAMKLANT],\n\nThank you 
 
 $txt["nl"]["enquete"]["mail_subject"]="Welkom thuis!";
 $txt["en"]["enquete"]["mail_subject"]="Welcome home!";
-
-#$txt["nl"]["enquete"]["mail_body"]="Beste [NAAM],\n\nWe hopen dat je een fijne vakantie hebt gehad. Graag zouden wij willen weten wat jullie ervaring is geweest, zodat we je in de toekomst mogelijk nog beter van dienst kunnen zijn.\n\nWe zouden je daarom willen vragen een paar minuten te besteden aan onze enquête. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.\n\nKlik op de volgende link om naar de enquête te gaan:\n\n[LINK]\n\nAlvast bedankt voor je medewerking!\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-#$txt["en"]["enquete"]["mail_body"]="Dear [NAAM],\n\nWe hope you've had a good holiday. We would like to hear about your experience, so that we can offer an even better service in the future.\n\nThat's why would like to ask you to devote a few minutes on our survey. The information will be just for internal usage and won't be given to third parties.\n\nClick on the following link to go to the survey:\n\n[LINK]\n\nThanks in advance for your help!\n\nKind regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["enquete"]["mail_body"]="Beste [NAAM],
 
@@ -5065,15 +5020,6 @@ $txt["en"]["enquete"]["vraag4_2"]="Yes, please mail me with information about ot
 
 $txt["nl"]["enquete"]["vraag4_3"]="Nee";
 $txt["en"]["enquete"]["vraag4_3"]="No";
-
-#$txt["nl"]["enquete"]["vraag5"]="Vraag 5: Zijn er meer accommodaties en/of bestemmingen waarvan je informatie wenst te ontvangen?";
-#$txt["en"]["enquete"]["vraag5"]="";
-
-#$txt["nl"]["enquete"]["vraag5_1"]="Ja, te weten";
-#$txt["en"]["enquete"]["vraag5_1"]="";
-
-#$txt["nl"]["enquete"]["vraag5_2"]="Nee";
-#$txt["en"]["enquete"]["vraag5_2"]="No";
 
 $txt["nl"]["enquete"]["vraag6"]="Vraag 6: Wil je op de hoogte gehouden worden van nieuws en aanbiedingen van [[v_websitenaam]] en je abonneren op onze nieuwsbrief?";
 $txt["en"]["enquete"]["vraag6"]="Question 6: Do you want us to keep you up to date and give your special offers from [[v_websitenaam]] and do you want to be subscribed to our newsletter?";
