@@ -24,17 +24,15 @@ while(list($afwijkingkey,$afwijkingvalue)=each($doorloop_array)) {
 		$afwijking="";
 	}
 
-	if($vertaal_taal=="en") {
-		while(list($key,$value)=each($txta["nl".$afwijking])) {
-			if(!$txta[$vertaal_taal.$afwijking][$key] and $value) {
+	while(list($key,$value)=each($txta["nl".$afwijking])) {
+		if(!$txta[$vertaal_taal.$afwijking][$key] and $value) {
 
-				$vertaal_array["site_breed"][$key] = $value;
+			$vertaal_array["site_breed"][$key] = $value;
 
-				// $form->field_htmlrow("","<b>Site-brede tekst &quot;".$key."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div style=\"border:1px solid #000000;;padding:5px;\">".nl2br(wt_he($value))."</div></div>");
-				// $form->field_textarea(0,ereg_replace("-","_",$key)."_1","<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txta[".$key."])</i>","","","",array("newline"=>true,"title_html"=>true));
-				// $form->field_htmlrow("","<hr>");
-				$vars["onvertaald"]=true;
-			}
+			// $form->field_htmlrow("","<b>Site-brede tekst &quot;".$key."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div style=\"border:1px solid #000000;;padding:5px;\">".nl2br(wt_he($value))."</div></div>");
+			// $form->field_textarea(0,ereg_replace("-","_",$key)."_1","<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txta[".$key."])</i>","","","",array("newline"=>true,"title_html"=>true));
+			// $form->field_htmlrow("","<hr>");
+			$vars["onvertaald"]=true;
 		}
 	}
 
