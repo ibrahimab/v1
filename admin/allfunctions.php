@@ -166,6 +166,8 @@ function wt_debugbar_message($message, $label="info", $collector="messages") {
 	//
 	// send messages to phpdebugbar (http://phpdebugbar.com/)
 	//
+	global $wt_debugbar;
+
 	if(is_object($wt_debugbar)) {
 		$wt_debugbar->getCollector($collector)->addMessage($message, $label);
 	}
