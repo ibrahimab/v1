@@ -188,9 +188,8 @@ class roominglist {
 		$db->query( "SELECT bestelmailfax_taal, roominglist_toonaantaldeelnemers, roominglist_toontelefoonnummer, roominglist_site_benaming, roominglist_garanties_doorgeven FROM leverancier WHERE leverancier_id='".intval( $this->leverancier_id )."';" );
 		if ( $db->next_record() ) {
 			if ( $db->f( "roominglist_toonaantaldeelnemers" ) ) {
-				if ( !$this->totaal ) {
-					$roominglist_toonaantaldeelnemers=true;
-				}
+				$roominglist_toonaantaldeelnemers=true;
+				$colspan++;
 			}
 			if ( $db->f( "roominglist_toontelefoonnummer" ) ) {
 				if ( !$this->totaal ) {
@@ -410,6 +409,7 @@ class roominglist {
 					$regels[$sortkey].="</td>";
 				}
 				$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".wt_he( $db->f( "plaats" ) )."</td><td valign=\"top\">".wt_he( $accnaam_kort ).$accnaam_kort_aanvullend."</td><td valign=\"top\">".( $db->f( "code" ) ? wt_he( $db->f( "code" ) ) : "&nbsp;" )."</td>";
+				$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
 				if ( $roominglist_toonaantaldeelnemers ) {
 					$db2->query( "SELECT COUNT(boeking_id) AS aantal FROM boeking_persoon WHERE boeking_id='".$db->f( "boeking_id" )."';" );
 					if ( $db2->next_record() ) {
@@ -418,8 +418,6 @@ class roominglist {
 						$aantal="";
 					}
 					$regels[$sortkey].="<td valign=\"top\">".$aantal."</td>";
-				} else {
-					$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
 				}
 				$regels[$sortkey].="<td valign=\"top\">".( $db->f( "leverancierscode" ) ? wt_he( $db->f( "leverancierscode" ) ) : "&nbsp;" )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( wt_he( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
 			}
@@ -521,10 +519,13 @@ class roominglist {
 				$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
 			}
 			$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".wt_he( $db->f( "plaats" ) )."</td><td valign=\"top\">".wt_he( $accnaam_kort )."</td><td valign=\"top\">".( $db->f( "code" ) ? wt_he( $db->f( "code" ) ) : "&nbsp;" )."</td>";
+			$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
 			if ( $roominglist_toonaantaldeelnemers ) {
-				$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
-			} else {
-				$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
+				if($this->totaal) {
+					$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
+				} else {
+					$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
+				}
 			}
 			$regels[$sortkey].="<td valign=\"top\">".( $db->f( "factuurnummer" ) ? wt_he( $db->f( "factuurnummer" ) ) : ( $db->f( "inkoopdatum" )>0 ? "OK ".date( "d-m-Y", $db->f( "inkoopdatum" ) ) : "&nbsp;" ) )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( wt_he( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
 		}
@@ -563,10 +564,9 @@ class roominglist {
 				$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
 			}
 			$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".wt_he( $db->f( "plaats" ) )."</td><td valign=\"top\">".wt_he($accnaam_kort)."</td><td valign=\"top\">".( $db->f( "code" ) ? wt_he( $db->f( "code" ) ) : "&nbsp;" )."</td>";
+			$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
 			if ( $roominglist_toonaantaldeelnemers ) {
 				$regels[$sortkey].="<td valign=\"top\">".$db->f("deelnemers")."</td>";
-			} else {
-				$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
 			}
 			$regels[$sortkey].="<td valign=\"top\">&nbsp;</td><td valign=\"top\">".( $db->f( "tekst_extra_options" ) ? nl2br( wt_he( $db->f( "tekst_extra_options" ) ) ) : "&nbsp;" )."</td></tr>";
 
@@ -683,10 +683,9 @@ class roominglist {
 			}
 			$totaal_html.="<th>Arrival</th><th>Departure</th><th>Resort</th><th>Accommodation</th><th>Type</th>";
 
+			$totaal_html.="<th>Max. Cap.</th>";
 			if ( $roominglist_toonaantaldeelnemers ) {
 				$totaal_html.="<th>People</th>";
-			} else {
-				$totaal_html.="<th>Cap.</th>";
 			}
 			$totaal_html.="<th>Reserv.<br>Nr.</th><th>Extra<br>Options</th></tr></thead>";
 

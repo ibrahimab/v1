@@ -3,8 +3,7 @@
 set_time_limit(0);
 
 
-phpinfo();
-exit;
+// exit;
 // include("admin/vars.php");
 // include("/home/webtastic/html/vendor/autoload.php");
 
@@ -45,7 +44,10 @@ exit;
 if(defined("wt_test_name") and (wt_test_name=="macbook" or wt_test_name=="ss")) {
 	include("admin/vars.php");
 
+	$vars["tmp_info_tonen"] = true;
+
 	$bijkomendekosten = new bijkomendekosten;
+	// $bijkomendekosten->pre_calculate_type(240);
 	$bijkomendekosten->pre_calculate_all_types();
 }
 

@@ -170,7 +170,7 @@ if($_GET["levid"]) {
 		$form->check_input();
 
 		if($form->filled) {
-			if($form->input["versturen"] and !$form->input["email"]) {
+			if($form->input["versturen"] and !$form->input["email"] and !$_POST["roominglist_bekijken"]) {
 				$form->error("email","obl");
 			}
 
@@ -248,7 +248,11 @@ if($_GET["levid"]) {
 
 					echo $vars["create_list"]["html"];
 				} else {
-					echo "<p>De aankomstlijst is leeg.</p>";
+					if($_GET["t"]==1) {
+						echo "<p>De roominglist is leeg.</p>";
+					} else {
+						echo "<p>De aankomstlijst is leeg.</p>";
+					}
 				}
 
 				echo "</body></html>";

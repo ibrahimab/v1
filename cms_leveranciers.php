@@ -177,7 +177,7 @@ if($_GET["beheerder"]) {
 	$cms->edit_field(8,1,"roominglist_versturen","Wil roominglists ontvangen");
 
 	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op aankomstlijst",array("selection"=>false));
-	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op aankomstlijst",array("selection"=>true));
+	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op roominglist en aankomstlijst",array("selection"=>true));
 	$cms->edit_field(8,1,"roominglist_site_benaming","Site-benaming op aankomstlijst","","",array("info"=>"Welke sites moeten er boven de roominglist genoemd worden?"));
 	$cms->edit_field(8,0,"htmlrow","<hr>");
 } else {
@@ -190,7 +190,7 @@ if($_GET["beheerder"]) {
 	$cms->edit_field(8,1,"roominglist_versturen","Wil roominglists ontvangen","","",array("info"=>"Mag alleen uitgezet worden als de lijst naar de beheerder gaat"));
 
 	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op aankomstlijst",array("selection"=>false));
-	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op aankomstlijst",array("selection"=>true));
+	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op roominglist en aankomstlijst",array("selection"=>true));
 	$cms->edit_field(8,1,"roominglist_site_benaming","Site-benaming op aankomstlijst","","",array("info"=>"Welke sites moeten er boven de roominglist genoemd worden?"));
 	$cms->edit_field(8,0,"htmlrow","<hr>");
 	$cms->edit_field(8,0,"hoogseizoencontrole","Controle uitvoeren op hoogseizoen-tarieven",array("selection"=>true));
