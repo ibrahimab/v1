@@ -1,5 +1,10 @@
 <?php
 
+
+if(!$_GET["wzt"]) {
+	$_GET["wzt"] = 1;
+}
+
 echo "<i>Systeem om klanten van vorig seizoen te benaderen m.b.t. het nieuwe seizoen</i>";
 
 echo "<h2>";
@@ -14,23 +19,39 @@ if($_GET["status"]==1) {
 }
 echo "</h2>";
 
-if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
+if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["delete_newpricesmail"] or $_POST["newpricesmail"]) {
 
-	while(list($key,$value)=@each($_POST["verwijderboeking"])) {
-		if($value==1) {
-			unset($log);
-			$db->query("SELECT log FROM boeking WHERE boeking_id='".addslashes($key)."';");
-			if($db->next_record()) {
-				$log=$db->f("log");
-				$log.="\n".time()."-c".$login->user_id."-a- verwijderd uit lijst \"mail klanten vorig seizoen\"";
+	if(is_array($_POST["verwijderboeking"])) {
+		foreach ($_POST["verwijderboeking"] as $key => $value) {
+			if($value==1) {
+				unset($log);
+				$db->query("SELECT log FROM boeking WHERE boeking_id='".intval($key)."';");
+				if($db->next_record()) {
+					$log=$db->f("log");
+					$log.="\n".time()."-c".$login->user_id."-a- verwijderd uit lijst \"mail klanten vorig seizoen\"";
+				}
+
+				$db->query("UPDATE boeking SET mailverbergen_klanten_vorig_seizoen=1, mailblokkeren_klanten_vorig_seizoen=1, log='".addslashes($log)."' WHERE boeking_id='".addslashes($key)."';");
+				$verbergteller++;
 			}
-
-			$db->query("UPDATE boeking SET mailverbergen_klanten_vorig_seizoen=1, mailblokkeren_klanten_vorig_seizoen=1, log='".addslashes($log)."' WHERE boeking_id='".addslashes($key)."';");
-			$verbergteller++;
+		}
+		if($verbergteller) {
+			echo "<p>Aantal boekingen verwijderd uit &quot;te verzenden&quot;-lijst: ".$verbergteller."</p>";
 		}
 	}
-	if($verbergteller) {
-		echo "Aantal boekingen verwijderd uit &quot;te verzenden&quot;-lijst: ".$verbergteller."<p>";
+
+	if(is_array($_POST["delete_newpricesmail"])) {
+		foreach ($_POST["delete_newpricesmail"] as $key => $value) {
+			if($value==1) {
+				unset($log);
+				$db->query("DELETE FROM newpricesmail WHERE newpricesmail_id='".intval($key)."';");
+				$delete_newpricesmail_counter++;
+			}
+		}
+
+		if($delete_newpricesmail_counter) {
+			echo "<p>Aantal mailverzoeken verwijderd uit &quot;te verzenden&quot;-lijst: ".$delete_newpricesmail_counter."</p>";
+		}
 	}
 
 	if(is_array($_POST["boeking"]) or is_array($_POST["newpricesmail"])) {
@@ -52,14 +73,6 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 
 						# Mail versturen (met opmaak)
 						verstuur_opmaakmail($mailtekst["website"],$mailtekst["to"],$mailtekst["toname"],$mailtekst["subject"],$mailtekst["body"],$settings);
-
-						// $mail=new wt_mail;
-						// $mail->fromname=$mailtekst["fromname"];
-						// $mail->from=$mailtekst["from"];
-						// $mail->to=$mailtekst["to"];
-						// $mail->subject=$mailtekst["subject"];
-						// $mail->plaintext=$mailtekst["body"];
-						// $mail->send();
 
 						# Loggen
 						chalet_log("mailtje \"boek nu in het nieuwe seizoen\" gemaild aan ".$mailtekst["to"],false,true);
@@ -121,8 +134,13 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 
 	$db->query("SELECT winter_vorig_seizoen_id, zomer_vorig_seizoen_id, winter_huidig_seizoen_id, zomer_huidig_seizoen_id FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
 	if($db->next_record()) {
-		$vorigeseizoen=$db->f("winter_vorig_seizoen_id").",".$db->f("zomer_vorig_seizoen_id");
-		$huidigeseizoen=$db->f("winter_huidig_seizoen_id").",".$db->f("zomer_huidig_seizoen_id");
+		if($_GET["wzt"]==1) {
+			$vorigeseizoen=$db->f("winter_vorig_seizoen_id");
+			$huidigeseizoen=$db->f("winter_huidig_seizoen_id");
+		} else {
+			$vorigeseizoen=$db->f("zomer_vorig_seizoen_id");
+			$huidigeseizoen=$db->f("zomer_huidig_seizoen_id");
+		}
 	}
 
 	unset($wherequery);
@@ -177,31 +195,23 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 		$andere_accommodaties_inquery.=",".$db->f("boeking_id");
 	}
 
-	// # Boekingen zonder enquete: ook "mail me over andere accommodaties/bestemmingen" toepassen
-	// $db->query("SELECT boeking_id FROM boeking WHERE seizoen_id IN (".$vorigeseizoen.") AND vertrekdatum_exact<".(time()-86400*8)." AND boeking_id NOT IN (SELECT boeking_id FROM boeking_enquete WHERE boeking_id IS NOT NULL);");
-	// while($db->next_record()) {
-	// 	$andere_accommodaties[$db->f("boeking_id")]=true;
-	// 	$andere_accommodaties_inquery.=",".$db->f("boeking_id");
-	// }
-
-
-	// if($_GET["andere_accommodaties"]==0 or $_GET["andere_accommodaties"]==0) {
-	// 	// eigen accommodatie: alleen indien enquete vraag4 = 1
-	// 	$db->query("SELECT boeking_id FROM boeking_enquete WHERE vraag4=1;");
-	// 	while($db->next_record()) {
-	// 		$eigen_accommodaties_inquery.=",".$db->f("boeking_id");
-	// 	}
-	// 	if($eigen_accommodaties_inquery) {
-	// 		$wherequery.=" AND b.boeking_id IN (".substr($eigen_accommodaties_inquery,1).")";
-	// 	}
-	// }
+	if($_GET["andere_accommodaties"]==0 or $_GET["andere_accommodaties"]==1) {
+		// eigen accommodatie: alleen indien enquete vraag4 = 1
+		$db->query("SELECT boeking_id FROM boeking_enquete WHERE vraag4=1;");
+		while($db->next_record()) {
+			$eigen_accommodaties_inquery.=",".$db->f("boeking_id");
+		}
+		if($eigen_accommodaties_inquery) {
+			$wherequery.=" AND b.boeking_id IN (".substr($eigen_accommodaties_inquery,1).")";
+		}
+	}
 
 	if($_GET["andere_accommodaties"]==2) {
-		# klanten die over andere accommodaties geinformeerd willen worden
+		// klanten die over andere accommodaties geinformeerd willen worden
 		$wherequery.=" AND b.boeking_id IN (".substr($andere_accommodaties_inquery,1).")";
 	} elseif($_GET["andere_accommodaties"]==1) {
-		# klanten die over hun eigen accommodatie geinformeerd willen worden (en waarvoor NOG GEEN tarieven bekend zijn)
-		$wherequery.=" AND b.boeking_id NOT IN (".substr($andere_accommodaties_inquery,1).")";
+		// klanten die over hun eigen accommodatie geinformeerd willen worden (en waarvoor NOG GEEN tarieven bekend zijn)
+
 		# Bekijken welke types al tarieven hebben
 		$type_inquery=",0";
 		$db->query("SELECT DISTINCT type_id FROM tarief WHERE seizoen_id IN (".$huidigeseizoen.") AND (bruto>0 OR c_bruto>0);");
@@ -212,8 +222,9 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 
 		$wherequery_newpricesmail .= " AND t.type_id NOT IN (".substr($type_inquery,1).")";
 	} else {
-		# klanten die over hun eigen accommodatie geinformeerd willen worden (en waarvoor al tarieven bekend zijn)
-		$wherequery.=" AND b.boeking_id NOT IN (".substr($andere_accommodaties_inquery,1).")";
+
+		// klanten die over hun eigen accommodatie geinformeerd willen worden (en waarvoor al tarieven bekend zijn)
+
 		if($_GET["status"]==1 or $_GET["status"]==2) {
 			# Bekijken welke types al tarieven hebben
 			$type_inquery=",0";
@@ -237,12 +248,12 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 		while($db->next_record()) {
 
 
-			$use_key = $db->f("plaats")."_".$db->f("naam")."_".$db->f("type_id");
+			$use_key = $db->f("plaats")."_".$db->f("naam")."_".$db->f("type_id")."_b".$db->f("boeking_id");
 
 			# Niet geblokkeerde mailtjes altijd tonen, geblokkeerde mailtjes alleen tonen tot 6 weken voor vertrek
 			if(!$db->f("mailblokkeren_opties") or ($db->f("mailblokkeren_opties") and $db->f("aankomstdatum")>=$vars["zaterdag_over_6_weken"])) {
 				$regelteller++;
-				$select_table[$use_key] .= "<tr><td align=\"center\"><a name=\"regel".$regelteller."\"></a><input type=\"checkbox\" name=\"verwijderboeking[".$db->f("boeking_id")."]\" value=\"1\"></td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."&bestaande=1&back=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&regel=".$regelteller."\"".($_GET["status"]==2 ? " target=\"_blank\"" : "").">".wt_he($db->f("boekingsnummer"))."</a></td>";
+				$select_table[$use_key] .= "<tr><td align=\"center\"><a name=\"regel".$regelteller."\"></a><input type=\"checkbox\" name=\"verwijderboeking[".$db->f("boeking_id")."]\" value=\"1\" class=\"checkbox_wissen\"></td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."&bestaande=1&back=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&regel=".$regelteller."\"".($_GET["status"]==2 ? " target=\"_blank\"" : "").">".wt_he($db->f("boekingsnummer"))."</a></td>";
 				if($_GET["status"]==2) {
 					if(!$_GET["accid"]) {
 						if($db->f("atonen") and $db->f("ttonen") and preg_match("/".$db->f("website")."/",$db->f("websites"))) {
@@ -272,9 +283,9 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 	if($db->num_rows() and $_GET["status"]==2 and !$_GET["showmailuitgezet"] and $_GET["andere_accommodaties"]<>2) {
 		while($db->next_record()) {
 
-			$use_key = $db->f("plaats")."_".$db->f("naam")."_".$db->f("type_id");
+			$use_key = $db->f("plaats")."_".$db->f("naam")."_".$db->f("type_id")."_np".$db->f("newpricesmail_id");
 
-			$select_table[$use_key] .= "<tr><td align=\"center\">&nbsp;</td><td><i>n.v.t.</i></td>";
+			$select_table[$use_key] .= "<tr><td align=\"center\"><input type=\"checkbox\" name=\"delete_newpricesmail[".$db->f("newpricesmail_id")."]\" value=\"1\" class=\"checkbox_wissen\"></td><td><i>n.v.t.</i></td>";
 			if(!$_GET["accid"]) {
 				if($db->f("atonen") and $db->f("ttonen") and preg_match("/".$db->f("website")."/",$db->f("websites"))) {
 					$type_bgcolor="#ffffff;";
@@ -287,7 +298,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 			$select_table[$use_key] .= "<span id=\"bewerk_np_".$db->f("newpricesmail_id")."\" style=\"".($db->f("mailtekst")=="" ? "display:none;" : "")."\">";
 			$select_table[$use_key] .= "ja";
 			$select_table[$use_key] .= "</span>";
-			$select_table[$use_key] .= "&nbsp;</td><td align=\"center\"><input type=\"checkbox\" name=\"newpricesmail[".$db->f("newpricesmail_id")."]\" value=\"1\">";
+			$select_table[$use_key] .= "&nbsp;</td><td align=\"center\"><input type=\"checkbox\" name=\"newpricesmail[".$db->f("newpricesmail_id")."]\" value=\"1\" class=\"checkbox_versturen\">";
 			$select_table[$use_key] .= "</td></tr>\n";
 		}
 	}
@@ -315,7 +326,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 
 		if($_GET["status"]==2) {
-			echo "<tr><th title=\"Verwijder de boeking uit deze lijst\" style=\"width:10px;\">Wis</th><th>Boeking</th>";
+			echo "<tr><th title=\"Verwijder de boeking uit deze lijst\" style=\"width:10px;\">Wis<br /><input type=\"checkbox\" class=\"checbox_check_all\" data-only-class=\"checkbox_wissen\"></th><th>Boeking</th>";
 			if(!$_GET["accid"]) {
 				echo "<th>Type</th>";
 			}

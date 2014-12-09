@@ -360,7 +360,8 @@ if($mustlogin) {
 
 	if($login->has_priv("24")) {
 		$layout->menu_item("cms_mail_klanten_vorig_seizoen","Bestaande klanten","",true,false,array("slide"=>true));
-		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Te mailen",array("status"=>"2"),true);
+		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Te mailen (winter)",array("status"=>"2", "wzt"=>"1"),true);
+		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Te mailen (zomer)",array("status"=>"2", "wzt"=>"2"),true);
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Nabellen",array("status"=>"3"),true);
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Actief",array("status"=>"1"),true);
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Afgehandeld",array("status"=>"4"),true);
