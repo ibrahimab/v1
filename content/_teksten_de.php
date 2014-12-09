@@ -1889,35 +1889,35 @@ $txt["de"]["zoek-en-boek"]["vakantieparken"]="Ferienparks";
 $txt["en"]["zoek-en-boek"]["vakantieparken"]="holiday parks";
 
 $txt["nl"]["zoek-en-boek"]["afstandvanafutrecht"]="Afstand vanaf Utrecht";
-$txt["de"]["zoek-en-boek"]["afstandvanafutrecht"]="";
+$txt["de"]["zoek-en-boek"]["afstandvanafutrecht"]="Distanz von Utrecht";
 $txt["en"]["zoek-en-boek"]["afstandvanafutrecht"]="Distance from Utrecht";
 
 $txt["nl"]["zoek-en-boek"]["tot600"]="tot en met 600 km";
-$txt["de"]["zoek-en-boek"]["tot600"]="";
+$txt["de"]["zoek-en-boek"]["tot600"]="bis 600 km";
 $txt["en"]["zoek-en-boek"]["tot600"]="till 600 km";
 
 $txt["nl"]["zoek-en-boek"]["tot1000"]="tot en met 1000 km";
-$txt["de"]["zoek-en-boek"]["tot1000"]="";
+$txt["de"]["zoek-en-boek"]["tot1000"]="bis 1000 km";
 $txt["en"]["zoek-en-boek"]["tot1000"]="till 1000 km";
 
 $txt["nl"]["zoek-en-boek"]["tot1250"]="tot en met 1250 km";
-$txt["de"]["zoek-en-boek"]["tot1250"]="";
+$txt["de"]["zoek-en-boek"]["tot1250"]="bis 1250 km";
 $txt["en"]["zoek-en-boek"]["tot1250"]="till 1250 km";
 
 $txt["nl"]["zoek-en-boek"]["6001000"]="600 - 1000 km";
-$txt["de"]["zoek-en-boek"]["6001000"]="";
+$txt["de"]["zoek-en-boek"]["6001000"]="600 - 1000 km";
 $txt["en"]["zoek-en-boek"]["6001000"]="600 - 1000 km";
 
 $txt["nl"]["zoek-en-boek"]["10001500"]="1000 - 1500 km";
-$txt["de"]["zoek-en-boek"]["10001500"]="";
+$txt["de"]["zoek-en-boek"]["10001500"]="1000 - 1500 km";
 $txt["en"]["zoek-en-boek"]["10001500"]="1000 - 1500 km";
 
 $txt["nl"]["zoek-en-boek"]["12501500"]="1250 - 1500 km";
-$txt["de"]["zoek-en-boek"]["12501500"]="";
+$txt["de"]["zoek-en-boek"]["12501500"]="1250 - 1500 km";
 $txt["en"]["zoek-en-boek"]["12501500"]="1250 - 1500 km";
 
 $txt["nl"]["zoek-en-boek"]["meerdan1500"]="meer dan 1500 km";
-$txt["de"]["zoek-en-boek"]["meerdan1500"]="";
+$txt["de"]["zoek-en-boek"]["meerdan1500"]="mehr als 1500 km";
 $txt["en"]["zoek-en-boek"]["meerdan1500"]="more than 1500 km";
 
 $txt["nl"]["zoek-en-boek"]["afstandtotpiste"]="Afstand tot de piste";
@@ -5020,87 +5020,87 @@ $txt["en"]["wachtwoord"]["mailcontent"]="Dear client,\n\nYou can log in at \"My 
 #
 
 $txt["nl"]["reisbureau"]["inleiding"]="Via onderstaand formulier kun je inloggen als reisagent. Overige boekers kunnen terecht bij [[h_1]]Mijn boeking[[h_2]].";
-$txt["de"]["reisbureau"]["inleiding"]="";
+$txt["de"]["reisbureau"]["inleiding"]="Über unten stehendes Formular können Reiseagenturen sich anmelden. Übrige Bucher können sich anmelden über [[h_1]]Meine Buchung[[h_2]].";
 $txt["en"]["reisbureau"]["inleiding"]="The form below allows you to log in as travel agent. Other bookers can go to [[h_1]]My booking[[h_2]].";
 
 $txt["nl"]["reisbureau"]["ubentingelogd"]="Welkom! Maak een keuze uit de volgende links:";
-$txt["de"]["reisbureau"]["ubentingelogd"]="";
+$txt["de"]["reisbureau"]["ubentingelogd"]="Wilkommen! Bitte wählen Sie aus folgenden Links:";
 $txt["en"]["reisbureau"]["ubentingelogd"]="Welcome! Please use one of the following links:";
 
 $txt["nl"]["reisbureau"]["emailadres"]="E-mailadres";
-$txt["de"]["reisbureau"]["emailadres"]="";
+$txt["de"]["reisbureau"]["emailadres"]="E-Mail-Adresse";
 $txt["en"]["reisbureau"]["emailadres"]="Email address";
 
 // $txt["nl"]["reisbureau"]["onjuistelogin"]="Onjuiste login/wachtwoord-combinatie\n\n[[h_1]]Gebruik voortaan je e-mailadres als gebruikersnaam![[h_2]]";
-// $txt["de"]["reisbureau"]["onjuistelogin"]="";
+// $txt["de"]["reisbureau"]["onjuistelogin"]="Falsche E-Mail/Passwort-Kombination";
 $txt["en"]["reisbureau"]["onjuistelogin"]="Wrong username or password\n\n[[h_1]]Please use your email address[[h_2]]";
 
 $txt["nl"]["reisbureau"]["onjuistelogin"]="Onjuiste e-mail/wachtwoord-combinatie";
-$txt["de"]["reisbureau"]["onjuistelogin"]="";
+$txt["de"]["reisbureau"]["onjuistelogin"]="Falsche E-Mail/Passwort-Kombination";
 $txt["en"]["reisbureau"]["onjuistelogin"]="Wrong e-mail or password";
 
 $txt["nl"]["reisbureau"]["wwvergeten"]="Ik ben mijn wachtwoord vergeten";
-$txt["de"]["reisbureau"]["wwvergeten"]="";
+$txt["de"]["reisbureau"]["wwvergeten"]="Ich habe mein Passwort vergessen";
 $txt["en"]["reisbureau"]["wwvergeten"]="I have forgotten my password";
 
 $txt["nl"]["reisbureau"]["noggeenaccount"]="Ik heb nog geen account";
-$txt["de"]["reisbureau"]["noggeenaccount"]="";
+$txt["de"]["reisbureau"]["noggeenaccount"]="Ich habe noch kein E-Mail-Konto";
 $txt["en"]["reisbureau"]["noggeenaccount"]="I don't have an account yet";
 
 $txt["nl"]["reisbureau"]["nieuweagenttoevoegen"]="Nieuwe agent toevoegen";
-$txt["de"]["reisbureau"]["nieuweagenttoevoegen"]="";
+$txt["de"]["reisbureau"]["nieuweagenttoevoegen"]="Neue Reiseagentur hinzufügen";
 $txt["en"]["reisbureau"]["nieuweagenttoevoegen"]="Add travel agent";
 
 $txt["nl"]["reisbureau"]["nietactief"]="Je account is momenteel niet geactiveerd voor de website [[v_website]]. Neem contact met ons op voor meer informatie. Onze excuses voor het ongemak.";
-$txt["de"]["reisbureau"]["nietactief"]="";
+$txt["de"]["reisbureau"]["nietactief"]="Ihr Konto ist im Moment leider nicht aktiviert für die Webseite [[v_website]]. Bitte kontaktieren Sie uns für weitere Informationen.";
 $txt["en"]["reisbureau"]["nietactief"]="Your account is not active for [[v_website]]. Please contact us for details. We apologize for the inconvenience.";
 
 $txt["nl"]["reisbureau"]["accommodatieboeken"]="Accommodatie boeken";
-$txt["de"]["reisbureau"]["accommodatieboeken"]="";
+$txt["de"]["reisbureau"]["accommodatieboeken"]="Unterkunft buchen";
 $txt["en"]["reisbureau"]["accommodatieboeken"]="Book an accommodation";
 
 $txt["nl"]["reisbureau"]["overzichtboekingen"]="Overzicht actuele boekingen en aanvragen";
-$txt["de"]["reisbureau"]["overzichtboekingen"]="";
+$txt["de"]["reisbureau"]["overzichtboekingen"]="Übersicht aktuelle Buchungen und Anfragen";
 $txt["en"]["reisbureau"]["overzichtboekingen"]="Overview current bookings and requests";
 
 $txt["nl"]["reisbureau"]["overzichtprijsberekeningen"]="Overzicht prijsberekeningen";
-$txt["de"]["reisbureau"]["overzichtprijsberekeningen"]="";
+$txt["de"]["reisbureau"]["overzichtprijsberekeningen"]="Übersicht Preisberechnungen";
 $txt["en"]["reisbureau"]["overzichtprijsberekeningen"]="Overview calculations";
 
 $txt["nl"]["reisbureau"]["financieeloverzichtboekingen"]="Financieel overzicht boekingen";
-$txt["de"]["reisbureau"]["financieeloverzichtboekingen"]="";
+$txt["de"]["reisbureau"]["financieeloverzichtboekingen"]="Finanzielle Übersicht Buchungen";
 $txt["en"]["reisbureau"]["financieeloverzichtboekingen"]="Financial overview bookings";
 
 $txt["nl"]["reisbureau"]["handleiding"]="Handleiding voor reisagenten";
-$txt["de"]["reisbureau"]["handleiding"]="";
+$txt["de"]["reisbureau"]["handleiding"]="Anleitung für Reiseagenturen";
 $txt["en"]["reisbureau"]["handleiding"]="Manual for travel agents";
 
 $txt["nl"]["reisbureau"]["nummer"]="Nummer";
-$txt["de"]["reisbureau"]["nummer"]="";
+$txt["de"]["reisbureau"]["nummer"]="Nummer";
 $txt["en"]["reisbureau"]["nummer"]="Number";
 
 $txt["nl"]["reisbureau"]["aankomst"]="Aankomst";
-$txt["de"]["reisbureau"]["aankomst"]="";
+$txt["de"]["reisbureau"]["aankomst"]="Ankunft";
 $txt["en"]["reisbureau"]["aankomst"]="Arrival";
 
 $txt["nl"]["reisbureau"]["hoofdboeker"]="Hoofdboeker";
-$txt["de"]["reisbureau"]["hoofdboeker"]="";
+$txt["de"]["reisbureau"]["hoofdboeker"]="Hauptbucher";
 $txt["en"]["reisbureau"]["hoofdboeker"]="Main booker";
 
 $txt["nl"]["reisbureau"]["reissom"]="Reissom";
-$txt["de"]["reisbureau"]["reissom"]="";
+$txt["de"]["reisbureau"]["reissom"]="Reisesumme";
 $txt["en"]["reisbureau"]["reissom"]="Travel sum";
 
 $txt["nl"]["reisbureau"]["voldaan"]="Voldaan";
-$txt["de"]["reisbureau"]["voldaan"]="";
+$txt["de"]["reisbureau"]["voldaan"]="Gezahlt";
 $txt["en"]["reisbureau"]["voldaan"]="Paid";
 
 $txt["nl"]["reisbureau"]["openstaand"]="Openstaand";
-$txt["de"]["reisbureau"]["openstaand"]="";
+$txt["de"]["reisbureau"]["openstaand"]="Offen";
 $txt["en"]["reisbureau"]["openstaand"]="Due";
 
 $txt["nl"]["reisbureau"]["factuur"]="Factuur";
-$txt["de"]["reisbureau"]["factuur"]="";
+$txt["de"]["reisbureau"]["factuur"]="Rechnung";
 $txt["en"]["reisbureau"]["factuur"]="Invoice";
 
 $txt["nl"]["reisbureau"]["welkomstmail"]="Beste [[v_voornaam]],
@@ -5128,7 +5128,31 @@ https://www.chalettour.nl/reisagent_overzicht.php?mijngeg=1
 Met vriendelijke groet,
 
 Medewerkers Chalet.nl B.V.";
-$txt["de"]["reisbureau"]["welkomstmail"]="";
+$txt["de"]["reisbureau"]["welkomstmail"]="Sehr geehrter Herr / Sehr geehrte Frau [[v_voornaam]],
+
+Vielen Dank für Ihr Interesse an unseren Produkten und Dienstleistungen. Um Ihnen optimal zu Diensten sein zu können, schicken wir Ihnen die Anmeldedaten unserer Reiseagentur-Webseiten.
+
+Benutzername: [[v_email]]
+Passwort: [[v_wachtwoord]]
+
+Die Anmeldedaten können Sie für folgende Webseiten benutzen:
+
+[[v_websites]]
+
+Nach Anmeldung haben Sie Zugang zu den folgenden Extras:
+- Verfügbarkeit kontrollieren
+- Provision kontrollieren
+- Preisberechnungen erstellen
+- Laufende Buchungen einsehen
+
+Nach Anmeldung können Sie eine Option beantragen, die direkt Ihren Daten zugeordnet wird. Sie können uns natürlich auch anrufen: +31 (0)348 - 43 46 49.
+
+Um sicherzustellen, dass alle Daten korrekt in unser System eingegeben sind bitten wir Sie unten stehende Seite zu besuchen und Ihre Daten zu kontrollieren und ggf. zu erweitern oder zu korrigieren:
+https://www.chalettour.nl/reisagent_overzicht.php?mijngeg=1
+
+Mit freundlichem Gruß,
+
+Mitarbeiter Chalet.nl B.V.";
 $txt["en"]["reisbureau"]["welkomstmail"]="-";
 
 #
@@ -5136,199 +5160,199 @@ $txt["en"]["reisbureau"]["welkomstmail"]="-";
 #
 
 $txt["nl"]["reisbureau_overzicht"]["geenboekingen"]="Er zijn geen actuele boekingen die door [[v_websitenaam]] bevestigd zijn.";
-$txt["de"]["reisbureau_overzicht"]["geenboekingen"]="";
+$txt["de"]["reisbureau_overzicht"]["geenboekingen"]="Es gibt keine aktuelle Buchungen die von [[v_websitenaam]] bestätigt worden sind.";
 $txt["en"]["reisbureau_overzicht"]["geenboekingen"]="There are no current confirmed bookings";
 
 $txt["nl"]["reisbureau_overzicht"]["geenprijsberekeningen"]="Er zijn geen prijsberekeningen.";
-$txt["de"]["reisbureau_overzicht"]["geenprijsberekeningen"]="";
+$txt["de"]["reisbureau_overzicht"]["geenprijsberekeningen"]="Es gibt keine Preisberechnungen";
 $txt["en"]["reisbureau_overzicht"]["geenprijsberekeningen"]="There are no calculations";
 
 $txt["nl"]["reisbureau_overzicht"]["aankomst"]="Aankomst";
-$txt["de"]["reisbureau_overzicht"]["aankomst"]="";
+$txt["de"]["reisbureau_overzicht"]["aankomst"]="Ankunft";
 $txt["en"]["reisbureau_overzicht"]["aankomst"]="Arrival";
 
 $txt["nl"]["reisbureau_overzicht"]["accommodatie"]="Accommodatie";
-$txt["de"]["reisbureau_overzicht"]["accommodatie"]="";
+$txt["de"]["reisbureau_overzicht"]["accommodatie"]="Unterkunft";
 $txt["en"]["reisbureau_overzicht"]["accommodatie"]="Accommodation";
 
 $txt["nl"]["reisbureau_overzicht"]["hoofdboeker"]="Hoofdboeker";
-$txt["de"]["reisbureau_overzicht"]["hoofdboeker"]="";
+$txt["de"]["reisbureau_overzicht"]["hoofdboeker"]="Hauptbucher";
 $txt["en"]["reisbureau_overzicht"]["hoofdboeker"]="Main booker";
 
 $txt["nl"]["reisbureau_overzicht"]["nummer"]="Nummer";
-$txt["de"]["reisbureau_overzicht"]["nummer"]="";
+$txt["de"]["reisbureau_overzicht"]["nummer"]="Nummer";
 $txt["en"]["reisbureau_overzicht"]["nummer"]="Number";
 
 $txt["nl"]["reisbureau_overzicht"]["boekingopenen"]="Boeking openen";
-$txt["de"]["reisbureau_overzicht"]["boekingopenen"]="";
+$txt["de"]["reisbureau_overzicht"]["boekingopenen"]="Buchung öffnen";
 $txt["en"]["reisbureau_overzicht"]["boekingopenen"]="Open booking";
 
 $txt["nl"]["reisbureau_overzicht"]["naamorganisatie"]="Naam organisatie";
-$txt["de"]["reisbureau_overzicht"]["naamorganisatie"]="";
+$txt["de"]["reisbureau_overzicht"]["naamorganisatie"]="Name Organisation";
 $txt["en"]["reisbureau_overzicht"]["naamorganisatie"]="Name organisation";
 
 $txt["nl"]["reisbureau_overzicht"]["persoonlijkegegevens"]="Persoonlijke gegevens / filiaal-gegevens";
-$txt["de"]["reisbureau_overzicht"]["persoonlijkegegevens"]="";
+$txt["de"]["reisbureau_overzicht"]["persoonlijkegegevens"]="Persönliche Daten / Daten Geschäftsstelle";
 $txt["en"]["reisbureau_overzicht"]["persoonlijkegegevens"]="Personal data";
 
 $txt["nl"]["reisbureau_overzicht"]["organisatiegegevens"]="Organisatiegegevens";
-$txt["de"]["reisbureau_overzicht"]["organisatiegegevens"]="";
+$txt["de"]["reisbureau_overzicht"]["organisatiegegevens"]="Organisationsdaten";
 $txt["en"]["reisbureau_overzicht"]["organisatiegegevens"]="Organisation data";
 
 $txt["nl"]["reisbureau_overzicht"]["verantwoordelijke"]="Verantwoordelijke m.b.t. samenwerking";
-$txt["de"]["reisbureau_overzicht"]["verantwoordelijke"]="";
+$txt["de"]["reisbureau_overzicht"]["verantwoordelijke"]="Verantwortlicher für Zusammenarbeit";
 $txt["en"]["reisbureau_overzicht"]["verantwoordelijke"]="Person responsible regarding cooperation";
 
 $txt["nl"]["reisbureau_overzicht"]["emailovereenkomst"]="E-mailadres t.b.v. samenwerkingsovereenkomst";
-$txt["de"]["reisbureau_overzicht"]["emailovereenkomst"]="";
+$txt["de"]["reisbureau_overzicht"]["emailovereenkomst"]="E-Mail-Adresse für Zusammenarbeitsvertrag";
 $txt["en"]["reisbureau_overzicht"]["emailovereenkomst"]="Email address for cooperation agreement";
 
 $txt["nl"]["reisbureau_overzicht"]["anvrnummer"]="ANVR-nummer";
-$txt["de"]["reisbureau_overzicht"]["anvrnummer"]="";
+$txt["de"]["reisbureau_overzicht"]["anvrnummer"]="ANVR-Nummer";
 $txt["en"]["reisbureau_overzicht"]["anvrnummer"]="ANVR number";
 
 $txt["nl"]["reisbureau_overzicht"]["kvknummer"]="KvK-nummer";
-$txt["de"]["reisbureau_overzicht"]["kvknummer"]="";
+$txt["de"]["reisbureau_overzicht"]["kvknummer"]="Handelskammer-Nummer";
 $txt["en"]["reisbureau_overzicht"]["kvknummer"]="Chamber of Commerce number";
 
 $txt["nl"]["reisbureau_overzicht"]["btwnummer"]="BTW-nummer";
-$txt["de"]["reisbureau_overzicht"]["btwnummer"]="";
+$txt["de"]["reisbureau_overzicht"]["btwnummer"]="MwSt-Nummer";
 $txt["en"]["reisbureau_overzicht"]["btwnummer"]="VAT number";
 
 $txt["nl"]["reisbureau_overzicht"]["adreskantoor"]="Bezoekadres";
-$txt["de"]["reisbureau_overzicht"]["adreskantoor"]="";
+$txt["de"]["reisbureau_overzicht"]["adreskantoor"]="Besucheradresse";
 $txt["en"]["reisbureau_overzicht"]["adreskantoor"]="Visit Address";
 
 $txt["nl"]["reisbureau_overzicht"]["postadreskantoor"]="Postadres";
-$txt["de"]["reisbureau_overzicht"]["postadreskantoor"]="";
+$txt["de"]["reisbureau_overzicht"]["postadreskantoor"]="Postadresse";
 $txt["en"]["reisbureau_overzicht"]["postadreskantoor"]="Postal address";
 
 $txt["nl"]["reisbureau_overzicht"]["noodnummer"]="Noodnummer";
-$txt["de"]["reisbureau_overzicht"]["noodnummer"]="";
+$txt["de"]["reisbureau_overzicht"]["noodnummer"]="Notnummer";
 $txt["en"]["reisbureau_overzicht"]["noodnummer"]="Emergency number";
 
 $txt["nl"]["reisbureau_overzicht"]["website"]="Website";
-$txt["de"]["reisbureau_overzicht"]["website"]="";
+$txt["de"]["reisbureau_overzicht"]["website"]="Webseite";
 $txt["en"]["reisbureau_overzicht"]["website"]="Website";
 
 $txt["nl"]["reisbureau_overzicht"]["email_facturen"]="E-mailadres facturen + aanmaningen";
-$txt["de"]["reisbureau_overzicht"]["email_facturen"]="";
+$txt["de"]["reisbureau_overzicht"]["email_facturen"]="E-Mail-Adresse Rechnungen + Mahnungen";
 $txt["en"]["reisbureau_overzicht"]["email_facturen"]="E-mail address invoices + duns for payment";
 
 $txt["nl"]["reisbureau_overzicht"]["email_marketing"]="E-mailadres marketing algemeen";
-$txt["de"]["reisbureau_overzicht"]["email_marketing"]="";
+$txt["de"]["reisbureau_overzicht"]["email_marketing"]="E-Mail-Adresse Marketing allgemein";
 $txt["en"]["reisbureau_overzicht"]["email_marketing"]="E-mail address marketing general";
 
 $txt["nl"]["reisbureau_overzicht"]["voornaam"]="Voornaam";
-$txt["de"]["reisbureau_overzicht"]["voornaam"]="";
+$txt["de"]["reisbureau_overzicht"]["voornaam"]="Vorname";
 $txt["en"]["reisbureau_overzicht"]["voornaam"]="First name";
 
 $txt["nl"]["reisbureau_overzicht"]["tussenvoegsel"]="Tussenvoegsel";
-$txt["de"]["reisbureau_overzicht"]["tussenvoegsel"]="";
+$txt["de"]["reisbureau_overzicht"]["tussenvoegsel"]="Namenszusatz";
 $txt["en"]["reisbureau_overzicht"]["tussenvoegsel"]="Surname prefix";
 
 $txt["nl"]["reisbureau_overzicht"]["achternaam"]="Achternaam (of naam filiaal)";
-$txt["de"]["reisbureau_overzicht"]["achternaam"]="";
+$txt["de"]["reisbureau_overzicht"]["achternaam"]="Nachname (oder Name Geschäftsstelle)";
 $txt["en"]["reisbureau_overzicht"]["achternaam"]="Surname";
 
 $txt["nl"]["reisbureau_overzicht"]["adres"]="Adres";
-$txt["de"]["reisbureau_overzicht"]["adres"]="";
+$txt["de"]["reisbureau_overzicht"]["adres"]="Adresse";
 $txt["en"]["reisbureau_overzicht"]["adres"]="Address";
 
 $txt["nl"]["reisbureau_overzicht"]["postcode"]="Postcode";
-$txt["de"]["reisbureau_overzicht"]["postcode"]="";
+$txt["de"]["reisbureau_overzicht"]["postcode"]="PLZ";
 $txt["en"]["reisbureau_overzicht"]["postcode"]="Postal code";
 
 $txt["nl"]["reisbureau_overzicht"]["plaats"]="Plaats";
-$txt["de"]["reisbureau_overzicht"]["plaats"]="";
+$txt["de"]["reisbureau_overzicht"]["plaats"]="Ort";
 $txt["en"]["reisbureau_overzicht"]["plaats"]="Town";
 
 $txt["nl"]["reisbureau_overzicht"]["land"]="Land";
-$txt["de"]["reisbureau_overzicht"]["land"]="";
+$txt["de"]["reisbureau_overzicht"]["land"]="Land";
 $txt["en"]["reisbureau_overzicht"]["land"]="Country";
 
 $txt["nl"]["reisbureau_overzicht"]["telefoonnummer"]="Telefoonnummer";
-$txt["de"]["reisbureau_overzicht"]["telefoonnummer"]="";
+$txt["de"]["reisbureau_overzicht"]["telefoonnummer"]="Telefonnummer";
 $txt["en"]["reisbureau_overzicht"]["telefoonnummer"]="Telephone number";
 
 $txt["nl"]["reisbureau_overzicht"]["mobiel"]="Mobiel nummer";
-$txt["de"]["reisbureau_overzicht"]["mobiel"]="";
+$txt["de"]["reisbureau_overzicht"]["mobiel"]="Mobilnummer";
 $txt["en"]["reisbureau_overzicht"]["mobiel"]="Mobile number";
 
 $txt["nl"]["reisbureau_overzicht"]["email"]="E-mailadres";
-$txt["de"]["reisbureau_overzicht"]["email"]="";
+$txt["de"]["reisbureau_overzicht"]["email"]="E-Mail-Adresse";
 $txt["en"]["reisbureau_overzicht"]["email"]="Email address";
 
 $txt["nl"]["reisbureau_overzicht"]["nieuwwachtwoord"]="Nieuw wachtwoord";
-$txt["de"]["reisbureau_overzicht"]["nieuwwachtwoord"]="";
+$txt["de"]["reisbureau_overzicht"]["nieuwwachtwoord"]="Neues Passwort";
 $txt["en"]["reisbureau_overzicht"]["nieuwwachtwoord"]="New password";
 
 $txt["nl"]["reisbureau_overzicht"]["herhaalwachtwoord"]="Herhaal wachtwoord";
-$txt["de"]["reisbureau_overzicht"]["herhaalwachtwoord"]="";
+$txt["de"]["reisbureau_overzicht"]["herhaalwachtwoord"]="Passwort wiederholen";
 $txt["en"]["reisbureau_overzicht"]["herhaalwachtwoord"]="Repeat password";
 
 $txt["nl"]["reisbureau_overzicht"]["persoonlijkeagentcode"]="Persoonlijke agentcode";
-$txt["de"]["reisbureau_overzicht"]["persoonlijkeagentcode"]="";
+$txt["de"]["reisbureau_overzicht"]["persoonlijkeagentcode"]="Persönlicher Reiseagentur-Code";
 $txt["en"]["reisbureau_overzicht"]["persoonlijkeagentcode"]="Personal agentcode";
 
 $txt["nl"]["reisbureau_overzicht"]["contactgegevenskantoor"]="Contactgegevens kantoor";
-$txt["de"]["reisbureau_overzicht"]["contactgegevenskantoor"]="";
+$txt["de"]["reisbureau_overzicht"]["contactgegevenskantoor"]="Kontaktdaten Büro";
 $txt["en"]["reisbureau_overzicht"]["contactgegevenskantoor"]="Contactdetails office";
 
 $txt["nl"]["reisbureau_overzicht"]["postadres"]="Postadres kantoor";
-$txt["de"]["reisbureau_overzicht"]["postadres"]="";
+$txt["de"]["reisbureau_overzicht"]["postadres"]="Postadresse Büro";
 $txt["en"]["reisbureau_overzicht"]["postadres"]="Postal address office";
 
 $txt["nl"]["reisbureau_overzicht"]["mijncontactgegevens"]="Mijn contactgegevens (indien afwijkend van hoofdvestiging)";
-$txt["de"]["reisbureau_overzicht"]["mijncontactgegevens"]="";
+$txt["de"]["reisbureau_overzicht"]["mijncontactgegevens"]="Meine Kontaktdaten (falls anders als Hauptgeschäftsstelle)";
 $txt["en"]["reisbureau_overzicht"]["mijncontactgegevens"]="My contactdetails (if different than head office)";
 
 $txt["nl"]["reisbureau_overzicht"]["eigenwebsite"]="Eigen website";
-$txt["de"]["reisbureau_overzicht"]["eigenwebsite"]="";
+$txt["de"]["reisbureau_overzicht"]["eigenwebsite"]="Eigene Webseite";
 $txt["en"]["reisbureau_overzicht"]["eigenwebsite"]="Own website";
 
 $txt["nl"]["reisbureau_overzicht"]["logo"]="Logo";
-$txt["de"]["reisbureau_overzicht"]["logo"]="";
+$txt["de"]["reisbureau_overzicht"]["logo"]="Logo";
 $txt["en"]["reisbureau_overzicht"]["logo"]="Logo";
 
 $txt["nl"]["reisbureau_overzicht"]["lidchaletzomerhuisjenieuwsbrief"]="Ik wil de Chalet.nl/Zomerhuisje.nl-nieuwsbrief ontvangen op mijn mailadres";
-$txt["de"]["reisbureau_overzicht"]["lidchaletzomerhuisjenieuwsbrief"]="";
+$txt["de"]["reisbureau_overzicht"]["lidchaletzomerhuisjenieuwsbrief"]="Ich möchte den Chalet.nl/Zomerhuisje.nl-Newsletter erhalten über meine E-Mail-Adresse";
 $txt["en"]["reisbureau_overzicht"]["lidchaletzomerhuisjenieuwsbrief"]="-";
 
 $txt["nl"]["reisbureau_overzicht"]["lidagentennieuwsbrief"]="Ik wil de agenten-nieuwsbrief ontvangen op mijn mailadres";
-$txt["de"]["reisbureau_overzicht"]["lidagentennieuwsbrief"]="";
+$txt["de"]["reisbureau_overzicht"]["lidagentennieuwsbrief"]="Ich möchte den Reiseagentur-Newsletter erhalten über meine E-Mail-Adresse";
 $txt["en"]["reisbureau_overzicht"]["lidagentennieuwsbrief"]="-";
 
 $txt["nl"]["reisbureau_overzicht"]["gegevensaangepast"]="Je gegevens zijn aangepast.";
-$txt["de"]["reisbureau_overzicht"]["gegevensaangepast"]="";
+$txt["de"]["reisbureau_overzicht"]["gegevensaangepast"]="Ihre Daten sind geändert.";
 $txt["en"]["reisbureau_overzicht"]["gegevensaangepast"]="Your data has been changed.";
 
 $txt["nl"]["reisbureau_overzicht"]["voer2xwachtwoord"]="voer 2x hetzelfde wachtwoord in";
-$txt["de"]["reisbureau_overzicht"]["voer2xwachtwoord"]="";
+$txt["de"]["reisbureau_overzicht"]["voer2xwachtwoord"]="bitte 2x dasselbe Passwort eingeben";
 $txt["en"]["reisbureau_overzicht"]["voer2xwachtwoord"]="repeat the password";
 
 $txt["nl"]["reisbureau_overzicht"]["voorandereboekingen"]="Bezoek voor eventuele boekingen van andere sites";
-$txt["de"]["reisbureau_overzicht"]["voorandereboekingen"]="";
+$txt["de"]["reisbureau_overzicht"]["voorandereboekingen"]="Besuchen Sie für eventuelle Buchungen anderer Webseiten";
 $txt["en"]["reisbureau_overzicht"]["voorandereboekingen"]="For bookings of other sites visit";
 
 $txt["nl"]["reisbureau_overzicht"]["voorandereprijsberekeningen"]="Bezoek voor eventuele prijsberekeningen van andere sites";
-$txt["de"]["reisbureau_overzicht"]["voorandereprijsberekeningen"]="";
+$txt["de"]["reisbureau_overzicht"]["voorandereprijsberekeningen"]="Besuchen Sie für eventuelle Preisberechnungen anderer Webseiten";
 $txt["en"]["reisbureau_overzicht"]["voorandereprijsberekeningen"]="For calculations of other sites visit";
 
 $txt["nl"]["reisbureau_overzicht"]["bekijkboekingenverleden"]="Bekijk boekingen uit het verleden";
-$txt["de"]["reisbureau_overzicht"]["bekijkboekingenverleden"]="";
+$txt["de"]["reisbureau_overzicht"]["bekijkboekingenverleden"]="Buchungen aus der Vergangenheit anschauen";
 $txt["en"]["reisbureau_overzicht"]["bekijkboekingenverleden"]="See old bookings";
 
 $txt["nl"]["reisbureau_overzicht"]["bekijkboekingenactueel"]="Bekijk actuele boekingen";
-$txt["de"]["reisbureau_overzicht"]["bekijkboekingenactueel"]="";
+$txt["de"]["reisbureau_overzicht"]["bekijkboekingenactueel"]="Aktuelle Buchungen anschauen";
 $txt["en"]["reisbureau_overzicht"]["bekijkboekingenactueel"]="See current bookings";
 
 $txt["nl"]["reisbureau_overzicht"]["actueleboekingen"]="Actuele boekingen";
-$txt["de"]["reisbureau_overzicht"]["actueleboekingen"]="";
+$txt["de"]["reisbureau_overzicht"]["actueleboekingen"]="Aktuelle Buchungen";
 $txt["en"]["reisbureau_overzicht"]["actueleboekingen"]="Current bookings";
 
 $txt["nl"]["reisbureau_overzicht"]["boekingenverleden"]="Boekingen uit het verleden";
-$txt["de"]["reisbureau_overzicht"]["boekingenverleden"]="";
+$txt["de"]["reisbureau_overzicht"]["boekingenverleden"]="Buchungen aus der Vergangenheit";
 $txt["en"]["reisbureau_overzicht"]["boekingenverleden"]="Old bookings";
 
 
@@ -5338,27 +5362,27 @@ $txt["en"]["reisbureau_overzicht"]["boekingenverleden"]="Old bookings";
 
 
 $txt["nl"]["reisagent_aanmelden"]["inleiding"]="Met het invullen van dit formulier doe je een aanvraag voor een inlogcode voor onze website. Hiermee krijg je inzicht in o.a. je commissie en de beschikbaarheid.";
-$txt["de"]["reisagent_aanmelden"]["inleiding"]="";
+$txt["de"]["reisagent_aanmelden"]["inleiding"]="Indem Sie dieses Formular ausfüllen beantragen Sie ein Passwort für unsere Webseite. Damit können Sie u.a. Ihre Provision und Verfügbarkeit einsehen.";
 $txt["en"]["reisagent_aanmelden"]["inleiding"]="By filling in this form you request a login code for our website. When logged-in you can a.o. see your commission and the availability.";
 
 $txt["nl"]["reisagent_aanmelden"]["inleidingtoevoegen"]="Via onderstaand formulier kun je een extra reisagent binnen je organisatie aanmaken.";
-$txt["de"]["reisagent_aanmelden"]["inleidingtoevoegen"]="";
+$txt["de"]["reisagent_aanmelden"]["inleidingtoevoegen"]="Über unten stehendes Formular können Sie eine weitere Reiseagentur innerhalb Ihrer Organisation hinzufügen.";
 $txt["en"]["reisagent_aanmelden"]["inleidingtoevoegen"]="Via the form below you can registrate an extra travelagent within your organisation.";
 
 $txt["nl"]["reisagent_aanmelden"]["gewenstwachtwoord"]="Gewenst wachtwoord";
-$txt["de"]["reisagent_aanmelden"]["gewenstwachtwoord"]="";
+$txt["de"]["reisagent_aanmelden"]["gewenstwachtwoord"]="Gewünschtes Passwort";
 $txt["en"]["reisagent_aanmelden"]["gewenstwachtwoord"]="Password";
 
 $txt["nl"]["reisagent_aanmelden"]["bedankt"]="Bedankt voor je gegevens. Wij zullen je aanvraag zo spoedig mogelijk behandelen en nemen daarna contact met je op.";
-$txt["de"]["reisagent_aanmelden"]["bedankt"]="";
+$txt["de"]["reisagent_aanmelden"]["bedankt"]="Vielen Dank für Ihre Daten. Wir werden Ihre Anfrage schnellstmöglich verarbeiten und danach Kontakt zu Ihnen aufnehmen.";
 $txt["en"]["reisagent_aanmelden"]["bedankt"]="Thank you for your information. We will deal with your request as soon as possible and will contact you about it after that.";
 
 $txt["nl"]["reisagent_aanmelden"]["bedankttoevoegen"]="Bedankt voor de gegevens. De extra reisagent is aangemaakt. Inloggen is direct mogelijk via het opgegeven e-mailadres en wachtwoord.";
-$txt["de"]["reisagent_aanmelden"]["bedankttoevoegen"]="";
+$txt["de"]["reisagent_aanmelden"]["bedankttoevoegen"]="Vielen Dank für Ihre Daten. Die zusätzliche Reiseagentur ist erstellt. Anmelden ist direkt möglich über die eingegebene E-Mail-Adresse und das Passwort.";
 $txt["en"]["reisagent_aanmelden"]["bedankttoevoegen"]="Thank you for your information. The extra travelagent is registrated. It's now possible to login using the given mailaddress and password.";
 
 $txt["nl"]["reisagent_aanmelden"]["contactgegevensagent"]="Contactgegevens agent";
-$txt["de"]["reisagent_aanmelden"]["contactgegevensagent"]="";
+$txt["de"]["reisagent_aanmelden"]["contactgegevensagent"]="Kontaktdaten Reiseagentur";
 $txt["en"]["reisagent_aanmelden"]["contactgegevensagent"]="Contactdetails agent";
 
 
@@ -5369,35 +5393,35 @@ $txt["en"]["reisagent_aanmelden"]["contactgegevensagent"]="Contactdetails agent"
 #
 
 $txt["nl"]["reisagent_wachtwoord"]["inleiding"]="Ben je je wachtwoord vergeten? Als je hieronder je e-mailadres invult, ontvang je via e-mail een nieuw wachtwoord.";
-$txt["de"]["reisagent_wachtwoord"]["inleiding"]="";
+$txt["de"]["reisagent_wachtwoord"]["inleiding"]="Haben Sie Ihr Passwort vergessen? Indem Sie unten eine E-Mail-Adresse eingeben erhalten Sie über E-Mail ein neues Passwort.";
 $txt["en"]["reisagent_wachtwoord"]["inleiding"]="Have you forgotten your password? If you enter your e-mail address below, we will send you a new password by e-mail.";
 
 $txt["nl"]["reisagent_wachtwoord"]["indienuwemailadresreedsbijonsbekend"]="Indien je e-mailadres reeds bij ons bekend is, ontvang je binnen enkele minuten via e-mail een nieuw wachtwoord. Hierna kun je [[l1]]inloggen[[/l1]] met dat wachtwoord.";
-$txt["de"]["reisagent_wachtwoord"]["indienuwemailadresreedsbijonsbekend"]="";
+$txt["de"]["reisagent_wachtwoord"]["indienuwemailadresreedsbijonsbekend"]="Wenn Ihre E-Mail-Adresse bei uns bekannt ist erhalten Sie innerhalb einigen Minuten ein neues Passwort über E-Mail. Danach können sie sich [[l1]]anmelden[[/l1]] mit diesem Passwort.";
 $txt["en"]["reisagent_wachtwoord"]["indienuwemailadresreedsbijonsbekend"]="If we already have your e-mail address, you will receive a new password within a few minutes. You can then [[l1]]log in[[/l1]] with that password.";
 
 $txt["nl"]["reisagent_wachtwoord"]["nieuwwachtwoord"]="Je nieuwe wachtwoord";
-$txt["de"]["reisagent_wachtwoord"]["nieuwwachtwoord"]="";
+$txt["de"]["reisagent_wachtwoord"]["nieuwwachtwoord"]="Ihr neues Passwort";
 $txt["en"]["reisagent_wachtwoord"]["nieuwwachtwoord"]="Your new password";
 
 $txt["nl"]["reisagent_wachtwoord"]["uwnieuwewachtwoordis"]="Je nieuwe wachtwoord is:";
-$txt["de"]["reisagent_wachtwoord"]["uwnieuwewachtwoordis"]="";
+$txt["de"]["reisagent_wachtwoord"]["uwnieuwewachtwoordis"]="Ihr neues Passwort lautet:";
 $txt["en"]["reisagent_wachtwoord"]["uwnieuwewachtwoordis"]="Your new password is:";
 
 $txt["nl"]["reisagent_wachtwoord"]["inloggenkanvia"]="Inloggen kan via [[v_url]]";
-$txt["de"]["reisagent_wachtwoord"]["inloggenkanvia"]="";
+$txt["de"]["reisagent_wachtwoord"]["inloggenkanvia"]="Anmelden geht über [[v_url]]";
 $txt["en"]["reisagent_wachtwoord"]["inloggenkanvia"]="You can log in via [[v_url]]";
 
 $txt["nl"]["reisagent_wachtwoord"]["eenmaalingelogdkuntu"]="Eenmaal ingelogd kun je via \"Mijn gegevens\" desgewenst een ander wachtwoord kiezen.";
-$txt["de"]["reisagent_wachtwoord"]["eenmaalingelogdkuntu"]="";
+$txt["de"]["reisagent_wachtwoord"]["eenmaalingelogdkuntu"]="Nach Anmeldung können Sie über \"Meine Daten\" nach Wunsch ein neues Passwort erstellen.";
 $txt["en"]["reisagent_wachtwoord"]["eenmaalingelogdkuntu"]=" After you have logged in, you may choose a different password via \"My data\".";
 
 $txt["nl"]["reisagent_wachtwoord"]["metvriendelijkegroet"]="Met vriendelijke groet,";
-$txt["de"]["reisagent_wachtwoord"]["metvriendelijkegroet"]="";
+$txt["de"]["reisagent_wachtwoord"]["metvriendelijkegroet"]="Mit freundlichem Gruß,";
 $txt["en"]["reisagent_wachtwoord"]["metvriendelijkegroet"]="Yours sincerely,";
 
 $txt["nl"]["reisagent_wachtwoord"]["medewerkers"]="Medewerkers";
-$txt["de"]["reisagent_wachtwoord"]["medewerkers"]="";
+$txt["de"]["reisagent_wachtwoord"]["medewerkers"]="Mitarbeiter";
 $txt["en"]["reisagent_wachtwoord"]["medewerkers"]="Staff";
 
 
@@ -6433,6 +6457,7 @@ $txt["en"]["voucher"]["attachmentnaam_reisdocumenten"]="travel_documents.pdf";
 # Andere site (van winter naar zomer en andersom)
 #
 $txta["nl"]["anderesite"]="zomerprogramma";
+$txta["de"]["anderesite"]="Sommerprogramm";
 $txta["en"]["anderesite"]="summer programme";
 
 $txta["nl_z"]["anderesite"]="winterprogramma";
@@ -7005,203 +7030,203 @@ $txt["en"]["sitemap"]["algemeen"]="General information";
 # leveranciers-login
 
 $txt["nl"]["lev_login"]["hoofdmenu"]="hoofdmenu";
-$txt["de"]["lev_login"]["hoofdmenu"]="";
+$txt["de"]["lev_login"]["hoofdmenu"]="Hauptmenü";
 $txt["en"]["lev_login"]["hoofdmenu"]="main menu";
 
 $txt["nl"]["lev_login"]["emailadres"]="E-mailadres";
-$txt["de"]["lev_login"]["emailadres"]="";
+$txt["de"]["lev_login"]["emailadres"]="E-Mail-Adresse";
 $txt["en"]["lev_login"]["emailadres"]="Email address";
 
 $txt["nl"]["lev_login"]["onjuistelogin"]="Onjuiste login/wachtwoord-combinatie";
-$txt["de"]["lev_login"]["onjuistelogin"]="";
+$txt["de"]["lev_login"]["onjuistelogin"]="Falsche Login/Passwort-Kombination";
 $txt["en"]["lev_login"]["onjuistelogin"]="Wrong username or password";
 
 $txt["nl"]["lev_login"]["inleiding_login"]="Via onderstaand formulier kun je inloggen als accommodatie-eigenaar.";
-$txt["de"]["lev_login"]["inleiding_login"]="";
+$txt["de"]["lev_login"]["inleiding_login"]="Über unten stehendes Formular können sie sich als Unterkunft-Eigentümer anmelden.";
 $txt["en"]["lev_login"]["inleiding_login"]="The form below allows you to log in as accommodation owner.";
 
 $txt["nl"]["lev_login"]["inleiding"]="Welkom bij het beheersysteem voor leveranciers/eigenaren.";
-$txt["de"]["lev_login"]["inleiding"]="";
+$txt["de"]["lev_login"]["inleiding"]="Wilkommen zum Verwaltungssystem für Lieferanten/Eigentümer.";
 $txt["en"]["lev_login"]["inleiding"]="Welcome to the management system for suppliers / owners.";
 
 $txt["nl"]["lev_login"]["maakeenkeuze"]="Maak een keuze";
-$txt["de"]["lev_login"]["maakeenkeuze"]="";
+$txt["de"]["lev_login"]["maakeenkeuze"]="Treffen Sie Ihre Wahl";
 $txt["en"]["lev_login"]["maakeenkeuze"]="Please make a choice";
 
 $txt["nl"]["lev_login"]["kieseenaccommodatie"]="Kies een accommodatie";
-$txt["de"]["lev_login"]["kieseenaccommodatie"]="";
+$txt["de"]["lev_login"]["kieseenaccommodatie"]="Wählen Sie eine Unterkunft";
 $txt["en"]["lev_login"]["kieseenaccommodatie"]="Please choose an accommodation";
 
 $txt["nl"]["lev_login"]["andereaccommodatie"]="andere accommodatie";
-$txt["de"]["lev_login"]["andereaccommodatie"]="";
+$txt["de"]["lev_login"]["andereaccommodatie"]="andere Unterkunft";
 $txt["en"]["lev_login"]["andereaccommodatie"]="other accommodation";
 
 $txt["nl"]["lev_login"]["afspraken"]="Afspraken";
-$txt["de"]["lev_login"]["afspraken"]="";
+$txt["de"]["lev_login"]["afspraken"]="Vereinbarungen";
 $txt["en"]["lev_login"]["afspraken"]="Agreements";
 
 $txt["nl"]["lev_login"]["mijngegevens"]="Mijn gegevens";
-$txt["de"]["lev_login"]["mijngegevens"]="";
+$txt["de"]["lev_login"]["mijngegevens"]="Meine Daten";
 $txt["en"]["lev_login"]["mijngegevens"]="My data";
 
 $txt["nl"]["lev_login"]["boekingenviachalet"]="Boekingen + enquêtes via [[v_websitenaam]]";
-$txt["de"]["lev_login"]["boekingenviachalet"]="";
+$txt["de"]["lev_login"]["boekingenviachalet"]="Buchungen und Fragebogen über [[v_websitenaam]]";
 $txt["en"]["lev_login"]["boekingenviachalet"]="Bookings + surveys through [[v_websitenaam]]";
 
 $txt["nl"]["lev_login"]["boekingenviaderden"]="Boekingen via derden";
-$txt["de"]["lev_login"]["boekingenviaderden"]="";
+$txt["de"]["lev_login"]["boekingenviaderden"]="Drittbuchungen";
 $txt["en"]["lev_login"]["boekingenviaderden"]="Bookings through third parties";
 
 $txt["nl"]["lev_login"]["kalendermetplanning"]="Kalender met planning";
-$txt["de"]["lev_login"]["kalendermetplanning"]="";
+$txt["de"]["lev_login"]["kalendermetplanning"]="Kalender mit Planung";
 $txt["en"]["lev_login"]["kalendermetplanning"]="Calendar with planning";
 
 $txt["nl"]["lev_login"]["roominglist"]="Roominglist";
-$txt["de"]["lev_login"]["roominglist"]="";
+$txt["de"]["lev_login"]["roominglist"]="Roominglist / Reservierungsübersicht";
 $txt["en"]["lev_login"]["roominglist"]="Roominglist";
 
 $txt["nl"]["lev_login"]["geenboekingenaanwezig"]="Er zijn (nog) geen boekingen aanwezig.";
-$txt["de"]["lev_login"]["geenboekingenaanwezig"]="";
+$txt["de"]["lev_login"]["geenboekingenaanwezig"]="Es gibt (noch) keine Buchungen";
 $txt["en"]["lev_login"]["geenboekingenaanwezig"]="There are no bookings as of now.";
 
 $txt["nl"]["lev_login"]["aankomst"]="aankomst";
-$txt["de"]["lev_login"]["aankomst"]="";
+$txt["de"]["lev_login"]["aankomst"]="Ankunft";
 $txt["en"]["lev_login"]["aankomst"]="arrival";
 
 $txt["nl"]["lev_login"]["nachten"]="nachten";
-$txt["de"]["lev_login"]["nachten"]="";
+$txt["de"]["lev_login"]["nachten"]="Nächte";
 $txt["en"]["lev_login"]["nachten"]="nights";
 
 $txt["nl"]["lev_login"]["accommodatie"]="accommodatie";
-$txt["de"]["lev_login"]["accommodatie"]="";
+$txt["de"]["lev_login"]["accommodatie"]="Unterkunft";
 $txt["en"]["lev_login"]["accommodatie"]="accommodation";
 
 $txt["nl"]["lev_login"]["klant"]="klant";
-$txt["de"]["lev_login"]["klant"]="";
+$txt["de"]["lev_login"]["klant"]="Kunde";
 $txt["en"]["lev_login"]["klant"]="client";
 
 $txt["nl"]["lev_login"]["geboektdoor"]="geboekt door";
-$txt["de"]["lev_login"]["geboektdoor"]="";
+$txt["de"]["lev_login"]["geboektdoor"]="gebucht von";
 $txt["en"]["lev_login"]["geboektdoor"]="booked by";
 
 $txt["nl"]["lev_login"]["geboekt"]="geboekt";
-$txt["de"]["lev_login"]["geboekt"]="";
+$txt["de"]["lev_login"]["geboekt"]="gebucht";
 $txt["en"]["lev_login"]["geboekt"]="booked";
 
 $txt["nl"]["lev_login"]["huurprijs"]="huurprijs";
-$txt["de"]["lev_login"]["huurprijs"]="";
+$txt["de"]["lev_login"]["huurprijs"]="Mietpreis";
 $txt["en"]["lev_login"]["huurprijs"]="rent price";
 
 $txt["nl"]["lev_login"]["brutoverhuurprijs"]="bruto-verhuurprijs";
-$txt["de"]["lev_login"]["brutoverhuurprijs"]="";
+$txt["de"]["lev_login"]["brutoverhuurprijs"]="Brutto-Mietpreis";
 $txt["en"]["lev_login"]["brutoverhuurprijs"]="gross rental price";
 
 $txt["nl"]["lev_login"]["commissie"]="commissie";
-$txt["de"]["lev_login"]["commissie"]="";
+$txt["de"]["lev_login"]["commissie"]="Provision";
 $txt["en"]["lev_login"]["commissie"]="commission";
 
 $txt["nl"]["lev_login"]["korting"]="korting";
-$txt["de"]["lev_login"]["korting"]="";
+$txt["de"]["lev_login"]["korting"]="Rabatt";
 $txt["en"]["lev_login"]["korting"]="discount";
 
 $txt["nl"]["lev_login"]["netto"]="netto";
-$txt["de"]["lev_login"]["netto"]="";
+$txt["de"]["lev_login"]["netto"]="netto";
 $txt["en"]["lev_login"]["netto"]="net";
 
 $txt["nl"]["lev_login"]["voldaan"]="voldaan";
-$txt["de"]["lev_login"]["voldaan"]="";
+$txt["de"]["lev_login"]["voldaan"]="gezahlt";
 $txt["en"]["lev_login"]["voldaan"]="paid";
 
 $txt["nl"]["lev_login"]["dd"]="d.d.";
-$txt["de"]["lev_login"]["dd"]="";
+$txt["de"]["lev_login"]["dd"]="vom";
 $txt["en"]["lev_login"]["dd"]="dated";
 
 $txt["nl"]["lev_login"]["enquete"]="enquête";
-$txt["de"]["lev_login"]["enquete"]="";
+$txt["de"]["lev_login"]["enquete"]="Fragebogen";
 $txt["en"]["lev_login"]["enquete"]="survey";
 
 $txt["nl"]["lev_login"]["enquete_bekijk"]="bekijk";
-$txt["de"]["lev_login"]["enquete_bekijk"]="";
+$txt["de"]["lev_login"]["enquete_bekijk"]="sehen Sie";
 $txt["en"]["lev_login"]["enquete_bekijk"]="view";
 
 $txt["nl"]["lev_login"]["naam"]="Naam";
-$txt["de"]["lev_login"]["naam"]="";
+$txt["de"]["lev_login"]["naam"]="Name";
 $txt["en"]["lev_login"]["naam"]="Name";
 
 $txt["nl"]["lev_login"]["naamenadres"]="Naam en adres";
-$txt["de"]["lev_login"]["naamenadres"]="";
+$txt["de"]["lev_login"]["naamenadres"]="Name und Adresse";
 $txt["en"]["lev_login"]["naamenadres"]="Name and address";
 
 $txt["nl"]["lev_login"]["telefoonnummer"]="Telefoonnummer";
-$txt["de"]["lev_login"]["telefoonnummer"]="";
+$txt["de"]["lev_login"]["telefoonnummer"]="Telefonnummer";
 $txt["en"]["lev_login"]["telefoonnummer"]="Telephone number";
 
 $txt["nl"]["lev_login"]["noodnummer"]="Noodnummer";
-$txt["de"]["lev_login"]["noodnummer"]="";
+$txt["de"]["lev_login"]["noodnummer"]="Notnummer";
 $txt["en"]["lev_login"]["noodnummer"]="Emergency number";
 
 $txt["nl"]["lev_login"]["wijzigingendoorgeven"]="Wijzigingen aan bovenstaande gegevens kun je doorgeven aan [[h_1]]. Je wachtwoord kun je hieronder zelf aanpassen.";
-$txt["de"]["lev_login"]["wijzigingendoorgeven"]="";
+$txt["de"]["lev_login"]["wijzigingendoorgeven"]="Änderungen in oben stehenden Daten können Sie weiterleiten an [[h_1]]. Ihr Passwort können Sie unten selber ändern.";
 $txt["en"]["lev_login"]["wijzigingendoorgeven"]="If you want to change the above data please contact [[h_1]]. You can change your password yourself.";
 
 $txt["nl"]["lev_login"]["nieuwwachtwoord"]="Nieuw wachtwoord";
-$txt["de"]["lev_login"]["nieuwwachtwoord"]="";
+$txt["de"]["lev_login"]["nieuwwachtwoord"]="Neues Passwort";
 $txt["en"]["lev_login"]["nieuwwachtwoord"]="New password";
 
 $txt["nl"]["lev_login"]["herhaalwachtwoord"]="Herhaal wachtwoord";
-$txt["de"]["lev_login"]["herhaalwachtwoord"]="";
+$txt["de"]["lev_login"]["herhaalwachtwoord"]="Passwort wiederholen";
 $txt["en"]["lev_login"]["herhaalwachtwoord"]="Repeat password";
 
 $txt["nl"]["lev_login"]["nietgelijk"]="wachtwoorden zijn niet hetzelfde";
-$txt["de"]["lev_login"]["nietgelijk"]="";
+$txt["de"]["lev_login"]["nietgelijk"]="Passworte stimmen nicht überein";
 $txt["en"]["lev_login"]["nietgelijk"]="passwords do no match";
 
 $txt["nl"]["lev_login"]["gegevenszijnopgeslagen"]="De gegevens zijn opgeslagen.";
-$txt["de"]["lev_login"]["gegevenszijnopgeslagen"]="";
+$txt["de"]["lev_login"]["gegevenszijnopgeslagen"]="Die Daten sind gespeichert.";
 $txt["en"]["lev_login"]["gegevenszijnopgeslagen"]="The data has been saved.";
 
 $txt["nl"]["lev_login"]["boekingviachalet"]="Boeking via [[v_websitenaam]]";
-$txt["de"]["lev_login"]["boekingviachalet"]="";
+$txt["de"]["lev_login"]["boekingviachalet"]="Buchung über [[v_websitenaam]]";
 $txt["en"]["lev_login"]["boekingviachalet"]="Booked through [[v_websitenaam]]";
 
 $txt["nl"]["lev_login"]["boekingviaderden"]="Boeking via derden";
-$txt["de"]["lev_login"]["boekingviaderden"]="";
+$txt["de"]["lev_login"]["boekingviaderden"]="Drittbuchung";
 $txt["en"]["lev_login"]["boekingviaderden"]="Booked through third party";
 
 $txt["nl"]["lev_login"]["boekingviaeigenaar"]="Geblokkeerd door eigenaar";
-$txt["de"]["lev_login"]["boekingviaeigenaar"]="";
+$txt["de"]["lev_login"]["boekingviaeigenaar"]="Vom Eigentümer gesperrt";
 $txt["en"]["lev_login"]["boekingviaeigenaar"]="Blocked by owner";
 
 $txt["nl"]["lev_login"]["directbeschikbaar"]="Direct beschikbaar";
-$txt["de"]["lev_login"]["directbeschikbaar"]="";
+$txt["de"]["lev_login"]["directbeschikbaar"]="Direkt verfügbar";
 $txt["en"]["lev_login"]["directbeschikbaar"]="Directly available";
 
 $txt["nl"]["lev_login"]["navragenbijeigenaar"]="Navragen bij eigenaar";
-$txt["de"]["lev_login"]["navragenbijeigenaar"]="";
+$txt["de"]["lev_login"]["navragenbijeigenaar"]="Beim Eigentümer nachfragen";
 $txt["en"]["lev_login"]["navragenbijeigenaar"]="Check with owner";
 
 $txt["nl"]["lev_login"]["staatinoptievoorklant"]="Staat in optie voor klant";
-$txt["de"]["lev_login"]["staatinoptievoorklant"]="";
+$txt["de"]["lev_login"]["staatinoptievoorklant"]="Steht zur Option für Kunde";
 $txt["en"]["lev_login"]["staatinoptievoorklant"]="In option for client";
 
 $txt["nl"]["lev_login"]["nognietinplanning"]="Nog niet in planning";
-$txt["de"]["lev_login"]["nognietinplanning"]="";
+$txt["de"]["lev_login"]["nognietinplanning"]="Noch nicht geplant";
 $txt["en"]["lev_login"]["nognietinplanning"]="Not yet in planning";
 
 $txt["nl"]["lev_login"]["nietbeschikbaarvoorverhuur"]="Niet beschikbaar voor verhuur";
-$txt["de"]["lev_login"]["nietbeschikbaarvoorverhuur"]="";
+$txt["de"]["lev_login"]["nietbeschikbaarvoorverhuur"]="Nicht verfügbar zur Vermietung";
 $txt["en"]["lev_login"]["nietbeschikbaarvoorverhuur"]="Not available for rental";
 
 $txt["nl"]["lev_login"]["pasvanafzomer2011"]="De kalender bevat gegevens vanaf seizoen \"zomer 2011\".";
-$txt["de"]["lev_login"]["pasvanafzomer2011"]="";
+$txt["de"]["lev_login"]["pasvanafzomer2011"]="Der Kalender enthält Daten ab Saison \"Sommer 2011\".";
 $txt["en"]["lev_login"]["pasvanafzomer2011"]="The calendar contains information starting from season \"summer 2011\".";
 
 $txt["nl"]["lev_login"]["bezettingsoverzicht"]="Bezettingsoverzicht";
-$txt["de"]["lev_login"]["bezettingsoverzicht"]="";
+$txt["de"]["lev_login"]["bezettingsoverzicht"]="Belegungsübersicht";
 $txt["en"]["lev_login"]["bezettingsoverzicht"]="Occupancy schedule";
 
 $txt["nl"]["lev_login"]["totaal"]="Totaal";
-$txt["de"]["lev_login"]["totaal"]="";
+$txt["de"]["lev_login"]["totaal"]="Insgesamt";
 $txt["en"]["lev_login"]["totaal"]="Total";
 
 
@@ -7210,11 +7235,11 @@ $txt["en"]["lev_login"]["totaal"]="Total";
 #
 
 $txt["nl"]["lev_login_enquete"]["ingevuld"]="Enquête ingevuld op";
-$txt["de"]["lev_login_enquete"]["ingevuld"]="";
+$txt["de"]["lev_login_enquete"]["ingevuld"]="Fragebogen ausgefüllt am";
 $txt["en"]["lev_login_enquete"]["ingevuld"]="This survey was entered on";
 
 $txt["nl"]["lev_login_enquete"]["nietingevuld"]="niet ingevuld";
-$txt["de"]["lev_login_enquete"]["nietingevuld"]="";
+$txt["de"]["lev_login_enquete"]["nietingevuld"]="nicht ausgefüllt";
 $txt["en"]["lev_login_enquete"]["nietingevuld"]="not entered";
 
 

@@ -21,7 +21,8 @@ class convert_excel_to_teksten
 		$this->write_teksten();
 
 
-		echo "Uitkomst:".nl2br(wt_he($this->content[1]));
+		echo "Uitkomst1:".nl2br(wt_he($this->content[1]));
+		echo "Uitkomst2:".nl2br(wt_he($this->content[2]));
 		exit;
 	}
 
@@ -40,16 +41,22 @@ class convert_excel_to_teksten
 
 	function convert_to_php($page, $part, $translation) {
 
-		$return = "\$txt[\"".$this->language."\"][\"".$page."\"][\"".$part."\"]=\"".str_replace('"', '\\"', $translation)."\";";
+		if($page=="site_breed") {
+			$return = "\$txta[\"".$this->language."\"][\"".$part."\"]=\"".str_replace('"', '\\"', $translation)."\";";
+		} else {
+			$return = "\$txt[\"".$this->language."\"][\"".$page."\"][\"".$part."\"]=\"".str_replace('"', '\\"', $translation)."\";";
+		}
 		return $return;
 	}
 
 	function paste_in_teksten($page, $part, $php) {
 		foreach ($this->content as $key => $value) {
 
-			// echo "\$txt[\"".$this->insert_before_language."\"][\"".$page."\"][\"".$part."\"]";
-			// exit;
-			$this->content[$key] = str_replace("\$txt[\"".$this->insert_before_language."\"][\"".$page."\"][\"".$part."\"]", $php."\n\$txt[\"".$this->insert_before_language."\"][\"".$page."\"][\"".$part."\"]", $this->content[$key]);
+			if($page=="site_breed") {
+				$this->content[$key] = str_replace("\$txta[\"".$this->insert_before_language."\"][\"".$part."\"]", $php."\n\$txta[\"".$this->insert_before_language."\"][\"".$part."\"]", $this->content[$key]);
+			} else {
+				$this->content[$key] = str_replace("\$txt[\"".$this->insert_before_language."\"][\"".$page."\"][\"".$part."\"]", $php."\n\$txt[\"".$this->insert_before_language."\"][\"".$page."\"][\"".$part."\"]", $this->content[$key]);
+			}
 
 			$this->teller++;
 		}
