@@ -76,6 +76,12 @@ $cms->settings[23]["list"]["delete_icon"]=true;
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db[23]["where"]="boeking_id='".addslashes($_GET["bid"])."'";
 $cms->db[23]["set"]="boeking_id='".addslashes($_GET["bid"])."'";
+
+if(!$_GET["edit"] and !$_GET["add"]) {
+	// hide bijkomendekosten "pers" without "deelnemers" in list
+	$cms->db[23]["where"] .= " AND ( (bijkomendekosten_id IS NULL) OR (persoonnummer<>'pers') OR (persoonnummer='pers' AND deelnemers<>'') )";
+}
+
 $cms->db_field(23,"select","extra_optie_id","",array("selection"=>$soort));
 $cms->db_field(23,"text","soort");
 $cms->db_field(23,"text","naam");
