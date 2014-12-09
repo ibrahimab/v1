@@ -123,14 +123,15 @@ class tarieventabel {
 		$return .= $this->tabel_content();
 		$return .= $this->tabel_bottom();
 
-		if($this->toon_bijkomendekosten) {
+		if($this->toon_bijkomendekosten and $this->first_seizoen_id) {
 
 			$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
 			$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
 			$bijkomendekosten->arrangement = $this->arrangement;
 			$bijkomendekosten->accinfo = $this->accinfo;
 
-			$toelichting = $bijkomendekosten->toon_type();
+			// $toelichting = $bijkomendekosten->toon_type();
+			$toelichting = $bijkomendekosten->toon_type_temporary();
 
 		} else {
 			$toelichting = $this->toelichting();
@@ -1086,7 +1087,7 @@ class tarieventabel {
 			}
 		}
 
-		# Bijkomende kosten gekoppeld aan skipassen
+		// Bijkomende kosten gekoppeld aan skipassen
 		if($this->accinfo["skipasid"]) {
 			$db2->query("SELECT bijkomendekosten_id FROM skipas WHERE skipas_id='".addslashes($this->accinfo["skipasid"])."';");
 			if($db2->next_record()) {
@@ -1100,7 +1101,7 @@ class tarieventabel {
 			$db2->query("SELECT b.bijkomendekosten_id, b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.perboekingpersoon, b.min_personen FROM bijkomendekosten b WHERE b.bijkomendekosten_id IN (".$bijkomendekosten_inquery.") ORDER BY b.naam".$vars["ttv"].";");
 			if($db2->num_rows()) {
 				while($db2->next_record()) {
-#					$db3->query("SELECT DISTINCT week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".$db2->f("bijkomendekosten_id")."' AND seizoen_id IN (".$seizoenen_inquery.")".($_GET["optie_datum"] ? " AND week='".addslashes($_GET["optie_datum"])."'" : "").";");
+					// $db3->query("SELECT DISTINCT week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".$db2->f("bijkomendekosten_id")."' AND seizoen_id IN (".$seizoenen_inquery.")".($_GET["optie_datum"] ? " AND week='".addslashes($_GET["optie_datum"])."'" : "").";");
 					$db3->query("SELECT DISTINCT week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".$db2->f("bijkomendekosten_id")."' AND seizoen_id IN (".$this->seizoen_id.");");
 					while($db3->next_record()) {
 						if($db3->f("verkoop")<>0) {
@@ -1205,7 +1206,6 @@ class tarieventabel {
 		}
 
 		return $return;
-
 	}
 
 	private function toelichting() {

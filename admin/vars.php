@@ -271,8 +271,13 @@ if($vars["taal"]=="en") {
 	setlocale(LC_MONETARY,"nl_NL.ISO8859-1");
 }
 
-require($unixdir."content/_teksten_intern.php");
-require($unixdir."content/_teksten.php");
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+	require($unixdir."content/_teksten_intern_de.php");
+	require($unixdir."content/_teksten_de.php");
+} else {
+	require($unixdir."content/_teksten_intern.php");
+	require($unixdir."content/_teksten.php");
+}
 
 $vars["path"]=$path;
 $vars["unixdir"]=$unixdir;

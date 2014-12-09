@@ -67,14 +67,18 @@ if($_GET["gid"]) {
 }
 
 if($_GET["bkid"]) {
-	$db->query("SELECT b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.min_personen FROM bijkomendekosten b WHERE b.bijkomendekosten_id='".addslashes($_GET["bkid"])."';");
+	$db->query("SELECT b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.min_personen, b.perboekingpersoon FROM bijkomendekosten b WHERE b.bijkomendekosten_id='".addslashes($_GET["bkid"])."';");
 	if($db->next_record()) {
+
+		$naam = $db->f("naam");
+
 		if($db->f("omschrijving")) {
 			$omschrijving=nl2br(wt_htmlent($db->f("omschrijving"),true,true))."<br>";
 		}
 		if($db->f("min_personen")) {
 			$min_personen = $db->f("min_personen");
 		}
+		$perboekingpersoon = $db->f("perboekingpersoon");
 	}
 }
 

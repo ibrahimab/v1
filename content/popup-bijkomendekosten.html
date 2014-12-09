@@ -3,35 +3,72 @@
 echo "<b>".wt_he($db->f("naam"))."</b><p>";
 echo $omschrijving;
 
-if($min_personen) {
 
-	// Controle op vertrekdagaanpassing?
-	if($_GET["tid"]) {
-		$typeid = intval($_GET["tid"]);
-		include($vars["unixdir"]."content/vertrekdagaanpassing.html");
-		$accinfo = accinfo($typeid);
+// Controle op vertrekdagaanpassing?
+if($_GET["tid"]) {
+	$typeid = intval($_GET["tid"]);
+	include($vars["unixdir"]."content/vertrekdagaanpassing.html");
+	$accinfo = accinfo($typeid);
+}
+
+$db->query("SELECT seizoen_id, week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".intval($_GET["bkid"])."' AND verkoop>0 ORDER BY week;");
+if($db->num_rows()) {
+	while($db->next_record()) {
+
+		$week = $db->f("week");
+		if($vertrekdag[$db->f("seizoen_id")][date("dm",$week)] or $accinfo["aankomst_plusmin"]) {
+			$aangepaste_unixtime=mktime(0,0,0,date("m",$week),date("d",$week)+$vertrekdag[$db->f("seizoen_id")][date("dm",$week)]+$accinfo["aankomst_plusmin"],date("Y",$week));
+		} else {
+			$aangepaste_unixtime=$week;
+		}
+
+		$kosten[$aangepaste_unixtime] = $db->f("verkoop");
 	}
+}
 
-	$db->query("SELECT seizoen_id, week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".intval($_GET["bkid"])."' AND verkoop>0 ORDER BY week;");
-	if($db->num_rows()) {
+// echo wt_dump($kosten);
+
+if(is_array($kosten)) {
+	if(min($kosten)==max($kosten)) {
+		echo "<div style=\"font-weight: bold;font-style:italic;\">";
+		echo wt_he($naam);
+		echo "&nbsp; : &nbsp;&euro;&nbsp;".number_format(abs(min($kosten)),2,',','.');
+		if(min($kosten)<0) {
+			echo " ".html("korting", "popup_bijkomendekosten");
+		}
+
+		echo " ";
+		if($perboekingpersoon==1) {
+			echo html("perboeking", "popup_bijkomendekosten");
+		} else {
+			echo html("perpersoonafk", "popup_bijkomendekosten");
+		}
+
+		echo "</div>";
+	} else {
 		echo "<table class=\"toeslagtabel\">";
-		echo "<tr><th>".html("aankomstdatum", "popup_bijkomendekosten")."</th><th>".html("toeslag", "popup_bijkomendekosten")."</th></tr>";
-		while($db->next_record()) {
-
-			$week = $db->f("week");
-			if($vertrekdag[$db->f("seizoen_id")][date("dm",$week)] or $accinfo["aankomst_plusmin"]) {
-				$aangepaste_unixtime=mktime(0,0,0,date("m",$week),date("d",$week)+$vertrekdag[$db->f("seizoen_id")][date("dm",$week)]+$accinfo["aankomst_plusmin"],date("Y",$week));
-			} else {
-				$aangepaste_unixtime=$week;
-			}
-
+		echo "<tr><th>".html("aankomstdatum", "popup_bijkomendekosten")."</th><th>";
+		if($min_personen) {
+			echo html("toeslag", "popup_bijkomendekosten");
+		} elseif($perboekingpersoon==1) {
+			echo html("perboeking", "popup_bijkomendekosten");
+		} else {
+			echo html("perpersoon", "popup_bijkomendekosten");
+		}
+		echo "</th></tr>";
+		foreach ($kosten as $key => $value) {
 			echo "<tr>";
-			echo "<td>".DATUM("D MAAND JJJJ", $aangepaste_unixtime, $vars["taal"])."</td>";
-			echo "<td align=\"right\">&euro;&nbsp;".number_format($db->f("verkoop"), 2, ",", ".")."</td>";
+			echo "<td>".DATUM("D MAAND JJJJ", $key, $vars["taal"])."</td>";
+			echo "<td align=\"right\">&euro;&nbsp;".number_format($value, 2, ",", ".");
+			if($value<0) {
+				echo " ".html("korting", "popup_bijkomendekosten");
+			}
+			echo "</td>";
 			echo "</tr>";
 		}
 		echo "</table>";
 	}
 }
+
 
 ?>

@@ -579,6 +579,18 @@ $txt["en"]["popup_bijkomendekosten"]["aankomstdatum"]="date of arrival";
 $txt["nl"]["popup_bijkomendekosten"]["toeslag"]="toeslag p.p.";
 $txt["en"]["popup_bijkomendekosten"]["toeslag"]="surcharge p.p.";
 
+$txt["nl"]["popup_bijkomendekosten"]["perpersoonafk"]="p.p.";
+$txt["en"]["popup_bijkomendekosten"]["perpersoonafk"]="p.p.";
+
+$txt["nl"]["popup_bijkomendekosten"]["perpersoon"]="per persoon";
+$txt["en"]["popup_bijkomendekosten"]["perpersoon"]="per person";
+
+$txt["nl"]["popup_bijkomendekosten"]["perboeking"]="per boeking";
+$txt["en"]["popup_bijkomendekosten"]["perboeking"]="per booking";
+
+$txt["nl"]["popup_bijkomendekosten"]["korting"]="korting";
+$txt["en"]["popup_bijkomendekosten"]["korting"]="discount";
+
 $txt["nl"]["popup_bijkomendekosten"][""]="";
 $txt["en"]["popup_bijkomendekosten"][""]="";
 
@@ -2605,6 +2617,24 @@ $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
 
 $txt["nl"]["tarieventabel"]["diversen"]="Diversen";
 $txt["en"]["tarieventabel"]["diversen"]="Miscellaneous";
+
+$txt["nl"]["tarieventabel"]["verplichttevoldoen"]="Verplicht te voldoen";
+$txt["en"]["tarieventabel"]["verplichttevoldoen"]="";
+
+$txt["nl"]["tarieventabel"]["optioneel"]="Optioneel";
+$txt["en"]["tarieventabel"]["optioneel"]="";
+
+$txt["nl"]["tarieventabel"]["vantot"]="€ [[v_bedragmin]] tot € [[v_bedragmax]]";
+$txt["en"]["tarieventabel"]["vantot"]="€ [[v_bedragmin]] to € [[v_bedragmax]]";
+
+$txt["nl"]["tarieventabel"]["afhankelijk-van-week"]="afhankelijk van week";
+$txt["en"]["tarieventabel"]["afhankelijk-van-week"]="depending on week";
+
+$txt["nl"]["tarieventabel"]["perboeking"]="per boeking";
+$txt["en"]["tarieventabel"]["perboeking"]="per booking";
+
+$txt["nl"]["tarieventabel"]["perpersoonafk"]="p.p.";
+$txt["en"]["tarieventabel"]["perpersoonafk"]="p.p.";
 
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
 $txt["en"]["tarieventabel"]["bekijkdeextraopties"]="Look at [[h_1]]our possibilities[[h_2]]";
