@@ -11,10 +11,13 @@ if($_GET["edit"]==23 and $_GET["23k0"]) {
 	}
 }
 
-$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id FROM extra_optie WHERE boeking_id='".addslashes($_GET["bid"])."';");
+$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id, persoonnummer, deelnemers FROM extra_optie WHERE boeking_id='".addslashes($_GET["bid"])."';");
 while($db->next_record()) {
 	if($db->f("bijkomendekosten_id")) {
 		$soort[$db->f("extra_optie_id")]="Bijkomende kosten";
+		if($db->f("persoonnummer")=="pers" and !$db->f("deelnemers")) {
+			$geen_deelnemers[$db->f("extra_optie_id")] = true;
+		}
 	} else {
 		$soort[$db->f("extra_optie_id")]=ucfirst($db->f("soort"));
 	}
@@ -123,7 +126,11 @@ if($bijkomendekosten) {
 }
 if(!$bijkomendekosten) $cms->edit_field(23,1,"soort","Optie-soort");
 $cms->edit_field(23,1,"naam","Omschrijving");
-$cms->edit_field(23,1,"persoonnummer","Gekoppeld aan","",array("noedit"=>$bijkomendekosten));
+if($geen_deelnemers[$_GET["23k0"]]) {
+	$cms->edit_field(23,1,"htmlcol","Gekoppeld aan", array("html"=>"-aan geen enkele deelnemer gekoppeld-"));
+} else {
+	$cms->edit_field(23,1,"persoonnummer","Gekoppeld aan","",array("noedit"=>$bijkomendekosten));
+}
 if(!$bijkomendekosten) $cms->edit_field(23,0,"deelnemers","Deelnemers","","",array("one_per_line"=>true));
 $cms->edit_field(23,1,"verkoop","Verkoopprijs","",array("negative"=>true));
 $cms->edit_field(23,1,"inkoop","Inkoopprijs","",array("negative"=>true));
