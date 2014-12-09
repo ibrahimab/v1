@@ -382,7 +382,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						}
 					}
 					if($inquery) {
-						$db->query("SELECT type_id, voorraad_garantie, voorraad_allotment, voorraad_vervallen_allotment, voorraad_optie_leverancier, voorraad_xml, voorraad_request, voorraad_optie_klant, type_id, week, bruto, korting_percentage, toeslag, korting_euro, vroegboekkorting_percentage, vroegboekkorting_euro, c_bruto, c_korting_percentage, c_toeslag, c_korting_euro, c_vroegboekkorting_percentage, c_vroegboekkorting_euro FROM tarief WHERE type_id IN (".$inquery.") AND week='".addslashes(($_POST["input"]["aankomstdatum"] ? $_POST["input"]["aankomstdatum"] : $gegevens["stap1"]["aankomstdatum"]))."';");
+						$db->query("SELECT type_id, voorraad_garantie, voorraad_allotment, voorraad_vervallen_allotment, voorraad_optie_leverancier, voorraad_xml, voorraad_request, voorraad_optie_klant, type_id, week, bruto, korting_percentage, toeslag, korting_euro, vroegboekkorting_percentage, vroegboekkorting_euro, c_bruto, c_korting_percentage, c_toeslag, c_korting_euro, c_vroegboekkorting_percentage, c_vroegboekkorting_euro, inkoopkorting_percentage, inkoopkorting_euro FROM tarief WHERE type_id IN (".$inquery.") AND week='".addslashes(($_POST["input"]["aankomstdatum"] ? $_POST["input"]["aankomstdatum"] : $gegevens["stap1"]["aankomstdatum"]))."';");
 						while($db->next_record()) {
 
 							# Netto-prijs berekenen
@@ -401,6 +401,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 							$seizoen["weken"][$week]["c_korting_euro"]=$db->f("c_korting_euro");
 							$seizoen["weken"][$week]["c_vroegboekkorting_percentage"]=$db->f("c_vroegboekkorting_percentage");
 							$seizoen["weken"][$week]["c_vroegboekkorting_euro"]=$db->f("c_vroegboekkorting_euro");
+							$seizoen["weken"][$week]["inkoopkorting_percentage"]=$db->f("inkoopkorting_percentage");
+							$seizoen["weken"][$week]["inkoopkorting_euro"]=$db->f("inkoopkorting_euro");
 
 							$prijs=bereken($accinfo["toonper"],$seizoen,$week,$accinfo,array(""));
 							if($accinfo["toonper"]==1) {
