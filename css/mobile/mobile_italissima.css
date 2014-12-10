@@ -75,7 +75,7 @@ a.popwindow {
 	background: transparent url(../../pic/mobile/icon_arrow_right.png) no-repeat right 60%;
 	margin-left: 25px;
 	text-decoration: none;
-        
+
         font-size: 18px !important;
         margin-left: auto !important;
         margin-right: auto !important;
@@ -115,7 +115,7 @@ a.popwindow {
 }
 
 .header .italissimatopfoto {
-	background: #FFFFFF url(../../pic/topfoto_italissima_1.jpg) center top no-repeat;
+	background: #FFFFFF url(../../pic/topfoto_italissima_2.jpg) center top no-repeat;
 	width: 100%;
 	height: 88px;
 	background-size: 100% 100%;
@@ -151,7 +151,7 @@ a.popwindow {
         font-size:50px;
         background: #FFFFFF url(../../pic/mobile/i-ico-t.png) center top no-repeat;
 	text-decoration: none;
-        
+
 }
 
 
@@ -327,7 +327,7 @@ ul.mobile_list.small {
 ul.mobile_list li,  #landkaartklikbaar_namen .landnaam  {
     display: block;
     background: #FFD38F;
-    /*#D5E1F9*/ 
+    /*#D5E1F9*/
 	width: 100%;
 	height: auto;
     padding-top: 11px;
@@ -335,11 +335,11 @@ ul.mobile_list li,  #landkaartklikbaar_namen .landnaam  {
     margin: 0 0 15px;
     font-size: 20px;
     font-weight: normal;
-    text-align: center;    
+    text-align: center;
 }
 
 ul.mobile_list.small li {
-    margin: 5px 0 5px 10px;    
+    margin: 5px 0 5px 10px;
 }
 
 ul.mobile_list li a {
@@ -368,7 +368,7 @@ color: #FFFFFF;
     width:100%;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-    box-sizing: border-box;  
+    box-sizing: border-box;
 }
 
 #landkaartklikbaar_namen {
@@ -725,7 +725,7 @@ color: #FFFFFF;
     top:55px;
     left:0px;
     font-size:0.7em !important;
-    
+
 }
 .tarieventabel_top_valuta_toelichting2 {
     top: 69px !important;
@@ -822,7 +822,7 @@ color: #FFFFFF;
     margin: 0 0 15px;
     font-size: 20px;
     font-weight: normal;
-    text-align: center;     
+    text-align: center;
 }
 
 #body_toonaccommodatie #map_canvas {
@@ -866,7 +866,7 @@ color: #FFFFFF;
     margin: 0 0 15px;
     font-size: 20px;
     font-weight: normal;
-    text-align: center;    
+    text-align: center;
 }
 
 #body_toonaccommodatie .ui-icon-triangle-1-s {
@@ -1169,8 +1169,8 @@ color: #FFFFFF;
 	width: 18px !important;
 	border: 1px solid #99968f !important;
 	border-radius: 3px !important;
-	background: #efefe7 !important;    
-    
+	background: #efefe7 !important;
+
 	position: relative;
 	z-index: 1;
 }
@@ -1249,7 +1249,7 @@ color: #FFFFFF;
         margin-right:2%;
         margin-top:5px;
         margin-bottom:15px;
-        width:55%;	
+        width:55%;
         border-radius: 4px;
 
 }

@@ -211,7 +211,7 @@ echo "<img src=\"".$vars["path"];
 if($vars["italissima_topfoto"]) {
 	echo $vars["italissima_topfoto"];
 } else {
-	echo "pic/topfoto_italissima_1.jpg";
+	echo "pic/topfoto_italissima_2.jpg";
 }
 echo "\" width=\"760\" height=\"160\" alt=\"\" />";
 echo "</div>\n"; # afsluiten topfoto
