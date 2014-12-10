@@ -162,6 +162,19 @@ switch ($errno) {
 	return true;
 }
 
+function wt_trigger_error($message, $filename="", $linenumber="") {
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+		if($filename or $linenumber) {
+			$error = $filename." - line ".$linenumber." - ".$message;
+		} else {
+			$error = $message;
+		}
+	} else {
+		$error = "_WT_FILENAME_".$filename."_WT_FILENAME__WT_LINENUMBER_".$linenumber."_WT_LINENUMBER_".$message;
+	}
+	trigger_error($error,E_USER_NOTICE);
+}
+
 function wt_debugbar_message($message, $label="info", $collector="messages") {
 	//
 	// send messages to phpdebugbar (http://phpdebugbar.com/)
@@ -1642,6 +1655,34 @@ function wt_url_zonder_http($url) {
 	}
 
 	return $url;
+}
+
+//
+// autoload classes
+//
+function wt_autoload_class($classname) {
+	global $vars;
+	if (file_exists($vars["unixdir"]."admin/siteclass/siteclass.".$classname . ".php")) {
+		require_once $vars["unixdir"]."admin/siteclass/siteclass.".$classname . ".php";
+		return true;
+	} else {
+		$class = wt_hernoem_classname($classname);
+		if (file_exists($vars["unixdir"]."admin/class.".$classname . ".php")) {
+			require_once $vars["unixdir"]."admin/class.".$classname . ".php";
+			return true;
+		} else {
+
+			$debug=@debug_backtrace();
+
+			if ( is_array( $debug ) ) {
+				$filename=$debug[1]["file"];
+				$linenumber=$debug[1]["line"];
+			}
+			// echo wt_dump($debug);
+			wt_trigger_error("class ".$classname." kan niet worden geladen", $filename, $linenumber);
+		}
+		return false;
+	}
 }
 
 function wt_hernoem_classname($classname) {
