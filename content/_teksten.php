@@ -2619,10 +2619,10 @@ $txt["nl"]["tarieventabel"]["diversen"]="Diversen";
 $txt["en"]["tarieventabel"]["diversen"]="Miscellaneous";
 
 $txt["nl"]["tarieventabel"]["verplichttevoldoen"]="Verplicht te voldoen";
-$txt["en"]["tarieventabel"]["verplichttevoldoen"]="";
+$txt["en"]["tarieventabel"]["verplichttevoldoen"]="Mandatory fees";
 
 $txt["nl"]["tarieventabel"]["optioneel"]="Optioneel";
-$txt["en"]["tarieventabel"]["optioneel"]="";
+$txt["en"]["tarieventabel"]["optioneel"]="Optional";
 
 $txt["nl"]["tarieventabel"]["vantot"]="€ [[v_bedragmin]] tot € [[v_bedragmax]]";
 $txt["en"]["tarieventabel"]["vantot"]="€ [[v_bedragmin]] to € [[v_bedragmax]]";
