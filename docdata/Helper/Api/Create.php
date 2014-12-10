@@ -421,7 +421,7 @@ class Helper_Api_Create extends Helper_Api_Abstract {
 	private function _limitLength($string, $length) {
 		$encoding = $this->_getEncoding($string);
 		if (mb_strlen($string, $encoding) > $length) {
-			App::get('helper/data')->log("The string '$string' will be shortened to $length characters.", App::DEBUG);
+			App::get('helper/data')->dbLog("The string '$string' will be shortened to $length characters.", App::DEBUG);
 		}
 		return mb_substr($string, 0, $length, $encoding);
 	}

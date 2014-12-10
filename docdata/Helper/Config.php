@@ -115,10 +115,11 @@ class Helper_Config {
 	 *
 	 * @param string $key   Configuration key for the desired item
 	 * @param string $group Configuration group to find item in
+	 * @param int $order_id Current order id
 	 * 
 	 * @return object Returns object if found otherwise returns null
 	 */
-	public function getItem($key, $group = null) {
+	public function getItem($key, $group = null, $order_id=null) {
 		
 		$result = null;
 		switch($group) {
@@ -138,7 +139,7 @@ class Helper_Config {
 				$result = empty($this->_statuses_cfg[$key]) ? null : $this->_statuses_cfg[$key];
 				
 				if($result === null) {
-					App::get("helper/data")->log('No status configured for key '.$key);
+					App::get("helper/data")->dbLog('No status configured for key '.$key, App::INFO, $order_id);
 					$result = $this->getItem($key, Helper_Config::GROUP_FALLBACK_STATUS);
 				}
 				

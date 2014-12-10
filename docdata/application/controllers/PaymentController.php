@@ -69,7 +69,7 @@ class PaymentController extends Controller {
 		if ($request !== null) {
 			$orderId = $request->getParam('order');
 		}
-                
+
 		//if there is stil no id get by cluster key if isset
 		if (empty($orderId)) {
 			$cluster_key = $request->getParam('key');
@@ -93,27 +93,27 @@ class PaymentController extends Controller {
 		$orderInfo	= 'ordernr ['.$orderNr.'] pid ['.getmypid().'] lock ['.$lockName.']';
 		$helper 	= App::get('helper/data');
 
-		$helper->log(get_class().': Creating lock object. '.$orderInfo);
+		$helper->dbLog(get_class().': Creating lock object. '.$orderInfo, App::DEBUG, $orderNr);
 
-		$locking = new Model_Locking($lockName);
+		$locking = new Model_Locking($lockName, $orderNr);
 
 		//check if locking model successfully initialized
 		if ($locking
 			&& $locking instanceof Model_Locking
 			&& $locking->initCheck()
 		) {
-			$helper->log(get_class().': Trying to lock object. '.$orderInfo);
+			$helper->dbLog(get_class().': Trying to lock object. '.$orderInfo, App::DEBUG, $orderNr);
 			// Get the actual lock, this is blocking until lock is available.
 			if (!$locking->lock()) {
 				//cant get lock within timeout range
-				$helper->log(get_class().': Acquiring lock unsuccessful. '.$orderInfo, App::ERR);
+				$helper->dbLog(get_class().': Acquiring lock unsuccessful. '.$orderInfo, App::ERR, $orderNr);
 				$locking = false;
 			} else {
 				//lock acquired
-				$helper->log(get_class().': lock acquired. '.$orderInfo);
+				$helper->dbLog(get_class().': lock acquired. '.$orderInfo, App::DEBUG, $orderNr);
 			}
 		} else {
-			$helper->log(get_class().': Creating lock object failed. '.$orderInfo, App::WARN);
+			$helper->dbLog(get_class().': Creating lock object failed. '.$orderInfo, App::WARN, $orderNr);
 			$locking = false;
 		}
 		return $locking;
@@ -126,7 +126,7 @@ class PaymentController extends Controller {
 	 *
 	 * @return void
 	 */
-	protected function releaseOrderLock(Model_Locking $lock) {
+	protected function releaseOrderLock(Model_Locking $lock, $orderId = null) {
 		$helper = App::get('helper/data');
 
 		// Release lock
@@ -135,12 +135,12 @@ class PaymentController extends Controller {
 			and $lock->initCheck()
 		) {
 			$orderInfo = 'pid ['.getmypid().'] lock ['.$lock->getLockCode().']';
-			$helper->log(get_class().': Trying to unlock object. '.$orderInfo);
+			$helper->dbLog(get_class().': Trying to unlock object. '.$orderInfo, App::DEBUG, $orderId);
 			$lock->unlock();
-			$helper->log(get_class().': Unlock performed. '.$orderInfo);
+			$helper->dbLog(get_class().': Unlock performed. '.$orderInfo, App::DEBUG, $orderId);
 		} else {
 			$orderInfo = 'pid ['.getmypid().']';
-			$helper->log(get_class().': No lock, so no unlocking needed. '.$orderInfo);
+			$helper->dbLog(get_class().': No lock, so no unlocking needed. '.$orderInfo, App::ERR, $orderId);
 		}
 	}
 
@@ -162,10 +162,9 @@ class PaymentController extends Controller {
 		if ($orderId != null) {
 
 			if ($error) {
-				App::get('helper/data')->log('Cancellation of order ' . $orderId . ', reason: ' .$error, App::ERR);
 				App::get('helper/data')->dbLog('Cancellation of order ' . $orderId . ', reason: ' .$error, App::ERR, $orderId);
 			} else {
-				App::get('helper/data')->log('Cancellation of order ' . $orderId . ', message: ' . $cancelMsg);
+				App::get('helper/data')->dbLog('Cancellation of order ' . $orderId . ', message: ' . $cancelMsg, App::INFO, $orderId);
 			}
 
 			//acquire lock
@@ -184,13 +183,12 @@ class PaymentController extends Controller {
 				if ($response->hasError()) {
 					$errorResponse = $response->getErrorMessage();
 
-					$helper->log('Cancel action of an order failed: '.$order->getRealOrderId() . ". Message: " . $errorResponse, App::WARN);
 					$helper->dbLog('Cancel action of an order failed: '.$order->getRealOrderId() . ". Message: " . $errorResponse, App::WARN, $order->getId());
 
 					$errCode = 2;
 					$redirect = "&error=" . $errCode;
 				} else {
-					$helper->log('Cancel of the order '.$order->getRealOrderId(). ' succeeded');
+					$helper->dbLog('Cancel of the order '.$order->getRealOrderId(). ' succeeded', App::INFO, $order->getId());
 				}
 			}
 
@@ -215,11 +213,10 @@ class PaymentController extends Controller {
 				$redirect = "&error=" . $errCode;
 			}
 
-			$this->releaseOrderLock($lock);
+			$this->releaseOrderLock($lock, $orderId);
 
 		} else {
 			$helper = App::get('helper/data');
-			$helper->log('Order not found for the Cluster Key: '.$clusterKey, App::ERR);
 			$helper->dbLog('Order not found for the Cluster Key: '.$clusterKey, App::ERR);
 
 			//Order not found in the system
@@ -238,51 +235,51 @@ class PaymentController extends Controller {
 	 * @param $status
 	 */
 	private function _redirect($url, $status = 302) {
-            //header("HTTP/1.1 301 Moved Permanently"); 
-            $http = array (
-                100 => "HTTP/1.1 100 Continue",
-                101 => "HTTP/1.1 101 Switching Protocols",
-                200 => "HTTP/1.1 200 OK",
-                201 => "HTTP/1.1 201 Created",
-                202 => "HTTP/1.1 202 Accepted",
-                203 => "HTTP/1.1 203 Non-Authoritative Information",
-                204 => "HTTP/1.1 204 No Content",
-                205 => "HTTP/1.1 205 Reset Content",
-                206 => "HTTP/1.1 206 Partial Content",
-                300 => "HTTP/1.1 300 Multiple Choices",
-                301 => "HTTP/1.1 301 Moved Permanently",
-                302 => "HTTP/1.1 302 Found",
-                303 => "HTTP/1.1 303 See Other",
-                304 => "HTTP/1.1 304 Not Modified",
-                305 => "HTTP/1.1 305 Use Proxy",
-                307 => "HTTP/1.1 307 Temporary Redirect",
-                400 => "HTTP/1.1 400 Bad Request",
-                401 => "HTTP/1.1 401 Unauthorized",
-                402 => "HTTP/1.1 402 Payment Required",
-                403 => "HTTP/1.1 403 Forbidden",
-                404 => "HTTP/1.1 404 Not Found",
-                405 => "HTTP/1.1 405 Method Not Allowed",
-                406 => "HTTP/1.1 406 Not Acceptable",
-                407 => "HTTP/1.1 407 Proxy Authentication Required",
-                408 => "HTTP/1.1 408 Request Time-out",
-                409 => "HTTP/1.1 409 Conflict",
-                410 => "HTTP/1.1 410 Gone",
-                411 => "HTTP/1.1 411 Length Required",
-                412 => "HTTP/1.1 412 Precondition Failed",
-                413 => "HTTP/1.1 413 Request Entity Too Large",
-                414 => "HTTP/1.1 414 Request-URI Too Large",
-                415 => "HTTP/1.1 415 Unsupported Media Type",
-                416 => "HTTP/1.1 416 Requested range not satisfiable",
-                417 => "HTTP/1.1 417 Expectation Failed",
-                500 => "HTTP/1.1 500 Internal Server Error",
-                501 => "HTTP/1.1 501 Not Implemented",
-                502 => "HTTP/1.1 502 Bad Gateway",
-                503 => "HTTP/1.1 503 Service Unavailable",
-                504 => "HTTP/1.1 504 Gateway Time-out"
-            );
+		//header("HTTP/1.1 301 Moved Permanently"); 
+		$http = array (
+			100 => "HTTP/1.1 100 Continue",
+			101 => "HTTP/1.1 101 Switching Protocols",
+			200 => "HTTP/1.1 200 OK",
+			201 => "HTTP/1.1 201 Created",
+			202 => "HTTP/1.1 202 Accepted",
+			203 => "HTTP/1.1 203 Non-Authoritative Information",
+			204 => "HTTP/1.1 204 No Content",
+			205 => "HTTP/1.1 205 Reset Content",
+			206 => "HTTP/1.1 206 Partial Content",
+			300 => "HTTP/1.1 300 Multiple Choices",
+			301 => "HTTP/1.1 301 Moved Permanently",
+			302 => "HTTP/1.1 302 Found",
+			303 => "HTTP/1.1 303 See Other",
+			304 => "HTTP/1.1 304 Not Modified",
+			305 => "HTTP/1.1 305 Use Proxy",
+			307 => "HTTP/1.1 307 Temporary Redirect",
+			400 => "HTTP/1.1 400 Bad Request",
+			401 => "HTTP/1.1 401 Unauthorized",
+			402 => "HTTP/1.1 402 Payment Required",
+			403 => "HTTP/1.1 403 Forbidden",
+			404 => "HTTP/1.1 404 Not Found",
+			405 => "HTTP/1.1 405 Method Not Allowed",
+			406 => "HTTP/1.1 406 Not Acceptable",
+			407 => "HTTP/1.1 407 Proxy Authentication Required",
+			408 => "HTTP/1.1 408 Request Time-out",
+			409 => "HTTP/1.1 409 Conflict",
+			410 => "HTTP/1.1 410 Gone",
+			411 => "HTTP/1.1 411 Length Required",
+			412 => "HTTP/1.1 412 Precondition Failed",
+			413 => "HTTP/1.1 413 Request Entity Too Large",
+			414 => "HTTP/1.1 414 Request-URI Too Large",
+			415 => "HTTP/1.1 415 Unsupported Media Type",
+			416 => "HTTP/1.1 416 Requested range not satisfiable",
+			417 => "HTTP/1.1 417 Expectation Failed",
+			500 => "HTTP/1.1 500 Internal Server Error",
+			501 => "HTTP/1.1 501 Not Implemented",
+			502 => "HTTP/1.1 502 Bad Gateway",
+			503 => "HTTP/1.1 503 Service Unavailable",
+			504 => "HTTP/1.1 504 Gateway Time-out"
+		);
 
-            header($http[$status]);
-            header("Location:" . $url);
+		header($http[$status]);
+		header("Location:" . $url);
 	}
 
 	/**
@@ -301,18 +298,18 @@ class PaymentController extends Controller {
 
 		//get the latest version of the order is retrieved after lock is acquired
 		$order = $this->getOrder(true, $request);
-                
+
 		//update order with latest data
 		App::get('model/docdata')->statusCall($order, array());
 
-		$this->releaseOrderLock($lock);
+		$this->releaseOrderLock($lock, $order->getId());
 
 		//The Payment has been registered within system.
 		$okCode = 1;
 
 		//Return to Payments overview page (menu=3)
 		$redirectPage = str_replace("menu=1", "menu=3", $this->redirectPage);
-		
+
 		//redirect customer to success page
 		$this->_redirect($redirectPage . "&success=" . $okCode);
 	}
@@ -325,8 +322,6 @@ class PaymentController extends Controller {
 	public function updateAction() {
 		$error = false;
 
-        App::get('helper/data')->log('Update Action');
-
 		$request = App::getRequest();
 		$helper = App::get('helper/data');
 
@@ -335,7 +330,7 @@ class PaymentController extends Controller {
 
 		if ($reference === null) {
 			// Error, id parameter not found, but was expected
-			$helper->log('No id given in the current url', App::ERR);
+			$helper->dbLog('No id given in the current url', App::ERR);
 			$error = true;
 		}
 
@@ -344,19 +339,22 @@ class PaymentController extends Controller {
 
 		if ($order === null || $order->getId() === null) {
 			// Error, order by the given reference has not been found
-			$helper->log(
+			$helper->dbLog(
 				'Order not found by given reference, cannot proceed',
 				App::ERR
 			);
 			$error = true;
 		} else {
+
+			App::get('helper/data')->dbLog('Update Action', App::INFO, $order->getId());
+
 			//acquire lock for reference
 			$lock = $this->getOrderLock($order->getId());
 		}
 
 		if ($order === null || $order->getDocdataPaymentClusterKey() === null) {
 			// Error, no payment order key found for the order, which is strange, because why would docdata notify us of an order which has never been made with docdata according to our system
-			$helper->log(
+			$helper->dbLog(
 				'Order does not have an order key, which means Docdata asked us to update something which isn\'t in their system according to our system...',
 				App::ERR
 			);
@@ -367,16 +365,12 @@ class PaymentController extends Controller {
 			$result = App::get('model/docdata')->statusCall($order, array());
 		}
 
-        if($lock instanceof Model_Locking) {
-		    $this->releaseOrderLock($lock);
-        }
+		if($lock instanceof Model_Locking) {
+			$this->releaseOrderLock($lock, $order->getId());
+		}
 
 		if (isset($result) && $result->hasError()) {
 			// Error, error during status update
-			$helper->log(
-				'An error occured during the update of the order, Docdata backend didn\'t response or data couldn\'t be parsed. Manual action might be required.',
-				App::ERR
-			);
 			$helper->dbLog(
 				'An error occured during the update of the order, Docdata backend didn\'t response or data couldn\'t be parsed. Manual action might be required.',
 				App::ERR,
@@ -399,8 +393,9 @@ class PaymentController extends Controller {
 	 * @return void
 	 */
 	public function cancelAction() {
+		$orderId = $this->getOrderId(App::getRequest());
 		//log external trigger of the cancel action, details are logged in cancelOrder function
-		App::get('helper/data')->log('Cancel Action');
+		App::get('helper/data')->dbLog('Cancel Action', App::INFO, $orderId);
 
 		$cancelMsg = __('Your payment was cancelled upon your request. You can still place your order again later.');
 
@@ -414,7 +409,7 @@ class PaymentController extends Controller {
 	 */
 	public function abortAction() {
 		//log external trigger of the abort action, details are logged in cancelOrder function
-		App::get('helper/data')->log('Abort Action');
+		App::get('helper/data')->dbLog('Abort Action', App::DEBUG);
 
 		$cancelMsg = __('Your payment was cancelled upon your request.');
 
@@ -431,11 +426,11 @@ class PaymentController extends Controller {
 
 		// retrieve the order
 		$order = $this->getOrder(false, $request);
-                             
+
 		if ($order != null) {
 			$order->setClusterKey($request->getParam("key"));
 
-			App::get('helper/data')->log('Success Action for the order '.$order->getId());
+			App::get('helper/data')->dbLog('Success Action for the order '.$order->getId(), App::INFO, $order->getId());
 			//handle new order
 			$this->_newOrder($order, $request);
 		} else {
@@ -478,7 +473,7 @@ class PaymentController extends Controller {
 		if(!$request->getParam("order")) {
 			
 			$this->render = 0;
-		
+
 			$this->_redirect($this->redirectPage);
 			return;
 		}
@@ -496,13 +491,12 @@ class PaymentController extends Controller {
 
 		/* retrieve the order */
 		$order = $this->getOrder(false, $request);
-                
+
 		if(!$order) {
 			if($orderId = $request->getParam("order")) {
-				App::get('helper/data')->log('Order not found with code: '.$orderId, App::ERR);
-				App::get('helper/data')->dbLog('Order not found with code: '.$orderId, App::ERR, $orderId);
+				App::get('helper/data')->dbLog('Order not found with code: '.$orderId, App::ERR);
 			} else {
-				App::get('helper/data')->log('Order not found because order code was not provided', App::ERR);
+				App::get('helper/data')->dbLog('Order not found because order code was not provided', App::ERR);
 			}
 			$this->render = 0;
 
@@ -521,7 +515,6 @@ class PaymentController extends Controller {
 
 			// Check if the order is belongs to the currently logged in user
 			if($user_id != $customer_id) {
-				App::get('helper/data')->log('The order with the id: ' . $order->getId() .' does not belong to the user with id: ' .$user_id, App::ERR);
 				App::get('helper/data')->dbLog('The order with the id: ' . $order->getId() .' does not belong to the user with id: ' .$user_id, App::ERR, $order->getId());
 
 				$this->render = 0;
@@ -532,7 +525,7 @@ class PaymentController extends Controller {
 				return;
 			}
 		} else {
-			App::get('helper/data')->log('Customer not logged in when accessing redirect action.', App::ERR);
+			App::get('helper/data')->dbLog('Customer not logged in when accessing redirect action.', App::ERR, $order->getId());
 
 			$this->render = 0;
 
@@ -542,17 +535,16 @@ class PaymentController extends Controller {
 			return;
 		}
 
-		App::get('helper/data')->log('Redirect Action for the order '.$order->getRealOrderId());
-                
-                $css = $helper->getMenuPreference($order->getWebsiteCode());
-                $css_id = $css['css']['id'];
+		App::get('helper/data')->dbLog('Redirect Action for the order '.$order->getRealOrderId(), APP::INFO, $order->getId());
+
+		$css = $helper->getMenuPreference($order->getWebsiteCode());
+		$css_id = $css['css']['id'];
 		//make sure order still needs to be placed with Docdata
 		$payment_order_key = $order->getDocdataPaymentOrderKey($status="pending", $css_id);
 
-                $checkOtherParams = $order->matchBackOrder($payment_order_key, $request);
-                $checkCssIds = $order->compareCssId($payment_order_key);
-               
-              
+		$checkOtherParams = $order->matchBackOrder($payment_order_key, $request);
+		$checkCssIds = $order->compareCssId($payment_order_key);
+
 		if ( ($payment_order_key === null) || ($checkOtherParams == false) || ($checkCssIds == false)) {
 
 			// Get payment code from the $_POST request parameters
@@ -562,7 +554,7 @@ class PaymentController extends Controller {
 			$extra_params = array();
 			unset($extra_params['pm_code']);
 
-                        // add extra parameters for the creation of the payment order
+			// add extra parameters for the creation of the payment order
 			$extra_paramsCO = App::get('helper/data')->removePrefix(
 				Model_Method_Abstract::PREFIX_CREATE,
 				$extra_params
@@ -626,7 +618,7 @@ class PaymentController extends Controller {
 
 		if ($order != null) {
 			$order->setClusterKey($request->getParam("key"));
-			App::get('helper/data')->log('Error Action for the order '.$order->getRealOrderId(), App::ERR);
+			App::get('helper/data')->dbLog('Error Action for the order '.$order->getRealOrderId(), App::ERR, $order->getId());
 		}
 
 		$this->cancelOrder(
@@ -648,7 +640,7 @@ class PaymentController extends Controller {
 
 		if ($order != null) {
 			$order->setClusterKey($request->getParam("key"));
-			App::get('helper/data')->log('Pending Action for the order '.$order->getRealOrderId());
+			App::get('helper/data')->dbLog('Pending Action for the order '.$order->getRealOrderId(), App::INFO, $order->getId());
 			//handle new order
 			$this->_newOrder($order, $request);
 		} else {

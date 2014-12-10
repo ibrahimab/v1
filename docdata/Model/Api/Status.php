@@ -16,8 +16,6 @@ class Model_Api_Status extends Model_Api_Abstract {
 	 * @var boolean to check if call is for query purposes only
 	 */
 	private $_query_only = false;
-	
-	
 	/**
 	 * Sets the queryonly property. When set to true the statuscall will not modify the order.
 	 *
@@ -28,7 +26,7 @@ class Model_Api_Status extends Model_Api_Abstract {
 	public function setQueryOnly($value) {
 		$this->_query_only = $value;
 	}
-	
+
 	/**
 	 * Docdata API method. Send a status request to Docdata
 	 *
@@ -42,9 +40,10 @@ class Model_Api_Status extends Model_Api_Abstract {
 		$this->_api = $api;
 		$result = $response_object;
 		$confidenceLevel = $this->_api->getConfidenceLevel();
-		
+
 		try {
-			$this->_api->log('API call Status: ', self::SEVERITY_DEBUG);
+			$order_id = isset($elements["orderId"]) ? $elements["orderId"] : null;
+			$this->_api->log('API call Status: ', self::SEVERITY_DEBUG, $order_id);
 
 			if(isset($elements["orderId"])) {
 				$elements["action"] = 'API call Status';
@@ -65,12 +64,12 @@ class Model_Api_Status extends Model_Api_Abstract {
 			$result->setErrorResponse($ex->getMessage());
 		}
 
-		$this->_api->log('API status call return: ', self::SEVERITY_DEBUG);
-		$this->_api->log($result, self::SEVERITY_DEBUG);
+		$this->_api->log('API status call return: ', self::SEVERITY_DEBUG, $order_id);
+		$this->_api->log($result, self::SEVERITY_DEBUG, $order_id);
 
 		if ($result->hasError()) {
 			//log error
-			$this->_api->log($result->getErrorMessage(), self::SEVERITY_ERROR);
+			$this->_api->log($result->getErrorMessage(), self::SEVERITY_ERROR, $order_id);
 			return $result;
 		}
 
@@ -78,16 +77,17 @@ class Model_Api_Status extends Model_Api_Abstract {
 		if($this->_query_only === true) {
 			return $result;
 		}
-		
+
 		$suggests = array();
-        $totals = $result->getNode('report/approximateTotals');
+		$totals = $result->getNode('report/approximateTotals');
 
 		$totals = $totals[0];
 
 		if(empty($totals)) {
 			$this->_api->log(
 				'While apearantly no errors occurred (this was checked earlier), the totals node was missing, which shouldn\'t happen when all is well.',
-				self::SEVERITY_ERROR
+				self::SEVERITY_ERROR,
+				$order_id
 			);
 		} else {
 			// Check the totals for the conditions needed for certain events
@@ -136,7 +136,7 @@ class Model_Api_Status extends Model_Api_Abstract {
 			$captures = (array)$payment->xpath('authorization/capture');
 			foreach($captures as $capture) {
 				$capture_status = (string)$capture->status;
-				
+
 				if (!in_array($capture_status, $canceled_states)
 					&& ($last_non_cancelled === null || (int)$payment->id > (int)$last_non_cancelled->id)
 				) {
@@ -148,12 +148,12 @@ class Model_Api_Status extends Model_Api_Abstract {
 				) {
 					$last_cancelled = $payment;
 				}
-				
+
 				if (in_array($capture_status, $started_states)) {
 					$suggests[$api::STATUS_STARTED] = $api->translate("New pending capture found in Docdata open payments.");
 				}
 			}
-			
+
 			$refunds = (array)$payment->xpath('authorization/refund');
 			foreach ($refunds as $refund) {
 				if(in_array((string)$refund->status, $started_states)) {
@@ -161,7 +161,7 @@ class Model_Api_Status extends Model_Api_Abstract {
 				}
 			}
 		}
-		
+
 		if ($refund_candidate) {
 			$suggests[$api::STATUS_PARTIAL_REFUNDED] = $api->translate("New pending refund found in the open payments. Assuming manual refund done in Docdata backoffice.");
 		}

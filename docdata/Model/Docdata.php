@@ -7,7 +7,7 @@ class Model_Docdata implements Model_System {
 
 	/* @var Helper_Config */
 	private $_config;
-	
+
 	/* @var Order */
 	private $_order;
 
@@ -22,7 +22,7 @@ class Model_Docdata implements Model_System {
 	public function __construct() {
 		$this->_config = App::get('helper/config');
 	}
-	
+
 	/**
 	 * Checks to see if the last call received error
 	 *
@@ -31,7 +31,7 @@ class Model_Docdata implements Model_System {
 	public function hasError() {
 		return $this->_call_api !== null && $this->_call_api->hasError();
 	}
-	
+
 	/**
 	 * Gets the last error message if any
 	 *
@@ -43,7 +43,7 @@ class Model_Docdata implements Model_System {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Log message into docdata log
 	 *
@@ -54,10 +54,8 @@ class Model_Docdata implements Model_System {
 	 * @return void
 	 */
 	public function log($message, $severity = Model_Api_Abstract::SEVERITY_INFO, $order_id = null) {
-		
 		//debug is fallback severity
 		$monolog_severity = App::DEBUG;
-		
 		//map severity to app severity
 		switch($severity) {
 			case Model_Api_Abstract::SEVERITY_INFO:
@@ -73,14 +71,9 @@ class Model_Docdata implements Model_System {
 				$monolog_severity = App::DEBUG;
 				break;
 		}
-
-		if($order_id) {
-			App::get('helper/data')->dbLog($message, $monolog_severity, $order_id);
-		} else {
-			App::get('helper/data')->log($message, $monolog_severity);
-		}
+		App::get('helper/data')->dbLog($message, $monolog_severity, $order_id);
 	}
-	
+
 	/**
 	 * Translate a string using the System helper class
 	 *
@@ -91,18 +84,18 @@ class Model_Docdata implements Model_System {
 	public function translate($string) {
 		return __($string);
 	}
-        
-        /**
-         * Returns the available CSS id.
-         * @return string
-         */
-        public function getWebsiteCode(){
-                if($this->_order !== null){
-                    $css = $this->_order->getWebsiteCode();
-                    return $css;
-                    
-                }
-        }
+
+	/**
+	 * Returns the available CSS id.
+	 * @return string
+	 */
+	public function getWebsiteCode(){
+		if($this->_order !== null){
+			$css = $this->_order->getWebsiteCode();
+			return $css;
+
+		}
+	}
 	
 	/**
 	 * Uses the order data to create a payment order request
@@ -113,7 +106,6 @@ class Model_Docdata implements Model_System {
 	 * @return Model_Docdata instance of the class Model_Docdata
 	 */
 	public function createCall(Order $order, array $additional_params) {
-            
 		// Register given order on object
 		$this->_order = $order;
 		$helper = App::get('helper/api_create');
@@ -126,7 +118,7 @@ class Model_Docdata implements Model_System {
 		$call_elements['merchantOrderReference'] = $order_reference;
 		$call_elements['paymentPreferences'] = $helper->getPaymentPreferences($order->getWebsiteCode());
 		$menu_pref = $helper->getMenuPreference($order->getWebsiteCode());
-                
+
 		if ($menu_pref !== null) {
 			$call_elements['menuPreferences'] = $menu_pref;
 		}
@@ -137,14 +129,14 @@ class Model_Docdata implements Model_System {
 		$accommodation = substr($order->getAccommodationName(), 0, 50);
 
 		$call_elements['description'] = utf8_encode($accommodation); # Max 50 chars
-		
+
 		//call payment methods for additional actions
 		$payment = $order->getPayment();
 		$method = $payment->getMethodInstance()->getCode();
-                
+
 		//get model belonging to payment method and use it to update the $call_elements
 		$model_ref = App::get('helper/config')->getPaymentMethodItem($method, 'model');
-                
+
 		if ($model_ref !== null) {
 			$call_elements = App::get($model_ref)->updateCreateCall($call_elements, $order, $additional_params);
 		}
@@ -160,10 +152,10 @@ class Model_Docdata implements Model_System {
 			$payment_order_key = (string)$node[0];
 			$this->_order->setClusterKey($payment_order_key);
 			$this->_order->setOrderReference($order_reference);
-                        $this->_order->setCssId($menu_pref);
+			$this->_order->setCssId($menu_pref);
 		}
 
-        return $this;
+	return $this;
 	}
 
 	/**
@@ -233,7 +225,7 @@ class Model_Docdata implements Model_System {
 		// Return current instance which will fill the communication between the call API and the system in question
 		return $this;
 	}
-	
+
 	/**
 	 * Sets the given data on the order, a type may be specified if additional filtering is needed.
 	 *
@@ -245,14 +237,14 @@ class Model_Docdata implements Model_System {
 	public function setOrderData($data, $type = self::DATA_GENERIC) {
 
 		$order = $this->_order;
-		
+
 		switch ($type) {
 			case self::DATA_PAYMENT:
 				$payment = $order->getPayment();
 
 				// Add payment id to be inserted
 				$order->setDocdataPaymentId($data['id']);
-	
+
 				// Update method itself, if changed
 				$payment->setMethod(
 					App::get('helper/config')->getPaymentCodeByCommand(
@@ -308,33 +300,32 @@ class Model_Docdata implements Model_System {
 			}
 		}
 
+
+		$order_id = $order->getId();
+
 		// If there were multiple statusses give, then log that, because that should be weird
 		if (count($statusses) > 1) {
-			$this->log("Multiple statusses detected. Selected $final_status for use and going on. Other statusses: ".implode(', ', array_keys($statusses)));
+			$this->log("Multiple statusses detected. Selected $final_status for use and going on. Other statusses: ".implode(', ', array_keys($statusses)), App::INFO, $order_id);
 		}
-		
-		$order_id = $order->getId();
 
 		//do not change an order that is already set to complete state
 		if ($order->getState() === Order::STATE_COMPLETE) {
-			$this->log("Order [$order_id] received update that was ignored (order is already on state 'complete'). ", App::INFO);
 			// Log in database
 			$this->log("Order [$order_id] received update that was ignored (order is already on state 'complete'). ", App::INFO, $order_id);
 			return;
 		}
-		
+
 		// Get possible self specified statusses
 		$config = $this->_config;
-		$status = $config->getItem($final_status, $config::GROUP_STATUS);
+		$status = $config->getItem($final_status, $config::GROUP_STATUS, $order_id);
 
 		$helper = App::get('helper/data');
-		
+
 		// Compare with minor unit for better compatibility
 		$order_currency_code = $order->getOrderCurrencyCode();
 
 		// Check if the final status is the same as the current status, which should happen too often
 		if ($status === $order->getStatus()) {
-			$this->log("Ordernr [$order_id] trying to set the order to $final_status status which it is already on.");
 			// Log in database
 			$this->log("Ordernr [$order_id] trying to set the order to $final_status status which it is already on.", App::INFO, $order_id);
 			return;
@@ -367,11 +358,9 @@ class Model_Docdata implements Model_System {
 					// only change state if order is actually changed
 					$state = $order::STATE_PROCESSING;
 				} elseif ($due == 0) {
-					$this->log("Order [$order_id] due amount is already 0 ($due), thus it does not need to be registered.", App::INFO);
 					// Log in database
 					$this->log("Order [$order_id] due amount is already 0 ($due), thus it does not need to be registered.", App::INFO, $order_id);
 				} else {
-					$this->log("Order [$order_id] set to status PAID but couldn't match due amount with captured amount.", App::ERR);
 					// Log in database
 					$this->log("Order [$order_id] set to status PAID but couldn't match due amount with captured amount.", App::ERR, $order_id);
 				}
@@ -387,7 +376,7 @@ class Model_Docdata implements Model_System {
 				$state = $order::STATE_HOLDED;
 				break;
 		}
-                
+
 		if ($state !== null) {
 			// 3. Set the payment status and the message
 			$order->getPayment()->setStatus($status, $msg);
@@ -395,20 +384,19 @@ class Model_Docdata implements Model_System {
 			// When the status is "paid" we add the entry to the invoice
 			if($final_status == self::STATUS_CLOSED_PAID) {
 				$order->setInvoice($helper->getAmountInMajorUnit($captured, $order_currency_code));
-				$this->log("Ordernr [$order_id] set as PAID", App::INFO);
+				$this->log("Ordernr [$order_id] set as PAID", App::INFO, $order_id);
 			}
 
 		} else {
-			$this->log("Ordernr [$order_id] no status change needed", App::INFO);
+			$this->log("Ordernr [$order_id] no status change needed", App::INFO, $order_id);
 		}
 
 		if ($state === null && $status !== null) {
-			$this->log("Ordernr [$order_id] tried setting order to ". var_export($status, true) ." but couldn't find a matching state.", App::ERR);
 			// Log in database
 			$this->log("Ordernr [$order_id] tried setting order to ". var_export($status, true) ." but couldn't find a matching state.", App::ERR, $order_id);
 		}
 	}
-	
+
 	/**
 	 * Sets the Docdata reference (payment order key) in the current order
 	 *
@@ -436,16 +424,16 @@ class Model_Docdata implements Model_System {
 			$this->_order->setOrderReference($order_reference);
 		}
 	}
-        
-        /**
-         * Sets the available CSS on the current order.
-         * @param int $css_id
-         */
-        public function setCssId($css_id){
-                if($this->_order !== null){
-                    $this->_order->setCssId($css_id);
-                }
-        }
+
+	/**
+	 * Sets the available CSS on the current order.
+	 * @param int $css_id
+	 */
+	public function setCssId($css_id){
+			if($this->_order !== null){
+				$this->_order->setCssId($css_id);
+			}
+	}
 
 	/**
 	 * Retrieves the WSDL of the API
@@ -455,7 +443,7 @@ class Model_Docdata implements Model_System {
 	public function getWsdlUri() {
 		return $this->_config->getWsdlUri();
 	}
-	
+
 	/**
 	 * Checks if debug mode is enabled
 	 *
@@ -464,7 +452,7 @@ class Model_Docdata implements Model_System {
 	public function isDebugMode() {
 		return !$this->_config->isProduction();
 	}
-	
+
 	/**
 	 * Checks confidence level
 	 *

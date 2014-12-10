@@ -23,9 +23,9 @@ class Model_Api_Cancel extends Model_Api_Abstract {
 		
 		$this->_api = $api;
 		$result = $response_object; 
-		
+		$orderId = isset($elements["orderId"]) ? $elements["orderId"] : null;
 		try {
-			$this->_api->log('API call Cancel: ', self::SEVERITY_DEBUG);
+			$this->_api->log('API call Cancel: ', self::SEVERITY_DEBUG, $orderId);
 
 			if(isset($elements["orderId"])) {
 				$elements["action"] = 'API call Cancel';
@@ -48,10 +48,10 @@ class Model_Api_Cancel extends Model_Api_Abstract {
 		
 		if ($result->hasError()) {
 			//log error 
-			$this->_api->log($result->getErrorMessage(), self::SEVERITY_ERROR);
+			$this->_api->log($result->getErrorMessage(), self::SEVERITY_ERROR, $orderId);
 		} else {
 			//cancelation was successfull, log result
-			$this->_api->log('A payment order has been canceled with the key: ' . $elements['paymentOrderKey']);
+			$this->_api->log('A payment order has been canceled with the key: ' . $elements['paymentOrderKey'], self::SEVERITY_INFO, $orderId);
 		}
 		
 		return $result;

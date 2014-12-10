@@ -36,13 +36,13 @@ class Payment extends Model {
 	public function createPayment($cluster_key, $order_id, $payment_type, $amount, $order_reference, $css_id) {
 
 		$config = App::get('helper/config');
-		$status = $config->getItem("new", $config::GROUP_STATUS);
+		$status = $config->getItem("new", $config::GROUP_STATUS, $order_id);
 
 		$sql  = "INSERT INTO `" . $this->table . "` ";
 		$sql .= "SET cluster_key = '" . mysql_real_escape_string($cluster_key) . "', ";
 		$sql .= "boeking_id = '" . mysql_real_escape_string($order_id) . "', status = '" . mysql_real_escape_string($status) . "', created_at = NOW(), ";
 		$sql .= "css_id = '" . mysql_real_escape_string($css_id) . "', ";
-                $sql .= "amount = '" . mysql_real_escape_string($amount) . "', type = '" . mysql_real_escape_string($payment_type) ."', reference = '" . mysql_real_escape_string($order_reference) . "' ;";
+		$sql .= "amount = '" . mysql_real_escape_string($amount) . "', type = '" . mysql_real_escape_string($payment_type) ."', reference = '" . mysql_real_escape_string($order_reference) . "' ;";
 
 		$this->query($sql);
 
@@ -73,17 +73,17 @@ class Payment extends Model {
 		if($status) {
 			$sql .= "AND status='". $status ."' ";
 		}
-                if($css_id){
-                        $sql .= "AND css_id='". $css_id . "' ";
-                }
+		if($css_id){
+				$sql .= "AND css_id='". $css_id . "' ";
+		}
 		$sql .= "ORDER BY id DESC LIMIT 1";
 
 		$this->query($sql);
 		if((int)$this->num_rows() == 0) return null;
 
-        $this->next_record();
+		$this->next_record();
 
-        return htmlspecialchars($this->f("cluster_key"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+		return htmlspecialchars($this->f("cluster_key"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 	}
 
 	/**
@@ -101,29 +101,29 @@ class Payment extends Model {
 		$this->query($sql);
 		if((int)$this->num_rows() == 0) return null;
 
-                $this->next_record();
+		$this->next_record();
 
-                return htmlspecialchars($this->f("cluster_key"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+		return htmlspecialchars($this->f("cluster_key"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 	}
 
-        /**
-         * Gets the CSS ID based on cluster key.
-         *
-         * @param type $cluster_key
-         * @return boolean
-         */
-        public function getDocdataCssId($cluster_key){
-            $sql = "SELECT css_id FROM `". $this->table . "` ";
-            $sql.= "WHERE cluster_key ='". mysql_real_escape_string($cluster_key) . "' LIMIT 1";
+	/**
+	 * Gets the CSS ID based on cluster key.
+	 *
+	 * @param type $cluster_key
+	 * @return boolean
+	 */
+	public function getDocdataCssId($cluster_key){
+		$sql = "SELECT css_id FROM `". $this->table . "` ";
+		$sql.= "WHERE cluster_key ='". mysql_real_escape_string($cluster_key) . "' LIMIT 1";
 
-            $this->query($sql);
+		$this->query($sql);
 
-            if((int)$this->num_rows() == 0) return false;
+		if((int)$this->num_rows() == 0) return false;
 
-            $this->next_record();
+		$this->next_record();
 
-            return $this->f('css_id');
-        }
+		return $this->f('css_id');
+	}
 
 	/**
 	 * Get Payment Type based on order id and Docdata cluster key
@@ -304,8 +304,8 @@ class Payment extends Model {
 
 		$sql  = "INSERT INTO `" . $this->paymentsTable . "` ";
 		$sql .= "SET boeking_id = '" . mysql_real_escape_string($order_id) . "', ";
-        $sql .= "bedrag = " . mysql_real_escape_string($captured) . ", datum = NOW(), ";
-        $sql .= "type = '" . mysql_real_escape_string($payment_type) . "', ";
+		$sql .= "bedrag = " . mysql_real_escape_string($captured) . ", datum = NOW(), ";
+		$sql .= "type = '" . mysql_real_escape_string($payment_type) . "', ";
 		$sql .= " docdata_payment_id = '" . mysql_real_escape_string($payment_id) ."' ;";
 
 		$this->query($sql);
