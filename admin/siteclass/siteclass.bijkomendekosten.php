@@ -1135,12 +1135,16 @@ class bijkomendekosten {
 
 				if($value["filled"]) {
 
-					if($value["inclusief"]==1) {
-						$cat = "inclusief";
-					} elseif($value["borg_soort"]) {
+					if($value["borg_soort"]) {
 						$cat = "exclusief";
+					} elseif($value["altijd_diversen"]) {
+						$cat = "diversen";
+					} elseif($value["inclusief"]==1) {
+						$cat = "inclusief";
 					} elseif($value["verplicht"]==1) {
 						$cat = "exclusief";
+					} elseif($value["verplicht"]==3) {
+						$cat = "diversen";
 					} else {
 						$cat = "uitbreiding";
 					}
@@ -1207,7 +1211,7 @@ class bijkomendekosten {
 			}
 		}
 
-		$kosten["exclusief"]["reserveringskosten"] = wt_he(txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").")");
+		// $kosten["exclusief"]["reserveringskosten"] = wt_he(txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").")");
 
 		$kosten["uitbreiding"]["extraopties"] = html("bekijk-ook-extra-opties","tarieventabel",array("h_1"=>"<a href=\"#extraopties\">","h_2"=>" &raquo;</a>"));
 
@@ -1226,8 +1230,8 @@ class bijkomendekosten {
 		$kosten = $this->get_costs_temporary();
 		$variabele_kosten = $this->get_variable_costs();
 
-		// echo wt_dump($variabele_kosten);
 
+		// Inclusief
 		if(is_array($kosten["inclusief"])) {
 			$return .= "<h1>".html("inclusief","toonaccommodatie").":</h1>";
 			$return .= "<ul>";
@@ -1236,22 +1240,24 @@ class bijkomendekosten {
 			}
 			$return .= "</ul>";
 		}
-		if(is_array($kosten["exclusief"]) or is_array($variabele_kosten)) {
-			$return .= "<h1>".html("verplichttevoldoen","tarieventabel").":</h1>";
-			$return .= "<ul>";
-			if(is_array($kosten["exclusief"])) {
-				foreach ($kosten["exclusief"] as $key => $value) {
-					$return .= "<li>".$value."</li>";
-				}
-			}
-			if(is_array($variabele_kosten)) {
-				foreach ($variabele_kosten as $key => $value) {
-					$return .= "<li>".$value."</li>";
-				}
-			}
 
-			$return .= "</ul>";
+		// Verplicht te voldoen
+		$return .= "<h1>".html("verplichttevoldoen","tarieventabel").":</h1>";
+		$return .= "<ul>";
+		if(is_array($kosten["exclusief"])) {
+			foreach ($kosten["exclusief"] as $key => $value) {
+				$return .= "<li>".$value."</li>";
+			}
 		}
+		if(is_array($variabele_kosten)) {
+			foreach ($variabele_kosten as $key => $value) {
+				$return .= "<li>".$value."</li>";
+			}
+		}
+		$return .= "<li>".wt_he(txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").")")."</li>";
+		$return .= "</ul>";
+
+		// Optioneel
 		if(is_array($kosten["uitbreiding"])) {
 			$return .= "<h1>".html("optioneel","tarieventabel").":</h1>";
 			$return .= "<ul>";
@@ -1260,15 +1266,16 @@ class bijkomendekosten {
 			}
 			$return .= "</ul>";
 		}
-		// if(is_array($kosten["diversen"])) {
-		// 	$return .= "<h1>".html("diversen","tarieventabel").":</h1>";
-		// 	$return .= "<ul>";
-		// 	foreach ($kosten["diversen"] as $key => $value) {
-		// 		$return .= "<li>".$value."</li>";
-		// 	}
-		// 	$return .= "</ul>";
-		// }
 
+		// Diversen
+		if(is_array($kosten["diversen"])) {
+			$return .= "<h1>".html("diversen","tarieventabel").":</h1>";
+			$return .= "<ul>";
+			foreach ($kosten["diversen"] as $key => $value) {
+				$return .= "<li>".$value."</li>";
+			}
+			$return .= "</ul>";
+		}
 
 		if(!$isMobile){
 			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
