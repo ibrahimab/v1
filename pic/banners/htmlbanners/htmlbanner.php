@@ -615,11 +615,11 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>";
 
 	echo "<div style=\"position:absolute;top:199px;left:12px;\">\n";
-	italissima_datum();
+	italissima_personen();
 	echo "</div>\n";
 
 	echo "<div style=\"position:absolute;top:225px;left:12px;\">\n";
-	italissima_personen();
+	italissima_datum();
 	echo "</div>\n";
 	echo "<div style=\"position:absolute;top:199px;left:153px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
@@ -651,11 +651,11 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>";
 
 	echo "<div style=\"position:absolute;top:440px;left:3px;\">\n";
-	italissima_datum("110px");
+	italissima_personen("110px");
 	echo "</div>\n";
 
 	echo "<div style=\"position:absolute;top:475px;left:3px;\">\n";
-	italissima_personen("110px");
+	italissima_datum("110px");
 	echo "</div>\n";
 
 	echo "<div style=\"position:absolute;top:520px;left:16px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
@@ -672,11 +672,11 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>";
 
 	echo "<div style=\"position:absolute;top:199px;left:12px;\">\n";
-	italissima_datum("158px");
+	italissima_personen("158px");
 	echo "</div>\n";
 
 	echo "<div style=\"position:absolute;top:225px;left:12px;\">\n";
-	italissima_personen("158px");
+	italissima_datum("158px");
 	echo "</div>\n";
 	echo "<div style=\"position:absolute;top:199px;left:192px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
@@ -947,11 +947,11 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>";
 
 	echo "<div style=\"position:absolute;top:199px;left:12px;\">\n";
-	italissima_datum();
+	italissima_personen();
 	echo "</div>\n";
 
 	echo "<div style=\"position:absolute;top:225px;left:12px;\">\n";
-	italissima_personen();
+	italissima_datum();
 	echo "</div>\n";
 	echo "<div style=\"position:absolute;top:199px;left:153px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
@@ -983,11 +983,11 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>";
 
 	echo "<div style=\"position:absolute;top:440px;left:3px;\">\n";
-	italissima_datum("110px");
+	italissima_personen("110px");
 	echo "</div>\n";
 
 	echo "<div style=\"position:absolute;top:475px;left:3px;\">\n";
-	italissima_personen("110px");
+	italissima_datum("110px");
 	echo "</div>\n";
 
 	echo "<div style=\"position:absolute;top:520px;left:16px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
@@ -1003,11 +1003,11 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>";
 
 	echo "<div style=\"position:absolute;top:199px;left:12px;\">\n";
-	italissima_datum("158px");
+	italissima_personen("158px");
 	echo "</div>\n";
 
 	echo "<div style=\"position:absolute;top:225px;left:12px;\">\n";
-	italissima_personen("158px");
+	italissima_datum("158px");
 	echo "</div>\n";
 	echo "<div style=\"position:absolute;top:199px;left:192px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
