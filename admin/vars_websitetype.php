@@ -16,6 +16,10 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="
 #
 if($vars["lokale_testserver"]) {
 
+	if(!$unixdir) {
+		$unixdir = dirname(dirname(__FILE__)) . "/";
+	}
+
 	# Testsite bepalen indien niet bekend
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$vars["cms_basehref"]="http://ss.postvak.net/chalet/";
@@ -30,7 +34,7 @@ if($vars["lokale_testserver"]) {
 		$vars["cms_basehref"]="http://".constant("wt_test_hostname")."/chalet/";
 
 		if(!$vars["testsite"]) {
-			$vars["testsite"]=@file_get_contents("/Users/jeroen/Sites/chalet/tmp/testsite.txt");
+			$vars["testsite"]=@file_get_contents($unixdir."tmp/testsite.txt");
 		}
 	}
 
