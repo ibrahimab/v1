@@ -1369,25 +1369,27 @@ if($boeking_wijzigen) {
 	}
 }
 
-if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET"]["boeking"]["boekingid"]) and $id<>"boeken")) {
-	unset($rechtsboven);
-	if($boeking_wijzigen and $login->logged_in and !$vars["chalettour_loggedin_overzichtboekingen"]) {
-		$rechtsboven.="<span class=\"x-small\">";
-		if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">".html("andereboeking","bsys")."</a> - ";
-		$rechtsboven.="<a href=\"".$path.txt("menu_inloggen").".php?logout=21\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>$login->username))."</a>";
-		$rechtsboven.="</span>";
-	} elseif(ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {
-		if($regs[2]==boeking_veiligheid($regs[1])) {
-			$db->query("SELECT type_id FROM boeking WHERE boeking_id='".addslashes($_COOKIE["CHALET"]["boeking"]["boekingid"])."' AND bevestigdatum IS NULL;");
-			if($db->next_record()) {
-				$verder=accinfo($db->f("type_id"));
-				if(($id=="toonaccommodatie" and $typeid<>$db->f("type_id")) or ($id<>"boeken" and $id<>"toonaccommodatie")) {
-					if($verder["tonen"] and !$voorkant_cms) {
-						$rechtsboven.="<span class=\"x-small\"><a href=\"".$path."boeken.php?bfbid=".$regs[1]."\">".html("gaverdermetboeken","vars")." ";
-						if(!$vars["wederverkoop"]) {
-							$rechtsboven.=wt_he(ucfirst($verder["soortaccommodatie"])." ".$verder["accommodatie"]);
+if(!$rpc_json) {
+	if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET"]["boeking"]["boekingid"]) and $id<>"boeken")) {
+		unset($rechtsboven);
+		if($boeking_wijzigen and $login->logged_in and !$vars["chalettour_loggedin_overzichtboekingen"]) {
+			$rechtsboven.="<span class=\"x-small\">";
+			if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">".html("andereboeking","bsys")."</a> - ";
+			$rechtsboven.="<a href=\"".$path.txt("menu_inloggen").".php?logout=21\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>$login->username))."</a>";
+			$rechtsboven.="</span>";
+		} elseif(ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {
+			if($regs[2]==boeking_veiligheid($regs[1])) {
+				$db->query("SELECT type_id FROM boeking WHERE boeking_id='".addslashes($regs[1])."' AND bevestigdatum IS NULL;");
+				if($db->next_record()) {
+					$verder=accinfo($db->f("type_id"));
+					if(($id=="toonaccommodatie" and $typeid<>$db->f("type_id")) or ($id<>"boeken" and $id<>"toonaccommodatie")) {
+						if($verder["tonen"] and !$voorkant_cms) {
+							$rechtsboven.="<span class=\"x-small\"><a href=\"".$path."boeken.php?bfbid=".$regs[1]."\">".html("gaverdermetboeken","vars")." ";
+							if(!$vars["wederverkoop"]) {
+								$rechtsboven.=wt_he(ucfirst($verder["soortaccommodatie"])." ".$verder["accommodatie"]);
+							}
+							$rechtsboven.=" &raquo;</a></span>";
 						}
-						$rechtsboven.=" &gt;</a></span>";
 					}
 				}
 			}

@@ -8,8 +8,9 @@
 set_time_limit( 30 );
 ignore_user_abort( false );
 
-$mustlogin=false;
-$geen_tracker_cookie=true;
+$mustlogin = false;
+$geen_tracker_cookie = true;
+$rpc_json = true;
 
 include "admin/vars.php";
 
