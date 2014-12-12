@@ -5674,8 +5674,8 @@ $txt["en"]["xml"]["euro"]="Euro";
 #$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
 
 # htmlbanners
-$txt["nl"]["htmlbanner"]["kies-aantal-personen"]="Kies aantal personen";
-$txt["en"]["htmlbanner"]["kies-aantal-personen"]="Select no. of persons";
+$txt["nl"]["htmlbanner"]["kies-aantal-personen"]="Personen";
+$txt["en"]["htmlbanner"]["kies-aantal-personen"]="No. of persons";
 
 $txt["nl"]["htmlbanner"]["zoek-op-aantal-personen"]="Zoek op aantal personen";
 $txt["en"]["htmlbanner"]["zoek-op-aantal-personen"]="Search for no. of persons";
@@ -5686,8 +5686,8 @@ $txt["en"]["htmlbanner"]["persoon"]="person";
 $txt["nl"]["htmlbanner"]["personen"]="personen";
 $txt["en"]["htmlbanner"]["personen"]="persons";
 
-$txt["nl"]["htmlbanner"]["kies-land"]="Kies land";
-$txt["en"]["htmlbanner"]["kies-land"]="Select country";
+$txt["nl"]["htmlbanner"]["kies-land"]="Land";
+$txt["en"]["htmlbanner"]["kies-land"]="Country";
 
 $txt["nl"]["htmlbanner"]["zoek-op-land"]="Zoek op land";
 $txt["en"]["htmlbanner"]["zoek-op-land"]="Search for country";
@@ -5704,8 +5704,8 @@ $txt["en"]["htmlbanner"]["oostenrijk"]="Austria";
 $txt["nl"]["htmlbanner"]["zwitserland"]="Zwitserland";
 $txt["en"]["htmlbanner"]["zwitserland"]="Switzerland";
 
-$txt["nl"]["htmlbanner"]["kies-datum"]="Kies datum";
-$txt["en"]["htmlbanner"]["kies-datum"]="Select date";
+$txt["nl"]["htmlbanner"]["kies-datum"]="Datum";
+$txt["en"]["htmlbanner"]["kies-datum"]="Date";
 
 
 

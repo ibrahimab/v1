@@ -75,9 +75,9 @@ if($_GET["t"]==4) {
 function zomer_land($width="130px") {
 	echo "<select name=\"l\" style=\"width:".$width.";\" onchange=\"formsubmit('l');\">\n";
 	if($_GET["themadatum"]==2) {
-		echo "<option value=\"0\" selected>Kies land</option>\n";
+		echo "<option value=\"0\" selected>Land</option>\n";
 	} else {
-		echo "<option value=\"0\" selected>Zoek op land</option>\n";
+		echo "<option value=\"0\" selected>Land</option>\n";
 	}
 	echo "<option value=\"1\">Frankrijk</option>\n";
 	echo "<option value=\"2\">Oostenrijk</option>\n";
@@ -147,7 +147,7 @@ function zomer_thema($width="130px") {
 		echo "</select>\n";
 	} else {
 		echo "<select name=\"t\" id=\"vertrekdatum\" style=\"width:".$width.";\" onchange=\"formsubmit('t');\">\n";
-		echo "<option value=\"0\" selected>Kies datum</option>\n";
+		echo "<option value=\"0\" selected>Datum</option>\n";
 		echo "</select>\n";
 	}
 }
