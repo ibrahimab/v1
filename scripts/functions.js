@@ -1633,7 +1633,15 @@ $(document).ready(function() {
 									var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");
 								}
 								$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
-								$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":match_type[2], "price":match_price[0], "url":nieuwe_url, "list":list}, function(data){
+								var product_clicks_type = 0;
+								var product_clicks_price = 0;
+								if(match_type != null) {
+									product_clicks_type = match_type[2];
+								}
+								if(match_price != null) {
+									product_clicks_price = match_price[0];
+								}
+								$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":product_clicks_type, "price":product_clicks_price, "url":nieuwe_url, "list":list}, function(data){
 									if(data.ok && typeof dataLayer !== 'undefined' && dataLayer !== null) {
 										var callBackJson={'eventCallback': function(){
 											document.location = nieuwe_url;
