@@ -3338,6 +3338,7 @@ function bereken_bijkomendekosten($boekingid) {
 						// check for number of persons for this booking (min_personen / max_personen)
 						//
 
+						// toeslag (surcharge) = general option ("alg")
 						$save["persoonnummer"]="alg";
 
 						if($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
@@ -3366,17 +3367,14 @@ function bereken_bijkomendekosten($boekingid) {
 									$leeftijd=wt_leeftijd($geboortedatum, mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
 									if($db->f("min_leeftijd") and $db->f("max_leeftijd")) {
 										if($leeftijd>=$db->f("min_leeftijd") and $leeftijd<=$db->f("max_leeftijd")) {
-											// if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
 											$alg_aantal++;
 										}
 									} elseif($db->f("min_leeftijd")) {
 										if($leeftijd>=$db->f("min_leeftijd")) {
-											// if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
 											$alg_aantal++;
 										}
 									} elseif($db->f("max_leeftijd")) {
 										if($leeftijd<=$db->f("max_leeftijd")) {
-											// if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
 											$alg_aantal++;
 										}
 									}
@@ -3386,7 +3384,6 @@ function bereken_bijkomendekosten($boekingid) {
 						} else {
 							for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 								if($i>=$db->f("min_personen") and $i<=$db->f("max_personen")) {
-									// if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
 									$alg_aantal++;
 								}
 							}
