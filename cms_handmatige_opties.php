@@ -11,10 +11,24 @@ if($_GET["edit"]==23 and $_GET["23k0"]) {
 	}
 }
 
-$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id, persoonnummer, deelnemers FROM extra_optie WHERE boeking_id='".addslashes($_GET["bid"])."';");
+$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id, persoonnummer, deelnemers, alg_aantal FROM extra_optie WHERE boeking_id='".addslashes($_GET["bid"])."';");
 while($db->next_record()) {
+
+	if($db->f("persoonnummer")=="pers") {
+		if($db->f("deelnemers")) {
+			$temp_aantal = preg_split("@,@", $db->f("deelnemers"));
+			$aantal[$db->f("extra_optie_id")]=count($temp_aantal);
+		} else {
+			$aantal[$db->f("extra_optie_id")]=0;
+		}
+	} else {
+		$aantal[$db->f("extra_optie_id")]=$db->f("alg_aantal");
+	}
+
 	if($db->f("bijkomendekosten_id")) {
 		$soort[$db->f("extra_optie_id")]="Bijkomende kosten";
+
+
 		if($db->f("persoonnummer")=="pers" and !$db->f("deelnemers")) {
 			$geen_deelnemers[$db->f("extra_optie_id")] = true;
 		}
@@ -83,6 +97,7 @@ if(!$_GET["edit"] and !$_GET["add"]) {
 }
 
 $cms->db_field(23,"select","extra_optie_id","",array("selection"=>$soort));
+$cms->db_field(23,"select","aantal","extra_optie_id",array("selection"=>$aantal));
 $cms->db_field(23,"text","soort");
 $cms->db_field(23,"text","naam");
 $cms->db_field(23,"select","persoonnummer","",array("selection"=>$vars["keuze_persoonnummer"]));
@@ -116,6 +131,7 @@ $cms->list_sort[23]=array("persoonnummer","naam");
 $cms->list_field(23,"persoonnummer","Gekoppeld aan");
 $cms->list_field(23,"extra_optie_id","Soort");
 $cms->list_field(23,"naam","Omschrijving");
+$cms->list_field(23,"aantal","Aantal");
 $cms->list_field(23,"verkoop","Verkoop");
 $cms->list_field(23,"optiecategorie","Categorie");
 
