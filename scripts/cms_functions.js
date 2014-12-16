@@ -451,6 +451,17 @@ $(document).ready(function() {
 		});
 	}
 
+	// cms_handmatige_opties.php: handmatige optie: select "alg" => alg_aantal" becomes 1
+	$("#cms_body_cms_handmatige_opties select[name='input[persoonnummer]']").change(function() {
+		if($(this).val()=="alg") {
+			if($("input[name='input[alg_aantal]']").val()=="") {
+				$("input[name='input[alg_aantal]']").val("1");
+			}
+		} else {
+			$("input[name='input[alg_aantal]']").val("");
+		}
+	});
+
 	// overzicht uitgaande openstaande betalingen
 	if($("input[name='inkoopbetalingen_filled']").length>0) {
 
