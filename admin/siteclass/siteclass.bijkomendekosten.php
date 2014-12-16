@@ -1194,12 +1194,16 @@ class bijkomendekosten {
 							if($value["verplicht"]==2) {
 								$kosten[$cat][$key] .= wt_he($vars["bk_verplicht"][2].": ");
 							}
-							$kosten[$cat][$key] .= wt_he("€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"] ? $vars["bk_eenheid"][$value["eenheid"]] : ""));
+							$kosten[$cat][$key] .= wt_he("€ ".$this->toonbedrag($value["bedrag"]));
+							if($value["eenheid"]) {
+								$kosten[$cat][$key] .=" ".wt_he($vars["bk_eenheid"][$value["eenheid"]]);
+							}
+
+							if($value["opgeven_bij_boeken"] and $value["inclusief"]==0 and $value["verplicht"]==0) {
+								$kosten[$cat][$key] .= ", ".wt_he("opgeven bij boeking");
+							}
 							if($value["ter_plaatse"]==1) {
-								if($value["eenheid"]) {
-									$kosten[$cat][$key] .= ", ";
-								}
-								$kosten[$cat][$key] .= wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
+								$kosten[$cat][$key] .= ", ".wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
 							}
 
 							$kosten[$cat][$key] .= ")";
