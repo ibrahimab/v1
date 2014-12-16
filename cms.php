@@ -3,11 +3,9 @@
 set_time_limit(0);
 
 if($_GET["testsite"]) {
-	if($_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro") {
-		file_put_contents("/var/www/chalet/chalet-dev.web.netromtest.ro/tmp/testsite.txt",$_GET["testsite"]);
-	} else {
-		file_put_contents("/home/webtastic/html/chalet/tmp/testsite.txt",$_GET["testsite"]);
-	}
+
+	$unixdir = dirname(__FILE__) . "/";
+	file_put_contents($unixdir."tmp/testsite.txt",$_GET["testsite"]);
 	if($_GET["gotourl"]) {
 		if(preg_match("/^http:\/\//",$_GET["gotourl"])) {
 			header("Location: ".$_GET["gotourl"]);
