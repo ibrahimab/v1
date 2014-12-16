@@ -174,8 +174,6 @@ if($cms_form[23]->filled) {
 
 	if($cms_form[23]->input["persoonnummer"]=="alg" and $cms_form[23]->input["alg_aantal"]=="") {
 		$cms_form[23]->error("alg_aantal","verplicht bij een algemene optie");
-	} elseif($cms_form[23]->input["persoonnummer"]=="alg" and $cms_form[23]->input["alg_aantal"]=="0") {
-		$cms_form[23]->error("alg_aantal","minimaal 1");
 	}
 	if($cms_form[23]->input["persoonnummer"]<>"alg" and $cms_form[23]->input["alg_aantal"]<>"") {
 		$cms_form[23]->error("alg_aantal","alleen bij een algemene optie invullen");
