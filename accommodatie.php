@@ -186,7 +186,7 @@ if($acc_aanwezig) {
 
 // bijkomendekosten
 if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
-	$vars["toon_bijkomendekosten"] = true;
+	// $vars["toon_bijkomendekosten"] = true;
 }
 
 

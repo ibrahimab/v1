@@ -2588,7 +2588,7 @@ $txt["nl"]["tarieventabel"]["korting"]="Korting";
 $txt["en"]["tarieventabel"]["korting"]="Discount";
 
 $txt["nl"]["tarieventabel"]["kortingaccommodatie"]="Accommodatiekorting";
-$txt["en"]["tarieventabel"]["kortingaccommodatie"]="Accommodation discount";
+$txt["en"]["tarieventabel"]["kortingaccommodatie"]="Accom. discount";
 
 $txt["nl"]["tarieventabel"]["aanbieding"]="Aanbieding";
 $txt["en"]["tarieventabel"]["aanbieding"]="Special offer";
@@ -2748,6 +2748,104 @@ $txt["en"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Selected arrival dat
 
 $txt["nl"]["tarieventabel"]["klik-op-datum-personen"]="Klik in bovenstaande prijstabel om aankomstdatum/aantal personen te wijzigen.";
 $txt["en"]["tarieventabel"]["klik-op-datum-personen"]="Click in the above pricing table to change the date of arrival / number of people.";
+
+// tarieventabel bijkomende kosten
+$txt["nl"]["bijkomendekosten"]["inclusief"]="inclusief";
+$txt["en"]["bijkomendekosten"]["inclusief"]="including";
+
+$txt["nl"]["bijkomendekosten"]["exclusief"]="exclusief";
+$txt["en"]["bijkomendekosten"]["exclusief"]="excluding";
+
+$txt["nl"]["bijkomendekosten"]["optioneel"]="optioneel";
+$txt["en"]["bijkomendekosten"]["optioneel"]="optional";
+
+$txt["nl"]["bijkomendekosten"]["verplicht"]="verplicht";
+$txt["en"]["bijkomendekosten"]["verplicht"]="mandatory";
+
+$txt["nl"]["bijkomendekosten"]["naar-verbruik"]="naar verbruik";
+$txt["en"]["bijkomendekosten"]["naar-verbruik"]="by usage";
+
+$txt["nl"]["bijkomendekosten"]["zelf-te-verzorgen"]="zelf te verzorgen";
+$txt["en"]["bijkomendekosten"]["zelf-te-verzorgen"]="by tenant";
+
+$txt["nl"]["bijkomendekosten"]["vooraf-te-voldoen"]="vooraf te voldoen";
+$txt["en"]["bijkomendekosten"]["vooraf-te-voldoen"]="paid in advance";
+
+$txt["nl"]["bijkomendekosten"]["ter-plaatse-te-voldoen"]="ter plaatse te voldoen";
+$txt["en"]["bijkomendekosten"]["ter-plaatse-te-voldoen"]="paid locally";
+
+$txt["nl"]["bijkomendekosten"]["per-verblijf"]="per verblijf";
+$txt["en"]["bijkomendekosten"]["per-verblijf"]="per stay";
+
+$txt["nl"]["bijkomendekosten"]["pp"]="p.p.";
+$txt["en"]["bijkomendekosten"]["pp"]="p.p.";
+
+$txt["nl"]["bijkomendekosten"]["per-dag"]="per dag";
+$txt["en"]["bijkomendekosten"]["per-dag"]="per day";
+
+$txt["nl"]["bijkomendekosten"]["per-stuk"]="per stuk";
+$txt["en"]["bijkomendekosten"]["per-stuk"]="each";
+
+$txt["nl"]["bijkomendekosten"]["per-keer"]="per keer";
+$txt["en"]["bijkomendekosten"]["per-keer"]="each time";
+
+$txt["nl"]["bijkomendekosten"]["per-kwh"]="per kWh";
+$txt["en"]["bijkomendekosten"]["per-kwh"]="per kWh";
+
+$txt["nl"]["bijkomendekosten"]["per-liter"]="per liter";
+$txt["en"]["bijkomendekosten"]["per-liter"]="per liter";
+
+$txt["nl"]["bijkomendekosten"]["per-nacht"]="per nacht";
+$txt["en"]["bijkomendekosten"]["per-nacht"]="per night";
+
+$txt["nl"]["bijkomendekosten"]["per-set"]="per set";
+$txt["en"]["bijkomendekosten"]["per-set"]="per set";
+
+$txt["nl"]["bijkomendekosten"]["per-week"]="per week";
+$txt["en"]["bijkomendekosten"]["per-week"]="per week";
+
+$txt["nl"]["bijkomendekosten"]["per-zak"]="per zak";
+$txt["en"]["bijkomendekosten"]["per-zak"]="per bag";
+
+$txt["nl"]["bijkomendekosten"]["pp-per-keer"]="p.p. per keer";
+$txt["en"]["bijkomendekosten"]["pp-per-keer"]="per person each time";
+
+$txt["nl"]["bijkomendekosten"]["per-uur"]="per uur";
+$txt["en"]["bijkomendekosten"]["per-uur"]="per hour";
+
+$txt["nl"]["bijkomendekosten"]["per-kubieke-meter"]="per kubieke meter";
+$txt["en"]["bijkomendekosten"]["per-kubieke-meter"]="per cubic meter";
+
+$txt["nl"]["bijkomendekosten"]["contant-te-voldoen"]="contant te voldoen";
+$txt["en"]["bijkomendekosten"]["contant-te-voldoen"]="in cash";
+
+$txt["nl"]["bijkomendekosten"]["per-creditcard-te-voldoen"]="per creditcard te voldoen";
+$txt["en"]["bijkomendekosten"]["per-creditcard-te-voldoen"]="via credit card";
+
+$txt["nl"]["bijkomendekosten"]["contant-of-per-creditcard"]="contant of per creditcard te voldoen";
+$txt["en"]["bijkomendekosten"]["contant-of-per-creditcard"]="in cash or via credit card";
+
+$txt["nl"]["bijkomendekosten"]["niet-van-toepassing"]="niet van toepassing";
+$txt["en"]["bijkomendekosten"]["niet-van-toepassing"]="not applicable";
+
+$txt["nl"]["bijkomendekosten"]["bedrag-onbekend"]="bedrag onbekend";
+$txt["en"]["bijkomendekosten"]["bedrag-onbekend"]="amount unknown";
+
+$txt["nl"]["bijkomendekosten"]["geen-borg-verschuldigd"]="geen borg verschuldigd";
+$txt["en"]["bijkomendekosten"]["geen-borg-verschuldigd"]="no security deposit required";
+
+$txt["nl"]["bijkomendekosten"]["tegen-betaling"]="tegen betaling";
+$txt["en"]["bijkomendekosten"]["tegen-betaling"]="surcharge required";
+
+$txt["nl"]["bijkomendekosten"]["opgeven-bij-boeking"]="opgeven bij boeking";
+$txt["en"]["bijkomendekosten"]["opgeven-bij-boeking"]="state when booking";
+
+$txt["nl"]["bijkomendekosten"]["pppn"]="p.p.p.n.";
+$txt["en"]["bijkomendekosten"]["pppn"]="p.p.p.n.";
+
+$nieuwe_vertaling["en"]["bijkomendekosten"]["pppn"]=true;
+
+
 
 
 

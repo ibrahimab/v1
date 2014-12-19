@@ -1159,9 +1159,9 @@ class bijkomendekosten {
 						if($value["borg_soort"]==1 or $value["borg_soort"]==2 or $value["borg_soort"]==3 or $value["borg_soort"]==6) {
 							$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"]==2 ? " ".$vars["bk_eenheid"][$value["eenheid"]].", " : "").$vars["bk_borg_soort"][$value["borg_soort"]].")");
 						} elseif($value["borg_soort"]==4) {
-							$kosten[$cat][$key] .= ": geen borg verschuldigd";
+							$kosten[$cat][$key] .= ": ".html("geen-borg-verschuldigd", "bijkomendekosten");
 						} elseif($value["borg_soort"]==5) {
-							$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+							$kosten[$cat][$key] .= " (".html("ter-plaatse-te-voldoen", "bijkomendekosten").")";
 						}
 					} elseif($value["prijs_per_nacht"]) {
 						//
@@ -1172,7 +1172,7 @@ class bijkomendekosten {
 						} else {
 							if($value["bedrag"]=="0.00") {
 								$kosten[$cat][$key] = wt_he($value["naam"]);
-								$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+								$kosten[$cat][$key] .= " (".html("ter-plaatse-te-voldoen", "bijkomendekosten").")";
 							} else {
 								$kosten[$cat][$key] = wt_he($value["naam"]);
 								$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
@@ -1188,7 +1188,7 @@ class bijkomendekosten {
 						//
 						$kosten[$cat][$key] = wt_he($value["naam"]);
 						if($value["bedrag"]=="0.00") {
-							$kosten[$cat][$key] .= " (tegen betaling)";
+							$kosten[$cat][$key] .= " (".html("tegen-betaling", "bijkomendekosten").")";
 						} elseif($value["bedrag"]>0) {
 							$kosten[$cat][$key] .= " (";
 							if($value["verplicht"]==2) {
@@ -1200,7 +1200,7 @@ class bijkomendekosten {
 							}
 
 							if($value["opgeven_bij_boeken"] and $value["inclusief"]==0 and $value["verplicht"]==0) {
-								$kosten[$cat][$key] .= ", ".wt_he("opgeven bij boeking");
+								$kosten[$cat][$key] .= ", ".html("opgeven-bij-boeking", "bijkomendekosten");
 							}
 							if($value["ter_plaatse"]==1) {
 								$kosten[$cat][$key] .= ", ".wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
