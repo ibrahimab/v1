@@ -902,7 +902,7 @@ form {
 	color: #777777;
 }
 
-.chzn-container-active .chzn-single, .chzn-container-single .chzn-drop {
+.chosen-container-active .chosen-single, .chosen-container-single .chosen-drop {
 	border-color: #ff9900;
 }
 

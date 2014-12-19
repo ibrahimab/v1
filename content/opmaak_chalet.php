@@ -63,18 +63,13 @@ if($onMobile){
     ?><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><?php
 }
 
-# Font Awesome-css
-echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/font-awesome.min.css\" />\n";
+// Link to CSS files
+echo $opmaak->link_rel_css();
 
 if(!$vars["page_with_tabs"]) {
 	# jQuery UI theme laden
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css?cache=".@filemtime("css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css")."\" />\n";
 }
-
-# jQuery Chosen css
-#if($vars["jquery_chosen"]) {
-	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."css/chosen.css\" type=\"text/css\" />\n";
-#}
 
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_websites_en_cms.css.phpcache?cache=".@filemtime("css/opmaak_websites_en_cms.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_alle_sites.css.phpcache?cache=".@filemtime("css/opmaak_alle_sites.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
@@ -842,16 +837,12 @@ if($vars["googlemaps"]) {
 # Google Analytics
 echo googleanalytics();
 
+$lazyLoadJs = $opmaak->lazyLoadJs();
+
 if($vars["website"]=="E") {
 	# jQuery ms-Dropdown (https://github.com/marghoobsuleman/ms-Dropdown)
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.dd.min.js'";
 }
-
-# jQuery Chosen javascript
-#if($vars["jquery_chosen"]) {
-	$lazyLoadJs[] = "'".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."'";
-	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."'";
-#}
 
 if($vars["page_with_tabs"]) {
 	# jQuery Address: t.b.v. correcte verwerking hashes in URL

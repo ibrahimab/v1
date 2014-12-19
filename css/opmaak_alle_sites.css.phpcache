@@ -1232,41 +1232,40 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 
 .option_plaats {
 	padding-left: 2em !important;
-	max-height: 15px;
 }
 
 .option_actief {
 	color: #777777;
 }
 
-.chzn-container .chzn-results li {
+.chosen-container .chosen-results li {
   line-height: 10px;
 }
 
 /*geselecteerde keuze*/
-.chzn-container .chzn-results .highlighted {
+.chosen-container .chosen-results .highlighted {
 
 }
 
 
 /*hoogte complete pulldown bestemming*/
-.zoekblok_bestemming .chzn-container .chzn-results {
+.zoekblok_bestemming .chosen-container .chosen-results {
   max-height: 400px;
 }
 
 /*placeholder-tekst*/
-.chzn-container-single .chzn-default span {
+.chosen-container-single .chosen-default span {
 	color: #000000;
 }
 
 /*placeholder meerdere bestemmingen italics weergeven*/
-.zoekblok_field_extrabestemming .chzn-container-single .chzn-default span {
+.zoekblok_field_extrabestemming .chosen-container-single .chosen-default span {
 	font-style: italic;
 	color: #444444;
 }
 
 /*zorgen dat tekst in chosen-field verticaal gecentreerd is*/
-.chzn-container-single .chzn-single span {
+.chosen-container-single .chosen-single span {
 	margin-top: -2px;
 	color: #000000;
 }
@@ -1398,11 +1397,11 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	background: -ms-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
 }
 
-.chzn-container-active .chzn-single, .chzn-container-single .chzn-drop {
+.chosen-container-active .chosen-single, .chosen-container-single .chosen-drop {
 	border-color: #003366;
 }
 
-.chzn-container-single .chzn-drop {
+.chosen-container-single .chosen-drop {
 	border-top-color: #ffffff;
 }
 
@@ -2307,7 +2306,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	background-position: 100% -70px;
 }
 
-#zoekenboek ul.chzn-results, #zoekenboek_overlay ul.chzn-results {
+#zoekenboek ul.chosen-results, #zoekenboek_overlay ul.chosen-results {
 	font-size: 0.8em;
 }
 

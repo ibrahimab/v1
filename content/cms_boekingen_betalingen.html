@@ -88,6 +88,9 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 		} else {
 			if($nog_te_betalen<0) {
 				echo "&nbsp;&nbsp;&nbsp;<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&overbetaling=".urlencode(abs($nog_te_betalen))."\">overbetaling verdelen over andere boekingen van deze debiteur</a>";
+
+				echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".wt_he($_SERVER["REQUEST_URI"])."\" onclick=\"return betaling_goedkeuren(this,'De volgende betaling goedkeuren:','".number_format($nog_te_betalen,2,",","")."');\">betaling goedkeuren &raquo;</a>";
+
 			} else {
 				echo "&nbsp;";
 			}

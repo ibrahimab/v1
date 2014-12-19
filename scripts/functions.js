@@ -1255,7 +1255,7 @@ $(document).ready(function() {
 				} else {
 
 					// placeholder-tekst bij "bestemming" iets verkleinen
-					$(".chzn-container-single .chzn-single span").css("font-size","0.85em");
+					$(".chosen-container-single .chosen-single span").css("font-size","0.85em");
 
 				}
 
@@ -1278,7 +1278,7 @@ $(document).ready(function() {
 
 				// Chosen: diverse selects (zonder tekstzoeken)
 				$(".zoekblok_aankomstdatum select, .zoekblok_aantalpersonen select, .zoekblok_aantalslaapkamers select, .zoekblok_verblijfsduur select").chosen({disable_search: true,allow_single_deselect: true});
-				$(".zoekblok_aankomstdatum .chzn-search, .zoekblok_aantalpersonen .chzn-search, .zoekblok_aantalslaapkamers .chzn-search, .zoekblok_verblijfsduur .chzn-search").hide();
+				$(".zoekblok_aankomstdatum .chosen-search, .zoekblok_aantalpersonen .chosen-search, .zoekblok_aantalslaapkamers .chosen-search, .zoekblok_verblijfsduur .chosen-search").hide();
 			}
 
 
@@ -1459,7 +1459,7 @@ $(document).ready(function() {
 				$("select[name=fadf_m]").val("");
 				$("select[name=fadf_y]").val("");
 
-				$(".flexibel_datum").trigger("liszt:updated");
+				$(".flexibel_datum").trigger("chosen:updated");
 				zoekblok_submit();
 
 				return false;
@@ -2887,7 +2887,7 @@ $(document).ready(function() {
 
 		// indien _GET["selb"]==1 : bestemming-pulldown openklappen
 		if(location.href.indexOf("&selb=1") > -1 && $("div.datadiv").data("referer_zoekenboek")!="0") {
-			$('#zoekblok_field_bestemming').trigger('liszt:open');
+			$('#zoekblok_field_bestemming').trigger('chosen:open');
 		}
 
 

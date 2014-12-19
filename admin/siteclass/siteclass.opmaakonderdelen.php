@@ -127,6 +127,31 @@ class opmaakonderdelen {
 		$this->html_at_the_bottom .= $html;
 	}
 
+	public function lazyLoadJs() {
+
+		global $vars;
+
+		$return[] = "'".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."'";
+
+		$return[] = "'".$vars["path"]."vendor/jquery-chosen/chosen.jquery.1.3.0.js?cache=".@filemtime("vendor/jquery-chosen/chosen.jquery.1.3.0.js")."'";
+
+		return $return;
+
+	}
+
+	public function link_rel_css() {
+
+		global $vars;
+
+		$return .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/font-awesome.min.css\" />\n";
+
+		$return .= "<link rel=\"stylesheet\" href=\"".$vars["path"]."vendor/jquery-chosen/chosen.1.3.0.css?cache=".@filemtime("vendor/jquery-chosen/chosen.1.3.0.css")."\" type=\"text/css\" />\n";
+
+		return $return;
+
+
+	}
+
 }
 
 
