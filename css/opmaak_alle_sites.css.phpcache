@@ -2349,6 +2349,11 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	height: 15px;
 }
 
+#rich_snippets_rating {
+	display: none;
+}
+
+
 /* per pagina */
 
 

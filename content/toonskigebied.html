@@ -153,15 +153,15 @@ hr {
 	$review_aggregate_array = array(
 		"v_accommodations"=>$available_accomodations,
 		"v_naam"=>$db->f('naam'),
-		"h_1"=>"<span itemprop=\"itemreviewed\">",
+		"h_1"=>"<span>",
 		"h_spanclose"=>"</span>",
-		"h_3"=>"<span itemprop=\"rating\" itemscope itemtype=\"http://data-vocabulary.org/Rating\">",
+		"h_3"=>"<span>",
 		"v_average"=> number_format($place_review["totaaloordeel"],1,",","."),
-		"h_4"=>"<span itemprop=\"average\">",
+		"h_4"=>"<span>",
 		"v_best"=>"10",
-		"h_5" => "<span itemprop=\"best\">", 
-		"v_votes"=> $place_review["counter"], 
-		"h_6" => "<span itemprop=\"votes\">",
+		"h_5" => "<span>",
+		"v_votes"=> $place_review["counter"],
+		"h_6" => "<span>",
 		"h_7" => "<br/>",
 		"h_8" => "<strong>",
 		"h_9" => "</strong>");
@@ -178,10 +178,12 @@ hr {
 		echo "<div style=\"clear: both;\"></div>\n";
 		echo "</div>";
 		echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landid."-".$db->f("skigebied_id")."\">".html("review_aggregate_link_chalet","toonskigebied",array("v_skigebied"=>$db->f("naam"), "v_accommodations"=>$available_accomodations))." &raquo;</a>";
-		if ($vars["websitetype"] == 1 and (int)$review_aggregate_array["v_votes"] > 1 and (int)$available_accomodations > 0)
-			echo "<div itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\">" . 
+		if ($vars["websitetype"] == 1 and (int)$review_aggregate_array["v_votes"] > 1 and (int)$available_accomodations > 0) {
+			echo "<div>" .
 				html("review_aggregate_chalet","toonskigebied", $review_aggregate_array)
-				. "</div>";			
+				. "</div>";
+			echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($place_review["totaaloordeel"],1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$place_review["counter"]."</span></div>";
+		}
 	} elseif($vars["websitetype"]==7) {
 		echo "<div id=\"toonskigebied_splits_links\">";
 
@@ -279,10 +281,15 @@ hr {
 		echo "<div id=\"ligging\">";
 		if ((int)$available_accomodations > 0) {
 			$review_aggregate_array["h_10"] = "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=5-".$db->f("skigebied_id")."\">";
-			$review_aggregate_array["h_11"] = "&nbsp;&raquo;</a>"; 
-			echo "<div id=\"toonplaats_kenmerken_3\" itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\">". 
-			html("review_aggregate_link_italissima","toonskigebied", $review_aggregate_array) . (((int)$review_aggregate_array["v_votes"] > 1) ? html("review_aggregate_italissima","toonskigebied", $review_aggregate_array)  : "") 
+			$review_aggregate_array["h_11"] = "&nbsp;&raquo;</a>";
+			echo "<div id=\"toonplaats_kenmerken_3\">".
+			html("review_aggregate_link_italissima","toonskigebied", $review_aggregate_array) . (((int)$review_aggregate_array["v_votes"] > 1) ? html("review_aggregate_italissima","toonskigebied", $review_aggregate_array)  : "")
 			. "</div>";
+
+			if($review_aggregate_array["v_votes"] > 1) {
+				echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($place_review["totaaloordeel"],1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$place_review["counter"]."</span></div>";
+			}
+
 		}
 
 		echo "<h3>".html("ligging-plaatsen", "toonskigebied", array("v_regio"=>$db->f("naam"))).":</h3>";
