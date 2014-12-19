@@ -2480,6 +2480,11 @@ $txt["en"]["land"]["bekijkonzeaccommodaties"]="Have a look at all our chalets an
 $txt["nl_z"]["land"]["bekijkonzeaccommodaties"]="Bekijk al onze vakantiehuizen in [[v_land]]";
 $txt["en_z"]["land"]["bekijkonzeaccommodaties"]="Have a look at our holiday homes in [[v_land]]";
 
+$txt["nl"]["land"]["review_aggregate_link_chalet"]="Bekijk onze [[v_accommodations]] chalets en appartementen in [[v_land]]";
+$txt["en"]["land"]["review_aggregate_link_chalet"]="Have a look at our [[v_accommodations]] chalets and apartments in [[v_land]]";
+
+$txt["nl"]["land"]["review_aggregate_chalet"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["land"]["review_aggregate_chalet"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
 
 #
 # Thema-pagina (zie https://www.chalet.nl/thema/catering/)
@@ -2927,7 +2932,17 @@ $txt["en"]["toonskigebied"]["accommodaties-andere-regio"]="accommodations in a d
 $txt["nl"]["toonskigebied"]["accommodaties-in-regio"]="accommodaties in [[v_regio]]";
 $txt["en"]["toonskigebied"]["accommodaties-in-regio"]="accommodations in [[v_regio]]";
 
+$txt["nl"]["toonskigebied"]["review_aggregate_link_chalet"]="Bekijk onze [[v_accommodations]] chalets en appartementen in [[v_skigebied]]";
+$txt["en"]["toonskigebied"]["review_aggregate_link_chalet"]="Have a look at our [[v_accommodations]] chalets and apartments in [[v_skigebied]]";
 
+$txt["nl"]["toonskigebied"]["review_aggregate_chalet"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["toonskigebied"]["review_aggregate_chalet"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
+
+$txt["nl"]["toonskigebied"]["review_aggregate_link_italissima"]="[[h_10]][[h_8]]Bekijk onze [[v_accommodations]] agriturismi en vakantiehuizen in [[h_1]][[v_naam]][[h_spanclose]][[h_11]][[h_9]][[h_7]]";
+$txt["en"]["toonskigebied"]["review_aggregate_link_italissima"]="[[h_10]][[h_8]]Have a look at our [[v_accommodations]] agriturismi and holiday homes in [[h_1]][[v_naam]][[h_spanclose]][[h_11]][[h_9]][[h_7]]";
+
+$txt["nl"]["toonskigebied"]["review_aggregate_italissima"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["toonskigebied"]["review_aggregate_italissima"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
 
 #
 # Pagina Plaats (bijvoorbeeld https://www.chalet.nl/plaats/Alpe_d_Huez/)
@@ -3079,6 +3094,17 @@ $txt["en_z"]["toonplaats"]["bekijkalleaccommodaties"]="View all holiday homes in
 $txt["nl"]["toonplaats"]["plaatsnietgevonden"]="Plaats niet gevonden. Onze excuses voor het ongemak.";
 $txt["en"]["toonplaats"]["plaatsnietgevonden"]="Place not found. Our apologies for the inconvenience.";
 
+$txt["nl"]["toonplaats"]["review_aggregate_link_chalet"]="Bekijk onze [[v_accommodations]] chalets en appartementen in [[v_toonplaats]]";
+$txt["en"]["toonplaats"]["review_aggregate_link_chalet"]="Have a look at our [[v_accommodations]] chalets and apartments in [[v_toonplaats]]";
+
+$txt["nl"]["toonplaats"]["review_aggregate_chalet"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["toonplaats"]["review_aggregate_chalet"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
+
+$txt["nl"]["toonplaats"]["review_aggregate_link_italissima"]="Bekijk onze [[v_accommodations]] agriturismi en vakantiehuizen in [[v_toonplaats]]";
+$txt["en"]["toonplaats"]["review_aggregate_link_italissima"]="Have a look at our [[v_accommodations]] agriturismi and holiday homes in [[v_toonplaats]]";
+
+$txt["nl"]["toonplaats"]["review_aggregate_italissima"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["toonplaats"]["review_aggregate_italissima"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
 
 #
 # Overzicht skigebieden (https://www.chalet.nl/skigebieden.php)

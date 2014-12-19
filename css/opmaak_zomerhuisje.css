@@ -1059,3 +1059,7 @@ form {
 		text-decoration: none;
 	}
 }
+
+.breadcrumb_vocabulary {
+	float:left;
+}

@@ -600,3 +600,31 @@ form {
 		text-decoration: none;
 	}
 }
+
+.breadcrumb_vocabulary {
+	float:left;
+}
+
+#breadcrumb_wrapper {
+	width: 970px;
+	background-color: #ffffff;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#breadcrumb_overlay {
+	position:absolute;
+	top: 225px;
+	margin-left: 216px;
+	width: 735px;
+	height: 20px;
+	z-index:2;
+	font-size: 0.8em;
+}
+
+#breadcrumb_wrapper {
+	width: 970px;
+	background-color: #ffffff;
+	margin-left: auto;
+	margin-right: auto;
+}

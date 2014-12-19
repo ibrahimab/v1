@@ -1284,3 +1284,7 @@ ul.wie-zijn-wij > li ul li {
 		text-decoration: none;
 	}
 }
+
+.breadcrumb_vocabulary {
+	float:left;
+}
