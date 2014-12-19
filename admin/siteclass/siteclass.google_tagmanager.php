@@ -8,25 +8,34 @@ class google_tagmanager {
 
 	CONST BRAND = "Chalet";
 	CONST ID = "1";
-	
+
 	function __construct() {
 
 	}
 
 	public function place_start_script() {
-		$return = <<<EOT
 
-		<!-- Google Tag Manager -->
-		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5CPQNN"
-		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+		global $vars;
+
+		$tag_manager_id["C"] = "GTM-5CPQNN"; // Chalet.nl
+		$tag_manager_id["I"] = "GTM-K4P98X"; // Italissima.nl
+		$tag_manager_id["K"] = "GTM-N5B5FQ"; // Italissima.be
+		$tag_manager_id["H"] = "GTM-PN3GFW"; // Italyhomes.eu
+
+		if($tag_manager_id[$vars["website"]]) {
+
+			$return = "<!-- Google Tag Manager -->
+		<noscript><iframe src=\"//www.googletagmanager.com/ns.html?id=".$tag_manager_id[$vars["website"]]."\"
+		height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>
 		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-		})(window,document,'script','dataLayer','GTM-5CPQNN');</script>
-		<!-- End Google Tag Manager -->
+		})(window,document,'script','dataLayer','".$tag_manager_id[$vars["website"]]."');</script>
+		<!-- End Google Tag Manager -->";
 
-EOT;
+		}
 
 		return $return;
 
@@ -54,10 +63,10 @@ EOT;
 
 	/**
 	 * Retrieves the login details for the user login
-	 * 
+	 *
 	 * @global array $vars
 	 * @param array $login
-	 * 
+	 *
 	 * @return string
 	 */
 	public function mijnboeking_login($login) {
@@ -95,7 +104,7 @@ EOT;
 
 	/**
 	 * Retrieves the booking details for the measurement of product purchase
-	 * 
+	 *
 	 * @global array $vars
 	 * @param array $gegevens
 	 * @return string $return
@@ -111,7 +120,7 @@ EOT;
 		$send["ecommerce"]["purchase"]["actionField"]["tax"] = "";
 		$send["ecommerce"]["purchase"]["actionField"]["shipping"] = "";
 		$send["ecommerce"]["purchase"]["actionField"]["coupon"] = "";
-		
+
 		$send["ecommerce"]["purchase"]["products"] = array();
 		array_push($send["ecommerce"]["purchase"]["products"], array(
 			"name"=>wt_he(wt_stripaccents(ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"]) . " " . $gegevens["stap1"]["accinfo"]["accommodatie"])),
@@ -128,16 +137,16 @@ EOT;
 		return $return;
 
 	}
-	
+
 	/**
 	 * Retrieves the product details for the measurement of product impressions
-	 * 
+	 *
 	 * @global type $vars
 	 * @param type $product_impressions
 	 * @return string $return
 	 */
 	public function product_impressions($product_impressions, $list = 'Zoek en boek') {
-		global $vars;	
+		global $vars;
 
 		$send = array();
 		$send["event"]= 'productImpressions';
@@ -154,20 +163,20 @@ EOT;
 					"variant"=>wt_he(wt_stripaccents($product_value['plaats'])),
 					"list"=>$list,
 					"position"=>$product_key + 1
-				));	
+				));
 			}
 		}
 
 		$return = $this->datalayer_push($send);
 		return $return;
 
-	}	
-	
+	}
+
 	/**
 	 * Retrieves the product details for the measurement of product click
-	 * 
+	 *
 	 * @param array $product_click
-	 * 
+	 *
 	 * @return array $send
 	 */
 	public function product_click($product_click) {
@@ -182,14 +191,14 @@ EOT;
 			"brand"=>self::BRAND,
 			"category"=>wt_he(wt_stripaccents($product_click['land'])),
 			"variant"=>wt_he(wt_stripaccents($product_click['plaats']))
-		));			
-				
+		));
+
 		return $send;
 	}
-	
+
 	/**
 	 * Retrieves the details of the selected accomodation for the 'product details impressions'
-	 * 
+	 *
 	 * @param type $product_details_impressions
 	 * 	 * @return string $return
 	 */
@@ -205,11 +214,11 @@ EOT;
 			"brand"=>self::BRAND,
 			"category"=>wt_he(wt_stripaccents($product_details_impressions['category'])),
 			"variant"=>wt_he(wt_stripaccents($product_details_impressions['variant']))
-		));			
-			
+		));
+
 		$return = $this->datalayer_push($send);
 		return $return;
-	}	
+	}
 }
 
 ?>
