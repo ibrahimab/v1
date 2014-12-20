@@ -2,6 +2,12 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+12-dec-2014 17:25
+ALTER TABLE `extra_optie` ADD `alg_aantal` SMALLINT NULL DEFAULT NULL AFTER `deelnemers`;
+UPDATE `extra_optie` SET `alg_aantal`=1 WHERE `persoonnummer`='alg';
+ALTER TABLE `bk_soort` ADD `opgeven_bij_boeken` TINYINT(1) NOT NULL AFTER `borg`;
+
+
 21-nov-2014 19:42
 ALTER TABLE `tarief` ADD INDEX (korting_toon_als_aanbieding ,bruto, c_bruto, beschikbaar, week);
 

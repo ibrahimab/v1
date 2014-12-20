@@ -269,8 +269,10 @@ if($form->okay) {
 	$html.=wt_he($vars["bestelmailfax_graagpermailoffaxbevestigen"][$bmftaal])."<p>";
 	$html.=wt_he($vars["bestelmailfax_metvriendelijkegroet"][$bmftaal]).",<br><br>";
 	$html.=wt_he($form->input["ondertekennaam"])."<p>";
-	if($gegevens["stap1"]["accinfo"]["wzt"]==2) {
+	if($gegevens["stap1"]["website"]=="Z") {
 		$temp_websitenaam="Chalet.nl / Zomerhuisje.nl";
+	} elseif($gegevens["stap1"]["website"]=="I" or $gegevens["stap1"]["website"]=="K") {
+		$temp_websitenaam="Chalet.nl / Italissima";
 	} else {
 		$temp_websitenaam="Chalet.nl";
 	}

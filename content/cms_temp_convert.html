@@ -6,11 +6,32 @@
 
 echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
-$convert_excel_to_teksten = new convert_excel_to_teksten;
+// $convert_excel_to_teksten = new convert_excel_to_teksten;
+// $convert_excel_to_teksten->convert();
 
-$convert_excel_to_teksten->convert();
 
 
+
+$db->query("SELECT DISTINCT bijkomendekosten_id FROM bijkomendekosten WHERE min_personen>0;");
+while($db->next_record()) {
+	$inquery1.=",".$db->f("bijkomendekosten_id");
+}
+$db->query("SELECT DISTINCT boeking_id FROM extra_optie WHERE bijkomendekosten_id IN(0".$inquery1.");");
+while($db->next_record()) {
+	$inquery2.=",".$db->f("boeking_id");
+}
+
+$db->query("SELECT DISTINCT boeking_id FROM boeking_persoon WHERE annverz=1;");
+while($db->next_record()) {
+	$inquery3.=",".$db->f("boeking_id");
+}
+
+echo "<ul>";
+$db->query("SELECT boeking_id, boekingsnummer, UNIX_TIMESTAMP(bevestigdatum) AS bevestigdatum FROM boeking WHERE boekingsnummer<>'' AND boeking_id IN (0".$inquery2.") AND boeking_id IN (0".$inquery3.") ORDER BY bevestigdatum, boeking_id;");
+while($db->next_record()) {
+	echo "<li><a href=\"cms_boekingen.php?show=21&bc=74&archief=0&21k0=".$db->f("boeking_id")."&menu=1\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a> - ".date("r", $db->f("bevestigdatum"))."</li>";
+}
+echo "</ul>";
 
 
 // Posarelli-codes omzetten

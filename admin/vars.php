@@ -889,13 +889,13 @@ $vars["vertrekinfo_soortbeheer_sjabloontekst"]=array(1=>txt("dereceptie","vertre
 $vars["vertrekinfo_soortadres"]=array(1=>"adres accommodatie",2=>"sleuteladres");
 
 // bijkomende kosten
-$vars["bk_inclusief"] = array(1=>"inclusief", 0=>"exclusief");
-$vars["bk_verplicht"] = array(0=>"optioneel", 1=>"verplicht", 2=>"naar verbruik", 3=>"zelf te verzorgen");
-$vars["bk_ter_plaatse"] = array(0=>"vooraf te voldoen", 1=>"ter plaatse te voldoen");
+$vars["bk_inclusief"] = array(1=>html("inclusief", "bijkomendekosten"), 0=>html("exclusief", "bijkomendekosten"));
+$vars["bk_verplicht"] = array(0=>html("optioneel", "bijkomendekosten"), 1=>html("verplicht", "bijkomendekosten"), 2=>html("naar-verbruik", "bijkomendekosten"), 3=>html("zelf-te-verzorgen", "bijkomendekosten"));
+$vars["bk_ter_plaatse"] = array(0=>html("vooraf-te-voldoen", "bijkomendekosten"), 1=>html("ter-plaatse-te-voldoen", "bijkomendekosten"));
 $vars["bk_ter_plaatse_cms"] = array(0=>"vooraf", 1=>"ter plaatse");
-$vars["bk_eenheid"] = array(1=>"per verblijf",2=>"p.p.", 3=>"per dag", 4=>"per stuk", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak", 12=>"p.p. per keer", 13=>"per uur", 14=>"per kubieke meter");
+$vars["bk_eenheid"] = array(1=>html("per-verblijf", "bijkomendekosten"), 2=>html("pp", "bijkomendekosten"), 3=>html("per-dag", "bijkomendekosten"), 4=>html("per-stuk", "bijkomendekosten"), 5=>html("per-keer", "bijkomendekosten"), 6=>html("per-kwh", "bijkomendekosten"), 7=>html("per-liter", "bijkomendekosten"), 8=>html("per-nacht", "bijkomendekosten"), 9=>html("per-set", "bijkomendekosten"), 10=>html("per-week", "bijkomendekosten"), 11=>html("per-zak", "bijkomendekosten"), 12=>html("pp-per-keer", "bijkomendekosten"), 13=>html("per-uur", "bijkomendekosten"), 14=>html("per-kubieke-meter", "bijkomendekosten"));
 $vars["bk_eenheid_cms"] = array(1=>"per verblijf",2=>"per persoon", 3=>"per dag", 4=>"per stuk", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak", 12=>"p.p. per keer", 13=>"per uur", 14=>"per kubieke meter");
-$vars["bk_borg_soort"] = array(1=>"contant te voldoen",2=>"per creditcard te voldoen", 3=>"contant of per creditcard te voldoen", 4=>"niet van toepassing", 5=>"bedrag onbekend", 6=>"vooraf te voldoen");
+$vars["bk_borg_soort"] = array(1=>html("contant-te-voldoen", "bijkomendekosten"), 2=>html("per-creditcard-te-voldoen", "bijkomendekosten"), 3=>html("contant-of-per-creditcard", "bijkomendekosten"), 4=>html("niet-van-toepassing", "bijkomendekosten"), 5=>html("bedrag-onbekend", "bijkomendekosten"), 6=>html("vooraf-te-voldoen", "bijkomendekosten"));
 $vars["bk_borg_soort_cms"] = array(1=>"contant",2=>"creditcard", 3=>"contant of creditcard", 6=>"vooraf", 4=>"niet van toepassing", 5=>"bedrag onbekend");
 
 
@@ -1369,25 +1369,27 @@ if($boeking_wijzigen) {
 	}
 }
 
-if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET"]["boeking"]["boekingid"]) and $id<>"boeken")) {
-	unset($rechtsboven);
-	if($boeking_wijzigen and $login->logged_in and !$vars["chalettour_loggedin_overzichtboekingen"]) {
-		$rechtsboven.="<span class=\"x-small\">";
-		if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">".html("andereboeking","bsys")."</a> - ";
-		$rechtsboven.="<a href=\"".$path.txt("menu_inloggen").".php?logout=21\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>$login->username))."</a>";
-		$rechtsboven.="</span>";
-	} elseif(ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {
-		if($regs[2]==boeking_veiligheid($regs[1])) {
-			$db->query("SELECT type_id FROM boeking WHERE boeking_id='".addslashes($_COOKIE["CHALET"]["boeking"]["boekingid"])."' AND bevestigdatum IS NULL;");
-			if($db->next_record()) {
-				$verder=accinfo($db->f("type_id"));
-				if(($id=="toonaccommodatie" and $typeid<>$db->f("type_id")) or ($id<>"boeken" and $id<>"toonaccommodatie")) {
-					if($verder["tonen"] and !$voorkant_cms) {
-						$rechtsboven.="<span class=\"x-small\"><a href=\"".$path."boeken.php?bfbid=".$regs[1]."\">".html("gaverdermetboeken","vars")." ";
-						if(!$vars["wederverkoop"]) {
-							$rechtsboven.=wt_he(ucfirst($verder["soortaccommodatie"])." ".$verder["accommodatie"]);
+if(!$rpc_json) {
+	if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET"]["boeking"]["boekingid"]) and $id<>"boeken")) {
+		unset($rechtsboven);
+		if($boeking_wijzigen and $login->logged_in and !$vars["chalettour_loggedin_overzichtboekingen"]) {
+			$rechtsboven.="<span class=\"x-small\">";
+			if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">".html("andereboeking","bsys")."</a> - ";
+			$rechtsboven.="<a href=\"".$path.txt("menu_inloggen").".php?logout=21\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>$login->username))."</a>";
+			$rechtsboven.="</span>";
+		} elseif(ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {
+			if($regs[2]==boeking_veiligheid($regs[1])) {
+				$db->query("SELECT type_id FROM boeking WHERE boeking_id='".addslashes($regs[1])."' AND bevestigdatum IS NULL;");
+				if($db->next_record()) {
+					$verder=accinfo($db->f("type_id"));
+					if(($id=="toonaccommodatie" and $typeid<>$db->f("type_id")) or ($id<>"boeken" and $id<>"toonaccommodatie")) {
+						if($verder["tonen"] and !$voorkant_cms) {
+							$rechtsboven.="<span class=\"x-small\"><a href=\"".$path."boeken.php?bfbid=".$regs[1]."\">".html("gaverdermetboeken","vars")." ";
+							if(!$vars["wederverkoop"]) {
+								$rechtsboven.=wt_he(ucfirst($verder["soortaccommodatie"])." ".$verder["accommodatie"]);
+							}
+							$rechtsboven.=" &raquo;</a></span>";
 						}
-						$rechtsboven.=" &gt;</a></span>";
 					}
 				}
 			}

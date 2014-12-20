@@ -49,6 +49,40 @@ if($vars["seizoentype"]==2) {
 	}
 
 }
+$db2->query("SELECT t.type_id FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE a.weekendski=0 AND t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND l.land_id='".$landinfo["id"]."';");
+$inquery_type = '0';
+while($db2->next_record()) {
+	$inquery_type.= "," .$db2->f("type_id");
+}
+$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id IN (".$inquery_type.") AND vraag1_7>0 AND beoordeeld=1");
+$place_review = array();
+if($db2->next_record()) {
+	$place_review["counter"] = $db2->f("aantal");
+	$place_review["totaaloordeel"] = $db2->f("totaaloordeel");
+}
+
+$query = "SELECT count(DISTINCT t.type_id) as available_accommodations FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE a.weekendski=0 AND t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND l.land_id='".$landinfo["id"]."'	;";
+$db2->query($query);
+
+if($db2->next_record()) {
+	$available_accomodations = $db2->f("available_accommodations");
+}
+
+$review_aggregate_array = array(
+	"v_accommodations"=>$available_accomodations,
+	"v_naam"=>$db->f('naam'),
+	"h_1"=>"<span>",
+	"h_spanclose"=>"</span>",
+	"h_3"=>"<span>",
+	"v_average"=> number_format($place_review["totaaloordeel"],1,",","."),
+	"h_4"=>"<span>",
+	"v_best"=>"10",
+	"h_5" => "<span>",
+	"v_votes"=> $place_review["counter"],
+	"h_6" => "<span>",
+	"h_7" => "<br/>",
+	"h_8" => "<strong>",
+	"h_9" => "</strong>");
 
 # Skigebied-array vullen
 unset($tabellen,$landenteller,$landgehad);
@@ -387,8 +421,17 @@ if($FUNCTIE_UITGEZET and $vars["seizoentype"]==2 and ($themalandinfo["naam"]=="F
 } else {
 
 	if($vars["seizoentype"]==1 and $landinfo["id"]) {
-		echo "<div style=\"margin-top:1.5em;margin-bottom:2em;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landinfo["id"]."-0\">".html("bekijkonzeaccommodaties","land",array("v_land"=>$landinfo["naam"]))." &raquo;</a></div>";
+		echo "<div style=\"margin-top:1.5em;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landinfo["id"]."-0\">".html("review_aggregate_link_chalet","land",array("v_land"=>$landinfo["naam"], "v_accommodations"=>$available_accomodations))." &raquo;</a></div>";
 	}
+
+	if ($vars["websitetype"] == 1 and (int)$review_aggregate_array["v_votes"] > 1) {
+		echo "<div class=\"aggregate\" style=\"margin-bottom: 1.5em;\">".
+		html("review_aggregate_chalet","land", $review_aggregate_array) ."</div>";
+
+		echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($place_review["totaaloordeel"],1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$place_review["counter"]."</span></div>";
+
+	}
+
 	echo $tabellen;
 
 }

@@ -81,13 +81,15 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 		echo "<tr><td colspan=\"3\"><hr></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		echo "<tr><td>".($nog_te_betalen<0 ? "Teveel betaald" : "Nog te betalen")."&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format(abs($nog_te_betalen),2,',','.')."</td><td>&nbsp;</td>";
 
-
 		echo "<td>";
 		if($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_betaling"]>0) {
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".wt_he($_SERVER["REQUEST_URI"])."\" onclick=\"return betaling_goedkeuren(this,'De volgende betaling goedkeuren:','".number_format($nog_te_betalen,2,",","")."');\">betaling goedkeuren &raquo;</a>";
 		} else {
 			if($nog_te_betalen<0) {
-				echo "&nbsp;&nbsp;&nbsp;<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&overbetaling=".urlencode(abs($nog_te_betalen))."\">overbetaling verdelen over andere boekingen van deze debiteur</a>";
+				if($nog_te_betalen<>$gegevens["stap1"]["goedgekeurde_retourbetaling"]) {
+					echo "&nbsp;&nbsp;&nbsp;&bull; <a href=\"".wt_he($_SERVER["REQUEST_URI"])."&overbetaling=".urlencode(abs($nog_te_betalen))."\">overbetaling verdelen over andere boekingen van deze debiteur &raquo;</a>";
+					echo "<br />&nbsp;&nbsp;&nbsp;&bull; <a href=\"".wt_he($_SERVER["REQUEST_URI"])."\" onclick=\"return retourbetaling_goedkeuren(this,'De volgende retourbetaling goedkeuren:','".number_format(abs($nog_te_betalen),2,",","")."');\">retourbetaling goedkeuren &raquo;</a>";
+				}
 			} else {
 				echo "&nbsp;";
 			}
@@ -105,6 +107,17 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 			echo "</tr>";
 			if($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_betaling"]>0) {
 				echo "<tr style=\"color:#878481;\"><td>Nog niet goedgekeurd</td><td>&euro;</td><td align=\"right\">".number_format($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_betaling"],2,',','.')."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+			}
+		}
+		if($gegevens["stap1"]["goedgekeurde_retourbetaling"]) {
+			echo "<tr><td colspan=\"3\">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+			echo "<tr style=\"color:#878481;\"><td>Waarvan retourbetaling goedgekeurd&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format(abs($gegevens["stap1"]["goedgekeurde_retourbetaling"]),2,',','.')."</td><td>&nbsp;</td>";
+			echo "<td>";
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&goedgekeurde_betaling=0&retourbetaling=1\" onclick=\"confirmClick(this,'Goedkeuring retourbetaling t.w.v. ".number_format(abs($gegevens["stap1"]["goedgekeurde_retourbetaling"]),2,',','.')." intrekken?');\">goedkeuring intrekken &raquo;</a>";
+			echo "</td>";
+			echo "</tr>";
+			if($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_retourbetaling"]<0) {
+				echo "<tr style=\"color:#878481;\"><td>Nog niet goedgekeurd</td><td>&euro;</td><td align=\"right\">".number_format(abs($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_retourbetaling"]),2,',','.')."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 			}
 
 		}

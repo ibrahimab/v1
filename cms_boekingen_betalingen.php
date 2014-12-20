@@ -58,9 +58,17 @@ if(isset($_GET["goedgekeurde_betaling"]) and $_GET["confirmed"]) {
 	if($_GET["goedgekeurde_betaling"]>0) {
 		chalet_log("betaling t.w.v. € ".number_format($_GET["goedgekeurde_betaling"],2,',','.')." goedgekeurd",false,true);
 		cmslog_pagina_title("betaling goedgekeurd");
+	} elseif($_GET["goedgekeurde_betaling"]<0) {
+		chalet_log("retourbetaling t.w.v. € ".number_format(abs($_GET["goedgekeurde_betaling"]),2,',','.')." goedgekeurd",false,true);
+		cmslog_pagina_title("retourbetaling goedgekeurd");
 	} else {
-		chalet_log("goedgekeurde betaling ingetrokken",false,true);
-		cmslog_pagina_title("goedgekeurde betaling ingetrokken");
+		if($_GET["retourbetaling"]) {
+			chalet_log("goedgekeurde retourbetaling ingetrokken",false,true);
+			cmslog_pagina_title("goedgekeurde retourbetaling ingetrokken");
+		} else {
+			chalet_log("goedgekeurde betaling ingetrokken",false,true);
+			cmslog_pagina_title("goedgekeurde betaling ingetrokken");
+		}
 	}
 	header("Location: ".$vars["path"]."cms_boekingen_betalingen.php?".wt_stripget($_GET,array("goedgekeurde_betaling","confirmed")));
 	exit;

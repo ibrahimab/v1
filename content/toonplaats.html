@@ -4,7 +4,26 @@ $db->query("SELECT p.plaats_id, p.naam".$vars["ttv"]." AS naam, p.omschrijving".
 if(!$db->next_record()) {
 	echo "<p>".html("plaatsnietgevonden", "toonplaats")."</p>";
 } else {
+	$db2->query("SELECT t.type_id FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE a.accommodatie_id=t.accommodatie_id AND a.weekendski=0 AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND (p.plaats_id = ".$plaatsid." OR p.hoortbij_plaats_id=".$plaatsid.") ;");
 
+	$inquery_type = '0';
+	while($db2->next_record()) {
+		$inquery_type.= "," .$db2->f("type_id");
+	}
+
+	$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id IN (".$inquery_type.") AND vraag1_7>0 AND beoordeeld=1");
+	$place_review = array();
+	if($db2->next_record()) {
+		$place_review["counter"] = $db2->f("aantal");
+		$place_review["totaaloordeel"] = $db2->f("totaaloordeel");
+	}
+
+	$query = "SELECT COUNT(DISTINCT t.type_id) as available_accommodations FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE a.accommodatie_id=t.accommodatie_id AND a.weekendski=0 AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND (p.plaats_id = ".$plaatsid." OR p.hoortbij_plaats_id=".$plaatsid.");";
+	$db2->query($query);
+
+	if($db2->next_record()) {
+		$available_accomodations = $db2->f("available_accommodations");
+	}
 	# Video
 	if($db->f("video") and $db->f("video_url")) {
 		$video_url=$db->f("video_url");
@@ -22,7 +41,22 @@ if(!$db->next_record()) {
 		}
 		echo "</div>";
 	}
-	if($vars["seizoentype"]==1 or ($db->f("afstandtotutrecht") and $vars["taal"]=="nl")) {
+
+	$review_aggregate_array = array(
+		"v_accommodations"=>$available_accomodations,
+		"v_naam"=>$db->f('naam'),
+		"h_1"=>"<span>",
+		"h_spanclose"=>"</span>",
+		"h_3"=>"<span>",
+		"v_average"=> number_format($place_review["totaaloordeel"],1,",","."),
+		"h_4"=>"<span>",
+		"v_best"=>"10",
+		"h_5" => "<span>",
+		"v_votes"=> $place_review["counter"],
+		"h_6" => "<span>",
+		"h_7" => "<br/>");
+
+	if($vars["seizoentype"]==1 or ($db->f("afstandtotutrecht") and $vars["taal"]=="nl") or ($vars["seizoentype"]==2 and $vars["websitetype"] == 7)) {
 		echo "<div id=\"toonplaats_kenmerken\">";
 		echo "<div id=\"toonplaats_kenmerken_1\">";
 		if($db->f("hoogte")>0) echo "<div>".html("hoogte","toonplaats").": ".wt_he($db->f("hoogte"))." ".html("meter","toonplaats")."</div>";
@@ -31,7 +65,24 @@ if(!$db->next_record()) {
 		if($db->f("afstandtotutrecht") and $vars["taal"]=="nl") echo "Afstand tot Utrecht: ".wt_he($db->f("afstandtotutrecht"))." ".html("kilometer","toonplaats");
 		echo "</div>";
 		echo "<div style=\"clear: both;\"></div>\n";
-		echo "</div>";
+	}
+	echo "</div>";
+	if ($vars["websitetype"] == 1)
+		echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=pl".$plaatsid. "\">".html("review_aggregate_link_chalet","toonplaats",array("v_toonplaats"=>$db->f("naam"), "v_accommodations"=>$available_accomodations))." &raquo;</a>";
+	else if ($vars["websitetype"] == 7)
+		echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=pl".$plaatsid. "\">".html("review_aggregate_link_italissima","toonplaats",array("v_toonplaats"=>$db->f("naam"), "v_accommodations"=>$available_accomodations))." &raquo;</a>";
+	if((int)$review_aggregate_array["v_votes"] > 1 && (int)$available_accomodations > 0) {
+		if ($vars["websitetype"] == 1)
+			echo "<div>" .
+				html("review_aggregate_chalet","toonplaats", $review_aggregate_array)
+				. "</div>";
+		else if ($vars["websitetype"] == 7)
+			echo "<div>".
+				html("review_aggregate_italissima","toonplaats", $review_aggregate_array)
+				."</div>";
+
+		echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($place_review["totaaloordeel"],1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$place_review["counter"]."</span></div>";
+
 	}
 
 	$inquery=$db->f("plaats_id");

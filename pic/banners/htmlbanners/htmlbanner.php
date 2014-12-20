@@ -75,9 +75,9 @@ if($_GET["t"]==4) {
 function zomer_land($width="130px") {
 	echo "<select name=\"l\" style=\"width:".$width.";\" onchange=\"formsubmit('l');\">\n";
 	if($_GET["themadatum"]==2) {
-		echo "<option value=\"0\" selected>Kies land</option>\n";
+		echo "<option value=\"0\" selected>Land</option>\n";
 	} else {
-		echo "<option value=\"0\" selected>Zoek op land</option>\n";
+		echo "<option value=\"0\" selected>Land</option>\n";
 	}
 	echo "<option value=\"1\">Frankrijk</option>\n";
 	echo "<option value=\"2\">Oostenrijk</option>\n";
@@ -147,7 +147,7 @@ function zomer_thema($width="130px") {
 		echo "</select>\n";
 	} else {
 		echo "<select name=\"t\" id=\"vertrekdatum\" style=\"width:".$width.";\" onchange=\"formsubmit('t');\">\n";
-		echo "<option value=\"0\" selected>Kies datum</option>\n";
+		echo "<option value=\"0\" selected>Datum</option>\n";
 		echo "</select>\n";
 	}
 }
@@ -580,61 +580,61 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>\n";
 } elseif($_GET["t"]==1 and $_GET["wzt"]==3) {
 	# italissima 728x90
-	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.png');\">\n";
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:22px;left:320px;\">\n";
+	echo "<div style=\"position:absolute;top:22px;left:498px;\">\n";
 	italissima_regio();
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:50px;left:320px;\">\n";
+	echo "<div style=\"position:absolute;top:50px;left:498px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:35px;left:459px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:35px;left:635px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==2 and $_GET["wzt"]==3) {
 	# italissima 468x60
-	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_468x60.png');\">\n";
+	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_468x60.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:7px;left:230px;\">\n";
+	echo "<div style=\"position:absolute;top:7px;left:240px;\">\n";
 	italissima_regio();
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:32px;left:230px;\">\n";
+	echo "<div style=\"position:absolute;top:32px;left:240px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:19px;left:372px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:19px;left:377px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==3 and $_GET["wzt"]==3) {
 	# italissima 250x250
-	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_250x250.png');\">\n";
+	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_250x250.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:133px;left:12px;\">\n";
+	echo "<div style=\"position:absolute;top:173px;left:12px;\">\n";
 	italissima_regio();
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:169px;left:12px;\">\n";
-	italissima_datum();
-	echo "</div>\n";
-
-	echo "<div style=\"position:absolute;top:205px;left:12px;\">\n";
+	echo "<div style=\"position:absolute;top:199px;left:12px;\">\n";
 	italissima_personen();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:169px;left:153px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+
+	echo "<div style=\"position:absolute;top:225px;left:12px;\">\n";
+	italissima_datum();
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:199px;left:153px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==4 and $_GET["wzt"]==3) {
 	# italissima 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_234x60.png');\">\n";
+	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_234x60.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:5px;left:92px;\">\n";
+	echo "<div style=\"position:absolute;top:4px;left:92px;\">\n";
 	italissima_regio("100px");
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:33px;left:92px;\">\n";
+	echo "<div style=\"position:absolute;top:32px;left:92px;\">\n";
 	italissima_datum("100px");
 	echo "</div>\n";
 	echo "<div style=\"position:absolute;top:7px;left:199px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
@@ -644,21 +644,41 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	# italissima 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_120x600.png');\">\n";
+	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_120x600.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:275px;left:3px;\">\n";
+	echo "<div style=\"position:absolute;top:405px;left:3px;\">\n";
 	italissima_regio("110px");
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:310px;left:3px;\">\n";
-	italissima_datum("110px");
-	echo "</div>\n";
-
-	echo "<div style=\"position:absolute;top:345px;left:3px;\">\n";
+	echo "<div style=\"position:absolute;top:440px;left:3px;\">\n";
 	italissima_personen("110px");
 	echo "</div>\n";
 
-	echo "<div style=\"position:absolute;top:390px;left:16px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:475px;left:3px;\">\n";
+	italissima_datum("110px");
+	echo "</div>\n";
+
+	echo "<div style=\"position:absolute;top:520px;left:16px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
+
+} elseif($_GET["t"]==6 and $_GET["wzt"]==3) {
+	# italissima 300x250
+
+	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_300x250.jpg');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:173px;left:12px;\">\n";
+	italissima_regio("158px");
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:199px;left:12px;\">\n";
+	italissima_personen("158px");
+	echo "</div>\n";
+
+	echo "<div style=\"position:absolute;top:225px;left:12px;\">\n";
+	italissima_datum("158px");
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:199px;left:192px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 
@@ -892,61 +912,61 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>\n";
 } elseif($_GET["t"]==1 and $_GET["wzt"]==6) {
 	# italissima.be 728x90
-	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.png');\">\n";
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:22px;left:320px;\">\n";
+	echo "<div style=\"position:absolute;top:22px;left:498px;\">\n";
 	italissima_regio();
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:50px;left:320px;\">\n";
+	echo "<div style=\"position:absolute;top:50px;left:498px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:35px;left:459px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:35px;left:635px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==2 and $_GET["wzt"]==6) {
 	# italissima.be 468x60
-	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_468x60.png');\">\n";
+	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_468x60.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:7px;left:230px;\">\n";
+	echo "<div style=\"position:absolute;top:7px;left:240px;\">\n";
 	italissima_regio();
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:32px;left:230px;\">\n";
+	echo "<div style=\"position:absolute;top:32px;left:240px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:19px;left:372px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:19px;left:377px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==3 and $_GET["wzt"]==6) {
 	# italissima.be 250x250
-	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_250x250.png');\">\n";
+	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_250x250.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:133px;left:12px;\">\n";
+	echo "<div style=\"position:absolute;top:173px;left:12px;\">\n";
 	italissima_regio();
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:169px;left:12px;\">\n";
-	italissima_datum();
-	echo "</div>\n";
-
-	echo "<div style=\"position:absolute;top:205px;left:12px;\">\n";
+	echo "<div style=\"position:absolute;top:199px;left:12px;\">\n";
 	italissima_personen();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:169px;left:153px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+
+	echo "<div style=\"position:absolute;top:225px;left:12px;\">\n";
+	italissima_datum();
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:199px;left:153px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==4 and $_GET["wzt"]==6) {
 	# italissima.be 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_234x60.png');\">\n";
+	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_234x60.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:5px;left:92px;\">\n";
+	echo "<div style=\"position:absolute;top:4px;left:92px;\">\n";
 	italissima_regio("100px");
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:33px;left:92px;\">\n";
+	echo "<div style=\"position:absolute;top:32px;left:92px;\">\n";
 	italissima_datum("100px");
 	echo "</div>\n";
 	echo "<div style=\"position:absolute;top:7px;left:199px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
@@ -956,21 +976,40 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	# italissima.be 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_120x600.png');\">\n";
+	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_120x600.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:275px;left:3px;\">\n";
+	echo "<div style=\"position:absolute;top:405px;left:3px;\">\n";
 	italissima_regio("110px");
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:310px;left:3px;\">\n";
-	italissima_datum("110px");
-	echo "</div>\n";
-
-	echo "<div style=\"position:absolute;top:345px;left:3px;\">\n";
+	echo "<div style=\"position:absolute;top:440px;left:3px;\">\n";
 	italissima_personen("110px");
 	echo "</div>\n";
 
-	echo "<div style=\"position:absolute;top:390px;left:16px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:475px;left:3px;\">\n";
+	italissima_datum("110px");
+	echo "</div>\n";
+
+	echo "<div style=\"position:absolute;top:520px;left:16px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
+} elseif($_GET["t"]==6 and $_GET["wzt"]==6) {
+
+	# italissima.be 300x250
+	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_300x250.jpg');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:173px;left:12px;\">\n";
+	italissima_regio("158px");
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:199px;left:12px;\">\n";
+	italissima_personen("158px");
+	echo "</div>\n";
+
+	echo "<div style=\"position:absolute;top:225px;left:12px;\">\n";
+	italissima_datum("158px");
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:199px;left:192px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 

@@ -224,7 +224,7 @@ if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gege
 		$bedrag=$gegevens["stap4"]["algemene_optie"]["inkoop"][$key]*(1-$gegevens["stap4"]["algemene_optie"]["korting"][$key]/100);
 		$temp_totaalbedrag+=$bedrag;
 		$temp_extraopties_totaal+=$bedrag;
-		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">1 x ".wt_he($gegevens["stap4"]["algemene_optie"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"0\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"));
+		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">".$gegevens["stap4"]["algemene_optie"]["alg_aantal"][$key]." x ".wt_he($gegevens["stap4"]["algemene_optie"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"0\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"));
 	}
 
 	# extra opties: algemeen: inactief
@@ -236,7 +236,7 @@ if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gege
 			$titel_bijkomend_getoond=true;
 		}
 		$bedrag=$gegevens["stap4"]["algemene_optie"]["inkoop"][$key]*(1-$gegevens["stap4"]["algemene_optie"]["korting"][$key]/100);
-		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">1 x ".wt_he($gegevens["stap4"]["algemene_optie"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"1\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"),"",array("tr_class"=>"bijkomend_doorstrepen"));
+		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">".$gegevens["stap4"]["algemene_optie"]["alg_aantal"][$key]." x ".wt_he($gegevens["stap4"]["algemene_optie"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"1\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"),"",array("tr_class"=>"bijkomend_doorstrepen"));
 	}
 
 	# extra opties: per persoon: actief

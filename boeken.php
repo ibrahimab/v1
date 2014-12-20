@@ -2570,10 +2570,10 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					}
 
 					# Korting opslaan
-					$db2->query("INSERT INTO extra_optie SET soort='".addslashes(txt("kortingscode_extraoptiesoort","boeken"))."', naam='".addslashes($save_actietekst)."', persoonnummer='alg', verkoop='".addslashes($temp_kortingscode["save_korting_bedrag"])."', boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', kortingscode=1, optiecategorie=9;");
+					$db2->query("INSERT INTO extra_optie SET soort='".addslashes(txt("kortingscode_extraoptiesoort","boeken"))."', naam='".addslashes($save_actietekst)."', persoonnummer='alg', alg_aantal=1, verkoop='".addslashes($temp_kortingscode["save_korting_bedrag"])."', boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', kortingscode=1, optiecategorie=9;");
 				} elseif($temp_kortingscode["save_actietekst"]) {
 					# Actietekst opslaan
-					$db2->query("INSERT INTO extra_optie SET soort='".addslashes(txt("kortingscode_extraoptiesoort_actie","boeken"))."', naam='".addslashes($temp_kortingscode["save_actietekst"])."', persoonnummer='alg', verkoop='0.00', boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', kortingscode=1;");
+					$db2->query("INSERT INTO extra_optie SET soort='".addslashes(txt("kortingscode_extraoptiesoort_actie","boeken"))."', naam='".addslashes($temp_kortingscode["save_actietekst"])."', persoonnummer='alg', alg_aantal=1, verkoop='0.00', boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', kortingscode=1;");
 				}
 
 				# eenmalige kortingscode: status wijzigen

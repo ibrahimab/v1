@@ -80,15 +80,17 @@ $keuzes[2][6][2]="Zomerhuisje.nl htmlbanner land-datum 300x250";
 
 $keuzes[3][1][2]="Italissima.nl htmlbanner regio-datum 728x90";
 $keuzes[3][2][2]="Italissima.nl htmlbanner regio-datum 468x60";
-$keuzes[3][3][2]="Italissima.nl htmlbanner regio-datum-personen 250x250";
+$keuzes[3][3][2]="Italissima.nl htmlbanner regio-personen-datum 250x250";
 $keuzes[3][4][2]="Italissima.nl htmlbanner regio-datum 234x60";
-$keuzes[3][5][2]="Italissima.nl htmlbanner regio-datum-personen 120x600";
+$keuzes[3][5][2]="Italissima.nl htmlbanner regio-personen-datum 120x600";
+$keuzes[3][6][2]="Italissima.nl htmlbanner regio-personen-datum 300x250";
 
 $keuzes[6][1][2]="Italissima.be htmlbanner regio-datum 728x90";
 $keuzes[6][2][2]="Italissima.be htmlbanner regio-datum 468x60";
-$keuzes[6][3][2]="Italissima.be htmlbanner regio-datum-personen 250x250";
+$keuzes[6][3][2]="Italissima.be htmlbanner regio-personen-datum 250x250";
 $keuzes[6][4][2]="Italissima.be htmlbanner regio-datum 234x60";
-$keuzes[6][5][2]="Italissima.be htmlbanner regio-datum-personen 120x600";
+$keuzes[6][5][2]="Italissima.be htmlbanner regio-personen-datum 120x600";
+$keuzes[6][6][2]="Italissima.be htmlbanner regio-personen-datum 300x250";
 
 // wintersporters.nl
 $keuzes[7][8][2]="Chalet.nl htmlbanner Zillertal land-datum-aantal personen 336x280";

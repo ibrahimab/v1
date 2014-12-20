@@ -63,18 +63,13 @@ if($onMobile){
     ?><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><?php
 }
 
-# Font Awesome-css
-echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/font-awesome.min.css\" />\n";
+// Link to CSS files
+echo $opmaak->link_rel_css();
 
 if(!$vars["page_with_tabs"]) {
 	# jQuery UI theme laden
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css?cache=".@filemtime("css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css")."\" />\n";
 }
-
-# jQuery Chosen css
-#if($vars["jquery_chosen"]) {
-	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."css/chosen.css\" type=\"text/css\" />\n";
-#}
 
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_websites_en_cms.css.phpcache?cache=".@filemtime("css/opmaak_websites_en_cms.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_alle_sites.css.phpcache?cache=".@filemtime("css/opmaak_alle_sites.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
@@ -501,7 +496,7 @@ if(!$vars["verberg_linkerkolom"] and $vars["website"]<>"T" and (!$vars["verberg_
 
 
 # breadcrumbs
-if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcrumbs"]) {
+if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcrumbs"] and $id <> "toonaccommodatie") {
 	echo "<div id=\"breadcrumb_wrapper\" class=\"noprint\">";
 	echo "<div id=\"breadcrumb_overlay\" class=\"noprint\">";
 	echo "<a href=\"".$vars["path"]."\">".wt_he(ucfirst(txt("menutitle_index")))."</a>";
@@ -513,6 +508,26 @@ if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcru
 		if($key<>"last") echo "<a href=\"".wt_he($vars["path"].$key)."\">";
 		echo wt_he($value);
 		if($key<>"last") echo "</a>";
+	}
+	echo "</div>"; # afsluiten breadcrumb_overlay
+	echo "</div>"; # afsluiten breadcrumb_wrapper
+} else if ($id == "toonaccommodatie") {
+	echo "<div id=\"breadcrumb_wrapper\" class=\"noprint\">";
+	echo "<div id=\"breadcrumb_overlay\" class=\"noprint\">";
+	echo "<div class=\"breadcrumb_vocabulary\" itemscope itemtype=\"http://data-vocabulary.org/Breadcrumb\">";
+	echo "<a href=\"".$vars["basehref"]."\" itemprop=\"url\">".wt_he(ucfirst(txt("menutitle_index")))."</a>";
+	echo "</div>";
+
+	if(!is_array($breadcrumbs)) {
+		$breadcrumbs["last"]=$title[$id];
+	}
+	while(list($key,$value)=each($breadcrumbs)) {
+		echo "<div class=\"breadcrumb_vocabulary\" itemscope itemtype=\"http://data-vocabulary.org/Breadcrumb\">";
+		echo "&nbsp;&nbsp;&gt;&nbsp;&nbsp;";
+		if($key<>"last") echo "<a href=\"".wt_he($vars["path"].$key)."\" itemprop=\"url\">";
+		echo "<span itemprop=\"title\">" . wt_he($value) . "</span>";
+		if($key<>"last") echo "</a>";
+		echo "</div>";
 	}
 	echo "</div>"; # afsluiten breadcrumb_overlay
 	echo "</div>"; # afsluiten breadcrumb_wrapper
@@ -822,16 +837,12 @@ if($vars["googlemaps"]) {
 # Google Analytics
 echo googleanalytics();
 
+$lazyLoadJs = $opmaak->lazyLoadJs();
+
 if($vars["website"]=="E") {
 	# jQuery ms-Dropdown (https://github.com/marghoobsuleman/ms-Dropdown)
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.dd.min.js'";
 }
-
-# jQuery Chosen javascript
-#if($vars["jquery_chosen"]) {
-	$lazyLoadJs[] = "'".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."'";
-	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."'";
-#}
 
 if($vars["page_with_tabs"]) {
 	# jQuery Address: t.b.v. correcte verwerking hashes in URL

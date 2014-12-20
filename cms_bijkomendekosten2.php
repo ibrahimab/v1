@@ -48,6 +48,7 @@ $cms->db_field(57,"yesno","altijd_invullen");
 $cms->db_field(57,"yesno","altijd_diversen");
 $cms->db_field(57,"yesno","prijs_per_nacht");
 $cms->db_field(57,"yesno","borg");
+$cms->db_field(57,"yesno","opgeven_bij_boeken");
 $cms->db_field(57,"checkbox","eenheden","",array("selection"=>$vars["bk_eenheid"]));
 $cms->db_field(57,"integer","min_leeftijd");
 $cms->db_field(57,"integer","max_leeftijd");
@@ -123,6 +124,7 @@ if($vars["cmstaal"]) {
 $cms->edit_field(57,1,"altijd_invullen","Deze kosten moeten bij iedere accommodatie worden ingevuld");
 // $cms->edit_field(57,1,"altijd_diversen","Deze kosten vallen altijd onder het kopje \"Diversen\", behalve wanneer deze onder \"inclusief\" vallen");
 $cms->edit_field(57,1,"altijd_diversen","Deze kosten vallen altijd onder het kopje \"Diversen\"");
+$cms->edit_field(57,1,"opgeven_bij_boeken","Dit moet door de klant bij boeken worden doorgegeven (alleen actief als iets exclusief en optioneel is)");
 $cms->edit_field(57,0,"eenheden","Te selecteren eenheden", "", "", array("one_per_line"=>true));
 
 $cms->edit_field(57,0,"htmlrow","<br/><hr><br/><i>Verrekening kosten</i>");

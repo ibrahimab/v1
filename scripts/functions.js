@@ -1255,7 +1255,7 @@ $(document).ready(function() {
 				} else {
 
 					// placeholder-tekst bij "bestemming" iets verkleinen
-					$(".chzn-container-single .chzn-single span").css("font-size","0.85em");
+					$(".chosen-container-single .chosen-single span").css("font-size","0.85em");
 
 				}
 
@@ -1278,7 +1278,7 @@ $(document).ready(function() {
 
 				// Chosen: diverse selects (zonder tekstzoeken)
 				$(".zoekblok_aankomstdatum select, .zoekblok_aantalpersonen select, .zoekblok_aantalslaapkamers select, .zoekblok_verblijfsduur select").chosen({disable_search: true,allow_single_deselect: true});
-				$(".zoekblok_aankomstdatum .chzn-search, .zoekblok_aantalpersonen .chzn-search, .zoekblok_aantalslaapkamers .chzn-search, .zoekblok_verblijfsduur .chzn-search").hide();
+				$(".zoekblok_aankomstdatum .chosen-search, .zoekblok_aantalpersonen .chosen-search, .zoekblok_aantalslaapkamers .chosen-search, .zoekblok_verblijfsduur .chosen-search").hide();
 			}
 
 
@@ -1459,7 +1459,7 @@ $(document).ready(function() {
 				$("select[name=fadf_m]").val("");
 				$("select[name=fadf_y]").val("");
 
-				$(".flexibel_datum").trigger("liszt:updated");
+				$(".flexibel_datum").trigger("chosen:updated");
 				zoekblok_submit();
 
 				return false;
@@ -1633,7 +1633,15 @@ $(document).ready(function() {
 									var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");
 								}
 								$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
-								$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":match_type[2], "price":match_price[0], "url":nieuwe_url, "list":list}, function(data){
+								var product_clicks_type = 0;
+								var product_clicks_price = 0;
+								if(match_type != null) {
+									product_clicks_type = match_type[2];
+								}
+								if(match_price != null) {
+									product_clicks_price = match_price[0];
+								}
+								$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":product_clicks_type, "price":product_clicks_price, "url":nieuwe_url, "list":list}, function(data){
 									if(data.ok && typeof dataLayer !== 'undefined' && dataLayer !== null) {
 										var callBackJson={'eventCallback': function(){
 											document.location = nieuwe_url;
@@ -2879,7 +2887,7 @@ $(document).ready(function() {
 
 		// indien _GET["selb"]==1 : bestemming-pulldown openklappen
 		if(location.href.indexOf("&selb=1") > -1 && $("div.datadiv").data("referer_zoekenboek")!="0") {
-			$('#zoekblok_field_bestemming').trigger('liszt:open');
+			$('#zoekblok_field_bestemming').trigger('chosen:open');
 		}
 
 

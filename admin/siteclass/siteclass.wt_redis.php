@@ -40,8 +40,8 @@ class wt_redis {
 
 		if($vars["acceptatie_testserver"] or $vars["lokale_testserver"] or (defined("wt_test") and wt_test===true)) {
 			$this->prefix = "chalettest_";
+			$this->expire_time = 6048000;
 		}
-
 	}
 
 	private function connect() {

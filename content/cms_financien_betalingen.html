@@ -655,6 +655,17 @@ if($_GET["uitgaand"]==1) {
 								$hovertext="goedgekeurde betaling: &euro;&nbsp;".number_format($db->f("goedgekeurde_betaling"),2,",",".");
 							}
 						}
+					} elseif($db->f("goedgekeurde_betaling")<0) {
+						if($toonopenstaand<0) {
+							if($db->f("goedgekeurde_betaling")<=$toonopenstaand) {
+								$cel_bgcolor="#a6ffb3";
+								$hovertext="goedgekeurde retourbetaling: &euro;&nbsp;".number_format(abs($db->f("goedgekeurde_betaling")),2,",",".");
+							}
+							if($db->f("goedgekeurde_betaling")>$toonopenstaand) {
+								$cel_bgcolor="#94d3ff";
+								$hovertext="goedgekeurde retourbetaling: &euro;&nbsp;".number_format(abs($db->f("goedgekeurde_betaling")),2,",",".");
+							}
+						}
 					}
 					echo "<td title=\"".$hovertext."\" align=\"right\" style=\"background-color:".$cel_bgcolor.";\">".($toonopenstaand<>0 ? number_format($toonopenstaand,2,",",".") : "&nbsp;")."</td>";
 					echo "<td align=\"right\">".$tevoldoentonen."</td><td align=\"center\">".($db->f("aanmaning_aantal")>0 ? $db->f("aanmaning_aantal") : "&nbsp;")."</td>".($db->f("aanmaning_verstuurdatum")>0 ? "<td title=\"Laatste aanmaning verstuurd: ".DATUM("DAG D MAAND JJJJ, UU:ZZ",$db->f("aanmaning_verstuurdatum"))."u.\" nowrap>".strftime("%e %b",$db->f("aanmaning_verstuurdatum")) : "<td>&nbsp;")."</td>";

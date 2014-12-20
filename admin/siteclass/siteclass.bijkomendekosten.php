@@ -81,7 +81,7 @@ class bijkomendekosten {
 
 			if(is_array($this->cms_data_seizoenen)) {
 				foreach ($this->cms_data_seizoenen as $key => $value) {
-					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bs.altijd_diversen, bs.prijs_per_nacht, ba.".$this->soort."_id, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
+					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bs.altijd_diversen, bs.prijs_per_nacht, bs.opgeven_bij_boeken, ba.".$this->soort."_id, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
 							   FROM bk_soort bs LEFT JOIN bk_".$this->soort." ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.".$this->soort."_id='".intval($this->id)."' AND ba.seizoen_id='".intval($key)."') WHERE bs.wzt='".intval($this->wzt)."' AND (ba.".$this->soort."_id IS NOT NULL OR bs.altijd_invullen=1)
 							   ORDER BY ba.inclusief DESC, bs.volgorde;");
 
@@ -98,6 +98,7 @@ class bijkomendekosten {
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["bedrag"] = $db->f("bedrag");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["altijd_diversen"] = $db->f("altijd_diversen");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["prijs_per_nacht"] = $db->f("prijs_per_nacht");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["opgeven_bij_boeken"] = $db->f("opgeven_bij_boeken");
 						if($db->f("seizoen_id")) {
 							$this->data[$seizoen_id][$db->f("bk_soort_id")]["filled"] = true;
 						}
@@ -1135,12 +1136,16 @@ class bijkomendekosten {
 
 				if($value["filled"]) {
 
-					if($value["inclusief"]==1) {
-						$cat = "inclusief";
-					} elseif($value["borg_soort"]) {
+					if($value["borg_soort"]) {
 						$cat = "exclusief";
+					} elseif($value["altijd_diversen"]) {
+						$cat = "diversen";
+					} elseif($value["inclusief"]==1) {
+						$cat = "inclusief";
 					} elseif($value["verplicht"]==1) {
 						$cat = "exclusief";
+					} elseif($value["verplicht"]==3) {
+						$cat = "diversen";
 					} else {
 						$cat = "uitbreiding";
 					}
@@ -1154,9 +1159,9 @@ class bijkomendekosten {
 						if($value["borg_soort"]==1 or $value["borg_soort"]==2 or $value["borg_soort"]==3 or $value["borg_soort"]==6) {
 							$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"]==2 ? " ".$vars["bk_eenheid"][$value["eenheid"]].", " : "").$vars["bk_borg_soort"][$value["borg_soort"]].")");
 						} elseif($value["borg_soort"]==4) {
-							$kosten[$cat][$key] .= ": geen borg verschuldigd";
+							$kosten[$cat][$key] .= ": ".html("geen-borg-verschuldigd", "bijkomendekosten");
 						} elseif($value["borg_soort"]==5) {
-							$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+							$kosten[$cat][$key] .= " (".html("ter-plaatse-te-voldoen", "bijkomendekosten").")";
 						}
 					} elseif($value["prijs_per_nacht"]) {
 						//
@@ -1167,7 +1172,7 @@ class bijkomendekosten {
 						} else {
 							if($value["bedrag"]=="0.00") {
 								$kosten[$cat][$key] = wt_he($value["naam"]);
-								$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+								$kosten[$cat][$key] .= " (".html("ter-plaatse-te-voldoen", "bijkomendekosten").")";
 							} else {
 								$kosten[$cat][$key] = wt_he($value["naam"]);
 								$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
@@ -1183,18 +1188,22 @@ class bijkomendekosten {
 						//
 						$kosten[$cat][$key] = wt_he($value["naam"]);
 						if($value["bedrag"]=="0.00") {
-							$kosten[$cat][$key] .= " (tegen betaling)";
+							$kosten[$cat][$key] .= " (".html("tegen-betaling", "bijkomendekosten").")";
 						} elseif($value["bedrag"]>0) {
 							$kosten[$cat][$key] .= " (";
 							if($value["verplicht"]==2) {
 								$kosten[$cat][$key] .= wt_he($vars["bk_verplicht"][2].": ");
 							}
-							$kosten[$cat][$key] .= wt_he("€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"] ? $vars["bk_eenheid"][$value["eenheid"]] : ""));
+							$kosten[$cat][$key] .= wt_he("€ ".$this->toonbedrag($value["bedrag"]));
+							if($value["eenheid"]) {
+								$kosten[$cat][$key] .=" ".wt_he($vars["bk_eenheid"][$value["eenheid"]]);
+							}
+
+							if($value["opgeven_bij_boeken"] and $value["inclusief"]==0 and $value["verplicht"]==0) {
+								$kosten[$cat][$key] .= ", ".html("opgeven-bij-boeking", "bijkomendekosten");
+							}
 							if($value["ter_plaatse"]==1) {
-								if($value["eenheid"]) {
-									$kosten[$cat][$key] .= ", ";
-								}
-								$kosten[$cat][$key] .= wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
+								$kosten[$cat][$key] .= ", ".wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
 							}
 
 							$kosten[$cat][$key] .= ")";
@@ -1207,7 +1216,7 @@ class bijkomendekosten {
 			}
 		}
 
-		$kosten["exclusief"]["reserveringskosten"] = wt_he(txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").")");
+		// $kosten["exclusief"]["reserveringskosten"] = wt_he(txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").")");
 
 		$kosten["uitbreiding"]["extraopties"] = html("bekijk-ook-extra-opties","tarieventabel",array("h_1"=>"<a href=\"#extraopties\">","h_2"=>" &raquo;</a>"));
 
@@ -1226,8 +1235,8 @@ class bijkomendekosten {
 		$kosten = $this->get_costs_temporary();
 		$variabele_kosten = $this->get_variable_costs();
 
-		// echo wt_dump($variabele_kosten);
 
+		// Inclusief
 		if(is_array($kosten["inclusief"])) {
 			$return .= "<h1>".html("inclusief","toonaccommodatie").":</h1>";
 			$return .= "<ul>";
@@ -1236,22 +1245,24 @@ class bijkomendekosten {
 			}
 			$return .= "</ul>";
 		}
-		if(is_array($kosten["exclusief"]) or is_array($variabele_kosten)) {
-			$return .= "<h1>".html("verplichttevoldoen","tarieventabel").":</h1>";
-			$return .= "<ul>";
-			if(is_array($kosten["exclusief"])) {
-				foreach ($kosten["exclusief"] as $key => $value) {
-					$return .= "<li>".$value."</li>";
-				}
-			}
-			if(is_array($variabele_kosten)) {
-				foreach ($variabele_kosten as $key => $value) {
-					$return .= "<li>".$value."</li>";
-				}
-			}
 
-			$return .= "</ul>";
+		// Verplicht te voldoen
+		$return .= "<h1>".html("verplichttevoldoen","tarieventabel").":</h1>";
+		$return .= "<ul>";
+		if(is_array($kosten["exclusief"])) {
+			foreach ($kosten["exclusief"] as $key => $value) {
+				$return .= "<li>".$value."</li>";
+			}
 		}
+		if(is_array($variabele_kosten)) {
+			foreach ($variabele_kosten as $key => $value) {
+				$return .= "<li>".$value."</li>";
+			}
+		}
+		$return .= "<li>".wt_he(txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").")")."</li>";
+		$return .= "</ul>";
+
+		// Optioneel
 		if(is_array($kosten["uitbreiding"])) {
 			$return .= "<h1>".html("optioneel","tarieventabel").":</h1>";
 			$return .= "<ul>";
@@ -1260,15 +1271,16 @@ class bijkomendekosten {
 			}
 			$return .= "</ul>";
 		}
-		// if(is_array($kosten["diversen"])) {
-		// 	$return .= "<h1>".html("diversen","tarieventabel").":</h1>";
-		// 	$return .= "<ul>";
-		// 	foreach ($kosten["diversen"] as $key => $value) {
-		// 		$return .= "<li>".$value."</li>";
-		// 	}
-		// 	$return .= "</ul>";
-		// }
 
+		// Diversen
+		if(is_array($kosten["diversen"])) {
+			$return .= "<h1>".html("diversen","tarieventabel").":</h1>";
+			$return .= "<ul>";
+			foreach ($kosten["diversen"] as $key => $value) {
+				$return .= "<li>".$value."</li>";
+			}
+			$return .= "</ul>";
+		}
 
 		if(!$isMobile){
 			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";

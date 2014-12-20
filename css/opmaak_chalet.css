@@ -909,3 +909,21 @@ form {
 		text-decoration: none;
 	}
 }
+#toonplaats_kenmerken {
+	width: 502px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #003366;
+	padding: 5px;
+}
+
+#toonplaats_kenmerken_3 {
+	width: 490px;
+	margin-top: 5px;
+	font-size: 0.9em;
+	color: #888888;
+}
+
+.breadcrumb_vocabulary {
+	float:left;
+}

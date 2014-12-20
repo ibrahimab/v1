@@ -15,9 +15,15 @@
 }
 
 #toonplaats_kenmerken_2 {
-	float: left;
-	width: 245px;
-	margin-left: 10px;
+	width: 490px;
+	margin-top: 5px;
+	font-size: 0.9em;
+	color: #888888;
+}
+
+#toonplaats_kenmerken_3 {
+	width: 490px;
+	margin-top: 5px;
 	font-size: 0.9em;
 	color: #888888;
 }

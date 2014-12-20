@@ -11,10 +11,24 @@ if($_GET["edit"]==23 and $_GET["23k0"]) {
 	}
 }
 
-$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id, persoonnummer, deelnemers FROM extra_optie WHERE boeking_id='".addslashes($_GET["bid"])."';");
+$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id, persoonnummer, deelnemers, alg_aantal FROM extra_optie WHERE boeking_id='".addslashes($_GET["bid"])."';");
 while($db->next_record()) {
+
+	if($db->f("persoonnummer")=="pers") {
+		if($db->f("deelnemers")) {
+			$temp_aantal = preg_split("@,@", $db->f("deelnemers"));
+			$aantal[$db->f("extra_optie_id")]=count($temp_aantal);
+		} else {
+			$aantal[$db->f("extra_optie_id")]=0;
+		}
+	} else {
+		$aantal[$db->f("extra_optie_id")]=$db->f("alg_aantal");
+	}
+
 	if($db->f("bijkomendekosten_id")) {
 		$soort[$db->f("extra_optie_id")]="Bijkomende kosten";
+
+
 		if($db->f("persoonnummer")=="pers" and !$db->f("deelnemers")) {
 			$geen_deelnemers[$db->f("extra_optie_id")] = true;
 		}
@@ -83,10 +97,12 @@ if(!$_GET["edit"] and !$_GET["add"]) {
 }
 
 $cms->db_field(23,"select","extra_optie_id","",array("selection"=>$soort));
+$cms->db_field(23,"select","aantal","extra_optie_id",array("selection"=>$aantal));
 $cms->db_field(23,"text","soort");
 $cms->db_field(23,"text","naam");
 $cms->db_field(23,"select","persoonnummer","",array("selection"=>$vars["keuze_persoonnummer"]));
 $cms->db_field(23,"checkbox","deelnemers","",array("selection"=>$vars["personen"]));
+$cms->db_field(23,"integer","alg_aantal");
 $cms->db_field(23,"currency","verkoop");
 $cms->db_field(23,"currency","inkoop");
 $cms->db_field(23,"currency","korting");
@@ -115,6 +131,7 @@ $cms->list_sort[23]=array("persoonnummer","naam");
 $cms->list_field(23,"persoonnummer","Gekoppeld aan");
 $cms->list_field(23,"extra_optie_id","Soort");
 $cms->list_field(23,"naam","Omschrijving");
+$cms->list_field(23,"aantal","Aantal");
 $cms->list_field(23,"verkoop","Verkoop");
 $cms->list_field(23,"optiecategorie","Categorie");
 
@@ -138,6 +155,7 @@ if($geen_deelnemers[$_GET["23k0"]]) {
 	$cms->edit_field(23,1,"persoonnummer","Gekoppeld aan","",array("noedit"=>$bijkomendekosten));
 }
 if(!$bijkomendekosten) $cms->edit_field(23,0,"deelnemers","Deelnemers","","",array("one_per_line"=>true));
+$cms->edit_field(23,0,"alg_aantal","Aantal keer (alleen voor algemene optie)");
 $cms->edit_field(23,1,"verkoop","Verkoopprijs","",array("negative"=>true));
 $cms->edit_field(23,1,"inkoop","Inkoopprijs","",array("negative"=>true));
 $cms->edit_field(23,0,"korting","Kortingspercentage");
@@ -169,6 +187,14 @@ $cms->edit_field(23,1,"optiecategorie","Optie-categorie");
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(23);
 if($cms_form[23]->filled) {
+
+	if($cms_form[23]->input["persoonnummer"]=="alg" and $cms_form[23]->input["alg_aantal"]=="") {
+		$cms_form[23]->error("alg_aantal","verplicht bij een algemene optie");
+	}
+	if($cms_form[23]->input["persoonnummer"]<>"alg" and $cms_form[23]->input["alg_aantal"]<>"") {
+		$cms_form[23]->error("alg_aantal","alleen bij een algemene optie invullen");
+	}
+
 	if($cms_form[23]->input["persoonnummer"]=="alg" and $cms_form[23]->input["voucher"]) {
 		$cms_form[23]->error("voucher","Bij een algemene optie kan geen voucher worden aangemaakt");
 	}

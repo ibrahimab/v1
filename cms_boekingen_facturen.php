@@ -464,7 +464,7 @@ if($form->okay) {
 		# Algemene opties
 		@reset($gegevens["stap4"]["algemene_optie"]["soort"]);
 		while(list($key,$value)=@each($gegevens["stap4"]["algemene_optie"]["soort"])) {
-			factuur_opties(1,($value ? ucfirst($value).": " : "").$gegevens["stap4"]["algemene_optie"]["naam"][$key],$gegevens["stap4"]["algemene_optie"]["verkoop"][$key],"optie",$gegevens["stap4"]["algemene_optie"]["toonnul"][$key]);
+			factuur_opties($gegevens["stap4"]["algemene_optie"]["alg_aantal"][$key],($value ? ucfirst($value).": " : "").$gegevens["stap4"]["algemene_optie"]["naam"][$key],$gegevens["stap4"]["algemene_optie"]["verkoop"][$key],"optie",$gegevens["stap4"]["algemene_optie"]["toonnul"][$key]);
 		}
 
 		# Opties per persoon

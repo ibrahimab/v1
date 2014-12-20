@@ -130,11 +130,27 @@ class tarieventabel {
 			$bijkomendekosten->arrangement = $this->arrangement;
 			$bijkomendekosten->accinfo = $this->accinfo;
 
-			// $toelichting = $bijkomendekosten->toon_type();
-			$toelichting = $bijkomendekosten->toon_type_temporary();
+			$toelichting = $bijkomendekosten->toon_type();
+			// $toelichting = $bijkomendekosten->toon_type_temporary();
 
 		} else {
-			$toelichting = $this->toelichting();
+
+			if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+
+				if(!$this->first_seizoen_id) {
+					trigger_error("missing first_season_id",E_USER_NOTICE);
+				}
+
+				$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+				$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
+				$bijkomendekosten->arrangement = $this->arrangement;
+				$bijkomendekosten->accinfo = $this->accinfo;
+
+				$toelichting = $bijkomendekosten->toon_type_temporary();
+
+			} else {
+				$toelichting = $this->toelichting();
+			}
 		}
 
 		if($toelichting) {

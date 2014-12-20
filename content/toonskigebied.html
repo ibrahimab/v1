@@ -5,6 +5,26 @@ if(!$db->next_record()) {
 	echo html("skigebiednietgevonden","toonskigebied")."<p>";
 	echo html("kieseenanderskigebied","toonskigebied",array("l1"=>"skigebieden"));
 } else {
+	$db2->query("SELECT t.type_id FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND p.skigebied_id=".$skigebiedid." AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id;");
+
+	$inquery_type = '0';
+	while($db2->next_record()) {
+		$inquery_type.= "," .$db2->f("type_id");
+	}
+
+	$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id IN (".$inquery_type.") AND vraag1_7>0 AND beoordeeld=1");
+	$place_review = array();
+	if($db2->next_record()) {
+		$place_review["counter"] = $db2->f("aantal");
+		$place_review["totaaloordeel"] = $db2->f("totaaloordeel");
+	}
+
+	$query = "SELECT count(t.type_id) as available_accommodations FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE a.weekendski = 0 and t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND p.skigebied_id=".$skigebiedid." AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id;";
+	$db2->query($query);
+
+	if($db2->next_record()) {
+		$available_accomodations = $db2->f("available_accommodations");
+	}
 
 	# Video
 	if($db->f("video") and $db->f("video_url")) {
@@ -130,6 +150,22 @@ hr {
 		echo "</div>";
 	}
 
+	$review_aggregate_array = array(
+		"v_accommodations"=>$available_accomodations,
+		"v_naam"=>$db->f('naam'),
+		"h_1"=>"<span>",
+		"h_spanclose"=>"</span>",
+		"h_3"=>"<span>",
+		"v_average"=> number_format($place_review["totaaloordeel"],1,",","."),
+		"h_4"=>"<span>",
+		"v_best"=>"10",
+		"h_5" => "<span>",
+		"v_votes"=> $place_review["counter"],
+		"h_6" => "<span>",
+		"h_7" => "<br/>",
+		"h_8" => "<strong>",
+		"h_9" => "</strong>");
+
 	# Kenmerken
 	if($vars["seizoentype"]==1) {
 		echo "<div id=\"toonskigebied_kenmerken\">";
@@ -141,6 +177,13 @@ hr {
 		echo "</div>";
 		echo "<div style=\"clear: both;\"></div>\n";
 		echo "</div>";
+		echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landid."-".$db->f("skigebied_id")."\">".html("review_aggregate_link_chalet","toonskigebied",array("v_skigebied"=>$db->f("naam"), "v_accommodations"=>$available_accomodations))." &raquo;</a>";
+		if ($vars["websitetype"] == 1 and (int)$review_aggregate_array["v_votes"] > 1 and (int)$available_accomodations > 0) {
+			echo "<div>" .
+				html("review_aggregate_chalet","toonskigebied", $review_aggregate_array)
+				. "</div>";
+			echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($place_review["totaaloordeel"],1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$place_review["counter"]."</span></div>";
+		}
 	} elseif($vars["websitetype"]==7) {
 		echo "<div id=\"toonskigebied_splits_links\">";
 
@@ -236,8 +279,18 @@ hr {
 
 	if($vars["websitetype"]==7) {
 		echo "<div id=\"ligging\">";
+		if ((int)$available_accomodations > 0) {
+			$review_aggregate_array["h_10"] = "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=5-".$db->f("skigebied_id")."\">";
+			$review_aggregate_array["h_11"] = "&nbsp;&raquo;</a>";
+			echo "<div id=\"toonplaats_kenmerken_3\">".
+			html("review_aggregate_link_italissima","toonskigebied", $review_aggregate_array) . (((int)$review_aggregate_array["v_votes"] > 1) ? html("review_aggregate_italissima","toonskigebied", $review_aggregate_array)  : "")
+			. "</div>";
 
-		echo "<p style=\"font-weight:bold;margin-bottom:25px;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=5-".$db->f("skigebied_id")."\">".html("toon-lijst", "toonskigebied", array("v_regio"=>$db->f("naam")))." &raquo;</a></p>";
+			if($review_aggregate_array["v_votes"] > 1) {
+				echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($place_review["totaaloordeel"],1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$place_review["counter"]."</span></div>";
+			}
+
+		}
 
 		echo "<h3>".html("ligging-plaatsen", "toonskigebied", array("v_regio"=>$db->f("naam"))).":</h3>";
 
@@ -376,10 +429,6 @@ hr {
 		}
 		echo "</div>";
 	}
-
-	echo "<p>";
-	echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landid."-".$db->f("skigebied_id")."\">".html("bekijkonzeaccommodaties","toonskigebied",array("v_skigebied"=>$db->f("naam")))." &gt;</a>";
-	echo "</p>";
 
 	echo "<div>".htmlentities_uitgebreid($db->f("omschrijving"))."</div>";
 	if($db->f("altnaam_zichtbaar")) echo "<p><div>".html("alternatievespelling","toonskigebied").": ".wt_he($db->f("altnaam_zichtbaar"))."</div>";
