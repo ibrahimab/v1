@@ -636,6 +636,7 @@ function boekinginfo($boekingid) {
 		$return["stap1"]["calc"]=$db->f("calc");
 		$return["stap1"]["calc_bewaren"]=$db->f("calc_bewaren");
 		if($db->f("goedgekeurde_betaling")>0) $return["stap1"]["goedgekeurde_betaling"]=$db->f("goedgekeurde_betaling");
+		if($db->f("goedgekeurde_betaling")<0) $return["stap1"]["goedgekeurde_retourbetaling"]=$db->f("goedgekeurde_betaling");
 
 		if($db->f("verkoop_gewijzigd")) {
 			$return["stap1"]["verkoop"]=$db->f("verkoop_gewijzigd");

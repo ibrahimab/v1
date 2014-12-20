@@ -440,6 +440,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				if($velden["goedgekeurde_betaling"]>0) {
 					$velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- eerder goedgekeurde betaling op € 0,00 gezet";
 				}
+				if($velden["goedgekeurde_betaling"]<0) {
+					$velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- eerder goedgekeurde retourbetaling op € 0,00 gezet";
+				}
 
 				# Import-actie loggen bij boeking
 				$velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- import betaling ".date("d-m-Y",$velden["datum"]).": € ".number_format($velden["bedrag"],2,",",".");

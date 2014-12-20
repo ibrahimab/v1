@@ -1718,6 +1718,16 @@ function betaling_goedkeuren(theLink, msg, bedrag) {
 	}
 }
 
+function retourbetaling_goedkeuren(theLink, msg, bedrag) {
+	var invoerbedrag = prompt(msg,bedrag);
+	if(invoerbedrag!=null && invoerbedrag!="") {
+		theLink.href += '&confirmed=1&goedgekeurde_betaling=-'+invoerbedrag;
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function wt_number_format (number, decimals, dec_point, thousands_sep) {
 	// Formats a number with grouped thousands
 	// Strip all characters but numerical ones.
