@@ -19,23 +19,13 @@ pic/cms/_imgcache/
 
 # pdf's
 pdf/facturen
-pdf/facturen
 pdf/plaats_plattegrond
 pdf/route_en
 pdf/route_nl
-pdf/voorbrief_B
-pdf/voorbrief_C
-pdf/voorbrief_E
-pdf/voorbrief_en
-pdf/voorbrief_N
-pdf/voorbrief_nl
-pdf/voorbrief_Q
-pdf/voorbrief_T
-pdf/voorbrief_V
-pdf/voorbrief_W
-pdf/voorbrief_Z
+pdf/voorbrief_*
 pdf/vouchers
 pdf/accommodatie_aanvullende_informatie
+pdf/boeking_aanvullende_informatie
 
 # Netbeans-projectfiles
 nbproject/
@@ -45,6 +35,9 @@ docdata/log/*.log
 
 # ssh-files
 .ssh/
+
+# csv-directory
+csv/
 
 # never ignore any php-file
 !*.php
