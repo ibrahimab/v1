@@ -47,10 +47,10 @@ class Login {
 			if(!isset($this->settings["recheck_userdata"])) $this->settings["recheck_userdata"]=false;
 			if(!isset($this->settings["save_user_agent"])) $this->settings["save_user_agent"]=false;
 			if(!isset($this->settings["errorclass"])) $this->settings["errorclass"]="";
-			if(!isset($this->settings["loginpogingen"])) $this->settings["loginpogingen"]=3; # betekent: 3x onjuist mag, bij de 4e keer onjuist wordt het account geblokkeerd
-			if(!isset($this->settings["loginblocktime"])) $this->settings["loginblocktime"]=3600;
-			if(!isset($this->settings["username_type"])) $this->settings["username_type"]="text"; # i<nput type=""> : text of email
-			if(!isset($this->settings["uniqueid_ip_validtime"])) $this->settings["uniqueid_ip_validtime"]=86400*365; # login is 1 jaar geldig
+			if(!isset($this->settings["loginpogingen"])) $this->settings["loginpogingen"]=5; // betekent: 5x onjuist mag, bij de 6e keer onjuist wordt het account geblokkeerd
+			if(!isset($this->settings["loginblocktime"])) $this->settings["loginblocktime"]=900; // 15 minutes blocked after 6 incorrect attempts
+			if(!isset($this->settings["username_type"])) $this->settings["username_type"]="text"; // <input type=""> : text of email
+			if(!isset($this->settings["uniqueid_ip_validtime"])) $this->settings["uniqueid_ip_validtime"]=86400*365; // login is 1 jaar geldig
 
 			if(!isset($this->settings["loginform_nobr"])) $this->settings["loginform_nobr"]=false;
 			if(!isset($this->settings["settings"]["rememberpassword"])) $this->settings["settings"]["rememberpassword"]=true;

@@ -342,6 +342,7 @@ if($vars["wederverkoop"]) {
 	if(!$mustlogin and !$css) {
 		# Login-class voor reisbureaus (Chalettour)
 		$login_rb = new Login;
+		$login_rb->settings["loginpogingen"] = 10;
 		$login_rb->settings["logout_number"]=45;
 		$login_rb->settings["adminmail"]="info@chalet.nl";
 		$login_rb->settings["mail_wt"]=false;

@@ -104,6 +104,9 @@ if($_GET["add"]==28 and $vars["taal"]=="nl") {
 	$cms->edit_field(28,0,"htmlrow","<input type=\"checkbox\" id=\"reisbureau_gebruiker_mailen\" name=\"reisbureau_gebruiker_mailen\"".($_POST["reisbureau_gebruiker_mailen"] ? " checked" : "")."><label for=\"reisbureau_gebruiker_mailen\">&nbsp;&nbsp;Stuur deze nieuwe gebruiker een welkomstmail (wachtwoord wordt automatisch aangemaakt)</label>");
 }
 
+if($_GET["edit"]==28) {
+	$cms->edit_field(28,0,"htmlrow","<hr><b>Wachtwoord</b><p><i>Bij het wijzigen van het wachtwoord wordt de teller &quot;aantal foutieve inlogpogingen&quot; op 0 gezet zodat de reisagent direct weer kan inloggen.</i></p>");
+}
 $cms->edit_field(28,0,"password","Wachtwoord","",array("new_password"=>true,"strong_password"=>true));
 
 $cms->edit_field(28,0,"htmlrow","<hr><b>Contactgegevens (indien afwijkend van bovenliggend reisbureau)</b>");
