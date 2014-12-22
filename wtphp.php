@@ -40,8 +40,10 @@ set_time_limit(0);
 
 // $redis->scan("")
 
+// echo wt_test_name;
+// exit;
 
-if(defined("wt_test_name") and (wt_test_name=="macbook" or wt_test_name=="ss")) {
+if(defined("wt_test_name") and (wt_test_name=="macbook" or wt_test_name=="ss" or wt_test_name=="ibrahim")) {
 	include("admin/vars.php");
 
 	$vars["tmp_info_tonen"] = true;
