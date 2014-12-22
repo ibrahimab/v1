@@ -13,6 +13,9 @@ class booking_payment {
 
 	public $bereken_reeds_voldaan = true;
 
+	public $combine_aantaling1_2_if_applicable = true;
+
+
 	function __construct($gegevens, $reeds_voldaan=0) {
 
 		if($gegevens) {
@@ -135,18 +138,27 @@ class booking_payment {
 
 			// aanbetaling 2
 			if($this->gegevens["stap1"]["aanbetaling2"] and $this->gegevens["stap1"]["aanbetaling2_datum"]) {
+
+				$this->amount["aanbetaling2"]=$this->gegevens["stap1"]["aanbetaling2"];
+
 				if($this->gegevens["stap1"]["aanbetaling2_datum"]>time()) {
 					$this->text["aanbetaling2"]=txt("uiterlijkdatumtebetalen","factuur",array("v_datum"=>date("d/m/Y",$this->gegevens["stap1"]["aanbetaling2_datum"])));
+				} else {
+					$this->text["aanbetaling2"]=txt("perdirecttevoldoen","factuur");
 
-					$this->amount["aanbetaling2"]=$this->gegevens["stap1"]["aanbetaling2"];
-
-					if($this->amount["beschikbaar_voor_aanbetalingen"]>=$this->amount["aanbetaling2"]) {
-						$this->amount["aanbetaling2_voldaan"]=$this->amount["aanbetaling2"];
-						$this->amount["aanbetaling2"]=0;
-					} elseif($this->amount["beschikbaar_voor_aanbetalingen"]) {
-						$this->amount["aanbetaling2_voldaan"]=$this->amount["beschikbaar_voor_aanbetalingen"];
-						$this->amount["aanbetaling2"]=$this->amount["aanbetaling2"]-$this->amount["beschikbaar_voor_aanbetalingen"];
+					if($this->combine_aantaling1_2_if_applicable and $this->amount["aanbetaling1"]>0 and $this->text["aanbetaling1"]==txt("perdirecttevoldoen","factuur")) {
+						// both aanbetaling1 and aanbetaling2 are "per direct": combine aanbetaling1 and aanbetaling2
+						$this->amount["aanbetaling2"] = $this->amount["aanbetaling1"] + $this->amount["aanbetaling2"];
+						$this->amount["aanbetaling1"] = 0;
 					}
+				}
+
+				if($this->amount["beschikbaar_voor_aanbetalingen"]>=$this->amount["aanbetaling2"]) {
+					$this->amount["aanbetaling2_voldaan"]=$this->amount["aanbetaling2"];
+					$this->amount["aanbetaling2"]=0;
+				} elseif($this->amount["beschikbaar_voor_aanbetalingen"]) {
+					$this->amount["aanbetaling2_voldaan"]=$this->amount["beschikbaar_voor_aanbetalingen"];
+					$this->amount["aanbetaling2"]=$this->amount["aanbetaling2"]-$this->amount["beschikbaar_voor_aanbetalingen"];
 				}
 
 				$this->amount["beschikbaar_voor_aanbetalingen"]=$this->amount["beschikbaar_voor_aanbetalingen"]-$this->amount["aanbetaling2_voldaan"];

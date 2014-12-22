@@ -19,6 +19,7 @@ class betalingsinfo {
 
 		$booking_payment = new booking_payment($gegevens, $voldaan);
 		$booking_payment->bereken_reeds_voldaan=false;
+		$booking_payment->combine_aantaling1_2_if_applicable=false;
 		$booking_payment->get_amounts();
 
 		# Voldaan
