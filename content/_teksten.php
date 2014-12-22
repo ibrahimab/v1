@@ -2841,12 +2841,7 @@ $txt["nl"]["bijkomendekosten"]["opgeven-bij-boeking"]="opgeven bij boeking";
 $txt["en"]["bijkomendekosten"]["opgeven-bij-boeking"]="state when booking";
 
 $txt["nl"]["bijkomendekosten"]["pppn"]="p.p.p.n.";
-$txt["en"]["bijkomendekosten"]["pppn"]="p.p.p.n.";
-
-$nieuwe_vertaling["en"]["bijkomendekosten"]["pppn"]=true;
-
-
-
+$txt["en"]["bijkomendekosten"]["pppn"]="per person per night";
 
 
 #

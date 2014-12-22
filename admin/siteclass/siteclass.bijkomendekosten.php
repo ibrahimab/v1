@@ -921,7 +921,7 @@ class bijkomendekosten {
 								$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
 							} else {
 								$kosten[$cat][$key] = wt_he($value["naam"]);
-								$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
+								$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".txt("pppn", "bijkomendekosten"));
 								if($value["ter_plaatse"]==1) {
 									$kosten[$cat][$key] .= ", ".$vars["bk_ter_plaatse"][$value["ter_plaatse"]];
 								}
@@ -1175,7 +1175,7 @@ class bijkomendekosten {
 								$kosten[$cat][$key] .= " (".html("ter-plaatse-te-voldoen", "bijkomendekosten").")";
 							} else {
 								$kosten[$cat][$key] = wt_he($value["naam"]);
-								$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
+								$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".txt("pppn", "bijkomendekosten"));
 								if($value["ter_plaatse"]==1) {
 									$kosten[$cat][$key] .= ", ".$vars["bk_ter_plaatse"][$value["ter_plaatse"]];
 								}
