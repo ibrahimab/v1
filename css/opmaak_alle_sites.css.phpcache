@@ -26,6 +26,10 @@ body {
     padding: 0;
 }
 
+.showlinkdiv_hidden {
+	visibility: hidden;
+}
+
 table.pad3 td {
 	padding: 3px;
 }
@@ -1236,6 +1240,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 
 .option_actief {
 	color: #777777;
+}
+
+.chosen-container {
+	width: 455px !important;
 }
 
 .chosen-container .chosen-results li {
