@@ -626,7 +626,11 @@ if($_GET["uitgaand"]==1) {
 				$db2->query("UPDATE boeking SET aanmaning_verstuurdatum=NOW(), aanmaning_aantal=aanmaning_aantal+1, aanmaning_tekst=NULL WHERE boeking_id='".addslashes($db->f("boeking_id"))."';");
 
 				# Loggen
-				chalet_log("aanmaning ".$telaat_type_naam." (€ ".$mailtekst_aanmaning["bedrag"].") verstuurd aan ".$mailtekst_aanmaning["to_log"],false,true);
+				if($db->f("aanmaning_tekst")) {
+					chalet_log("aanmaning ".$telaat_type_naam." (handmatig aangepaste tekst) verstuurd aan ".$mailtekst_aanmaning["to_log"],false,true);
+				} else {
+					chalet_log("aanmaning ".$telaat_type_naam." (€ ".$mailtekst_aanmaning["bedrag"].") verstuurd aan ".$mailtekst_aanmaning["to_log"],false,true);
+				}
 
 			} else {
 				if($regeltonen) {

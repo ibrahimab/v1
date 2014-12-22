@@ -21,6 +21,7 @@ if($_GET["id"]=="cms_mailtekst_bewerken" and isset($_POST["mailtekst_opties"]) a
 
 if($_GET["id"]=="cms_mailtekst_aanmaningen_bewerken" and isset($_POST["mailtekst_opties"]) and $_GET["bid"]) {
 	$db->query("UPDATE boeking SET aanmaning_tekst='".addslashes($_POST["mailtekst_opties"])."' WHERE boeking_id='".addslashes($_GET["bid"])."';");
+	boeking_log($_GET["bid"], "aanmaningstekst handmatig aangepast");
 	echo "<html><body onload=\"window.opener.document.getElementById('bewerk".$_GET["bid"]."').style.display='inline';self.close();\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</body></html>";
 	exit;
 }
