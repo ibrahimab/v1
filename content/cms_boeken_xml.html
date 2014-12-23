@@ -37,7 +37,7 @@ if($_GET["burl"]) {
 	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
 }
 
-if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+if($gegevens["stap1"]["leverancierscode"] and !$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
 	echo "<span class=\"error\">Bestellen via XML niet mogelijk: er is al een <a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".wt_he(urlencode($_GET["burl"]))."&bid=".wt_he($_GET["bid"])."\">Reserveringsnummer leverancier</a> bij deze boeking bekend.</span>";
 } else {
 	if(is_array($leveranciercodes)) {
@@ -48,7 +48,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 				# Huetten
 				#
 				$xml_submit="<parameter><LodgeId>".$value."</LodgeId><BeginDate>".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])."</BeginDate><Duration>1</Duration><Persons>".$gegevens["stap1"]["aantalpersonen"]."</Persons><Client><Firstname>".$gegevens["stap2"]["voornaam"]."</Firstname><Lastname>".($gegevens["stap2"]["tussenvoegsel"] ? $gegevens["stap2"]["tussenvoegsel"]." " : "").$gegevens["stap2"]["achternaam"]."</Lastname><Phone>".$gegevens["stap2"]["telefoonnummer"]."</Phone><Salutation>".($gegevens["stap2"]["geslacht"]==1 ? "Sir" : "Madam")."</Salutation></Client></parameter>";
-				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+				if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 					$xml_url="http://81.223.118.203/dataexchange/Booking.aspx?PartnerId=58063&Pwd=chalet.nl&xmlFile=".urlencode($xml_submit);
 				} else {
 					// $xml_url="https://api.huetten.com/dataexchange/Booking.aspx?PartnerId=76640&Pwd=chalet.nl&xmlFile=".urlencode($xml_submit);
@@ -107,7 +107,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 				# Alle Arkiane-sites
 				#
 
-				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+				if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 					$comment="THIS IS A TEST!!! NOT A REAL BOOKING";
 					$gegevens["stap2"]["achternaam"]="TEST";
 					$gegevens["stap2"]["voornaam"]="TEST";
@@ -147,14 +147,14 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 
 				$xml_url=$arkiane_url[$xml_type].",@lot_ref='".urlencode($value)."',@begin='".urlencode(date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"]))."',@end='".urlencode(date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]))."',@price='',@civi='M',@name='".urlencode(($gegevens["stap2"]["tussenvoegsel"] ? $gegevens["stap2"]["tussenvoegsel"]." " : "").$gegevens["stap2"]["achternaam"])."',@firstname='".urlencode($gegevens["stap2"]["voornaam"])."',@addr1='".urlencode("Wipmolenlaan 3")."',@addr2='',@addr3='',@postcode='".urlencode("3447 GJ")."',@city='".urlencode("Woerden")."',@country='".urlencode("The Netherlands")."',@tel='".urlencode("+31348434649")."',@fax='".urlencode("+31348690752")."',@email='".urlencode("info@chalet.nl")."',@comments='".urlencode($comment)."',@lang=''";
 
-				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+				if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 					// echo wt_he($xml_url)."<hr>";
-					$xml_url="/home/webtastic/html/chalet/tmp/arkiana_xml_bestelling_testxml.xml";
+					$xml_url=$unixdir."xml/arkiana_xml_bestelling_testxml.xml";
 				}
 				$xml=simplexml_load_file($xml_url);
 				if(is_object($xml)) {
 
-					if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+					if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 						// echo "<pre>";
 
 						// echo "\n\n1\n";
@@ -273,7 +273,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 						$base_product_code=utf8_decode($result->distribProposal->base_product_code);
 					}
 
-					if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+					if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 						# testsysteem
 
 						save_aan_leverancier_doorgegeven_naam();
@@ -313,7 +313,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 							}
 							$reservation="<reservation><reservation><external_id>".$externalid."</external_id><etab_id>".$code[0]."</etab_id><reservation_type>gin</reservation_type><firstname>".$firstname."</firstname><lastname>".$lastname."</lastname><stays><stay><nb_rooms>1</nb_rooms><room_type_code>".$code[1]."</room_type_code><start_date>".date("Y-m-d",$gegevens["stap1"]["aankomstdatum_exact"])."</start_date><end_date>".date("Y-m-d",$gegevens["stap1"]["vertrekdatum_exact"])."</end_date></stay></stays></reservation></reservation>";
 
-							if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+							if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 								$result="TEST";
 							} else {
 								unset($error);
