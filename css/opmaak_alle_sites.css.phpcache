@@ -1242,7 +1242,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	color: #777777;
 }
 
-#zoekblok .chosen-container {
+.showlinkdiv .chosen-container {
 	width: 455px !important;
 }
 
