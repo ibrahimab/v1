@@ -63,7 +63,11 @@ $(document).ready(function() {
 		<th>Omschrijving</th>
 	</tr>
 	<tr>
-		<td><a href="http://test.chalet.nl/cms.php">www.chalet.nl</a></td>
+		<td><a href="https://www.chalet.nl/cms.php">www.chalet.nl/cms.php</a></td>
+		<td>CMS</td>
+	</tr>
+	<tr>
+		<td><a href="http://test.chalet.nl/cms.php">test.chalet.nl/cms.php</a></td>
 		<td>Test-CMS</td>
 	</tr>
 	<tr>

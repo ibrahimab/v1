@@ -13,6 +13,7 @@ if($_GET["directlogin"]) {
 
 include("admin/vars.php");
 
+
 if($_GET["directlogin"] and $_GET["user_id"] and $_GET["code"]) {
 
 

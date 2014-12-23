@@ -149,6 +149,12 @@ RewriteCond %{HTTP_HOST} !^test\.chalet\.be [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ https://www.chalet.be/$1 [L,R=301]
 
+RewriteCond %{HTTP_HOST} chaletonline\.de [NC]
+RewriteCond %{HTTP_HOST} !^www\.chaletonline\.de [NC]
+RewriteCond %{HTTP_HOST} !^test\.chaletonline\.de [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
+RewriteRule ^(.*)$ https://www.chaletonline.de/$1 [L,R=301]
+
 RewriteCond %{HTTP_HOST} zomerhuisje\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.zomerhuisje\.nl [NC]
@@ -205,21 +211,17 @@ RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ https://www.venturasolvacances.nl/$1 [L,R=301]
 
 
-# #
-# # TIJDELIJK italyhomes nog niet toegankelijk (want in ontwikkeling)
-# #
-# RewriteCond %{HTTP_HOST} italyhomes\.eu [NC]
-# # WebTastic-IP 1
-# RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
-# # WebTastic-IP 2
-# RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
-# # Chalet-IP
-# RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
-# # Linda
-# RewriteCond %{REMOTE_ADDR} !^83\.218\.164\.218
-# # Lokaal (voor ophalen aanbiedingencache)
-# RewriteCond %{REMOTE_ADDR} !^87\.250\.153\.107
-# RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=302]
+#
+# TIJDELIJK italyhomes nog niet toegankelijk (want in ontwikkeling)
+#
+RewriteCond %{HTTP_HOST} chaletonline\.de [NC]
+# WebTastic-IP 1
+RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
+# WebTastic-IP 2
+RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
+# Chalet-IP
+RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
+RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=302]
 
 
 #
@@ -281,6 +283,19 @@ RewriteRule ^winter-sports/theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_S
 RewriteRule ^holiday-homes/theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^land/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
 RewriteRule ^country/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
+RewriteRule ^Land/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
+
+# Chaletonline.de renaming
+RewriteRule ^suchen-und-buchen\.php$ zoek-en-boek.php [L,QSA]
+RewriteRule ^Angebote\.php$ aanbiedingen.php [L,QSA]
+RewriteRule ^Versicherungen\.php$ verzekeringen.php [L,QSA]
+RewriteRule ^Weekendski\.php$ weekendski.php [L,QSA]
+RewriteRule ^Skigebiete\.php$ skigebieden.php [L,QSA]
+RewriteRule ^Favoriten\.php$ favorieten.php [L,QSA]
+RewriteRule ^wer-sind-wir\.php$ wie-zijn-wij.php [L,QSA]
+RewriteRule ^fragen-Sie-unseren-Rat\.php$ vraag-ons-advies.php [L,QSA]
+
+
 
 
 # XML-feeds
@@ -414,22 +429,27 @@ RewriteRule ^acommodatie/(.*)$ /accommodatie/$1  [L,R=301]
 RewriteRule ^acomodation/(.*)$ /accommodation/$1  [L,R=301]
 RewriteRule ^acommodation/(.*)$ /accommodation/$1  [L,R=301]
 RewriteRule ^accomodation/(.*)$ /accommodation/$1  [L,R=301]
+RewriteRule ^unterkunft/(.*)$ /Unterkunft/$1  [L,R=301]
 
 # Accommodatiepagina's (SEO)
 RewriteRule wintersport/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
 RewriteRule winter-sports/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
 RewriteRule vakantiehuizen/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
 RewriteRule holiday-homes/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
+RewriteRule Wintersport/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
 
 # Accommodatiepagina's (gewoon)
 RewriteRule ^accommodatie/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
 RewriteRule ^accommodation/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
+RewriteRule ^Unterkunft/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
 
 # Regio-pagina's winter
 RewriteRule ^wintersport/skigebied/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
 RewriteRule ^winter-sports/region/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
+RewriteRule ^Wintersport/Skigebiet/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
 RewriteRule ^skigebied/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
 RewriteRule ^region/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
+RewriteRule ^Skigebiet/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
 
 # Regio-pagina's zomer
 RewriteRule ^vakantiehuizen/regio/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
@@ -439,6 +459,7 @@ RewriteRule ^regio/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_
 # Plaats-pagina's winter
 RewriteRule ^wintersport/plaats/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 RewriteRule ^winter-sports/resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
+RewriteRule ^Wintersport/Ort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 RewriteRule ^plaats/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 RewriteRule ^resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 

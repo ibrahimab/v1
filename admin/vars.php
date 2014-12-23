@@ -271,7 +271,7 @@ if($vars["taal"]=="en") {
 	setlocale(LC_MONETARY,"nl_NL.ISO8859-1");
 }
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+if($vars["taal"]=="de") {
 	require($unixdir."content/_teksten_intern_de.php");
 	require($unixdir."content/_teksten_de.php");
 } else {

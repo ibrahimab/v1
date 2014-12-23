@@ -100,6 +100,28 @@ class Login {
 				if(!isset($this->settings["message"]["minimaluserlevel"])) $this->settings["message"]["minimaluserlevel"]="This username is not active.";
 #				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies to remember your username and password.";
 				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies in your browser to log in.";
+			} elseif($this->settings["language"]=="de") {
+				if(!isset($this->settings["message"]["login"])) $this->settings["message"]["login"]="Username";
+				if(!isset($this->settings["message"]["password"])) $this->settings["message"]["password"]="Password";
+				if(!isset($this->settings["message"]["loginheader"])) $this->settings["message"]["loginheader"]="Please log in";
+				if(!isset($this->settings["message"]["remember"])) $this->settings["message"]["remember"]="Remember my username and password";
+				if(!isset($this->settings["message"]["logout_position"])) $this->settings["message"]["logout_position"]="";
+				if(!isset($this->settings["message"]["button"])) $this->settings["message"]["button"]="OK";
+				if(!isset($this->settings["message"]["forget"])) $this->settings["message"]["forget"]="Forgot your password?";
+				if(!isset($this->settings["message"]["forgetheader"])) $this->settings["message"]["forgetheader"]="Forgot your password";
+				if(!isset($this->settings["message"]["forgethelp"])) $this->settings["message"]["forgethelp"]="Enter your username and we will send you a new password by e-mail.";
+				if(!isset($this->settings["message"]["forgetokay"])) $this->settings["message"]["forgetokay"]="A new password has been sent to your email address.";
+				if(!isset($this->settings["message"]["forgetsubject"])) $this->settings["message"]["forgetsubject"]="New password";
+				if(!isset($this->settings["message"]["forgetbody"])) $this->settings["message"]["forgetbody"]="Use the following data to login:";
+				if(!isset($this->settings["message"]["forgetfromname"])) $this->settings["message"]["forgetfromname"]="WebTastic Login";
+				if(!isset($this->settings["message"]["forgetfrommail"])) $this->settings["message"]["forgetfrommail"]="automail@webtastic.nl";
+				if(!isset($this->settings["message"]["wronglogin"])) $this->settings["message"]["wronglogin"]="Wrong username or password";
+				if(!isset($this->settings["message"]["wrongloginperm"])) $this->settings["message"]["wrongloginperm"]="Account blocked: <A HREF=\"http://www.webtastic.nl/account-geblokkeerd-perm-en.html\" target=\"_blank\">more information</A>";
+				if(!isset($this->settings["message"]["wronglogintemp"])) $this->settings["message"]["wronglogintemp"]="Account blocked: <A HREF=\"http://www.webtastic.nl/account-geblokkeerd-temp-en.html?blocktime=\" target=\"_blank\">more information</A>";
+				if(!isset($this->settings["message"]["accountblocked"])) $this->settings["message"]["accountblocked"]="Account blocked: <A HREF=\"http://www.webtastic.nl/account-geblokkeerd-set-en.html\" target=\"_blank\">more information</A>";
+				if(!isset($this->settings["message"]["minimaluserlevel"])) $this->settings["message"]["minimaluserlevel"]="This username is not active.";
+#				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies to remember your username and password.";
+				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies in your browser to log in.";
 			} elseif($this->settings["language"]=="fr") {
 				if(!isset($this->settings["message"]["login"])) $this->settings["message"]["login"]="Nom d'utilisateur";
 				if(!isset($this->settings["message"]["password"])) $this->settings["message"]["password"]="Mot de passe";

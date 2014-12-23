@@ -952,6 +952,18 @@ $txt["en"]["popup_bijkomendekosten"]["aankomstdatum"]="date of arrival";
 $txt["nl"]["popup_bijkomendekosten"]["toeslag"]="toeslag p.p.";
 $txt["en"]["popup_bijkomendekosten"]["toeslag"]="surcharge p.p.";
 
+$txt["nl"]["popup_bijkomendekosten"]["perpersoonafk"]="p.p.";
+$txt["en"]["popup_bijkomendekosten"]["perpersoonafk"]="p.p.";
+
+$txt["nl"]["popup_bijkomendekosten"]["perpersoon"]="per persoon";
+$txt["en"]["popup_bijkomendekosten"]["perpersoon"]="per person";
+
+$txt["nl"]["popup_bijkomendekosten"]["perboeking"]="per boeking";
+$txt["en"]["popup_bijkomendekosten"]["perboeking"]="per booking";
+
+$txt["nl"]["popup_bijkomendekosten"]["korting"]="korting";
+$txt["en"]["popup_bijkomendekosten"]["korting"]="discount";
+
 $txt["nl"]["popup_bijkomendekosten"][""]="";
 $txt["en"]["popup_bijkomendekosten"][""]="";
 
@@ -3387,6 +3399,11 @@ $txt["en"]["land"]["bekijkonzeaccommodaties"]="Have a look at all our chalets an
 $txt["nl_z"]["land"]["bekijkonzeaccommodaties"]="Bekijk al onze vakantiehuizen in [[v_land]]";
 $txt["en_z"]["land"]["bekijkonzeaccommodaties"]="Have a look at our holiday homes in [[v_land]]";
 
+$txt["nl"]["land"]["review_aggregate_link_chalet"]="Bekijk onze [[v_accommodations]] chalets en appartementen in [[v_land]]";
+$txt["en"]["land"]["review_aggregate_link_chalet"]="Have a look at our [[v_accommodations]] chalets and apartments in [[v_land]]";
+
+$txt["nl"]["land"]["review_aggregate_chalet"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["land"]["review_aggregate_chalet"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
 
 #
 # Thema-pagina (zie https://www.chalet.nl/thema/catering/)
@@ -3520,7 +3537,7 @@ $txt["en"]["tarieventabel"]["korting"]="Discount";
 
 $txt["nl"]["tarieventabel"]["kortingaccommodatie"]="Accommodatiekorting";
 $txt["de"]["tarieventabel"]["kortingaccommodatie"]="Unterkunftsrabatt";
-$txt["en"]["tarieventabel"]["kortingaccommodatie"]="Accommodation discount";
+$txt["en"]["tarieventabel"]["kortingaccommodatie"]="Accom. discount";
 
 $txt["nl"]["tarieventabel"]["aanbieding"]="Aanbieding";
 $txt["de"]["tarieventabel"]["aanbieding"]="Angebot";
@@ -3565,6 +3582,24 @@ $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
 $txt["nl"]["tarieventabel"]["diversen"]="Diversen";
 $txt["de"]["tarieventabel"]["diversen"]="Unterschiedliches";
 $txt["en"]["tarieventabel"]["diversen"]="Miscellaneous";
+
+$txt["nl"]["tarieventabel"]["verplichttevoldoen"]="Verplicht te voldoen";
+$txt["en"]["tarieventabel"]["verplichttevoldoen"]="Mandatory fees";
+
+$txt["nl"]["tarieventabel"]["optioneel"]="Optioneel";
+$txt["en"]["tarieventabel"]["optioneel"]="Optional";
+
+$txt["nl"]["tarieventabel"]["vantot"]="€ [[v_bedragmin]] tot € [[v_bedragmax]]";
+$txt["en"]["tarieventabel"]["vantot"]="€ [[v_bedragmin]] to € [[v_bedragmax]]";
+
+$txt["nl"]["tarieventabel"]["afhankelijk-van-week"]="afhankelijk van week";
+$txt["en"]["tarieventabel"]["afhankelijk-van-week"]="depending on week";
+
+$txt["nl"]["tarieventabel"]["perboeking"]="per boeking";
+$txt["en"]["tarieventabel"]["perboeking"]="per booking";
+
+$txt["nl"]["tarieventabel"]["perpersoonafk"]="p.p.";
+$txt["en"]["tarieventabel"]["perpersoonafk"]="p.p.";
 
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
 $txt["de"]["tarieventabel"]["bekijkdeextraopties"]="Beachten Sie unsere [[h_1]]extra Optionen[[h_2]] ";
@@ -3709,6 +3744,99 @@ $txt["nl"]["tarieventabel"]["klik-op-datum-personen"]="Klik in bovenstaande prij
 $txt["de"]["tarieventabel"]["klik-op-datum-personen"]="Bitte klicken sie auf oben stehende Preisliste um Ankunftsdatum/Personenzahl zu ändern.";
 $txt["en"]["tarieventabel"]["klik-op-datum-personen"]="Click in the above pricing table to change the date of arrival / number of people.";
 
+// tarieventabel bijkomende kosten
+$txt["nl"]["bijkomendekosten"]["inclusief"]="inclusief";
+$txt["en"]["bijkomendekosten"]["inclusief"]="including";
+
+$txt["nl"]["bijkomendekosten"]["exclusief"]="exclusief";
+$txt["en"]["bijkomendekosten"]["exclusief"]="excluding";
+
+$txt["nl"]["bijkomendekosten"]["optioneel"]="optioneel";
+$txt["en"]["bijkomendekosten"]["optioneel"]="optional";
+
+$txt["nl"]["bijkomendekosten"]["verplicht"]="verplicht";
+$txt["en"]["bijkomendekosten"]["verplicht"]="mandatory";
+
+$txt["nl"]["bijkomendekosten"]["naar-verbruik"]="naar verbruik";
+$txt["en"]["bijkomendekosten"]["naar-verbruik"]="by usage";
+
+$txt["nl"]["bijkomendekosten"]["zelf-te-verzorgen"]="zelf te verzorgen";
+$txt["en"]["bijkomendekosten"]["zelf-te-verzorgen"]="by tenant";
+
+$txt["nl"]["bijkomendekosten"]["vooraf-te-voldoen"]="vooraf te voldoen";
+$txt["en"]["bijkomendekosten"]["vooraf-te-voldoen"]="paid in advance";
+
+$txt["nl"]["bijkomendekosten"]["ter-plaatse-te-voldoen"]="ter plaatse te voldoen";
+$txt["en"]["bijkomendekosten"]["ter-plaatse-te-voldoen"]="paid locally";
+
+$txt["nl"]["bijkomendekosten"]["per-verblijf"]="per verblijf";
+$txt["en"]["bijkomendekosten"]["per-verblijf"]="per stay";
+
+$txt["nl"]["bijkomendekosten"]["pp"]="p.p.";
+$txt["en"]["bijkomendekosten"]["pp"]="p.p.";
+
+$txt["nl"]["bijkomendekosten"]["per-dag"]="per dag";
+$txt["en"]["bijkomendekosten"]["per-dag"]="per day";
+
+$txt["nl"]["bijkomendekosten"]["per-stuk"]="per stuk";
+$txt["en"]["bijkomendekosten"]["per-stuk"]="each";
+
+$txt["nl"]["bijkomendekosten"]["per-keer"]="per keer";
+$txt["en"]["bijkomendekosten"]["per-keer"]="each time";
+
+$txt["nl"]["bijkomendekosten"]["per-kwh"]="per kWh";
+$txt["en"]["bijkomendekosten"]["per-kwh"]="per kWh";
+
+$txt["nl"]["bijkomendekosten"]["per-liter"]="per liter";
+$txt["en"]["bijkomendekosten"]["per-liter"]="per liter";
+
+$txt["nl"]["bijkomendekosten"]["per-nacht"]="per nacht";
+$txt["en"]["bijkomendekosten"]["per-nacht"]="per night";
+
+$txt["nl"]["bijkomendekosten"]["per-set"]="per set";
+$txt["en"]["bijkomendekosten"]["per-set"]="per set";
+
+$txt["nl"]["bijkomendekosten"]["per-week"]="per week";
+$txt["en"]["bijkomendekosten"]["per-week"]="per week";
+
+$txt["nl"]["bijkomendekosten"]["per-zak"]="per zak";
+$txt["en"]["bijkomendekosten"]["per-zak"]="per bag";
+
+$txt["nl"]["bijkomendekosten"]["pp-per-keer"]="p.p. per keer";
+$txt["en"]["bijkomendekosten"]["pp-per-keer"]="per person each time";
+
+$txt["nl"]["bijkomendekosten"]["per-uur"]="per uur";
+$txt["en"]["bijkomendekosten"]["per-uur"]="per hour";
+
+$txt["nl"]["bijkomendekosten"]["per-kubieke-meter"]="per kubieke meter";
+$txt["en"]["bijkomendekosten"]["per-kubieke-meter"]="per cubic meter";
+
+$txt["nl"]["bijkomendekosten"]["contant-te-voldoen"]="contant te voldoen";
+$txt["en"]["bijkomendekosten"]["contant-te-voldoen"]="in cash";
+
+$txt["nl"]["bijkomendekosten"]["per-creditcard-te-voldoen"]="per creditcard te voldoen";
+$txt["en"]["bijkomendekosten"]["per-creditcard-te-voldoen"]="via credit card";
+
+$txt["nl"]["bijkomendekosten"]["contant-of-per-creditcard"]="contant of per creditcard te voldoen";
+$txt["en"]["bijkomendekosten"]["contant-of-per-creditcard"]="in cash or via credit card";
+
+$txt["nl"]["bijkomendekosten"]["niet-van-toepassing"]="niet van toepassing";
+$txt["en"]["bijkomendekosten"]["niet-van-toepassing"]="not applicable";
+
+$txt["nl"]["bijkomendekosten"]["bedrag-onbekend"]="bedrag onbekend";
+$txt["en"]["bijkomendekosten"]["bedrag-onbekend"]="amount unknown";
+
+$txt["nl"]["bijkomendekosten"]["geen-borg-verschuldigd"]="geen borg verschuldigd";
+$txt["en"]["bijkomendekosten"]["geen-borg-verschuldigd"]="no security deposit required";
+
+$txt["nl"]["bijkomendekosten"]["tegen-betaling"]="tegen betaling";
+$txt["en"]["bijkomendekosten"]["tegen-betaling"]="surcharge required";
+
+$txt["nl"]["bijkomendekosten"]["opgeven-bij-boeking"]="opgeven bij boeking";
+$txt["en"]["bijkomendekosten"]["opgeven-bij-boeking"]="state when booking";
+
+$txt["nl"]["bijkomendekosten"]["pppn"]="p.p.p.n.";
+$txt["en"]["bijkomendekosten"]["pppn"]="per person per night";
 
 
 #
@@ -3946,7 +4074,17 @@ $txt["nl"]["toonskigebied"]["accommodaties-in-regio"]="accommodaties in [[v_regi
 $txt["de"]["toonskigebied"]["accommodaties-in-regio"]="Unterkünfte in [[v_regio]]";
 $txt["en"]["toonskigebied"]["accommodaties-in-regio"]="accommodations in [[v_regio]]";
 
+$txt["nl"]["toonskigebied"]["review_aggregate_link_chalet"]="Bekijk onze [[v_accommodations]] chalets en appartementen in [[v_skigebied]]";
+$txt["en"]["toonskigebied"]["review_aggregate_link_chalet"]="Have a look at our [[v_accommodations]] chalets and apartments in [[v_skigebied]]";
 
+$txt["nl"]["toonskigebied"]["review_aggregate_chalet"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["toonskigebied"]["review_aggregate_chalet"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
+
+$txt["nl"]["toonskigebied"]["review_aggregate_link_italissima"]="[[h_10]][[h_8]]Bekijk onze [[v_accommodations]] agriturismi en vakantiehuizen in [[h_1]][[v_naam]][[h_spanclose]][[h_11]][[h_9]][[h_7]]";
+$txt["en"]["toonskigebied"]["review_aggregate_link_italissima"]="[[h_10]][[h_8]]Have a look at our [[v_accommodations]] agriturismi and holiday homes in [[h_1]][[v_naam]][[h_spanclose]][[h_11]][[h_9]][[h_7]]";
+
+$txt["nl"]["toonskigebied"]["review_aggregate_italissima"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["toonskigebied"]["review_aggregate_italissima"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
 
 #
 # Pagina Plaats (bijvoorbeeld https://www.chalet.nl/plaats/Alpe_d_Huez/)
@@ -4142,6 +4280,17 @@ $txt["en_z"]["toonplaats"]["bekijkalleaccommodaties"]="View all holiday homes in
 $txt["nl"]["toonplaats"]["plaatsnietgevonden"]="Plaats niet gevonden. Onze excuses voor het ongemak.";
 $txt["en"]["toonplaats"]["plaatsnietgevonden"]="Place not found. Our apologies for the inconvenience.";
 
+$txt["nl"]["toonplaats"]["review_aggregate_link_chalet"]="Bekijk onze [[v_accommodations]] chalets en appartementen in [[v_toonplaats]]";
+$txt["en"]["toonplaats"]["review_aggregate_link_chalet"]="Have a look at our [[v_accommodations]] chalets and apartments in [[v_toonplaats]]";
+
+$txt["nl"]["toonplaats"]["review_aggregate_chalet"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["toonplaats"]["review_aggregate_chalet"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
+
+$txt["nl"]["toonplaats"]["review_aggregate_link_italissima"]="Bekijk onze [[v_accommodations]] agriturismi en vakantiehuizen in [[v_toonplaats]]";
+$txt["en"]["toonplaats"]["review_aggregate_link_italissima"]="Have a look at our [[v_accommodations]] agriturismi and holiday homes in [[v_toonplaats]]";
+
+$txt["nl"]["toonplaats"]["review_aggregate_italissima"]="Gemiddelde waardering: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] beoordelingen)";
+$txt["en"]["toonplaats"]["review_aggregate_italissima"]="Average rating: [[h_3]][[h_4]][[v_average]][[h_spanclose]][[h_spanclose]] ([[h_6]][[v_votes]][[h_spanclose]] reviews)";
 
 #
 # Overzicht skigebieden (https://www.chalet.nl/skigebieden.php)
@@ -7665,9 +7814,9 @@ $txt["en"]["xml"]["euro"]="Euro";
 #$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
 
 # htmlbanners
-$txt["nl"]["htmlbanner"]["kies-aantal-personen"]="Kies aantal personen";
+$txt["nl"]["htmlbanner"]["kies-aantal-personen"]="Personen";
 $txt["de"]["htmlbanner"]["kies-aantal-personen"]="Wählen Sie die Personenzahl";
-$txt["en"]["htmlbanner"]["kies-aantal-personen"]="Select no. of persons";
+$txt["en"]["htmlbanner"]["kies-aantal-personen"]="No. of persons";
 
 $txt["nl"]["htmlbanner"]["zoek-op-aantal-personen"]="Zoek op aantal personen";
 $txt["de"]["htmlbanner"]["zoek-op-aantal-personen"]="Suchen Sie nach Personenzahl";
@@ -7681,9 +7830,9 @@ $txt["nl"]["htmlbanner"]["personen"]="personen";
 $txt["de"]["htmlbanner"]["personen"]="Personen";
 $txt["en"]["htmlbanner"]["personen"]="persons";
 
-$txt["nl"]["htmlbanner"]["kies-land"]="Kies land";
+$txt["nl"]["htmlbanner"]["kies-land"]="Land";
 $txt["de"]["htmlbanner"]["kies-land"]="Wählen Sie ein Land";
-$txt["en"]["htmlbanner"]["kies-land"]="Select country";
+$txt["en"]["htmlbanner"]["kies-land"]="Country";
 
 $txt["nl"]["htmlbanner"]["zoek-op-land"]="Zoek op land";
 $txt["de"]["htmlbanner"]["zoek-op-land"]="Suchen Sie nach Land";
@@ -7705,9 +7854,9 @@ $txt["nl"]["htmlbanner"]["zwitserland"]="Zwitserland";
 $txt["de"]["htmlbanner"]["zwitserland"]="Schweiz";
 $txt["en"]["htmlbanner"]["zwitserland"]="Switzerland";
 
-$txt["nl"]["htmlbanner"]["kies-datum"]="Kies datum";
+$txt["nl"]["htmlbanner"]["kies-datum"]="Datum";
 $txt["de"]["htmlbanner"]["kies-datum"]="Wählen Sie ein Datum";
-$txt["en"]["htmlbanner"]["kies-datum"]="Select date";
+$txt["en"]["htmlbanner"]["kies-datum"]="Date";
 
 
 

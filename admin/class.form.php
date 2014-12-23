@@ -278,6 +278,7 @@ class form2 {
 
 		$this->settings["message"]["kalender"]["nl"]="Kalender";
 		$this->settings["message"]["kalender"]["en"]="Calendar";
+		$this->settings["message"]["kalender"]["de"]="Kalender";
 		$this->settings["message"]["kalender"]["fr"]="calendrier";
 
 		$this->settings["message"]["u"]["nl"]="u";
