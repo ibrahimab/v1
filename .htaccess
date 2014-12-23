@@ -364,6 +364,7 @@ RewriteRule ^sitemap/$ /sitemap [L,R=301]
 #RewriteRule ^sitemap\.php$ /sitemap [L,R=301]
 RewriteRule ^sitemap$ sitemap.php?%{QUERY_STRING}
 RewriteRule ^veelgestelde-vragen$ veelgestelde-vragen.php?%{QUERY_STRING}
+RewriteRule ^interne-links$ interne-links.php [L,QSA]
 
 # Werken bij
 RewriteRule ^vacatures$ /werkenbij [L,R=301]
