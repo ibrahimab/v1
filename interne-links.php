@@ -75,6 +75,10 @@ $(document).ready(function() {
 		<td>Backup-server</td>
 	</tr>
 	<tr>
+		<td><a href="http://dev.chalet.nl/chalet/">dev.chalet.nl</a></td>
+		<td>Test-website op de pc van Ibrahim</td>
+	</tr>
+	<tr>
 		<td><a href="http://chalet-dev.web.netromtest.ro">www.chalet-dev.web.netromtest.ro</a></td>
 		<td>Test-website bij NetRom</td>
 	</tr>
