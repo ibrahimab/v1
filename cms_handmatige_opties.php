@@ -155,10 +155,10 @@ if($geen_deelnemers[$_GET["23k0"]]) {
 	$cms->edit_field(23,1,"persoonnummer","Gekoppeld aan","",array("noedit"=>$bijkomendekosten));
 }
 if(!$bijkomendekosten) $cms->edit_field(23,0,"deelnemers","Deelnemers","","",array("one_per_line"=>true));
-$cms->edit_field(23,0,"alg_aantal","Aantal keer (alleen voor algemene optie)");
 $cms->edit_field(23,1,"verkoop","Verkoopprijs","",array("negative"=>true));
 $cms->edit_field(23,1,"inkoop","Inkoopprijs","",array("negative"=>true));
 $cms->edit_field(23,0,"korting","Kortingspercentage");
+$cms->edit_field(23,0,"alg_aantal","Aantal keer (alleen voor algemene optie)");
 if(!$bijkomendekosten) {
 	if($gegevens["stap1"]["reisbureau_user_id"]) {
 		$cms->edit_field(23,0,"commissie","Commissiepercentage");
