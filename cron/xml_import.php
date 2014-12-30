@@ -1236,7 +1236,7 @@ while(list($key,$value)=@each($soap_urls)) {
 		}
 	} elseif($key==25) {
 		//
-		// Class Alpin Rentals
+		// Class Alpin Rentals Kaprun
 		//
 		if(file_exists($value)) {
 			require_once($value);
@@ -1252,48 +1252,48 @@ while(list($key,$value)=@each($soap_urls)) {
 			}
 
 			 // Get all accommodations from AlpinRentals (245)
-			 $q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`tonen`=1 AND t.`leverancier_id` = '245' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
+			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`tonen`=1 AND t.`leverancier_id` = '245' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
 
-			 $db->query($q);
-			 // Loop through all the database accommodations
-			 while($db->next_record()) {
-				 $accCode = $db->f("leverancierscode");
-				 $seasonId = $db->f("wzt");
+			$db->query($q);
+			// Loop through all the database accommodations
+			while($db->next_record()) {
+				$accCode = $db->f("leverancierscode");
+				$seasonId = $db->f("wzt");
 
-				 foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
-					 $x = strtotime($endDateValue);
-					 $end_date = strtotime("+ 7 days", $x);
-					 $end_date = date("Y-m-d", $end_date);
+				foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
+					$x = strtotime($endDateValue);
+					$end_date = strtotime("+ 7 days", $x);
+					$end_date = date("Y-m-d", $end_date);
 
-					 $start_date = $startDate[$seasonId][$endDatekey];
-					 if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
-							 $start_date = date("Y-m-d");
-					 }
+					$start_date = $startDate[$seasonId][$endDatekey];
+					if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+						$start_date = date("Y-m-d");
+					}
 
-					 if($availability = $alpinRentals->getAvailability($accCode, $start_date, $end_date)) {
-							 // Get the availability
-							 if(isset($xml_beschikbaar[$key][$accCode])) {
-									 $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-							 } else {
-									 $xml_beschikbaar[$key][$accCode] = $availability;
-							 }
-					 }
+					if($availability = $alpinRentals->getAvailability($accCode, $start_date, $end_date)) {
+						// Get the availability
+						if(isset($xml_beschikbaar[$key][$accCode])) {
+							$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+						} else {
+							$xml_beschikbaar[$key][$accCode] = $availability;
+						}
+					}
 
-
-					 $prices = $alpinRentals->getPrices($accCode, $start_date, $end_date);
-					 if(isset($xml_brutoprijs[$key][$accCode])){
-						 $xml_brutoprijs[$key][$accCode] =$xml_brutoprijs[$key][$accCode] + $prices;
-					 }else {
-						 $xml_brutoprijs[$key][$accCode] = $prices;
-					 }
-
-				 }
-				 if(!isset($xml_beschikbaar[$key][$accCode])) {
-				 	$xml_beschikbaar[$key][$accCode] = array();
-				 }
-			 }
-			 $xml_laatsteimport_leverancier[$key]=true;
-		 }
+					$prices = $alpinRentals->getPrices($accCode, $start_date, $end_date);
+					if(!is_array($prices)) {
+						if(isset($xml_brutoprijs[$key][$accCode])) {
+							$xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
+						} else {
+							$xml_brutoprijs[$key][$accCode] = $prices;
+						}
+					}
+				}
+				if(!isset($xml_beschikbaar[$key][$accCode])) {
+					$xml_beschikbaar[$key][$accCode] = array();
+				}
+			}
+			$xml_laatsteimport_leverancier[$key]=true;
+		}
 	} else {
 		//
 		// Other SOAP suppliers (Eurogroup and Des Neiges)
