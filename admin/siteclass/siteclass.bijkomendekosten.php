@@ -106,7 +106,7 @@ class bijkomendekosten {
 				}
 			}
 
-			if($this->soort == "type" and $NU_EVEN_NIET) {
+			if($this->soort == "type") {
 
 				// toeslagen extra personen
 				$db->query("SELECT
@@ -119,7 +119,7 @@ class bijkomendekosten {
 
 				           FROM type t INNER JOIN accommodatie a USING (accommodatie_id)
 				           WHERE t.type_id='".intval($this->id)."';");
-				if($db->next_record()) {
+				while($db->next_record()) {
 					for($i=1;$i<=6;$i++) {
 						if($db->f("bijkomendekosten".$i."_id")) {
 							$bijkomendekosten_id_inquery .= ",".$db->f("bijkomendekosten".$i."_id");
@@ -132,13 +132,20 @@ class bijkomendekosten {
 
 				if($bijkomendekosten_id_inquery) {
 
-					$db->query("SELECT bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_personen FROM bijkomendekosten_tarief bt INNER JOIN bijkomendekosten b USING (bijkomendekosten_id) WHERE seizoen_id IN (".substr($this->seizoen_inquery,1).");");
+					$db->query("SELECT b.bijkomendekosten_id, b.naam, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_personen FROM bijkomendekosten_tarief bt INNER JOIN bijkomendekosten b USING (bijkomendekosten_id) WHERE b.bijkomendekosten_id IN (".substr($bijkomendekosten_id_inquery, 1).") AND bt.seizoen_id IN (".substr($this->seizoen_inquery,1).") AND b.min_personen IS NOT NULL AND (b.min_leeftijd IS NULL OR b.zonderleeftijd=1) AND (b.max_leeftijd IS NULL OR b.zonderleeftijd=1) ORDER BY b.bijkomendekosten_id, bt.week;");
 					while($db->next_record()) {
 
+						$seizoen_id = $db->f("seizoen_id");
+
+						if(!$this->data_var[$seizoen_id][$db->f("bijkomendekosten_id")]) {
+							$this->data_var[$seizoen_id][$db->f("bijkomendekosten_id")]["naam"] = $db->f("naam");
+							$this->data_var[$seizoen_id][$db->f("bijkomendekosten_id")]["min_personen"] = $db->f("min_personen");
+							$this->data_var[$seizoen_id][$db->f("bijkomendekosten_id")]["max_personen"] = $db->f("max_personen");
+						}
+						$this->data_var[$seizoen_id][$db->f("bijkomendekosten_id")]["verkoop"][$db->f("week")] = $db->f("verkoop");
 					}
 				}
 			}
-
 
 			$this->get_data_done = true;
 		}
@@ -748,22 +755,68 @@ class bijkomendekosten {
 						flush();
 					}
 				}
-
-
-				// toeslag extra personen
-
-
 			}
 		} else {
 			// trigger_error("_notice: no this->data for type-id ".$type_id,E_USER_NOTICE);
 		}
 
 
+		// toeslag extra personen
+		$this->wt_redis->del("bk_per_week:".$this->wzt.":".$type_id);
+
+		if(is_array($this->data_var)) {
+			unset($save_redis_var);
+			foreach ($this->data_var as $seizoen_id => $alldata) {
+
+				foreach ($alldata as $bijkomendekosten_id => $data) {
+
+					for($i=$data["min_personen"]; $i<=$data["max_personen"]; $i++) {
+						foreach ($data["verkoop"] as $week => $amount) {
+							$save_redis_var[$i][$week] += $amount;
+						}
+					}
+				}
+			}
+
+			if(is_array($save_redis_var)) {
+				foreach ($save_redis_var as $persons => $data) {
+					foreach ($data as $week => $total) {
+						$this->wt_redis->hset("bk_per_week:".$this->wzt.":".$type_id, $week.":".$persons, $total);
+						if($vars["tmp_info_tonen"]) {
+							echo "bk_per_week:".$this->wzt.":".$type_id." - ". $week.":".$persons." - ". $total."<br />";
+							flush();
+						}
+					}
+				}
+			}
+		}
+
 		$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, "saved", time());
 
 		if(!$GLOBALS["class_bijkomendekosten_register_shutdown_".$this->wzt]) {
 			register_shutdown_function(array($this, "store_complete_cache"), $this->wzt);
 			$GLOBALS["class_bijkomendekosten_register_shutdown_".$this->wzt]=true;
+		}
+	}
+
+	public function pre_calculate_variable_costs($bijkomendekosten_id) {
+		// calculate variable costs (toeslag extra persoon) based on bijkomendekosten_id
+
+		$db = new DB_sql;
+		global $vars;
+
+		$db->query("SELECT DISTINCT type_id
+		           FROM type t INNER JOIN accommodatie a USING (accommodatie_id)
+		           WHERE
+		           a.bijkomendekosten1_id='".intval($bijkomendekosten_id)."' OR t.bijkomendekosten1_id='".intval($bijkomendekosten_id)."' OR
+		           a.bijkomendekosten2_id='".intval($bijkomendekosten_id)."' OR t.bijkomendekosten2_id='".intval($bijkomendekosten_id)."' OR
+		           a.bijkomendekosten3_id='".intval($bijkomendekosten_id)."' OR t.bijkomendekosten3_id='".intval($bijkomendekosten_id)."' OR
+		           a.bijkomendekosten4_id='".intval($bijkomendekosten_id)."' OR t.bijkomendekosten4_id='".intval($bijkomendekosten_id)."' OR
+		           a.bijkomendekosten5_id='".intval($bijkomendekosten_id)."' OR t.bijkomendekosten5_id='".intval($bijkomendekosten_id)."' OR
+		           a.bijkomendekosten6_id='".intval($bijkomendekosten_id)."' OR t.bijkomendekosten6_id='".intval($bijkomendekosten_id)."'
+		           ;");
+		while($db->next_record()) {
+			$this->pre_calculate_type($db->f("type_id"));
 		}
 	}
 

@@ -200,6 +200,18 @@ if($cms_form[33]->filled) {
 	}
 }
 
+# functie na opslaan form
+function form_before_goto($form) {
+
+	global $vars;
+
+	if($_GET["33k0"]) {
+		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->pre_calculate_variable_costs($_GET["33k0"]);
+	}
+}
+
+
 # End declaration
 $cms->end_declaration();
 

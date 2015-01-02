@@ -5,7 +5,7 @@
 #
 
 $mustlogin=true;
-	
+
 include("admin/vars.php");
 
 if($_GET["bkid"]) {
@@ -32,13 +32,18 @@ if($_POST["filled"]) {
 			$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
 		}
 	}
-	
+
 	# Eerst gegevens wissen
 	$db->query("DELETE FROM ".$optie_of_bijkomendekosten["table"]." WHERE ".$optie_of_bijkomendekosten["primkey"]."='".addslashes($optie_of_bijkomendekosten["primkey_value"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
-	
+
 	# Dan opslaan
 	while(list($key,$value)=each($savequery)) {
 		$db->query("INSERT INTO ".$optie_of_bijkomendekosten["table"]." SET ".$optie_of_bijkomendekosten["primkey"]."='".addslashes($optie_of_bijkomendekosten["primkey_value"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".$key."'".$value.";");
+	}
+
+	if($_GET["bkid"]) {
+		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->pre_calculate_variable_costs($_GET["bkid"]);
 	}
 
 	header("Location: ".$_GET["from"]);
@@ -61,13 +66,13 @@ if($_POST["filled"]) {
 			$optie["naam"]="Bijkomende kosten: ".$db->f("internenaam");
 		}
 
-	} else {	
+	} else {
 		# Optiegegevens laden
 		$db->query("SELECT os.naam AS osnaam, og.naam AS ognaam, oo.naam AS oonaam, os.optie_soort_id FROM optie_soort os, optie_groep og, optie_onderdeel oo WHERE oo.optie_onderdeel_id='".addslashes($_GET["ooid"])."' AND oo.optie_groep_id=og.optie_groep_id AND og.optie_soort_id=os.optie_soort_id;");
 		if($db->next_record()) {
 			$optie["naam"]="Optie: ".$db->f("osnaam")." > ".$db->f("ognaam")." > ".$db->f("oonaam");
 			if($db->f("optie_soort_id")==41) {
-			
+
 				# bewerken niet mogelijk: hoort bij optiesoort "Losse skipassen (voor wederverkoop, gekoppeld)" die is gekoppeld aan de skipassen
 				$losse_skipassen_wederverkoop=true;
 			}
@@ -95,9 +100,9 @@ if($_POST["filled"]) {
 			while(list($key,$value)=each($optie_of_bijkomendekosten["velden"])) {
 				if($db->f($value)<>0) $seizoen["weken"][$db->f("week")][$value]=$db->f($value);
 			}
-			
+
 			$verkoop_totaal+=$db->f("verkoop");
-			
+
 			# Tarieven doorrekenen
 			$seizoen["weken"][$db->f("week")]["inkoop_netto"]=$seizoen["weken"][$db->f("week")]["inkoop"];
 			if($seizoen["weken"][$db->f("week")]["netto_ink"]<>0) {
@@ -111,7 +116,7 @@ if($_POST["filled"]) {
 				}
 			}
 			$seizoen["weken"][$db->f("week")]["subtotaal"]=$seizoen["weken"][$db->f("week")]["inkoop_netto"]-$seizoen["weken"][$db->f("week")]["skipas_netto_inkoop"];
-			
+
 			if($seizoen["weken"][$db->f("week")]["omzetbonus"]) {
 				$seizoen["weken"][$db->f("week")]["inkoop_netto"]=$seizoen["weken"][$db->f("week")]["subtotaal"]*(1-$seizoen["weken"][$db->f("week")]["omzetbonus"]/100);
 			} else {
@@ -148,10 +153,10 @@ if($_POST["filled"]) {
 		if($marge_gemiddeld_teller) {
 			$seizoen["marge_gemiddeld"]=ereg_replace(",",".",sprintf("%01.2f",($marge_gemiddeld/$marge_gemiddeld_teller)));
 		}
-		
+
 	} else {
 		$seizoen["leeg"]=true;
-		
+
 		$week=$seizoen["begin"];
 		while($week<=$seizoen["eind"]) {
 			$regelteller++;
@@ -159,7 +164,7 @@ if($_POST["filled"]) {
 			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 		}
 	}
-	
+
 	include("content/cms_optie_tarieven.html");
 }
 
