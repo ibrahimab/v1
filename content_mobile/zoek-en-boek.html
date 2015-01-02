@@ -3636,7 +3636,9 @@ if($resultaten_tonen) {
 						reset($_GET);
 						while(list($key,$value)=each($_GET)) {
 							if($value and !preg_match("/^vf_/",$key) and $key<>"page" and $key<>"sort" and $key<>"scrolly" and $key<>"map" and $key<>"sp" and $key<>"referer") {
-								$qs.="&".$key."=".urlencode($value);
+								if(!is_array($value)) {
+									$qs.="&".$key."=".urlencode($value);
+								}
 							}
 						}
 						if($qs) {
