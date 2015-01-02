@@ -2817,13 +2817,13 @@ $txt["nl"]["bijkomendekosten"]["per-kubieke-meter"]="per kubieke meter";
 $txt["en"]["bijkomendekosten"]["per-kubieke-meter"]="per cubic meter";
 
 $txt["nl"]["bijkomendekosten"]["contant-te-voldoen"]="contant ter plaatse te voldoen";
-$txt["en"]["bijkomendekosten"]["contant-te-voldoen"]="in cash";
+$txt["en"]["bijkomendekosten"]["contant-te-voldoen"]="in cash, paid locally";
 
 $txt["nl"]["bijkomendekosten"]["per-creditcard-te-voldoen"]="per creditcard ter plaatse te voldoen";
-$txt["en"]["bijkomendekosten"]["per-creditcard-te-voldoen"]="via credit card";
+$txt["en"]["bijkomendekosten"]["per-creditcard-te-voldoen"]="via credit card, paid locally";
 
 $txt["nl"]["bijkomendekosten"]["contant-of-per-creditcard"]="contant of per creditcard, ter plaatse te voldoen";
-$txt["en"]["bijkomendekosten"]["contant-of-per-creditcard"]="in cash or via credit card";
+$txt["en"]["bijkomendekosten"]["contant-of-per-creditcard"]="in cash or via credit card, paid locally";
 
 $txt["nl"]["bijkomendekosten"]["niet-van-toepassing"]="niet van toepassing";
 $txt["en"]["bijkomendekosten"]["niet-van-toepassing"]="not applicable";
