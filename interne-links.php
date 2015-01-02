@@ -75,7 +75,7 @@ $(document).ready(function() {
 		<td>Backup-server</td>
 	</tr>
 	<tr>
-		<td><a href="http://dev.chalet.nl/chalet/">dev.chalet.nl</a></td>
+		<td><a href="http://ibrahim.chalet.nl/chalet/">ibrahim.chalet.nl</a></td>
 		<td>Test-website op de pc van Ibrahim</td>
 	</tr>
 	<tr>
