@@ -522,6 +522,10 @@ php_value memory_limit 128M
 php_value max_input_vars 50000
 </FilesMatch>
 
+<Files wtjson.php>
+php_value memory_limit 256M
+</Files>
+
 <Files zoek-en-boek.php>
 php_value memory_limit 128M
 </Files>

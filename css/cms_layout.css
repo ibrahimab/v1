@@ -1052,6 +1052,15 @@ a.opm {
 	border-top: 1px solid #d40139;
 }
 
+
+.cms_bk_seizoen_first {
+	background-color: #f6e2dc;
+}
+
+.cms_bk_seizoen_nth {
+	background-color: #cfcdf2;
+}
+
 .cms_bk_seizoen input[type=checkbox] {
 	vertical-align:middle;
 	position:relative;

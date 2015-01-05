@@ -225,7 +225,6 @@ if($_GET["t"]=="keep_session_alive") {
 				$bijkomendekosten->pre_calculate_type($_GET["id"]);
 			}
 
-
 			// save log
 			$bijkomendekosten = new bijkomendekosten($_GET["id"], $_GET["soort"]);
 			$bijkomendekosten->seizoen_id = $_GET["seizoen_id"];
@@ -315,13 +314,32 @@ if($_GET["t"]=="keep_session_alive") {
 
 	wt_echo_json($json);
 } elseif($_GET["t"]=="bk_copy") {
-	// copy bijkomende kosten from other type
+	// copy bijkomende kosten from other type or other season
 
-	$bijkomendekosten = new bijkomendekosten(intval($_GET["type_id"]), "type");
-	$bijkomendekosten->seizoen_id = intval($_GET["sid"]);
-	$bijkomendekosten->copy = true;
+	if($_GET["from_sid"]>0) {
 
-	$json["cms_bk_all_rows"] = $bijkomendekosten->cms_all_rows();
+		// copy from other season
+
+		$copydatabaserecord = new copydatabaserecord;
+		// $copydatabaserecord->debug = true;
+		$copydatabaserecord->copy_bijkomendekosten($_GET["id"], $_GET["from_sid"], $_GET["sid"]);
+
+
+		$bijkomendekosten = new bijkomendekosten(intval($_GET["id"]), "accommodatie");
+		$bijkomendekosten->seizoen_id = intval($_GET["sid"]);
+		// $bijkomendekosten->copy = true;
+
+		$json["cms_bk_all_rows"] = $bijkomendekosten->cms_all_rows();
+
+	} else {
+
+		// copy from other type
+		$bijkomendekosten = new bijkomendekosten(intval($_GET["id"]), "type");
+		$bijkomendekosten->seizoen_id = intval($_GET["sid"]);
+		$bijkomendekosten->copy = true;
+
+		$json["cms_bk_all_rows"] = $bijkomendekosten->cms_all_rows();
+	}
 
 
 	wt_echo_json($json);

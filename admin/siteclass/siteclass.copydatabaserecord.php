@@ -15,7 +15,10 @@ class copydatabaserecord {
 		$db = new DB_sql;
 		$db2 = new DB_sql;
 
-		$db->query( "SELECT * FROM `".$this->table."` WHERE ".$this->key."='".$this->id."';" );
+		$db->query( "SELECT * FROM `".$this->table."` WHERE ".$this->key."='".$this->id."'".$this->andquery.";" );
+		if($this->debug) {
+			echo $db->lq."<br />\n";
+		}
 		while ( $db->next_record() ) {
 
 			unset( $setquery );
@@ -48,6 +51,11 @@ class copydatabaserecord {
 
 			if ( $setquery ) {
 				$db2->query( "INSERT INTO `".$this->table."` SET ".substr( $setquery, 1 ) );
+
+				if($this->debug) {
+					echo $db2->lq."<br />\n";
+				}
+
 				$this->new_id = $db2->insert_id();
 			}
 		}
@@ -198,6 +206,58 @@ class copydatabaserecord {
 		$db->query("SELECT begincode, type_id, wzt FROM view_accommodatie WHERE type_id='".intval($type_id)."';");
 		if($db->next_record()) {
 			$db2->query("INSERT INTO cmslog SET user_id='".intval($login->user_id)."', cms_id=2, cms_name='".($db->f("wzt")==1 ? "winter" : "zomer")."type', table_name='type', specialtype=4, specialtext='type gekopieerd van ".$db->f("begincode").$db->f("type_id")."', record_id='".intval($this->new_type_id)."', savedate=NOW();");
+		}
+	}
+
+	public function copy_bijkomendekosten( $accommodatie_id, $from_seizoen_id, $to_seizoen_id ) {
+
+		global $vars, $login;
+
+		$db = new DB_sql;
+		$db2 = new DB_sql;
+
+
+		//
+		// bk_accommodatie
+		//
+
+		// delete existing records for new season
+		$db->query("DELETE FROM bk_accommodatie WHERE accommodatie_id='".intval($accommodatie_id)."' AND seizoen_id='".intval($to_seizoen_id)."';");
+		if($this->debug) {
+			echo $db->lq."<br />\n";
+		}
+
+		$copydatabaserecord = new copydatabaserecord;
+		$copydatabaserecord->table = "bk_accommodatie";
+		$copydatabaserecord->key = "seizoen_id";
+		$copydatabaserecord->id = $from_seizoen_id;
+		$copydatabaserecord->andquery = " AND accommodatie_id='".intval($accommodatie_id)."'";
+		$copydatabaserecord->change["seizoen_id"] = $to_seizoen_id;
+		$copydatabaserecord->debug = $this->debug;
+
+		$copydatabaserecord->copy_record();
+
+
+		// types below accommodation
+		$db->query( "SELECT type_id FROM type WHERE accommodatie_id='".intval( $accommodatie_id )."' ORDER BY type_id;" );
+		while ( $db->next_record() ) {
+
+			// delete existing records for new season
+			$db2->query("DELETE FROM bk_type WHERE type_id='".intval($db->f("type_id"))."' AND seizoen_id='".intval($to_seizoen_id)."';");
+			if($this->debug) {
+				echo $db2->lq."<br />\n";
+			}
+
+			$copydatabaserecord = new copydatabaserecord;
+			$copydatabaserecord->table = "bk_type";
+			$copydatabaserecord->key = "seizoen_id";
+			$copydatabaserecord->id = $from_seizoen_id;
+			$copydatabaserecord->andquery = " AND type_id='".intval($db->f("type_id"))."'";
+			$copydatabaserecord->change["seizoen_id"] = $to_seizoen_id;
+			$copydatabaserecord->debug = $this->debug;
+
+			$copydatabaserecord->copy_record();
+
 		}
 	}
 }

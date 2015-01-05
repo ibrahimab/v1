@@ -106,7 +106,7 @@ class bijkomendekosten {
 				}
 			}
 
-			if($this->soort == "type") {
+			if($this->soort == "type" and $NU_EVEN_NIET) {
 
 				// toeslagen extra personen
 				$db->query("SELECT
@@ -272,7 +272,21 @@ class bijkomendekosten {
 
 				$this->seizoen_id = $key;
 
-				$return .= "<div class=\"cms_bk_seizoen\" data-seizoen_id=\"".$key."\" id=\"bijkomendekosten\"><h2>Bijkomende kosten ".wt_he($value).($this->soort=="type" ? " - type-niveau" : "")."</h2>";
+				if(!$this->seizoen_counter) {
+					$return .= "<div id=\"bijkomendekosten\"></div>";
+				}
+
+				if($this->seizoen_counter==1 and $this->soort=="accommodatie") {
+					// copy season button
+					$return .= "<div class=\"cms_bk_kopieer\" data-last_seizoen_id=\"".intval($this->last_seizoen_id)."\" data-seizoen_id=\"".intval($this->seizoen_id)."\" data-id=\"".intval($this->id)."\"><button>&#x2193; kopieer bijkomende kosten naar onderstaand seizoen &#x2193;</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-ebebeb.gif\"><br />&nbsp;&nbsp;&nbsp;<i>Let op: bestaande gegevens worden direct overschreven.</i></div>";
+
+				}
+
+				$this->seizoen_counter++;
+				$this->last_seizoen_id = $this->seizoen_id;
+
+
+				$return .= "<div class=\"cms_bk_seizoen cms_bk_seizoen_".($this->seizoen_counter==1 ? "first" : "nth")."\" data-seizoen_id=\"".$key."\" id=\"bijkomendekosten_".$key."\"><h2>Bijkomende kosten ".wt_he($value).($this->soort=="type" ? " - type-niveau" : "")."</h2>";
 
 
 
@@ -337,7 +351,7 @@ class bijkomendekosten {
 					}
 				}
 
-				if($inclusief_tekst_html or $exclusief_tekst_html) {
+				if(($inclusief_tekst_html or $exclusief_tekst_html) and $_GET["wzt"]==2) {
 					$return .= "<table class=\"cms_bk_oude_teksten\"><tr>";
 					if($inclusief_tekst_html) {
 						$return .= "<td>".$inclusief_tekst_html."</td>";
@@ -384,7 +398,7 @@ class bijkomendekosten {
 					// $return .= "<input type=\"checkbox\" name=\"tmp_teksten_omgezet\" value=\"1\" id=\"tmp_teksten_omgezet\"".($this->cms_data_tmp_teksten_omgezet ? " checked" : "")."><label for=\"tmp_teksten_omgezet\">&nbsp;alle in- en exclusief-teksten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." zijn verwerkt</label>";
 				}
 				// $return .= "<input type=\"submit\" value=\"OPSLAAN\"".($this->other_type_data ? " disabled=\"disabled\"" : "")."><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
-				$return .= "<input type=\"submit\" value=\"OPSLAAN\"><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
+				$return .= "<input type=\"submit\" value=\"OPSLAAN\"><img src=\"".$vars["path"]."pic/ajax-loader-transparent.gif\" class=\"ajaxloader\">";
 				$return .= "<div class=\"clear\"></div>";
 
 				if($this->other_type_data) {

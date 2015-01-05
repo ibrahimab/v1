@@ -1098,25 +1098,41 @@ $(document).ready(function() {
 
 		var cms_bk_kopieer = $(this).closest(".cms_bk_kopieer");
 
-		// cms_bk_kopieer
+		var from_seizoen_id = 0;
+		var seizoen_id = 0;
+		var id = 0;
 
 		cms_bk_kopieer.find("button").prop("disabled", true);
 		cms_bk_kopieer.find("img").show();
 
-		// strip out non-numerical characters
-		var type_id = cms_bk_kopieer.find("input").val().replace(/\D/g,'');
 
-		var seizoen_id = cms_bk_kopieer.closest(".cms_bk_seizoen").data("seizoen_id");
+		if(cms_bk_kopieer.data("last_seizoen_id")) {
+
+			var is_confirmed = confirm('Alle bestaande gegevens van het nieuwe seizoen worden overschreven. Zeker weten?');
+
+			if(is_confirmed) {
+				id = cms_bk_kopieer.data("id");
+				seizoen_id = cms_bk_kopieer.data("seizoen_id");
+				from_seizoen_id = cms_bk_kopieer.data("last_seizoen_id");
+
+				$("html, body").animate({scrollTop:$("#bijkomendekosten_"+seizoen_id).position().top}, 'slow');
+
+			}
+		} else {
+			// strip out non-numerical characters
+			id = cms_bk_kopieer.find("input").val().replace(/\D/g,'');
+			seizoen_id = cms_bk_kopieer.closest(".cms_bk_seizoen").data("seizoen_id");
+		}
 
 		var last_used_field = '';
 
 		var cms_bk_all_rows = $(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_all_rows")
 		var cms_bk_all_rows_wrapper = $(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_all_rows_wrapper")
 
-		if(type_id) {
+		if(id) {
 
 			$.getJSON(
-				'cms/wtjson.php?t=bk_copy&type_id='+type_id+"&sid="+seizoen_id,
+				'cms/wtjson.php?t=bk_copy&id='+id+"&sid="+seizoen_id+"&from_sid="+from_seizoen_id,
 				function(data) {
 					if(data.cms_bk_all_rows) {
 						cms_bk_all_rows_wrapper.slideUp("normal", function(){
