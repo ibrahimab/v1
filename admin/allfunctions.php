@@ -474,7 +474,11 @@ class wt_mail {
 				$this->send_plaintext=eregi_replace("<br>","\n",$this->send_plaintext);
 				$this->send_plaintext=eregi_replace("</td>"," ",$this->send_plaintext);
 				$this->send_plaintext=eregi_replace("&nbsp;"," ",$this->send_plaintext);
-				$htmlentitiestable=array_flip(get_html_translation_table(HTML_ENTITIES));
+				if($this->settings["plaintext_utf8"]) {
+					$htmlentitiestable=array_flip(get_html_translation_table(HTML_ENTITIES, ENT_COMPAT | ENT_HTML401, 'UTF-8'));
+				} else {
+					$htmlentitiestable=array_flip(get_html_translation_table(HTML_ENTITIES, ENT_COMPAT | ENT_HTML401, 'cp1252'));
+				}
 				$this->send_plaintext=strtr($this->send_plaintext,$htmlentitiestable);
 				$this->send_plaintext=strip_tags($this->send_plaintext);
 				$this->send_plaintext=ereg_replace("\n ","\n",$this->send_plaintext);
