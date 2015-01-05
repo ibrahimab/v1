@@ -146,7 +146,7 @@ unset($gegevens);
 #
 # Uitnodigingen voor de enquete versturen (niet aan wederverkoop-boekingen)
 #
-if(($huidig_uur>12 and $huidig_uur<20 and date("w")==4 and date("Ymd")!="20150101") or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+if(($huidig_uur>12 and $huidig_uur<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
 	unset($teller);
 	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.vertrekdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.vertrekdatum_exact<'".(time()-172800)."' AND b.vertrekdatum_exact>'".(time()-1209600)."' AND b.mailblokkeren_enquete=0 AND b.mailverstuurd_enquete IS NULL AND reisbureau_user_id IS NULL ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
 	if($db->num_rows()) {
@@ -180,7 +180,7 @@ if(($huidig_uur>12 and $huidig_uur<20 and date("w")==4 and date("Ymd")!="2015010
 				# Mail versturen (met opmaak)
 				verstuur_opmaakmail($gegevens["stap1"]["website"],$gegevens["stap2"]["email"],wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]),$subject,$mailbody,$settings);
 
-				echo "enquete-uitnodiging verstuurd aan ".$gegevens["stap2"]["email"]." ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])." - ".date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]).": ".$gegevens["stap1"]["boekingid"]."\n\n";
+				echo "enquete-uitnodiging verstuurd aan ".$gegevens["stap2"]["email"]." ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])." - ".date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]).": ".$gegevens["stap1"]["boekingsnummer"]."\n\n";
 				flush();
 
 				$db2->query("UPDATE boeking SET mailverstuurd_enquete=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
