@@ -496,22 +496,7 @@ if(!$vars["verberg_linkerkolom"] and $vars["website"]<>"T" and (!$vars["verberg_
 
 
 # breadcrumbs
-if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcrumbs"] and $id <> "toonaccommodatie") {
-	echo "<div id=\"breadcrumb_wrapper\" class=\"noprint\">";
-	echo "<div id=\"breadcrumb_overlay\" class=\"noprint\">";
-	echo "<a href=\"".$vars["path"]."\">".wt_he(ucfirst(txt("menutitle_index")))."</a>";
-	if(!is_array($breadcrumbs)) {
-		$breadcrumbs["last"]=$title[$id];
-	}
-	while(list($key,$value)=each($breadcrumbs)) {
-		echo "&nbsp;&nbsp;&gt;&nbsp;&nbsp;";
-		if($key<>"last") echo "<a href=\"".wt_he($vars["path"].$key)."\">";
-		echo wt_he($value);
-		if($key<>"last") echo "</a>";
-	}
-	echo "</div>"; # afsluiten breadcrumb_overlay
-	echo "</div>"; # afsluiten breadcrumb_wrapper
-} else if ($id == "toonaccommodatie") {
+if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcrumbs"]) {
 	echo "<div id=\"breadcrumb_wrapper\" class=\"noprint\">";
 	echo "<div id=\"breadcrumb_overlay\" class=\"noprint\">";
 	echo "<div class=\"breadcrumb_vocabulary\" itemscope itemtype=\"http://data-vocabulary.org/Breadcrumb\">";
