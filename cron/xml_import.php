@@ -1270,7 +1270,8 @@ while(list($key,$value)=@each($soap_urls)) {
 						$start_date = date("Y-m-d");
 					}
 
-					if($availability = $alpinRentals->getAvailability($accCode, $start_date, $end_date)) {
+					$availability = $alpinRentals->getAvailability($accCode, $start_date, $end_date);
+					if(isset($availability)) {
 						// Get the availability
 						if(isset($xml_beschikbaar[$key][$accCode])) {
 							$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
@@ -1280,7 +1281,7 @@ while(list($key,$value)=@each($soap_urls)) {
 					}
 
 					$prices = $alpinRentals->getPrices($accCode, $start_date, $end_date);
-					if(!is_array($prices)) {
+					if(isset($prices)) {
 						if(isset($xml_brutoprijs[$key][$accCode])) {
 							$xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
 						} else {
