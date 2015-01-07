@@ -61,6 +61,11 @@ if(isset($_GET["goedgekeurde_betaling"]) and $_GET["confirmed"]) {
 	} elseif($_GET["goedgekeurde_betaling"]<0) {
 		chalet_log("retourbetaling t.w.v. € ".number_format(abs($_GET["goedgekeurde_betaling"]),2,',','.')." goedgekeurd",false,true);
 		cmslog_pagina_title("retourbetaling goedgekeurd");
+
+		// add explanation to opmerkingen_intern
+		$gegevens["stap1"]["opmerkingen_intern"] = trim($gegevens["stap1"]["opmerkingen_intern"])."\n\n".date("d/m/Y")." (".$login->vars["voornaam"]."):\n€ ".number_format(abs($_GET["goedgekeurde_betaling"]),2,',','.')." retour gestort";
+		$db->query("UPDATE boeking SET opmerkingen_intern='".wt_as($gegevens["stap1"]["opmerkingen_intern"])."' WHERE boeking_id='".intval($gegevens["stap1"]["boekingid"])."';");
+
 	} else {
 		if($_GET["retourbetaling"]) {
 			chalet_log("goedgekeurde retourbetaling ingetrokken",false,true);
