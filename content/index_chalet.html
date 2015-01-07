@@ -125,13 +125,18 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 
 		// Trustpilot Chalet.nl
 
-		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">";
-		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:1238875,numOfReviews:1,width:170,height:300;\">\n";
-		echo "<a href=\"http://www.trustpilot.nl/review/chalet.nl\" rel=\"nofollow\" hidden>Chalet.nl Wintersport Beoordelingen</a>\n";
-		echo "</div>\n";
-		echo "<script type=\"text/javascript\">\n";
-		echo "(function () { var a = \"https:\" == document.location.protocol ? \"https://ssl.trustpilot.com\" : \"http://s.trustpilot.com\", b = document.createElement(\"script\"); b.type = \"text/javascript\"; b.async = true; b.src = a + \"/tpelements/tp_elements_all.js\"; var c = document.getElementsByTagName(\"script\")[0]; c.parentNode.insertBefore(b, c) })();";
-		echo "</script>\n";
+		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">"; ?>
+
+		<div class="trustpilot-widget" data-locale="nl-NL" data-template-id="53aa8807dec7e10d38f59f32" data-businessunit-id="4f3bde44000064000512e75b" data-style-height="106" data-style-width="170" data-theme="light"></div>
+		<script async type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"></script>
+
+		<?php
+		// echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:1238875,numOfReviews:1,width:170,height:300;\">\n";
+		// echo "<a href=\"http://www.trustpilot.nl/review/chalet.nl\" rel=\"nofollow\" hidden>Chalet.nl Wintersport Beoordelingen</a>\n";
+		// echo "</div>\n";
+		// echo "<script type=\"text/javascript\">\n";
+		// echo "(function () { var a = \"https:\" == document.location.protocol ? \"https://ssl.trustpilot.com\" : \"http://s.trustpilot.com\", b = document.createElement(\"script\"); b.type = \"text/javascript\"; b.async = true; b.src = a + \"/tpelements/tp_elements_all.js\"; var c = document.getElementsByTagName(\"script\")[0]; c.parentNode.insertBefore(b, c) })();";
+		// echo "</script>\n";
 		echo "</div>\n"; // close #hoofdpagina_trustpilot
 	}
 
@@ -139,28 +144,46 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 
 		// Trustpilot Chalet.be
 
-		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">";
-		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:7558878,locale:nl-NL,numOfReviews:1,width:170,height:300\">\n";
-		echo "<a href=\"https://www.trustpilot.nl/review/chalet.be\" rel=\"nofollow\" hidden>Chalet.be Wintersport Beoordelingen</a>\n";
-		echo "</div>\n";
-		echo "<script type=\"text/javascript\">\n";
-		echo "(function () { var a = \"https:\" == document.location.protocol ? \"https://ssl.trustpilot.com\" : \"http://s.trustpilot.com\", b = document.createElement(\"script\"); b.type = \"text/javascript\"; b.async = true; b.src = a + \"/tpelements/tp_elements_all.js\"; var c = document.getElementsByTagName(\"script\")[0]; c.parentNode.insertBefore(b, c) })();";
-		echo "</script>";
+		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">"; ?>
+
+		<div class="trustpilot-widget" data-locale="nl-NL" data-template-id="53aa8807dec7e10d38f59f32" data-businessunit-id="5201164e00006400057356de" data-style-height="106" data-style-width="170" data-theme="light"></div>
+		<script async type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"></script>
+
+		<?php
+		// echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:7558878,locale:nl-NL,numOfReviews:1,width:170,height:300\">\n";
+		// echo "<a href=\"https://www.trustpilot.nl/review/chalet.be\" rel=\"nofollow\" hidden>Chalet.be Wintersport Beoordelingen</a>\n";
+		// echo "</div>\n";
+		// echo "<script type=\"text/javascript\">\n";
+		// echo "(function () { var a = \"https:\" == document.location.protocol ? \"https://ssl.trustpilot.com\" : \"http://s.trustpilot.com\", b = document.createElement(\"script\"); b.type = \"text/javascript\"; b.async = true; b.src = a + \"/tpelements/tp_elements_all.js\"; var c = document.getElementsByTagName(\"script\")[0]; c.parentNode.insertBefore(b, c) })();";
+		// echo "</script>";
 		echo "</div>\n"; // close #hoofdpagina_trustpilot
 	}
 
-	// if($vars["website"]=="C") {
-	// 	echo "<div id=\"hoofdpagina_sociallinks\">";
-	// 	echo "<div style=\"float:right;\">";
-	// 	echo "<div style=\"margin-bottom:3px;text-align:right;\">Volg ons:</div>";
-	// 	echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
-	// 	echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
-	// 	echo "<a href=\"https://plus.google.com/+ChaletNLWintersport\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
-	// 	echo "</div>\n";
-	// 	echo "<div style=\"float:right;\"></div>";
-	// 	echo "<div style=\"clear: both;\"></div>\n";
-	// 	echo "</div>\n"; # afsluiten #hoofdpagina_sociallinks
-	// }
+	if($vars["nieuwsbrief_aanbieden"]) {
+		echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
+		echo "<div class=\"kop\">Nieuwsbrief</div>";
+		echo "<div>Mis nooit aanbiedingen, nieuws en reistips.</div>";
+		$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
+		echo "<form method=\"post\" action=\"".wt_he($nieuwsbrief_url)."\">";
+		echo "<div style=\"margin-top:5px;\"><input type=\"email\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
+		echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
+		echo "</form>";
+		echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
+	}
+
+
+	if($vars["website"]=="C") {
+		echo "<div id=\"hoofdpagina_sociallinks\">";
+		echo "<div style=\"float:right;\">";
+		echo "<div style=\"margin-bottom:3px;text-align:right;\">Volg ons:</div>";
+		echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
+		echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
+		echo "<a href=\"https://plus.google.com/+ChaletNLWintersport\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
+		echo "</div>\n";
+		echo "<div style=\"float:right;\"></div>";
+		echo "<div style=\"clear: both;\"></div>\n";
+		echo "</div>\n"; # afsluiten #hoofdpagina_sociallinks
+	}
 
 
 }
