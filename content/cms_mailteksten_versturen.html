@@ -124,8 +124,26 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 	if($db->num_rows()) {
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
 		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
-		echo "<tr><th>wis</th><th>boeking</th><th>accommodatie</th><th>1e&nbsp;factuur</th><th>aankomst</th><th>tekst</th><th>bewerkt</th><th>versturen</th></tr>";
+		if($_GET["sort"]==2) {
+			echo "<tr><th>wis</th><th>boeking</th><th>accommodatie</th><th>1e&nbsp;factuur</th><th>aankomst</th><th>tekst</th><th>bewerkt</th><th>versturen</th></tr>";
+		}
 		while($db->next_record()) {
+
+			if($_GET["sort"]==1) {
+				if(!$date_header_shown[$db->f("aankomstdatum")]) {
+
+					echo "<tr><td colspan=\"8\">";
+					if($date_header_shown) {
+						echo "<br />";
+					}
+					echo "<b>Aankomsten weekend ".datum("D MAAND JJJJ", $db->f("aankomstdatum"))."</b></td></tr>";
+					echo "<tr><th>wis</th><th>boeking</th><th>accommodatie</th><th>1e&nbsp;factuur</th><th>aankomst</th><th>tekst</th><th>bewerkt</th><th>versturen<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"checkbox\" class=\"checbox_check_all\" data-only-class=\"checkbox_versturen_".$db->f("aankomstdatum")."\"></th></tr>";
+					$date_header_shown[$db->f("aankomstdatum")] = true;
+				}
+			}
+
+
+
 			echo "<tr>";
 
 			// wis
@@ -174,7 +192,7 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 			// versturen
 			echo "<td align=\"center\"".($db->f("mailblokkeren_opties") ? " style=\"background-color:#ffa9a9;\"" : "").">";
 			if($seizoengoedgekeurd[$db->f("mailtekst_id")][$db->f("seizoen_id")]) {
-				echo "<input type=\"checkbox\" name=\"boeking[".$db->f("boeking_id")."]\" value=\"1\">";
+				echo "<input type=\"checkbox\" name=\"boeking[".$db->f("boeking_id")."]\" value=\"1\" class=\"checkbox_versturen_".$db->f("aankomstdatum")."\">";
 			} else {
 				echo "&nbsp;";
 			}
