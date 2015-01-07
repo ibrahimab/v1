@@ -2,6 +2,10 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+5-jan-2015 17:40
+ALTER TABLE `type_seizoen` ADD `bijkomendekosten_checked` TINYINT(1) NOT NULL ;
+ALTER TABLE `accommodatie_seizoen` ADD `bijkomendekosten_checked` TINYINT(1) NOT NULL ;
+
 12-dec-2014 17:25
 ALTER TABLE `extra_optie` ADD `alg_aantal` SMALLINT NULL DEFAULT NULL AFTER `deelnemers`;
 UPDATE `extra_optie` SET `alg_aantal`=1 WHERE `persoonnummer`='alg';
