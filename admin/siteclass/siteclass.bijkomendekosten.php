@@ -175,7 +175,7 @@ class bijkomendekosten {
 			$db->query("SELECT bk_soort_id, volgorde, naam".$vars["ttv"]." AS naam, eenheden, altijd_invullen, prijs_per_nacht, borg, hoort_bij_accommodatieinkoop FROM bk_soort WHERE wzt='".intval($this->wzt)."' ORDER BY volgorde, bk_soort_id;");
 			while($db->next_record()) {
 				$this->cms_data_bk_soorten[$db->f("bk_soort_id")]["volgorde"] = $db->f("volgorde");
-				$this->cms_data_bk_soorten[$db->f("bk_soort_id")]["naam"] = $db->f("naam");
+				$this->cms_data_bk_soorten[$db->f("bk_soort_id")]["naam"] = $db->f("naam").($db->f("prijs_per_nacht") ? " (per nacht)" : "");
 
 				if($db->f("eenheden")) {
 					$eenheden=preg_split("@,@",$db->f("eenheden"));
