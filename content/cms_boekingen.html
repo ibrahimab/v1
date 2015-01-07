@@ -13,7 +13,7 @@ if($_GET["show"]==21) {
 			while($db->next_record()) {
 				$vars["werknemer"][$db->f("user_id")]=$db->f("voornaam");
 			}
-			echo "<p><table cellspacing=\"0\" class=\"toonacctabel\">";
+			echo "<p><table cellspacing=\"0\" class=\"toonacctabel\" id=\"log\">";
 			echo "<tr><th colspan=\"3\">Logboek</th></tr>";
 			echo "<tr><td><strong>datum</strong></td><td><strong>door</strong></td><td><strong>gegevens</strong></td></tr>";
 			while(list($key,$value)=each($log)) {
