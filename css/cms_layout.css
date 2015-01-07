@@ -1054,11 +1054,11 @@ a.opm {
 
 
 .cms_bk_seizoen_first {
-	background-color: #f6e2dc;
+	background-color: #cfcdf2;
 }
 
 .cms_bk_seizoen_nth {
-	background-color: #cfcdf2;
+	background-color: #f6e2dc;
 }
 
 .cms_bk_seizoen input[type=checkbox] {

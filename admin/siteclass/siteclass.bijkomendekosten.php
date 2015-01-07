@@ -351,7 +351,7 @@ class bijkomendekosten {
 					}
 				}
 
-				if(($inclusief_tekst_html or $exclusief_tekst_html) and $_GET["wzt"]==2) {
+				if(($inclusief_tekst_html or $exclusief_tekst_html)) {
 					$return .= "<table class=\"cms_bk_oude_teksten\"><tr>";
 					if($inclusief_tekst_html) {
 						$return .= "<td>".$inclusief_tekst_html."</td>";

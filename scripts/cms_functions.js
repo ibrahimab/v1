@@ -1103,12 +1103,12 @@ $(document).ready(function() {
 		var id = 0;
 
 		cms_bk_kopieer.find("button").prop("disabled", true);
-		cms_bk_kopieer.find("img").show();
 
 
 		if(cms_bk_kopieer.data("last_seizoen_id")) {
 
-			var is_confirmed = confirm('Alle bestaande gegevens van het nieuwe seizoen worden overschreven. Zeker weten?');
+			var is_confirmed = confirm('Alle bestaande gegevens van het nieuwe seizoen worden overschreven en direct opgeslagen.\n\nZeker weten?');
+			cms_bk_kopieer.find("img").show();
 
 			if(is_confirmed) {
 				id = cms_bk_kopieer.data("id");
@@ -1119,6 +1119,9 @@ $(document).ready(function() {
 
 			}
 		} else {
+
+			cms_bk_kopieer.find("img").show();
+
 			// strip out non-numerical characters
 			id = cms_bk_kopieer.find("input").val().replace(/\D/g,'');
 			seizoen_id = cms_bk_kopieer.closest(".cms_bk_seizoen").data("seizoen_id");
