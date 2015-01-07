@@ -1308,12 +1308,24 @@ function mailtekst_opties($boekingid) {
 
 
 			# Wachtwoord invullen
-			$db->query("SELECT password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+			$db->query("SELECT user_id, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
 			if($db->next_record()) {
 				$return["body"]=ereg_replace("\[WACHTWOORD\]",$db->f("password_uc"),$return["body"]);
+
+				$directlogin = new directlogin;
+				$directlogin->boeking_id = $gegevens["stap1"]["boekingid"];
+				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"], 1, $db->f("user_id"), md5($db->f("password_uc")));
+
+				$return["body"]=ereg_replace("\[LOGIN_LINK_OPEN\]","[link=".wt_he($directlogin_link)."]",$return["body"]);
+				$return["body"]=ereg_replace("\[LOGIN_LINK_CLOSE\]","[/link]",$return["body"]);
+
 			} else {
 				$return["body"]=ereg_replace("\(\[WACHTWOORD\]\) ","",$return["body"]);
 				$return["body"]=ereg_replace("\[WACHTWOORD\]","",$return["body"]);
+
+				$return["body"]=ereg_replace("\[LOGIN_LINK_OPEN\]","",$return["body"]);
+				$return["body"]=ereg_replace("\[LOGIN_LINK_CLOSE\]","",$return["body"]);
+
 			}
 
 			# Link naar verzendmethode_reisdocumenten invullen

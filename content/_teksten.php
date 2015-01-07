@@ -215,8 +215,11 @@ $txt["en_y"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)541 - 53 27 98";
 $txt["nl"]["vars"]["mailopties_wzt1_1"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS], dit komt al snel dichterbij. Het is dus de hoogste tijd om te controleren of je een aantal belangrijke zaken voor jullie vakantie goed geregeld hebt.";
 $txt["en"]["vars"]["mailopties_wzt1_1"]="Dear [NAAM],\n\nOn [DATUM] you will depart for [PLAATS], and this date is quickly approaching. So right now is the time to make sure you have arranged a number of important issues for your holiday.";
 
-$txt["nl"]["vars"]["mailopties_wzt1_2"]="Met je wachtwoord ([WACHTWOORD]) kun je via [LINK] tot 28 dagen voor vertrek in je reservering aanpassingen doen (bij last minute boekingen is dit langer mogelijk). Heb je liever dat wij bepaalde zaken voor je aanpassen dan horen wij het graag zodat wij het voor je in orde kunnen maken.\n\nBij wijzigingen in de boeking zul je een nieuwe bevestiging (= tevens factuur) ontvangen, het makkelijkst is dus als je zoveel mogelijk in één keer wijzigt.\n\nVerder willen we je er aan herinneren dat het (eventueel) nog openstaande bedrag uiterlijk 6 weken voor vertrek voldaan moet zijn (of indien reeds verstreken per direct).\n\nOngeveer 10 dagen voor vertrek ontvang je de reisdocumenten met daarin extra informatie over jullie route, verblijf, sleuteladres, vouchers voor eventueel bijgeboekte opties enz.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: [TELEFOONNUMMER]";
-$txt["en"]["vars"]["mailopties_wzt1_2"]="With your password ([WACHTWOORD]) you can make adjustments to your booking via [LINK]. You can do this until 28 days before your departure to [PLAATS] (this is not possible with last minute reservations). Just let us know if you rather have us make the adjustments, we will gladly arrange it for you.\n\nYou will receive a new confirmation/invoice each time you make any adjustments, so it's easiest to save them up and then change as much as possible in one sitting.\n\nFurthermore we ask you to pay any outstanding amount no later than 6 weeks before departure (or if already past this date we ask you to pay this immediately).\n\nApproximately 10 days before your departure you will receive travel documents with extra information with directions, the residence, where to pick up your key, vouchers for ski material if rented, etc.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: [TELEFOONNUMMER]";
+$txt["nl"]["vars"]["mailopties_wzt1_2"]="Via [LOGIN_LINK_OPEN]Mijn boeking[LOGIN_LINK_CLOSE] kun je tot 28 dagen voor vertrek in je reservering aanpassingen doen (bij last minute boekingen is dit langer mogelijk). Heb je liever dat wij bepaalde zaken voor je aanpassen dan horen wij het graag zodat wij het voor je in orde kunnen maken.\n\nBij wijzigingen in de boeking zul je een nieuwe bevestiging (= tevens factuur) ontvangen, het makkelijkst is dus als je zoveel mogelijk in één keer wijzigt.\n\nVerder willen we je er aan herinneren dat het (eventueel) nog openstaande bedrag uiterlijk 6 weken voor vertrek voldaan moet zijn (of indien reeds verstreken per direct).\n\nOngeveer 10 dagen voor vertrek ontvang je de reisdocumenten met daarin extra informatie over jullie route, verblijf, sleuteladres, vouchers voor eventueel bijgeboekte opties enz.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: [TELEFOONNUMMER]";
+$txt["en"]["vars"]["mailopties_wzt1_2"]="Through [LOGIN_LINK_OPEN]My booking[LOGIN_LINK_CLOSE] you can make adjustments to your booking. You can do this until 28 days before your departure to [PLAATS] (this is not possible with last minute reservations). Just let us know if you rather have us make the adjustments, we will gladly arrange it for you.\n\nYou will receive a new confirmation/invoice each time you make any adjustments, so it's easiest to save them up and then change as much as possible in one sitting.\n\nFurthermore we ask you to pay any outstanding amount no later than 6 weeks before departure (or if already past this date we ask you to pay this immediately).\n\nApproximately 10 days before your departure you will receive travel documents with extra information with directions, the residence, where to pick up your key, vouchers for ski material if rented, etc.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: [TELEFOONNUMMER]";
+
+$nieuwe_vertaling["de"]["vars"]["mailopties_wzt1_2"]=true;
+
 
 $txt["nl"]["vars"]["mailopties_wzt2_1"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS], dit komt al snel dichterbij. Het is dus de hoogste tijd om te controleren of je een aantal belangrijke zaken voor jullie vakantie goed geregeld hebt.";
 $txt["en"]["vars"]["mailopties_wzt2_1"]="Dear [NAAM],\n\nOn [DATUM] you will depart for [PLAATS], and this date is quickly approaching. So right now is the time to make sure you have arranged a number of important issues for your holiday.";
@@ -5790,8 +5793,6 @@ $txt["en"]["xml"]["euro"]="Euro";
 
 
 
-#$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
-
 # htmlbanners
 $txt["nl"]["htmlbanner"]["kies-aantal-personen"]="Personen";
 $txt["en"]["htmlbanner"]["kies-aantal-personen"]="No. of persons";
@@ -5826,6 +5827,8 @@ $txt["en"]["htmlbanner"]["zwitserland"]="Switzerland";
 $txt["nl"]["htmlbanner"]["kies-datum"]="Datum";
 $txt["en"]["htmlbanner"]["kies-datum"]="Date";
 
+
+#$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
 
 
 ?>
