@@ -105,6 +105,19 @@ if($vars["taal"]=="nl") {
 
 
 if($vars["website"]=="I") {
+
+	echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">"; ?>
+
+<div class="trustpilot-widget" data-locale="nl-NL" data-template-id="53aa8807dec7e10d38f59f32" data-businessunit-id="50191b0f000064000518f041" data-style-height="125" data-style-width="170" data-theme="light"></div>
+<script async type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"></script>
+
+	<?php
+
+	echo "</div>\n"; // close #hoofdpagina_trustpilot
+
+
+
+
 	# Links naar social media ("Volg ons")
 	echo "<div id=\"hoofdpagina_sociallinks\">";
 	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";

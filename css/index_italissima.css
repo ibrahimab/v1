@@ -286,7 +286,7 @@
 }
 
 #hoofdpagina_sociallinks {
-	margin-top: 15px;
+	margin-top: -10px;
 	margin-left: 10px;
 	margin-right: 10px;
 	color: #661700;
@@ -296,6 +296,15 @@
 #hoofdpagina_sociallinks .twitter {
 	margin-left: 22px;
 	margin-right: 22px;
+}
+
+#hoofdpagina_trustpilot {
+	margin-top: 15px;
+	overflow-y: hidden;
+}
+
+#hoofdpagina_trustpilot:hover {
+	opacity: .7;
 }
 
 #laatstbekeken {
