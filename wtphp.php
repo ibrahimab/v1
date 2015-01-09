@@ -46,6 +46,16 @@ set_time_limit(0);
 if(defined("wt_test_name") and (wt_test_name=="macbook" or wt_test_name=="ss" or wt_test_name=="ibrahim")) {
 	include("admin/vars.php");
 
+
+	$vars["tmp_info_tonen"] = true;
+	$bijkomendekosten = new bijkomendekosten;
+	// $bijkomendekosten->pre_calculate_type(3208);
+	$bijkomendekosten->pre_calculate_variable_costs(313);
+
+	echo wt_dump($bijkomendekosten->data_var);
+
+
+	exit;
 	$vars["tmp_info_tonen"] = true;
 
 	$bijkomendekosten = new bijkomendekosten;
