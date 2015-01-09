@@ -16,6 +16,16 @@ if($_GET["cmsversie"]=="nieuw4") {
 	// 	echo $db2->lq."<br />";
 	// }
 
+	// $db->query("select distinct type_id from tarief where seizoen_id=27;");
+	// while($db->next_record()) {
+
+	// 	// check if there are no "bijkomendekosten": if so, copy from previous season
+	// 	$bijkomendekosten = new bijkomendekosten;
+	// 	$bijkomendekosten->check_for_copy(27, $db->f("type_id"));
+
+	// }
+
+
 
 	$bijkomendekosten = new bijkomendekosten;
 	echo $bijkomendekosten->cms_list_to_be_checked($_GET["wzt"]);

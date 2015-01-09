@@ -259,6 +259,11 @@ class copydatabaserecord {
 			$copydatabaserecord->copy_record();
 
 		}
+
+		// create Redis-cache
+		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->pre_calculate_accommodation($accommodatie_id);
+
 	}
 }
 

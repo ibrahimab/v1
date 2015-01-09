@@ -1116,8 +1116,9 @@ $(document).ready(function() {
 				seizoen_id = cms_bk_kopieer.data("seizoen_id");
 				from_seizoen_id = cms_bk_kopieer.data("last_seizoen_id");
 
-				$("html, body").animate({scrollTop:$("#bijkomendekosten_"+seizoen_id).position().top}, 'slow');
-
+				$("html, body").animate({scrollTop:$(".cms_bk_kopieer_season").position().top}, 'slow', function(){
+					cms_bk_all_rows_wrapper.slideUp("normal");
+				});
 			}
 		} else {
 
@@ -1139,7 +1140,7 @@ $(document).ready(function() {
 				'cms/wtjson.php?t=bk_copy&id='+id+"&sid="+seizoen_id+"&from_sid="+from_seizoen_id,
 				function(data) {
 					if(data.cms_bk_all_rows) {
-						cms_bk_all_rows_wrapper.slideUp("normal", function(){
+						cms_bk_all_rows_wrapper.slideUp("normal", function() {
 							cms_bk_all_rows.replaceWith(data.cms_bk_all_rows);
 							bk_keuzes_actief_inactief();
 							cms_bk_all_rows_wrapper.slideDown("normal", function(){

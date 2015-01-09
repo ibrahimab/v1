@@ -150,11 +150,11 @@ if($_POST["filled"]) {
 			// exit;
 		}
 	} else {
-			trigger_error("variabele 'savequery' leeg bij opslaan tarieven",E_USER_NOTICE);
-			if(!$skipastarieven_verwerken and $_POST["filled_via_echt_form"]) {
-				echo "<p>Er is iets fout gegaan bij het opslaan van de zojuist ingevoerde gegevens. Deze zijn niet correct opgeslagen. Neem contact op met Jeroen en meld hem deze kwestie. Meldingscode: 22</p>";
-				exit;
-			}
+		trigger_error("variabele 'savequery' leeg bij opslaan tarieven",E_USER_NOTICE);
+		if(!$skipastarieven_verwerken and $_POST["filled_via_echt_form"]) {
+			echo "<p>Er is iets fout gegaan bij het opslaan van de zojuist ingevoerde gegevens. Deze zijn niet correct opgeslagen. Neem contact op met Jeroen en meld hem deze kwestie. Meldingscode: 22</p>";
+			exit;
+		}
 	}
 
 
@@ -362,6 +362,10 @@ if($_POST["filled"]) {
 	$voorraad_gekoppeld=new voorraad_gekoppeld;
 	$voorraad_gekoppeld->vanaf_prijzen_berekenen($_GET["tid"]);
 	$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
+
+	// check if there are no "bijkomendekosten": if so, copy from previous season
+	$bijkomendekosten = new bijkomendekosten;
+	$bijkomendekosten->check_for_copy($_GET["sid"], $_GET["tid"]);
 
 	if($_GET["from"]) {
 		header("Location: ".$_GET["from"]);

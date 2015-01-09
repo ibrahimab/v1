@@ -284,7 +284,7 @@ class bijkomendekosten {
 
 				if($this->seizoen_counter==1 and $this->soort=="accommodatie") {
 					// copy season button
-					$return .= "<div class=\"cms_bk_kopieer\" data-last_seizoen_id=\"".intval($this->last_seizoen_id)."\" data-seizoen_id=\"".intval($this->seizoen_id)."\" data-id=\"".intval($this->id)."\"><button>&#x2193; kopieer bijkomende kosten naar onderstaand seizoen &#x2193;</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-ebebeb.gif\"><br />&nbsp;&nbsp;&nbsp;<i>Let op: bestaande gegevens worden direct overschreven.</i></div>";
+					$return .= "<div class=\"cms_bk_kopieer cms_bk_kopieer_season\" data-last_seizoen_id=\"".intval($this->last_seizoen_id)."\" data-seizoen_id=\"".intval($this->seizoen_id)."\" data-id=\"".intval($this->id)."\"><button>&#x2193; kopieer bijkomende kosten naar onderstaand seizoen &#x2193;</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-ebebeb.gif\"><br />&nbsp;&nbsp;&nbsp;<i>Let op: bestaande gegevens worden direct overschreven.</i></div>";
 
 				}
 
@@ -559,12 +559,25 @@ class bijkomendekosten {
 			$active_season[$db->f("seizoen_id")] = $db->f("naam");
 		}
 
+		// get filled accommodations
+		$db->query("SELECT DISTINCT seizoen_id, accommodatie_id FROM bk_accommodatie WHERE seizoen_id IN (".substr($active_season_inquery, 1).");");
+		while($db->next_record()) {
+			$filled_acc[$db->f("seizoen_id")][$db->f("accommodatie_id")] = true;
+		}
+
+		// get filled types
+		$db->query("SELECT DISTINCT seizoen_id, type_id FROM bk_type WHERE seizoen_id IN (".substr($active_season_inquery, 1).");");
+		while($db->next_record()) {
+			$filled_type[$db->f("seizoen_id")][$db->f("type_id")] = true;
+		}
+
+// echo wt_dump($filled_type);
+
 		// get checked accommodation_id's
 		$db->query("SELECT seizoen_id, accommodatie_id FROM accommodatie_seizoen WHERE seizoen_id IN (".substr($active_season_inquery, 1).") AND bijkomendekosten_checked=1;");
 		while($db->next_record()) {
 			$checked_acc[$db->f("seizoen_id")][$db->f("accommodatie_id")] = true;
 		}
-
 
 		// get checked type_id's
 		$db->query("SELECT seizoen_id, type_id FROM type_seizoen WHERE seizoen_id IN (".substr($active_season_inquery, 1).") AND bijkomendekosten_checked=1;");
@@ -585,26 +598,28 @@ class bijkomendekosten {
 			while($db->next_record()) {
 				$html .= "<ol>";
 				while($db->next_record()) {
-					if(!$al_gehad[$db->f("accommodatie_id")] and !$checked_acc[$seizoen_id][$db->f("accommodatie_id")]) {
-						if($al_gehad) $html .= "</li></ul>";
-						$html .= "<li>";
-						$html .= "<a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."#bijkomendekosten_".$seizoen_id."\" target=\"_blank\">";
-						$html .= wt_he($db->f("plaats")." - ".$db->f("naam"));
-						$html .= "</a>";
-						if($db->f("has_opmerkingen_intern")) {
-							$html .= "&nbsp;&nbsp;(<b>interne opmerkingen</b>)";
+					if($filled_acc[$seizoen_id][$db->f("accommodatie_id")] or $filled_type[$seizoen_id][$db->f("type_id")]) {
+						if(!$al_gehad[$db->f("accommodatie_id")] and !$checked_acc[$seizoen_id][$db->f("accommodatie_id")]) {
+							if($al_gehad) $html .= "</li></ul>";
+							$html .= "<li>";
+							$html .= "<a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."#bijkomendekosten_".$seizoen_id."\" target=\"_blank\">";
+							$html .= wt_he($db->f("plaats")." - ".$db->f("naam"));
+							$html .= "</a>";
+							if($db->f("has_opmerkingen_intern")) {
+								$html .= "&nbsp;&nbsp;(<b>interne opmerkingen</b>)";
+							}
+							$html .= "<ul>";
+
+							$al_gehad[$db->f("accommodatie_id")] = true;
+
 						}
-						$html .= "<ul>";
-
-						$al_gehad[$db->f("accommodatie_id")] = true;
-
-					}
-					if(!$checked_type[$seizoen_id][$db->f("type_id")]) {
-						$html .= "<li>";
-						$html .= "<a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."#bijkomendekosten_".$seizoen_id."\" target=\"_blank\">";
-						$html .= wt_he($db->f("begincode").$db->f("type_id"));
-						$html .= "</a>";
-						$html .= "</li>";
+						if(!$checked_type[$seizoen_id][$db->f("type_id")]) {
+							$html .= "<li>";
+							$html .= "<a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."#bijkomendekosten_".$seizoen_id."\" target=\"_blank\">";
+							$html .= wt_he($db->f("begincode").$db->f("type_id"));
+							$html .= "</a>";
+							$html .= "</li>";
+						}
 					}
 				}
 				$html .= "</ol>";
@@ -614,12 +629,35 @@ class bijkomendekosten {
 			if($al_gehad) {
 				$return .= $html;
 			} else {
-				$return .= "<p>Alle bijkomende kosten voor dit seizoen zijn gecontroleerd.</p>";
+				$return .= "<p>Momenteel zijn er geen te controleren bijkomende kosten voor dit seizoen.</p>";
 			}
 			$return .= "<br /><hr /><br />";
 		}
 
 		return $return;
+	}
+
+	public function check_for_copy($seizoen_id, $type_id) {
+		// check if there are any bk to copy
+
+		$db = new DB_sql;
+
+		$db->query("SELECT bk_soort_id FROM bk_type WHERE type_id='".intval($type_id)."' AND seizoen_id='".intval($seizoen_id)."' LIMIT 0,1;");
+		if(!$db->num_rows()) {
+
+			$db->query("SELECT MAX(seizoen_id) AS seizoen_id FROM bk_type WHERE type_id='".intval($type_id)."';");
+			if($db->next_record()) {
+
+				$from_seizoen_id = $db->f("seizoen_id");
+
+				$db->query("SELECT accommodatie_id FROM type WHERE type_id='".intval($type_id)."';");
+				if($db->next_record()) {
+
+					$copydatabaserecord = new copydatabaserecord;
+					$copydatabaserecord->copy_bijkomendekosten($db->f("accommodatie_id"), $from_seizoen_id, $seizoen_id);
+				}
+			}
+		}
 	}
 
 	private function check_for_differences_type_accommodation($fieldname, $bk_soort_id, $type_id) {
