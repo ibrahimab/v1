@@ -1064,6 +1064,7 @@ $(document).ready(function() {
 							+"&id="+form.find("input[name='id']").val()
 							+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
 							+"&tmp_teksten_omgezet="+(form.find("input[name='tmp_teksten_omgezet']").is(":checked") ? "1" : "0")
+							+"&bijkomendekosten_checked="+(form.find("input[name='bijkomendekosten_checked']").is(":checked") ? "1" : "0")
 							+"&all_rows_for_log="+encodeURIComponent(form.find("input[name='all_rows_for_log']").val())
 							,
 							function(data) {

@@ -373,6 +373,8 @@ if($mustlogin) {
 		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","nieuw: variabel per week",array("cmsversie"=>"nieuw1"),true);
 		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast winter",array("cmsversie"=>"nieuw2", "wzt"=>1),true);
 		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast zomer",array("cmsversie"=>"nieuw3", "wzt"=>2),true);
+		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: nakijken winter",array("cmsversie"=>"nieuw4", "wzt"=>1),true);
+		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: nakijken zomer",array("cmsversie"=>"nieuw4", "wzt"=>2),true);
 	} else {
 		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true);
 	}
