@@ -131,6 +131,7 @@ if($vars["wederverkoop"] and $vars["chalettour_logged_in"]) {
 	$form->field_text($obl,"telefoonnummer",txt("telefoonnummer","beschikbaarheid"),"",array("text"=>$temp_naw["telefoonnummer"]));
 	$form->field_text(0,"mobielwerk",txt("mobielwerk","beschikbaarheid"),"",array("text"=>$temp_naw["mobielwerk"]));
 	$form->field_email($obl,"email",txt("email","beschikbaarheid"),"",array("text"=>$temp_naw["email"]));
+	$form->field_text($obl,"email_confirmatie",txt("email_confirmatie","beschikbaarheid","",array("text"=>$temp_naw["email_confirmatie"])));
 }
 if(!$_GET["o"]) {
 	$form->field_yesno("optie",html("ikwiloptie","beschikbaarheid")."<br>".html("max1pergroep","beschikbaarheid"),"",array("selection"=>$_GET["o"]),"",array("title_html"=>true));
@@ -173,6 +174,10 @@ if($form->filled) {
 			}
 			$form->error("verblijfsduur",txt("gekozenperiodenietbeschikbaar","beschikbaarheid"));
 		}
+	}
+
+	if($form->input["email"] != "" && $form->input["email"] != $form->input["email_confirmatie"]){
+		$form->error("email_confirmatie",txt("tweekeerdezelfdeemail","beschikbaarheid"));
 	}
 }
 
