@@ -1343,21 +1343,16 @@ class form2 {
 			$return.="</textarea>";
 		} elseif($this->fields["type"][$id]=="upload") {
 			# Upload
-			if($this->fields["options"][$id]["multiple"] and $this->fields["options"][$id]["number_of_uploadbuttons"]) {
-				$temp["aantal_uploadbuttons"]=$this->fields["options"][$id]["number_of_uploadbuttons"];
-			} else {
-				$temp["aantal_uploadbuttons"]=1;
-			}
-			for($i=1;$i<=$temp["aantal_uploadbuttons"];$i++) {
-				if($this->upload[$id][$i]["tmp_name"]) $temp["upload_ontvangen"]=true;
+			foreach($this->upload[$id] as $file_upload_info) {
+				if ($file_upload_info["tmp_name"]) $temp["upload_ontvangen"]=true;
 			}
 
 			if($this->filled and !$this->error[$id] and $temp["upload_ontvangen"]) {
 				$return.=$this->message("reeds_ontvangen");
-				for($i=1;$i<=$temp["aantal_uploadbuttons"];$i++) {
-					if($this->upload[$id][$i]["tmp_name"] and $this->upload[$id][$i]["name"]) {
-						$return.="<input type=\"hidden\" name=\"input[".$id."][".$i."][tmp_name]\" value=\"".$this->upload[$id][$i]["tmp_name"]."\">";
-						$return.="<input type=\"hidden\" name=\"input[".$id."][".$i."][name]\" value=\"".$this->upload[$id][$i]["name"]."\">";
+				foreach($this->upload[$id] as $i => $file_upload_info) {
+					if($file_upload_info["tmp_name"] and $file_upload_info["name"]) {
+						$return.="<input type=\"hidden\" name=\"input[".$id."][".$i."][tmp_name]\" value=\"".$file_upload_info["tmp_name"]."\">";
+						$return.="<input type=\"hidden\" name=\"input[".$id."][".$i."][name]\" value=\"".$file_upload_info["name"]."\">";
 					}
 				}
 			} else {
@@ -1434,34 +1429,33 @@ class form2 {
 						}
 					}
 				}
-				for($i=1;$i<=$temp["aantal_uploadbuttons"];$i++) {
-					if($temp["aantal_uploadbuttons"]>1) $return.=$i.".&nbsp;";
-					$return.="<input type=\"file\" name=\"input[".$id."][".$i."]\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\"";
-					if($this->fields["options"][$id]["must_be_filetype"]=="jpg") {
-						$return.=" accept=\"image/jpeg\"";
-					} elseif($this->fields["options"][$id]["accept_element"]) {
-						$return.=" accept=\"".$this->fields["options"][$id]["accept_element"]."\"";
-					}
-					$return.=">";
 
-					# Indien afbeelding: evt. opmerkingen weergeven
-					if(($this->fields["options"][$id]["img_ratio_width"] and $this->fields["options"][$id]["img_ratio_height"]) or ($this->fields["options"][$id]["img_width"] and $this->fields["options"][$id]["img_height"]) or $this->fields["options"][$id]["showfiletype"]) {
-						unset($spatie);
-						$return.="<span class=\"wtform_small\">&nbsp;(";
-						if($this->fields["options"][$id]["showfiletype"]) {
-							$return.=$this->message("showfiletype","",array(1=>$this->fields["options"][$id]["must_be_filetype"]));
-							$spatie=true;
-						}
-						if($this->fields["options"][$id]["img_ratio_width"] and $this->fields["options"][$id]["img_ratio_height"]) {
-							if($spatie) $return.=" ";
-							$return.=$this->message("imgsize_ratio","",array(1=>$this->fields["options"][$id]["img_ratio_width"],2=>$this->fields["options"][$id]["img_ratio_height"]));
-						} elseif($this->fields["options"][$id]["img_width"] and $this->fields["options"][$id]["img_height"]) {
-							if($spatie) $return.=" ";
-							$return.=$this->message("imgsize_size","",array(1=>$this->fields["options"][$id]["img_width"],2=>$this->fields["options"][$id]["img_height"]));
-						}
-						$return.=")</span>";
+				$return.="<input type=\"file\" name=\"input[".$id."][]\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\"";
+				if($this->fields["options"][$id]["must_be_filetype"]=="jpg") {
+					$return.=" accept=\"image/jpeg\"";
+				} elseif($this->fields["options"][$id]["accept_element"]) {
+					$return.=" accept=\"".$this->fields["options"][$id]["accept_element"]."\"";
+				}
+				if($this->fields["options"][$id]["multiple"]) {
+					$return.=" multiple=\"multiple\"";
+				}
+				$return.=">";
+
+				# Indien afbeelding: evt. opmerkingen weergeven
+				if(($this->fields["options"][$id]["img_ratio_width"] and $this->fields["options"][$id]["img_ratio_height"]) or ($this->fields["options"][$id]["img_width"] and $this->fields["options"][$id]["img_height"]) or $this->fields["options"][$id]["showfiletype"]) {
+					$return.="<span class=\"wtform_small\">&nbsp;(";
+					if($this->fields["options"][$id]["showfiletype"]) {
+						$return.=$this->message("showfiletype","",array(1=>$this->fields["options"][$id]["must_be_filetype"]));
+						$spatie=true;
 					}
-					if($i<$temp["aantal_uploadbuttons"]) $return.="<p>";
+					if($this->fields["options"][$id]["img_ratio_width"] and $this->fields["options"][$id]["img_ratio_height"]) {
+						if($spatie) $return.=" ";
+						$return.=$this->message("imgsize_ratio","",array(1=>$this->fields["options"][$id]["img_ratio_width"],2=>$this->fields["options"][$id]["img_ratio_height"]));
+					} elseif($this->fields["options"][$id]["img_width"] and $this->fields["options"][$id]["img_height"]) {
+						if($spatie) $return.=" ";
+						$return.=$this->message("imgsize_size","",array(1=>$this->fields["options"][$id]["img_width"],2=>$this->fields["options"][$id]["img_height"]));
+					}
+					$return.=")</span>";
 				}
 			}
 		} elseif($this->fields["type"][$id]=="yesno") {
