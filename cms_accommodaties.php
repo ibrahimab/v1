@@ -149,7 +149,7 @@ if($_GET["1k0"]) {
 	}
 
 	# Vertrekinfo-tracking
-	$vertrekinfo_tracking_array=array("inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_soortbeheer_aanvulling", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_plaatsnaam_beheer", "vertrekinfo_gps_lat", "vertrekinfo_gps_long");
+	$vertrekinfo_tracking_array=array("inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_soortbeheer_aanvulling", "vertrekinfo_telefoonnummer", "vertrekinfo_noodtelefoonnummer_accommodatie", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_plaatsnaam_beheer", "vertrekinfo_gps_lat", "vertrekinfo_gps_long");
 	if($vars["cmstaal"]) {
 		$vertrekinfo_tracking_array[]="vertrekinfo_inclusief_".$vars["cmstaal"];
 		$vertrekinfo_tracking_array[]="vertrekinfo_exclusief_".$vars["cmstaal"];
@@ -332,6 +332,7 @@ $cms->db_field(1,"select","vertrekinfo_soortbeheer","",array("selection"=>$vars[
 $cms->db_field(1,"text","vertrekinfo_soortbeheer_aanvulling");
 if($vars["cmstaal"]) $cms->db_field(1,"text","vertrekinfo_soortbeheer_aanvulling_".$vars["cmstaal"]);
 $cms->db_field(1,"text","vertrekinfo_telefoonnummer");
+$cms->db_field(1,"text","vertrekinfo_noodtelefoonnummer_accommodatie");
 $cms->db_field(1,"text","vertrekinfo_inchecktijd");
 $cms->db_field(1,"text","vertrekinfo_uiterlijkeinchecktijd");
 $cms->db_field(1,"text","vertrekinfo_uitchecktijd");
@@ -652,6 +653,10 @@ if($vars["cmstaal"]) {
 $cms->edit_field(1,0,"vertrekinfo_telefoonnummer","Telefoonnummer beheer","","",array("info"=>"Bijvoorbeeld: '0039 0437 72 38 05'"));
 if($vertrekinfo_tracking["vertrekinfo_telefoonnummer"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_telefoonnummer"]))."</div>"));
+}
+$cms->edit_field(1,0,"vertrekinfo_noodtelefoonnummer_accommodatie","Noodtelefoonnummer accommodatie","","",array("info"=>"Bijvoorbeeld: '0039 0437 72 38 05'"));
+if($vertrekinfo_tracking["vertrekinfo_noodtelefoonnummer_accommodatie"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_noodtelefoonnummer_accommodatie"]))."</div>"));
 }
 $cms->edit_field(1,0,"vertrekinfo_inchecktijd","Inchecktijd","","",array("info"=>"Bijvoorbeeld: '17:00'"));
 if($vertrekinfo_tracking["vertrekinfo_inchecktijd"]) {
