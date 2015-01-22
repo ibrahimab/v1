@@ -654,7 +654,7 @@ $cms->edit_field(1,0,"vertrekinfo_telefoonnummer","Telefoonnummer beheer","","",
 if($vertrekinfo_tracking["vertrekinfo_telefoonnummer"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_telefoonnummer"]))."</div>"));
 }
-$cms->edit_field(1,0,"vertrekinfo_noodtelefoonnummer_accommodatie","Noodtelefoonnummer accommodatie","","",array("info"=>"Bijvoorbeeld: '0039 0437 72 38 05'"));
+$cms->edit_field(1,0,"vertrekinfo_noodtelefoonnummer_accommodatie","Noodtelefoonnummer accommodatie","","",array("info"=>"Bijvoorbeeld: '0039 437 72 38 05'\nLet op: Dit wordt niet naar de klant verstuurd."));
 if($vertrekinfo_tracking["vertrekinfo_noodtelefoonnummer_accommodatie"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_noodtelefoonnummer_accommodatie"]))."</div>"));
 }
