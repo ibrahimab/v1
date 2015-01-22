@@ -131,7 +131,14 @@ if($vars["wederverkoop"] and $vars["chalettour_logged_in"]) {
 	$form->field_text($obl,"telefoonnummer",txt("telefoonnummer","beschikbaarheid"),"",array("text"=>$temp_naw["telefoonnummer"]));
 	$form->field_text(0,"mobielwerk",txt("mobielwerk","beschikbaarheid"),"",array("text"=>$temp_naw["mobielwerk"]));
 	$form->field_email($obl,"email",txt("email","beschikbaarheid"),"",array("text"=>$temp_naw["email"]));
-	$form->field_text($obl,"email_confirmatie",txt("email_confirmatie","beschikbaarheid","",array("text"=>$temp_naw["email_confirmatie"])));
+
+
+	/**
+	 * If employee is logged in, do not show e-mail confirmation field
+	 */
+	if (true !== $werknemer_optieaanvraag) {
+		$form->field_text($obl,"email_confirmatie",txt("email_confirmatie","beschikbaarheid"),"",array("text"=>$temp_naw["email_confirmatie"]), array('data_field' => array('disable-paste' => 'true', 'disable-drop' => 'true')));
+	}
 }
 if(!$_GET["o"]) {
 	$form->field_yesno("optie",html("ikwiloptie","beschikbaarheid")."<br>".html("max1pergroep","beschikbaarheid"),"",array("selection"=>$_GET["o"]),"",array("title_html"=>true));
@@ -176,8 +183,15 @@ if($form->filled) {
 		}
 	}
 
-	if($form->input["email"] != "" && $form->input["email"] != $form->input["email_confirmatie"]){
-		$form->error("email_confirmatie",txt("tweekeerdezelfdeemail","beschikbaarheid"));
+	/**
+	 * If employee is logged in, prevent validating the email confirmation, 
+	 * otherwise validate when an e-mail has been entered
+	 */
+	if (true !== $werknemer_optieaanvraag) {
+
+		if($form->input["email"] != "" && $form->input["email"] != $form->input["email_confirmatie"]){
+			$form->error("email_confirmatie",txt("tweekeerdezelfdeemail","beschikbaarheid"));
+		}
 	}
 }
 

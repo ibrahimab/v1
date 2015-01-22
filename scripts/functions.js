@@ -2157,18 +2157,17 @@ $(document).ready(function() {
 			}
 		});
 
-		// scroll to top
-		var scroll_to_top_text="Naar boven";
-
+		/**
+		 * This is the new scroll to top functionality, which replaces the old 'Back to top' link under every page
+		 */
 		try {
 			$.scrollUp({
-				scrollText: scroll_to_top_text,
+				scrollName: "scrollUp-arrow",
+				scrollText: "",
 				animation: 'slide'
-
 			});
-		} catch(err) {
-
-		}
+			
+		} catch(err) { /** No active scroll up feature found */ }
 
 		// meer foto's reisblog Italissima
 		$("a#blog_foto_aanvullend_meer_link").click(function(){
@@ -3129,5 +3128,19 @@ $(document).ready(function() {
 			);
 		}, 300000);
 
+		/**
+		 * This functionality is to prevent users from pasting into fields that the developer has
+		 * flagged. This is done by adding a [data-disable-paste="true"] to the input field/textarea
+		 */
+		 $('body').on('paste', '[data-disable-paste="true"]', function(event) {
+		     event.preventDefault();
+		 });
+
+		 /**
+		  * To disable users from dropping text into a field, please use the [data-disable-drop="true"]
+		  */
+		 $('body').on('drop', '[data-disable-drop="true"]', function(event) {
+		 	event.preventDefault();
+		 });
 	}
 });
