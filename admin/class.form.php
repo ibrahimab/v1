@@ -1343,8 +1343,10 @@ class form2 {
 			$return.="</textarea>";
 		} elseif($this->fields["type"][$id]=="upload") {
 			# Upload
-			foreach($this->upload[$id] as $file_upload_info) {
-				if ($file_upload_info["tmp_name"]) $temp["upload_ontvangen"]=true;
+			if (isset($this->upload[$id])) {
+				foreach($this->upload[$id] as $file_upload_info) {
+					if ($file_upload_info["tmp_name"]) $temp["upload_ontvangen"]=true;
+				}
 			}
 
 			if($this->filled and !$this->error[$id] and $temp["upload_ontvangen"]) {
