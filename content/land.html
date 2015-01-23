@@ -71,15 +71,15 @@ if($db2->next_record()) {
 $review_aggregate_array = array(
 	"v_accommodations"=>$available_accomodations,
 	"v_naam"=>$db->f('naam'),
-	"h_1"=>"<span>",
+	"h_1"=>"<span itemprop=\"itemreviewed\">",
 	"h_spanclose"=>"</span>",
-	"h_3"=>"<span>",
+	"h_3"=>"<span itemprop=\"rating\" itemscope itemtype=\"http://data-vocabulary.org/Rating\">",
 	"v_average"=> number_format($place_review["totaaloordeel"],1,",","."),
-	"h_4"=>"<span>",
+	"h_4"=>"<span itemprop=\"average\">",
 	"v_best"=>"10",
-	"h_5" => "<span>",
+	"h_5" => "<span style='display:none' itemprop=\"best\">",
 	"v_votes"=> $place_review["counter"],
-	"h_6" => "<span>",
+	"h_6" => "<span itemprop=\"votes\">",
 	"h_7" => "<br/>",
 	"h_8" => "<strong>",
 	"h_9" => "</strong>");
@@ -425,11 +425,8 @@ if($FUNCTIE_UITGEZET and $vars["seizoentype"]==2 and ($themalandinfo["naam"]=="F
 	}
 
 	if ($vars["websitetype"] == 1 and (int)$review_aggregate_array["v_votes"] > 1) {
-		echo "<div class=\"aggregate\" style=\"margin-bottom: 1.5em;\">".
+		echo "<div class=\"aggregate\" itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\" style=\"margin-bottom: 1.5em;\">". 
 		html("review_aggregate_chalet","land", $review_aggregate_array) ."</div>";
-
-		echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($place_review["totaaloordeel"],1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$place_review["counter"]."</span></div>";
-
 	}
 
 	echo $tabellen;
