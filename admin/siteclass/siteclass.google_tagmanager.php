@@ -19,9 +19,10 @@ class google_tagmanager {
 		global $vars;
 
 		$tag_manager_id["C"] = "GTM-5CPQNN"; // Chalet.nl
+		$tag_manager_id["E"] = "GTM-WGNXQC"; // Chalet.eu
+		$tag_manager_id["H"] = "GTM-PN3GFW"; // Italyhomes.eu
 		$tag_manager_id["I"] = "GTM-K4P98X"; // Italissima.nl
 		$tag_manager_id["K"] = "GTM-N5B5FQ"; // Italissima.be
-		$tag_manager_id["H"] = "GTM-PN3GFW"; // Italyhomes.eu
 
 		if($tag_manager_id[$vars["website"]]) {
 
