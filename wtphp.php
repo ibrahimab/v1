@@ -1,7 +1,7 @@
 <?php
 
 set_time_limit(0);
-
+exit;
 
 // exit;
 // include("admin/vars.php");
