@@ -395,10 +395,10 @@ if($db->next_record()) {
 	}
 
 	// beoordeling tonen
-	if($vars["taal"]=="nl" and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6  or $vars["websitetype"]==7 or $vars["websitetype"]==8)) {
+	if(($vars["taal"]=="nl" or $vars["taal"]=="en") and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6  or $vars["websitetype"]==7 or $vars["websitetype"]==8)) {
 
 
-		if($vars["taal"]=="nl" and $vars["websitetype"]==7) {
+		if(($vars["taal"]=="nl" or $vars["taal"]=="en") and $vars["websitetype"]==7) {
 			// reviews Posarelli
 			$db2->query("SELECT COUNT(accommodatie_review_id) AS aantal FROM accommodatie_review WHERE bron=2 AND actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
 			if($db2->next_record()) {
@@ -415,7 +415,7 @@ if($db->next_record()) {
 
 		if($review["counter"]) {
 			# Bij een 10: alleen tonen als er meer dan 1 beoordeling is
-			echo "<li><div style=\"float:left;\">waardering: </div>";
+			echo "<li><div style=\"float:left;\">" . html("waardering","toonaccommodatie") . "</div>";
 			if($review["totaaloordeel"]>=1) {
 				echo "<div id=\"toonaccommodatie_kenmerken_2_beoordeling\">";
 				if($review["totaaloordeel"]==10) {

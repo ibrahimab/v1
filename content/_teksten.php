@@ -2290,6 +2290,8 @@ $txt["en"]["toonaccommodatie"][""]="";
 $txt["nl"]["toonaccommodatie"]["deel"]="Deel deze accommodatie:";
 $txt["en"]["toonaccommodatie"]["deel"]="Share accommodation:";
 
+$txt["nl"]["toonaccommodatie"]["waardering"]="waardering:";
+$txt["en"]["toonaccommodatie"]["waardering"]="rating:";
 
 
 

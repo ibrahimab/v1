@@ -382,7 +382,7 @@ if($db->next_record()) {
 
 		if($review["counter"]) {
 			# Bij een 10: alleen tonen als er meer dan 1 beoordeling is
-			echo "<li><div style=\"float:left;\">waardering: </div>";
+			echo "<li><div style=\"float:left;\">" . html("waardering","toonaccommodatie") . " </div>";
 			if($review["totaaloordeel"]>=1) {
 				echo "<div id=\"toonaccommodatie_kenmerken_2_beoordeling\">";
 				if($review["totaaloordeel"]==10) {
