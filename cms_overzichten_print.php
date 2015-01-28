@@ -1400,7 +1400,9 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			if($db2->f("persoonnummer")==1) {
 				$naam=wt_naam($db2->f("voornaam"),$db2->f("tussenvoegsel"),$db2->f("achternaam"));
 			}
-			$verzekerdbedrag+=$db2->f("annverz_verzekerdbedrag");
+			if($db2->f("annverz")==$db->f("annverz")) {
+				$verzekerdbedrag+=$db2->f("annverz_verzekerdbedrag");
+			}
 		}
 		$db2->query("SELECT annuleringsverzekering_percentage_".$db->f("annverz")."_berekend AS annuleringsverzekering_percentage_berekend, annuleringsverzekering_percentage_".$db->f("annverz")."_korting AS annuleringsverzekering_percentage_korting, annuleringsverzekering_poliskosten, annuleringsverzekering_poliskosten_basis, annuleringsverzekering_poliskosten_korting, verzekeringen_poliskosten, verzekeringen_poliskosten_basis, verzekeringen_poliskosten_korting, assurantiebelasting FROM seizoen WHERE seizoen_id='".$db->f("seizoen_id")."';");
 		if($db2->next_record()) {
