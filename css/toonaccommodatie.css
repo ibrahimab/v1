@@ -492,6 +492,17 @@ beoordeling_header_right {
 	box-sizing: border-box;
 }
 
+.comment_wrap {
+	float: right;
+	width: 372px;
+	overflow: hidden;
+}
+.comment_wrap .subtext {
+	font-size: 0.85em;
+	color: #555;
+	padding: 1em 0.5em 0;
+}
+
 .beoordeling_enquete_toelichting_geen_cijfers {
 	color: #777777;
 	font-style: italic;
@@ -555,6 +566,9 @@ ul.kenmerken li {
 	height: 10px;
 }
 
+.toggle-review-translation {
+	cursor: pointer;
+}
 
 @media print {
 	#toonaccommodatie_content {

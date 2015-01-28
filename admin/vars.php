@@ -1577,5 +1577,10 @@ if($_GET["fromsite"]) {
 	setcookie("fromsite",$_GET["fromsite"],0,"/");
 }
 
-
+# language constants
+define("lang_en","en");
+define("lang_nl","nl");
+define("lang_de","de");
+$vars["supported_languages"] = array(lang_en, lang_nl, lang_de);
+$vars["google_translation_api_key"]=getenv('GOOGLE_TRANSLATE_API_KEY');
 ?>

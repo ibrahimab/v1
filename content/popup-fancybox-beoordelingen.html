@@ -4,13 +4,25 @@ $accinfo=accinfo($_GET["typeid"]);
 
 
 // reviews Posarelli
-$db->query("SELECT accommodatie_review_id, UNIX_TIMESTAMP(ar.datum) AS datum, ar.naam, ar.tekst, ar.afbreken FROM accommodatie_review ar INNER JOIN type t USING (accommodatie_id) WHERE ar.bron=2 AND ar.actief=1 AND t.type_id='".intval($_GET["typeid"])."' ORDER BY ar.datum DESC, ar.adddatetime DESC;");
+$db->query("SELECT accommodatie_review_id, UNIX_TIMESTAMP(ar.datum) AS datum, ar.naam, ar.tekst, ar.afbreken,
+		ar.websitetekst_gewijzigd_en,
+		ar.websitetekst_gewijzigd_nl,
+		ar.websitetekst_gewijzigd_de,
+		ar.tekst_language
+	FROM accommodatie_review ar INNER JOIN type t USING (accommodatie_id)
+	WHERE ar.bron=2 AND ar.actief=1 AND t.type_id='".intval($_GET["typeid"])."'
+	ORDER BY ar.datum DESC, ar.adddatetime DESC;");
+
 while($db->next_record()) {
 	$beoordeling_aantalbeoordelingen++;
 
 	$enquete["review_".$db->f("accommodatie_review_id")]["aankomstdatum_exact"]=$db->f("datum");
 	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_gewijzigd"]=$db->f("tekst");
 	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_naam"]=$db->f("naam");
+	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_gewijzigd_en"]=$db->f("websitetekst_gewijzigd_en");
+	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_gewijzigd_nl"]=$db->f("websitetekst_gewijzigd_nl");
+	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_gewijzigd_de"]=$db->f("websitetekst_gewijzigd_de");
+	$enquete["review_".$db->f("accommodatie_review_id")]["tekst_language"]=$db->f("tekst_language");
 
 }
 
@@ -19,25 +31,64 @@ while($db->next_record()) {
 
 if($vars["websitetype"]==7) {
 	// Italissima: combine reviews from other types of the same accommodation
-	$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel, COUNT(be.type_id) AS aantal FROM boeking_enquete be, type t WHERE t.accommodatie_id='".intval($accinfo["accommodatie_id"])."' AND be.type_id=t.type_id AND be.vraag1_7>0 AND be.beoordeeld=1 GROUP BY t.accommodatie_id;");
+	$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel, COUNT(be.type_id) AS aantal
+		FROM boeking_enquete be, type t
+		WHERE t.accommodatie_id='".intval($accinfo["accommodatie_id"])."' AND be.type_id=t.type_id AND be.vraag1_7>0 AND be.beoordeeld=1
+		GROUP BY t.accommodatie_id;");
 // echo $db->lq;
 } else {
 	// Other sites: only show reviews from this type
-	$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel FROM boeking_enquete be, view_accommodatie v WHERE be.vraag1_7>0 AND be.type_id='".intval($_GET["typeid"])."' AND be.beoordeeld=1 AND v.type_id=be.type_id AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 GROUP BY be.type_id;");
+	$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel
+		FROM boeking_enquete be, view_accommodatie v
+		WHERE be.vraag1_7>0 AND be.type_id='".intval($_GET["typeid"])."' AND be.beoordeeld=1 AND v.type_id=be.type_id AND v.atonen=1 AND v.ttonen=1 AND v.archief=0
+		GROUP BY be.type_id;");
 }
 
 if($db->next_record()) {
 	$totaaloordeel=$db->f("totaaloordeel");
 
 	if($vars["websitetype"]==7) {
-		$db->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7, t.naam, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.accommodatie_id='".intval($accinfo["accommodatie_id"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
+		$db->query("SELECT b.boeking_id,
+			b.aankomstdatum_exact,
+			be.websitetekst_gewijzigd,
+			be.websitetekst_gewijzigd_en,
+			be.websitetekst_gewijzigd_nl,
+			be.websitetekst_gewijzigd_de,
+			be.tekst_language,
+			be.websitetekst_naam,
+			be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7, t.naam, t.optimaalaantalpersonen, t.maxaantalpersonen
+		FROM boeking_enquete be, boeking b, type t
+		WHERE b.type_id=t.type_id
+			AND be.boeking_id=b.boeking_id
+			AND t.accommodatie_id='".intval($accinfo["accommodatie_id"])."'
+			AND be.vraag1_7>0 AND be.beoordeeld=1
+		ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
 	} else {
-		$db->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7 FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
+		$db->query("SELECT b.boeking_id,
+				b.aankomstdatum_exact,
+				be.websitetekst_gewijzigd,
+				be.websitetekst_gewijzigd_en,
+				be.websitetekst_gewijzigd_nl,
+				be.websitetekst_gewijzigd_de,
+				be.tekst_language,
+				be.websitetekst_naam,
+				be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7
+			FROM boeking_enquete be, boeking b, type t
+			WHERE b.type_id=t.type_id
+				AND be.boeking_id=b.boeking_id
+				AND t.type_id='".intval($_GET["typeid"])."'
+				AND be.vraag1_7>0
+				AND be.beoordeeld=1
+			ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
 	}
 	while($db->next_record()) {
 		$beoordeling_aantalbeoordelingen++;
 		$enquete[$db->f("boeking_id")]["aankomstdatum_exact"]=$db->f("aankomstdatum_exact");
 		$enquete[$db->f("boeking_id")]["websitetekst_gewijzigd"]=$db->f("websitetekst_gewijzigd");
+		$enquete[$db->f("boeking_id")]["websitetekst_gewijzigd_en"]=$db->f("websitetekst_gewijzigd_en");
+		$enquete[$db->f("boeking_id")]["websitetekst_gewijzigd_de"]=$db->f("websitetekst_gewijzigd_de");
+		$enquete[$db->f("boeking_id")]["websitetekst_gewijzigd_nl"]=$db->f("websitetekst_gewijzigd_nl");
+		$enquete[$db->f("boeking_id")]["tekst_language"]=$db->f("tekst_language");
 		$enquete[$db->f("boeking_id")]["websitetekst_naam"]=$db->f("websitetekst_naam");
 		for($i=1;$i<=7;$i++) {
 			if($db->f("vraag1_".$i) and $db->f("vraag1_".$i)<=10) {
@@ -56,11 +107,25 @@ if($db->next_record()) {
 // exit;
 
 	// Get Interhome imported customer feedback
-	$db->query("SELECT UNIX_TIMESTAMP(be.aankomstdatum_exact) as aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7, be.hash FROM boeking_enquete be, type t WHERE be.type_id=t.type_id AND be.boeking_id IS NULL AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY be.aankomstdatum_exact DESC;");
+	$db->query("SELECT UNIX_TIMESTAMP(be.aankomstdatum_exact) as aankomstdatum_exact,
+			be.websitetekst_gewijzigd,
+			be.websitetekst_gewijzigd_en,
+			be.websitetekst_gewijzigd_de,
+			be.websitetekst_gewijzigd_nl,
+			be.tekst_language,
+			be.websitetekst_naam,
+			be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7, be.hash
+		FROM boeking_enquete be, type t
+		WHERE be.type_id=t.type_id AND be.boeking_id IS NULL AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1
+		ORDER BY be.aankomstdatum_exact DESC;");
 	while($db->next_record()) {
 		$beoordeling_aantalbeoordelingen++;
 		$enquete[$db->f("hash")]["aankomstdatum_exact"]=$db->f("aankomstdatum_exact");
 		$enquete[$db->f("hash")]["websitetekst_gewijzigd"]=$db->f("websitetekst_gewijzigd");
+		$enquete[$db->f("hash")]["websitetekst_gewijzigd_en"]=$db->f("websitetekst_gewijzigd_en");
+		$enquete[$db->f("hash")]["websitetekst_gewijzigd_nl"]=$db->f("websitetekst_gewijzigd_nl");
+		$enquete[$db->f("hash")]["websitetekst_gewijzigd_de"]=$db->f("websitetekst_gewijzigd_de");
+		$enquete[$db->f("hash")]["tekst_language"]=$db->f("tekst_language");
 		$enquete[$db->f("hash")]["websitetekst_naam"]=$db->f("websitetekst_naam");
 		for($i=1;$i<=7;$i++) {
 			if($db->f("vraag1_".$i) and $db->f("vraag1_".$i)<=10) {
@@ -134,6 +199,12 @@ if(is_array($enquete)) {
 
 			echo "<div class=\"beoordeling_enquete\">";
 
+			//determine the review language the which should be shown depending of the site language and reviewer language
+			$comment_column = ($vars["taal"] === $value['tekst_language'])
+				? 'websitetekst_gewijzigd'
+				: 'websitetekst_gewijzigd_' . $vars["taal"];
+			$translation_available = (isset($value[$comment_column]) && strlen($value[$comment_column]));
+
 			echo "<div class=\"beoordeling_enquete_bovenbalk\">";
 			if($value[7] and $vars["websitetype"]<>7) {
 				echo "<b>".html("totaaloordeel","beoordelingen").": ".$value[7]."</b>";
@@ -150,6 +221,12 @@ if(is_array($enquete)) {
 			} else {
 				echo "<i>".html("anoniem","beoordelingen")."</i>";
 			}
+
+			//show original review language flag, only if a translation is available
+			if($translation_available) {
+				echo " <img src='/pic/flags/".$value['tekst_language'].".png' height='15' />";
+			}
+
 			echo "</div>"; // afsluiten .beoordeling_enquete_bovenbalk
 
 			echo "<div class=\"beoordeling_enquete_cijfers\">";
@@ -180,13 +257,8 @@ if(is_array($enquete)) {
 
 			echo "</div>"; // afsluiten .beoordeling_enquete_cijfers
 
-			if($value["websitetekst_gewijzigd"] and $vars["taal"]=="nl") {
-				echo "<div class=\"beoordeling_enquete_toelichting\">";
-				echo "<div class=\"beoordeling_enquete_toelichting_wrapper\">";
-				echo "<i>".html("toelichting","beoordelingen").":</i><br>";
-				echo nl2br(wt_he($value["websitetekst_gewijzigd"]));
-				echo "</div>"; // afsluiten .beoordeling_enquete_toelichting_wrapper
-				echo "</div>"; // afsluiten .beoordeling_enquete_toelichting
+			if ($value["websitetekst_gewijzigd"]) {
+				include(__DIR__.'/accommodatie_review/tekst.php');
 			}
 			echo "<div class=\"clear\"></div>";
 			echo "</div>"; // afsluiten .beoordeling_enquete
@@ -200,3 +272,24 @@ if(is_array($enquete)) {
 }
 
 ?>
+<script>
+	jQuery('document').ready(function () {
+		jQuery('.toggle-review-translation').click(function(e) {
+			var anchor = jQuery(this);
+			var wrapper = anchor.parents('.comment_wrap');
+			wrapper.find('.review-comment').toggle();
+			wrapper.find('.original-review-comment').toggle();
+			wrapper.find('[data-text-toggle]').each(function () {
+				toggle_text(jQuery(this));
+			});
+			return false;
+		})
+	});
+
+	function toggle_text(element) {
+		var toggle_text = element.attr('data-text-toggle');
+		var alt_text = element.text();
+		element.attr('data-text-toggle', alt_text);
+		element.text(toggle_text);
+	}
+</script>

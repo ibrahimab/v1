@@ -27,6 +27,8 @@ if(!$_GET["1k0"]) {
 	exit;
 }
 
+require_once('cms/language_data.php');
+
 $cms->settings[48]["list"]["show_icon"]=false;
 $cms->settings[48]["list"]["edit_icon"]=true;
 $cms->settings[48]["list"]["delete_icon"]=true;
@@ -42,6 +44,10 @@ $cms->db_field(48,"select","bron","",array("selection"=>$vars["accommodatie_revi
 $cms->db_field(48,"date","datum");
 $cms->db_field(48,"text","naam");
 $cms->db_field(48,"textarea","tekst");
+$cms->db_field(48,"select","tekst_language","",array("selection"=>$language_options));
+$cms->db_field(48,"textarea","websitetekst_gewijzigd_en");
+$cms->db_field(48,"textarea","websitetekst_gewijzigd_nl");
+$cms->db_field(48,"textarea","websitetekst_gewijzigd_de");
 $cms->db_field(48,"yesno","afbreken");
 
 # Listing list_field($counter,$id,$title="",$options="",$layout="")
@@ -54,7 +60,11 @@ $cms->edit_field(48,1,"actief","Tonen op de website (op dit moment nog niet van 
 $cms->edit_field(48,1,"bron","Bron van de review",array("selection"=>$bron_prevalue));
 $cms->edit_field(48,1,"datum","Datum van de review","",array("startyear"=>2005,"endyear"=>date("Y")),array("calendar"=>true));
 $cms->edit_field(48,0,"naam","Naam schrijver van de review");
-$cms->edit_field(48,1,"tekst","Inhoud van de review");
+$cms->edit_field(48,1,"tekst","Inhoud van de review","","",array("add_html_after_field" => $button_all, "input_class"=>"wtform_input wtform_textarea review_original_comment"));
+$cms->edit_field(48,1,"tekst_language",html("comment_language", "beoordelingen"),"","",array("input_class"=>"wtform_input review_language_selector"));
+$cms->edit_field(48,0,"websitetekst_gewijzigd_nl","Tekst nl","","",array("add_html_after_title" => $nl_flag, "add_html_after_field" => $button_nl));
+$cms->edit_field(48,0,"websitetekst_gewijzigd_en","Tekst en","","",array("add_html_after_title" => $en_flag, "add_html_after_field" => $button_en));
+$cms->edit_field(48,0,"websitetekst_gewijzigd_de","Tekst de","","",array("add_html_after_title" => $de_flag, "add_html_after_field" => $button_de));
 $cms->edit_field(48,1,"afbreken","Inhoud na 4 regels afbreken (via openklap-functie)",array("selection"=>true));
 
 

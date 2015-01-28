@@ -1769,3 +1769,78 @@ function wt_number_format (number, decimals, dec_point, thousands_sep) {
 		s[1] += new Array(prec - s[1].length + 1).join('0');    }
 	return s.join(dec);
 }
+
+jQuery('document').ready(function () {
+	var original_language = jQuery('.review_language_selector');
+	if (original_language.length < 1)
+	{
+		return;
+	}
+	update_language_fields();
+	jQuery('.btn-translation').click(function (e) {
+		var button = jQuery(this);
+		var text = jQuery('.review_original_comment');
+		if (original_language.length < 1 || original_language.val() == "") {
+			alert(no_language_error);
+			return false;
+		}
+		if(text.length < 1 || text.val().length < 1) {
+			return false;
+		}
+		jQuery.ajax({
+			type: "GET",
+			url: "rpc_json.php",
+			data: { t: "google_translate", text: text.val(), to: button.val(), from: original_language.val() }
+		})
+			.done(function (json) {
+				if (json.error) {
+					alert (json.error)
+				}
+				jQuery.each(json.translations, function (lang, translation) {
+					var language_textarea = jQuery('textarea[name="input[websitetekst_gewijzigd_'+lang+']"]');
+					if (language_textarea.length < 1) {
+						console.log('Could not determine language textarea');
+					}
+					else {
+						language_textarea.val(translation);
+					}
+				})
+			});
+		e.preventDefault();
+	});
+	original_language.change(function(){
+		update_language_fields();
+	});
+});
+
+function update_language_fields() {
+	var original_language = jQuery('select[name="input[tekst_language]"]');
+	if (original_language.length < 1){
+		return false;
+	}
+	var en_field = jQuery('textarea[name="input[websitetekst_gewijzigd_en]"]').parents('tr');
+	var nl_field = jQuery('textarea[name="input[websitetekst_gewijzigd_nl]"]').parents('tr');
+	var de_field = jQuery('textarea[name="input[websitetekst_gewijzigd_de]"]').parents('tr');
+	switch(original_language.val()) {
+		case "en":
+			en_field.hide();
+			nl_field.show();
+			de_field.show();
+			break;
+		case "nl":
+			en_field.show();
+			nl_field.hide();
+			de_field.show();
+			break;
+		case "de":
+			en_field.show();
+			nl_field.show();
+			de_field.hide();
+			break;
+		default:
+			en_field.show();
+			nl_field.show();
+			de_field.show();
+			break;
+	}
+}

@@ -745,9 +745,43 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	}
 	$return["dataLayer"] = $google_tagmanager->product_click($product_click);
 
+} elseif($_GET["t"] == "google_translate") {
+	try {
+		$return["translations"] = handle_google_translation();
+	}
+	catch (Exception $e) {
+		$return["error"] = $e->getMessage();
+	}
 }
 
 $return["ok"]=true;
 echo json_encode( $return );
+
+function handle_google_translation() {
+	global $vars;
+	if(!isset($_GET["to"]) || !isset($_GET["text"]) || !isset($_GET["from"])) {
+		throw new Exception("Request is not properly formatted");
+	}
+	if(!in_array($_GET["to"], $vars["supported_languages"]) && $_GET["to"] !== "all") {
+		throw new Exception("Unsupported language for translation");
+	}
+	if(!in_array($_GET["from"], $vars["supported_languages"])) {
+		throw new Exception("Unsupported default language");
+	}
+	if(!is_string($_GET["text"]) || strlen($_GET["text"]) < 1) {
+		throw new Exception("Invalid text given for translation");
+	}
+	$google_translate = new google_translate(lang_nl);
+	$translations = array();
+	if ($_GET["to"] === "all") {
+		foreach (array_diff($vars["supported_languages"],array($_GET["from"])) as $language) {
+			$translations[$language] = $google_translate->translate_text($_GET["from"], $language, $_GET["text"]);
+		}
+	}
+	else {
+		$translations[$_GET["to"]] = $google_translate->translate_text($_GET["from"], $_GET["to"], $_GET["text"]);
+	}
+	return $translations;
+}
 
 ?>

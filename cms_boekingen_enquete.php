@@ -33,9 +33,51 @@ if($_GET["controleren"]) {
 
 #	$form->field_htmlrow("","<b>Bekijk onderstaande enqu&ecirc;te en vul de status in.</b>");
 	$form->field_select(1,"beoordeeld","Status van onderstaande enquête",array("field"=>"beoordeeld"),"",array("selection"=>$vars["enquetestatus"],"allow_0"=>true));
-	$db->query("SELECT vraag1_7, websitetekst FROM boeking_enquete WHERE ".$where_condition.";");
+	$db->query("SELECT vraag1_7, websitetekst, tekst_language, websitetekst_gewijzigd, websitetekst_gewijzigd_de, websitetekst_gewijzigd_nl, websitetekst_gewijzigd_en  FROM boeking_enquete WHERE ".$where_condition.";");
+
+	require_once('cms/language_data.php');
+
 	if($db->next_record() and $db->f("websitetekst")<>"") {
-		$form->field_textarea(0,"websitetekst_gewijzigd","Totaaloordeel",array("field"=>"websitetekst_gewijzigd"),"",array("newline"=>true));
+		$form->field_select(0,
+			"tekst_language",
+			html("comment_language", "beoordelingen"),
+			array("field"=>"tekst_language"),
+			"",
+			array("selection" => $language_options),
+			array("input_class"=>"wtform_input review_language_selector")
+		);
+		$form->field_textarea(0,
+			"websitetekst_gewijzigd",
+			"Totaaloordeel",
+			array("field"=>"websitetekst_gewijzigd"),
+			"",
+			array("newline"=>true),
+			array("add_html_after_field" => $button_all, "input_class"=>"wtform_input wtform_textarea review_original_comment")
+		);
+		$form->field_textarea(0,
+			"websitetekst_gewijzigd_nl",
+			"Totaaloordeel nl",
+			array("field"=>"websitetekst_gewijzigd_nl"),
+			"",
+			array("newline"=>true),
+			array("add_html_after_title" => $nl_flag, "add_html_after_field" => $button_nl)
+		);
+		$form->field_textarea(0,
+			"websitetekst_gewijzigd_en",
+			"Totaaloordeel en",
+			array("field"=>"websitetekst_gewijzigd_en"),
+			"",
+			array("newline"=>true),
+			array("add_html_after_title" => $en_flag, "add_html_after_field" => $button_en)
+		);
+		$form->field_textarea(0,
+			"websitetekst_gewijzigd_de",
+			"Totaaloordeel de",
+			array("field"=>"websitetekst_gewijzigd_de"),
+			"",
+			array("newline"=>true),
+			array("add_html_after_title" => $de_flag, "add_html_after_field" => $button_de)
+		);
 	} else {
 		$form->field_htmlcol("","Tekst totaaloordeel",array("html"=>"<i>niet ingevuld</i>"));
 	}

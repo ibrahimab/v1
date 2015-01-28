@@ -2356,6 +2356,38 @@ $txt["en"]["beoordelingen"]["geencijfers"]="There are no votes recorded.";
 $txt["nl"]["beoordelingen"]["type"]="type";
 $txt["en"]["beoordelingen"]["type"]="type";
 
+$txt["nl"]["beoordelingen"]["review_is_translated"]="Dit is een geautomatiseerde vertaling vanuit het Engels.";
+$txt["en"]["beoordelingen"]["review_is_translated"]="This review has been automatically translated.";
+
+$txt["nl"]["beoordelingen"]["original_review_shown"]="De oorspronkelijke beoordeling wordt getoond";
+$txt["en"]["beoordelingen"]["original_review_shown"]="The original review is shown";
+
+$txt["nl"]["beoordelingen"]["show_original"]="Geautomatiseerde vertaling uitschakelen. ";
+$txt["en"]["beoordelingen"]["show_original"]="Disable automatic translation";
+
+$txt["nl"]["beoordelingen"]["show_translated"]="Geautomatiseerde vertaling inschakelen";
+$txt["en"]["beoordelingen"]["show_translated"]="Enable automatic translation";
+
+$txt["nl"]["beoordelingen"]["english"]="Engels";
+$txt["en"]["beoordelingen"]["english"]="English";
+
+$txt["nl"]["beoordelingen"]["dutch"]="Nederlands";
+$txt["en"]["beoordelingen"]["dutch"]="Dutch";
+
+$txt["nl"]["beoordelingen"]["german"]="German";
+$txt["en"]["beoordelingen"]["german"]="German";
+
+$txt["nl"]["beoordelingen"]["translate_all"]="Krijg alle vertalingen";
+$txt["en"]["beoordelingen"]["translate_all"]="Get all translations";
+
+$txt["nl"]["beoordelingen"]["translate_language"]="Krijg vertaling";
+$txt["en"]["beoordelingen"]["translate_language"]="Get translation";
+
+$txt["nl"]["beoordelingen"]["comment_language"]="De taal van de oorspronkelijke beoordeling.";
+$txt["en"]["beoordelingen"]["comment_language"]="Original review language";
+
+$txt["nl"]["beoordelingen"]["no_language_selected"]="Je moet de taal van de oorspronkelijke reactie eerst opgeven!";
+$txt["en"]["beoordelingen"]["no_language_selected"]="You have to specify the original comment language first";
 
 #
 # Calc.php (totaalbedrag vakantie berekenen zonder te boeken)
