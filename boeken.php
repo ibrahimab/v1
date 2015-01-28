@@ -830,8 +830,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		}
 	} elseif($_GET["stap"]==2) {
 		if(!$mustlogin and !$boeking_wijzigen) {
-			if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-				$form->field_htmlrow("","ALLEEN VOOR WEBTASTIC: <a href=\"javascript:testgegevens();\">Testgegevens invullen</a>");
+			if($vars["lokale_testserver"]) {
+				$form->field_htmlrow("","ALLEEN OP LOKALE TESTSERVER: <a href=\"javascript:testgegevens();\">Testgegevens invullen</a>");
 			}
 			$form->field_noedit("accnaam",txt("accommodatie","boeken"),"",array("text"=>$accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"]));
 		} else {
