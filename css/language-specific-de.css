@@ -1,0 +1,15 @@
+
+
+.boekbutton_tekst {
+	background-position: 8px 1px;
+}
+
+#terugnaarzoekresultaten {
+	padding: 0;
+	height: 30px;
+}
+
+#favadd, #favremove {
+	padding: 0;
+	height: 30px;
+}

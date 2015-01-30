@@ -7,6 +7,11 @@ if($_GET["lang"]=="en") {
 	$text["title"]="Calendar";
 	$text["klik"]="Calendar";
 	$text["flex"]=$txt["en"]["zoek-en-boek"]["kalender_flexibel"];
+} elseif($_GET["lang"]=="de") {
+	setlocale(LC_ALL,'de_DE');
+	$text["title"]="Kalender";
+	$text["klik"]="Kalender";
+	$text["flex"]=$txt["en"]["zoek-en-boek"]["kalender_flexibel"];
 } else {
 #	setlocale(LC_ALL,"nl_NL.ISO_8859-1");
 	setlocale(LC_ALL,"nl_NL.ISO8859-1");

@@ -279,8 +279,10 @@ RewriteRule groepsreizen\.php$ /zoek-en-boek.php [R=301,L]
 
 RewriteRule ^thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^wintersport/thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
+RewriteRule ^Wintersport/Thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^vakantiehuizen/thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
+RewriteRule ^Thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^winter-sports/theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^holiday-homes/theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^land/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
@@ -294,10 +296,13 @@ RewriteRule ^Versicherungen\.php$ verzekeringen.php [L,QSA]
 RewriteRule ^Weekendski\.php$ weekendski.php [L,QSA]
 RewriteRule ^Skigebiete\.php$ skigebieden.php [L,QSA]
 RewriteRule ^Favoriten\.php$ favorieten.php [L,QSA]
-RewriteRule ^wer-sind-wir\.php$ wie-zijn-wij.php [L,QSA]
+RewriteRule ^wir-uber-uns\.php$ wie-zijn-wij.php [L,QSA]
 RewriteRule ^fragen-Sie-unseren-Rat\.php$ vraag-ons-advies.php [L,QSA]
 RewriteRule ^Kontakt\.php$ contact.php [L,QSA]
 RewriteRule ^Reiseagentur\.php$ reisagent.php [L,QSA]
+RewriteRule ^Datenschutz\.php$ privacy-statement.php [L,QSA]
+RewriteRule ^Themen\.php$ themas.php [L,QSA]
+RewriteRule ^buchen\.php$ boeken.php [L,QSA]
 
 
 

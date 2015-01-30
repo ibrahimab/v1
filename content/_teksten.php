@@ -2358,7 +2358,7 @@ $txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik meld mij aan voor de [[v_website
 $txt["en_z"]["contact"]["nieuwsbriefvraag"]="-";
 
 $txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
-$txt["de"]["contact"]["inleiding"]="Haben Sie noch Fragen, Bemerkungen oder Anregungen? Lassen Sie es uns bitte wissen!  Sie können dazu unten stehendes Formular ausfüllen, uns eine E-Mail schreiben oder anrufen. Sehen Sie sich bitte auch unsere  [[h_1]]häufig gestellte Fragen[[h_2]] an.";
+$txt["de"]["contact"]["inleiding"]="Haben Sie noch Fragen, Bemerkungen oder Anregungen? Lassen Sie es uns bitte wissen!  Sie können dazu unten stehendes Formular ausfüllen, uns eine E-Mail schreiben oder anrufen.";
 $txt["en"]["contact"]["inleiding"]="If you have any questions, comments or any other things you would like to let us know, please complete the form below, send us an e-mail or contact us by telephone.";
 
 $txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
@@ -3016,7 +3016,7 @@ $txt["de"]["toonaccommodatie"]["uitmijnfavorietenhalen"]="Aus meiner Favoritenli
 $txt["en"]["toonaccommodatie"]["uitmijnfavorietenhalen"]="Remove from my favourites";
 
 $txt["nl"]["toonaccommodatie"]["plaatsinfavorieten"]="Plaats in [[h_1]]mijn favorieten[[h_2]]";
-$txt["de"]["toonaccommodatie"]["plaatsinfavorieten"]="Zu [[h_1]]meiner Favoritenliste[[h_2] hinzufügen";
+$txt["de"]["toonaccommodatie"]["plaatsinfavorieten"]="Zu [[h_1]]meiner Favoritenliste[[h_2]] hinzufügen";
 $txt["en"]["toonaccommodatie"]["plaatsinfavorieten"]="Add to [[h_1]]my favourites[[h_2]]";
 
 $txt["nl"]["toonaccommodatie"]["geentarieven_accvol"]="Helaas is er voor [[v_accommodatienaam]] geen beschikbaarheid meer voor [[v_huidigseizoen]]. Zoek je een alternatief of wil je een boeking maken voor [[v_volgendseizoen]], neem dan [[l1]]contact[[/l1]] met ons op.";

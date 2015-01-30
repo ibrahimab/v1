@@ -265,6 +265,9 @@ $vars["opvalmelding_tonen"]=false;
 if($vars["taal"]=="en") {
 	setlocale(LC_TIME,"en_UK.ISO8859-1");
 	setlocale(LC_MONETARY,"en_UK.ISO8859-1");
+} elseif($vars["taal"]=="de") {
+	setlocale(LC_TIME,"de_DE.ISO8859-1");
+	setlocale(LC_MONETARY,"de_DE.ISO8859-1");
 } else {
 #	setlocale(LC_TIME,"nl_NL.ISO_8859-1");
 	setlocale(LC_TIME,'nl_NL.ISO8859-1');
@@ -799,7 +802,7 @@ $vars["referentiekeuze_mobile"]=array(1=>txt("referentie_1","vars"),11=>txt("ref
 
 $vars["reserveringskosten"]=20;
 
-$vars["boeken"]=array(1=>html("accommodatiegegevensopgeven","vars"),2=>html("gegevenshoofdboekeropgeven","vars"),3=>html("gegevensoverigepersonenopgeven","vars"),4=>html("optiesselecteren","vars"),5=>html("boekingbevestigen","vars"));
+$vars["boeken"]=array(1=>txt("accommodatiegegevensopgeven","vars"),2=>txt("gegevenshoofdboekeropgeven","vars"),3=>txt("gegevensoverigepersonenopgeven","vars"),4=>txt("optiesselecteren","vars"),5=>txt("boekingbevestigen","vars"));
 $vars["boeken_cms"]=array(1=>"Accommodatie, aantal personen of aankomstdatum wijzigen",2=>"Gegevens hoofdboeker wijzigen",3=>"Gegevens overige personen wijzigen",4=>"Opties wijzigen");
 $vars["stappen_log"]=array(1=>"aantal personen en aankomstdatum ingevoerd",2=>"gegevens hoofdboeker ingevoerd",3=>"gegevens overige personen ingevoerd",4=>"opties geselecteerd",5=>"boeking bevestigd");
 $vars["talen"]=array("nl"=>"Nederlands","en"=>"English","de"=>"Deutsch");
@@ -885,13 +888,13 @@ $vars["vertrekinfo_soortbeheer_sjabloontekst"]=array(1=>txt("dereceptie","vertre
 $vars["vertrekinfo_soortadres"]=array(1=>"adres accommodatie",2=>"sleuteladres");
 
 // bijkomende kosten
-$vars["bk_inclusief"] = array(1=>html("inclusief", "bijkomendekosten"), 0=>html("exclusief", "bijkomendekosten"));
-$vars["bk_verplicht"] = array(0=>html("optioneel", "bijkomendekosten"), 1=>html("verplicht", "bijkomendekosten"), 2=>html("naar-verbruik", "bijkomendekosten"), 3=>html("zelf-te-verzorgen", "bijkomendekosten"));
-$vars["bk_ter_plaatse"] = array(0=>html("vooraf-te-voldoen", "bijkomendekosten"), 1=>html("ter-plaatse-te-voldoen", "bijkomendekosten"));
+$vars["bk_inclusief"] = array(1=>txt("inclusief", "bijkomendekosten"), 0=>txt("exclusief", "bijkomendekosten"));
+$vars["bk_verplicht"] = array(0=>txt("optioneel", "bijkomendekosten"), 1=>txt("verplicht", "bijkomendekosten"), 2=>txt("naar-verbruik", "bijkomendekosten"), 3=>txt("zelf-te-verzorgen", "bijkomendekosten"));
+$vars["bk_ter_plaatse"] = array(0=>txt("vooraf-te-voldoen", "bijkomendekosten"), 1=>txt("ter-plaatse-te-voldoen", "bijkomendekosten"));
 $vars["bk_ter_plaatse_cms"] = array(0=>"vooraf", 1=>"ter plaatse");
-$vars["bk_eenheid"] = array(1=>html("per-verblijf", "bijkomendekosten"), 2=>html("pp", "bijkomendekosten"), 3=>html("per-dag", "bijkomendekosten"), 4=>html("per-stuk", "bijkomendekosten"), 5=>html("per-keer", "bijkomendekosten"), 6=>html("per-kwh", "bijkomendekosten"), 7=>html("per-liter", "bijkomendekosten"), 8=>html("per-nacht", "bijkomendekosten"), 9=>html("per-set", "bijkomendekosten"), 10=>html("per-week", "bijkomendekosten"), 11=>html("per-zak", "bijkomendekosten"), 12=>html("pp-per-keer", "bijkomendekosten"), 13=>html("per-uur", "bijkomendekosten"), 14=>html("per-kubieke-meter", "bijkomendekosten"));
+$vars["bk_eenheid"] = array(1=>txt("per-verblijf", "bijkomendekosten"), 2=>txt("pp", "bijkomendekosten"), 3=>txt("per-dag", "bijkomendekosten"), 4=>txt("per-stuk", "bijkomendekosten"), 5=>txt("per-keer", "bijkomendekosten"), 6=>txt("per-kwh", "bijkomendekosten"), 7=>txt("per-liter", "bijkomendekosten"), 8=>txt("per-nacht", "bijkomendekosten"), 9=>txt("per-set", "bijkomendekosten"), 10=>txt("per-week", "bijkomendekosten"), 11=>txt("per-zak", "bijkomendekosten"), 12=>txt("pp-per-keer", "bijkomendekosten"), 13=>txt("per-uur", "bijkomendekosten"), 14=>txt("per-kubieke-meter", "bijkomendekosten"));
 $vars["bk_eenheid_cms"] = array(1=>"per verblijf",2=>"per persoon", 3=>"per dag", 4=>"per stuk", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak", 12=>"p.p. per keer", 13=>"per uur", 14=>"per kubieke meter");
-$vars["bk_borg_soort"] = array(1=>html("contant-te-voldoen", "bijkomendekosten"), 2=>html("per-creditcard-te-voldoen", "bijkomendekosten"), 3=>html("contant-of-per-creditcard", "bijkomendekosten"), 4=>html("niet-van-toepassing", "bijkomendekosten"), 5=>html("bedrag-onbekend", "bijkomendekosten"), 6=>html("vooraf-te-voldoen", "bijkomendekosten"));
+$vars["bk_borg_soort"] = array(1=>txt("contant-te-voldoen", "bijkomendekosten"), 2=>txt("per-creditcard-te-voldoen", "bijkomendekosten"), 3=>txt("contant-of-per-creditcard", "bijkomendekosten"), 4=>txt("niet-van-toepassing", "bijkomendekosten"), 5=>txt("bedrag-onbekend", "bijkomendekosten"), 6=>txt("vooraf-te-voldoen", "bijkomendekosten"));
 $vars["bk_borg_soort_cms"] = array(1=>"contant",2=>"creditcard", 3=>"contant of creditcard", 6=>"vooraf", 4=>"niet van toepassing", 5=>"bedrag onbekend");
 
 

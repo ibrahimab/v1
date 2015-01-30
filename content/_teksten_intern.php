@@ -129,7 +129,7 @@ $txta["de"]["menu_veelgestelde-vragen"]="häufiggestellte-Fragen";
 $txta["en"]["menu_veelgestelde-vragen"]="faq";
 
 $txta["nl"]["menu_wie-zijn-wij"]="wie-zijn-wij";
-$txta["de"]["menu_wie-zijn-wij"]="wer-sind-wir";
+$txta["de"]["menu_wie-zijn-wij"]="wir-uber-uns";
 $txta["en"]["menu_wie-zijn-wij"]="about-us";
 
 $txta["nl"]["menu_werkenbij"]="werkenbij";
@@ -314,7 +314,7 @@ $txta["de"]["submenutitle_veelgesteldevragen"]="häufig gestellte Fragen";
 $txta["en"]["submenutitle_veelgesteldevragen"]="faq";
 
 $txta["nl"]["submenutitle_wiezijnwij"]="wie zijn wij?";
-$txta["de"]["submenutitle_wiezijnwij"]="wer sind wir?";
+$txta["de"]["submenutitle_wiezijnwij"]="wir über uns";
 $txta["en"]["submenutitle_wiezijnwij"]="about us";
 
 $txta["nl"]["submenutitle_werkenbij"]="werken bij ons";
@@ -625,7 +625,7 @@ $txta["de"]["title_calc"]="Gesamtsumme Ihrer Reise berechnen";
 $txta["en"]["title_calc"]="Calculate total sum of your holiday";
 
 $txta["nl"]["title_wiezijnwij"]="Wie zijn wij?";
-$txta["de"]["title_wiezijnwij"]="wer sind wir?";
+$txta["de"]["title_wiezijnwij"]="Wir über uns";
 $txta["en"]["title_wiezijnwij"]="About us";
 
 $txta["nl"]["title_persberichten"]="Persberichten";

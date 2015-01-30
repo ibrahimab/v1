@@ -130,6 +130,11 @@ echo "<style type=\"text/css\">
 </style>\n";
 }
 
+// language specific css
+if(file_exists("css/language-specific-".$vars["taal"].".css")) {
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/language-specific-".$vars["taal"].".css?cache=".@filemtime("css/language-specific-".$vars["taal"].".css")."\" />\n";
+}
+
 echo "<script>";
 // Hides the tabs + zoekblok during initialization
 echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek_overlay, .hide_during_pageload { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
@@ -702,7 +707,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "</div>";
 	}
 } else {
-	echo "<div id=\"ondercolofon\" class=\"noprint\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
+	echo "<div id=\"ondercolofon\" class=\"noprint\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."Datenschutz.php\">Datenschutz</a></div>";
 }
 
 if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
@@ -736,7 +741,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 		if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
-			echo ">".$value."</option>\n";
+			echo ">".wt_he($value)."</option>\n";
 		}
 	}
 	echo "</select>";

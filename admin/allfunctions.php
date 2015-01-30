@@ -1004,6 +1004,54 @@ if (!function_exists("datum")) {
 				case 11: $mnd="nov."; break;
 				case 12: $mnd="déc."; break;
 			}
+		} elseif($language=="de") {
+			// deutsch
+			switch(wt_adodb_date("w",$time)) {
+				case 0: $dag="Sonntag"; break;
+				case 1: $dag="Montag"; break;
+				case 2: $dag="Dienstag"; break;
+				case 3: $dag="Mittwoch"; break;
+				case 4: $dag="Donnerstag"; break;
+				case 5: $dag="Freitag"; break;
+				case 6: $dag="Samstag"; break;
+			}
+			switch(wt_adodb_date("w",$time)) {
+				case 0: $dg="So"; break;
+				case 1: $dg="Mo"; break;
+				case 2: $dg="Di"; break;
+				case 3: $dg="Mi"; break;
+				case 4: $dg="Do"; break;
+				case 5: $dg="Fr"; break;
+				case 6: $dg="Sa"; break;
+			}
+			switch(wt_adodb_date("n",$time)) {
+				case 1: $maand="Januar"; break;
+				case 2: $maand="Februar"; break;
+				case 3: $maand="März"; break;
+				case 4: $maand="April"; break;
+				case 5: $maand="Mai"; break;
+				case 6: $maand="Juni"; break;
+				case 7: $maand="Juli"; break;
+				case 8: $maand="August"; break;
+				case 9: $maand="September"; break;
+				case 10: $maand="Oktober"; break;
+				case 11: $maand="November"; break;
+				case 12: $maand="Dezember"; break;
+			}
+			switch(wt_adodb_date("n",$time)) {
+				case 1: $mnd="Jan"; break;
+				case 2: $mnd="Feb"; break;
+				case 3: $mnd="Mär"; break;
+				case 4: $mnd="Apr"; break;
+				case 5: $mnd="Mai"; break;
+				case 6: $mnd="Jun"; break;
+				case 7: $mnd="Jul"; break;
+				case 8: $mnd="Aug"; break;
+				case 9: $mnd="Sep"; break;
+				case 10: $mnd="Okt"; break;
+				case 11: $mnd="Nov"; break;
+				case 12: $mnd="Dez"; break;
+			}
 		} else {
 			// English
 			switch(wt_adodb_date("w",$time)) {
@@ -1053,20 +1101,20 @@ if (!function_exists("datum")) {
 				case 12: $mnd="Dec"; break;
 			}
 		}
-		$a = ereg_replace("(^|[^a-zA-Z0-9])DAG($|[^a-zA-Z0-9])","\\1".$dag."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])DG($|[^a-zA-Z0-9])","\\1".$dg."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])MAAND($|[^a-zA-Z0-9])","\\1".$maand."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])MND($|[^a-zA-Z0-9])","\\1".$mnd."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])JJJJ($|[^a-zA-Z0-9])","\\1".wt_adodb_date("Y",$time)."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])JJ($|[^a-zA-Z0-9])","\\1".wt_adodb_date("y",$time)."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])DD($|[^a-zA-Z0-9])","\\1".wt_adodb_date("d",$time)."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])D($|[^a-zA-Z0-9])","\\1".wt_adodb_date("j",$time)."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])MM($|[^a-zA-Z0-9])","\\1".wt_adodb_date("m",$time)."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])M($|[^a-zA-Z0-9])","\\1".wt_adodb_date("n",$time)."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])UU($|[^a-zA-Z0-9])","\\1".wt_adodb_date("H",$time)."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])U($|[^a-zA-Z0-9])","\\1".wt_adodb_date("G",$time)."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])ZZ($|[^a-zA-Z0-9])","\\1".wt_adodb_date("i",$time)."\\2",$a);
-		$a = ereg_replace("(^|[^a-zA-Z0-9])SS($|[^a-zA-Z0-9])","\\1".wt_adodb_date("s",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])DAG($|[^a-zA-Z0-9ä])","\\1".$dag."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])DG($|[^a-zA-Z0-9ä])","\\1".$dg."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])MAAND($|[^a-zA-Z0-9ä])","\\1".$maand."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])MND($|[^a-zA-Z0-9ä])","\\1".$mnd."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])JJJJ($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("Y",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])JJ($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("y",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])DD($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("d",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])D($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("j",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])MM($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("m",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])M($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("n",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])UU($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("H",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])U($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("G",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])ZZ($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("i",$time)."\\2",$a);
+		$a = ereg_replace("(^|[^a-zA-Z0-9ä])SS($|[^a-zA-Z0-9ä])","\\1".wt_adodb_date("s",$time)."\\2",$a);
 		$a = ereg_replace("_","&nbsp;",$a);
 
 		if($vars["wt_htmlentities_utf8"]) {
