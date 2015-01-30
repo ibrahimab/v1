@@ -296,6 +296,8 @@ RewriteRule ^Skigebiete\.php$ skigebieden.php [L,QSA]
 RewriteRule ^Favoriten\.php$ favorieten.php [L,QSA]
 RewriteRule ^wer-sind-wir\.php$ wie-zijn-wij.php [L,QSA]
 RewriteRule ^fragen-Sie-unseren-Rat\.php$ vraag-ons-advies.php [L,QSA]
+RewriteRule ^Kontakt\.php$ contact.php [L,QSA]
+RewriteRule ^Reiseagentur\.php$ reisagent.php [L,QSA]
 
 
 

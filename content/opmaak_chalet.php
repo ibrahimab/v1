@@ -214,7 +214,7 @@ while(list($key,$value)=each($submenu)) {
 				echo wt_he($value);
 			}
 			echo "</a>";
-			if(($vars["website"]<>"E" and $vars["website"]<>"B") or $submenuteller<(count($submenu)-1)) {
+			if(($vars["website"]<>"D" and $vars["website"]<>"E" and $vars["website"]<>"B") or $submenuteller<(count($submenu)-1)) {
 				echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 			}
 		}

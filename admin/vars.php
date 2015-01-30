@@ -271,13 +271,8 @@ if($vars["taal"]=="en") {
 	setlocale(LC_MONETARY,"nl_NL.ISO8859-1");
 }
 
-if($vars["taal"]=="de") {
-	require($unixdir."content/_teksten_intern_de.php");
-	require($unixdir."content/_teksten_de.php");
-} else {
-	require($unixdir."content/_teksten_intern.php");
-	require($unixdir."content/_teksten.php");
-}
+require($unixdir."content/_teksten_intern.php");
+require($unixdir."content/_teksten.php");
 
 $vars["path"]=$path;
 $vars["unixdir"]=$unixdir;
@@ -1212,11 +1207,7 @@ if($boeking_wijzigen) {
 		$login->settings["message"]["wronglogintemp"]="Account geblokkeerd: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">meer informatie</a>";
 	}
 
-	if($vars["taal"]=="en") {
-		$login->settings["message"]["login"]="Email address";
-	} else {
-		$login->settings["message"]["login"]="E-mailadres";
-	}
+	$login->settings["message"]["login"]=txt("email", "bsys");
 	$login->settings["save_user_agent"]=true;
 	$login->end_declaration();
 

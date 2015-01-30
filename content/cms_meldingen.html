@@ -65,37 +65,51 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[13]]["vertalingen"]) {
 	#
 	# Zijn er nog niet vertaalde teksten?
 	#
-#	$doorloop_array=array("","t","b","v","z");
-	$doorloop_array=array("","v","z","i");
-	while(list($key,$value)=each($doorloop_array)) {
-		if($value) {
-			$afwijking="_".$value;
+
+	$doorloop_array_languages=array("en", "de");
+
+	foreach ($doorloop_array_languages as $key0 => $value0) {
+
+		if($value0=="de") {
+			$check_for_language="de";
+			$check_for_language_name="Duits";
+			$doorloop_array=array("");
 		} else {
-			$afwijking="";
+			$check_for_language="en";
+			$check_for_language_name="Engels";
+			$doorloop_array=array("","v","z","i");
 		}
 
-		while(list($key2,$value2)=each($txta["nl".$afwijking])) {
-			if($value2 and !$txta["en".$afwijking][$key2]) {
-				$onvertaald=true;
-				// echo $key2."<br>";
+		while(list($key,$value)=each($doorloop_array)) {
+			if($value) {
+				$afwijking="_".$value;
+			} else {
+				$afwijking="";
 			}
-		}
 
-		while(list($key2,$value2)=each($txt["nl".$afwijking])) {
-			while(list($key3,$value3)=each($value2)) {
-				if(!$txt["en".$afwijking][$key2][$key3] and $key3) {
+			while(list($key2,$value2)=each($txta["nl".$afwijking])) {
+				if($value2 and !$txta[$check_for_language.$afwijking][$key2]) {
 					$onvertaald=true;
+					// echo $key2."<br>";
+				}
+			}
+
+			while(list($key2,$value2)=each($txt["nl".$afwijking])) {
+				while(list($key3,$value3)=each($value2)) {
+					if(!$txt[$check_for_language.$afwijking][$key2][$key3] and $key3) {
+						$onvertaald=true;
+					}
 				}
 			}
 		}
-	}
-	if($GLOBALS["nieuwe_vertaling"]) $onvertaald=true;
+		if($GLOBALS["nieuwe_vertaling"][$check_for_language]) $onvertaald=true;
 
-// TIJDELIJK uitgezet
-// $onvertaald = false;
+	// TIJDELIJK uitgezet
+	// $onvertaald = false;
 
-	if($onvertaald) {
-		echo "\n<hr>&nbsp;<br><b>Let op! Er zijn teksten die nog niet in het Engels zijn vertaald. Ga naar de <a href=\"cms_vertalingen.php\">vertaalmodule</a> om de vertaling aan Jeroen door te geven.</b><br>&nbsp;";
+		if($onvertaald) {
+			echo "\n<hr>&nbsp;<br><b>Let op! Er zijn teksten die nog niet in het ".$check_for_language_name." zijn vertaald. Ga naar de <a href=\"cms_vertalingen.php".($check_for_language<>"en" ? "?taal=".$check_for_language : "")."\">vertaalmodule</a> om de vertaling aan Jeroen door te geven.</b><br>&nbsp;";
+		}
 	}
 }
 
