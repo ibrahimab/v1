@@ -2422,7 +2422,7 @@ $txt["de"]["contact"]["telefonischeBereikbaarheid"]="Telefonische Erreichbarkeit
 $txt["en"]["contact"]["telefonischeBereikbaarheid"]="Reach us by telephone (local time)";
 
 $txt["nl"]["contact"]["onderschrift_chalettour"]="Chalettour is een handelsnaam van Chalet.nl B.V., Wipmolenlaan 3, 3447 GJ Woerden, tel: 0348-434649, [[h_1]]info@chalettour.nl[[h_2]]";
-$txt["de"]["contact"]["onderschrift_chalettour"]="Chalettour ist ein Handelsname von Chalet.nl B.V., Wipmolenlaan 3, NL-3447 GJ Woerden. Telefon: +31 (0)348-434649, [[h_1]]info@chalettour.nl[[h_2]]";
+$txt["de"]["contact"]["onderschrift_chalettour"]="-";
 $txt["en"]["contact"]["onderschrift_chalettour"]="-";
 
 $txt["nl"]["contact"]["contactformulier"]="Contactformulier";

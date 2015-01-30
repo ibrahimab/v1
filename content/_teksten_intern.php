@@ -287,7 +287,7 @@ $txta["de"]["submenutitle_sitemap"]="Übersichtsseite";
 $txta["en"]["submenutitle_sitemap"]="sitemap";
 
 $txta["nl"]["submenutitle_werkwijze"]="werkwijze ".$vars["websitenaam"];
-$txta["de"]["submenutitle_werkwijze"]="Arbeitsweise Chalet.nl";
+$txta["de"]["submenutitle_werkwijze"]="Arbeitsweise ".$vars["websitenaam"];
 $txta["en"]["submenutitle_werkwijze"]="how we work";
 
 $txta["nl_t"]["submenutitle_werkwijze"]="werkwijze";
@@ -326,7 +326,7 @@ $txta["de"]["submenutitle_zomerhuisje"]="Zomerhuisje.nl";
 $txta["en"]["submenutitle_zomerhuisje"]="-";
 
 $txta["nl"]["submenutitle_chaletwinter"]="Chalet.nl wintersport";
-$txta["de"]["submenutitle_chaletwinter"]="Chalet.nl Wintersport";
+$txta["de"]["submenutitle_chaletwinter"]="Chaletonline.de Wintersport";
 $txta["en"]["submenutitle_chaletwinter"]="-";
 
 
@@ -474,7 +474,7 @@ $txta["de"]["title_zoekenboek"]="Suchen und buchen";
 $txta["en"]["title_zoekenboek"]="Search and book";
 
 $txta["nl"]["title_algemenevoorwaarden"]="Algemene reis- en verkoopvoorwaarden ".$vars["websitenaam"];
-$txta["de"]["title_algemenevoorwaarden"]="Allgemeine Reise- und Vertragsbedingungen Chalet.nl";
+$txta["de"]["title_algemenevoorwaarden"]="Allgemeine Reise- und Vertragsbedingungen ".$vars["websitenaam"];
 $txta["en"]["title_algemenevoorwaarden"]="General Terms and Conditions of Travel and Sale ".$vars["websitenaam"];
 
 $txta["nl"]["title_favorieten"]="Mijn favorieten";
@@ -482,7 +482,7 @@ $txta["de"]["title_favorieten"]="Favoriten";
 $txta["en"]["title_favorieten"]="My favourites";
 
 $txta["nl"]["title_werkwijze"]="Werkwijze ".$vars["websitenaam"];
-$txta["de"]["title_werkwijze"]="Arbeitsweise Chalet.nl";
+$txta["de"]["title_werkwijze"]="Arbeitsweise ".$vars["websitenaam"];
 $txta["en"]["title_werkwijze"]="How we work";
 
 $txta["nl"]["title_materiaalhuur"]="Materiaalhuur";
@@ -682,7 +682,7 @@ $txta["de"]["title_huiseigenaren"]="Hauseigentümer";
 $txta["en"]["title_huiseigenaren"]="Chalet owners";
 
 $txta["nl"]["title_blog"]="Blog ".$vars["websitenaam"];
-$txta["de"]["title_blog"]="Blog Chalet.nl";
+$txta["de"]["title_blog"]="-";
 $txta["en"]["title_blog"]="-";
 
 $txta["nl"]["title_privacy-statement"]="Privacy-statement";
@@ -906,7 +906,7 @@ $txta["de"]["ontwikkelddoor"]="entwickelt von";
 $txta["en"]["ontwikkelddoor"]="developed by";
 
 $txta["nl"]["handelsnaam"]="Chalet.nl is een handelsnaam van Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden";
-$txta["de"]["handelsnaam"]="Chalet.nl ist ein Handelsname von Chalet.nl B.V. - Wipmolenlaan 3 - NL-3447 GJ Woerden - Niederlande";
+$txta["de"]["handelsnaam"]="Chaletonline.de ist ein Handelsname von Chalet.nl B.V. - Wipmolenlaan 3 - NL-3447 GJ Woerden - Niederlande";
 $txta["en"]["handelsnaam"]="Chalet.eu is a trademark of Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands";
 
 $txta["nl_t"]["handelsnaam"]="Chalettour.nl is een handelsnaam van Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden";
