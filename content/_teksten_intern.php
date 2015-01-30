@@ -442,7 +442,7 @@ $txta["en"]["description"]="Wintersports - Chalets - Accommodations";
 $txta["nl_z"]["description"]="Vakantie in de bergen. Vakantiehuizen in de bergen van Oostenrijk, Frankrijk, Zwitserland, Italië en Duitsland. Uniek aanbod en lid van SGR.";
 $txta["en_z"]["description"]="-";
 
-$txta["nl_i"]["description"]="Agriturismi en overige vakantiehuizen in Italë -  Zo'n 1.000 karakteristieke vakantiehuizen, vakantievilla's  en agriturismi verdeeld over heel Italië.";
+$txta["nl_i"]["description"]="Agriturismi en overige vakantiehuizen in Italië -  Zo'n 1.000 karakteristieke vakantiehuizen, vakantievilla's  en agriturismi verdeeld over heel Italië.";
 $txta["en_i"]["description"]="-";
 
 $txta["nl_w"]["description"]="SuperSki biedt je interessante deals voor een wintersportvakantie in Frankrijk, Oostenrijk, Zwitserland, Duitsland en Italië.";
