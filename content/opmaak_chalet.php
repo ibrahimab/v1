@@ -549,11 +549,11 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<div class=\"divContentIND\">";
 		echo "<br><b>Onze bestemmingen</b><br><br>";
 		echo "<ul>";
-		echo "<li><a href=\"".$vars["path"]."land/Frankrijk/\" rel=\"nofollow\">Chalets in Frankrijk</a></li>";
-		echo "<li><a href=\"".$vars["path"]."land/Oostenrijk/\" rel=\"nofollow\">Chalets in Oostenrijk</a></li>";
-		echo "<li><a href=\"".$vars["path"]."land/Zwitserland/\" rel=\"nofollow\">Chalets in Zwitserland</a></li>";
-		echo "<li><a href=\"".$vars["path"]."land/Italie/\" rel=\"nofollow\">Chalets in Itali&euml;</a></li>";
-		// echo "<li><a href=\"".$vars["path"]."land/Duitsland/\" rel=\"nofollow\">Chalets in Duitsland</a></li>";
+		echo "<li><a href=\"".$vars["path"]."land/Frankrijk/\" rel=\"nofollow\">Wintersport in Frankrijk</a></li>";
+		echo "<li><a href=\"".$vars["path"]."land/Oostenrijk/\" rel=\"nofollow\">Wintersport in Oostenrijk</a></li>";
+		echo "<li><a href=\"".$vars["path"]."land/Zwitserland/\" rel=\"nofollow\">Wintersport in Zwitserland</a></li>";
+		echo "<li><a href=\"".$vars["path"]."land/Italie/\" rel=\"nofollow\">Wintersport in Itali&euml;</a></li>";
+		// echo "<li><a href=\"".$vars["path"]."land/Duitsland/\" rel=\"nofollow\">Wintersport in Duitsland</a></li>";
 		echo "</ul>";
 		echo "</div>";
 		echo "<div class=\"divContentIND\">";
