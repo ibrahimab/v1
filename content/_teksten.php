@@ -4409,9 +4409,6 @@ $txt["nl"]["beschikbaarheid"]["gekozenperiodenietbeschikbaar"]="Gekozen periode 
 $txt["de"]["beschikbaarheid"]["gekozenperiodenietbeschikbaar"]="Gewählte Aufenthaltsperiode nicht verfügbar";
 $txt["en"]["beschikbaarheid"]["gekozenperiodenietbeschikbaar"]="Selected period is not available";
 
-$txt["nl"]["beschikbaarheid"]["tweekeerdezelfdeemail"]="voer twee keer dezelfde e-mail in";
-$txt["en"]["beschikbaarheid"]["tweekeerdezelfdeemail"]="enter the same e-mail twice";
-
 $txt["nl"]["beschikbaarheid"]["naam"]="Naam";
 $txt["de"]["beschikbaarheid"]["naam"]="Name";
 $txt["en"]["beschikbaarheid"]["naam"]="Name";
@@ -4471,9 +4468,6 @@ $txt["en"]["beschikbaarheid"]["mobielwerk_kort"]="Mobile telephone or telephone 
 $txt["nl"]["beschikbaarheid"]["email"]="E-mailadres";
 $txt["de"]["beschikbaarheid"]["email"]="E-Mail-Adresse";
 $txt["en"]["beschikbaarheid"]["email"]="E-mail address";
-
-$txt["nl"]["beschikbaarheid"]["email_confirmatie"]="Herhaal e-mailadres";
-$txt["en"]["beschikbaarheid"]["email_confirmatie"]="Repeat e-mail address";
 
 $txt["nl"]["beschikbaarheid"]["ikwiloptie"]="Ik wil graag een kosteloze optie van 3 dagen op deze accommodatie nemen";
 $txt["de"]["beschikbaarheid"]["ikwiloptie"]="Ich möchte eine kostenlose und unverbindliche dreitägige Option erhalten für diese Unterkunft";
@@ -4776,9 +4770,6 @@ $txt["nl"]["boeken"]["email"]="E-mailadres";
 $txt["de"]["boeken"]["email"]="E-Mail-Adresse";
 $txt["en"]["boeken"]["email"]="E-mail address";
 
-$txt["nl"]["boeken"]["email_confirmatie"]="Herhaal e-mailadres";
-$txt["en"]["boeken"]["email_confirmatie"]="Repeat e-mail address";
-
 $txt["nl"]["boeken"]["nieuwwachtwoord"]="Nieuw wachtwoord";
 $txt["de"]["boeken"]["nieuwwachtwoord"]="Neues Passwort";
 $txt["en"]["boeken"]["nieuwwachtwoord"]="New password";
@@ -4953,9 +4944,6 @@ $txt["en"]["boeken"]["gebruik6tekens"]="use at least 6 characters without spaces
 $txt["nl"]["boeken"]["tweekeerhetzelfdeww"]="voer twee keer hetzelfde wachtwoord in";
 $txt["de"]["boeken"]["tweekeerhetzelfdeww"]="bitte zweimal dasselbe Passwort eingeben";
 $txt["en"]["boeken"]["tweekeerhetzelfdeww"]="enter the same password twice";
-
-$txt["nl"]["boeken"]["tweekeerdezelfdeemail"]="voer twee keer dezelfde e-mail in";
-$txt["en"]["boeken"]["tweekeerdezelfdeemail"]="enter the same e-mail twice";
 
 $txt["nl"]["boeken"]["volledigadres"]="voer je volledige adres in";
 $txt["de"]["boeken"]["volledigadres"]="bitte Ihre vollständige Adresse eingeben";
