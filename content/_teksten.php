@@ -4409,8 +4409,8 @@ $txt["nl"]["beschikbaarheid"]["gekozenperiodenietbeschikbaar"]="Gekozen periode 
 $txt["de"]["beschikbaarheid"]["gekozenperiodenietbeschikbaar"]="Gewählte Aufenthaltsperiode nicht verfügbar";
 $txt["en"]["beschikbaarheid"]["gekozenperiodenietbeschikbaar"]="Selected period is not available";
 
-$txt["nl"]["beschikbaarheid"]["tweekeerdezelfdeemail"]="ingevoerde adressen komen niet overeen";
-$txt["en"]["beschikbaarheid"]["tweekeerdezelfdeemail"]="addressess entered do not match";
+$txt["nl"]["beschikbaarheid"]["tweekeerdezelfdeemail"]="voer twee keer dezelfde e-mail in";
+$txt["en"]["beschikbaarheid"]["tweekeerdezelfdeemail"]="enter the same e-mail twice";
 
 $txt["nl"]["beschikbaarheid"]["naam"]="Naam";
 $txt["de"]["beschikbaarheid"]["naam"]="Name";
@@ -4954,8 +4954,8 @@ $txt["nl"]["boeken"]["tweekeerhetzelfdeww"]="voer twee keer hetzelfde wachtwoord
 $txt["de"]["boeken"]["tweekeerhetzelfdeww"]="bitte zweimal dasselbe Passwort eingeben";
 $txt["en"]["boeken"]["tweekeerhetzelfdeww"]="enter the same password twice";
 
-$txt["nl"]["boeken"]["tweekeerdezelfdeemail"]="ingevoerde adressen komen niet overeen";
-$txt["en"]["boeken"]["tweekeerdezelfdeemail"]="addresses entered do not match";
+$txt["nl"]["boeken"]["tweekeerdezelfdeemail"]="voer twee keer dezelfde e-mail in";
+$txt["en"]["boeken"]["tweekeerdezelfdeemail"]="enter the same e-mail twice";
 
 $txt["nl"]["boeken"]["volledigadres"]="voer je volledige adres in";
 $txt["de"]["boeken"]["volledigadres"]="bitte Ihre vollständige Adresse eingeben";
