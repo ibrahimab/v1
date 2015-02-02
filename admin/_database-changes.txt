@@ -2,7 +2,10 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
-16-01-2015 09:15
+2-feb-2015 16:40
+ALTER TABLE `accommodatie` ADD `vertrekinfo_noodtelefoonnummer_accommodatie` VARCHAR(100) NULL DEFAULT NULL AFTER `vertrekinfo_telefoonnummer`;
+
+16-jan-2015 09:15
 ALTER TABLE `boeking_enquete` 
 ADD COLUMN `websitetekst_gewijzigd_en` TEXT NULL AFTER `websitetekst_gewijzigd`,
 ADD COLUMN `websitetekst_gewijzigd_de` TEXT NULL AFTER `websitetekst_gewijzigd_en`,
