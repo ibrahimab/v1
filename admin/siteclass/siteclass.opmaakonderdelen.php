@@ -47,11 +47,11 @@ class opmaakonderdelen {
 		global $id, $onload, $vars, $data_onload;
 
 		$return.="<body";
-                if($isMobile) {
-                    if($id<>"index") $return.=" onscroll=\"document.getElementById('terugnaarboven').style.display='block'\"";
-                } else {
-                    if($id<>"index") $return.=" onscroll=\"document.getElementById('terugnaarboven').style.visibility='visible'\"";
-                }
+                // if($isMobile) {
+                //     if($id<>"index") $return.=" onscroll=\"document.getElementById('terugnaarboven').style.display='block'\"";
+                // } else {
+                //     if($id<>"index") $return.=" onscroll=\"document.getElementById('terugnaarboven').style.visibility='visible'\"";
+                // }
 		if($onload) $return.=" onload=\"".$onload."\"";
 		if($data_onload) $return.=" data-onload=\"".$data_onload."\"";
 		$return.=" id=\"body_".$id."\"";

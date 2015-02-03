@@ -2061,7 +2061,8 @@ $(document).ready(function() {
 
 		try {
 			$.scrollUp({
-				scrollText: scroll_to_top_text,
+				scrollName: 'scrollUp-arrow',
+				scrollText: '',
 				animation: 'slide'
 
 			});

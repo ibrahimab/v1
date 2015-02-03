@@ -356,7 +356,8 @@ if($vars["verberg_linkerkolom"]) {
 #		echo "<div style=\"clear: both;\"></div>\n";
 #	}
 
-	echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
+	// turned off 'terugnaarboven' in favor of dynamic 'terugnaarboven' link, JIRA-IB-5
+	//echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 
 	if(!$vars["wederverkoop"]) {
 #		echo "<div id=\"blauwelijn_onderaan\"></div>\n";
@@ -463,7 +464,7 @@ if($vars["verberg_linkerkolom"]) {
 			echo $last_acc_html;
 		}
 
-		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
+		//echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
 	if(!$vars["wederverkoop"] and $id<>"index") {
 #		echo "<div id=\"blauwelijn_onderaan\"></div>\n";
@@ -824,6 +825,14 @@ if($vars["googlemaps"]) {
 	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&amp;sensor=false\" type=\"text/javascript\"></script>\n";
 }
 
+// echo "<style type=\"text/css\">#scrollUp {
+//     bottom: 20px;
+//     right: 20px;
+//     padding: 10px 20px;
+//     background-color: #555;
+//     color: #fff;
+// }</style>";
+
 # Google Analytics
 echo googleanalytics();
 
@@ -841,6 +850,9 @@ if($vars["page_with_tabs"]) {
 # Lazy load Fancybox
 if($vars["jquery_fancybox"]) {
 	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
+if($vars["jquery_scrollup"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.scrollup.js'";
 }
 
 # Javascript-functions
@@ -886,8 +898,9 @@ if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code
 		element.src = deferredJSFile;
 		element.async = true;
 		element.onload = element.onreadystatechange = function() {
-			if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')
+			if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
 				downloadJSAtOnload();
+			}
 		};
 		document.body.appendChild(element);
 	}

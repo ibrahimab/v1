@@ -244,7 +244,7 @@ if($vars["verberg_linkerkolom"]) {
 	# Content includen
 	include($include);
 
-	echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
+	//echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	echo "</div>\n";
 } else {
 	echo "<div id=\"bloklinks_blok\" class=\"noprint\">";
@@ -311,7 +311,7 @@ if($vars["verberg_linkerkolom"]) {
 		if($last_acc_html and $id<>"saved" and (!$vars["verberg_directnaar"] or $id=="zoek-en-boek") and !$vars["verberg_lastacc"]) {
 			echo $last_acc_html;
 		}
-		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
+		//echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
 	echo "</div>\n"; # afsluiten contentrechts
 }
@@ -605,6 +605,10 @@ if($vars["page_with_tabs"]) {
 # Lazy load Fancybox
 if($vars["jquery_fancybox"]) {
 	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
+
+if($vars["jquery_scrollup"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.scrollup.js'";
 }
 
 # Javascript-functions

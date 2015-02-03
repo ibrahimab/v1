@@ -279,7 +279,7 @@ if($vars["docdata_payments"]) {
 }
 echo "</div><!-- END #kleinelogos -->\n";
 
-echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"display:none;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
+//echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"display:none;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 
 echo "</div><!-- END #wrapper -->\n";
 
@@ -339,6 +339,9 @@ $lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.address-1.5.min.js'";
 # Lazy load Fancybox
 if($vars["jquery_fancybox"]) {
 $lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
+if($vars["jquery_scrollup"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.scrollup.js'";
 }
 
 # Javascript-functions

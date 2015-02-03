@@ -2157,18 +2157,17 @@ $(document).ready(function() {
 			}
 		});
 
-		// scroll to top
-		var scroll_to_top_text="Naar boven";
-
+		/**
+		 * This is the new scroll to top functionality, which replaces the old 'Back to top' link under every page
+		 */
 		try {
 			$.scrollUp({
-				scrollText: scroll_to_top_text,
+				scrollName: "scrollUp-arrow",
+				scrollText: "",
 				animation: 'slide'
-
 			});
-		} catch(err) {
-
-		}
+			
+		} catch(err) { /** No active scroll up feature found */ }
 
 		// meer foto's reisblog Italissima
 		$("a#blog_foto_aanvullend_meer_link").click(function(){

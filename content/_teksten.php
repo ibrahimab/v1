@@ -601,6 +601,9 @@ $txt["nl"]["vars"]["bestemmingen"]="Bestemmingen";
 $txt["de"]["vars"]["bestemmingen"]="Urlaubsziele";
 $txt["en"]["vars"]["bestemmingen"]="Destinations";
 
+$txt["nl"]["vars"]["terug_naar_boven"]="Terug naar boven";
+$txt["en"]["vars"]["terug_naar_boven"]="Back to top";
+
 
 #
 # Tekst voor klanten die hebben aangegeven "Ja, mail me over deze accommodatie"

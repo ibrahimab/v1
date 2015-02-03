@@ -1169,6 +1169,9 @@ if(($id == "toonaccommodatie") && ($isMobile)){
 	$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
 }
 
+// activate jquery scrollup plugin on every page
+$vars["jquery_scrollup"] = true;
+
 if(defined("wt_test")) {
 	$vars["jquery_url"]=$vars["path"]."scripts/jquery-1.8.3.min.js";
 	$vars["jqueryui_url"]=$vars["path"]."scripts/jquery-ui-1.8.24.min.js";

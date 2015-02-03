@@ -291,7 +291,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo $last_acc_html;
 	}
 
-	echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
+	//echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 
 #	if(!$vars["wederverkoop"]) {
 #		echo "<div id=\"contactgegevens\">".wt_he($vars["websitenaam"])."&nbsp;&nbsp;&nbsp;".html("telefoonnummer")."&nbsp;&nbsp;&nbsp;<a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</a></div>";
@@ -552,7 +552,7 @@ if($vars["verberg_linkerkolom"]) {
 			echo $last_acc_html;
 		}
 
-		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
+		//echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
 
 	echo "</div>";# afsluiten contentrechts
@@ -654,6 +654,10 @@ if($vars["page_with_tabs"]) {
 # Fancybox
 if($vars["jquery_fancybox"]) {
 	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
+
+if($vars["jquery_scrollup"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.scrollup.js'";
 }
 
 # Javascript-functions
