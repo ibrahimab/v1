@@ -2252,7 +2252,7 @@ $txt["de"]["contact"]["tijdsat"]="Von 10.00 - 17.30 Uhr";
 $txt["en"]["contact"]["tijdsat"]="From 10 am to 5:30 pm";
 
 $txt["nl"]["contact"]["telefoonNummerGetal"]="0348 - 43 46 49";
-$txt["de"]["contact"]["telefoonNummerGetal"]="+31 (0)348 - 43 46 49";
+$txt["de"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 $txt["en"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 
 $txt["nl_y"]["contact"]["telefoonNummerGetal"]="0541 - 53 27 98";
@@ -2262,7 +2262,7 @@ $txt["nl_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 $txt["en_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 
 $txt["nl"]["contact"]["faxNummerGetal"]="0348 - 69 07 52";
-$txt["de"]["contact"]["faxNummerGetal"]="+31 (0)348 - 69 07 52";
+$txt["de"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
 $txt["en"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
 
 $txt["nl_b"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
@@ -2407,7 +2407,7 @@ $txt["de"]["contact"]["chat"]="Chat";
 $txt["en"]["contact"]["chat"]="Chat";
 
 $txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0348 - 43 46 49";
-$txt["de"]["contact"]["telefoonnummer_chalet"]="Telefon: +31 (0)348 - 43 46 49";
+$txt["de"]["contact"]["telefoonnummer_chalet"]="Telefon: +31 348 43 46 49";
 $txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
 
 $txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon: +31 348 43 46 49";
@@ -2417,7 +2417,7 @@ $txt["nl_y"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0541 - 53 27 98";
 $txt["en_y"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 541 53 27 98";
 
 $txt["nl"]["contact"]["fax_chalet"]="Fax: 0348 - 69 07 52";
-$txt["de"]["contact"]["fax_chalet"]="Fax: +31 (0)348 - 69 07 52";
+$txt["de"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
 $txt["en"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
 
 $txt["nl_b"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";

@@ -332,7 +332,7 @@ $txta["en"]["submenutitle_chaletwinter"]="-";
 
 # Hoofdmenu nieuwe vormgeving
 $txta["nl"]["menutitle_index"]="home";
-$txta["de"]["menutitle_index"]="Homepage";
+$txta["de"]["menutitle_index"]="Home";
 $txta["en"]["menutitle_index"]="home";
 
 $txta["nl"]["menutitle_zoek-en-boek"]="zoek en boek";
@@ -496,6 +496,10 @@ $txta["en"]["title_aanbiedingen"]="Special offers";
 $txta["nl"]["title_contact"]="Contactinformatie";
 $txta["de"]["title_contact"]="Kontaktinformationen";
 $txta["en"]["title_contact"]="Contact";
+
+$txta["nl"]["title_colofon"]="Colofon";
+$txta["de"]["title_colofon"]="Impressum";
+$txta["en"]["title_colofon"]="Colophon";
 
 #$txta["nl"]["title_groepsreizen"]="Groepsreizen";
 #$txta["en"]["title_groepsreizen"]="Group travel";
@@ -930,7 +934,7 @@ $txta["de"]["chaletsinvallandry"]="Chalets in Vallandry";
 $txta["en"]["chaletsinvallandry"]="Chalets in Vallandry";
 
 $txta["nl"]["telefoonnummer"]="Tel: 0348 - 43 46 49";
-$txta["de"]["telefoonnummer"]="Tel: +31 (0)348 - 43 46 49";
+$txta["de"]["telefoonnummer"]="Tel: +31 348 43 46 49";
 $txta["en"]["telefoonnummer"]="Phone: +31 348 43 46 49";
 
 $txta["nl_b"]["telefoonnummer"]="Tel: +31 348 43 46 49";
@@ -940,7 +944,7 @@ $txta["nl_y"]["telefoonnummer"]="Tel: 0541 - 53 27 98";
 $txta["en_y"]["telefoonnummer"]="Phone: +31 541 532798";
 
 $txta["nl"]["telefoonnummer_colofon"]="tel: 0348 - 43 46 49";
-$txta["de"]["telefoonnummer_colofon"]="tel: +31 (0)348 - 43 46 49";
+$txta["de"]["telefoonnummer_colofon"]="tel: +31 348 43 46 49";
 $txta["en"]["telefoonnummer_colofon"]="phone: +31 348 43 46 49";
 
 $txta["nl_b"]["telefoonnummer_colofon"]="tel: +31 348 43 46 49";
@@ -950,7 +954,7 @@ $txta["nl_y"]["telefoonnummer_colofon"]="tel: 0541 - 53 27 98";
 $txta["en_y"]["telefoonnummer_colofon"]="phone: +31 541 532798";
 
 $txta["nl"]["telefoonnummer_alleen"]="0348 - 43 46 49";
-$txta["de"]["telefoonnummer_alleen"]="+31 (0)348 - 43 46 49";
+$txta["de"]["telefoonnummer_alleen"]="+31 348 43 46 49";
 $txta["en"]["telefoonnummer_alleen"]="+31 348 43 46 49";
 
 $txta["nl_b"]["telefoonnummer_alleen"]="+31 348 43 46 49";

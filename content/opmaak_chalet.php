@@ -707,7 +707,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "</div>";
 	}
 } else {
-	echo "<div id=\"ondercolofon\" class=\"noprint\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."Datenschutz.php\">Datenschutz</a></div>";
+	echo "<div id=\"ondercolofon\" class=\"noprint\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."Datenschutz.php\">Datenschutz</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."Impressum\">Impressum</a></div>";
 }
 
 if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {

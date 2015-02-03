@@ -700,6 +700,7 @@ $title["werkwijze"]=txt("title_werkwijze");
 $title["materiaalhuur"]=txt("title_materiaalhuur");
 $title["aanbiedingen"]=txt("title_aanbiedingen").($_GET["d"] ? " - ".ucfirst(txt("aankomst")).": ".weekend_voluit($_GET["d"]) : "");
 $title["contact"]=txt("title_contact");
+$title["colofon"]=txt("title_colofon");
 #$title["groepsreizen"]=txt("title_groepsreizen");
 $title["overigeinfo"]=txt("title_overigeinfo");
 $title["top10"]=txt("title_top10").($_GET["d"] ? " - ".ucfirst(txt("aankomst")).": ".weekend_voluit($_GET["d"]) : "");

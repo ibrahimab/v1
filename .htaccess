@@ -303,6 +303,7 @@ RewriteRule ^Reiseagentur\.php$ reisagent.php [L,QSA]
 RewriteRule ^Datenschutz\.php$ privacy-statement.php [L,QSA]
 RewriteRule ^Themen\.php$ themas.php [L,QSA]
 RewriteRule ^buchen\.php$ boeken.php [L,QSA]
+RewriteRule ^Impressum$ colofon.php [L,QSA]
 
 
 
