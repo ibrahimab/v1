@@ -348,7 +348,7 @@ $txta["de"]["menutitle_aanbiedingen"]="Angebote";
 $txta["en"]["menutitle_aanbiedingen"]="special offers";
 
 $txta["nl"]["menutitle_vraag-ons-advies"]="vraag ons advies";
-$txta["de"]["menutitle_vraag-ons-advies"]="unseren Rat";
+$txta["de"]["menutitle_vraag-ons-advies"]="Beratung";
 $txta["en"]["menutitle_vraag-ons-advies"]="ask our advice";
 
 $txta["nl"]["menutitle_weekendski"]="weekendski";

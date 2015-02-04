@@ -104,7 +104,7 @@ class Login {
 				if(!isset($this->settings["message"]["login"])) $this->settings["message"]["login"]="Benutzernamen";
 				if(!isset($this->settings["message"]["password"])) $this->settings["message"]["password"]="Passwort";
 				if(!isset($this->settings["message"]["loginheader"])) $this->settings["message"]["loginheader"]="Bitte melden Sie sich an";
-				if(!isset($this->settings["message"]["remember"])) $this->settings["message"]["remember"]="Künftig automatisch einloggen";
+				if(!isset($this->settings["message"]["remember"])) $this->settings["message"]["remember"]="Ab jetzt automatisch anmelden";
 				if(!isset($this->settings["message"]["logout_position"])) $this->settings["message"]["logout_position"]="";
 				if(!isset($this->settings["message"]["button"])) $this->settings["message"]["button"]="OK";
 				if(!isset($this->settings["message"]["forget"])) $this->settings["message"]["forget"]="Passwort vergessen?";

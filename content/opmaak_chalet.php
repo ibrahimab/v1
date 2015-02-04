@@ -32,7 +32,7 @@ if($vars["website"]=="E") {
 }
 
 echo "<!DOCTYPE html>\n";
-echo "<html>\n";
+echo "<html lang=\"".wt_he($vars["taal"])."\">\n";
 echo "<head>\n";
 
 echo $opmaak->header_begin();
@@ -177,8 +177,9 @@ echo "<div id=\"logo\">";
 if($id<>"index") echo "<a href=\"".$vars["path"]."\">";
 echo "<img src=\"".$vars["path"]."pic/logo_chalet";
 #if($vars["websitetype"]==1 and $vars["taal"]=="nl" and $vars["websiteland"]=="nl") echo "_10jr";
-if($vars["taal"]<>"nl") echo "_eu";
+if($vars["taal"]=="en") echo "_eu";
 if($vars["websiteland"]=="be") echo "_be";
+if($vars["websiteland"]=="de") echo "_de";
 if($vars["websitetype"]==4 or $vars["websitetype"]==5) echo "_tour";
 echo ".gif?c=2\" width=\"188\" height=\"140\" style=\"border:0;\" alt=\"".wt_he($vars["websitenaam"])."\">";
 if($id<>"index") echo "</a>";
