@@ -2166,7 +2166,7 @@ $(document).ready(function() {
 				scrollText: "",
 				animation: 'slide'
 			});
-			
+
 		} catch(err) { /** No active scroll up feature found */ }
 
 		// meer foto's reisblog Italissima
@@ -2512,6 +2512,20 @@ $(document).ready(function() {
 				}
 				event.preventDefault();
 			});
+
+		}
+
+		if($(".tarieventabel_toelichting_active_season").length!==0) {
+
+			// handle multiple seasons of bijkomendekosten
+
+			var active_season_div = $(".tarieventabel_toelichting_one_season[data-seizoen_id="+$("select.tarieventabel_toelichting_switch_seasons").val()+"]");
+			$(".tarieventabel_toelichting_active_season").html( active_season_div.html() );
+			$(".tarieventabel_toelichting_all_seasons").height(active_season_div.height());
+
+			$("select.tarieventabel_toelichting_switch_seasons").change(function(event) {
+				tarieventabel_toelichting_change_season($(this).val());
+			});
 		}
 
 		$(".tarieventabel_wrapper_rechts").scroll(function() {
@@ -2645,6 +2659,38 @@ $(document).ready(function() {
 
 
 var tarieventabel_maxpos = 0;
+var tarieventabel_toelichting_active_season = 0;
+
+function tarieventabel_toelichting_check_season() {
+
+	// tarieventabel_toelichting_change_season(27);
+	// console.log($("td.tarieventabel_tarieven_kolom_eind_seizoen:first"));
+
+}
+
+function tarieventabel_toelichting_change_season(seizoen_id) {
+
+	//
+	// switch season of bijkomendekosten
+	//
+
+	if($(".tarieventabel_toelichting_active_season").length!==0 && tarieventabel_toelichting_active_season != seizoen_id) {
+
+		$("select.tarieventabel_toelichting_switch_seasons").val(seizoen_id);
+
+		var active_season_div = $(".tarieventabel_toelichting_one_season[data-seizoen_id="+$("select.tarieventabel_toelichting_switch_seasons").val()+"]");
+
+		var new_height = active_season_div.height();
+		$(".tarieventabel_toelichting_all_seasons").animate({height: new_height}, 400);
+
+		$(".tarieventabel_toelichting_active_season").fadeOut(400, function() {
+
+			$(".tarieventabel_toelichting_active_season").html( active_season_div.html() );
+			$(".tarieventabel_toelichting_active_season").fadeIn(700);
+			tarieventabel_toelichting_active_season = seizoen_id;
+		});
+	}
+}
 
 function tarieventabel_controleer_scrollbuttons() {
 	var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
@@ -2681,6 +2727,9 @@ function tarieventabel_controleer_scrollbuttons() {
 			actieve_pijl.removeClass("tarieventabel_pijl_scroll_greyed_out");
 		}
 	});
+
+
+	tarieventabel_toelichting_check_season();
 }
 
 function map_zoek_en_boek_click(e) {

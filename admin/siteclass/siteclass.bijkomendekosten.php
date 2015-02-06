@@ -14,7 +14,6 @@ todo:
 
 eventueel later:
 - accommodatie-niveau per regel opslaan
-- kopieren vanaf ander seizoen
 - tabellen inclusief en exclusief bij accommodaties zonder tarieven (en bij tonen oude tarieventabel)
 
 bespreken:
@@ -571,8 +570,6 @@ class bijkomendekosten {
 			$filled_type[$db->f("seizoen_id")][$db->f("type_id")] = true;
 		}
 
-// echo wt_dump($filled_type);
-
 		// get checked accommodation_id's
 		$db->query("SELECT seizoen_id, accommodatie_id FROM accommodatie_seizoen WHERE seizoen_id IN (".substr($active_season_inquery, 1).") AND bijkomendekosten_checked=1;");
 		while($db->next_record()) {
@@ -588,8 +585,6 @@ class bijkomendekosten {
 
 		$db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, t.tmp_teksten_omgezet AS ttmp_teksten_omgezet, a.tmp_teksten_omgezet, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief, CASE WHEN a.bk_opmerkingen_intern IS NULL THEN 0 WHEN a.bk_opmerkingen_intern='' THEN 0 ELSE 1 END AS has_opmerkingen_intern FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt='".intval($wzt)."' ORDER BY has_opmerkingen_intern, v.plaats, v.naam, v.accommodatie_id, t.type_id;");
 
-
-// echo $db->lq;
 
 
 		foreach ($active_season as $seizoen_id => $seizoen_naam) {

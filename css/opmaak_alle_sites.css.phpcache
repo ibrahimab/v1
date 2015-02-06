@@ -2928,6 +2928,8 @@ nieuwe tarieventabel
 	padding-right: 10px;
 	padding-bottom: 15px;
 	overflow: auto;
+	overflow-x: hidden;
+	position: relative;
 }
 
 .tarieventabel_toelichting h1 {
@@ -2938,6 +2940,24 @@ nieuwe tarieventabel
 	padding-bottom: 0.3em;
 	padding-top: 20px;
 	color: #003366;
+}
+
+.tarieventabel_toelichting_switch_seasons {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+.tarieventabel_toelichting_all_seasons {
+
+}
+
+.tarieventabel_toelichting_one_season {
+	display: none;
+}
+
+.tarieventabel_toelichting_active_season {
+	display: block;
 }
 
 .tarieventabel_totaalprijs {
@@ -3511,7 +3531,7 @@ nieuwe tarieventabel
 }
 
 #scrollUp-arrow {
-	
+
 	bottom: 10px;
 	right: 10px;
 	width: 38px;

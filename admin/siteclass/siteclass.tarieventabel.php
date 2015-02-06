@@ -142,11 +142,54 @@ class tarieventabel {
 				}
 
 				$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
-				$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
 				$bijkomendekosten->arrangement = $this->arrangement;
 				$bijkomendekosten->accinfo = $this->accinfo;
+				if($this->seizoen_counter>1) {
 
-				$toelichting = $bijkomendekosten->toon_type_temporary();
+					foreach ($this->seizoeninfo as $seizoen_id => $value) {
+						// multiple seasons
+						$bijkomendekosten->seizoen_id = $seizoen_id;
+						$toelichting_season[$seizoen_id] = $bijkomendekosten->toon_type_temporary();
+
+						if($check_for_doubles and $check_for_doubles==$toelichting_season[$seizoen_id]) {
+							$both_season_are_the_same = true;
+						}
+
+						$check_for_doubles = $toelichting_season[$seizoen_id];
+						// echo md5($check_for_doubles).wt_he($check_for_doubles)."<hr>";
+					}
+
+					if($both_season_are_the_same) {
+						$toelichting = $check_for_doubles;
+					} else {
+
+						$toelichting .= "<form><select class=\"tarieventabel_toelichting_switch_seasons\">";
+						foreach ($toelichting_season as $seizoen_id => $value) {
+							$season_counter++;
+							$toelichting .= "<option value=\"".$seizoen_id."\"".($season_counter==1 ? " selected" : "").">".wt_he($this->seizoeninfo[$seizoen_id]["naam"])."</option>";
+						}
+						$toelichting .= "</select></form>";
+
+						$toelichting .= "<div class=\"tarieventabel_toelichting_all_seasons\">";
+
+						$toelichting .= "<div class=\"tarieventabel_toelichting_active_season\"></div>";
+
+						foreach ($toelichting_season as $seizoen_id => $value) {
+
+							$toelichting .= "<div class=\"tarieventabel_toelichting_one_season\" data-seizoen_id=\"".$seizoen_id."\">";
+							$toelichting .= $value;
+							$toelichting .= "</div>";
+
+						}
+						$toelichting .= "</div>";
+					}
+
+
+				} else {
+					// one season
+					$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
+					$toelichting = $bijkomendekosten->toon_type_temporary();
+				}
 
 			} else {
 				$toelichting = $this->toelichting();
