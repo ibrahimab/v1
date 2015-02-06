@@ -135,7 +135,7 @@ class tarieventabel {
 
 		} else {
 
-			if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+			if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $vars["taal"]=="de") and $vars["seizoentype"]==1) {
 
 				if(!$this->first_seizoen_id) {
 					trigger_error("missing first_season_id",E_USER_NOTICE);

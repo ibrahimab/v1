@@ -304,6 +304,10 @@ RewriteRule ^Datenschutz\.php$ privacy-statement.php [L,QSA]
 RewriteRule ^Themen\.php$ themas.php [L,QSA]
 RewriteRule ^buchen\.php$ boeken.php [L,QSA]
 RewriteRule ^Impressum$ colofon.php [L,QSA]
+RewriteRule ^Buchung_bestaetigt\.php$ boeking_bevestigd.php [L,QSA]
+RewriteRule ^Verfuegbarkeit\.php$ beschikbaarheid.php [L,QSA]
+RewriteRule ^berechnen\.php$ calc.php [L,QSA]
+RewriteRule ^anmelden_gesperrt\.php$ inloggen_geblokkeerd.php [L,QSA]
 
 
 

@@ -303,6 +303,9 @@ if($form->okay) {
 					} elseif($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="en") {
 						# .eu
 						$this->Image('pic/factuur_logo_eu.png',10,8,50);
+					} elseif($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="de") {
+						# .de
+						$this->Image('pic/factuur_logo_de.png',10,8,50);
 					} else {
 						# .nl
 						$this->Image('pic/factuur_logo.png',10,8,50);
@@ -364,7 +367,22 @@ if($form->okay) {
 		$pdf->Cell(0,4,"Woerden, ".DATUM("D MAAND JJJJ",$factuurdatum,$gegevens["stap1"]["taal"]),0,1);
 		$pdf->Ln();
 		$pdf->Ln();
-		$pdf->Cell(0,4,txt("beste","factuur")." ".($gegevens["stap1"]["reisbureau_user_id"] ? $gegevens["stap1"]["reisbureau_uservoornaam"] : ucfirst($gegevens["stap2"]["voornaam"])).",",0,1);
+
+		if($gegevens["stap1"]["taal"]=="de") {
+			if($gegevens["stap1"]["reisbureau_user_id"]) {
+				$naam = wt_naam($gegevens["stap1"]["reisbureau_uservoornaam"], $gegevens["stap1"]["reisbureau_usertussenvoegsel"], $gegevens["stap1"]["reisbureau_userachternaam"]);
+			} else {
+				$naam = wt_naam("", $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]);
+			}
+		} else {
+			if($gegevens["stap1"]["reisbureau_user_id"]) {
+				$naam = $gegevens["stap1"]["reisbureau_uservoornaam"];
+			} else {
+				$naam = ucfirst($gegevens["stap2"]["voornaam"]);
+			}
+		}
+
+		$pdf->Cell(0,4,txt("beste","factuur")." ".trim($naam).",",0,1);
 		$pdf->Ln();
 		$pdf->MultiCell(0,4,$gegevens["stap1"]["factuur_tekstvak1"]);
 		$pdf->Ln();
@@ -762,42 +780,6 @@ if($form->okay) {
 
 			# Mail versturen aan klant
 
-			// $mail=new wt_mail;
-			// $mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
-			// $mail->from=$gegevens["stap1"]["website_specifiek"]["email"];
-			// $mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] ".txt("boekingsbevestiging","factuur");
-
-			// unset($mail->plaintext);
-
-			// # Indien geboekt door reisbureau: andere kop boven mailtje
-			// if($gegevens["stap1"]["reisbureau_user_id"]) {
-			// 	$mail->plaintext.=txt("wederverkoop_reserveringsnummer","factuur").": ".$gegevens["stap1"]["boekingsnummer"]."\n";
-			// 	$mail->plaintext.=txt("wederverkoop_hoofdboeker","factuur").": ".wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"])."\n\n\n";
-			// }
-
-			// if($form->input["factuur_ondertekendatum"]["unixtime"]>0) {
-			// 	$mail->plaintext.=txt("beste","factuur")." ".($gegevens["stap1"]["reisbureau_user_id"] ? $gegevens["stap1"]["reisbureau_uservoornaam"] : ucfirst($gegevens["stap2"]["voornaam"])).",\n\n".txt("attachmentgecorbevest","factuur")."\n\n";
-			// } else {
-			// 	$mail->plaintext.=txt("beste","factuur")." ".($gegevens["stap1"]["reisbureau_user_id"] ? $gegevens["stap1"]["reisbureau_uservoornaam"] : ucfirst($gegevens["stap2"]["voornaam"])).",\n\n".txt("bedanktvoorjeboeking","factuur")." ".txt("attachmentbevest","factuur")."\n\n";
-			// }
-
-			// if($form->input["ondertekenen"]) {
-			// 	$mail->plaintext.=txt("tercontroleopfouten","factuur")." ";
-			// }
-			// $mail->plaintext.=txt("bijonjuistheden","factuur")."\n\n".txt("tot6wekeninloggen","factuur");
-
-			// if(!$gegevens["stap1"]["annuleringsverzekering"]) {
-			// 	$mail->plaintext.="\n\n".txt("weadviserenannuleringsverzekering","factuur")." ".$gegevens["stap1"]["website_specifiek"]["basehref"].txt("menu_verzekeringen").".php#annuleringsverzekering";
-			// }
-			// $mail->plaintext.="\n\n".txt("pdfdownloaden","factuur");
-			// $mail->plaintext.="\n\n".txt("mailmetvriendelijkegroet","factuur")."\n".txt("mailmedewerkerswebsitenaam","factuur",array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]));
-
-			// if(!$form->input["factuurmailen"]) {
-			// 	$mail->plaintext="Onderstaand mailtje is NIET aan de klant gestuurd.\n\n".$mail->plaintext;
-			// }
-
-			// $mail->attachment($tempfile);
-
 			#
 			# Opmaakmail samenstellen
 			#
@@ -820,9 +802,9 @@ if($form->okay) {
 			}
 
 			if($form->input["factuur_ondertekendatum"]["unixtime"]>0) {
-				$html.="<p>".html("beste","factuur")." ".wt_he(($gegevens["stap1"]["reisbureau_user_id"] ? $gegevens["stap1"]["reisbureau_uservoornaam"] : ucfirst($gegevens["stap2"]["voornaam"]))).",</p><p>".html("attachmentgecorbevest","factuur")."</p>";
+				$html.="<p>".html("beste","factuur")." ".wt_he(trim($naam)).",</p><p>".html("attachmentgecorbevest","factuur")."</p>";
 			} else {
-				$html.="<p>".html("beste","factuur")." ".wt_he(($gegevens["stap1"]["reisbureau_user_id"] ? $gegevens["stap1"]["reisbureau_uservoornaam"] : ucfirst($gegevens["stap2"]["voornaam"]))).",</p><p>".html("bedanktvoorjeboeking","factuur")." ".html("attachmentbevest","factuur")."</p>";
+				$html.="<p>".html("beste","factuur")." ".wt_he(trim($naam)).",</p><p>".html("bedanktvoorjeboeking","factuur")." ".html("attachmentbevest","factuur")."</p>";
 			}
 
 			if($gegevens["stap1"]["reisbureau_user_id"]) {

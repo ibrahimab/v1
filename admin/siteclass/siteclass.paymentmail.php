@@ -136,6 +136,7 @@ class paymentmail {
 
 			# Gegevens overzetten
 			$return["body"]=ereg_replace("\[NAAM\]",$this->gegevens["stap2"]["voornaam"],$return["body"]);
+			$return["body"]=ereg_replace("\[ACHTERNAAM\]",wt_naam("", $this->gegevens["stap2"]["tussenvoegsel"], $this->gegevens["stap2"]["achternaam"]),$return["body"]);
 	#		$return["body"]=ereg_replace("\[PLAATS\]",$this->gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
 			$return["body"]=ereg_replace("\[DATUM\]",DATUM("D MAAND JJJJ",$date,$this->taal),$return["body"]);
 	#		$return["body"]=ereg_replace("\[LINK\]",$vars["websites_basehref"][$this->gegevens["stap1"]["website"]].$txta[$this->taal]["menu_inloggen"].".php",$return["body"]);

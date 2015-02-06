@@ -586,6 +586,9 @@ if($form->okay) {
 					} elseif($gegevens["stap1"]["website"]=="E") {
 						# Chalet.eu-logo
 						$pdf->Image("pic/factuur_logo_eu.png",165,3+$y,32);
+					} elseif($gegevens["stap1"]["website"]=="D") {
+						# Chaletonline.de-logo
+						$pdf->Image("pic/factuur_logo_de.png",165,3+$y,32);
 					} else {
 						# Chalet.nl-logo
 						$pdf->Image("pic/factuur_logo.png",165,3+$y,32);
@@ -867,7 +870,7 @@ if($form->okay) {
 			}
 
 			$mail->html_top="<table width=600><tr><td>";
-			$mail->html.=nl2br(txt("mailtje","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"v_langewebsitenaam"=>$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"],"v_vakantiesoort"=>txt("vakantiesoort","voucher"),"h_1"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
+			$mail->html.=nl2br(txt("mailtje","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_lastname"=>wt_naam("", $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]), "v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"v_langewebsitenaam"=>$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"],"v_vakantiesoort"=>txt("vakantiesoort","voucher"),"h_1"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
 			$mail->html_bottom="</td></tr>";
 
 			# alle pdf's samenvoegen

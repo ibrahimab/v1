@@ -21,6 +21,10 @@ class grootboekrekeningnummers {
 
 		$this->grootboekrekeningnummers["B"]=							array(-1=>"1911",0=>"8850",1=>"1939");
 
+		$this->grootboekrekeningnummers["D"]=							array(-1=>"1911",0=>"8300",1=>"1933");
+		$this->grootboekrekeningnummers_wederverkoop["D"]=				array(-1=>"1911",0=>"8310",1=>"1953");
+		$this->grootboekrekeningnummers_wederverkoop_buitenland["D"]=	array(-1=>"1911",0=>"8320",1=>"1954");
+
 		$this->grootboekrekeningnummers["E"]=							array(-1=>"1911",0=>"8300",1=>"1933");
 		$this->grootboekrekeningnummers_wederverkoop["E"]=				array(-1=>"1911",0=>"8310",1=>"1953");
 		$this->grootboekrekeningnummers_wederverkoop_buitenland["E"]=	array(-1=>"1911",0=>"8320",1=>"1954");

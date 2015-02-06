@@ -121,11 +121,11 @@ $txta["de"]["menu_reisagent"]="Reiseagentur";
 $txta["en"]["menu_reisagent"]="reisagent";
 
 $txta["nl"]["menu_huiseigenaren"]="huiseigenaren";
-$txta["de"]["menu_huiseigenaren"]="Hauseigentümer";
+$txta["de"]["menu_huiseigenaren"]="Hauseigentuemer";
 $txta["en"]["menu_huiseigenaren"]="huiseigenaren";
 
 $txta["nl"]["menu_veelgestelde-vragen"]="veelgestelde-vragen";
-$txta["de"]["menu_veelgestelde-vragen"]="häufiggestellte-Fragen";
+$txta["de"]["menu_veelgestelde-vragen"]="faq";
 $txta["en"]["menu_veelgestelde-vragen"]="faq";
 
 $txta["nl"]["menu_wie-zijn-wij"]="wie-zijn-wij";
@@ -133,7 +133,7 @@ $txta["de"]["menu_wie-zijn-wij"]="wir-uber-uns";
 $txta["en"]["menu_wie-zijn-wij"]="about-us";
 
 $txta["nl"]["menu_werkenbij"]="werkenbij";
-$txta["de"]["menu_werkenbij"]="arbeitenbei";
+$txta["de"]["menu_werkenbij"]="-";
 $txta["en"]["menu_werkenbij"]="-";
 
 $txta["nl"]["menu_zoek-en-boek"]="zoek-en-boek";
@@ -153,7 +153,7 @@ $txta["de"]["menu_wachtwoord"]="Passwort";
 $txta["en"]["menu_wachtwoord"]="password";
 
 $txta["nl"]["menu_beschikbaarheid"]="beschikbaarheid";
-$txta["de"]["menu_beschikbaarheid"]="Verfügbarkeit";
+$txta["de"]["menu_beschikbaarheid"]="Verfuegbarkeit";
 $txta["en"]["menu_beschikbaarheid"]="available";
 
 $txta["nl"]["menu_boeken"]="boeken";
@@ -161,7 +161,7 @@ $txta["de"]["menu_boeken"]="buchen";
 $txta["en"]["menu_boeken"]="book";
 
 $txta["nl"]["menu_boeking_bevestigd"]="boeking_bevestigd";
-$txta["de"]["menu_boeking_bevestigd"]="Buchung_bestätigt";
+$txta["de"]["menu_boeking_bevestigd"]="Buchung_bestaetigt";
 $txta["en"]["menu_boeking_bevestigd"]="booking_confirmed";
 
 $txta["nl"]["menu_index"]="index";

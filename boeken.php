@@ -3106,7 +3106,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 #			$html="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style type=\"text/css\"><!--\na:visited:hover,a:hover {\ncolor:".$hover.";\n}\n--></style>\n</head>\n<body style=\"background-color: #F3F3F3;font-family: ".$font.";font-size: 0.8em;\">\n";
 #			$html.="<div style=\"width:630px\">";
 			$html.=html("beste","boeken")." ";
-			if($isMobile){
+			if($isMobile) {
 				if($gegevens["stap1"]["reisbureau_user_id"]) {
 					$nameInTussenvoegsel = explode(" ", $login_rb->vars["voornaam"]);
 
@@ -3135,7 +3135,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				}
 			} else {
 				if($gegevens["stap1"]["reisbureau_user_id"]) {
-					$html.=wt_he($login_rb->vars["voornaam"]);
+					$html.=wt_he(wt_naam($login_rb->vars["voornaam"], $login_rb->vars["tussenvoegsel"], $login_rb->vars["achternaam"]));
 				} else {
 					$html.=wt_he(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
 				}

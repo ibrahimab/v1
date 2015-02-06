@@ -4,7 +4,7 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="mailsystem";
 $form->settings["layout"]["css"]=false;
 $form->settings["message"]["submitbutton"]["nl"]="MAIL VERSTUREN";
@@ -35,7 +35,7 @@ if($_GET["t"] and $_GET["t"]<=4) {
 		$optiegeg["aantalnachten"]=round(($optiegeg["accinfo"]["vertrekdatum"]-$db->f("aankomstdatum_exact"))/86400);
 		$optiegeg["seizoenid"]=$optiegeg["accinfo"]["seizoenid"];
 		$optiegeg["email"]=$db->f("email");
-		
+
 		$klanttaal=$vars["websiteinfo"]["taal"][$db->f("website")];
 	}
 
@@ -51,7 +51,7 @@ if($_GET["t"] and $_GET["t"]<=4) {
 		$optiegeg["leverancier_bestelfax_logo"]=$db->f("bestelfax_logo");
 		$bmftaal=$db->f("bestelmailfax_taal");
 	}
-	
+
 	if($_GET["t"]==1) {
 		# Optie doorgeven aan leverancier
 		$inmail["aan"]=$optiegeg["leverancier_email"];
@@ -81,6 +81,8 @@ if($_GET["t"] and $_GET["t"]<=4) {
 		$inmail["body"]=ereg_replace("\[VOORNAAMKLANT\]",$optiegeg["voornaam"],$inmail["body"]);
 	}
 
+	$inmail["body"]=ereg_replace("\[ACHTERNAAMKLANT\]",wt_naam("", $optiegeg["tussenvoegsel"], $optiegeg["achternaam"]),$inmail["body"]);
+
 	$inmail["body"]=ereg_replace("\[NAAMKLANT\]",wt_naam($optiegeg["voornaam"],$optiegeg["tussenvoegsel"],$optiegeg["achternaam"]),$inmail["body"]);
 #	$inmail["body"]=ereg_replace("\[NAAM_MEDEWERKER\]",wt_naam($login->vars["voornaam"],$login->vars["tussenvoegsel"],$login->vars["achternaam"]),$inmail["body"]);
 	$inmail["body"]=ereg_replace("\[NAAM_MEDEWERKER\]",$login->vars["voornaam"],$inmail["body"]);
@@ -106,7 +108,7 @@ if($_GET["t"] and $_GET["t"]<=4) {
 		} else {
 			$bedrag.=txt("perpersooninclskipas","tarieventabel");
 		}
-		
+
 		$inmail["body"]=ereg_replace("\[BEDRAG\]",$bedrag,$inmail["body"]);
 	}
 
@@ -154,11 +156,11 @@ if($form->okay) {
 		$mail->to=$inmail["aan"];
 		$mail->subject=$inmail["subject"];
 		$mail->bcc=$login->vars["email"];
-	
+
 		$mail->plaintext=$inmail["body"];
-	
+
 		$mail->send();
-		
+
 		# Vedere gevolgen verwerken
 		if($_GET["t"]==1) {
 			# Status veranderen in "aangevraagd leverancier"
@@ -173,7 +175,7 @@ if($form->okay) {
 			# Status veranderen in "vervallen"
 		 	$db->query("UPDATE optieaanvraag SET status='5' WHERE optieaanvraag_id='".addslashes($_GET["oaid"])."';");
 		}
-		
+
 		if($_GET["burl"]) {
 			header("Location: ".$_GET["burl"]."&sentmail=".urlencode($mail->to));
 			exit;

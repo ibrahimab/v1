@@ -1954,10 +1954,12 @@ if (!function_exists("wt_naam")) {
 		} else {
 			$return=ucfirst($voornaam);
 			if($tussenvoegsel) {
-				if($return) $return.=" ".$tussenvoegsel; else $return=$tussenvoegsel;
+				if($return) $return.=" ".$tussenvoegsel; else $return=ucfirst($tussenvoegsel);
 			}
 			if($return) $return.=" ".ucfirst($achternaam); else $return=ucfirst($achternaam);
 		}
+
+		$return = trim($return);
 
 		$return = preg_replace("@ {2,}@"," ",$return);
 

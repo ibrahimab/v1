@@ -280,7 +280,7 @@ $txt["nl_y"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)541 - 53 27 98";
 $txt["en_y"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)541 - 53 27 98";
 
 $txt["nl"]["vars"]["mailopties_wzt1_1"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS], dit komt al snel dichterbij. Het is dus de hoogste tijd om te controleren of je een aantal belangrijke zaken voor jullie vakantie goed geregeld hebt.";
-$txt["de"]["vars"]["mailopties_wzt1_1"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailopties_wzt1_1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 am [DATUM] fahren Sie nach [PLAATS], dieser Tag kommt rasch näher. Es ist an der Zeit zu kontrollieren, ob Sie einige wichtige Sachen für Ihren Urlaub gut geregelt haben.";
 $txt["en"]["vars"]["mailopties_wzt1_1"]="Dear [NAAM],\n\nOn [DATUM] you will depart for [PLAATS], and this date is quickly approaching. So right now is the time to make sure you have arranged a number of important issues for your holiday.";
@@ -304,7 +304,7 @@ $nieuwe_vertaling["de"]["vars"]["mailopties_wzt1_2"]=true;
 
 
 $txt["nl"]["vars"]["mailopties_wzt2_1"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS], dit komt al snel dichterbij. Het is dus de hoogste tijd om te controleren of je een aantal belangrijke zaken voor jullie vakantie goed geregeld hebt.";
-$txt["de"]["vars"]["mailopties_wzt2_1"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailopties_wzt2_1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 am [DATUM] fahren Sie nach [PLAATS], dieser Tag kommt rasch näher. Es ist an der Zeit zu kontrollieren, ob Sie einige wichtige Sachen für Ihren Urlaub gut geregelt haben.";
 $txt["en"]["vars"]["mailopties_wzt2_1"]="Dear [NAAM],\n\nOn [DATUM] you will depart for [PLAATS], and this date is quickly approaching. So right now is the time to make sure you have arranged a number of important issues for your holiday.";
@@ -328,7 +328,7 @@ Telefon: [TELEFOONNUMMER]
 $txt["en"]["vars"]["mailopties_wzt2_2"]="It is important to make sure that you have a good travel insurance and a good insurance for possible accidents that caues damage to the accommodation. With these insurances a lot of risks you might have during your trip are covered. For more information, please visit the following link: [VERZEKERINGLINK]\n\nWith your password ([WACHTWOORD]) you can log in via [LINK]. Here you can make changes to your reservation (up to 28 days before departure) and add an insurance if you want to. If you would rather have us make the changes, just let us know, and we'll do it for you.\n\nWhen you make changes you will receive a new confirmation (= also invoice), so it's the easiest if you make as many changes as possible at a time.\n\nI would also like to point out that the deadline for payment is 6 weeks before departure (or immediately if it's passed the due date).\n\nYou will receive travel documents around 10 days before departe. These travel documents will have extra information about the route you can take, the accommodation, where to get the key, vouchers for any additional options you may have booked, etc.\n\nSincerely,\nEmployees [WEBSITE]\n\nTel: [TELEFOONNUMMER]";
 
 $txt["nl"]["vars"]["mailverzendmethode_reisdocumenten_wzt1"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS]. Ongeveer 10 dagen voor vertrek ontvang je de reisdocumenten met daarin extra informatie over jullie route, verblijf, sleuteladres, vouchers voor eventueel bijgeboekte opties enz.\n\nGraag vernemen wij hoe je deze reisdocumenten wilt ontvangen (per post of per e-mail). Bezoek daarvoor de volgende link:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nJe hebt tot en met [UITERLIJKE_DATUM] de tijd om je voorkeur door te geven.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailverzendmethode_reisdocumenten_wzt1"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailverzendmethode_reisdocumenten_wzt1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Am [DATUM] fahren Sie nach [PLAATS]. Circa 10 Tage vor Abreise bekommen Sie die Reiseunterlagen mit weiteren Informationen über Fahrplan, Unterkunft, Schlüsseladresse, Voucher (Gutscheine) für eventuell extra dazu gebuchte Optionen usw.
 
@@ -345,7 +345,7 @@ Tel: +31 (0)348 - 43 46 49";
 $txt["en"]["vars"]["mailverzendmethode_reisdocumenten_wzt1"]="Dear [NAAM],\n\nOn [DATUM] you will depart for [PLAATS]. Around 10 days before your departure you will receive the travel documents which contain information about the route, your stay there, where you can get your keys, vouchers for additional options you may have booked, etc.\n\nPlease let us know how you would like to receive the travel documents (per regular mail or per e-mail). You can visit the following URL to let us now your preference:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nYou have until [UITERLIJKE_DATUM] to let us know what you prefer.\n\nKind regards,\nTeam [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailverzendmethode_reisdocumenten_wzt2"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS]. Ongeveer 10 dagen voor vertrek ontvang je de reisdocumenten met daarin extra informatie over jullie route, verblijf, sleuteladres, vouchers voor eventueel bijgeboekte opties enz.\n\nGraag vernemen wij hoe je deze reisdocumenten wilt ontvangen (per post of per e-mail). Bezoek daarvoor de volgende link:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nJe hebt tot en met [UITERLIJKE_DATUM] de tijd om je voorkeur door te geven.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailverzendmethode_reisdocumenten_wzt2"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailverzendmethode_reisdocumenten_wzt2"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Am [DATUM] fahren Sie nach [PLAATS]. Circa 10 Tage vor Abreise bekommen Sie die Reiseunterlagen mit weiteren Informationen über Fahrplan, Unterkunft, Schlüsseladresse, Voucher (Gutscheine) für eventuell extra dazu gebuchte Optionen usw.
 
@@ -370,7 +370,7 @@ $txt["de"]["vars"]["mailverzendmethode_reisdocumenten_subject_wzt2"]="Gewünschte
 $txt["en"]["vars"]["mailverzendmethode_reisdocumenten_subject_wzt2"]="Preferred method of sending travel documents";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_wzt1"]="Beste [NAAM],\n\nDe vertrekdatum van jullie wintersport komt snel dichterbij. Om jullie reisdocumenten op de juiste wijze te kunnen maken hebben wij de persoonlijke gegevens van de deelnemers nodig. Wij willen jullie daarom vragen om deze per omgaande in te vullen zodat wij alles tijdig naar jullie kunnen versturen.\n\nMet je emailadres in combinatie met je reeds ontvangen wachtwoord kun je via [LINK] de gegevens van de deelnemers invullen. Als je het wachtwoord vergeten bent kun je hier ook een nieuw wachtwoord opvragen.\n\nDe volgende gegevens moeten worden ingevuld:\n\n[GEGEVENS]\n\nNa ontvangst van de eindbetaling sturen wij de reisdocumenten met daarin extra informatie over jullie verblijf, sleuteladres, eventueel bijgeboekte opties, zo spoedig mogelijk naar je toe.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailpersoonsgegevens_wzt1"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailpersoonsgegevens_wzt1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Der Abreisetag Ihres Wintersporturlaubs kommt rasch näher. Wir stellen gerade Ihre Reiseunterlagen zusammen und brauchen deshalb die persönliche Daten der Mitreisenden. Wir bitten darum, diese Daten umgehend einzugeben um einen zeitigen Versand zu ermöglichen.
 
@@ -389,7 +389,7 @@ Tel: +31 (0)348 - 43 46 49";
 $txt["en"]["vars"]["mailpersoonsgegevens_wzt1"]="Dear [NAAM],\n\nThe departure date for your ski holiday is rapidly closing in. To make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_wzt2"]="Beste [NAAM],\n\nDe vertrekdatum van jullie vakantie komt snel dichterbij. Om jullie reisdocumenten op de juiste wijze te kunnen maken hebben wij de persoonlijke gegevens van de deelnemers nodig. Wij willen jullie daarom vragen om deze per omgaande in te vullen zodat wij alles tijdig naar jullie kunnen versturen.\n\nMet je emailadres in combinatie met je reeds ontvangen wachtwoord kun je via [LINK] de gegevens van de deelnemers invullen. Als je het wachtwoord vergeten bent kun je hier ook een nieuw wachtwoord opvragen.\n\nDe volgende gegevens moeten worden ingevuld:\n\n[GEGEVENS]\n\nNa ontvangst van de eindbetaling sturen wij de reisdocumenten met daarin extra informatie over jullie verblijf, sleuteladres, eventueel bijgeboekte opties, zo spoedig mogelijk naar je toe.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailpersoonsgegevens_wzt2"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailpersoonsgegevens_wzt2"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Der Abreisetag Ihres Urlaubs kommt rasch näher. Wir stellen gerade Ihre Reiseunterlagen zusammen und brauchen deshalb die persönliche Daten der Mitreisenden. Wir bitten darum, diese Daten umgehend einzugeben um einen zeitigen Versand zu ermöglichen.
 
@@ -416,7 +416,7 @@ $txt["de"]["vars"]["mailpersoonsgegevens_subject_wzt2"]="Eingabe persönliche Dat
 $txt["en"]["vars"]["mailpersoonsgegevens_subject_wzt2"]="Fill out personal details holiday";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_reminder_wzt1"]="Beste [NAAM],\n\nEen aantal dagen geleden hebben wij je per mail gevraagd om de persoonlijke gegevens van de deelnemers van jullie wintersport. Volgens onze administratie zijn deze gegevens nog niet doorgegeven.\n\nOm jullie reisdocumenten op de juiste wijze te kunnen maken hebben wij deze gegevens nodig. Wij willen jullie daarom vragen om deze per omgaande alsnog in te vullen zodat wij alles tijdig naar jullie kunnen versturen.\n\nMet je emailadres in combinatie met je reeds ontvangen wachtwoord kun je via [LINK] de gegevens van de deelnemers invullen. Als je het wachtwoord vergeten bent kun je hier ook een nieuw wachtwoord opvragen.\n\nDe volgende gegevens moeten worden ingevuld:\n\n[GEGEVENS]\n\nNa ontvangst van de eindbetaling sturen wij de reisdocumenten met daarin extra informatie over jullie verblijf, sleuteladres, eventueel bijgeboekte opties, zo spoedig mogelijk naar je toe.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailpersoonsgegevens_reminder_wzt1"]="Sehr geehrter Herr / Sehr Geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailpersoonsgegevens_reminder_wzt1"]="Sehr geehrter Herr / Sehr Geehrte Frau [ACHTERNAAM],
 
 Vor einigen Tagen haben wir Sie gebeten, die persönlichen Daten der Mitreisenden Ihres Wintersporturlaubs einzugeben. Unseres Wissens sind diese Daten noch nicht bei uns angekommen.
 
@@ -437,7 +437,7 @@ Tel: +31 (0)348 - 43 46 49";
 $txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt1"]="Dear [NAAM],\n\nA few days ago we sent you an e-mail asking for the personal information of the participants of your winter sport. According to our administration this information has not been entered yet.\n\nTo make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Beste [NAAM],\n\nEen aantal dagen geleden hebben wij je per mail gevraagd om de persoonlijke gegevens van de deelnemers van jullie vakantie. Volgens onze administratie zijn deze gegevens nog niet doorgegeven.\n\nOm jullie reisdocumenten op de juiste wijze te kunnen maken hebben wij deze gegevens nodig. Wij willen jullie daarom vragen om deze per omgaande alsnog in te vullen zodat wij alles tijdig naar jullie kunnen versturen.\n\nMet je emailadres in combinatie met je reeds ontvangen wachtwoord kun je via [LINK] de gegevens van de deelnemers invullen. Als je het wachtwoord vergeten bent kun je hier ook een nieuw wachtwoord opvragen.\n\nDe volgende gegevens moeten worden ingevuld:\n\n[GEGEVENS]\n\nNa ontvangst van de eindbetaling sturen wij de reisdocumenten met daarin extra informatie over jullie verblijf, sleuteladres, eventueel bijgeboekte opties, zo spoedig mogelijk naar je toe.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Sehr geehrter Herr / Sehr Geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Sehr geehrter Herr / Sehr Geehrte Frau [ACHTERNAAM],
 
 Vor einigen Tagen haben wir Sie gebeten, die persönlichen Daten der Mitreisenden Ihres Urlaubs einzugeben. Unseres Wissens sind diese Daten noch nicht bei uns angekommen.
 
@@ -458,7 +458,7 @@ Tel: +31 (0)348 - 43 46 49";
 $txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Dear [NAAM],\n\nA few days ago we sent you an e-mail asking for the personal information of the participants of your vacation. According to our administration this information has not been entered yet.\n\nTo make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nBij controle van onze administratie is gebleken dat er een achterstand is in de betaling van jullie [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nWij willen je daarom vragen om het openstaande bedrag per omgaande te betalen. Ga voor alle betaalinformatie en de mogelijkheid om online te betalen naar de volgende website:\n\n[BETAALLINK]\n\nMocht de betaling reeds voldaan zijn dan ontvangen wij graag de volgende gegevens zodat wij onze administratie kunnen controleren:\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailaanmaning"]="Sehr geehrter Herr / sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailaanmaning"]="Sehr geehrter Herr / sehr geehrte Frau [ACHTERNAAM],
 
 Eine Kontrolle unserer Buchhaltung weist darauf hin, dass es einen Rückstand gibt bei der Zahlung ihres  [SOORTVAKANTIE].
 
@@ -523,7 +523,7 @@ $txt["de"]["vars"]["mailbetaling_subject"]="Eingangsbestätigung Zahlung [SOORTVA
 $txt["en"]["vars"]["mailbetaling_subject"]="Acknowledgment of payment [SOORTVAKANTIE]";
 
 $txt["nl"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nNa verwerking van deze betaling wordt het nieuwe openstaande saldo:\n\n[BETALINGSINFO]\nWij willen je vragen om het resterende bedrag voor de uiterste betaaldatum naar ons over te maken. Ga voor alle betaalinformatie en de mogelijkheid om online te betalen naar de volgende website:\n\n[BETAALLINK]\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailbetaling"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailbetaling"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 bei uns ist am [DATUM] eine Zahlung von € [BEDRAG] eingegangen in Bezug auf Ihren [SOORTVAKANTIE]. Vielen Dank dafür.
 
@@ -549,7 +549,7 @@ $txt["nl_y"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een
 $txt["en_y"]["vars"]["mailbetaling"]="-";
 
 $txt["nl"]["vars"]["mailbetaling_voldaan"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nHiermee is het totaalbedrag van jullie reis voldaan en worden ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailbetaling_voldaan"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mailbetaling_voldaan"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 bei uns ist am [DATUM] eine Zahlung von € [BEDRAG] eingegangen in Bezug auf Ihren [SOORTVAKANTIE]. Vielen Dank dafür.
 
@@ -629,7 +629,7 @@ Alvast veel vakantie-voorpret toegewenst!
 [ondertekening]";
 
 # winter EN
-$txt["de"]["vars"]["mail_klanten_vorig_seizoen_1"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mail_klanten_vorig_seizoen_1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Sie sind diesen Winter über [WEBSITE] in den Wintersporturlaub gefahren und verblieben dabei in folgender Unterkunft: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
 
@@ -682,7 +682,7 @@ Alvast veel vakantie-voorpret toegewenst!
 [ondertekening]";
 # zomer EN
 $txt["de"]["vars"]["mail_klanten_vorig_seizoen_2"]="
-Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Sie sind über [WEBSITE] in den Urlaub gefahren und verblieben dabei in folgender Unterkunft: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
 
@@ -736,7 +736,7 @@ Alvast veel vakantie-voorpret toegewenst!
 [ondertekening]";
 
 # winter EN
-$txt["de"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 fahren Sie nächste Saison auch wieder in den Wintersporturlaub mit [WEBSITE]?
 
@@ -785,7 +785,7 @@ Alvast veel vakantie-voorpret toegewenst!
 
 [ondertekening]";
 # zomer EN
-$txt["de"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="Sehr geehrter Herr / sehr geehrte Frau  [NAAM],
+$txt["de"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="Sehr geehrter Herr / sehr geehrte Frau  [ACHTERNAAM],
 
 Sie sind über [WEBSITE] in den Urlaub gefahren. Sie haben den Wunsch ausgesprochen, von uns informiert zu werden über die nächste Saison. Wir möchten Sie deshalb informieren, dass ein Großteil dessen jetzt schon reservierbar ist.
 
@@ -3698,11 +3698,11 @@ $txt["de"]["tarieventabel"]["mailmijvolgendseizoen_send"]="Versenden";
 $txt["en"]["tarieventabel"]["mailmijvolgendseizoen_send"]="Send";
 
 $txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]], [[h_2]]chat met ons[[h_3]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]].";
-$txt["de"]["tarieventabel"]["hulpbijonlineboeken"]="Brauchen Sie Hilfe beim online-buchen? Rufen Sie uns an [[h_1]], [[h_2]]chatten Sie mit uns[[h_3]] oder beachten Sie unsere [[h_4]]häufig gestellte Fragen[[h_5]].";
+$txt["de"]["tarieventabel"]["hulpbijonlineboeken"]="Brauchen Sie Hilfe beim online-buchen? Rufen Sie uns an [[h_1]] oder [[h_2]]chatten Sie mit uns[[h_3]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
 
 $txt["nl"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Hulp bij online boeken? Bel [[h_1]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]]";
-$txt["de"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Brauchen Sie Hilfe beim online-buchen? Rufen Sie uns an [[h_1]] oder beachten Sie unsere [[h_4]]häufig gestellte Fragen[[h_5]]. ";
+$txt["de"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Brauchen Sie Hilfe beim online-buchen? Rufen Sie uns an [[h_1]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Need help with booking online? Call us: [[h_1]]";
 
 $txt["nl"]["tarieventabel"]["vertrekdagafwijking"]="Let op! Afwijkingen in aankomstdatum en verblijfsduur";
@@ -5385,31 +5385,7 @@ https://www.chalettour.nl/reisagent_overzicht.php?mijngeg=1
 Met vriendelijke groet,
 
 Medewerkers Chalet.nl B.V.";
-$txt["de"]["reisbureau"]["welkomstmail"]="Sehr geehrter Herr / Sehr geehrte Frau [[v_voornaam]],
-
-Vielen Dank für Ihr Interesse an unseren Produkten und Dienstleistungen. Um Ihnen optimal zu Diensten sein zu können, schicken wir Ihnen die Anmeldedaten unserer Reiseagentur-Webseiten.
-
-Benutzername: [[v_email]]
-Passwort: [[v_wachtwoord]]
-
-Die Anmeldedaten können Sie für folgende Webseiten benutzen:
-
-[[v_websites]]
-
-Nach Anmeldung haben Sie Zugang zu den folgenden Extras:
-- Verfügbarkeit kontrollieren
-- Provision kontrollieren
-- Preisberechnungen erstellen
-- Laufende Buchungen einsehen
-
-Nach Anmeldung können Sie eine Option beantragen, die direkt Ihren Daten zugeordnet wird. Sie können uns natürlich auch anrufen: +31 (0)348 - 43 46 49.
-
-Um sicherzustellen, dass alle Daten korrekt in unser System eingegeben sind bitten wir Sie unten stehende Seite zu besuchen und Ihre Daten zu kontrollieren und ggf. zu erweitern oder zu korrigieren:
-https://www.chalettour.nl/reisagent_overzicht.php?mijngeg=1
-
-Mit freundlichem Gruß,
-
-Mitarbeiter Chalet.nl B.V.";
+$txt["de"]["reisbureau"]["welkomstmail"]="-";
 $txt["en"]["reisbureau"]["welkomstmail"]="-";
 
 #
@@ -6438,10 +6414,6 @@ $txt["nl"]["factuur"]["wederverkoop_hoofdboeker"]="Hoofdboeker";
 $txt["de"]["factuur"]["wederverkoop_hoofdboeker"]="Hauptbucher";
 $txt["en"]["factuur"]["wederverkoop_hoofdboeker"]="Main booker";
 
-$txt["nl"]["factuur"]["beste"]="Beste";
-$txt["de"]["factuur"]["beste"]="Sehr geehrter Herr, sehr geehrte Frau";
-$txt["en"]["factuur"]["beste"]="Dear";
-
 $txt["nl"]["factuur"]["attachmentgecorbevest"]="Als attachment bij dit mailtje zit een PDF-bestand met daarin de gecorrigeerde bevestiging van je boeking.";
 $txt["de"]["factuur"]["attachmentgecorbevest"]="Im Anhang dieser E-Mail finden Sie eine PDF-Datei mit Ihrer korrigierten Buchungsbestätigung.";
 $txt["en"]["factuur"]["attachmentgecorbevest"]="The attachment to this e-mail contains a PDF file with the amended confirmation of your booking.";
@@ -6644,7 +6616,7 @@ Medewerkers [[v_websitenaam]]
 
 
 
-$txt["de"]["voucher"]["mailtje"]="Sehr geehrter Herr / Sehr geehrte Frau [[v_voornaam]],
+$txt["de"]["voucher"]["mailtje"]="Sehr geehrter Herr / Sehr geehrte Frau [[v_lastname]],
 
 Anbei erhalten Sie Ihre Reiseunterlagen für Ihren [[v_vakantiesoort]].
 
@@ -6729,40 +6701,6 @@ $txt["de"]["404"]["inleiding"]="Diese Seite kann leider nicht angezeigt werden.
 $txt["en"]["404"]["inleiding"]="Page not found. Please use our [[l1]]search form[[/l1]] to find a accommodation.";
 
 
-
-$txt["nl"]["betalingen"]["mailonderwerp"]="Betaling ontvangen";
-$txt["de"]["betalingen"]["mailonderwerp"]="Zahlung erhalten";
-$txt["en"]["betalingen"]["mailonderwerp"]="Payment received";
-
-$txt["nl"]["betalingen"]["mailbody"]="Beste [[v_naam]],
-
-Datum: [[v_datum]]
-Bedrag: [[v_bedrag]]";
-$txt["de"]["betalingen"]["mailbody"]="Sehr geehrter Herr / Sehr geehrte Frau [[v_naam]],
-
-Datum: [[v_datum]]
-Betrag: [[v_bedrag]]";
-$txt["en"]["betalingen"]["mailbody"]="Dear [[v_naam]],
-
-Date: [[v_datum]]
-Amount: [[v_bedrag]]";
-
-$txt["nl"]["betalingen"]["metvriendelijkegroet"]="Met vriendelijke groet,";
-$txt["de"]["betalingen"]["metvriendelijkegroet"]="Mit freundlichem Gruß,";
-$txt["en"]["betalingen"]["metvriendelijkegroet"]="Yours sincerely,";
-
-$txt["nl"]["betalingen"]["medewerkerswebsitenaam"]="Medewerkers [[v_websitenaam]]
-
-Tel: +31 (0)348 - 43 46 49";
-$txt["de"]["betalingen"]["medewerkerswebsitenaam"]="Mitarbeiter [[v_websitenaam]]
-
-Tel: +31 (0)348 - 43 46 49";
-$txt["en"]["betalingen"]["medewerkerswebsitenaam"]="Staff [[v_websitenaam]]
-
-Phone: +31 (0)348 - 43 46 49";
-
-
-
 #
 # Optie-aanvragensysteem (mailtjes)
 #
@@ -6771,7 +6709,7 @@ $txt["de"]["optieaanvraag"]["mail_goed_subject"]="Optionsbestätigung [AANKOMSTDA
 $txt["en"]["optieaanvraag"]["mail_goed_subject"]="Confirmation option [AANKOMSTDATUM] [ACCOMMODATIE]";
 
 $txt["nl"]["optieaanvraag"]["mail_goed_body"]="Beste [VOORNAAMKLANT],\n\nHartelijk dank voor je interesse in onze accommodaties! Naar aanleiding van je optieaanvraag kan ik je vertellen dat de door jou aangevraagde accommodatie voor de aangegeven week nog beschikbaar is en dat wij deze voor je in optie hebben gezet. Graag horen wij uiterlijk [LOOPT_AF] 's middags 15.00 uur of wij deze optie om mogen zetten in een definitieve boeking of dat je voorkeur uitgaat naar een andere accommodatie.\n\n[AANKOMSTDATUM] [ACCOMMODATIE] met [AANTALPERSONEN] personen\n\nVoor omschrijving: [ACCOMMODATIE_URL]\nBezetting [AANTALPERSONEN] personen : EURO [BEDRAG]\n\nBovenstaande prijzen zijn exclusief EURO 20,00 reserveringskosten. Op de pagina kun je verder nalezen welke zaken incl. en excl. zijn.\n\nGraag horen wij of wij deze optie om mogen zetten in een definitieve boeking.\n\n[NAAM_MEDEWERKER]\n\nAl onze aanbiedingen vallen onder onze Algemene reis- en verkoopvoorwaarden en zijn onder voorbehoud van prijswijzigingen en beschikbaarheid.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
-$txt["de"]["optieaanvraag"]["mail_goed_body"]="Sehr geehrter Herr / sehr geehrte Frau [VOORNAAMKLANT],
+$txt["de"]["optieaanvraag"]["mail_goed_body"]="Sehr geehrter Herr / sehr geehrte Frau [ACHTERNAAMKLANT],
 
 Herzlichen Dank für Ihr Interesse an unseren Unterkünften! Anlässlich Ihrer Optionsanfrage können wir Ihnen mitteilen, dass die von Ihnen gewünschte Unterkunft noch verfügbar ist und wir diese für Sie als Option reserviert haben. Bitte melden Sie uns spätestens [LOOPT_AF] nachmittags 15.00 Uhr ob wir diese Option für Sie definitiv Buchen dürfen, oder ob Sie eine andere Unterkunft wünschen.
 
@@ -6802,7 +6740,7 @@ $txt["de"]["optieaanvraag"]["mail_af_subject"]="Optionsanfrage [AANKOMSTDATUM] [
 $txt["en"]["optieaanvraag"]["mail_af_subject"]="Option request [AANKOMSTDATUM] [ACCOMMODATIE]";
 
 $txt["nl"]["optieaanvraag"]["mail_af_body"]="Beste [VOORNAAMKLANT],\n\nHartelijk dank voor je interesse in onze accommodaties! Naar aanleiding van je beschikbaarheidaanvraag moet ik je helaas vertellen dat de door jou aangevraagde accommodatie voor de aangegeven week niet meer beschikbaar is. Onderstaand bied ik je enkele direct beschikbare alternatieven aan:\n\n\n\n\nBovenstaande prijzen zijn exclusief EURO 20,00 reserveringskosten. Op de pagina kun je verder nalezen welke zaken incl. en excl. zijn.\n\nGraag horen wij of wij bovenstaande aanbieding om mogen zetten in een reservering.\n\n[NAAM_MEDEWERKER]\n\nAl onze aanbiedingen vallen onder onze Algemene reis- en verkoopvoorwaarden en zijn onder voorbehoud van prijswijzigingen en beschikbaarheid.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
-$txt["de"]["optieaanvraag"]["mail_af_body"]="Sehr geehrter Herr / sehr geehrte Frau [VOORNAAMKLANT],
+$txt["de"]["optieaanvraag"]["mail_af_body"]="Sehr geehrter Herr / sehr geehrte Frau [ACHTERNAAMKLANT],
 
 Herzlichen Dank für Ihr Interesse an unseren Unterkünften! Anlässlich Ihrer Optionsanfrage müssen wir Ihnen leider mitteilen, dass die von Ihnen gewünschte Unterkunft nicht mehr verfügbar ist. Wir bieten Ihnen aber einige direkt verfügbare Alternativen an:
 
@@ -6847,7 +6785,7 @@ Met vriendelijke groet,
 
 [ondertekening]";
 
-$txt["de"]["enquete"]["mail_body"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
+$txt["de"]["enquete"]["mail_body"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Willkommen zuhause! Wir hoffen, dass Sie einen schönen Urlaub hatten.
 
@@ -6889,27 +6827,7 @@ Met vriendelijke groet,
 
 [ondertekening]";
 
-$txt["de"]["enquete"]["mail_body_kortingscode"]="Sehr geehrter Herr / Sehr geehrte Frau [NAAM],
-
-Willkommen zuhause! Wir hoffen, dass Sie einen schönen Urlaub hatten.
-
-Mittels eines kurzen Fragebogens würden wir gerne wissen, wie Sie Ihren Aufenthalt in [ACCOMMODATIENAAM] erfahren haben. Wir verwenden diese Informationen ausschließlich intern und geben sie nicht an Dritte weiter.
-
-[b]Preiswerte Fotoleinwand[/b]
-Als Dank erhalten Sie nach dem Ausfüllen des Fragebogens einen Gutscheincode mit dem Sie auf [link=[LINK_FOTOFABRIEK]]fotofabriek.nl[/link] 25% Rabatt erhalten bei der Bestellung einer Fotoleinwand!
-
-
-[b]Nächste Saison[/b]
-Möchten Sie informiert werden über die nächste Saison, oder spezifisch über die Unterkunft wo Sie gerade waren, dann können Sie uns das in diesem Fragenbogen mitteilen.
-
-[link=[LINK_ENQUETE]]Füllen Sie hier bitte den Fragebogen aus»[/link]
-
-
-Wir danken Ihnen im Voraus!
-
-Mit freundlichem Gruß,
-
-[ondertekening]";
+$txt["de"]["enquete"]["mail_body_kortingscode"]="-";
 $txt["en"]["enquete"]["mail_body_kortingscode"]="-";
 
 

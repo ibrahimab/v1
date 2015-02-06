@@ -1336,6 +1336,7 @@ function mailtekst_opties($boekingid) {
 
 			# Gegevens overzetten
 			$return["body"]=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$return["body"]);
+			$return["body"]=ereg_replace("\[ACHTERNAAM\]",wt_naam("", $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]),$return["body"]);
 			$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
 			$return["body"]=ereg_replace("\[DATUM\]",DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal),$return["body"]);
 			$return["body"]=ereg_replace("\[LINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_inloggen"].".php",$return["body"]);
@@ -1381,7 +1382,8 @@ function mailtekst_persoonsgegevens($boekingid,$gewenst,$reminder=false) {
 			$return["body"]=ereg_replace("\[GEGEVENS\]",trim($gewenst_tekst),$return["body"]);
 
 			# Gegevens overzetten
-			$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
+			$return["body"]=ereg_replace("\[NAAM\]", trim($gegevens["stap2"]["voornaam"]),$return["body"]);
+			$return["body"]=ereg_replace("\[ACHTERNAAM\]", wt_naam("", $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]),$return["body"]);
 			$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
 			$return["body"]=ereg_replace("\[DATUM\]",DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal),$return["body"]);
 			$return["body"]=ereg_replace("\[LINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_inloggen"].".php",$return["body"]);
@@ -1441,7 +1443,8 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 			}
 
 			# Gegevens overzetten
-			$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
+			$return["body"]=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$return["body"]);
+			$return["body"]=ereg_replace("\[ACHTERNAAM\]",wt_naam("", $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]),$return["body"]);
 			$return["body"]=ereg_replace("\[OPTIEDAGEN\]",$gegevens["stap1"]["accinfo"]["optiedagen_klanten_vorig_seizoen"],$return["body"]);
 			$return["body"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["body"]);
 			$return["body"]=ereg_replace("\[LINK_ALGEMEEN\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "http://ss.postvak.net/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]])."rebook.php?goto=zoekenboek&bid=".$boekingid."&c=".substr(sha1($boekingid."_WT_488439fk3"),0,8)."&utm_source=email&utm_medium=email&utm_campaign=mail-volgend-seizoen-klant",$return["body"]);
@@ -1488,6 +1491,7 @@ function mailtekst_verzendmethode_reisdocumenten($boekingid) {
 
 			# Gegevens overzetten
 			$return["body"]=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$return["body"]);
+			$return["body"]=ereg_replace("\[ACHTERNAAM\]",wt_naam("", $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]),$return["body"]);
 			$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
 			$return["body"]=ereg_replace("\[DATUM\]",DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal),$return["body"]);
 			$return["body"]=ereg_replace("\[LINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_inloggen"].".php",$return["body"]);
@@ -1624,9 +1628,11 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
 				// $return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",." ("..")",$return["body"]);
 				$return["body"]=ereg_replace("\[NAAM\]",wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"])." (".$gegevens["stap1"]["boekingsnummer"].")",$return["body"]);
+				$return["body"]=ereg_replace("\[ACHTERNAAM\]",wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"])." (".$gegevens["stap1"]["boekingsnummer"].")",$return["body"]);
 			} else {
 				// $return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"],$return["body"]);
-				$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
+				$return["body"]=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$return["body"]);
+				$return["body"]=ereg_replace("\[ACHTERNAAM\]",wt_naam("", $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]),$return["body"]);
 			}
 
 			$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
@@ -2737,6 +2743,9 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		} elseif($gegevens["stap1"]["website_specifiek"]["websiteland"]=="en") {
 			# .eu
 			$logo="factuur_logo_eu.png";
+		} elseif($gegevens["stap1"]["website_specifiek"]["websiteland"]=="de") {
+			# .de
+			$logo="factuur_logo_de.png";
 		} else {
 			# .nl
 			$logo="factuur_logo.png";
@@ -2763,6 +2772,9 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		if($gegevens["stap1"]["taal"]=="en") {
 			# Adres voor Engelstalige buitenlanders
 			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/>The Netherlands<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>Email: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+		} elseif($gegevens["stap1"]["taal"]=="de") {
+			# Adres voor Duitstalige buitenlanders
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/>Niederlande<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>Email: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
 		} else {
 			# Adres voor Nederlandstalige buitenlanders
 			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/>Nederland<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
