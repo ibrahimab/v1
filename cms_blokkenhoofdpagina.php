@@ -38,7 +38,6 @@ if($_GET["wzt"]==3) {
 $cms->db_field(37,"yesno","tonen");
 
 if($_GET["wzt"]==1) {
-	unset($vars["websites_wzt"][1]["D"]);
 	unset($vars["websites_wzt"][1]["Q"]);
 	unset($vars["websites_wzt"][1]["V"]);
 	unset($vars["websites_wzt"][1]["W"]);
@@ -56,8 +55,10 @@ if($_GET["wzt"]==1) {
 $cms->db_field(37,"text","link");
 $cms->db_field(37,"text","titel");
 $cms->db_field(37,"text","titel_en");
+$cms->db_field(37,"text","titel_de");
 $cms->db_field(37,"text","omschrijving");
 $cms->db_field(37,"text","omschrijving_en");
+$cms->db_field(37,"text","omschrijving_de");
 $cms->db_field(37,"integer","volgorde");
 $cms->db_field(37,"date","begindatum");
 $cms->db_field(37,"date","einddatum");
@@ -107,8 +108,10 @@ if($_GET["wzt"]==1) {
 
 	$cms->edit_field(37,1,"titel","Koptekst");
 	$cms->edit_field(37,0,"titel_en","Koptekst (Engels)");
+	$cms->edit_field(37,0,"titel_de","Koptekst (Duits)");
 	$cms->edit_field(37,1,"omschrijving","Omschrijving");
 	$cms->edit_field(37,0,"omschrijving_en","Omschrijving (Engels)");
+	$cms->edit_field(37,0,"omschrijving_de","Omschrijving (Duits)");
 } elseif($_GET["wzt"]==3) {
 	$cms->edit_field(37,0,"websites","Websites",array("selection"=>"I,K"),"",array("one_per_line"=>true));
 	$cms->edit_field(37,1,"titel","Titel");
@@ -160,6 +163,13 @@ if($cms_form[37]->filled) {
 			if(!$cms_form[37]->input["titel_en"]) $cms_form[37]->error("titel_en","obl");
 			if(!$cms_form[37]->input["omschrijving_en"]) $cms_form[37]->error("omschrijving_en","obl");
 		}
+
+		# Verplichte Duitse velden bij Chaletonline.de aangevinkt:
+		if(preg_match("/D/",$cms_form[37]->input["websites"])) {
+			if(!$cms_form[37]->input["titel_de"]) $cms_form[37]->error("titel_de","obl");
+			if(!$cms_form[37]->input["omschrijving_de"]) $cms_form[37]->error("omschrijving_de","obl");
+		}
+
 	}
 }
 
