@@ -168,7 +168,7 @@ if(($huidig_uur>12 and $huidig_uur<20 and date("w")==4) or $_SERVER["DOCUMENT_RO
 			$mailbody=ereg_replace("\[LINK_ENQUETE\]",$link,$mailbody);
 #			$mailbody=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$mailbody);
 			$mailbody=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$mailbody);
-			$mailbody=ereg_replace("\[ACHTERNAAM\]",trim(wt_naam("", $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]),$mailbody);
+			$mailbody=ereg_replace("\[ACHTERNAAM\]",wt_naam("", $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]),$mailbody);
 			$mailbody=ereg_replace("\[ACCOMMODATIENAAM\]",trim($gegevens["stap1"]["accinfo"]["accnaam"]),$mailbody);
 			$mailbody=ereg_replace("\[LINK_FOTOFABRIEK\]","http://www.fotofabriek.nl/chalet-actie/",$mailbody);
 
