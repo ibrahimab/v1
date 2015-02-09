@@ -283,14 +283,17 @@ class form2 {
 
 		$this->settings["message"]["u"]["nl"]="u";
 		$this->settings["message"]["u"]["en"]="h";
+		$this->settings["message"]["u"]["de"]="h";
 		$this->settings["message"]["u"]["fr"]="h";
 
 		$this->settings["message"]["ja"]["nl"]="ja";
 		$this->settings["message"]["ja"]["en"]="yes";
+		$this->settings["message"]["ja"]["de"]="ja";
 		$this->settings["message"]["ja"]["fr"]="oui";
 
 		$this->settings["message"]["nee"]["nl"]="nee";
 		$this->settings["message"]["nee"]["en"]="no";
+		$this->settings["message"]["nee"]["de"]="nein";
 		$this->settings["message"]["nee"]["fr"]="non";
 
 		$this->settings["message"]["volgendegegevens"]["nl"]="De volgende gegevens zijn via [URL] ingevoerd";
@@ -300,46 +303,57 @@ class form2 {
 
 		$this->settings["message"]["invoer"]["nl"]="Invoer";
 		$this->settings["message"]["invoer"]["en"]="Form";
+		$this->settings["message"]["invoer"]["de"]="Eingang";
 		$this->settings["message"]["invoer"]["fr"]="Forme";
 
 		$this->settings["message"]["reeds_ontvangen"]["nl"]="Reeds ontvangen";
 		$this->settings["message"]["reeds_ontvangen"]["en"]="File already received";
+		$this->settings["message"]["reeds_ontvangen"]["de"]="Datei bereits erhalten";
 		$this->settings["message"]["reeds_ontvangen"]["fr"]="Déjà reçu";
 
 		$this->settings["message"]["nog_geen_gegevens"]["nl"]="nog geen gegevens in het systeem";
 		$this->settings["message"]["nog_geen_gegevens"]["en"]="no data in system";
+		$this->settings["message"]["nog_geen_gegevens"]["de"]="keine Daten im System";
 		$this->settings["message"]["nog_geen_gegevens"]["fr"]="pas de données dans le système";
 
 		$this->settings["message"]["pixels"]["nl"]="pixels";
 		$this->settings["message"]["pixels"]["en"]="pixels";
+		$this->settings["message"]["pixels"]["de"]="pixels";
 		$this->settings["message"]["pixels"]["fr"]="pixels";
 
 		$this->settings["message"]["imgsize_size"]["nl"]="_VAL1_x_VAL2_ pixels";
 		$this->settings["message"]["imgsize_size"]["en"]="_VAL1_x_VAL2_ pixels";
+		$this->settings["message"]["imgsize_size"]["de"]="_VAL1_x_VAL2_ pixels";
 		$this->settings["message"]["imgsize_size"]["fr"]="_VAL1_x_VAL2_ pixels";
 
 		$this->settings["message"]["imgsize_ratio"]["nl"]="verhouding _VAL1_:_VAL2_";
 		$this->settings["message"]["imgsize_ratio"]["en"]="ratio _VAL1_:_VAL2_";
+		$this->settings["message"]["imgsize_ratio"]["de"]="ratio _VAL1_:_VAL2_";
 		$this->settings["message"]["imgsize_ratio"]["fr"]="ratio _VAL1_:_VAL2_";
 
 		$this->settings["message"]["showfiletype"]["nl"]="_VAL1_-bestand";
 		$this->settings["message"]["showfiletype"]["en"]="_VAL1_-file";
+		$this->settings["message"]["showfiletype"]["de"]="_VAL1_-Datei";
 		$this->settings["message"]["showfiletype"]["fr"]="_VAL1_-fichier";
 
 		$this->settings["message"]["afbeeldingwissen"]["nl"]="afbeelding wissen";
 		$this->settings["message"]["afbeeldingwissen"]["en"]="delete image";
+		$this->settings["message"]["afbeeldingwissen"]["de"]="Bild löschen";
 		$this->settings["message"]["afbeeldingwissen"]["fr"]="effacer image";
 
 		$this->settings["message"]["afbeeldingvolgorde"]["nl"]="volgorde";
 		$this->settings["message"]["afbeeldingvolgorde"]["en"]="order";
-		$this->settings["message"]["afbeeldingvolgorde"]["en"]="ordre";
+		$this->settings["message"]["afbeeldingvolgorde"]["de"]="Ordnung";
+		$this->settings["message"]["afbeeldingvolgorde"]["fr"]="ordre";
 
 		$this->settings["message"]["bestandwissen"]["nl"]="bestand wissen";
 		$this->settings["message"]["bestandwissen"]["en"]="delete file";
+		$this->settings["message"]["bestandwissen"]["de"]="Datei löschen";
 		$this->settings["message"]["bestandwissen"]["fr"]="supprimer le fichier";
 
 		$this->settings["message"]["zie_attachment"]["nl"]="zie attachment";
 		$this->settings["message"]["zie_attachment"]["en"]="see attachment";
+		$this->settings["message"]["zie_attachment"]["de"]="siehe beilage";
 		$this->settings["message"]["zie_attachment"]["fr"]="voir fichier joint";
 
 		# Error messages
