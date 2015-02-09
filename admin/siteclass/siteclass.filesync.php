@@ -1,8 +1,18 @@
 <?php
 
 
-/**
-* sync files from web01 to web02 (and vice versa)
+/*
+
+sync files from web01 to web02 (and vice versa)
+
+
+Sync file:
+filesync::add_to_filesync_table($file);
+
+Delete file:
+filesync::add_to_filesync_table($file, true);
+
+
 */
 
 
