@@ -757,6 +757,8 @@ if($_GET["t"]==1) {
 
 	echo "<ul>";
 	echo "<li><a href=\"#tekstenomzetten\">Om te zetten in- en exclusief-teksten</a></li>";
+	echo "<li><a href=\"#afbeeldingen1\">Kwaliteit winterafbeeldingen</a></li>";
+	echo "<li><a href=\"#afbeeldingen2\">Kwaliteit zomerafbeeldingen</a></li>";
 	echo "<li><a href=\"#naamleverancier\">Accommodaties met een verschil tussen 'Naam op website' en 'Naam volgens leverancier'</a></li>";
 	echo "<li><a href=\"#englishreviews\">Reviews via Chalet.eu</a></li>";
 	echo "<li><a href=\"#wifiinternet\">Zomeraccommodaties met zowel Wi-Fi als internetverbinding</a></li>";
@@ -859,6 +861,73 @@ if($_GET["t"]==1) {
 	unset($al_gehad);
 
 
+	foreach ($vars["seizoentype_namen"] as $key => $value) {
+
+		unset($photo_counter, $photo_larger_counter, $photo_okay_counter);
+
+		echo "<hr><br /><br />";
+		echo "<a name=\"afbeeldingen".$key."\"></a>";
+		echo "<h2>Kwaliteit ".$value."afbeeldingen</h2>";
+
+		$db->query("SELECT accommodatie_id, type_id, begincode, naam, tnaam, plaats, websites FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND wzt=".$key." ORDER BY plaats, naam, tnaam, type_id;");
+		echo "<table class=\"tbl\" cellspacing=\"0\">";
+		echo "<tr><th>Naam</th><th>Afmetingen hoofdfoto</th><th>Laatste wijziging</th></tr>";
+		while($db->next_record()) {
+
+			if($vars["lokale_testserver"]) {
+				$baseurl = $vars["path"];
+			} else {
+				if(preg_match("@C@", $db->f("websites"))) {
+					$baseurl = "https://www.chalet.nl/";
+				} elseif(preg_match("@I@", $db->f("websites"))) {
+					$baseurl = "https://www.italissima.nl/";
+				} elseif(preg_match("@Z@", $db->f("websites"))) {
+					$baseurl = "https://www.zomerhuisje.nl/";
+				} else {
+					$baseurl = "https://www.chalet.nl/";
+				}
+			}
+
+			echo "<tr><td>".wt_he($db->f("plaats"))." - <a href=\"".$baseurl."accommodatie/".$db->f("begincode").$db->f("type_id")."/\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")."</a> ".wt_he(trim($db->f("naam")." ".$db->f("tnaam")))."</td>";
+			unset($main_photo);
+			$type_photo1 = $vars["unixdir"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg";
+			$acc_photo1 = $vars["unixdir"]."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg";
+
+			$type_photo2 = $vars["unixdir"]."pic/cms/hoofdfoto_type/".$db->f("type_id").".jpg";
+			$acc_photo2 = $vars["unixdir"]."pic/cms/hoofdfoto_accommodatie/".$db->f("accommodatie_id").".jpg";
+
+			if(file_exists($type_photo2)) {
+				$main_photo = $type_photo2;
+			} elseif(file_exists($acc_photo2)) {
+				$main_photo = $acc_photo2;
+			} elseif(file_exists($type_photo1)) {
+				$main_photo = $type_photo1;
+			} elseif(file_exists($acc_photo1)) {
+				$main_photo = $acc_photo1;
+			}
+			if(file_exists($main_photo)) {
+				$photo_counter++;
+				$img_size = getimagesize($main_photo);
+				if($img_size[0]>=900) {
+					$photo_okay_counter++;
+					$photo_larger_counter++;
+					$style="background-color:#88b0fc;";
+				} elseif($img_size[0]<=240) {
+					$style="background-color:#f78f9e;color:#ffffff";
+				} else {
+					$photo_larger_counter++;
+					$style="";
+				}
+				echo "<td align=\"center\" style=\"".$style."\"><a href=\"".str_replace($vars["unixdir"], $vars["path"], $main_photo)."\" target=\"_blank\">".$img_size[0]." x ".$img_size[1]."</a></td><td align=\"center\">".date("d-m-Y", filemtime($main_photo))."</td></tr>";
+			} else {
+				echo "<td>&nbsp;</td><td>&nbsp;</td></tr>";
+			}
+		}
+		echo "</table><br/>";
+		echo "Aantal ".$value."types met foto: ".$photo_counter."<br />";
+		echo "Aantal ".$value."types met grotere foto: ".$photo_larger_counter." (".round(($photo_larger_counter/$photo_counter)*100, 2)."%)<br />";
+		echo "Aantal ".$value."types met juiste foto: ".$photo_okay_counter." (".round(($photo_okay_counter/$photo_counter)*100, 2)."%)<br />";
+	}
 
 	echo "<hr>";
 	echo "<a name=\"naamleverancier\"></a>";
