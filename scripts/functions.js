@@ -735,6 +735,9 @@ $(document).ready(function() {
 					$(this).css('height', $(this).height());
 					$(this).css('overflow', 'hidden');
 				},
+				create: function (event, ui) { 
+					if(typeof ReadyEvent != 'undefined') ReadyEvent.trigger('PushEvent'); 
+				},
 				show: function(event, ui) {
 					$(this).css('height', 'auto');
 					$(this).css('overflow', 'visible');

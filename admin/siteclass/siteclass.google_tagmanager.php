@@ -13,9 +13,7 @@ class google_tagmanager {
 
 	}
 
-	public function place_start_script() {
-
-
+	public function place_start_script($ie) {
 		global $vars;
 
 		$tag_manager_id["C"] = "GTM-5CPQNN"; // Chalet.nl
@@ -25,20 +23,44 @@ class google_tagmanager {
 		$tag_manager_id["K"] = "GTM-N5B5FQ"; // Italissima.be
 
 		if($tag_manager_id[$vars["website"]]) {
-
-			$return = "<!-- Google Tag Manager -->
-		<noscript><iframe src=\"//www.googletagmanager.com/ns.html?id=".$tag_manager_id[$vars["website"]]."\"
+		$current_website_id = $tag_manager_id[$vars["website"]];
+		$return_ie = <<<EOT
+		<!-- Google Tag Manager -->				
+		<noscript><iframe id=\"gtm_script\" src=\"//www.googletagmanager.com/ns.html?id="{$current_website_id}"
 		height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>
-		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-		'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-		})(window,document,'script','dataLayer','".$tag_manager_id[$vars["website"]]."');</script>
-		<!-- End Google Tag Manager -->";
+		<script>(function(w,d,s,l,i){
+			$(document).ready(function() {
+				w[l]=w[l]||[];w[l].push({'gtm.start':
+				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+				'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			});
+			})(window,document,'script','dataLayer','{$current_website_id}');		
+		</script>
+		<!-- End Google Tag Manager -->
+		<script>function ReadyEvent(){}ReadyEvent.listen=function(e,t){if(document.addEventListener){
+		document.addEventListener(e,t,false)}else{document.documentElement.attachEvent("onpropertychange",function(n)
+		{if(n.propertyName==e){setTimeout(t,200)}})}};ReadyEvent.trigger=function(eventName){if(document.createEvent){
+		var event=document.createEvent("Event");event.initEvent(eventName,true,true);document.dispatchEvent(event)}
+		else{eval("document.documentElement."+eventName+"++")}};</script>
+EOT;
+		$return = <<<EOT
+		<!-- Google Tag Manager -->	
+		<noscript><iframe id=\"gtm_script\" src=\"//www.googletagmanager.com/ns.html?id="{$current_website_id}"
+		height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>
+		<script>(function(w,d,s,l,i){
+				w[l]=w[l]||[];w[l].push({'gtm.start':
+				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+				'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer','{$current_website_id}');
+		</script>
+		<!-- End Google Tag Manager -->	
+EOT;
 
-		}
+}
 
-		return $return;
+		return ($ie === true) ? $return_ie : $return;
 
 	}
 
@@ -48,14 +70,38 @@ class google_tagmanager {
 		if(is_array($array)) {
 
 			$return .= "<script>
+				try {
+					textencoded = " . json_encode($array) . ";
+					var decoded = $(\"<div/>\").html(JSON.stringify(textencoded)).text();
+					
+					dataLayer.push(JSON.parse(decoded));
+				}
+				catch(err) {
 
-			try {
-				dataLayer.push (".json_encode($array).");
-			}
-			catch(err) {
+				}
+			</script>";
+		}
 
-			}
+		return $return;
+	}
+	
+	
+	private function ie_datalayer_push($array) {
 
+		if(is_array($array)) {
+
+			$return .= "<script>
+			ReadyEvent.listen('PushEvent', function() {
+				try {
+					textencoded = " . json_encode($array) . ";
+					var decoded = $(\"<div/>\").html(JSON.stringify(textencoded)).text();
+					
+					dataLayer.push(JSON.parse(decoded));
+				}
+				catch(err) {
+
+				}
+			});
 			</script>";
 		}
 
@@ -124,7 +170,7 @@ class google_tagmanager {
 
 		$send["ecommerce"]["purchase"]["products"] = array();
 		array_push($send["ecommerce"]["purchase"]["products"], array(
-			"name"=>wt_he(wt_stripaccents(ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"]) . " " . $gegevens["stap1"]["accinfo"]["accommodatie"])),
+			"name"=>wt_utf8_encode(ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"]) . " " . $gegevens["stap1"]["accinfo"]["accommodatie"]),
 			"id"=>$gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"],
 			"price"=>$gegevens["fin"]["accommodatie_totaalprijs"],
 			"brand" => self::BRAND,
@@ -156,7 +202,7 @@ class google_tagmanager {
 		if(is_array($product_impressions)) {
 			foreach ($product_impressions as $product_key => $product_value) {
 				array_push($send["ecommerce"]["impressions"], array(
-					"name"=>wt_he(wt_stripaccents(ucfirst($vars["soortaccommodatie"][(int)$product_value['soortaccommodatie']]) . " " . $product_value['naam'])),
+					"name"=>wt_utf8_encode(ucfirst($vars["soortaccommodatie"][(int)$product_value['soortaccommodatie']]) . " " . $product_value['naam']),
 					"id"=>$product_value['begincode'].$product_value['type_id'],
 					"price"=>(string)$product_value['tarief'],
 					"brand"=>self::BRAND,
@@ -186,7 +232,7 @@ class google_tagmanager {
 		$send["ecommerce"]["click"]["products"] = array();
 		$send["ecommerce"]["click"]["actionField"]["list"] = $product_click['list'];
 		array_push($send["ecommerce"]["click"]["products"], array(
-			"name"=>wt_he(wt_stripaccents($product_click['name'])),
+			"name"=>wt_utf8_encode($product_click['name']),
 			"id"=>$product_click['id'],
 			"price"=>"",
 			"brand"=>self::BRAND,
@@ -203,13 +249,13 @@ class google_tagmanager {
 	 * @param type $product_details_impressions
 	 * 	 * @return string $return
 	 */
-	public function product_detail_impressions($product_details_impressions) {
+	public function product_detail_impressions($product_details_impressions, $ie = false) {
 		$send = array();
 		$send["event"]= 'productDetailImpressions';
-		$send["ecommerce"]["detail"]["actionField"]["list"]= 'Detailpagina weergave';
+		$send["ecommerce"]["detail"]["actionField"]["list"]= $product_details_impressions['list'];
 		$send["ecommerce"]["detail"]["products"] = array();
 		array_push($send["ecommerce"]["detail"]["products"], array(
-			"name"=>wt_he(wt_stripaccents($product_details_impressions['name'])),
+			"name"=>wt_utf8_encode($product_details_impressions['name']),
 			"id"=>$product_details_impressions['id'],
 			"price"=>"",
 			"brand"=>self::BRAND,
@@ -217,7 +263,7 @@ class google_tagmanager {
 			"variant"=>wt_he(wt_stripaccents($product_details_impressions['variant']))
 		));
 
-		$return = $this->datalayer_push($send);
+		$return = ($ie === true) ?  $this->ie_datalayer_push($send) : $this->datalayer_push($send);
 		return $return;
 	}
 }

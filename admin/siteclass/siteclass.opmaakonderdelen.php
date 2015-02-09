@@ -86,11 +86,11 @@ class opmaakonderdelen {
 	}
 
 	function google_tag_manager() {
-
+		$ie = (preg_match("@MSIE 8@",$_SERVER["HTTP_USER_AGENT"]) && preg_match("@accommodatie@",$_SERVER['SCRIPT_FILENAME']) === 1) ? true : false;
 		global $voorkant_cms;
 
 		if(!defined("wt_test") and !$voorkant_cms) {
-			$return = google_tagmanager::place_start_script();
+			$return = google_tagmanager::place_start_script($ie);
 			return $return;
 		}
 	}

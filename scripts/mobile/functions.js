@@ -689,7 +689,9 @@ var google_analytics_tab_verstuurd=false;
 var maxHeight = 0;
 
 $(document).ready(function() {
-
+	setTimeout(function() {
+		if(typeof ReadyEvent != 'undefined') ReadyEvent.trigger('PushEvent');
+	}, 500);
 	if($("body").data("onload")) {
 		var functionName = $("body").data("onload");
 		if(functionName == 'initialize_googlemaps' && typeof mapOptions != "undefined") {
@@ -1591,10 +1593,10 @@ $(document).ready(function() {
 						nieuwe_url = nieuwe_url+"%3Fscrolly%3D"+$(window).scrollTop();
 					}
 				}
-                                obj = {'scrolly': $(window).scrollTop()};
-                                url = window.location.href;
-                                new_url = updateURLParameter(url, 'scrolly', $(window).scrollTop());
-                                history.pushState(obj, '', new_url);
+				obj = {'scrolly': $(window).scrollTop()};
+				url = window.location.href;
+				new_url = updateURLParameter(url, 'scrolly', $(window).scrollTop());
+				if ((typeof(history.pushState) != 'undefined')) history.pushState(obj, '', new_url);
 
 				// get-value map updaten
 				nieuwe_url=nieuwe_url.replace("%26map%3D1","");
