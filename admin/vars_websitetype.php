@@ -677,6 +677,9 @@ if($vars["lokale_testserver"]) {
 	$path="/chalet".$path;
 	$vars["cmspath"]=$path;
 }
+if($vars["acceptatie_testserver"]) {
+	$vars["basehref"] = preg_replace("@^https?://www\.@","http://test.", $vars["basehref"]);
+}
 
 #
 # Websites-info-array
