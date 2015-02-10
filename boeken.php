@@ -888,6 +888,14 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						$form->field_text(0,"mobielwerk",txt("mobielwerk","boeken"),"",array("text"=>$gegevens["stap2"]["mobielwerk"]));
 					}
 			$form->field_email(1,"email",txt("email","boeken"),"",array("text"=>$gegevens["stap2"]["email"]));
+
+			/**
+			 * If employee is logged in, do not show email confirmation field
+			 */
+			if (true !== $voorkant_cms) {
+				$form->field_text(1,"email_confirmatie",txt("email_confirmatie","boeken"),"",array("text"=>$gegevens["stap2"]["email"]), array('data_field' => array('disable-paste' => 'true', 'disable-drop' => 'true')));
+			}
+
 			$form->field_date(($voorkant_cms ? 0 : 1),"geboortedatum",txt("geboortedatum","boeken"),"",array("time"=>$gegevens["stap2"]["geboortedatum"]),array("startyear"=>date("Y"),"endyear"=>1900));
 		}
 		if($gegevens["stap1"]["reisbureau_user_id"]) {
@@ -1856,6 +1864,16 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				}
 				if($form->input["wachtwoord"]<>$form->input["wachtwoord_herhaal"]) {
 					$form->error("wachtwoord_herhaal",html("tweekeerhetzelfdeww","boeken"));
+				}
+			}
+
+			/**
+			 * If employee is not logged in, then validate email confirmation
+			 */
+			if (true !== $voorkant_cms) {
+
+				if($form->input["email"] != "" && $form->input["email"] != $form->input["email_confirmatie"]){
+					$form->error("email_confirmatie",txt("tweekeerdezelfdeemail","boeken"));
 				}
 			}
 

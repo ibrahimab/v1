@@ -307,6 +307,7 @@ function testgegevens() {
 	// $("input[name='input[geslacht]'][0].checked=true;
 	$("input[name='input[mobielwerk]']").val('06-12345678');
 	$("input[name='input[email]']").val('noreply@webtastic.nl');
+	$("input[name='input[email_confirmatie]']").val('noreply@webtastic.nl');
 	$("input[name='input[adres]']").val('Testpad 11');
 	$("input[name='input[postcode]']").val('1111 AA');
 }
@@ -3180,5 +3181,19 @@ $(document).ready(function() {
 			);
 		}, 300000);
 
+		/**
+		 * This functionality is to prevent users from pasting into fields that the developer has
+		 * flagged. This is done by adding a [data-disable-paste="true"] to the input field/textarea
+		 */
+		 $('body').on('paste', '[data-disable-paste="true"]', function(event) {
+		     event.preventDefault();
+		 });
+
+		 /**
+		  * To disable users from dropping text into a field, please use the [data-disable-drop="true"]
+		  */
+		 $('body').on('drop', '[data-disable-drop="true"]', function(event) {
+		 	event.preventDefault();
+		 });
 	}
 });
