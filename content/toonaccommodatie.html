@@ -973,7 +973,7 @@ if($db->next_record()) {
 		if(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
 			echo "mapOptions.googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
 		}
-		echo "mapOptions.googlemaps_accid=".$db->f("accommodatie_id").";\n mapOptions.googlemaps_typeid=".$db->f("type_id").";\n mapOptions.googlemaps_selected_icon=".$vars["websitetype"].";\n mapOptions.googlemaps_lat=".$gps_lat.";\n mapOptions.googlemaps_long=".$gps_long.";\n mapOptions.gps_coordinaten_bekend=1;\n mapOptions.googlemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\n mapOptions.googlemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("skigebied")))."';\n mapOptions.zoomlevel=".($vars["seizoentype"]==2 ? "9" : "11").";\n";
+		echo "mapOptions.googlemaps_accid=".$db->f("accommodatie_id").";\n mapOptions.googlemaps_typeid=".$db->f("type_id").";\n mapOptions.googlemaps_selected_icon=".$vars["websitetype"].";\n mapOptions.googlemaps_lat=".$gps_lat.";\n mapOptions.googlemaps_long=".$gps_long.";\n mapOptions.gps_coordinaten_bekend=1;\n mapOptions.googlemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\n mapOptions.googlemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("skigebied")))."';\n mapOptions.zoomlevel=".($vars["seizoentype"]==2 ? "9" : "14").";\n";
 		echo "mapOptions.googlemaps_kwaliteit='".$kwaliteit."';\n mapOptions.googlemaps_omschrijving='".addslashes($omschrijving)."';\n";
 
 		$q = "SELECT prijs FROM `cache_vanafprijs_type` WHERE type_id='$typeid' LIMIT 1";
@@ -2074,8 +2074,8 @@ function toon_tekst_acc_en_type($tekst1,$tekst2="") {
 }
 if(!defined("wt_test") and !$voorkant_cms) {
 	$product_details_impressions['list'] = (ereg(txt("menu_aanbiedingen")."\.php",$_GET["back"]) or preg_match("/\/".txt("menu_aanbiedingen")."\//",$_GET["back"])) ? html("aanbiedingen","aanbiedingen") : html("zoekenboek","index");
-	$ie = (preg_match("@MSIE 8@",$_SERVER["HTTP_USER_AGENT"]) && preg_match("@accommodatie@",$_SERVER['SCRIPT_FILENAME']) === 1) ? true : false; 
-	$google_tagmanager = new google_tagmanager;	
+	$ie = (preg_match("@MSIE 8@",$_SERVER["HTTP_USER_AGENT"]) && preg_match("@accommodatie@",$_SERVER['SCRIPT_FILENAME']) === 1) ? true : false;
+	$google_tagmanager = new google_tagmanager;
 	echo $google_tagmanager->product_detail_impressions($product_details_impressions, $ie);
 }
 
