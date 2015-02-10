@@ -9,6 +9,7 @@ if(!$cron and !$css) {
 define("WT_trackmailaddress","chaletmailbackup+track@gmail.com");
 define("wt_mail_fromname","Chalet.nl");
 define("wt_mail_from","info@chalet.nl");
+define("sunnycars_partner_link", "https://partner.sunnycars.nl/ak/743147/");
 
 // Netrom?
 if($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {

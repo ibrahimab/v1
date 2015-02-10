@@ -47,13 +47,13 @@ if($vars["taal"]=="nl") {
 		#
 		# Link naar Sunny Cars
 		#
-		# http://www.sunnycars.nl/booking/entry?ak=743147
+		# const sunnycars_partner_link
 
 		# Autohuur: Ter plaatse een auto huren? Profiteer dan hier van het aanbod van Sunny Cars. Al 12 jaar op rij gekozen tot beste autoverhuurder.
 		# Ter plaatse een auto huren? Profiteer dan hier van het aanbod van Sunny Cars. Al 12 jaar op rij gekozen tot beste autoverhuurder door de Nederlandse Reisbureaus.
 
 
-		echo "<div class=\"sunnycar_banner\" style=\"margin-top:20px;\" onclick=\"popwindowXY(824,630,'http://www.sunnycars.nl/booking/entry?ak=743147',true);recordOutboundPopup('Externe popup','Sunny Cars');\" cellspacing=\"0\" cellpadding=\"3\">"
+		echo "<div class=\"sunnycar_banner\" style=\"margin-top:20px;\" onclick=\"popwindowXY(1000,330,'" . sunnycars_partner_link . "',true);recordOutboundPopup('Externe popup','Sunny Cars');\" cellspacing=\"0\" cellpadding=\"3\">"
                 ."<div class='sunnycars_logo'><img src=\"".$vars["path"]."pic/sunnycars_logo.gif\" alt=\"Sunny Cars\" /></div>"
                 ."<div class='sunnycars_logo' style='text-align:right;'><img src=\"".$vars["path"]."pic/sunnycars_foto.jpg\"></div>"
                 ."<div class='sunnycars_text'><b><i>Ter plaatse een auto huren?</i></b><br><br>Boek dan direct bij <b>Sunny Cars</b>.";

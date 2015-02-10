@@ -873,9 +873,9 @@ if($db->next_record()) {
 
 					# Sunny Cars
 					if($vars["seizoentype"]==2) {
-						echo "<tr><td valign=\"top\">Autohuur&nbsp;Ter plaatse een auto huren? <a href=\"#extraopties\" onclick=\"popwindowXY(824,630,'http://www.sunnycars.nl/booking/entry?ak=743147',true);recordOutboundPopup('Externe popup','Sunny Cars');\">Boek dan direct bij Sunny Cars</a>.</td></tr>";
+						echo "<tr><td valign=\"top\">Autohuur&nbsp;Ter plaatse een auto huren? <a href=\"#extraopties\" onclick=\"popwindowXY(1000,330,'" . sunnycars_partner_link . "',true);recordOutboundPopup('Externe popup','Sunny Cars');\">Boek dan direct bij Sunny Cars</a>.</td></tr>";
 					} elseif($vars["website"]=="C") {
-						echo "<tr><td valign=\"top\">Autohuur&nbsp;Een auto huren? <a href=\"#extraopties\" onclick=\"popwindowXY(824,630,'http://www.sunnycars.nl/booking/entry?ak=743147',true);recordOutboundPopup('Externe popup','Sunny Cars');\">Boek dan direct bij Sunny Cars</a>.</td></tr>";
+						echo "<tr><td valign=\"top\">Autohuur&nbsp;Een auto huren? <a href=\"#extraopties\" onclick=\"popwindowXY(1000,330,'" . sunnycars_partner_link . "',true);recordOutboundPopup('Externe popup','Sunny Cars');\">Boek dan direct bij Sunny Cars</a>.</td></tr>";
 					}
 
 					echo "</table>";
