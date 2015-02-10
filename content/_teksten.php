@@ -57,9 +57,9 @@ $txt["nl"]["vars"]["chaletsvoorwintersportin"]="Chalets voor wintersport in [[v_
 $txt["de"]["vars"]["chaletsvoorwintersportin"]="Chalets für Wintersport in [[_land]]";
 $txt["en"]["vars"]["chaletsvoorwintersportin"]="Chalets for winter sport in [[v_land]]";
 
-$txt["nl"]["vars"]["je-ideale-agriturismo-in"]="Je ideale agriturismo of vakantiehuis in [[v_locatie]]";
-$txt["de"]["vars"]["je-ideale-agriturismo-in"]="Ihr ideales Agriturismo oder Ferienhaus in [[v_locatie]]";
-$txt["en"]["vars"]["je-ideale-agriturismo-in"]="Your perfect agriturismo or holiday home in [[v_locatie]]";
+$txt["nl"]["vars"]["je-ideale-agriturismo-in"]="Agriturismo of vakantiehuis in [[v_locatie]]";
+$txt["de"]["vars"]["je-ideale-agriturismo-in"]="Agriturismo oder Ferienhaus in [[v_locatie]]";
+$txt["en"]["vars"]["je-ideale-agriturismo-in"]="Agriturismo or holiday home in [[v_locatie]]";
 
 $txt["nl"]["vars"]["appartement"]="appartement";
 $txt["de"]["vars"]["appartement"]="Appartement";

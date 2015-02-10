@@ -285,9 +285,16 @@ RewriteRule ^theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^Thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^winter-sports/theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^holiday-homes/theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
+
+# rewriting country paths to have 'wintersport' prefix
 RewriteRule ^land/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
 RewriteRule ^country/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
 RewriteRule ^Land/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
+
+# new country paths with 'wintersport' prefix
+RewriteRule ^wintersport/land/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
+RewriteRule ^wintersport/country/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
+RewriteRule ^wintersport/Land/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
 
 # Chaletonline.de renaming
 RewriteRule ^suchen-und-buchen\.php$ zoek-en-boek.php [L,QSA]

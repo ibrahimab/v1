@@ -1,11 +1,34 @@
 <?php
 
+
 include("admin/vars.php");
 
 if($vars["websitetype"]==7) {
 	# geen landenpagina bij Italissima (want: alleen Italië)
 	header("Location: ".$vars["path"]."bestemmingen.php",true,301);
 	exit;
+}
+
+$land = '';
+if ($_GET['land']) {
+	$land = $_GET['land'];
+}
+
+// 301 if no txt("canonical_accommodatiepagina")
+// 7 = Italissima, 3 = zomerhuisje
+if (false === in_array($vars['websitetype'], array(7, 3))) {
+
+	if (!preg_match('@' . txt('canonical_accommodatiepagina') . '@', $_SERVER['REQUEST_URI'])) {
+
+		$new_url = $vars['basehref'] . txt('canonical_accommodatiepagina') . '/' . txt('menu_land') . '/' . $land . '/';
+
+		if(preg_match('@(\?.*)@', $_SERVER['REQUEST_URI'], $regs)) {
+			$new_url .= $regs[1];
+		}
+
+		header('Location: ' . $new_url, true, 301);
+		exit;
+	}
 }
 
 $laat_titel_weg=true;
