@@ -15,8 +15,7 @@ if ($_GET['land']) {
 }
 
 // 301 if no txt("canonical_accommodatiepagina")
-// 7 = Italissima, 3 = zomerhuisje
-if (false === in_array($vars['websitetype'], array(7, 3))) {
+if ($vars['websitetype'] !== 3) {
 
 	if (!preg_match('@' . txt('canonical_accommodatiepagina') . '@', $_SERVER['REQUEST_URI'])) {
 
