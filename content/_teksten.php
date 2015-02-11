@@ -4677,7 +4677,7 @@ $txt["en"]["boeken"]["inleiding1"]="Here, you can book your accommodation in 5 e
 
 $txt["nl"]["boeken"]["inleiding2"]="Wil je voor een afwijkende periode of meerdere weken boeken, vermeld dit bij stap 5 bij \"opmerkingen\"; wij zullen dit vervolgens handmatig voor je verwerken.";
 $txt["de"]["boeken"]["inleiding2"]="Möchten Sie eine abweichende Aufenthaltsperiode oder mehrere Wochen buchen, vermelden Sie das bitte beim 5. Schritt bei \"Bemerkungen\", wir werden dies dann manuell für Sie verarbeiten.";
-$txt["en"]["boeken"]["inleiding2"]="Here, you can book your accommodation in 5 easy steps. If you only wish to choose your accommodation, you can skip steps 3 and 4.";
+$txt["en"]["boeken"]["inleiding2"]="If you would like to book for a different period or for multiple weeks, please notify us about this at step 5 in the 'questions and comments' field. We will then process this manually.";
 
 $txt["nl"]["boeken"]["inleiding3"]="De volgende stappen dien je te doorlopen om deze accommodatie te boeken.";
 $txt["de"]["boeken"]["inleiding3"]="Folgende Schritte müssen durchgeführt werden um diese Unterkunft zu buchen.";
