@@ -3478,8 +3478,8 @@ $txt["nl"]["thema"]["aantalaccommodaties"]="Aantal accommodaties";
 $txt["de"]["thema"]["aantalaccommodaties"]="Anzahl Unterkünfte";
 $txt["en"]["thema"]["aantalaccommodaties"]="Number of accommodations";
 
-$txt["nl"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties voor 2015/2016 met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
-$txt["de"]["thema"]["aantalaccommodatiesmettarieven"]="Anzahl Unterkünfte für 2015/2016 mit Preisen: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
+$txt["nl"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties voor [[v_themajaar]] met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
+$txt["de"]["thema"]["aantalaccommodatiesmettarieven"]="Anzahl Unterkünfte für [[v_themajaar]] mit Preisen: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
 $txt["en"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
 $txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";

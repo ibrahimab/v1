@@ -3522,8 +3522,8 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 	echo "</div>";
 }
 
-
-
+// initialize theme year
+$thema_jaar = date('Y');
 if($resultaten_tonen) {
 	if(@count($results)>0) {
 		#
@@ -3536,7 +3536,12 @@ if($resultaten_tonen) {
 
 		// bepalen of de balk "Aantal accommodaties voor 2013/2014 met tarieven" getoond moet worden: alleen tonen als het formulier leeg is
 		if(!$_GET["filled"] or (!$_GET["fsg"] and !$_GET["fad"] and !$_GET["fap"] and !$_GET["fdu"] and !$_GET["fzt"] and !$_GET["scrolly"] and $_GET["scrolly"]<>"0" and $_GET["referer"])) {
+
 			$toon_aantalaccommodatiesmettarieven=true;
+
+			// here we create a new datetime object set to CET time, then we fetch the current year and add an interval of P1Y (equiv. of +1Year)
+			$thema_jaar = new DateTime('now', new DateTimeZone('Europe/Amsterdam'));
+			$thema_jaar = ($thema_jaar->format('Y') . '/' . $thema_jaar->add(new DateInterval('P1Y'))->format('Y'));
 		}
 
 #		echo "<div style=\"height:13px;\"></div>";
@@ -3547,7 +3552,7 @@ if($resultaten_tonen) {
 			if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and $toon_aantalaccommodatiesmettarieven) {
 				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
 				if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
-				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
+				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%","v_themajaar" => $thema_jaar))."</div>";
 				if($_GET["save_tarievenbekend"]) {
 					save_data_to_file($unixdir."cache/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
 				}
@@ -3566,7 +3571,7 @@ if($resultaten_tonen) {
 				if($a[0]>=1) {
 					if($a[1]<1) $a[1]=1;
 					echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" style=\"margin-bottom:25px;\">";
-					echo html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$a[0],"v_percentage"=>$a[1]."%"));
+					echo html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$a[0],"v_percentage"=>$a[1]."%", 'v_themajaar' => $thema_jaar));
 					echo "</div>";
 				}
 			}
