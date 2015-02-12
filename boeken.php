@@ -1993,7 +1993,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					}
 
 #					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($gegevens["stap1"]["geannuleerd"] ? "1" : $form->input["geannuleerd"]))."'";
-					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($form->input["geannuleerd"] ? "1" : "0"))."', btw_over_commissie='".addslashes($form->input["btw_over_commissie"])."', tonen_in_mijn_boeking='".addslashes($form->input["tonen_in_mijn_boeking"])."', vervallen_aanvraag='".intval($form->input["vervallen_aanvraag"])."'";
+					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($form->input["geannuleerd"] ? "1" : "0"))."', geannuleerd_op=" . ($form->input["geannuleerd"] ? 'NOW()' : 'NULL') . ", btw_over_commissie='".addslashes($form->input["btw_over_commissie"])."', tonen_in_mijn_boeking='".addslashes($form->input["tonen_in_mijn_boeking"])."', vervallen_aanvraag='".intval($form->input["vervallen_aanvraag"])."'";
 
 					# Eventueel beheerderid opslaan
 					if($form->input["beheerderid"]) {

@@ -282,6 +282,7 @@ $cms->db_field(21,"select","type_id","",array("selection"=>$vars["alle_types"]))
 #$cms->db_field(21,"select","aankomstdatum","",array("selection"=>($vars["aankomstdatum_boeking"] ? $vars["aankomstdatum_boeking"] : $vars["aankomstdatum_weekend_alleseizoenen"])));
 $cms->db_field(21,"date","aankomstdatum");
 $cms->db_field(21,"date","aankomstdatum_exact");
+$cms->db_field(21, 'date', 'geannuleerd_op');
 $cms->db_field(21,"date","invuldatum");
 $cms->db_field(21,"select","aantalpersonen","",array("selection"=>$accinfo["aantalpersonen"]));
 $cms->db_field(21,"select","stap_voltooid","",array("selection"=>$vars["boeken"]));
@@ -348,6 +349,9 @@ if($_GET["boekingsearch"]) {
 }
 $cms->list_field(21,"type_id","Accommodatie");
 $cms->list_field(21,"aankomstdatum_exact","Aankomst",array("date_format"=>"DD-MM-JJ"));
+if ($_GET['bt'] == 6) {
+	$cms->list_field(21,'geannuleerd_op','Geannuleerd op', array('date_format' => 'DD-MM-JJ'));
+}
 $cms->list_field(21,"boekingsgegevens","Hoofdboeker");
 $cms->list_field(21,"acc_of_arrangement","Ac/Ar/Co");
 if($_GET["archief"]==1) {
