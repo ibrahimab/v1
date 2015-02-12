@@ -602,6 +602,7 @@ $txt["de"]["vars"]["bestemmingen"]="Urlaubsziele";
 $txt["en"]["vars"]["bestemmingen"]="Destinations";
 
 $txt["nl"]["vars"]["terug_naar_boven"]="Terug naar boven";
+$txt["de"]["vars"]["terug_naar_boven"]="Zurück nach oben";
 $txt["en"]["vars"]["terug_naar_boven"]="Back to top";
 
 
