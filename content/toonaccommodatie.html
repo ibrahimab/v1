@@ -336,7 +336,7 @@ if($db->next_record()) {
 	}
 
 	if($db->f("akwaliteit") or $db->f("kwaliteit")) {
-		
+
 		$kwaliteit = ($db->f('kwaliteit') ?: $db->f('akwaliteit'));
 		echo "<li><a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=kwaliteit\" class=\"popup_fancybox\" rel=\"nofollow\" id=\"toonaccommodatie_kenmerken_klassering\">";
 		echo "<div style=\"float:left;margin-right:4px;\">".html("klassering","toonaccommodatie").":</div>";
@@ -1003,11 +1003,11 @@ if($db->next_record()) {
 	# Tab "Extra opties"
 	echo "<div id=\"extraopties\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br></div>";
-	@reset($seizoen_tarieven);
-	while(list($key,$value)=@each($seizoen_tarieven)) {
-		unset($gratis_optie,$tarieven_ingevuld,$niet_hetzelfde,$toon_optie_pulldown,$optiesoort_beschikbaar);
-		$seizoenid=$key;
-		if($tarieven_getoond[$seizoenid]) {
+
+	if(is_array($seizoen_tarieven)) {
+		foreach ($seizoen_tarieven as $key => $value) {
+			unset($gratis_optie,$tarieven_ingevuld,$niet_hetzelfde,$toon_optie_pulldown,$optiesoort_beschikbaar);
+			$seizoenid=$key;
 			$db2->query("SELECT s.optie_soort_id, s.naam".$vars["ttv"]." AS naam, s.omschrijving".$vars["ttv"]." AS omschrijving FROM optie_soort s, optie_accommodatie a WHERE ".($vars["wederverkoop"] ? "s.beschikbaar_wederverkoop=1 AND " : "s.beschikbaar_directeklanten=1 AND ")."a.accommodatie_id='".addslashes($accid)."' AND a.optie_soort_id=s.optie_soort_id AND s.naam".$vars["ttv"]."<>'' ORDER BY s.volgorde, s.naam".$vars["ttv"].";");
 			if($db2->num_rows()) {
 				unset($optie_tabel_html,$toon_optie_pulldown);
