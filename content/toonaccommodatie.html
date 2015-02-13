@@ -336,18 +336,12 @@ if($db->next_record()) {
 	}
 
 	if($db->f("akwaliteit") or $db->f("kwaliteit")) {
-		if($db->f("kwaliteit")) {
-			$kwaliteit=$db->f("kwaliteit");
-		} else {
-			$kwaliteit=$db->f("akwaliteit");
-		}
+		
+		$kwaliteit = ($db->f('kwaliteit') ?: $db->f('akwaliteit'));
 		echo "<li><a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=kwaliteit\" class=\"popup_fancybox\" rel=\"nofollow\" id=\"toonaccommodatie_kenmerken_klassering\">";
 		echo "<div style=\"float:left;margin-right:4px;\">".html("klassering","toonaccommodatie").":</div>";
-		for($i=1;$i<=$kwaliteit;$i++) {
-			echo "<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\" width=\"17\" height=\"16\" border=\"0\">";
-		}
-		for($i=$kwaliteit;$i<5;$i++) {
-			echo "<img src=\"".$vars["path"]."pic/ster_leeg_".$vars["websitetype"].".png\" width=\"17\" height=\"16\" border=\"0\">";
+		for ($i = 1; $i <= 5; $i++) {
+			echo '<img src="' . $vars['path'] . 'pic/ster_' . ($i > $kwaliteit ? 'leeg_' : '') . $vars['websitetype'] . '.png" width="17" height="16" border="0">';
 		}
 
 		echo "<img src=\"".$vars["path"]."pic/class.form_info_icon.gif\" id=\"toonaccommodatie_kenmerken_klassering_info\" width=\"13\" height=\"13\" border=\"0\" style=\"margin-top:1px;margin-bottom:-1px;\">";
