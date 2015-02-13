@@ -376,7 +376,7 @@ if($db->next_record()) {
 			$review["totaaloordeel"] = $db2->f("totaaloordeel");
 		}
 
-		if($review["counter"]) {
+		if($review["counter"] && $review['counter'] > 1) {
 			# Bij een 10: alleen tonen als er meer dan 1 beoordeling is
 			echo "<li><div style=\"float:left;\">" . html("waardering","toonaccommodatie") . " </div>";
 			if($review["totaaloordeel"]>=1) {
