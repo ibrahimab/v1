@@ -116,7 +116,7 @@ class tarieventabel {
 			$this->scroll_first_monthyear = date("Ym", $this->seizoeninfo[$this->first_seizoen_id]["begin"]);
 		}
 
-		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id."&o=".urlencode($_GET["o"]).(!$this->arrangement && $this->get_aantal_personen ? "&ap=".intval($this->get_aantal_personen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\" data-scroll_first_monthyear=\"".wt_he($this->scroll_first_monthyear)."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_id_inquery=\"".wt_he($this->seizoen_id)."\" data-toon_bijkomendekosten=\"".($this->toon_bijkomendekosten ? "1" : "0")."\">";
+		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id . (isset($_GET['fdu']) ? '&fdu=' . $_GET['fdu'] : '') . "&o=".urlencode($_GET["o"]).(!$this->arrangement && $this->get_aantal_personen ? "&ap=".intval($this->get_aantal_personen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\" data-scroll_first_monthyear=\"".wt_he($this->scroll_first_monthyear)."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_id_inquery=\"".wt_he($this->seizoen_id)."\" data-toon_bijkomendekosten=\"".($this->toon_bijkomendekosten ? "1" : "0")."\">";
 
 
 		$return .= $this->tabel_top();
