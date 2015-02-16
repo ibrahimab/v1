@@ -83,6 +83,8 @@ $cms->db_field(5,"text","kortenaam4");
 $cms->db_field(5,"textarea","xmlnaam");
 #$cms->db_field(5,"checkbox","kenmerken","",array("selection"=>$vars["kenmerken_skigebied_".$_GET["wzt"]]));
 $cms->db_field(5,"multiradio","kenmerken","",array("selection"=>$vars["kenmerken_skigebied_".$_GET["wzt"]],"multiselection"=>array(1=>"ja",2=>"nee",3=>"onbekend",4=>"niet relevant"),"multiselectionfields"=>array(1=>"kenmerken",2=>"kenmerken_nee",3=>"kenmerken_onbekend",4=>"kenmerken_irrelevant")));
+$cms->db_field(5,"text","korteomschrijving");
+if($vars["cmstaal"]) $cms->db_field(5,"text","korteomschrijving_".$vars["cmstaal"]);
 $cms->db_field(5,"textarea","omschrijving");
 if($vars["cmstaal"]) $cms->db_field(5,"textarea","omschrijving_".$vars["cmstaal"]);
 if($italissima) {
@@ -163,9 +165,16 @@ if($vars["cmstaal"]) {
 $cms->edit_field(5,0,"altnaam","Zoekwoorden (zoekformulier)");
 $cms->edit_field(5,0,"altnaam_zichtbaar","Alternatieve spelling (zoekformulier)");
 if($vars["cmstaal"]) {
+
+	$cms->edit_field(5,0,"korteomschrijving","Korte omschrijving NL");
+	$cms->edit_field(5,0,"korteomschrijving_".$vars["cmstaal"],"Korte omschrijving ".strtoupper($vars["cmstaal"]));
+
 	$cms->edit_field(5,1,"omschrijving","Omschrijving NL","",array("noedit"=>true));
 	$cms->edit_field(5,1,"omschrijving_".$vars["cmstaal"],"Omschrijving ".strtoupper($vars["cmstaal"]));
+
 } else {
+
+	$cms->edit_field(5,0,"korteomschrijving","Korte omschrijving");
 	$cms->edit_field(5,1,"omschrijving","Omschrijving","","",array("rows"=>20,"info"=>$vars["wysiwyg_info"]));
 }
 

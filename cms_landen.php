@@ -49,10 +49,14 @@ $cms->db_field(6,"text","descriptiontag");
 if($vars["cmstaal"]) $cms->db_field(6,"text","descriptiontag_".$vars["cmstaal"]);
 $cms->db_field(6,"text","zomerdescriptiontag");
 if($vars["cmstaal"]) $cms->db_field(6,"text","zomerdescriptiontag_".$vars["cmstaal"]);
+$cms->db_field(6,"text","korteomschrijving");
+if($vars["cmstaal"]) $cms->db_field(6,"text","korteomschrijving_".$vars["cmstaal"]);
 $cms->db_field(6,"textarea","omschrijving");
 if($vars["cmstaal"]) $cms->db_field(6,"textarea","omschrijving_".$vars["cmstaal"]);
 $cms->db_field(6,"textarea","omschrijving_openklap");
 if($vars["cmstaal"]) $cms->db_field(6,"textarea","omschrijving_openklap_".$vars["cmstaal"]);
+$cms->db_field(6,"text","zomerkorteomschrijving");
+if($vars["cmstaal"]) $cms->db_field(6,"text","zomerkorteomschrijving_".$vars["cmstaal"]);
 $cms->db_field(6,"textarea","zomeromschrijving");
 if($vars["cmstaal"]) $cms->db_field(6,"textarea","zomeromschrijving_".$vars["cmstaal"]);
 $cms->db_field(6,"textarea","zomeromschrijving_openklap");
@@ -117,9 +121,16 @@ if($_GET["wzt"]==1) {
 		$cms->edit_field(6,0,"titel");
 	}
 	if($vars["cmstaal"]) {
+
+		$cms->edit_field(6,0,"korteomschrijving","Korte omschrijving NL","",array("noedit"=>true));
+		$cms->edit_field(6,0,"korteomschrijving_".$vars["cmstaal"],"Korte omschrijving ".strtoupper($vars["cmstaal"]));
+
 		$cms->edit_field(6,0,"omschrijving","Omschrijving NL","",array("noedit"=>true));
 		$cms->edit_field(6,0,"omschrijving_".$vars["cmstaal"],"Omschrijving ".strtoupper($vars["cmstaal"]));
+
 	} else {
+
+		$cms->edit_field(6,0,"korteomschrijving","Korte omschrijving");
 		$cms->edit_field(6,0,"omschrijving");
 	}
 	if($vars["cmstaal"]) {
@@ -138,11 +149,19 @@ if($_GET["wzt"]==1) {
 #	$cms->edit_field(6,0,"afbeelding","Landkaart","",array("img_minwidth"=>"200","img_minheight"=>"150","img_maxwidth"=>"600","img_maxheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>4));
 } else {
 	if($vars["cmstaal"]) {
+
+		$cms->edit_field(6,0,"zomerkorteomschrijving","Korte toelichting NL","",array("noedit"=>true));
+		$cms->edit_field(6,0,"zomerkorteomschrijving_".$vars["cmstaal"],"Korte toelichting ".strtoupper($vars["cmstaal"]));
+
 		$cms->edit_field(6,0,"zomeromschrijving","Toelichting NL","",array("noedit"=>true));
 		$cms->edit_field(6,0,"zomeromschrijving_".$vars["cmstaal"],"Toelichting ".strtoupper($vars["cmstaal"]));
+
 	} else {
+
+		$cms->edit_field(6,0,"zomerkorteomschrijving","Korte toelichting");
 		$cms->edit_field(6,1,"zomeromschrijving","Toelichting");
 	}
+
 	$cms->edit_field(6,0,"zomeromschrijving_openklap","Aanvullende toelichting (zichtbaar na openklappen)");
 
 	# Kleurcodes verwerken
