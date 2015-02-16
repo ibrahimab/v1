@@ -2,6 +2,21 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+16-feb-2015 10:16
+ALTER TABLE `land` ADD `zomerkorteomschrijving` VARCHAR(70) NOT NULL AFTER `praktischeinfo_fr`, ADD `zomerkorteomschrijving_de` VARCHAR(70) NOT NULL AFTER `zomerkorteomschrijving`, ADD `zomerkorteomschrijving_en` VARCHAR(70) NOT NULL AFTER `zomerkorteomschrijving_de`, ADD `zomerkorteomschrijving_fr` VARCHAR(70) NOT NULL AFTER `zomerkorteomschrijving_en`;
+
+16-feb-2015 10:02
+ALTER TABLE `land` ADD `korteomschrijving` VARCHAR(70) NOT NULL AFTER `titel_fr`, ADD `korteomschrijving_de` VARCHAR(70) NOT NULL AFTER `korteomschrijving`, ADD `korteomschrijving_en` VARCHAR(70) NOT NULL AFTER `korteomschrijving_de`, ADD `korteomschrijving_fr` VARCHAR(70) NOT NULL AFTER `korteomschrijving_en`;
+
+16-feb-2015 09:55
+ALTER TABLE `skigebied` ADD `korteomschrijving` VARCHAR(70) NOT NULL AFTER `kenmerken_irrelevant`, ADD `korteomschrijving_de` VARCHAR(70) NOT NULL AFTER `korteomschrijving`, ADD `korteomschrijving_en` VARCHAR(70) NOT NULL AFTER `korteomschrijving_de`, ADD `korteomschrijving_fr` VARCHAR(70) NOT NULL AFTER `korteomschrijving_en`;
+
+13-feb-2015 16:38
+ALTER TABLE `plaats` ADD `korteomschrijving` VARCHAR(70) NOT NULL AFTER `kenmerken_irrelevant`, ADD `korteomschrijving_de` VARCHAR(70) NOT NULL AFTER `korteomschrijving`, ADD `korteomschrijving_en` VARCHAR(70) NOT NULL AFTER `korteomschrijving_de`, ADD `korteomschrijving_fr` VARCHAR(70) NOT NULL AFTER `korteomschrijving_en`;
+
+12-feb-2015 10:20
+ALTER TABLE `boeking` ADD `geannuleerd_op` DATETIME NULL DEFAULT NULL AFTER `geannuleerd`;
+
 2-feb-2015 16:40
 ALTER TABLE `accommodatie` ADD `vertrekinfo_noodtelefoonnummer_accommodatie` VARCHAR(100) NULL DEFAULT NULL AFTER `vertrekinfo_telefoonnummer`;
 
