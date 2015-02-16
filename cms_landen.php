@@ -50,6 +50,7 @@ if($vars["cmstaal"]) $cms->db_field(6,"text","descriptiontag_".$vars["cmstaal"])
 $cms->db_field(6,"text","zomerdescriptiontag");
 if($vars["cmstaal"]) $cms->db_field(6,"text","zomerdescriptiontag_".$vars["cmstaal"]);
 $cms->db_field(6,"text","korteomschrijving");
+$korteomschrijving_info = array("info"=>"Vul een korte/krachtige omschrijving van het land in 1 zin voor op de landpagina (voor bezoekers en zoekmachines).");
 if($vars["cmstaal"]) $cms->db_field(6,"text","korteomschrijving_".$vars["cmstaal"]);
 $cms->db_field(6,"textarea","omschrijving");
 if($vars["cmstaal"]) $cms->db_field(6,"textarea","omschrijving_".$vars["cmstaal"]);
@@ -122,15 +123,15 @@ if($_GET["wzt"]==1) {
 	}
 	if($vars["cmstaal"]) {
 
-		$cms->edit_field(6,0,"korteomschrijving","Korte omschrijving NL","",array("noedit"=>true));
-		$cms->edit_field(6,0,"korteomschrijving_".$vars["cmstaal"],"Korte omschrijving ".strtoupper($vars["cmstaal"]));
+		$cms->edit_field(6,0,"korteomschrijving","Korte omschrijving NL","","",$korteomschrijving_info);
+		$cms->edit_field(6,0,"korteomschrijving_".$vars["cmstaal"],"Korte omschrijving ".strtoupper($vars["cmstaal"]),"","",$korteomschrijving_info);
 
 		$cms->edit_field(6,0,"omschrijving","Omschrijving NL","",array("noedit"=>true));
 		$cms->edit_field(6,0,"omschrijving_".$vars["cmstaal"],"Omschrijving ".strtoupper($vars["cmstaal"]));
 
 	} else {
 
-		$cms->edit_field(6,0,"korteomschrijving","Korte omschrijving");
+		$cms->edit_field(6,0,"korteomschrijving","Korte omschrijving","","",$korteomschrijving_info);
 		$cms->edit_field(6,0,"omschrijving");
 	}
 	if($vars["cmstaal"]) {
@@ -150,15 +151,15 @@ if($_GET["wzt"]==1) {
 } else {
 	if($vars["cmstaal"]) {
 
-		$cms->edit_field(6,0,"zomerkorteomschrijving","Korte toelichting NL","",array("noedit"=>true));
-		$cms->edit_field(6,0,"zomerkorteomschrijving_".$vars["cmstaal"],"Korte toelichting ".strtoupper($vars["cmstaal"]));
+		$cms->edit_field(6,0,"zomerkorteomschrijving","Korte toelichting NL","","",$korteomschrijving_info);
+		$cms->edit_field(6,0,"zomerkorteomschrijving_".$vars["cmstaal"],"Korte toelichting ".strtoupper($vars["cmstaal"]),"","",$korteomschrijving_info);
 
 		$cms->edit_field(6,0,"zomeromschrijving","Toelichting NL","",array("noedit"=>true));
 		$cms->edit_field(6,0,"zomeromschrijving_".$vars["cmstaal"],"Toelichting ".strtoupper($vars["cmstaal"]));
 
 	} else {
 
-		$cms->edit_field(6,0,"zomerkorteomschrijving","Korte toelichting");
+		$cms->edit_field(6,0,"zomerkorteomschrijving","Korte toelichting","","",$korteomschrijving_info);
 		$cms->edit_field(6,1,"zomeromschrijving","Toelichting");
 	}
 

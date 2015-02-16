@@ -94,6 +94,7 @@ $cms->db_field(4,"select","aantalpers","plaats_id",array("selection"=>$aantalper
 $cms->db_field(4,"select","plaatslink","plaats_id",array("selection"=>$plaatslink));
 $cms->db_field(4,"textarea","omschrijving");
 $cms->db_field(4,"text","korteomschrijving");
+$korteomschrijving_info = array("info"=>"Vul een korte/krachtige omschrijving van de plaats in 1 zin voor op de plaatspagina (voor bezoekers en zoekmachines).");
 if($vars["cms"]) $cms->db_field(4,"text","korteomschrijving_".$vars["cmstaal"]);
 if($vars["cmstaal"]) $cms->db_field(4,"textarea","omschrijving_".$vars["cmstaal"]);
 $cms->db_field(4,"text","descriptiontag");
@@ -197,15 +198,15 @@ if($_GET["wzt"]==1) {
 
 	if($vars["cmstaal"]) {
 
-		$cms->edit_field(4,0,"korteomschrijving","Korte omschrijving NL");
-		$cms->edit_field(4,0,"korteomschrijving_".$vars["cmstaal"],"Korte omschrijving ".strtoupper($vars["cmstaal"]));
+		$cms->edit_field(4,0,"korteomschrijving","Korte omschrijving NL", "", "",$korteomschrijving_info);
+		$cms->edit_field(4,0,"korteomschrijving_".$vars["cmstaal"],"Korte omschrijving ".strtoupper($vars["cmstaal"]),"", "",$korteomschrijving_info);
 
 		$cms->edit_field(4,0,"omschrijving","Omschrijving NL");
 		$cms->edit_field(4,1,"omschrijving_".$vars["cmstaal"],"Omschrijving ".strtoupper($vars["cmstaal"]));
 
 	} else {
 
-		$cms->edit_field(4,0,"korteomschrijving","Korte omschrijving","","",array("rows"=>10));
+		$cms->edit_field(4,0,"korteomschrijving","Korte omschrijving", "", "",$korteomschrijving_info);
 		$cms->edit_field(4,1,"omschrijving","Omschrijving","","",array("rows"=>20,"info"=>$vars["wysiwyg_info"]));
 	}
 
@@ -213,7 +214,7 @@ if($_GET["wzt"]==1) {
 
 	if($vars["cmstaal"]) {
 
-		$cms->edit_field(4,0,"korteomschrijving","Korte omschrijving NL");
+		$cms->edit_field(4,0,"korteomschrijving","Korte omschrijving NL", "", "",$korteomschrijving_info);
 		$cms->edit_field(4,1,"korteomschrijving_".$vars["cmstaal"],"Korte omschrijving ".strtoupper($vars["cmstaal"]));
 
 		$cms->edit_field(4,0,"omschrijving","Algemene omschrijving NL","",array("noedit"=>true));
@@ -221,7 +222,7 @@ if($_GET["wzt"]==1) {
 
 	} else {
 
-		$cms->edit_field(4,0,"korteomschrijving","Korte omschrijving");
+		$cms->edit_field(4,0,"korteomschrijving","Korte omschrijving","","",$korteomschrijving_info);
 		$cms->edit_field(4,1,"omschrijving","Algemene omschrijving","","",array("rows"=>20,"info"=>$vars["wysiwyg_info"]));
 	}
 
