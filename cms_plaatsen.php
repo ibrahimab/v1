@@ -95,7 +95,7 @@ $cms->db_field(4,"select","plaatslink","plaats_id",array("selection"=>$plaatslin
 $cms->db_field(4,"textarea","omschrijving");
 $cms->db_field(4,"text","korteomschrijving");
 $korteomschrijving_info = array("info"=>"Vul een korte/krachtige omschrijving van de plaats in 1 zin voor op de plaatspagina (voor bezoekers en zoekmachines).");
-if($vars["cms"]) $cms->db_field(4,"text","korteomschrijving_".$vars["cmstaal"]);
+if($vars["cmstaal"]) $cms->db_field(4,"text","korteomschrijving_".$vars["cmstaal"]);
 if($vars["cmstaal"]) $cms->db_field(4,"textarea","omschrijving_".$vars["cmstaal"]);
 $cms->db_field(4,"text","descriptiontag");
 if($vars["cmstaal"]) $cms->db_field(4,"text","descriptiontag_".$vars["cmstaal"]);
