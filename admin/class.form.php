@@ -2068,6 +2068,11 @@ class form2 {
 					if($this->value[$key] and !eregi("^".($this->fields["options"][$key]["negative"] ? "-?" : "")."[0-9]+$",$this->value[$key]) and !eregi("^".($this->fields["options"][$key]["negative"] ? "-?" : "")."[0-9]+,[0-9]{1,2}$",$this->value[$key])) $this->error[$key]=$this->message("error_currency");
 					if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
 				} elseif($value=="date") {
+
+					if(!is_array($this->value[$key])) {
+						$this->value[$key] = array();
+					}
+
 					# Indien hide_year: year=2004 (schrikkeljaar, dus 29 februari is mogelijk om in te voeren)
 					if($this->fields["options"][$key]["hide_year"] and $this->value[$key]["day"] and $this->value[$key]["month"]) $this->value[$key]["year"]=2004;
 
