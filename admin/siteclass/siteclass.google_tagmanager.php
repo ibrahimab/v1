@@ -16,6 +16,7 @@ class google_tagmanager {
 	public function place_start_script($ie) {
 		global $vars;
 
+		$tag_manager_id["B"] = "GTM-TP46GZ"; // Chalet.be
 		$tag_manager_id["C"] = "GTM-5CPQNN"; // Chalet.nl
 		$tag_manager_id["E"] = "GTM-WGNXQC"; // Chalet.eu
 		$tag_manager_id["H"] = "GTM-PN3GFW"; // Italyhomes.eu
@@ -25,7 +26,7 @@ class google_tagmanager {
 		if($tag_manager_id[$vars["website"]]) {
 		$current_website_id = $tag_manager_id[$vars["website"]];
 		$return_ie = <<<EOT
-		<!-- Google Tag Manager -->				
+		<!-- Google Tag Manager -->
 		<noscript><iframe id=\"gtm_script\" src=\"//www.googletagmanager.com/ns.html?id="{$current_website_id}"
 		height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>
 		<script>(function(w,d,s,l,i){
@@ -35,7 +36,7 @@ class google_tagmanager {
 				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 			});
-			})(window,document,'script','dataLayer','{$current_website_id}');		
+			})(window,document,'script','dataLayer','{$current_website_id}');
 		</script>
 		<!-- End Google Tag Manager -->
 		<script>function ReadyEvent(){}ReadyEvent.listen=function(e,t){if(document.addEventListener){
@@ -45,7 +46,7 @@ class google_tagmanager {
 		else{eval("document.documentElement."+eventName+"++")}};</script>
 EOT;
 		$return = <<<EOT
-		<!-- Google Tag Manager -->	
+		<!-- Google Tag Manager -->
 		<noscript><iframe id=\"gtm_script\" src=\"//www.googletagmanager.com/ns.html?id="{$current_website_id}"
 		height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>
 		<script>(function(w,d,s,l,i){
@@ -55,7 +56,7 @@ EOT;
 				'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 			})(window,document,'script','dataLayer','{$current_website_id}');
 		</script>
-		<!-- End Google Tag Manager -->	
+		<!-- End Google Tag Manager -->
 EOT;
 
 }
@@ -73,7 +74,7 @@ EOT;
 				try {
 					textencoded = " . json_encode($array) . ";
 					var decoded = $(\"<div/>\").html(JSON.stringify(textencoded)).text();
-					
+
 					dataLayer.push(JSON.parse(decoded));
 				}
 				catch(err) {
@@ -84,8 +85,8 @@ EOT;
 
 		return $return;
 	}
-	
-	
+
+
 	private function ie_datalayer_push($array) {
 
 		if(is_array($array)) {
@@ -95,7 +96,7 @@ EOT;
 				try {
 					textencoded = " . json_encode($array) . ";
 					var decoded = $(\"<div/>\").html(JSON.stringify(textencoded)).text();
-					
+
 					dataLayer.push(JSON.parse(decoded));
 				}
 				catch(err) {
