@@ -15,7 +15,7 @@ if($_GET["aanvraagnr"]) {
 } else {
 	$share_url=$vars["basehref"];
 }
-if($totalereissom>0) {
+if($totalereissom>0 and !in_array($vars["website"], array("B", "C", "E"))) {
 
 	// Google Analytics Ecommerce
 	$vars["googleanalytics_extra"]="
