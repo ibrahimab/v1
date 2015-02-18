@@ -6407,7 +6407,7 @@ $txt["nl"]["factuur"]["voorakkoordnaamhandtekening"]="Voor akkoord (naam + handt
 $txt["de"]["factuur"]["voorakkoordnaamhandtekening"]="Zustimmung (Name + Unterschrift)";
 $txt["en"]["factuur"]["voorakkoordnaamhandtekening"]="For approval (name + signature)";
 
-$txt["nl"]["factuur"]["opdezeovereenkomstalgvoorwaarden"]="Op deze overeenkomst zijn onze Algemene reis- en verkoopvoorwaarden van toepassing. Indien een annulerings- of reisverzekering via ons afgesloten is, geldt het reserveringsnummer tevens als polisnummer. Tevens is de 'bijzondere regeling Reisbureau's' van toepassing.";
+$txt["nl"]["factuur"]["opdezeovereenkomstalgvoorwaarden"]="Op deze overeenkomst zijn onze Algemene reis- en verkoopvoorwaarden van toepassing. Indien een annulerings- of reisverzekering via ons afgesloten is, geldt het reserveringsnummer tevens als polisnummer. Tevens is de 'bijzondere regeling reisbureaus' van toepassing.";
 $txt["de"]["factuur"]["opdezeovereenkomstalgvoorwaarden"]="Für diesen Vertrag gelten unsere Allgemeinen Reise- und Vertragsbedingungen. Falls Sie eine Reiserücktritts- oder Reiseversicherung über uns abgeschlossen haben, gilt die Reservierungsnummer außerdem als Policennummer. Außerdem gilt die 'Besondere Regelung für Reisebüros'.";
 $txt["en"]["factuur"]["opdezeovereenkomstalgvoorwaarden"]="This agreement is subject to our General travel and sales conditions. If a cancellation insurance or travel insurance has been taken out through us, the reservation number will also be your policy number. Furthermore, the „special arrangement for travel agencies” is applicable.";
 
