@@ -2638,7 +2638,7 @@ $txt["en"]["accommodatiemail"]["onjuistmailadres"]="incorrect email address";
 
 $txt["nl"]["accommodatiemail"]["verplichtveld"]="verplicht veld";
 $txt["de"]["accommodatiemail"]["verplichtveld"]="Pflichtfeld";
-$txt["en"]["accommodatiemail"]["verplichtveld"]="compulsory field";
+$txt["en"]["accommodatiemail"]["verplichtveld"]="mandatory field";
 
 $txt["nl"]["accommodatiemail"]["nietallevelden"]="niet alle velden zijn correct ingevuld";
 $txt["de"]["accommodatiemail"]["nietallevelden"]="nicht alle Felder sind korrekt ausgefüllt";

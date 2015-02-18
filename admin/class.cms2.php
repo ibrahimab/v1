@@ -82,8 +82,8 @@ class cms2 {
 		$this->settings["message"]["nognietaanweziginsysteem"]["fr"]="no _VALveldnaam_ in the system yet";
 
 		$this->settings["message"]["verplichtveldnognietbeschikbaar"]["nl"]="verplicht veld '_VALveldnaam_' is nog niet beschikbaar";
-		$this->settings["message"]["verplichtveldnognietbeschikbaar"]["en"]="Compulsory field '_VALveldnaam_' is not available yet";
-		$this->settings["message"]["verplichtveldnognietbeschikbaar"]["fr"]="Compulsory field '_VALveldnaam_' is not available yet";
+		$this->settings["message"]["verplichtveldnognietbeschikbaar"]["en"]="Mandatory field '_VALveldnaam_' is not available yet";
+		$this->settings["message"]["verplichtveldnognietbeschikbaar"]["fr"]="Mandatory field '_VALveldnaam_' is not available yet";
 
 		$this->settings["message"]["veldnaamopenen"]["nl"]="_VALveldnaam_ openen";
 		$this->settings["message"]["veldnaamopenen"]["en"]="Open _VALveldnaam_";

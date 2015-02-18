@@ -263,7 +263,7 @@ class form2 {
 
 		# Messages
 		$this->settings["message"]["verplichtveld"]["nl"]="Verplicht veld";
-		$this->settings["message"]["verplichtveld"]["en"]="Compulsory field";
+		$this->settings["message"]["verplichtveld"]["en"]="Mandatory field";
 		$this->settings["message"]["verplichtveld"]["de"]="Pflichtangaben";
 		$this->settings["message"]["verplichtveld"]["fr"]="Champ obligatoire";
 
@@ -335,12 +335,12 @@ class form2 {
 		$this->settings["message"]["error_foutform"]["fr"]="Vous n'avez pas rempli tous les champs correctement";
 
 		$this->settings["message"]["error_verplicht"]["nl"]="Velden met een asterisk (*) zijn verplicht";
-		$this->settings["message"]["error_verplicht"]["en"]="Fields marked with an asterisk are compulsory";
+		$this->settings["message"]["error_verplicht"]["en"]="Fields marked with an asterisk are mandatory";
 		$this->settings["message"]["error_verplicht"]["de"]="Sie haben nicht alle benötigten Felder ausgefüllt";
 		$this->settings["message"]["error_verplicht"]["fr"]="Les champs suivis d'un astérisque (*) sont obligatoires";
 
 		$this->settings["message"]["error_verplicht_veld"]["nl"]="verplicht veld";
-		$this->settings["message"]["error_verplicht_veld"]["en"]="compulsory field";
+		$this->settings["message"]["error_verplicht_veld"]["en"]="mandatory field";
 		$this->settings["message"]["error_verplicht_veld"]["de"]="Pflichtangaben";
 		$this->settings["message"]["error_verplicht_veld"]["fr"]="champ obligatoire";
 
