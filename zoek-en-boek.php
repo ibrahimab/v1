@@ -209,6 +209,9 @@ if($landing_meta_description) {
 if($zoekresultaten_title and !$pre_query_content) {
 	$title["zoek-en-boek"].=" - ".$zoekresultaten_title;
 }
+if($vars["themainfo"]["naam"] && $title["thema"]) {
+	$title["zoek-en-boek"] = $title["thema"];
+}
 if($vars["zoekform_aanbiedingen"]) {
 	# zorgen dat title, breadcrumbs en canonical op "aanbiedingen" staan
 	if($_GET["fad"]) {
