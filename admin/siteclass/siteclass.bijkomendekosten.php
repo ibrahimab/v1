@@ -1033,7 +1033,6 @@ class bijkomendekosten {
 
 	}
 
-
 	private function toonbedrag($bedrag) {
 		$return = number_format($bedrag, 2, ",", ".");
 		$return = preg_replace("@,00$@", ",-", $return);
@@ -1468,10 +1467,10 @@ class bijkomendekosten {
 			$return .= "</ul>";
 		}
 
-		if(!$isMobile){
+		if(!$isMobile) {
 			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
 			if(!$vars["wederverkoop"]) {
-					$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
+				$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
 			}
 			$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
 		}
@@ -1479,8 +1478,6 @@ class bijkomendekosten {
 		return $return;
 	}
 
-
 }
-
 
 ?>

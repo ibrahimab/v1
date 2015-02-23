@@ -216,6 +216,14 @@ class tarieventabel {
 
 		$return .= "</div>"; # afsluiten .tarieventabel_wrapper
 
+		if(is_array($this->datadiv)) {
+			$return .= "<div class=\"tarieventabel_datadiv\"";
+			foreach ($this->datadiv as $key => $value) {
+				$return .= " data-".$key."=\"".wt_he($value)."\"";
+			}
+			$return .= "></div>";
+		}
+
 		return $return;
 
 	}
@@ -673,9 +681,13 @@ class tarieventabel {
 
 			if($this->seizoenswissel($key,true)) {
 				$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+				$this->datadiv["begin_seizoen"] = $kolomteller;
+				$this->datadiv["last_seizoen_id"] = $this->last_seizoen_id;
 			}
 			if($this->seizoenswissel($key,false)) {
 				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+				$this->datadiv["eind_seizoen"] = $kolomteller;
+				$this->datadiv["first_seizoen_id"] = $this->first_seizoen_id;
 			}
 
 			if($this->dag_van_de_week_afwijkend[$key] and $key>time()) {
@@ -1398,7 +1410,6 @@ class tarieventabel {
 				}
 				$this->last_seizoen_id = $db->f("seizoen_id");
 				$this->seizoen_counter ++;
-
 
 				// begin, eind en binnen_seizoen bepalen
 				$week=$db->f("begin");

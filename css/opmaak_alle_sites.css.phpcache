@@ -437,10 +437,9 @@ td.selecteerbaarbedrag:hover{
 	color: #878481;
 }
 
-
-
-
-
+.tarieventabel_datadiv {
+	display: none;
+}
 
 
 a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {

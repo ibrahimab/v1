@@ -736,8 +736,8 @@ $(document).ready(function() {
 					$(this).css('height', $(this).height());
 					$(this).css('overflow', 'hidden');
 				},
-				create: function (event, ui) { 
-					if(typeof ReadyEvent != 'undefined') ReadyEvent.trigger('PushEvent'); 
+				create: function (event, ui) {
+					if(typeof ReadyEvent != 'undefined') ReadyEvent.trigger('PushEvent');
 				},
 				show: function(event, ui) {
 					$(this).css('height', 'auto');
@@ -2666,10 +2666,22 @@ var tarieventabel_maxpos = 0;
 var tarieventabel_toelichting_active_season = 0;
 
 function tarieventabel_toelichting_check_season() {
+	//
+	// check which bijkomendekosten-season has to be shown (based on scroll position)
+	//
 
-	// tarieventabel_toelichting_change_season(27);
-	// console.log($("td.tarieventabel_tarieven_kolom_eind_seizoen:first"));
+	if($(".tarieventabel_datadiv").length!==0) {
+		var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
 
+		if($(".tarieventabel_datadiv").data("begin_seizoen")) {
+			var seizoenwissel = (parseInt($(".tarieventabel_datadiv").data("begin_seizoen"))-5) * 67;
+			if(leftPos>seizoenwissel) {
+				tarieventabel_toelichting_change_season($(".tarieventabel_datadiv").data("last_seizoen_id"));
+			} else {
+				tarieventabel_toelichting_change_season($(".tarieventabel_datadiv").data("first_seizoen_id"));
+			}
+		}
+	}
 }
 
 function tarieventabel_toelichting_change_season(seizoen_id) {
@@ -2708,11 +2720,8 @@ function tarieventabel_controleer_scrollbuttons() {
 		});
 	}
 
-	// alert(tarieventabel_maxpos);
-
 	var actieve_pijl;
 	var pijl_links=false;
-
 
 	$(".tarieventabel_pijl").each(function() {
 
@@ -2731,7 +2740,6 @@ function tarieventabel_controleer_scrollbuttons() {
 			actieve_pijl.removeClass("tarieventabel_pijl_scroll_greyed_out");
 		}
 	});
-
 
 	tarieventabel_toelichting_check_season();
 }
