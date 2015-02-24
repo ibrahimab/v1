@@ -3922,7 +3922,7 @@ $txt["nl"]["bijkomendekosten"]["bedrag-onbekend"]="bedrag onbekend";
 $txt["de"]["bijkomendekosten"]["bedrag-onbekend"]="Betrag unbekannt";
 $txt["en"]["bijkomendekosten"]["bedrag-onbekend"]="amount unknown";
 
-$txt["nl"]["bijkomendekosten"]["geen-borg-verschuldigd"]="geen borg verschuldigd";
+$txt["nl"]["bijkomendekosten"]["geen-borg-verschuldigd"]="niet van toepassing";
 $txt["de"]["bijkomendekosten"]["geen-borg-verschuldigd"]="keine Kaution erforderlich";
 $txt["en"]["bijkomendekosten"]["geen-borg-verschuldigd"]="no security deposit required";
 
@@ -3937,6 +3937,11 @@ $txt["en"]["bijkomendekosten"]["opgeven-bij-boeking"]="state when booking";
 $txt["nl"]["bijkomendekosten"]["pppn"]="p.p.p.n.";
 $txt["de"]["bijkomendekosten"]["pppn"]="pro Person pro Nacht";
 $txt["en"]["bijkomendekosten"]["pppn"]="per person per night";
+
+$txt["nl"]["bijkomendekosten"]["kosten-zwitserse-franken"]="Kosten ter plaatse zijn vrijwel altijd in Zwitserse franken te voldoen. Wegens een veranderlijke wisselkoers zijn de betreffende eurobedragen alleen ter indicatie.";
+$txt["de"]["bijkomendekosten"]["kosten-zwitserse-franken"]="";
+$txt["en"]["bijkomendekosten"]["kosten-zwitserse-franken"]="";
+
 
 
 #

@@ -69,6 +69,7 @@ $cms->settings[57]["show"]["goto_new_record"]=true;
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_sort[57]=array("volgorde","naam");
 $cms->list_field(57,"naam","Naam");
+$cms->list_field(57,"altijd_diversen","Altijd diversen");
 $cms->list_field(57,"volgorde","Volgorde");
 
 

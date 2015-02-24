@@ -441,6 +441,11 @@ td.selecteerbaarbedrag:hover{
 	display: none;
 }
 
+.tarieventabel_kosten_zwitserse_franken {
+	font-style: italic;
+	margin-top: 1.5em;
+}
+
 
 a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";

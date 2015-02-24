@@ -4,7 +4,49 @@
 // Convert database-fields after changes to the system - only used for development
 //
 
-// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+
+
+// foreach ($vars["seizoentype_namen"] as $wzt => $seizoen_naam) {
+// 	echo $seizoen_naam."<br />";
+// 	unset($last_seizoen_id, $prev_seizoen_id, $has_bk);
+// 	$db->query("SELECT seizoen_id FROM seizoen WHERE type='".$wzt."' AND eind>NOW() ORDER BY begin, eind LIMIT 0,1;");
+// 	if($db->next_record()) {
+// 		$last_seizoen_id = $db->f("seizoen_id");
+// 		$db->query("SELECT seizoen_id FROM seizoen WHERE type='".$wzt."' AND seizoen_id<>'".$last_seizoen_id."' ORDER BY begin, eind LIMIT 0,1;");
+// 		if($db->next_record()) {
+// 			$prev_seizoen_id = $db->f("seizoen_id");
+// 		}
+// 	}
+
+// 	if($last_seizoen_id and $prev_seizoen_id) {
+// 		// get bijkomendekosten
+// 		$db->query("SELECT DISTINCT type_id FROM bk_type WHERE seizoen_id='".$last_seizoen_id."';");
+// 		while($db->next_record()) {
+// 			$has_bk[$db->f("type_id")] = true;
+// 		}
+
+// 		$db->query("SELECT DISTINCT type_id FROM tarief WHERE seizoen_id='".$last_seizoen_id."';");
+// 		echo $db->lq."<br />";
+// 		while($db->next_record()) {
+// 			if(!$has_bk[$db->f("type_id")]) {
+
+// 				echo "check_for_copy ".$db->f("type_id")."<br/>";
+
+// 				$db2->query("SELECT seizoen_id FROM bk_type WHERE type_id='".$db->f("type_id")."' AND seizoen_id<>'".$last_seizoen_id."';");
+// 				// echo $db2->lq."<br />";
+// 				if($db2->next_record()) {
+// 					// $bijkomendekosten = new bijkomendekosten;
+// 					// $bijkomendekosten->check_for_copy($last_seizoen_id, $db->f("type_id"));
+// 				}
+// 			}
+// 		}
+// 	}
+// }
+
+
+// $db->query("SELECT DISTINCT t.type_id FROM tarief t LEFT JOIN bk_type bk ON (bk.type_id=t.type_id AND bk.seizoen_id=t.seizoen_id) WHERE bk.type_id IS NULL;");
+
 
 // $convert_excel_to_teksten = new convert_excel_to_teksten;
 // $convert_excel_to_teksten->convert();

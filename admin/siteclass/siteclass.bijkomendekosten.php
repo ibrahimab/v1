@@ -82,7 +82,7 @@ class bijkomendekosten {
 				foreach ($this->cms_data_seizoenen as $key => $value) {
 					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bs.altijd_diversen, bs.prijs_per_nacht, bs.opgeven_bij_boeken, ba.".$this->soort."_id, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
 							   FROM bk_soort bs LEFT JOIN bk_".$this->soort." ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.".$this->soort."_id='".intval($this->id)."' AND ba.seizoen_id='".intval($key)."') WHERE bs.wzt='".intval($this->wzt)."' AND (ba.".$this->soort."_id IS NOT NULL OR bs.altijd_invullen=1)
-							   ORDER BY ba.inclusief DESC, bs.volgorde;");
+							   ORDER BY ba.borg_soort DESC, ba.inclusief DESC, bs.volgorde;");
 
 
 					while($db->next_record()) {
@@ -570,6 +570,12 @@ class bijkomendekosten {
 			$filled_type[$db->f("seizoen_id")][$db->f("type_id")] = true;
 		}
 
+		// get types with prices
+		$db->query("SELECT DISTINCT seizoen_id, type_id FROM tarief WHERE seizoen_id IN (".substr($active_season_inquery, 1).");");
+		while($db->next_record()) {
+			$filled_type_prices[$db->f("seizoen_id")][$db->f("type_id")] = true;
+		}
+
 		// get checked accommodation_id's
 		$db->query("SELECT seizoen_id, accommodatie_id FROM accommodatie_seizoen WHERE seizoen_id IN (".substr($active_season_inquery, 1).") AND bijkomendekosten_checked=1;");
 		while($db->next_record()) {
@@ -588,13 +594,51 @@ class bijkomendekosten {
 
 
 		foreach ($active_season as $seizoen_id => $seizoen_naam) {
+
+			//
+			// without bk at all
+			//
 			$db->seek();
 			unset($html, $al_gehad);
 			while($db->next_record()) {
-				$html .= "<ol>";
-				while($db->next_record()) {
-					if($filled_acc[$seizoen_id][$db->f("accommodatie_id")] or $filled_type[$seizoen_id][$db->f("type_id")]) {
-						if(!$al_gehad[$db->f("accommodatie_id")] and !$checked_acc[$seizoen_id][$db->f("accommodatie_id")]) {
+				if($filled_type_prices[$seizoen_id][$db->f("type_id")] and !$filled_type[$seizoen_id][$db->f("type_id")]) {
+					if(!$al_gehad[$db->f("accommodatie_id")]) {
+						if($al_gehad) $html .= "</li></ul>";
+						$html .= "<li>";
+						$html .= "<a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."#bijkomendekosten_".$seizoen_id."\" target=\"_blank\">";
+						$html .= wt_he($db->f("plaats")." - ".$db->f("naam"));
+						$html .= "</a>";
+						if($db->f("has_opmerkingen_intern")) {
+							$html .= "&nbsp;&nbsp;(<b>interne opmerkingen</b>)";
+						}
+						$html .= "<ul>";
+
+						$al_gehad[$db->f("accommodatie_id")] = true;
+
+					}
+					$html .= "<li>";
+					$html .= "<a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."#bijkomendekosten_".$seizoen_id."\" target=\"_blank\">";
+					$html .= wt_he($db->f("begincode").$db->f("type_id"));
+					$html .= "</a>";
+					$html .= "</li>";
+				}
+			}
+			if($al_gehad) {
+				$return .= "<p><b class=\"error\">Nog ontbrekende bijkomende kosten ".wt_he($seizoen_naam).":</b>";
+				$return .= "<ol>".$html."</ol>";
+				$return .= "<br /><hr /><br />";
+			}
+
+
+			//
+			// bk to check
+			//
+			$db->seek();
+			unset($html, $al_gehad);
+			while($db->next_record()) {
+				if($filled_acc[$seizoen_id][$db->f("accommodatie_id")] or $filled_type[$seizoen_id][$db->f("type_id")]) {
+					if(!$checked_acc[$seizoen_id][$db->f("accommodatie_id")] or !$checked_type[$seizoen_id][$db->f("type_id")]) {
+						if(!$al_gehad[$db->f("accommodatie_id")]) {
 							if($al_gehad) $html .= "</li></ul>";
 							$html .= "<li>";
 							$html .= "<a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."#bijkomendekosten_".$seizoen_id."\" target=\"_blank\">";
@@ -617,12 +661,11 @@ class bijkomendekosten {
 						}
 					}
 				}
-				$html .= "</ol>";
 			}
 
 			$return .= "<p><b>Nog te controleren bijkomende kosten ".wt_he($seizoen_naam).":</b>";
 			if($al_gehad) {
-				$return .= $html;
+				$return .= "<ol>".$html."</ol>";
 			} else {
 				$return .= "<p>Momenteel zijn er geen te controleren bijkomende kosten voor dit seizoen.</p>";
 			}
@@ -1321,7 +1364,9 @@ class bijkomendekosten {
 
 				if($value["filled"]) {
 
-					if($value["borg_soort"]) {
+					if($value["borg_soort"]==4) {
+						$cat = "diversen";
+					} elseif($value["borg_soort"]) {
 						$cat = "exclusief";
 					} elseif($value["altijd_diversen"]) {
 						$cat = "diversen";
@@ -1331,6 +1376,8 @@ class bijkomendekosten {
 						$cat = "exclusief";
 					} elseif($value["verplicht"]==3) {
 						$cat = "diversen";
+					} elseif($value["verplicht"]==2) {
+						$cat = "exclusief";
 					} else {
 						$cat = "uitbreiding";
 					}
@@ -1372,7 +1419,16 @@ class bijkomendekosten {
 						// other costs
 						//
 						$kosten[$cat][$key] = wt_he($value["naam"]);
-						if($value["bedrag"]=="0.00") {
+						if($value["verplicht"]==2 and $value["bedrag"]=="0.00") {
+							$kosten[$cat][$key] .= " (".wt_he($vars["bk_verplicht"][2]);
+							if($value["eenheid"]) {
+								$kosten[$cat][$key] .=" ".wt_he($vars["bk_eenheid"][$value["eenheid"]]);
+							}
+							if($value["ter_plaatse"]==1) {
+								$kosten[$cat][$key] .= ", ".wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
+							}
+							$kosten[$cat][$key] .= ")";
+						} elseif($value["bedrag"]=="0.00") {
 							$kosten[$cat][$key] .= " (".html("tegen-betaling", "bijkomendekosten").")";
 						} elseif($value["bedrag"]>0) {
 							$kosten[$cat][$key] .= " (";
@@ -1467,6 +1523,10 @@ class bijkomendekosten {
 			$return .= "</ul>";
 		}
 
+		if($this->accinfo["begincode"]=="Z") {
+			$return .= "<div class=\"tarieventabel_kosten_zwitserse_franken\">".html("kosten-zwitserse-franken","bijkomendekosten")."</div>";
+		}
+
 		if(!$isMobile) {
 			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
 			if(!$vars["wederverkoop"]) {
@@ -1474,6 +1534,7 @@ class bijkomendekosten {
 			}
 			$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
 		}
+
 
 		return $return;
 	}

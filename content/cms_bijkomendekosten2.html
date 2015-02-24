@@ -8,12 +8,16 @@ if($_GET["cmsversie"]=="nieuw4") {
 
 	echo "<br />";
 
-	// $db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, t.tmp_teksten_omgezet AS ttmp_teksten_omgezet, a.tmp_teksten_omgezet, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief, a.bk_opmerkingen_intern FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt='1' ORDER BY a.bk_opmerkingen_intern, v.plaats, v.naam, v.accommodatie_id, t.type_id;");
-	// while($db->next_record()) {
-	// 	$db2->query("INSERT INTO accommodatie_seizoen SET accommodatie_id='".intval($db->f("accommodatie_id"))."', seizoen_id='24', bijkomendekosten_checked='1' ON DUPLICATE KEY UPDATE bijkomendekosten_checked='1';");
-	// 	echo $db2->lq."<br />";
-	// 	$db2->query("INSERT INTO type_seizoen SET type_id='".intval($db->f("type_id"))."', seizoen_id='24', bijkomendekosten_checked='1' ON DUPLICATE KEY UPDATE bijkomendekosten_checked='1';");
-	// 	echo $db2->lq."<br />";
+	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
+	// 	$db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, t.tmp_teksten_omgezet AS ttmp_teksten_omgezet, a.tmp_teksten_omgezet, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief, a.bk_opmerkingen_intern FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt='2' ORDER BY a.bk_opmerkingen_intern, v.plaats, v.naam, v.accommodatie_id, t.type_id;");
+	// 	while($db->next_record()) {
+	// 		if(!$db->f("bk_opmerkingen_intern")) {
+	// 			$db2->query("INSERT INTO accommodatie_seizoen SET accommodatie_id='".intval($db->f("accommodatie_id"))."', seizoen_id='25', bijkomendekosten_checked='1' ON DUPLICATE KEY UPDATE bijkomendekosten_checked='1';");
+	// 			echo $db2->lq."<br />";
+	// 			$db2->query("INSERT INTO type_seizoen SET type_id='".intval($db->f("type_id"))."', seizoen_id='25', bijkomendekosten_checked='1' ON DUPLICATE KEY UPDATE bijkomendekosten_checked='1';");
+	// 			echo $db2->lq."<br />";
+	// 		}
+	// 	}
 	// }
 
 	// $db->query("select distinct type_id from tarief where seizoen_id=27;");

@@ -48,7 +48,7 @@ class tarieventabel {
 
 	public function toontabel() {
 
-		global $vars, $isMobile;
+		global $vars, $isMobile, $voorkant_cms, $login;
 
 		$db = new DB_sql;
 
@@ -135,7 +135,8 @@ class tarieventabel {
 
 		} else {
 
-			if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $vars["taal"]=="de") and $vars["seizoentype"]==1) {
+			// if(($voorkant_cms and ($login->user_id==1 or $login->user_id==10)) or $vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $vars["taal"]=="de") {
+			if($voorkant_cms or $vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $vars["taal"]=="de") {
 
 				if(!$this->first_seizoen_id) {
 					trigger_error("missing first_season_id",E_USER_NOTICE);
@@ -156,7 +157,6 @@ class tarieventabel {
 						}
 
 						$check_for_doubles = $toelichting_season[$seizoen_id];
-						// echo md5($check_for_doubles).wt_he($check_for_doubles)."<hr>";
 					}
 
 					if($both_season_are_the_same) {
@@ -189,6 +189,10 @@ class tarieventabel {
 					// one season
 					$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
 					$toelichting = $bijkomendekosten->toon_type_temporary();
+				}
+
+				if($voorkant_cms) {
+					$toelichting .= "<div style=\"border:1px solid #777777;padding:10px;margin-top:25px;background-color:#ebebeb;\"><b>Wat ziet de bezoeker momenteel nog:</b><br/>".$this->toelichting()."</div>";
 				}
 
 			} else {
