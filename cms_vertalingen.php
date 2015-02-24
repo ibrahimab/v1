@@ -51,7 +51,7 @@ while(list($afwijkingkey,$afwijkingvalue)=each($doorloop_array)) {
 		}
 	}
 }
-if(is_array($nieuwe_vertaling)) {
+if(is_array($nieuwe_vertaling[$vertaal_taal])) {
 	while(list($key,$value)=each($nieuwe_vertaling[$vertaal_taal])) {
 		while(list($key2,$value2)=each($value)) {
 			if(!$txt[$vertaal_taal.$afwijking][$key][$key2] and $value2) {
