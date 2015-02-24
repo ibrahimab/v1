@@ -139,7 +139,7 @@ class tarieventabel {
 			if($voorkant_cms or $vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $vars["taal"]=="de") {
 
 				if(!$this->first_seizoen_id) {
-					trigger_error("missing first_season_id",E_USER_NOTICE);
+					// trigger_error("missing first_season_id",E_USER_NOTICE);
 				}
 
 				$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
