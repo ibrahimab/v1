@@ -3939,7 +3939,7 @@ $txt["de"]["bijkomendekosten"]["pppn"]="pro Person pro Nacht";
 $txt["en"]["bijkomendekosten"]["pppn"]="per person per night";
 
 $txt["nl"]["bijkomendekosten"]["kosten-zwitserse-franken"]="Kosten ter plaatse zijn vrijwel altijd in Zwitserse franken te voldoen. Wegens een veranderlijke wisselkoers zijn de betreffende eurobedragen alleen ter indicatie.";
-$txt["de"]["bijkomendekosten"]["kosten-zwitserse-franken"]="";
+$txt["de"]["bijkomendekosten"]["kosten-zwitserse-franken"]="Kosten vor Ort sind nahezu immer in Schweizer Franken zu begleichen. Wegen des ver‰nderlichen Wechselkurses sind die gezeigten Euro-Betr‰ge ausschlieﬂlich indikativ.";
 $txt["en"]["bijkomendekosten"]["kosten-zwitserse-franken"]="Costs locally are almost always paid in Swiss francs. Euro amounts shown only serve as an indication due to variable exchange rates.";
 
 
