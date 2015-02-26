@@ -243,7 +243,7 @@ echo "</div>\n";
 
 // // Zoover-awards
 if($vars["website"]=="C" || $vars["website"] == "B") {
-	echo "<a href=\"http://www.zooverawards.nl/stemmen/groep/Chalet\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\"><img src=\"".wt_he($vars["path"]."pic/banners/zoover/zoover-2015.png")."\"></a>";
+	echo "<a href=\"http://www.zooverawards.nl/stemmen/wintersport/chalet.nl\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\"><img src=\"".wt_he($vars["path"]."pic/banners/zoover/zoover-2015.png")."\"></a>";
 }
 
 echo "<div id=\"topfoto\">";
