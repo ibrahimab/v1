@@ -929,7 +929,7 @@ $(document).ready(function() {
 		$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row_afwijkend_type[data-soort_id="+bk_soort_id+"]").addClass("cms_bk_row_overwrite");
 
 		if($(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row_afwijkend_type.cms_bk_row_overwrite").length!==0) {
-			$(".cms_bk_type_afwijkingen_overschrijven").css("visibility", "visible");
+			$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_type_afwijkingen_overschrijven").css("visibility", "visible");
 			form.find("input[type=submit]").prop("disabled" , true);
 		}
 	});
