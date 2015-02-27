@@ -140,13 +140,10 @@ if($_GET["show"]==2) {
 	echo "</ul>";
 
 	// bijkomende kosten
-	if($login->has_priv("31")) {
+	$bijkomendekosten = new bijkomendekosten($_GET["2k0"], "type");
+	echo $bijkomendekosten->cms_enter_costs_per_acc_type();
 
-		$bijkomendekosten = new bijkomendekosten($_GET["2k0"], "type");
-		echo $bijkomendekosten->cms_enter_costs_per_acc_type();
-
-		echo "<p>&nbsp;</p>";
-	}
+	echo "<p>&nbsp;</p>";
 
 	echo "<hr><h2>Type kopi&euml;ren</h2>";
 	echo "<p>";

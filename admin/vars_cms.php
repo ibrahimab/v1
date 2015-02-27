@@ -367,17 +367,13 @@ if($mustlogin) {
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Afgehandeld",array("status"=>"4"),true);
 	}
 
-	if($login->has_priv("31")) {
-		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true,false,array("slide"=>true));
-		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","huidig systeem",array("cmsversie"=>"huidig"),true);
-		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","nieuw: variabel per week",array("cmsversie"=>"nieuw1"),true);
-		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast winter",array("cmsversie"=>"nieuw2", "wzt"=>1),true);
-		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast zomer",array("cmsversie"=>"nieuw3", "wzt"=>2),true);
-		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: nakijken winter",array("cmsversie"=>"nieuw4", "wzt"=>1),true);
-		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: nakijken zomer",array("cmsversie"=>"nieuw4", "wzt"=>2),true);
-	} else {
-		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true);
-	}
+	$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true,false,array("slide"=>true));
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","huidig systeem",array("cmsversie"=>"huidig"),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","nieuw: variabel per week",array("cmsversie"=>"nieuw1"),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast winter",array("cmsversie"=>"nieuw2", "wzt"=>1),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast zomer",array("cmsversie"=>"nieuw3", "wzt"=>2),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: nakijken winter",array("cmsversie"=>"nieuw4", "wzt"=>1),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: nakijken zomer",array("cmsversie"=>"nieuw4", "wzt"=>2),true);
 
 #	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true);
 	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true,false,array("slide"=>true));
@@ -1255,7 +1251,6 @@ $vars["priv"]=array(
 	28=>"Totaaloverzicht financiën kunnen opvragen (buiten kantoor)",
 	29=>"Evenementen beheren",
 	30=>"Vertrekinfo-sjablonen beheren",
-	31=>"Bijkomende kosten beheren (nieuw systeem)",
 ); # LET OP! Bij doortellen rekening houden met $vars["cms_hoofdpagina_soorten"] (dus 11 t/m 20 niet gebruiken)
 
 while(list($key,$value)=each($vars["cms_hoofdpagina_soorten"])) {

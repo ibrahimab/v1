@@ -164,13 +164,6 @@ class bijkomendekosten {
 
 			$db = new DB_sql;
 
-
-			// get tmp_teksten_omgezet
-			$db->query("SELECT tmp_teksten_omgezet FROM ".$this->soort." WHERE ".$this->soort."_id='".intval($this->id)."';");
-			if($db->next_record()) {
-				$this->cms_data_tmp_teksten_omgezet = $db->f("tmp_teksten_omgezet");
-			}
-
 			// get bijkomendekosten_checked
 			$db->query("SELECT seizoen_id, bijkomendekosten_checked FROM ".$this->soort."_seizoen WHERE ".$this->soort."_id='".intval($this->id)."' AND seizoen_id IN (".substr($this->seizoen_inquery,1).");");
 			while($db->next_record()) {
@@ -398,16 +391,8 @@ class bijkomendekosten {
 				$return .= $this->cms_all_rows();
 				$return .= "</div>"; // close .cms_bk_all_rows_wrapper
 
-				if($in_exclusief_tekst) {
-					$return .= "<div style=\"text-align:right;margin-top:15px;margin-bottom:15px;".($this->wzt==1 ? "display:none;" : "")."\"><input type=\"checkbox\" name=\"tmp_teksten_omgezet\" value=\"1\" id=\"tmp_teksten_omgezet_".$key."\"".($this->cms_data_tmp_teksten_omgezet ? " checked" : "")."><label for=\"tmp_teksten_omgezet_".$key."\">&nbsp;alle in- en exclusief-teksten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." zijn verwerkt&nbsp;</label></div>";
-					// $return .= "<input type=\"checkbox\" name=\"tmp_teksten_omgezet\" value=\"1\" id=\"tmp_teksten_omgezet\"".($this->cms_data_tmp_teksten_omgezet ? " checked" : "")."><label for=\"tmp_teksten_omgezet\">&nbsp;alle in- en exclusief-teksten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." zijn verwerkt</label>";
-				}
+				$return .= "<div style=\"text-align:right;margin-top:15px;margin-bottom:15px;\"><input type=\"checkbox\" name=\"bijkomendekosten_checked\" value=\"1\" id=\"bijkomendekosten_checked_".$key."\"".($this->cms_data_bijkomendekosten_checked[$key] ? " checked" : "")."><label for=\"bijkomendekosten_checked_".$key."\">&nbsp;alle bijkomende kosten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." (".wt_he($value).") zijn gecontroleerd&nbsp;</label></div>";
 
-				if($this->wzt<>2) {
-					$return .= "<div style=\"text-align:right;margin-top:15px;margin-bottom:15px;\"><input type=\"checkbox\" name=\"bijkomendekosten_checked\" value=\"1\" id=\"bijkomendekosten_checked_".$key."\"".($this->cms_data_bijkomendekosten_checked[$key] ? " checked" : "")."><label for=\"bijkomendekosten_checked_".$key."\">&nbsp;alle bijkomende kosten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." (".wt_he($value).") zijn gecontroleerd&nbsp;</label></div>";
-				}
-
-				// $return .= "<input type=\"submit\" value=\"OPSLAAN\"".($this->other_type_data ? " disabled=\"disabled\"" : "")."><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
 				$return .= "<input type=\"submit\" value=\"OPSLAAN\"><img src=\"".$vars["path"]."pic/ajax-loader-transparent.gif\" class=\"ajaxloader\">";
 				$return .= "<div class=\"clear\"></div>";
 
@@ -589,7 +574,7 @@ class bijkomendekosten {
 		}
 
 
-		$db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, t.tmp_teksten_omgezet AS ttmp_teksten_omgezet, a.tmp_teksten_omgezet, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief, CASE WHEN a.bk_opmerkingen_intern IS NULL THEN 0 WHEN a.bk_opmerkingen_intern='' THEN 0 ELSE 1 END AS has_opmerkingen_intern FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt='".intval($wzt)."' ORDER BY has_opmerkingen_intern, v.plaats, v.naam, v.accommodatie_id, t.type_id;");
+		$db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief, CASE WHEN a.bk_opmerkingen_intern IS NULL THEN 0 WHEN a.bk_opmerkingen_intern='' THEN 0 ELSE 1 END AS has_opmerkingen_intern FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt='".intval($wzt)."' ORDER BY has_opmerkingen_intern, v.plaats, v.naam, v.accommodatie_id, t.type_id;");
 
 
 

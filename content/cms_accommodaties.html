@@ -98,13 +98,11 @@ if($_GET["show"]==1) {
 	}
 
 	// bijkomende kosten
-	if($login->has_priv("31")) {
+	$bijkomendekosten = new bijkomendekosten($_GET["1k0"], "accommodatie");
+	echo $bijkomendekosten->cms_enter_costs_per_acc_type();
 
-		$bijkomendekosten = new bijkomendekosten($_GET["1k0"], "accommodatie");
-		echo $bijkomendekosten->cms_enter_costs_per_acc_type();
+	echo "<p>&nbsp;</p>";
 
-		echo "<p>&nbsp;</p>";
-	}
 
 	echo "<p><hr><h2>Vertrekdagtypes</h2>";
 	echo "<b>Let op!</b> Alleen invullen als de vertrekdagen per seizoen wisselen. Indien de verblijfsduur bij deze accommodatie altijd afwijkt (bijvoorbeeld altijd zondag-zondag) dan kan dat bij de <a href=\"cms_accommodaties.php?edit=1&bc=".($_GET["bc"]+1)."&1k0=".$_GET["1k0"]."&wzt=".$_GET["wzt"]."#verblijfsduur\">accommodatiegegevens</a> ingevoerd worden.</a><p>";

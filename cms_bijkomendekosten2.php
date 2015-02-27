@@ -3,12 +3,6 @@
 $mustlogin=true;
 include("admin/vars.php");
 
-if(!$login->has_priv("31")) {
-	// only users with the right privileges
-	header("Location: cms.php");
-	exit;
-}
-
 # wzt opvragen indien niet meegegeven met query_string
 if(!$_GET["wzt"]) {
 	if($_GET["57k0"]) {

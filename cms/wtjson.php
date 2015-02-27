@@ -214,8 +214,6 @@ if($_GET["t"]=="keep_session_alive") {
 				$db->query("DELETE FROM bk_type WHERE delete_after=1 AND type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."') AND seizoen_id='".intval($_GET["seizoen_id"])."';");
 			}
 
-			$db->query("UPDATE ".$_GET["soort"]." SET tmp_teksten_omgezet='".intval($_GET["tmp_teksten_omgezet"])."' WHERE ".$_GET["soort"]."_id='".intval($_GET["id"])."';");
-
 			// save bijkomendekosten_checked
 			$db->query("INSERT INTO ".$_GET["soort"]."_seizoen SET ".$_GET["soort"]."_id='".intval($_GET["id"])."', seizoen_id='".intval($_GET["seizoen_id"])."', bijkomendekosten_checked='".intval($_GET["bijkomendekosten_checked"])."' ON DUPLICATE KEY UPDATE bijkomendekosten_checked='".intval($_GET["bijkomendekosten_checked"])."';");
 			if($_GET["bijkomendekosten_checked"]==1 and $_GET["soort"]=="accommodatie") {
