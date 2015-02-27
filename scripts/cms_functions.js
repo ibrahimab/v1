@@ -990,6 +990,14 @@ $(document).ready(function() {
 		bk_row_yellow_or_not($(this).closest(".cms_bk_row"));
 	});
 
+	// bk: opmerkingen_intern: keep synced
+	$(".cms_bk_opmerkingen_intern textarea").blur(function(event) {
+		var cms_bk_opmerkingen_intern = $(this).val();
+		$(".cms_bk_opmerkingen_intern textarea").each(function(){
+			$(this).val(cms_bk_opmerkingen_intern);
+		})
+	});
+
 	$(".cms_bk_seizoen form").submit(function(event) {
 		event.preventDefault();
 
