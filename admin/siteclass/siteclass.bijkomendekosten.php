@@ -8,13 +8,12 @@
 /*
 
 todo:
-- doorlezen PRO-27 en vergelijken met ontwikkelde functionaliteit: alles afgedekt?
+- doorlezen CMS-27 en vergelijken met ontwikkelde functionaliteit: alles afgedekt?
 
 
 
 eventueel later:
 - accommodatie-niveau per regel opslaan
-- tabellen inclusief en exclusief bij accommodaties zonder tarieven (en bij tonen oude tarieventabel)
 
 bespreken:
 - waar is "borg" "niet van toepassing" voor nodig?
@@ -291,73 +290,12 @@ class bijkomendekosten {
 				$db = new DB_sql;
 
 				if($this->soort=="type") {
-					$db->query("SELECT inclusief, exclusief, bk_opmerkingen_intern FROM accommodatie WHERE accommodatie_id=(SELECT accommodatie_id FROM type WHERE type_id='".intval($this->id)."');");
+					$db->query("SELECT bk_opmerkingen_intern FROM accommodatie WHERE accommodatie_id=(SELECT accommodatie_id FROM type WHERE type_id='".intval($this->id)."');");
 				} else {
-					$db->query("SELECT inclusief, exclusief, bk_opmerkingen_intern FROM accommodatie WHERE accommodatie_id='".intval($this->id)."';");
+					$db->query("SELECT bk_opmerkingen_intern FROM accommodatie WHERE accommodatie_id='".intval($this->id)."';");
 				}
 				if($db->next_record()) {
-
 					$bk_opmerkingen_intern = $db->f("bk_opmerkingen_intern");
-
-					if($db->f("inclusief")) {
-						$inclusief_tekst_html .= "<h5>Inclusief-tekst accommodatie-niveau</h5>".nl2br(wt_htmlent($db->f("inclusief")))."<br/>";
-						if($this->soort=="accommodatie") {
-							$in_exclusief_tekst = true;
-						}
-					}
-					if($db->f("exclusief")) {
-						$exclusief_tekst_html .= "<h5>Exclusief-tekst accommodatie-niveau</h5>".nl2br(wt_htmlent($db->f("exclusief")))."<br/>";
-						if($this->soort=="accommodatie") {
-							$in_exclusief_tekst = true;
-						}
-					}
-				}
-				if($this->soort=="type") {
-					$db->query("SELECT inclusief, exclusief FROM type WHERE type_id='".intval($this->id)."';");
-					if($db->next_record()) {
-						if($db->f("inclusief")) {
-							if($inclusief_tekst_html) {
-								$inclusief_tekst_html .= "<br/><br/>";
-							}
-							$inclusief_tekst_html .= "<h5>Inclusief-tekst type-niveau</h5>".nl2br(wt_htmlent($db->f("inclusief")))."<br/>";
-							$in_exclusief_tekst = true;
-						}
-						if($db->f("exclusief")) {
-							if($exclusief_tekst_html) {
-								$exclusief_tekst_html .= "<br/><br/>";
-							}
-							$exclusief_tekst_html .= "<h5>Exclusief-tekst type-niveau</h5>".nl2br(wt_htmlent($db->f("exclusief")))."<br/>";
-							$in_exclusief_tekst = true;
-						}
-					}
-
-				} else {
-					$db->query("SELECT type_id, inclusief, exclusief FROM type WHERE accommodatie_id='".intval($this->id)."' ORDER BY type_id;");
-					while($db->next_record()) {
-						if($db->f("inclusief")) {
-							if($inclusief_tekst_html) {
-								$inclusief_tekst_html .= "<br/>";
-							}
-							$inclusief_tekst_html .= "<h5>Inclusief-tekst type-niveau: <a href=\"".$vars["path"]."cms_types.php?show=2&1k0=".intval($this->id)."&2k0=".$db->f("type_id")."#bijkomendekosten\" target=\"_blank\">".$this->all_types[$db->f("type_id")]."</a></h5>";
-						}
-						if($db->f("exclusief")) {
-							if($exclusief_tekst_html) {
-								$exclusief_tekst_html .= "<br/>";
-							}
-							$exclusief_tekst_html .= "<h5>Exclusief-tekst type-niveau: <a href=\"".$vars["path"]."cms_types.php?show=2&1k0=".intval($this->id)."&2k0=".$db->f("type_id")."#bijkomendekosten\" target=\"_blank\">".$this->all_types[$db->f("type_id")]."</a></h5>";
-						}
-					}
-				}
-
-				if(($inclusief_tekst_html or $exclusief_tekst_html)) {
-					$return .= "<table class=\"cms_bk_oude_teksten\"><tr>";
-					if($inclusief_tekst_html) {
-						$return .= "<td>".$inclusief_tekst_html."</td>";
-					}
-					if($exclusief_tekst_html) {
-						$return .= "<td>".$exclusief_tekst_html."</td>";
-					}
-					$return .= "</tr></table>";
 				}
 
 				$return .= "<form method=\"post\">";
