@@ -1488,7 +1488,9 @@ if($db->next_record()) {
 				}
 			}
 
-			echo $tarieventabel_object->show_bijkomendekosten();
+			if($nieuwe_tarieventabel) {
+				echo $tarieventabel_object->show_bijkomendekosten();
+			}
 		} else {
 
 			$tarieventabel_object_temp = new tarieventabel;
@@ -1504,7 +1506,9 @@ if($db->next_record()) {
 
 			// $tarieventabel_object_temp->tarieven_uit_database();
 
-			echo $tarieventabel_object_temp->show_bijkomendekosten();
+			if($nieuwe_tarieventabel) {
+				echo $tarieventabel_object_temp->show_bijkomendekosten();
+			}
 		}
 
 		// if($vars["wederverkoop"]) {
