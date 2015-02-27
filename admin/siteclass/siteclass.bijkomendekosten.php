@@ -397,7 +397,7 @@ class bijkomendekosten {
 				$return .= "<div class=\"clear\"></div>";
 
 				if($this->other_type_data) {
-					$return .= "<div class=\"cms_bk_type_afwijkingen_overschrijven\"><input type=\"checkbox\" name=\"type_afwijkingen_overschrijven\" id=\"type_afwijkingen_overschrijven\"><label for=\"type_afwijkingen_overschrijven\">&nbsp;rode type-afwijkingen overschrijven</label></div>";
+					$return .= "<div class=\"cms_bk_type_afwijkingen_overschrijven\"><input type=\"checkbox\" name=\"type_afwijkingen_overschrijven\" id=\"type_afwijkingen_overschrijven_".$key."\"><label for=\"type_afwijkingen_overschrijven_".$key."\">&nbsp;rode type-afwijkingen overschrijven</label></div>";
 				}
 
 				$return .= "<input type=\"hidden\" name=\"all_rows_for_log\" value=\"".wt_he($this->all_rows_for_log[$this->seizoen_id])."\" />";

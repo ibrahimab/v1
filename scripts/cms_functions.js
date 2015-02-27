@@ -956,7 +956,7 @@ $(document).ready(function() {
 	});
 
 
-	$("#type_afwijkingen_overschrijven").change(function(event) {
+	$("input[name=type_afwijkingen_overschrijven]").change(function(event) {
 
 		var form = $(this).closest("form");
 
