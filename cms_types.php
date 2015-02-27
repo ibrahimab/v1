@@ -430,7 +430,7 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(2,0,"inclusief_".$vars["cmstaal"],"Type-inclusief ".strtoupper($vars["cmstaal"]));
 } else {
 	$cms->edit_field(2,1,"htmlcol","Accommodatie-inclusief",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["inclusief"]))."</span>"));
-	$cms->edit_field(2,0,"inclusief","Type-inclusief");
+	$cms->edit_field(2,0,"inclusief","Type-inclusief (verouderd)");
 }
 $cms->edit_field(2,1,"htmlrow","<hr>");
 
@@ -441,7 +441,7 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(2,0,"exclusief_".$vars["cmstaal"],"Type-exclusief ".strtoupper($vars["cmstaal"]));
 } else {
 	$cms->edit_field(2,1,"htmlcol","Accommodatie-exclusief",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["exclusief"]))."</span>"));
-	$cms->edit_field(2,0,"exclusief","Type-exclusief");
+	$cms->edit_field(2,0,"exclusief","Type-exclusief (verouderd)");
 }
 $cms->edit_field(2,1,"htmlrow","<hr>");
 

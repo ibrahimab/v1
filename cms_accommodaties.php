@@ -481,13 +481,13 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(1,0,"inclusief","Inclusief NL","",array("noedit"=>true));
 	$cms->edit_field(1,0,"inclusief_".$vars["cmstaal"],"Inclusief ".strtoupper($vars["cmstaal"]));
 } else {
-	$cms->edit_field(1,0,"inclusief","Inclusief");
+	$cms->edit_field(1,0,"inclusief","Inclusief (verouderd)");
 }
 if($vars["cmstaal"]) {
 	$cms->edit_field(1,0,"exclusief","Exclusief NL","",array("noedit"=>true));
 	$cms->edit_field(1,0,"exclusief_".$vars["cmstaal"],"Exclusief ".strtoupper($vars["cmstaal"]));
 } else {
-	$cms->edit_field(1,0,"exclusief","Exclusief");
+	$cms->edit_field(1,0,"exclusief","Exclusief (verouderd)");
 }
 if($vars["cmstaal"]) {
 	$cms->edit_field(1,0,"extraopties","Extra opties NL","",array("noedit"=>true));
