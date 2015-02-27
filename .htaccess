@@ -515,6 +515,10 @@ RewriteRule ^reisblog/voorwaarden$ reisblog.php?voorwaarden=1&%{QUERY_STRING}
 RewriteRule ^kixx/$ /kixx [L,R=301]
 RewriteRule ^kixx$ actie-kixx.php?%{QUERY_STRING}
 
+# Onderzoek Dunja
+RewriteRule ^onderzoek/$ /onderzoek [L,R=301]
+RewriteRule ^onderzoek$ onderzoek.php?%{QUERY_STRING}
+
 #
 # afgelopen acties
 #
