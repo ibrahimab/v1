@@ -394,21 +394,21 @@ if($db2->next_record()) {
 			if($voorkant_cms and !$tarievenpopup) {
 				echo "<div style=\"float:left;width:500px;\">";
 			}
-			echo html("tarieven","tarieventabel")." ".wt_he($seizoen["naam"])." - ".html("ineuros","tarieventabel").", ";
-			if($toonper==3 or $vars["wederverkoop"]) {
-				echo html("peraccommodatie","tarieventabel");
-			} elseif($vars["seizoentype"]==1) {
-				echo html("perpersooninclskipas","tarieventabel");
-			} else {
-				echo html("perpersoon","tarieventabel");
-			}
+			echo html("tarieven","tarieventabel")." ".wt_he($seizoen["naam"]);
+			// if($toonper==3 or $vars["wederverkoop"]) {
+			// 	echo html("peraccommodatie","tarieventabel");
+			// } elseif($vars["seizoentype"]==1) {
+			// 	echo html("perpersooninclskipas","tarieventabel");
+			// } else {
+			// 	echo html("perpersoon","tarieventabel");
+			// }
 	#		if($aanbieding[$seizoenid]["typeid_sort"][$typeid]) {
 	#			echo ", ".html("kortingenaldoorgerekend","tarieventabel");
 	#		}
 			if($voorkant_cms and !$tarievenpopup) {
-				echo "</div><div style=\"font-size:0.75em;\">Wederverkoop:&nbsp;";
-				if($accinfo["wederverkoop"]) echo "ja"; else echo "nee";
-				echo "&nbsp;&nbsp;&nbsp;<a href=\"";
+				echo "</div><div style=\"text-align:right;font-size:0.75em;\">";
+				// if($accinfo["wederverkoop"]) echo "ja"; else echo "nee";
+				echo "<a href=\"";
 				if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
 					echo "https://www.chalet.nl";
 				}
@@ -963,7 +963,7 @@ if($db2->next_record()) {
 			echo "<span style=\"border: solid #000000 1px;background-color:#".$vars["wederverkoop_kleuren"][3]."\">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;".html("wederverkoop_zwart","tarieventabel")."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			echo "</p>";
 		} else {
-			echo "<p><b>".html("voorwekenzonder","tarieventabel")."</b>";
+			// echo "<p><b>".html("voorwekenzonder","tarieventabel")."</b>";
 		}
 
 		if($gelebedragen and ($_GET["d"] or ($_GET["ap"] and !$vars["wederverkoop"] and ($toonper==1 or $toonper==2)))) {

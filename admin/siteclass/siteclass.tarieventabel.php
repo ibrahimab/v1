@@ -123,100 +123,7 @@ class tarieventabel {
 		$return .= $this->tabel_content();
 		$return .= $this->tabel_bottom();
 
-		if($this->toon_bijkomendekosten and $this->first_seizoen_id) {
-
-			$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
-			$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
-			$bijkomendekosten->arrangement = $this->arrangement;
-			$bijkomendekosten->accinfo = $this->accinfo;
-
-			$toelichting = $bijkomendekosten->toon_type();
-			// $toelichting = $bijkomendekosten->toon_type_temporary();
-
-		} else {
-
-			// if(($voorkant_cms and ($login->user_id==1 or $login->user_id==10)) or $vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $vars["taal"]=="de") {
-			if($voorkant_cms or $vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $vars["taal"]=="de") {
-
-				if(!$this->first_seizoen_id) {
-					// trigger_error("missing first_season_id",E_USER_NOTICE);
-				}
-
-				$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
-				$bijkomendekosten->arrangement = $this->arrangement;
-				$bijkomendekosten->accinfo = $this->accinfo;
-				if($this->seizoen_counter>1) {
-
-					foreach ($this->seizoeninfo as $seizoen_id => $value) {
-						// multiple seasons
-						$bijkomendekosten->seizoen_id = $seizoen_id;
-						$toelichting_season[$seizoen_id] = $bijkomendekosten->toon_type_temporary();
-
-						if($check_for_doubles and $check_for_doubles==$toelichting_season[$seizoen_id]) {
-							$both_season_are_the_same = true;
-						}
-
-						$check_for_doubles = $toelichting_season[$seizoen_id];
-					}
-
-					if($both_season_are_the_same) {
-						$toelichting = $check_for_doubles;
-					} else {
-
-						$toelichting .= "<form><select class=\"tarieventabel_toelichting_switch_seasons\">";
-						foreach ($toelichting_season as $seizoen_id => $value) {
-							$season_counter++;
-							$toelichting .= "<option value=\"".$seizoen_id."\"".($season_counter==1 ? " selected" : "").">".wt_he($this->seizoeninfo[$seizoen_id]["naam"])."</option>";
-						}
-						$toelichting .= "</select></form>";
-
-						$toelichting .= "<div class=\"tarieventabel_toelichting_all_seasons\">";
-
-						$toelichting .= "<div class=\"tarieventabel_toelichting_active_season\"></div>";
-
-						foreach ($toelichting_season as $seizoen_id => $value) {
-
-							$toelichting .= "<div class=\"tarieventabel_toelichting_one_season\" data-seizoen_id=\"".$seizoen_id."\">";
-							$toelichting .= $value;
-							$toelichting .= "</div>";
-
-						}
-						$toelichting .= "</div>";
-					}
-
-
-				} else {
-					// one season
-					$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
-					$toelichting = $bijkomendekosten->toon_type_temporary();
-				}
-
-				if($voorkant_cms) {
-					$toelichting .= "<div style=\"border:1px solid #777777;padding:10px;margin-top:25px;background-color:#ebebeb;\"><b>Wat ziet de bezoeker momenteel nog:</b><br/>".$this->toelichting()."</div>";
-				}
-
-			} else {
-				$toelichting = $this->toelichting();
-			}
-		}
-
-		if($toelichting) {
-			$return .= "<div class=\"tarieventabel_toelichting\">";
-
-
-			// info totaalprijs
-			if($this->toon_bijkomendekosten) {
-				$return .= "<div class=\"tarieventabel_totaalprijs_wrapper\">";
-				if($_GET["ap"] and $_GET["d"]) {
-					$return .= $this->info_totaalprijs($_GET["ap"], $_GET["d"]);
-				}
-				$return .= "</div>";
-			}
-
-			$return .= $toelichting;
-
-			$return .= "</div>"; # afsluiten .tarieventabel_toelichting
-		}
+		$return .= $this->show_bijkomendekosten();
 
 		$return .= "</div>"; # afsluiten .tarieventabel_wrapper
 
@@ -1281,6 +1188,117 @@ class tarieventabel {
 		}
 
 		return $return;
+	}
+
+	public function show_bijkomendekosten() {
+
+		global $vars, $voorkant_cms;
+
+
+		if($this->toon_bijkomendekosten and $this->first_seizoen_id) {
+
+			//
+			// end-version of bijkomendekosten (all costs are included)
+			//
+
+			$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+			$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
+			$bijkomendekosten->arrangement = $this->arrangement;
+			$bijkomendekosten->accinfo = $this->accinfo;
+
+			$toelichting = $bijkomendekosten->toon_type();
+			// $toelichting = $bijkomendekosten->toon_type_temporary();
+
+		} else {
+
+			//
+			// temporary version of bijkomendekosten
+			//
+
+			if($voorkant_cms or $vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $vars["taal"]=="de") {
+
+				if(!$this->first_seizoen_id) {
+					trigger_error("missing first_season_id",E_USER_NOTICE);
+				}
+
+				$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+				$bijkomendekosten->arrangement = $this->arrangement;
+				$bijkomendekosten->accinfo = $this->accinfo;
+				if($this->seizoen_counter>1) {
+
+					foreach ($this->seizoeninfo as $seizoen_id => $value) {
+						// multiple seasons
+						$bijkomendekosten->seizoen_id = $seizoen_id;
+						$toelichting_season[$seizoen_id] = $bijkomendekosten->toon_type_temporary();
+
+						if($check_for_doubles and $check_for_doubles==$toelichting_season[$seizoen_id]) {
+							$both_season_are_the_same = true;
+						}
+
+						$check_for_doubles = $toelichting_season[$seizoen_id];
+					}
+
+					if($both_season_are_the_same) {
+						$toelichting = $check_for_doubles;
+					} else {
+
+						$toelichting .= "<form><select class=\"tarieventabel_toelichting_switch_seasons\">";
+						foreach ($toelichting_season as $seizoen_id => $value) {
+							$season_counter++;
+							$toelichting .= "<option value=\"".$seizoen_id."\"".($season_counter==1 ? " selected" : "").">".wt_he($this->seizoeninfo[$seizoen_id]["naam"])."</option>";
+						}
+						$toelichting .= "</select></form>";
+
+						$toelichting .= "<div class=\"tarieventabel_toelichting_all_seasons\">";
+
+						$toelichting .= "<div class=\"tarieventabel_toelichting_active_season\"></div>";
+
+						foreach ($toelichting_season as $seizoen_id => $value) {
+
+							$toelichting .= "<div class=\"tarieventabel_toelichting_one_season\" data-seizoen_id=\"".$seizoen_id."\">";
+							$toelichting .= $value;
+							$toelichting .= "</div>";
+
+						}
+						$toelichting .= "</div>";
+					}
+
+
+				} else {
+					// one season
+					$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
+					$toelichting = $bijkomendekosten->toon_type_temporary();
+				}
+
+				if($voorkant_cms) {
+					$toelichting .= "<div style=\"border:1px solid #777777;padding:10px;margin-top:25px;background-color:#ebebeb;\"><b>Wat ziet de bezoeker momenteel nog:</b><br/>".$this->toelichting()."</div>";
+				}
+
+			} else {
+				$toelichting = $this->toelichting();
+			}
+		}
+
+		if($toelichting) {
+			$return .= "<div class=\"tarieventabel_toelichting\">";
+
+
+			// info totaalprijs
+			if($this->toon_bijkomendekosten) {
+				$return .= "<div class=\"tarieventabel_totaalprijs_wrapper\">";
+				if($_GET["ap"] and $_GET["d"]) {
+					$return .= $this->info_totaalprijs($_GET["ap"], $_GET["d"]);
+				}
+				$return .= "</div>";
+			}
+
+			$return .= $toelichting;
+
+			$return .= "</div>"; # afsluiten .tarieventabel_toelichting
+		}
+
+		return $return;
+
 	}
 
 	private function toelichting() {

@@ -251,7 +251,7 @@ if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["sei
 	// var_dump($bk);
 	// exit;
 
-	$vars["toon_bijkomendekosten"] = true;
+	// $vars["toon_bijkomendekosten"] = true;
 }
 
 include "content/opmaak.php";
