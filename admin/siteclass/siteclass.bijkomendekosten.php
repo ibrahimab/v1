@@ -1147,7 +1147,7 @@ class bijkomendekosten {
 			}
 		}
 
-		if($variabele_bijkomendekosten_inquery) {
+		if($variabele_bijkomendekosten_inquery and $this->seizoen_id) {
 			$db->query("SELECT b.bijkomendekosten_id, b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.perboekingpersoon, b.min_personen FROM bijkomendekosten b WHERE b.bijkomendekosten_id IN (".substr($variabele_bijkomendekosten_inquery, 1).") AND (b.min_personen IS NOT NULL OR b.gekoppeldaan<>1) ORDER BY b.naam".$vars["ttv"].";");
 			if($db->num_rows()) {
 				while($db->next_record()) {
