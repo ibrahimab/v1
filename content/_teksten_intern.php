@@ -237,11 +237,11 @@ $txta["de"]["pdf_factuur"]="Rechnung";
 $txta["en"]["pdf_factuur"]="invoice";
 
 $txta["nl"]["pdf_algemene_voorwaarden"]="algemene_voorwaarden";
-$txta["de"]["pdf_algemene_voorwaarden"]="Allgemeine_Geschäfts_Bedingungen";
+$txta["de"]["pdf_algemene_voorwaarden"]="Allgemeine_Geschaefts_Bedingungen";
 $txta["en"]["pdf_algemene_voorwaarden"]="general_terms_conditions";
 
 $txta["nl"]["pdf_voorwaarden_europeesche_annverz"]="voorwaarden_europeesche_annverz";
-$txta["de"]["pdf_voorwaarden_europeesche_annverz"]="Bedingungen_Europeesche_Reiserücktrvers";
+$txta["de"]["pdf_voorwaarden_europeesche_annverz"]="Bedingungen-Reiseruecktrittsversicherung-Europeesche";
 $txta["en"]["pdf_voorwaarden_europeesche_annverz"]="conditions_europeesche_cancellation";
 
 $txta["nl"]["pdf_voorwaarden_europeesche_reisverz"]="voorwaarden_europeesche_reisverz";
