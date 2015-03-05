@@ -26,8 +26,8 @@ $geen_tracker_cookie=true;
 $boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
 
-echo date("d-m-Y H:i")."u.<pre>\n\nChalet.nl elke nacht\n\n\n";
-flush();
+// echo date("d-m-Y H:i")."u.<pre>\n\nChalet.nl elke nacht\n\n\n";
+// flush();
 
 
 $bijkomendekosten = new bijkomendekosten;
