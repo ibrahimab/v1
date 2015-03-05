@@ -95,6 +95,12 @@ if($url[0]) {
 					$vars["italissima_topfoto"]=$file;
 				}
 			}
+
+			// temporarily: robot = noindex when accommodatie_id == 3819 (requested by Brenda, 4 March 2015)
+			if($db->f("accommodatie_id")==3819) {
+				$robot_noindex = true;
+				$robot_nofollow = true;
+			}
 		}
 
 		if($vars["websitetype"]==6) {
