@@ -978,7 +978,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 								$losseregel.="<td>".wt_cur(0)."</td>";
 							}
 							if($kolom["commissie_btw"]) {
-								$losseregel.="<td>".wt_cur($losseboeking["commissie_btw"])."</td>";
+								$losseregel.="<td>".($losseboeking["commissie_btw"]>0 ? "-" : "").wt_cur($losseboeking["commissie_btw"])."</td>";
 							}
 							if($kolom["inkooptotaal"]) {
 								$losseregel.="<td>".wt_cur($losseboeking["inkooptot"])."</td>";
@@ -1222,7 +1222,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$losseregel.="<td>".wt_cur($losseboeking_optieinkoop[$db->f("boeking_id")]["overig"])."</td>";
 			}
 			if($kolom["commissie_btw"]) {
-				$losseregel.="<td>".wt_cur($commissie_btw)."</td>";
+				$losseregel.="<td>".($commissie_btw>0 ? "-" : "").wt_cur($commissie_btw)."</td>";
 			}
 			if($kolom["inkooptotaal"]) {
 				$losseregel.="<td>".wt_cur($db->f("totale_reissom_inkoop"))."</td>";
@@ -1516,7 +1516,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				echo "<td>".wt_cur($totalen[$key2]["opties_overig"][$key])."</td>";
 			}
 			if($kolom["commissie_btw"]) {
-				echo "<td>".wt_cur($totalen[$key2]["commissie_btw"][$key])."</td>";
+				echo "<td>".($totalen[$key2]["commissie_btw"][$key]>0 ? "-" : "").wt_cur($totalen[$key2]["commissie_btw"][$key])."</td>";
 			}
 			if($kolom["inkooptotaal"]) {
 				echo "<td>".wt_cur($totalen[$key2]["totale_reissom_inkoop"][$key])."</td>";
@@ -1636,7 +1636,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["opties_overig"][$key])."</td>";
 				}
 				if($kolom["commissie_btw"]) {
-					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["commissie_btw"][$key])."</td>";
+					echo "<td>".($totalen_lev[$db->f("leverancier_id")]["commissie_btw"][$key]>0 ? "-" : "").wt_cur($totalen_lev[$db->f("leverancier_id")]["commissie_btw"][$key])."</td>";
 				}
 				if($kolom["inkooptotaal"]) {
 					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["totale_reissom_inkoop"][$key])."</td>";
