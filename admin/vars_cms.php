@@ -430,8 +430,8 @@ if($mustlogin) {
 	$layout->menu_item("cms_hoogtepunten","Homepage","",true,false,array("slide"=>true));
 	$layout->submenu_item("cms_hoogtepunten","","cms_hoogtepunten","Hoogtepunten winter",array("wzt"=>"1"),true);
 	$layout->submenu_item("cms_hoogtepunten","","cms_hoogtepunten","Hoogtepunten zomer",array("wzt"=>"2"),true);
-	$layout->submenu_item("cms_hoogtepunten","","cms_homepageblok","Blokken winter",array("wzt"=>"1"),true);
-	$layout->submenu_item("cms_hoogtepunten","","cms_homepageblok","Blokken zomer",array("wzt"=>"2"),true);
+	$layout->submenu_item("cms_hoogtepunten","","cms_homepageblokken","Blokken winter",array("wzt"=>"1"),true);
+	$layout->submenu_item("cms_hoogtepunten","","cms_homepageblokken","Blokken zomer",array("wzt"=>"2"),true);
 
 
 	$layout->menu_item("cms_hulp","Hulp","",true);
@@ -1088,7 +1088,7 @@ if($mustlogin) {
 	# 59 = homepageblok
 	$cms->settings[59]["types"]="homepageblokken";
 	$cms->settings[59]["type_single"]="homepageblok";
-	$cms->settings[59]["file"]="cms_homepageblok.php";
+	$cms->settings[59]["file"]="cms_homepageblokken.php";
 	$cms->settings[59]["log"]["active"]=true;
 	$cms->db[59]["maintable"]="homepageblok";
 
