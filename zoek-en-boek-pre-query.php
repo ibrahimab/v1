@@ -17,7 +17,7 @@ if($_GET["pagetype"]=="landing-italissima") {
 		$landing_title = "Agriturismo Italië";
 		$landing_photo = "agriturismo_italie.jpg";
 		$landing_photo_style = "margin-bottom:20px;";
-		$landing_content_html="Een accommodatie mag een 'agriturismo' worden genoemd als het landelijk gelegen domein in Itali&euml; is, dat enerzijds wordt gebruikt als boerenbedrijf en anderzijds als toeristisch verblijf. In veel gevallen woont de eigenaar ook op de agriturismo zelf. De agriturismo als vakantieverblijf is momenteel erg in trek. Wat gasten hierbij aanspreekt is het genieten van de Italiaanse, landelijke levensstijl, de kleinschaligheid, de gastvrijheid en de lokale keuken met de producten van het landgoed zelf. Een vakantie in een agriturismo is een ideale combinatie van cultuur, sfeer en ontspanning. Kortom, al het goede van het Italiaanse leven.";
+		$landing_content_html="Een accommodatie mag een 'agriturismo' worden genoemd als het een landelijk gelegen domein in Itali&euml; is, dat enerzijds wordt gebruikt als boerenbedrijf en anderzijds als toeristisch verblijf. In veel gevallen woont de eigenaar ook op de agriturismo zelf. De agriturismo als vakantieverblijf is momenteel erg in trek. Wat gasten hierbij aanspreekt is het genieten van de Italiaanse, landelijke levensstijl, de kleinschaligheid, de gastvrijheid en de lokale keuken met de producten van het landgoed zelf. Een vakantie in een agriturismo is een ideale combinatie van cultuur, sfeer en ontspanning. Kortom, al het goede van het Italiaanse leven.";
 
 		$landing_content2_html="<h3>Wat maakt een agriturismo in Itali&euml; zo bijzonder?</h3><p>Een vakantie op een agriturismo in Itali&euml; heeft het volgende te bieden:<ul>
 		<li>Vakantie in een rustige omgeving, weg van de drukte</li>
