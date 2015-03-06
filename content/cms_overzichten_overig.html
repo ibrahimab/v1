@@ -789,7 +789,7 @@ if($_GET["t"]==1) {
 		echo "<a name=\"afbeeldingen".$key."\"></a>";
 		echo "<h2>Kwaliteit ".$value."afbeeldingen</h2>";
 
-		$db->query("SELECT accommodatie_id, type_id, begincode, naam, tnaam, plaats, websites FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND wzt=".$key." ORDER BY plaats, naam, tnaam, type_id;");
+		$db->query("SELECT accommodatie_id, type_id, begincode, naam, tnaam, plaats, websites, skigebied FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND wzt=".$key." ORDER BY ".($key==2 ? "skigebied, " : "")." plaats, naam, tnaam, type_id;");
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
 		echo "<tr><th>Naam</th><th>Afmetingen hoofdfoto</th><th>Laatste wijziging</th></tr>";
 		while($db->next_record()) {
@@ -834,7 +834,7 @@ if($_GET["t"]==1) {
 				$cms_link = $vars["path"]."cms_types.php?edit=2&wzt=".$key."&2k0=".$db->f("type_id")."&1k0=".$db->f("accommodatie_id")."#images";
 			}
 
-			echo "<tr><td>".wt_he($db->f("plaats"))." - <a href=\"".wt_he($cms_link)."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")."</a> ".wt_he(trim($db->f("naam")." ".$db->f("tnaam")))."</td>";
+			echo "<tr><td>".wt_he(($key==2 ? $db->f("skigebied")." - " : "").$db->f("plaats"))." - <a href=\"".wt_he($cms_link)."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")."</a> ".wt_he(trim($db->f("naam")." ".$db->f("tnaam")))."</td>";
 
 			if(file_exists($main_photo)) {
 				$photo_counter++;
