@@ -426,6 +426,12 @@ if($mustlogin) {
 		$layout->submenu_item("cms_gebruikers","","cms_gebruikers","actief",array("t"=>"1"),true);
 		$layout->submenu_item("cms_gebruikers","","cms_gebruikers","inactief",array("t"=>"2"),true);
 	}
+
+	$layout->menu_item("cms_hoogtepunten","Homepage","",true,false,array("slide"=>true));
+	$layout->submenu_item("cms_hoogtepunten","","cms_hoogtepunten","Hoogtepunten winter",array("wzt"=>"1"),true);
+	$layout->submenu_item("cms_hoogtepunten","","cms_hoogtepunten","Hoogtepunten zomer",array("wzt"=>"2"),true);
+
+
 	$layout->menu_item("cms_hulp","Hulp","",true);
 
 	$layout->menu_item("cms_kortingscodes","Kortingscodes","",true,false,array("slide"=>true));
@@ -1069,6 +1075,15 @@ if($mustlogin) {
 	$cms->settings[57]["file"]="cms_bijkomendekosten2.php";
 	$cms->settings[57]["log"]["active"]=true;
 	$cms->db[57]["maintable"]="bk_soort";
+
+	# 58 = hoogtepunten
+	$cms->settings[58]["types"]="hoogtepunten";
+	$cms->settings[58]["type_single"]="hoogtepunt";
+	$cms->settings[58]["file"]="cms_hoogtepunten.php";
+	$cms->settings[58]["log"]["active"]=true;
+	$cms->db[58]["maintable"]="hoogtepunt";
+
+
 
 	# Aankomstdata vullen (voor CMS)
 

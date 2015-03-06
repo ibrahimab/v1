@@ -1,0 +1,19 @@
+<?php
+
+if(!$_GET["add"] and !$_GET["edit"]) {
+	echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
+	echo "Direct toevoegen via accommodatiecode: <input type=\"text\" name=\"type_id\" autocomplete=\"off\" pattern=\"[a-zA-Z]{0,2}[0-9]{1,}\" required>";
+	echo "&nbsp;";
+	echo "<input type=\"hidden\" name=\"add_type_id\" value=\"1\">";
+	echo "<input type=\"submit\" value=\"TOEVOEGEN\">";
+	echo "</form>";
+	echo "<br />";
+}
+
+$cms->display_cms();
+
+if($_GET["edit"]==58) {
+	$cms->display_log(58);
+}
+
+?>

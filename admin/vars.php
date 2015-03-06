@@ -1514,7 +1514,7 @@ if($vars["types_in_vars"]) {
 		if($vars["types_in_vars_wzt_splitsen"]) {
 			$vars["alletypes"][$db->f("wzt")][$db->f("type_id")]=$db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers. - ".$db->f("begincode").$db->f("type_id").")".($db->f("verzameltype") ? " (V)" : "");
 			if($db->f("archief")==0) {
-				$vars["alletypes_zonderarchief"][$db->f("wzt")][$db->f("type_id")]=$vars["alletypes"][$db->f("type_id")];
+				$vars["alletypes_zonderarchief"][$db->f("wzt")][$db->f("type_id")]=$vars["alletypes"][$db->f("wzt")][$db->f("type_id")];
 			}
 		} else {
 			$vars["alletypes"][$db->f("type_id")]=$db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers. - ".$db->f("begincode").$db->f("type_id").")".($db->f("verzameltype") ? " (V)" : "");
