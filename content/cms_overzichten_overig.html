@@ -756,7 +756,6 @@ if($_GET["t"]==1) {
 	echo "<br/>";
 
 	echo "<ul>";
-	echo "<li><a href=\"#tekstenomzetten\">Om te zetten in- en exclusief-teksten</a></li>";
 	echo "<li><a href=\"#afbeeldingen1\">Kwaliteit winterafbeeldingen</a></li>";
 	echo "<li><a href=\"#afbeeldingen2\">Kwaliteit zomerafbeeldingen</a></li>";
 	echo "<li><a href=\"#naamleverancier\">Accommodaties met een verschil tussen 'Naam op website' en 'Naam volgens leverancier'</a></li>";
@@ -776,99 +775,15 @@ if($_GET["t"]==1) {
 	echo "<br/>";
 	echo "<br/>";
 
-	echo "<hr>";
+	// echo "<hr>";
 
 
-	echo "<a name=\"tekstenomzetten\"></a>";
-
-	// winter
-	// echo "<h2>Om te zetten in- en exclusief-teksten (winter)</h2>";
-	// $db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, t.tmp_teksten_omgezet AS ttmp_teksten_omgezet, a.tmp_teksten_omgezet, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief, a.bk_opmerkingen_intern FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND ( ((t.inclusief<>'' OR t.exclusief<>'') AND t.tmp_teksten_omgezet=0) OR ((a.inclusief<>'' OR a.exclusief<>'') AND a.tmp_teksten_omgezet=0) OR (a.bk_opmerkingen_intern<>'' AND a.bk_opmerkingen_intern IS NOT NULL)) AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt=1 ORDER BY a.bk_opmerkingen_intern, v.plaats, v.naam, v.accommodatie_id, t.type_id;");
-	// if($db->num_rows()) {
-	// 	echo "<div style=\"margin-left: 20px;\">";
-	// 	echo "<ol>";
-	// 	while($db->next_record()) {
-	// 		if(!$al_gehad[$db->f("accommodatie_id")]) {
-	// 			$al_gehad[$db->f("accommodatie_id")] = true;
-	// 			if($al_gehad) echo "</li></ul>";
-	// 			echo "<li>";
-	// 			if((!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) or $db->f("bk_opmerkingen_intern")) {
-	// 				echo "<a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."#bijkomendekosten\" target=\"_blank\">";
-	// 			}
-	// 			echo wt_he($db->f("plaats")." - ".$db->f("naam"));
-	// 			if((!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) or $db->f("bk_opmerkingen_intern")) {
-	// 				echo "</a>";
-	// 			}
-	// 			if($db->f("bk_opmerkingen_intern")) {
-	// 				echo "&nbsp;&nbsp;(<b>interne opmerkingen</b>)";
-	// 			}
-
-	// 			echo "<ul>";
-	// 		}
-	// 		if(!$db->f("ttmp_teksten_omgezet") and ($db->f("tinclusief") or $db->f("texclusief"))) {
-	// 			echo "<li>";
-	// 			echo "<a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."#bijkomendekosten\" target=\"_blank\">";
-	// 			echo wt_he($db->f("begincode").$db->f("type_id"));
-	// 			echo "</a>";
-	// 			echo "</li>";
-	// 		}
-	// 	}
-	// 	echo "</ol>";
-	// 	echo "</div>";
-	// } else {
-	// 	echo "<p>Alles is omgezet.</p>";
-	// }
-	unset($al_gehad);
-
-	// summer
-	echo "<br />";
-	echo "<h2>Om te zetten in- en exclusief-teksten (zomer)</h2>";
-
-	echo "<div style=\"margin-top:10px;background-color:yellow;padding:10px;border:1px solid #000000;\"><b>Ga voor de om te zetten in- en exclusief-teksten naar <a href=\"cms_bijkomendekosten2.php?cmsversie=nieuw4&wzt=2\">het nieuwe overzicht &raquo;</a></b></div>";
-
-
-
-	// $db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, t.tmp_teksten_omgezet AS ttmp_teksten_omgezet, a.tmp_teksten_omgezet, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief, a.bk_opmerkingen_intern FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND ( ((t.inclusief<>'' OR t.exclusief<>'') AND t.tmp_teksten_omgezet=0) OR ((a.inclusief<>'' OR a.exclusief<>'') AND a.tmp_teksten_omgezet=0) OR (a.bk_opmerkingen_intern<>'' AND a.bk_opmerkingen_intern IS NOT NULL)) AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt=2 ORDER BY a.bk_opmerkingen_intern, v.plaats, v.naam, v.accommodatie_id, t.type_id;");
-	// if($db->num_rows()) {
-	// 	echo "<div style=\"margin-left: 20px;\">";
-	// 	echo "<ol>";
-	// 	while($db->next_record()) {
-	// 		if(!$al_gehad[$db->f("accommodatie_id")]) {
-	// 			$al_gehad[$db->f("accommodatie_id")] = true;
-	// 			if($al_gehad) echo "</li></ul>";
-	// 			echo "<li>";
-	// 			if((!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) or $db->f("bk_opmerkingen_intern")) {
-	// 				echo "<a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."#bijkomendekosten\" target=\"_blank\">";
-	// 			}
-	// 			echo wt_he($db->f("plaats")." - ".$db->f("naam"));
-	// 			if((!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) or $db->f("bk_opmerkingen_intern")) {
-	// 				echo "</a>";
-	// 			}
-	// 			if($db->f("bk_opmerkingen_intern")) {
-	// 				echo "&nbsp;&nbsp;(<b>interne opmerkingen</b>)";
-	// 			}
-
-	// 			echo "<ul>";
-	// 		}
-	// 		if(!$db->f("ttmp_teksten_omgezet") and ($db->f("tinclusief") or $db->f("texclusief"))) {
-	// 			echo "<li>";
-	// 			echo "<a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."#bijkomendekosten\" target=\"_blank\">";
-	// 			echo wt_he($db->f("begincode").$db->f("type_id"));
-	// 			echo "</a>";
-	// 			echo "</li>";
-	// 		}
-	// 	}
-	// 	echo "</ol>";
-	// 	echo "</div>";
-	// } else {
-	// 	echo "<p>Alles is omgezet.</p>";
-	// }
-	unset($al_gehad);
-
-
+	//
+	// quality of images
+	//
 	foreach ($vars["seizoentype_namen"] as $key => $value) {
 
-		unset($photo_counter, $photo_larger_counter, $photo_okay_counter);
+		unset($photo_counter, $photo_okay_counter);
 
 		echo "<hr><br /><br />";
 		echo "<a name=\"afbeeldingen".$key."\"></a>";
@@ -913,14 +828,12 @@ if($_GET["t"]==1) {
 			if(file_exists($main_photo)) {
 				$photo_counter++;
 				$img_size = getimagesize($main_photo);
-				if($img_size[0]>=900) {
+				if($img_size[0]>=600) {
 					$photo_okay_counter++;
-					$photo_larger_counter++;
 					$style="background-color:#88b0fc;";
 				} elseif($img_size[0]<=240) {
 					$style="background-color:#f78f9e;color:#ffffff";
 				} else {
-					$photo_larger_counter++;
 					$style="";
 				}
 				echo "<td align=\"center\" style=\"".$style."\"><a href=\"".str_replace($vars["unixdir"], $vars["path"], $main_photo)."\" target=\"_blank\">".$img_size[0]." x ".$img_size[1]."</a></td><td align=\"center\">".date("d-m-Y", filemtime($main_photo))."</td></tr>";
@@ -930,8 +843,7 @@ if($_GET["t"]==1) {
 		}
 		echo "</table><br/>";
 		echo "Aantal ".$value."types met foto: ".$photo_counter."<br />";
-		echo "Aantal ".$value."types met grotere foto: ".$photo_larger_counter." (".round(($photo_larger_counter/$photo_counter)*100, 2)."%)<br />";
-		echo "Aantal ".$value."types met juiste foto: ".$photo_okay_counter." (".round(($photo_okay_counter/$photo_counter)*100, 2)."%)<br />";
+		echo "Aantal ".$value."types met juiste foto (minimaal 600 breed): ".$photo_okay_counter." (".round(($photo_okay_counter/$photo_counter)*100, 2)."%)<br />";
 	}
 
 	echo "<hr>";
