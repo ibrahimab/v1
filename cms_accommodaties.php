@@ -602,7 +602,7 @@ if($_GET["wzt"]==1) {
 	}
 }
 
-$cms->edit_field(1,0,"htmlrow","<hr><b>Afbeeldingen</b><br><i>Afbeeldingen kunnen in groot formaat worden ge&uuml;pload; het systeem zet ze om naar de juiste afmetingen. De verhouding moet wel altijd 4:3 zijn.</i>");
+$cms->edit_field(1,0,"htmlrow","<hr><b id=\"images\">Afbeeldingen</b><br><i>Afbeeldingen kunnen in groot formaat worden ge&uuml;pload; het systeem zet ze om naar de juiste afmetingen. De verhouding moet wel altijd 4:3 zijn.</i>");
 #$cms->edit_field(1,0,"picgroot","Grote hoofdafbeelding","",array("img_width"=>"240","img_height"=>"180"));
 #$cms->edit_field(1,0,"picklein","Kleine hoofdafbeelding","",array("img_width"=>"60","img_height"=>"45"));
 $cms->edit_field(1,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));

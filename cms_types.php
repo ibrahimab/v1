@@ -454,12 +454,12 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo"]))."</span>"));
 	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst");
 }
-$cms->edit_field(2,1,"htmlrow","<hr>");
 
 #$cms->edit_field(2,0,"picgroot","Grote hoofdafbeelding","",array("img_width"=>"240","img_height"=>"180"));
 #$cms->edit_field(2,0,"picklein","Kleine hoofdafbeelding","",array("img_width"=>"60","img_height"=>"45"));
 #$cms->edit_field(2,0,"picaanvullend","Aanvullende afbeelding(en)","",array("img_minwidth"=>"200","img_minheight"=>"150","img_maxwidth"=>"600","img_maxheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>8));
 #$cms->edit_field(2,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("img_width"=>"400","img_height"=>"150","number_of_uploadbuttons"=>2));
+$cms->edit_field(2,0,"htmlrow","<hr><b id=\"images\">Afbeeldingen</b><br><i>Afbeeldingen kunnen in groot formaat worden ge&uuml;pload; het systeem zet ze om naar de juiste afmetingen. De verhouding moet wel altijd 4:3 zijn.</i>");
 $cms->edit_field(2,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));
 $cms->edit_field(2,0,"hoofdfoto_type","Hoofdafbeelding (groot formaat; wordt nu nog niet gebruikt)","",array("img_minwidth"=>"600","img_minheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3"),array("info"=>"Upload de foto in een zo groot mogelijk formaat. Deze foto wordt nu nog niet gebruikt. Pas zodra veel hoofdfoto's in groot formaat beschikbaar zijn, wordt er naar deze versie overgestapt."));
 $cms->edit_field(2,0,"picaanvullend","Aanvullende afbeelding(en)","",array("autoresize"=>false,"img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>8));

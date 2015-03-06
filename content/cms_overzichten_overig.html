@@ -808,7 +808,6 @@ if($_GET["t"]==1) {
 				}
 			}
 
-			echo "<tr><td>".wt_he($db->f("plaats"))." - <a href=\"".$baseurl."accommodatie/".$db->f("begincode").$db->f("type_id")."/\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")."</a> ".wt_he(trim($db->f("naam")." ".$db->f("tnaam")))."</td>";
 			unset($main_photo);
 			$type_photo1 = $vars["unixdir"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg";
 			$acc_photo1 = $vars["unixdir"]."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg";
@@ -816,15 +815,27 @@ if($_GET["t"]==1) {
 			$type_photo2 = $vars["unixdir"]."pic/cms/hoofdfoto_type/".$db->f("type_id").".jpg";
 			$acc_photo2 = $vars["unixdir"]."pic/cms/hoofdfoto_accommodatie/".$db->f("accommodatie_id").".jpg";
 
+			unset($acc_link);
 			if(file_exists($type_photo2)) {
 				$main_photo = $type_photo2;
-			} elseif(file_exists($acc_photo2)) {
+			} elseif(file_exists($acc_photo2) and !file_exists($type_photo1)) {
 				$main_photo = $acc_photo2;
+				$acc_link = true;
 			} elseif(file_exists($type_photo1)) {
 				$main_photo = $type_photo1;
 			} elseif(file_exists($acc_photo1)) {
 				$main_photo = $acc_photo1;
+				$acc_link = true;
 			}
+
+			if($acc_link) {
+				$cms_link = $vars["path"]."cms_accommodaties.php?edit=1&wzt=".$key."&1k0=".$db->f("accommodatie_id")."#images";
+			} else {
+				$cms_link = $vars["path"]."cms_types.php?edit=2&wzt=".$key."&2k0=".$db->f("type_id")."&1k0=".$db->f("accommodatie_id")."#images";
+			}
+
+			echo "<tr><td>".wt_he($db->f("plaats"))." - <a href=\"".wt_he($cms_link)."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")."</a> ".wt_he(trim($db->f("naam")." ".$db->f("tnaam")))."</td>";
+
 			if(file_exists($main_photo)) {
 				$photo_counter++;
 				$img_size = getimagesize($main_photo);
