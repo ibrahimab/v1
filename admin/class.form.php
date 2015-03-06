@@ -1458,20 +1458,22 @@ class form2 {
 				$return.=">";
 
 				# Indien afbeelding: evt. opmerkingen weergeven
-				if(($this->fields["options"][$id]["img_ratio_width"] and $this->fields["options"][$id]["img_ratio_height"]) or ($this->fields["options"][$id]["img_width"] and $this->fields["options"][$id]["img_height"]) or $this->fields["options"][$id]["showfiletype"]) {
-					$return.="<span class=\"wtform_small\">&nbsp;(";
-					if($this->fields["options"][$id]["showfiletype"]) {
-						$return.=$this->message("showfiletype","",array(1=>$this->fields["options"][$id]["must_be_filetype"]));
-						$spatie=true;
+				if(!$this->fields["layout"][$id]["hide_imginfo"]) {
+					if(($this->fields["options"][$id]["img_ratio_width"] and $this->fields["options"][$id]["img_ratio_height"]) or ($this->fields["options"][$id]["img_width"] and $this->fields["options"][$id]["img_height"]) or $this->fields["options"][$id]["showfiletype"]) {
+						$return.="<span class=\"wtform_small\">&nbsp;(";
+						if($this->fields["options"][$id]["showfiletype"]) {
+							$return.=$this->message("showfiletype","",array(1=>$this->fields["options"][$id]["must_be_filetype"]));
+							$spatie=true;
+						}
+						if($this->fields["options"][$id]["img_ratio_width"] and $this->fields["options"][$id]["img_ratio_height"]) {
+							if($spatie) $return.=" ";
+							$return.=$this->message("imgsize_ratio","",array(1=>$this->fields["options"][$id]["img_ratio_width"],2=>$this->fields["options"][$id]["img_ratio_height"]));
+						} elseif($this->fields["options"][$id]["img_width"] and $this->fields["options"][$id]["img_height"]) {
+							if($spatie) $return.=" ";
+							$return.=$this->message("imgsize_size","",array(1=>$this->fields["options"][$id]["img_width"],2=>$this->fields["options"][$id]["img_height"]));
+						}
+						$return.=")</span>";
 					}
-					if($this->fields["options"][$id]["img_ratio_width"] and $this->fields["options"][$id]["img_ratio_height"]) {
-						if($spatie) $return.=" ";
-						$return.=$this->message("imgsize_ratio","",array(1=>$this->fields["options"][$id]["img_ratio_width"],2=>$this->fields["options"][$id]["img_ratio_height"]));
-					} elseif($this->fields["options"][$id]["img_width"] and $this->fields["options"][$id]["img_height"]) {
-						if($spatie) $return.=" ";
-						$return.=$this->message("imgsize_size","",array(1=>$this->fields["options"][$id]["img_width"],2=>$this->fields["options"][$id]["img_height"]));
-					}
-					$return.=")</span>";
 				}
 			}
 		} elseif($this->fields["type"][$id]=="yesno") {

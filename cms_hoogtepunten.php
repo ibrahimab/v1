@@ -27,7 +27,7 @@ if($_POST["add_type_id"]) {
 	$db->query("SELECT type_id FROM view_accommodatie WHERE wzt='".intval($_GET["wzt"])."' AND type_id='".intval($type_id)."' AND atonen=1 AND ttonen=1;");
 	if($db->num_rows()) {
 
-		$db->query("INSERT INTO hoogtepunt SET type_id='".intval($type_id)."', wzt='".intval($_GET["wzt"])."', tonen=1");
+		$db->query("INSERT INTO hoogtepunt SET type_id='".intval($type_id)."', wzt='".intval($_GET["wzt"])."', tonen=1, adddatetime=NOW(), editdatetime=NOW();");
 		if($db->insert_id()) {
 			header("Location: ".$vars["path"]."cms_hoogtepunten.php?edit=58&wzt=".intval($_GET["wzt"])."&58k0=".intval($db->insert_id()));
 			exit;

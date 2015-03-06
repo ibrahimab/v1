@@ -1,0 +1,56 @@
+<?php
+
+if(!$_GET["add"] and !$_GET["edit"]) {
+	$db->query("SELECT homepageblok_id, websites, positie FROM homepageblok WHERE tonen=1 AND (begindatum<='".date("Y-m-d")."' OR begindatum IS NULL) AND (einddatum>='".date("Y-m-d")."' OR einddatum IS NULL);");
+	while($db->next_record()) {
+
+		$websites_split = preg_split("@,@", $db->f("websites"));
+		if(is_array($websites_split)) {
+			foreach ($websites_split as $key => $value) {
+
+				$image_okay = false;
+
+				$image = $vars["unixdir"]."pic/cms/homepageblokken/".$db->f("homepageblok_id").".jpg";
+
+				if(file_exists($image)) {
+					$image_size = getimagesize($image);
+
+					if($db->f("positie")==1) {
+						if($image_size[0]==562 and $image_size[1]==428) {
+							$image_okay = true;
+						}
+					} elseif($db->f("positie")==2) {
+						if($image_size[0]==562 and $image_size[1]==196) {
+							$image_okay = true;
+						}
+					}
+				}
+				if($image_okay) {
+					$homepageblok_counter[$value][$db->f("positie")]++;
+				}
+			}
+		}
+	}
+
+	echo "<br /><table class=\"tbl\" cellspacing=\"0\">";
+	echo "<tr><th>Website</th><th>Aantal grote blokken</th><th>Aantal kleine blokken</th><th>Blokken compleet</th></tr>";
+	foreach ($vars["websites_wzt"][$_GET["wzt"]] as $key => $value) {
+		if(intval($homepageblok_counter[$key][1])>=1 and intval($homepageblok_counter[$key][2])>=2) {
+			$blokken_compleet = true;
+		} else {
+			$blokken_compleet = false;
+		}
+		echo "<tr><td>".wt_he($value)."</td><td>".intval($homepageblok_counter[$key][1])."</td><td>".intval($homepageblok_counter[$key][2])."</td>".($blokken_compleet ? "<td style=\"\">ja" : "<td style=\"background-color:red;\">nee")."</td></tr>";
+	}
+
+	// echo wt_dump($homepageblok_counter);
+	echo "</table><br />";
+
+}
+$cms->display_cms();
+
+if($_GET["edit"]==59) {
+	$cms->display_log(59);
+}
+
+?>
