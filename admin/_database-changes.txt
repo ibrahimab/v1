@@ -2,6 +2,24 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+
+06-mar-2015 11:48
+DROP TABLE IF EXISTS `hoogtepunt`;
+CREATE TABLE IF NOT EXISTS `hoogtepunt` (
+  `hoogtepunt_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `tonen` tinyint(1) NOT NULL,
+  `wzt` tinyint(1) NOT NULL,
+  `websites` varchar(30) NOT NULL,
+  `volgorde` int(11) DEFAULT NULL,
+  `begindatum` date DEFAULT NULL,
+  `einddatum` date DEFAULT NULL,
+  `adddatetime` datetime NOT NULL,
+  `editdatetime` datetime NOT NULL,
+PRIMARY KEY (`hoogtepunt_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `hoogtepunt` CHANGE `hoogtepunt_id` `hoogtepunt_id` INT(11) NOT NULL AUTO_INCREMENT;
+
 16-feb-2015 10:16
 ALTER TABLE `land` ADD `zomerkorteomschrijving` VARCHAR(70) NOT NULL AFTER `praktischeinfo_fr`, ADD `zomerkorteomschrijving_de` VARCHAR(70) NOT NULL AFTER `zomerkorteomschrijving`, ADD `zomerkorteomschrijving_en` VARCHAR(70) NOT NULL AFTER `zomerkorteomschrijving_de`, ADD `zomerkorteomschrijving_fr` VARCHAR(70) NOT NULL AFTER `zomerkorteomschrijving_en`;
 
