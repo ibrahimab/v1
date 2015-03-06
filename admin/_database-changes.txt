@@ -3,6 +3,10 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+06-mar-2015 15:20
+DROP TABLE IF EXISTS `homepageblok`;
+CREATE TABLE `homepageblok` ( `homepageblok_id` INT NOT NULL AUTO_INCREMENT , `tonen` TINYINT(1) NOT NULL , `wzt` TINYINT(1) NOT NULL , `websites` VARCHAR(30) NOT NULL , `link` VARCHAR(255) NOT NULL , `titel` VARCHAR(100) NOT NULL , `titel_de` VARCHAR(100) NOT NULL , `titel_en` VARCHAR(100) NOT NULL , `titel_fr` VARCHAR(100) NOT NULL , `button` VARCHAR(35) NOT NULL , `button_de` VARCHAR(35) NOT NULL , `button_en` VARCHAR(35) NOT NULL , `button_fr` VARCHAR(35) NOT NULL , `volgorde` INT NOT NULL , `positie` tinyint(1) NOT NULL, `begindatum` DATE NULL DEFAULT NULL , `einddatum` DATE NULL DEFAULT NULL , `adddatetime` DATETIME NOT NULL , `editdatetime` DATETIME NOT NULL , PRIMARY KEY (`homepageblok_id`) ) ENGINE = MyISAM CHARACTER SET utf8 COLLATE utf8_general_ci;
+
 06-mar-2015 11:48
 DROP TABLE IF EXISTS `hoogtepunt`;
 CREATE TABLE IF NOT EXISTS `hoogtepunt` (
