@@ -142,10 +142,15 @@ $cms->edit_field(33,0,"min_leeftijd","Minimale leeftijd (in jaren)");
 $cms->edit_field(33,0,"max_leeftijd","Maximale leeftijd (in jaren)");
 $cms->edit_field(33,0,"zonderleeftijd","Kosten toevoegen aan persoon indien geboortedatum niet bekend is");
 
-$cms->edit_field(33,0,"htmlrow","<br/><hr><br/><b>Aantal personen gehele boeking</b><i> (t.b.v. toeslagen extra personen)<br/><br/>De kosten worden alleen toegepast bij:</i>");
-$cms->edit_field(33,0,"min_personen","Minimaal aantal personen gehele boeking");
-$cms->edit_field(33,0,"max_personen","Maximaal aantal personen gehele boeking");
-
+if($_GET["cmsversie"]=="huidig") {
+	$cms->edit_field(33,0,"htmlrow","<br/><hr><br/><b>Aantal personen gehele boeking</b><i> (t.b.v. toeslagen extra personen)<br/><br/>De kosten worden alleen toegepast bij:</i>");
+	$cms->edit_field(33,0,"min_personen","Minimaal aantal personen gehele boeking");
+	$cms->edit_field(33,0,"max_personen","Maximaal aantal personen gehele boeking");
+} else {
+	$cms->edit_field(33,0,"htmlrow","<br/><hr><br/><b>Aantal personen gehele boeking</b><i> (t.b.v. toeslagen extra personen)<br/><br/>De kosten worden alleen toegepast bij:</i>");
+	$cms->edit_field(33,1,"min_personen","Minimaal aantal personen gehele boeking");
+	$cms->edit_field(33,1,"max_personen","Maximaal aantal personen gehele boeking");
+}
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(33);

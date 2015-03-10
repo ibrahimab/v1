@@ -286,21 +286,19 @@ am [DATUM] fahren Sie nach [PLAATS], dieser Tag kommt rasch näher. Es ist an der
 $txt["en"]["vars"]["mailopties_wzt1_1"]="Dear [NAAM],\n\nOn [DATUM] you will depart for [PLAATS], and this date is quickly approaching. So right now is the time to make sure you have arranged a number of important issues for your holiday.";
 
 $txt["nl"]["vars"]["mailopties_wzt1_2"]="Via [LOGIN_LINK_OPEN]Mijn boeking[LOGIN_LINK_CLOSE] kun je tot 28 dagen voor vertrek in je reservering aanpassingen doen (bij last minute boekingen is dit langer mogelijk). Heb je liever dat wij bepaalde zaken voor je aanpassen dan horen wij het graag zodat wij het voor je in orde kunnen maken.\n\nBij wijzigingen in de boeking zul je een nieuwe bevestiging (= tevens factuur) ontvangen, het makkelijkst is dus als je zoveel mogelijk in één keer wijzigt.\n\nVerder willen we je er aan herinneren dat het (eventueel) nog openstaande bedrag uiterlijk 6 weken voor vertrek voldaan moet zijn (of indien reeds verstreken per direct).\n\nOngeveer 10 dagen voor vertrek ontvang je de reisdocumenten met daarin extra informatie over jullie route, verblijf, sleuteladres, vouchers voor eventueel bijgeboekte opties enz.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: [TELEFOONNUMMER]";
-$txt["de"]["vars"]["mailopties_wzt1_2"]="Mit Ihrem Passwort ([WACHTWOORD]) können sie über [LINK] bis 28 Tage vor der Abreise Änderungen anbringen in Ihrer Reservierung (bei Last-minute-Buchungen ist das länger möglich). Möchten Sie, dass wir bestimmte Sachen für Sie ändern, sagen Sie es uns bitte damit wir es für Sie in Ordnung bringen können.
+$txt["de"]["vars"]["mailopties_wzt1_2"]="Über [LOGIN_LINK_OPEN]Meine Buchung[LOGIN_LINK_CLOSE] können Sie bis 28 Tage vor Abreise Änderungen anbringen an Ihre Reservierung (bei Last-Minute Buchungen ist das länger möglich). Möchten Sie, dass wir für Sie Änderungen anbringen teilen Sie uns das bitte mit- wir bringen das gerne für Sie in Ordnung.
 
-Bei Buchungsänderungen erhalten Sie eine neue Bestätigung (= zugleich Rechnung). Wir raten Ihnen deshalb, so viel wie möglich Änderungen gleichzeitig anzubringen.
+Bei Änderungen in der Buchung erhalten Sie eine neue Bestätigung (=zugleich Rechnung), es ist also am einfachsten wenn Sie so viel wie möglich Änderungen auf einmal anbringen.
 
-Des Weiteren erinnern wir Sie gerne daran, den (eventuell) noch ausstehenden Betrag spätestens 6 Wochen vor Abreise zu bezahlen (falls bereits verstrichen sofort).
+Des Weiteren erinnern wir Sie daran, dass der (eventuell) noch ausstehende Betrag spätestens 6 Wochen vor Abreise bezahlt sein muss (oder falls bereits fällig umgehend).
 
-Circa 10 Tage vor Abreise erhalten Sie die Reiseunterlagen mit extra Informationen über Fahrplan, Unterkunft, Schlüsseladresse, Voucher (Gutscheine) für eventuell dazu gebuchte Optionen usw.
+Ca. 10 Tage vor Abreise erhalten Sie die Reiseunterlagen mit weiteren Informationen über Ihre Anreise, Unterkunft, Schlüsseladresse, Gutscheine (Vouchers) für eventuell zugebuchte Optionen usw.
 
-Mit freundlichen Grüßen,
+Mit freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
-Telefon: [TELEFOONNUMMER]";
+Tel: [TELEFOONNUMMER]";
 $txt["en"]["vars"]["mailopties_wzt1_2"]="Through [LOGIN_LINK_OPEN]My booking[LOGIN_LINK_CLOSE] you can make adjustments to your booking. You can do this until 28 days before your departure to [PLAATS] (this is not possible with last minute reservations). Just let us know if you rather have us make the adjustments, we will gladly arrange it for you.\n\nYou will receive a new confirmation/invoice each time you make any adjustments, so it's easiest to save them up and then change as much as possible in one sitting.\n\nFurthermore we ask you to pay any outstanding amount no later than 6 weeks before departure (or if already past this date we ask you to pay this immediately).\n\nApproximately 10 days before your departure you will receive travel documents with extra information with directions, the residence, where to pick up your key, vouchers for ski material if rented, etc.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: [TELEFOONNUMMER]";
-
-$nieuwe_vertaling["de"]["vars"]["mailopties_wzt1_2"]=true;
 
 
 $txt["nl"]["vars"]["mailopties_wzt2_1"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS], dit komt al snel dichterbij. Het is dus de hoogste tijd om te controleren of je een aantal belangrijke zaken voor jullie vakantie goed geregeld hebt.";
@@ -3836,6 +3834,14 @@ $txt["en"]["tarieventabel"]["legenda_gekozen_datum"]="selected date";
 $txt["nl"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Geselecteerde aankomstdatum";
 $txt["de"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Gewähltes Ankunftsdatum";
 $txt["en"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Selected arrival date";
+
+$txt["nl"]["tarieventabel"]["totaalprijs-op-basis-1-persoon"]="Totaalprijs op basis van 1 persoon";
+$txt["de"]["tarieventabel"]["totaalprijs-op-basis-1-persoon"]="Gesamtpreis für 1 Person";
+$txt["en"]["tarieventabel"]["totaalprijs-op-basis-1-persoon"]="Total price based on 1 person";
+
+$txt["nl"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Totaalprijs op basis van [[v_aantal]] personen";
+$txt["de"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Gesamtpreis für [[v_aantal]] Personen";
+$txt["en"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Total price based on [[v_aantal]] persons";
 
 $txt["nl"]["tarieventabel"]["klik-op-datum-personen"]="Klik in bovenstaande prijstabel om aankomstdatum/aantal personen te wijzigen.";
 $txt["de"]["tarieventabel"]["klik-op-datum-personen"]="Bitte klicken sie auf oben stehende Preisliste um Ankunftsdatum/Personenzahl zu ändern.";

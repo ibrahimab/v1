@@ -232,7 +232,7 @@ if($vars["websitetype"]<>6) {
 }
 
 // bijkomendekosten
-if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 
 	// echo number_format(memory_get_usage()/1024, 0, ",", ".")."<br/>";
 	$bijkomendekosten = new bijkomendekosten;
@@ -251,7 +251,7 @@ if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["sei
 	// var_dump($bk);
 	// exit;
 
-	// $vars["toon_bijkomendekosten"] = true;
+	$vars["toon_bijkomendekosten"] = true;
 }
 
 include "content/opmaak.php";

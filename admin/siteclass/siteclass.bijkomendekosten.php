@@ -104,9 +104,9 @@ class bijkomendekosten {
 				}
 			}
 
-			if($this->soort == "type" and $NU_EVEN_NIET) {
+			if($this->soort == "type") {
 
-				// toeslagen extra personen
+				// surcharge extra persons (toeslag extra personen)
 				$db->query("SELECT
 				           a.bijkomendekosten1_id, t.bijkomendekosten1_id AS tbijkomendekosten1_id,
 				           a.bijkomendekosten2_id, t.bijkomendekosten2_id AS tbijkomendekosten2_id,
@@ -859,8 +859,9 @@ class bijkomendekosten {
 			// trigger_error("_notice: no this->data for type-id ".$type_id,E_USER_NOTICE);
 		}
 
-
-		// toeslag extra personen
+		//
+		// surcharge extra persons (toeslag extra personen)
+		//
 		$this->wt_redis->del("bk_per_week:".$this->wzt.":".$type_id);
 
 		if(is_array($this->data_var)) {
@@ -871,7 +872,8 @@ class bijkomendekosten {
 
 					for($i=$data["min_personen"]; $i<=$data["max_personen"]; $i++) {
 						foreach ($data["verkoop"] as $week => $amount) {
-							$save_redis_var[$i][$week] += $amount;
+							$amount_total = $amount * ($i - $data["min_personen"] + 1);
+							$save_redis_var[$i][$week] += $amount_total;
 						}
 					}
 				}
@@ -899,8 +901,7 @@ class bijkomendekosten {
 	}
 
 	public function pre_calculate_variable_costs($bijkomendekosten_id) {
-		// calculate variable costs (toeslag extra persoon) based on bijkomendekosten_id
-
+		// calculate variable costs (surcharge extra persons / toeslag extra persoon) based on bijkomendekosten_id
 		$db = new DB_sql;
 		global $vars;
 
@@ -1038,14 +1039,15 @@ class bijkomendekosten {
 
 				if($value["filled"]) {
 
-					if($value["altijd_diversen"]) {
+					if($value["borg_soort"]) {
+						$cat = "diversen";
+					} elseif($value["altijd_diversen"]) {
 						$cat = "diversen";
 					} elseif($value["inclusief"]==1 or $value["verplicht"]==1) {
 						$cat = "inclusief";
 					} else {
 						$cat = "uitbreiding";
 					}
-
 
 					if($value["borg_soort"]) {
 						//
@@ -1055,9 +1057,9 @@ class bijkomendekosten {
 						if($value["borg_soort"]==1 or $value["borg_soort"]==2 or $value["borg_soort"]==3 or $value["borg_soort"]==6) {
 							$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"]==2 ? " ".$vars["bk_eenheid"][$value["eenheid"]].", " : "").$vars["bk_borg_soort"][$value["borg_soort"]].")");
 						} elseif($value["borg_soort"]==4) {
-							$kosten[$cat][$key] .= ": geen borg verschuldigd";
+							$kosten[$cat][$key] .= ": ".html("geen-borg-verschuldigd", "bijkomendekosten");
 						} elseif($value["borg_soort"]==5) {
-							$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+							$kosten[$cat][$key] .= " (".html("ter-plaatse-te-voldoen", "bijkomendekosten").")";
 						}
 					} elseif($value["prijs_per_nacht"]) {
 						//
@@ -1069,7 +1071,7 @@ class bijkomendekosten {
 							if($value["bedrag"]=="0.00") {
 								$cat = "diversen";
 								$kosten[$cat][$key] = wt_he($value["naam"]);
-								$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+								$kosten[$cat][$key] .= " ".html("ter-plaatse-te-voldoen", "bijkomendekosten");
 							} else {
 								$kosten[$cat][$key] = wt_he($value["naam"]);
 								$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".txt("pppn", "bijkomendekosten"));
@@ -1080,31 +1082,42 @@ class bijkomendekosten {
 							}
 						}
 					} else {
+
 						//
 						// other costs
 						//
 						$kosten[$cat][$key] = wt_he($value["naam"]);
-						if($value["bedrag"]=="0.00") {
-							$kosten[$cat][$key] .= " (tegen betaling)";
+						if($value["verplicht"]==2 and $value["bedrag"]=="0.00") {
+							$kosten[$cat][$key] .= " (".wt_he($vars["bk_verplicht"][2]);
+							if($value["eenheid"]) {
+								$kosten[$cat][$key] .=" ".wt_he($vars["bk_eenheid"][$value["eenheid"]]);
+							}
+							if($value["ter_plaatse"]==1) {
+								$kosten[$cat][$key] .= ", ".wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
+							}
+							$kosten[$cat][$key] .= ")";
+						} elseif($value["bedrag"]=="0.00") {
+							$kosten[$cat][$key] .= " (".html("tegen-betaling", "bijkomendekosten").")";
 						} elseif($value["bedrag"]>0) {
 							$kosten[$cat][$key] .= " (";
 							if($value["verplicht"]==2) {
 								$kosten[$cat][$key] .= wt_he($vars["bk_verplicht"][2].": ");
 							}
-							$kosten[$cat][$key] .= wt_he("€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"] ? $vars["bk_eenheid"][$value["eenheid"]] : ""));
-							if($value["ter_plaatse"]==1) {
-								if($value["eenheid"]) {
-									$kosten[$cat][$key] .= ", ";
-								}
-								$kosten[$cat][$key] .= wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
+							$kosten[$cat][$key] .= wt_he("€ ".$this->toonbedrag($value["bedrag"]));
+							if($value["eenheid"]) {
+								$kosten[$cat][$key] .=" ".wt_he($vars["bk_eenheid"][$value["eenheid"]]);
 							}
-
+							if($value["opgeven_bij_boeken"] and $value["inclusief"]==0 and $value["verplicht"]==0) {
+								$kosten[$cat][$key] .= ", ".html("opgeven-bij-boeking", "bijkomendekosten");
+							}
+							if($value["ter_plaatse"]==1) {
+								$kosten[$cat][$key] .= ", ".wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
+							}
 							$kosten[$cat][$key] .= ")";
 						} elseif($value["verplicht"]==3) {
 							$kosten[$cat][$key] .= " (".$vars["bk_verplicht"][3].")";
 						}
 					}
-
 				}
 			}
 		}
@@ -1362,14 +1375,12 @@ class bijkomendekosten {
 							if($value["eenheid"]) {
 								$kosten[$cat][$key] .=" ".wt_he($vars["bk_eenheid"][$value["eenheid"]]);
 							}
-
 							if($value["opgeven_bij_boeken"] and $value["inclusief"]==0 and $value["verplicht"]==0) {
 								$kosten[$cat][$key] .= ", ".html("opgeven-bij-boeking", "bijkomendekosten");
 							}
 							if($value["ter_plaatse"]==1) {
 								$kosten[$cat][$key] .= ", ".wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
 							}
-
 							$kosten[$cat][$key] .= ")";
 						} elseif($value["verplicht"]==3) {
 							$kosten[$cat][$key] .= " (".$vars["bk_verplicht"][3].")";

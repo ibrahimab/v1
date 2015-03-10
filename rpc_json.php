@@ -709,8 +709,6 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 
 	if(is_array($kosten["inclusief"])) {
 
-		// echo wt_dump($kosten["inclusief"]);
-
 		$return["html"] .= "<h2>".html("getoonde-prijs-inclusief","tarieventabel").":</h2>";
 
 		$return["html"] .= "<ul>";

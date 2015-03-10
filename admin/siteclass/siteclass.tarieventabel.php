@@ -150,8 +150,13 @@ class tarieventabel {
 		$return .= "<div class=\"tarieventabel_totaalprijs_left\">".html("geselecteerde-aankomstdatum", "tarieventabel").":</div>";
 		$return .= "<span class=\"tarieventabel_totaalprijs_right datum\">".datum("DAG D MAAND JJJJ", $this->unixtime_week[$aankomstdatum], $vars["taal"])."</span>";
 
-		$return .= "<div class=\"tarieventabel_totaalprijs_left\">Totaalprijs op basis van ";
-		$return .= " ".$aantalpersonen." ".($aantalpersonen==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel")).":</div>";
+		$return .= "<div class=\"tarieventabel_totaalprijs_left\">";
+		if($aantalpersonen==1) {
+			$return .= html("totaalprijs-op-basis-1-persoon","tarieventabel");
+		} else {
+			$return .= html("totaalprijs-op-basis-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
+		}
+		$return .= ":</div>";
 		$return .= "<span class=\"tarieventabel_totaalprijs_right\">&euro;&nbsp;".number_format($aantalpersonen*$this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")."</span>";
 		$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\">".html("boeknu", "toonaccommodatie")." &raquo;</button>";
 		$return .= "<div class=\"tarieventabel_totaalprijs_klik\">".html("klik-op-datum-personen", "tarieventabel")."</div>";
