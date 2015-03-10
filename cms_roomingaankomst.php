@@ -102,7 +102,7 @@ if($_GET["levid"]) {
 			if($roominglist->bestelmailfax_taal=="N") {
 				$mailtekst="Beste ".$db->f("contactpersoon_lijsten").",\n\nBijgaand sturen we een overzicht met onze aankomsten op ".date("d/m/Y",$_GET["date"]).". Hierbij het verzoek om deze reserveringen en extra opties te checken en ons per omgaande te bevestigen.\n\nAlvast heel hartelijk bedankt voor je snelle reactie.\n\nMet vriendelijke groet,";
 			} elseif($roominglist->bestelmailfax_taal=="D") {
-				$mailtekst="Sehr geehrte(r) ".$db->f("contactpersoon_lijsten").",\n\nAnbei unsere Anreiseliste für die Woche vom ".date("d/m/Y",$_GET["date"]).". Können Sie diese Reservierungen und zusätzliche Optionen bitte überprüfen und uns umgehend bestätigen.\n\nViele Dank in voraus für Ihre baldige Rückbestätigung.\n\nMit freundlichem Gruß,";
+				$mailtekst="Sehr geehrte(r) ".$db->f("contactpersoon_lijsten").",\n\nAnbei unsere Anreiseliste für die Woche vom ".date("d/m/Y",$_GET["date"]).". Können Sie diese Reservierungen und zusätzliche Optionen bitte überprüfen und uns umgehend bestätigen.\n\nViele Dank in voraus für Ihre baldige Rückbestätigung.\n\nMit freundlichen Grüßen,";
 			} else {
 				$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send you attached a list with our arrivals on ".date("d/m/Y",$_GET["date"]).". Can you please check these reservations and the eventual extra options and send us confirmation by return.\n\nThanks in advance for your early reply.\n\nKind regards,";
 			}
@@ -111,7 +111,7 @@ if($_GET["levid"]) {
 			if($roominglist->bestelmailfax_taal=="N") {
 				$mailtekst="Beste ".$db->f("contactpersoon_lijsten").",\n\nBijgaand sturen wij een actueel overzicht met al onze uitstaande reserveringen tot heden. Hierbij het verzoek om deze reserveringen en de eventuele opties te controleren en ons per omgaande te bevestigen.\n\nBij voorbaat heel hartelijk bedankt voor je snelle reactie.\n\nMet vriendelijke groet,";
 			} elseif($roominglist->bestelmailfax_taal=="D") {
-				$mailtekst="Sehr geehrte(r) ".$db->f("contactpersoon_lijsten").",\n\nAnbei schicken wir Ihnen einen Übersicht mit unseren ausstehenden Reservierungen bis heute. Können Sie diese Reservierungen und die zusätzliche Optionen bitte überprüfen und uns umgehend bestätigen. Wir danken Ihnen in voraus für Ihre baldige Reaktion.\n\nMit freundlichem Gruß,";
+				$mailtekst="Sehr geehrte(r) ".$db->f("contactpersoon_lijsten").",\n\nAnbei schicken wir Ihnen einen Übersicht mit unseren ausstehenden Reservierungen bis heute. Können Sie diese Reservierungen und die zusätzliche Optionen bitte überprüfen und uns umgehend bestätigen. Wir danken Ihnen in voraus für Ihre baldige Reaktion.\n\nMit freundlichen Grüßen,";
 			} else {
 				$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send you attached an actual list with all our outstanding reservations till today.\n\nCan you please check these reservations and the eventual extra options and send us a confirmation by return.\n\nThanks in advance for your early reaction.\n\nKind regards,";
 			}

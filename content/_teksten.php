@@ -50,11 +50,11 @@ $txt["de"]["vars"]["chalets"]="Chalets";
 $txt["en"]["vars"]["chalets"]="chalets";
 
 $txt["nl"]["vars"]["wintersport-chalets-appartementen"]="Wintersport [[v_land]]: chalets en appartementen";
-$txt["de"]["vars"]["wintersport-chalets-appartementen"]="Wintersport [[_land]]: Chalets und Appartements";
+$txt["de"]["vars"]["wintersport-chalets-appartementen"]="Wintersport [[v_land]]: Chalets und Appartements";
 $txt["en"]["vars"]["wintersport-chalets-appartementen"]="Wintersport [[v_land]]: chalets and apartments";
 
 $txt["nl"]["vars"]["chaletsvoorwintersportin"]="Chalets voor wintersport in [[v_land]]";
-$txt["de"]["vars"]["chaletsvoorwintersportin"]="Chalets für Wintersport in [[_land]]";
+$txt["de"]["vars"]["chaletsvoorwintersportin"]="Chalets für Wintersport in [[v_land]]";
 $txt["en"]["vars"]["chaletsvoorwintersportin"]="Chalets for winter sport in [[v_land]]";
 
 $txt["nl"]["vars"]["je-ideale-agriturismo-in"]="Agriturismo of vakantiehuis in [[v_locatie]]";
@@ -130,27 +130,27 @@ $txt["de"]["vars"]["pensions"]="Pensionen";
 $txt["en"]["vars"]["pensions"]="pensions";
 
 $txt["nl"]["vars"]["referentie_1"]="een zoekmachine";
-$txt["de"]["vars"]["referentie_1"]="eine Suchmaschine";
+$txt["de"]["vars"]["referentie_1"]="einer Suchmaschine";
 $txt["en"]["vars"]["referentie_1"]="a search engine";
 
 $txt["nl"]["vars"]["referentie_2"]="een banner";
-$txt["de"]["vars"]["referentie_2"]="ein Banner";
+$txt["de"]["vars"]["referentie_2"]="einem Banner";
 $txt["en"]["vars"]["referentie_2"]="a banner";
 
 $txt["nl"]["vars"]["referentie_3"]="een advertentie in een krant/tijdschrift";
-$txt["de"]["vars"]["referentie_3"]="eine Anzeige in einer Zeitung/Zeitschrift";
+$txt["de"]["vars"]["referentie_3"]="einer Anzeige in einer Zeitung/Zeitschrift";
 $txt["en"]["vars"]["referentie_3"]="an ad in a newspaper/magazine";
 
 $txt["nl"]["vars"]["referentie_4"]="een radio-reclame";
-$txt["de"]["vars"]["referentie_4"]="eine Radiowerbung";
+$txt["de"]["vars"]["referentie_4"]="einer Radiowerbung";
 $txt["en"]["vars"]["referentie_4"]="a radio ad";
 
 $txt["nl"]["vars"]["referentie_5"]="familie/vrienden";
-$txt["de"]["vars"]["referentie_5"]="Familie/Freunde";
+$txt["de"]["vars"]["referentie_5"]="Familie/Freunden";
 $txt["en"]["vars"]["referentie_5"]="family/friends";
 
 $txt["nl"]["vars"]["referentie_6"]="een eerdere boeking";
-$txt["de"]["vars"]["referentie_6"]="eine frühere Buchung";
+$txt["de"]["vars"]["referentie_6"]="einer früheren Buchung";
 $txt["en"]["vars"]["referentie_6"]="a previous booking";
 
 $txt["nl"]["vars"]["referentie_7"]="anders";
@@ -294,7 +294,7 @@ Des Weiteren erinnern wir Sie gerne daran, den (eventuell) noch ausstehenden Bet
 
 Circa 10 Tage vor Abreise erhalten Sie die Reiseunterlagen mit extra Informationen über Fahrplan, Unterkunft, Schlüsseladresse, Voucher (Gutscheine) für eventuell dazu gebuchte Optionen usw.
 
-Mit freundlichem Gruß,
+Mit freundlichen Grüßen,
 Mitarbeiter [WEBSITE]
 
 Telefon: [TELEFOONNUMMER]";
@@ -320,7 +320,7 @@ Des Weiteren erinnern wir Sie gerne daran, den (eventuell) noch ausstehenden Bet
 
 Circa 10 Tage vor Abreise erhalten Sie die Reiseunterlagen mit extra Informationen über Fahrplan, Unterkunft, Schlüsseladresse, Voucher (Gutscheine) für eventuell extra dazu gebuchte Optionen usw.
 
-Mit freundlichem Gruß,
+Mit freundlichen Grüßen,
 Mitarbeiter [WEBSITE]
 
 Telefon: [TELEFOONNUMMER]
@@ -458,7 +458,7 @@ Tel: +31 (0)348 - 43 46 49";
 $txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Dear [NAAM],\n\nA few days ago we sent you an e-mail asking for the personal information of the participants of your vacation. According to our administration this information has not been entered yet.\n\nTo make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nBij controle van onze administratie is gebleken dat er een achterstand is in de betaling van jullie [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nWij willen je daarom vragen om het openstaande bedrag per omgaande te betalen. Ga voor alle betaalinformatie en de mogelijkheid om online te betalen naar de volgende website:\n\n[BETAALLINK]\n\nMocht de betaling reeds voldaan zijn dan ontvangen wij graag de volgende gegevens zodat wij onze administratie kunnen controleren:\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailaanmaning"]="Sehr geehrter Herr / sehr geehrte Frau [ACHTERNAAM],
+$txt["de"]["vars"]["mailaanmaning"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Eine Kontrolle unserer Buchhaltung weist darauf hin, dass es einen Rückstand gibt bei der Zahlung ihres  [SOORTVAKANTIE].
 
@@ -555,7 +555,7 @@ bei uns ist am [DATUM] eine Zahlung von € [BEDRAG] eingegangen in Bezug auf Ihre
 
 Infolgedessen ist die Gesamtsumme Ihres Reises bezahlt und werden Ihnen ca. 10 Tage vor Abreise Ihre Reiseunterlagen zugeschickt.
 
-Mit freundlichem Gruß,
+Mit freundlichen Grüßen,
 Mitarbeiter [WEBSITE]
 
 Tel: +31 (0)348 - 43 46 49";
@@ -786,7 +786,7 @@ Alvast veel vakantie-voorpret toegewenst!
 
 [ondertekening]";
 # zomer EN
-$txt["de"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="Sehr geehrter Herr / sehr geehrte Frau  [ACHTERNAAM],
+$txt["de"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="Sehr geehrter Herr / Sehr geehrte Frau  [ACHTERNAAM],
 
 Sie sind über [WEBSITE] in den Urlaub gefahren. Sie haben den Wunsch ausgesprochen, von uns informiert zu werden über die nächste Saison. Wir möchten Sie deshalb informieren, dass ein Großteil dessen jetzt schon reservierbar ist.
 
@@ -1239,16 +1239,44 @@ $txt["de"]["index"]["spanje"]="Spanien";
 $txt["en"]["index"]["spanje"]="Spain";
 
 $txt["nl"]["index"]["zwitserland"]="Zwitserland";
-$txt["de"]["index"]["zwitserland"]="Schweiz";
+$txt["de"]["index"]["zwitserland"]="die Schweiz";
 $txt["en"]["index"]["zwitserland"]="Switzerland";
-
-$txt["nl"]["index"]["overigelanden"]="Overige landen";
-$txt["de"]["index"]["overigelanden"]="Übrige Länder";
-$txt["en"]["index"]["overigelanden"]="Other countries";
 
 $txt["nl"]["index"]["duitsland"]="Duitsland";
 $txt["de"]["index"]["duitsland"]="Deutschland";
 $txt["en"]["index"]["duitsland"]="Germany";
+
+$txt["nl"]["index"]["frankrijk_directnaar"]="Frankrijk";
+$txt["de"]["index"]["frankrijk_directnaar"]="Frankreich";
+$txt["en"]["index"]["frankrijk_directnaar"]="France";
+
+$txt["nl"]["index"]["italie_directnaar"]="Italië";
+$txt["de"]["index"]["italie_directnaar"]="Italien";
+$txt["en"]["index"]["italie_directnaar"]="Italy";
+
+$txt["nl"]["index"]["oostenrijk_directnaar"]="Oostenrijk";
+$txt["de"]["index"]["oostenrijk_directnaar"]="Österreich";
+$txt["en"]["index"]["oostenrijk_directnaar"]="Austria";
+
+$txt["nl"]["index"]["tsjechie_directnaar"]="Tsjechië";
+$txt["de"]["index"]["tsjechie_directnaar"]="Tschechien";
+$txt["en"]["index"]["tsjechie_directnaar"]="Czech Republic";
+
+$txt["nl"]["index"]["spanje_directnaar"]="Spanje";
+$txt["de"]["index"]["spanje_directnaar"]="Spanien";
+$txt["en"]["index"]["spanje_directnaar"]="Spain";
+
+$txt["nl"]["index"]["zwitserland_directnaar"]="Zwitserland";
+$txt["de"]["index"]["zwitserland_directnaar"]="Schweiz";
+$txt["en"]["index"]["zwitserland_directnaar"]="Switzerland";
+
+$txt["nl"]["index"]["duitsland_directnaar"]="Duitsland";
+$txt["de"]["index"]["duitsland_directnaar"]="Deutschland";
+$txt["en"]["index"]["duitsland_directnaar"]="Germany";
+
+$txt["nl"]["index"]["overigelanden"]="Overige landen";
+$txt["de"]["index"]["overigelanden"]="Übrige Länder";
+$txt["en"]["index"]["overigelanden"]="Other countries";
 
 $txt["nl"]["index"]["laatstbekeken"]="Laatst bekeken";
 $txt["de"]["index"]["laatstbekeken"]="Zuletzt angesehen";
@@ -1271,7 +1299,7 @@ $txt["de"]["index"]["waarom1"]="Seit 14 Jahren der Winterspezialist";
 $txt["en"]["index"]["waarom1"]="14 years winterspecialist";
 
 $txt["nl"]["index"]["waarom2"]="Veel grote chalets";
-$txt["de"]["index"]["waarom2"]="Viel große Chalets";
+$txt["de"]["index"]["waarom2"]="Viele große Chalets";
 $txt["en"]["index"]["waarom2"]="Many large chalets";
 
 $txt["nl"]["index"]["waarom3"]="Kwaliteit";
@@ -2455,7 +2483,7 @@ $txt["en"]["contact"]["telefoonnummeroremail"]="please enter your email or phone
 # Favorieten (https://www.chalet.nl/favorieten.php)
 #
 $txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
-$txt["de"]["favorieten"]["jefavorietenwordenopgeslagen"]="Ihre Favoriten werden hier gespeichert. Hier können Sie ihre favoriten Unterkünfte vergleichen, teilen und drucken. ";
+$txt["de"]["favorieten"]["jefavorietenwordenopgeslagen"]="Ihre Favoriten werden hier gespeichert. Hier können Sie ihre Favoriten Unterkünfte vergleichen, teilen und drucken. ";
 $txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved here. This enables you to comapare, share and print them.";
 
 $txt["nl"]["favorieten"]["geenfavorieten"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Ga naar de pagina van een chalet of appartement en klik op [[h_1]]Plaats in mijn favorieten[[h_2]] om een favoriet toe te voegen.";
@@ -2970,7 +2998,7 @@ $txt["de"]["toonaccommodatie"]["afstandgolfbaan"]="Entfernung zum Golfplatz";
 $txt["en"]["toonaccommodatie"]["afstandgolfbaan"]="Distance to golf course";
 
 $txt["nl"]["toonaccommodatie"]["bekijkalonzeaccommodatiesinditgebied"]="Bekijk al onze accommodaties in dit gebied";
-$txt["de"]["toonaccommodatie"]["bekijkalonzeaccommodatiesinditgebied"]="Schauen Sie sich alle Unterkünfte in diesem Gebiet an";
+$txt["de"]["toonaccommodatie"]["bekijkalonzeaccommodatiesinditgebied"]="Alle Unterkünfte in diesem Gebiet anschauen";
 $txt["en"]["toonaccommodatie"]["bekijkalonzeaccommodatiesinditgebied"]="See all our other accommodations in this area";
 
 $txt["nl_z"]["toonaccommodatie"]["bekijkalonzeaccommodatiesinditgebied"]="Bekijk al onze vakantiehuizen in dit gebied";
@@ -3405,7 +3433,7 @@ $txt["en"]["calc"]["mail_subject"]="Price calculation [[v_website]]";
 $txt["nl"]["calc"]["mail_inleiding"]="Hieronder vind je een prijsberekening zoals je die via onze website hebt samengesteld. Klik op de link onderaan het mailtje om deze accommodatie te boeken.\n\nMet vriendelijke groet,\nMedewerkers [[v_websitenaam]]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["de"]["calc"]["mail_inleiding"]="Unten finden Sie eine Preisberechnung wie Sie sie auf unserer Webseite zusammengestellt haben. Klicken Sie bitte auf den unten stehenden Link um die Unterkunft zu buchen.
 
-Mit freundlichem Gruß,
+Mit freundlichen Grüßen,
 Mitarbeiter [[v_websitenaam]]
 
 Tel: +31 (0)348 - 43 46 49";
@@ -3887,7 +3915,7 @@ $txt["de"]["bijkomendekosten"]["per-week"]="pro Woche";
 $txt["en"]["bijkomendekosten"]["per-week"]="per week";
 
 $txt["nl"]["bijkomendekosten"]["per-zak"]="per zak";
-$txt["de"]["bijkomendekosten"]["per-zak"]="pro Tüte";
+$txt["de"]["bijkomendekosten"]["per-zak"]="pro Netz";
 $txt["en"]["bijkomendekosten"]["per-zak"]="per bag";
 
 $txt["nl"]["bijkomendekosten"]["pp-per-keer"]="p.p. per keer";
@@ -4618,7 +4646,7 @@ $txt["de"]["beschikbaarheid"]["beschikbaarheidaanvraag"]="Verfügbarkeitsanfrage"
 $txt["en"]["beschikbaarheid"]["beschikbaarheidaanvraag"]="Availability request";
 
 $txt["nl"]["beschikbaarheid"]["beste"]="Beste";
-$txt["de"]["beschikbaarheid"]["beste"]="Sehr geehrter Herr /Sehr geehrte Frau";
+$txt["de"]["beschikbaarheid"]["beste"]="Sehr geehrter Herr / Sehr geehrte Frau";
 $txt["en"]["beschikbaarheid"]["beste"]="Dear";
 
 $txt["nl"]["beschikbaarheid"]["ingoedeordeontvangen"]="Wij hebben je aanvraag voor het controleren van de beschikbaarheid van onderstaande accommodatie in goede orde ontvangen.";
@@ -4646,7 +4674,7 @@ $txt["de"]["beschikbaarheid"]["bezoekonzewebsite"]="Besuchen Sie unsere Webseite
 $txt["en"]["beschikbaarheid"]["bezoekonzewebsite"]="Visit our website for more information about [[l1]]how [[v_websitenaam]][[/l1]] works.";
 
 $txt["nl"]["beschikbaarheid"]["metvriendelijkegroet"]="Met vriendelijke groet";
-$txt["de"]["beschikbaarheid"]["metvriendelijkegroet"]="Mit freundlichem Gruß";
+$txt["de"]["beschikbaarheid"]["metvriendelijkegroet"]="Mit freundlichen Grüßen";
 $txt["en"]["beschikbaarheid"]["metvriendelijkegroet"]="Yours sincerely";
 
 $txt["nl"]["beschikbaarheid"]["medewerkerssitenaam"]="Medewerkers [[v_websitenaam]]";
@@ -4721,7 +4749,7 @@ $txt["de"]["boeken"]["boekingnietbeschikbaar"]="Es tut uns leid, aber diese Buch
 $txt["en"]["boeken"]["boekingnietbeschikbaar"]="This booking is currently not available (anymore). Our apologies for the inconvenience.";
 
 $txt["nl"]["boeken"]["boekingbevestigen"]="boeking bevestigen";
-$txt["de"]["boeken"]["boekingbevestigen"]="Buchung bestätigen";
+$txt["de"]["boeken"]["boekingbevestigen"]="BUCHUNG BESTÄTIGEN";
 $txt["en"]["boeken"]["boekingbevestigen"]="confirm booking";
 
 $txt["nl"]["boeken"]["opslaan"]="opslaan";
@@ -5188,7 +5216,7 @@ $txt["de"]["boeken"]["boeking"]="Buchung";
 $txt["en"]["boeken"]["boeking"]="Booking";
 
 $txt["nl"]["boeken"]["beste"]="Beste";
-$txt["de"]["boeken"]["beste"]="Sehr geehrter Herr /Sehr geehrte Frau";
+$txt["de"]["boeken"]["beste"]="Sehr geehrter Herr / Sehr geehrte Frau";
 $txt["en"]["boeken"]["beste"]="Dear";
 
 $txt["nl"]["boeken"]["wijhebbenuwboekingsaanvraag"]="Wij hebben je boekingsaanvraag volgens onderstaande gegevens in goede orde ontvangen en willen je daarvoor hartelijk bedanken!";
@@ -5200,7 +5228,7 @@ $txt["de"]["boeken"]["nageblekenbeschikbaarheidsturenwiju"]="Nach erwiesener Ver
 $txt["en"]["boeken"]["nageblekenbeschikbaarheidsturenwiju"]="After having confirmed availability we will send you the confirmation via e-mail within one working day (usually within a few hours). Should the accommodation you booked not be available we will directly send a proposal for equivalent alternatives.";
 
 $txt["nl"]["boeken"]["metvriendelijkegroet"]="Met vriendelijke groet,";
-$txt["de"]["boeken"]["metvriendelijkegroet"]="Mit freundlichem Gruß,";
+$txt["de"]["boeken"]["metvriendelijkegroet"]="Mit freundlichen Grüßen,";
 $txt["en"]["boeken"]["metvriendelijkegroet"]="Yours sincerely,";
 
 $txt["nl"]["boeken"]["medewerkerssitenaam"]="Medewerkers [[v_websitenaam]]";
@@ -5274,7 +5302,7 @@ $txt["de"]["wachtwoord"]["eenmaalingelogdkuntu"]="Nach dem ersten Login können S
 $txt["en"]["wachtwoord"]["eenmaalingelogdkuntu"]=" After you have logged in, you may choose a different password via \"Change my personal details\".";
 
 $txt["nl"]["wachtwoord"]["metvriendelijkegroet"]="Met vriendelijke groet,";
-$txt["de"]["wachtwoord"]["metvriendelijkegroet"]="Mit freundlichem Gruß,";
+$txt["de"]["wachtwoord"]["metvriendelijkegroet"]="Mit freundlichen Grüßen,";
 $txt["en"]["wachtwoord"]["metvriendelijkegroet"]="Yours sincerely,";
 
 $txt["nl"]["wachtwoord"]["medewerkers"]="Medewerkers";
@@ -5672,7 +5700,7 @@ $txt["de"]["reisagent_wachtwoord"]["eenmaalingelogdkuntu"]="Nach Anmeldung könne
 $txt["en"]["reisagent_wachtwoord"]["eenmaalingelogdkuntu"]=" After you have logged in, you may choose a different password via \"My data\".";
 
 $txt["nl"]["reisagent_wachtwoord"]["metvriendelijkegroet"]="Met vriendelijke groet,";
-$txt["de"]["reisagent_wachtwoord"]["metvriendelijkegroet"]="Mit freundlichem Gruß,";
+$txt["de"]["reisagent_wachtwoord"]["metvriendelijkegroet"]="Mit freundlichen Grüßen,";
 $txt["en"]["reisagent_wachtwoord"]["metvriendelijkegroet"]="Yours sincerely,";
 
 $txt["nl"]["reisagent_wachtwoord"]["medewerkers"]="Medewerkers";
@@ -6285,7 +6313,7 @@ $txt["de"]["factuur"]["tot6wekenvoorvertrek"]="Bis zu 6 Wochen vor Abreise könne
 $txt["en"]["factuur"]["tot6wekenvoorvertrek"]="Up to 6 weeks before your departure, you can log in to change the data of the participants and add any options. You can of course also provide us with this information by e-mail or telephone.";
 
 $txt["nl"]["factuur"]["beste"]="Beste";
-$txt["de"]["factuur"]["beste"]="Sehr geehrter Herr, sehr geehrte Frau";
+$txt["de"]["factuur"]["beste"]="Sehr geehrter Herr / sehr geehrte Frau";
 $txt["en"]["factuur"]["beste"]="Dear";
 
 $txt["nl"]["factuur"]["pagina"]="Pagina";
@@ -6401,7 +6429,7 @@ $txt["de"]["factuur"]["vermeldresnummer"]="Bitte vermelden Sie bei Zahlung die R
 $txt["en"]["factuur"]["vermeldresnummer"]="Please state your booking number [[v_resnummer]] when paying.";
 
 $txt["nl"]["factuur"]["metvriendelijkegroet"]="Met vriendelijke groet,";
-$txt["de"]["factuur"]["metvriendelijkegroet"]="Mit freundlichem Gruß,";
+$txt["de"]["factuur"]["metvriendelijkegroet"]="Mit freundlichen Grüßen,";
 $txt["en"]["factuur"]["metvriendelijkegroet"]="Yours sincerely,";
 
 $txt["nl"]["factuur"]["medewerkerswebsitenaam"]="Medewerkers [[v_websitenaam]]";
@@ -6463,7 +6491,7 @@ $txt["en"]["factuur"]["onlinebevestigen"]="Approve online";
 $txt["nl"]["factuur"]["onlinebevestigen_uitleg"]="Door digitaal je akkoord te geven over de inhoud van de bevestiging:
 [[h_1]]factuur online goedkeuren[[h_2]]";
 $txt["de"]["factuur"]["onlinebevestigen_uitleg"]="Indem Sie online den Inhalt der Bestätigung zustimmen:
-[[h_1]]factuur online goedkeuren[[h_2]]";
+[[h_1]]Rechnung online zustimmen[[h_2]]";
 $txt["en"]["factuur"]["onlinebevestigen_uitleg"]="By digitally approving the content of the confirmation:
 [[h_1]]approve invoice online[[h_2]]";
 
@@ -6480,7 +6508,7 @@ $txt["de"]["factuur"]["bijonjuistheden"]="Bitte melden Sie uns etwaige Fehler um
 $txt["en"]["factuur"]["bijonjuistheden"]="If you find any errors, please let us know immediately.";
 
 $txt["nl"]["factuur"]["tot6wekeninloggen"]="Tot 4 weken voor vertrek kun je via \"[[h_1]]Mijn boeking[[h_2]]\" de gegevens van de deelnemers zelf invullen of aanpassen en opties bijboeken. Inloggen kan via een [[h_1]]rechtstreekse link[[h_2]] of via je mailadres ([[h_3]][[v_mailadres]][[h_4]]) en het wachtwoord [[h_3]][[v_wachtwoord]][[h_4]]. Het is natuurlijk ook mogelijk om wijzigingen per mail of telefonisch aan ons door te geven, waarna wij het voor je verwerken.";
-$txt["de"]["factuur"]["tot6wekeninloggen"]="Bis zu 4 Wochen vor Abreise können Sie über \"[[h_1]]Mijn boeking[[h_2]]\" die Daten der Mitreisenden selber eingeben oder ändern und Optionen zubuchen. Sie können sich anmelden über einen [[h_1]]direkten Link[[h_2]] oder über Ihre E-Mail-Adresse ([[h_3]][[v_mailadres]][[h_4]]) und das Passwort [[h_3]][[v_wachtwoord]][[h_4]]. Sie können Änderungen natürlich auch per E-Mail oder telefonisch an uns weiterleiten, wonach wir diese für Sie verarbeiten werden.";
+$txt["de"]["factuur"]["tot6wekeninloggen"]="Bis zu 4 Wochen vor Abreise können Sie über \"[[h_1]]Meine Buchung[[h_2]]\" die Daten der Mitreisenden selber eingeben oder ändern und Optionen zubuchen. Sie können sich anmelden über einen [[h_1]]direkten Link[[h_2]] oder über Ihre E-Mail-Adresse ([[h_3]][[v_mailadres]][[h_4]]) und das Passwort [[h_3]][[v_wachtwoord]][[h_4]]. Sie können Änderungen natürlich auch per E-Mail oder telefonisch an uns weiterleiten, wonach wir diese für Sie verarbeiten werden.";
 $txt["en"]["factuur"]["tot6wekeninloggen"]="Up to 4 weeks before your departure, you can use \"[[h_1]]My booking[[h_2]]\" to change the data of the participants and add any options. You can login using a [[h_1]]direct link[[h_2]] or your email address ([[h_3]][[v_mailadres]][[h_4]]) and the password [[h_3]][[v_wachtwoord]][[h_4]]. You can of course also provide us with these changes by email or telephone.";
 
 $txt["nl"]["factuur"]["weadviserenannuleringsverzekering"]="We adviseren je om een annuleringsverzekering af te sluiten. Dit kan zowel individueel als per groep. Let op: dit kan tot 7 dagen na boeking! [[h_1]]Voorwaarden annuleringsverzekering[[h_2]]";
@@ -6488,7 +6516,7 @@ $txt["de"]["factuur"]["weadviserenannuleringsverzekering"]="Wir raten Ihnen, ein
 $txt["en"]["factuur"]["weadviserenannuleringsverzekering"]="We advise you to take out a cancellation insurance, either per individual or per group. Attention: you can do so up to 7 days after you have made your booking! [[h_1]]Terms and conditions cancellation insurance[[h_2]]";
 
 $txt["nl"]["factuur"]["mailmetvriendelijkegroet"]="Met vriendelijke groet,";
-$txt["de"]["factuur"]["mailmetvriendelijkegroet"]="Mit freundlichem Gruß,";
+$txt["de"]["factuur"]["mailmetvriendelijkegroet"]="Mit freundlichen Grüßen,";
 $txt["en"]["factuur"]["mailmetvriendelijkegroet"]="Yours sincerely,";
 
 $txt["nl"]["factuur"]["mailmedewerkerswebsitenaam"]="Medewerkers [[v_websitenaam]]
@@ -6731,7 +6759,7 @@ $txt["de"]["optieaanvraag"]["mail_goed_subject"]="Optionsbestätigung [AANKOMSTDA
 $txt["en"]["optieaanvraag"]["mail_goed_subject"]="Confirmation option [AANKOMSTDATUM] [ACCOMMODATIE]";
 
 $txt["nl"]["optieaanvraag"]["mail_goed_body"]="Beste [VOORNAAMKLANT],\n\nHartelijk dank voor je interesse in onze accommodaties! Naar aanleiding van je optieaanvraag kan ik je vertellen dat de door jou aangevraagde accommodatie voor de aangegeven week nog beschikbaar is en dat wij deze voor je in optie hebben gezet. Graag horen wij uiterlijk [LOOPT_AF] 's middags 15.00 uur of wij deze optie om mogen zetten in een definitieve boeking of dat je voorkeur uitgaat naar een andere accommodatie.\n\n[AANKOMSTDATUM] [ACCOMMODATIE] met [AANTALPERSONEN] personen\n\nVoor omschrijving: [ACCOMMODATIE_URL]\nBezetting [AANTALPERSONEN] personen : EURO [BEDRAG]\n\nBovenstaande prijzen zijn exclusief EURO 20,00 reserveringskosten. Op de pagina kun je verder nalezen welke zaken incl. en excl. zijn.\n\nGraag horen wij of wij deze optie om mogen zetten in een definitieve boeking.\n\n[NAAM_MEDEWERKER]\n\nAl onze aanbiedingen vallen onder onze Algemene reis- en verkoopvoorwaarden en zijn onder voorbehoud van prijswijzigingen en beschikbaarheid.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
-$txt["de"]["optieaanvraag"]["mail_goed_body"]="Sehr geehrter Herr / sehr geehrte Frau [ACHTERNAAMKLANT],
+$txt["de"]["optieaanvraag"]["mail_goed_body"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAMKLANT],
 
 Herzlichen Dank für Ihr Interesse an unseren Unterkünften! Anlässlich Ihrer Optionsanfrage können wir Ihnen mitteilen, dass die von Ihnen gewünschte Unterkunft noch verfügbar ist und wir diese für Sie als Option reserviert haben. Bitte melden Sie uns spätestens [LOOPT_AF] nachmittags 15.00 Uhr ob wir diese Option für Sie definitiv Buchen dürfen, oder ob Sie eine andere Unterkunft wünschen.
 
@@ -6762,7 +6790,7 @@ $txt["de"]["optieaanvraag"]["mail_af_subject"]="Optionsanfrage [AANKOMSTDATUM] [
 $txt["en"]["optieaanvraag"]["mail_af_subject"]="Option request [AANKOMSTDATUM] [ACCOMMODATIE]";
 
 $txt["nl"]["optieaanvraag"]["mail_af_body"]="Beste [VOORNAAMKLANT],\n\nHartelijk dank voor je interesse in onze accommodaties! Naar aanleiding van je beschikbaarheidaanvraag moet ik je helaas vertellen dat de door jou aangevraagde accommodatie voor de aangegeven week niet meer beschikbaar is. Onderstaand bied ik je enkele direct beschikbare alternatieven aan:\n\n\n\n\nBovenstaande prijzen zijn exclusief EURO 20,00 reserveringskosten. Op de pagina kun je verder nalezen welke zaken incl. en excl. zijn.\n\nGraag horen wij of wij bovenstaande aanbieding om mogen zetten in een reservering.\n\n[NAAM_MEDEWERKER]\n\nAl onze aanbiedingen vallen onder onze Algemene reis- en verkoopvoorwaarden en zijn onder voorbehoud van prijswijzigingen en beschikbaarheid.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
-$txt["de"]["optieaanvraag"]["mail_af_body"]="Sehr geehrter Herr / sehr geehrte Frau [ACHTERNAAMKLANT],
+$txt["de"]["optieaanvraag"]["mail_af_body"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAMKLANT],
 
 Herzlichen Dank für Ihr Interesse an unseren Unterkünften! Anlässlich Ihrer Optionsanfrage müssen wir Ihnen leider mitteilen, dass die von Ihnen gewünschte Unterkunft nicht mehr verfügbar ist. Wir bieten Ihnen aber einige direkt verfügbare Alternativen an:
 
@@ -6821,7 +6849,7 @@ Möchten Sie informiert werden über die nächste Saison, oder spezifisch über die 
 
 
 Wir danken Ihnen im Voraus für Ihre Mitarbeit!
-                                                                                         Mit freundlichem Gruß,
+                                                                                         Mit freundlichen Grüßen,
 
 [ondertekening]";
 $txt["en"]["enquete"]["mail_body"]="Dear [NAAM],\n\nWe hope you've had a good holiday. We would like to hear about your experience in [ACCOMMODATIENAAM], so that we can offer an even better service in the future.\n\nThat's why we would like to ask you to devote a few minutes on our survey. The information will be just for internal usage and won't be given to third parties.\n\n[link=[LINK_ENQUETE]]Go to the survey »[/link]\n\nThanks in advance for your help!\n\nKind regards,\n\n[ondertekening]";
@@ -7897,7 +7925,7 @@ $txt["de"]["htmlbanner"]["oostenrijk"]="Österreich";
 $txt["en"]["htmlbanner"]["oostenrijk"]="Austria";
 
 $txt["nl"]["htmlbanner"]["zwitserland"]="Zwitserland";
-$txt["de"]["htmlbanner"]["zwitserland"]="Schweiz";
+$txt["de"]["htmlbanner"]["zwitserland"]="die Schweiz";
 $txt["en"]["htmlbanner"]["zwitserland"]="Switzerland";
 
 $txt["nl"]["htmlbanner"]["kies-datum"]="Datum";

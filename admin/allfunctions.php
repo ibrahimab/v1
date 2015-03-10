@@ -1006,6 +1006,13 @@ if (!function_exists("datum")) {
 			}
 		} elseif($language=="de") {
 			// deutsch
+
+			$a = ereg_replace("(^|[^a-zA-Z0-9ä])DD MND","DD. MND",$a);
+			$a = ereg_replace("(^|[^a-zA-Z0-9ä])D MND","D. MND",$a);
+			$a = ereg_replace("(^|[^a-zA-Z0-9ä])DD MAAND","DD. MAAND",$a);
+			$a = ereg_replace("(^|[^a-zA-Z0-9ä])D MAAND","D. MAAND",$a);
+
+
 			switch(wt_adodb_date("w",$time)) {
 				case 0: $dag="Sonntag"; break;
 				case 1: $dag="Montag"; break;
@@ -1101,6 +1108,7 @@ if (!function_exists("datum")) {
 				case 12: $mnd="Dec"; break;
 			}
 		}
+
 		$a = ereg_replace("(^|[^a-zA-Z0-9ä])DAG($|[^a-zA-Z0-9ä])","\\1".$dag."\\2",$a);
 		$a = ereg_replace("(^|[^a-zA-Z0-9ä])DG($|[^a-zA-Z0-9ä])","\\1".$dg."\\2",$a);
 		$a = ereg_replace("(^|[^a-zA-Z0-9ä])MAAND($|[^a-zA-Z0-9ä])","\\1".$maand."\\2",$a);

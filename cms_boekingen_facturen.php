@@ -325,6 +325,9 @@ if($form->okay) {
 					if($this->gegevens["stap1"]["taal"]=="en") {
 						# Adres voor Engelstalige buitenlanders
 						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\nThe Netherlands\n\nTel.: +31 348 434649\nFax: +31 348 690752\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
+					} elseif($this->gegevens["stap1"]["taal"]=="de") {
+						# Adres voor Duitstalige buitenlanders
+						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\nNL-3447 GJ Woerden\nNiederlande\n\nTel.: +31 348 434649\nFax: +31 348 690752\nIHK Nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nMwSt.-Nr NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
 					} else {
 						# Adres voor Nederlandstalige buitenlanders
 						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\nNederland\n\nTel.: +31 348 434649\nFax: +31 348 690752\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
