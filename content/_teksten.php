@@ -2481,7 +2481,7 @@ $txt["en"]["contact"]["telefoonnummeroremail"]="please enter your email or phone
 # Favorieten (https://www.chalet.nl/favorieten.php)
 #
 $txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
-$txt["de"]["favorieten"]["jefavorietenwordenopgeslagen"]="Ihre Favoriten werden hier gespeichert. Hier können Sie ihre Favoriten Unterkünfte vergleichen, teilen und drucken. ";
+$txt["de"]["favorieten"]["jefavorietenwordenopgeslagen"]="Ihre Favoriten werden hier gespeichert. Hier können Sie ihre favoriten Unterkünfte vergleichen, teilen und drucken. ";
 $txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved here. This enables you to comapare, share and print them.";
 
 $txt["nl"]["favorieten"]["geenfavorieten"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Ga naar de pagina van een chalet of appartement en klik op [[h_1]]Plaats in mijn favorieten[[h_2]] om een favoriet toe te voegen.";
@@ -3506,7 +3506,7 @@ $txt["de"]["thema"]["aantalaccommodaties"]="Anzahl Unterkünfte";
 $txt["en"]["thema"]["aantalaccommodaties"]="Number of accommodations";
 
 $txt["nl"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties voor [[v_themajaar]] met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
-$txt["de"]["thema"]["aantalaccommodatiesmettarieven"]="Anzahl Unterkünfte für [[v_themajaar]] mit Preisen: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
+$txt["de"]["thema"]["aantalaccommodatiesmettarieven"]="Anzahl Unterkünfte für [[v_themajaar]] mit Preisen: [[v_aantal]] (= [[v_percentage]] unseres gesamten Angebots)";
 $txt["en"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
 $txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
