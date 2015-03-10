@@ -3,6 +3,7 @@
 $robot_noindex=true;
 $vars["verberg_lastacc"]=true;
 include("admin/vars.php");
+wt_session_start();
 
 # Totale reissom opvragen voor TradeTracker, Cleafs en Google Analytics
 if($_GET["aanvraagnr"]) {
@@ -15,7 +16,7 @@ if($_GET["aanvraagnr"]) {
 } else {
 	$share_url=$vars["basehref"];
 }
-if($totalereissom>0 and !in_array($vars["website"], array("B", "C", "E"))) {
+if($_SESSION["boeking_tracking"] and $totalereissom>0 and !in_array($vars["website"], array("B", "C", "E"))) {
 
 	// Google Analytics Ecommerce
 	$vars["googleanalytics_extra"]="

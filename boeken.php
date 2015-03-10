@@ -1458,11 +1458,17 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 
 	} elseif($_GET["stap"]==6) {
-		# Gegevens wissen
+
+		// Delete session and cookie
 		unset($_SESSION["boeking"]);
 		unset($_COOKIE["CHALET"]["boeking"]["boekingid"]);
 		setcookie("CHALET[boeking][boekingid]","_leeg_",time()+60);
 		setcookie("CHALET[boeking][boekingid]","",time()-864000);
+
+		// set session-var for tracking
+		$_SESSION["boeking_tracking"] = true;
+
+		// redirect to boeking_bevestigd
 		header("Location: ".$path.txt("menu_boeking_bevestigd").".php?aanvraagnr=".$gegevens["stap1"]["boekingid"]);
 		exit;
 	}
