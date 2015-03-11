@@ -15,6 +15,7 @@ $geen_tracker_cookie=true;
 include("admin/vars.php");
 
 header('Content-Type: text/xml; charset=utf-8');
+header("X-Robots-Tag: noindex", true);
 
 echo "<";
 echo "?xml version=\"1.0\" encoding=\"UTF-8\"?";
