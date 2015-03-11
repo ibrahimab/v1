@@ -47,7 +47,6 @@ Disallow: /thema/*filled=1
 Disallow: /theme/*filled=1
 Disallow: /*toonflex=1
 Disallow: test*
-Disallow: /*?cache=
 Disallow: /*?thema=
 Disallow: /*?network=
 Disallow: /*?filled=1
