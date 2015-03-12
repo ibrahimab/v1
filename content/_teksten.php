@@ -2056,6 +2056,12 @@ $txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]
 $txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] vakantiehuis gevonden";
 $txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] holiday home found";
 
+$txt["nl"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="Nu al te boeken: [[v_seizoennaam]]";
+$txt["de"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="-";
+$txt["en"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="-";
+
+
+# zoek-en-boek: zoeken op kaart
 $txt["nl"]["zoek-en-boek"]["toonopkaart"]="toon op kaart";
 $txt["de"]["zoek-en-boek"]["toonopkaart"]="zeigen auf Karte";
 $txt["en"]["zoek-en-boek"]["toonopkaart"]="show on a map";
@@ -2064,7 +2070,6 @@ $txt["nl"]["zoek-en-boek"]["verbergkaart"]="verberg kaart";
 $txt["de"]["zoek-en-boek"]["verbergkaart"]="Karte ausblenden";
 $txt["en"]["zoek-en-boek"]["verbergkaart"]="hide map";
 
-# zoek-en-boek: zoeken op kaart
 $txt["nl"]["zoek-en-boek"]["bekijkopkaart"]="Bekijk alle resultaten op een kaart";
 $txt["de"]["zoek-en-boek"]["bekijkopkaart"]="Alle Suchergebnisse auf einer Karte zeigen";
 $txt["en"]["zoek-en-boek"]["bekijkopkaart"]="View all results on a map";

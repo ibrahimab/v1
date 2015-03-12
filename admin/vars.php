@@ -1339,7 +1339,7 @@ if($boeking_wijzigen) {
 	} else {
 		$temp_seizoentype=$vars["seizoentype"];
 	}
-	$db->query("SELECT naam, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind, seizoen_id, tonen FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen".($voorkant_cms ? ">=" : "=")."3 ORDER BY begin, eind;");
+	$db->query("SELECT naam".$vars["ttv"]." AS naam, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind, seizoen_id, tonen FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen".($voorkant_cms ? ">=" : "=")."3 ORDER BY begin, eind;");
 	if($db->num_rows()) {
 		if($id=="accommodaties" or $id=="zoek-en-boek" or $id=="thema" or $id=="weekendski" or $id=="land" or $id=="chalets") $vars["aankomstdatum_weekend"][0]=$vars["geenvoorkeur"];
 		while($db->next_record()) {
@@ -1359,8 +1359,11 @@ if($boeking_wijzigen) {
 			}
 
 			// kijken of seizoen intern anders gebruikt wordt dan extern
-			if($db->f("tonen")==4 and $voorkant_cms) {
-				$vars["seizoen_alleen_intern"].=" en ".$db->f("naam");
+			if($db->f("tonen")==4) {
+				if($voorkant_cms) {
+					$vars["seizoen_alleen_intern"].=" en ".$db->f("naam");
+				}
+				$vars["volgend_seizoen"] = $db->f("naam");
 			}
 		}
 		@ksort($vars["aankomstdatum"]);

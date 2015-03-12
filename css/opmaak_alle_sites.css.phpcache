@@ -1560,6 +1560,17 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	color: #003366;
 }
 
+.zoekresultaten_nieuwseizoen {
+	text-align: center;
+	display: block;
+	font-size: 1.1em;
+	padding: 5px;
+	background-color: #d5e1f9;
+	width: 680px;
+	margin-bottom: 20px;
+	color: #003366;
+}
+
 #zoekblok .aantalgevonden {
 	width: 470px;
 	margin-left: 195px;
