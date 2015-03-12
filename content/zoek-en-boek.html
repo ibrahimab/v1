@@ -3575,15 +3575,19 @@ if($resultaten_tonen) {
 					echo html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$a[0],"v_percentage"=>$a[1]."%", 'v_themajaar' => $thema_jaar));
 					echo "</div>";
 				}
-			} elseif($vars["volgend_seizoen"] and $vars["lokale_testserver"]) {
+			} else {
+
 				// link to next season ("nu al te boeken")
-				$thema_url = $vars["volgend_seizoen"];
-				$thema_url = preg_replace("@/@", "-", $thema_url);
-				$thema_url = preg_replace("@[^0-9-]@", "", $thema_url);
-				echo "<a href=\"".$vars["path"].txt("menu_thema")."/".$thema_url."/\" class=\"zoekresultaten_nieuwseizoen boxshadow\">";
-				echo html("bekijknutarievenvolgendseizoen", "zoek-en-boek", array("v_seizoennaam"=>$vars["volgend_seizoen"]));
-				echo "&nbsp;&raquo;&nbsp;";
-				echo "</a>";
+				$db3->query("SELECT naam".$vars["ttv"]." AS naam FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen=4 ORDER BY begin DESC LIMIT 0,1;");
+				if($db3->next_record() and ($vars["lokale_testserver"] or $vars["acceptatie_testserver"])) {
+					$thema_url = $db3->f("naam");
+					$thema_url = preg_replace("@/@", "-", $thema_url);
+					$thema_url = preg_replace("@[^0-9-]@", "", $thema_url);
+					echo "<a href=\"".$vars["path"].txt("menu_thema")."/".$thema_url."/\" class=\"zoekresultaten_nieuwseizoen boxshadow\">";
+					echo html("bekijknutarievenvolgendseizoen", "zoek-en-boek", array("v_seizoennaam"=>$db3->f("naam")));
+					echo "&nbsp;&raquo;&nbsp;";
+					echo "</a>";
+				}
 			}
 		}
 
