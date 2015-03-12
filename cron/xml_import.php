@@ -362,9 +362,9 @@ if($testsysteem) {
 	// $xml_urls[6][2]=$test_tmpdir."Preise.xml";
 	// $xml_urls[7][1]=$test_tmpdir."bel.xml";
 	// $xml_urls[7][2]=$test_tmpdir."belt.xml";
-	// $xml_urls[8][1]=$test_tmpdir."availability.xml";
-	// $xml_urls[8][2]=$test_tmpdir."unitrates.xml";
-	// $xml_urls[8][3]=$test_tmpdir."unit.xml";
+	$xml_urls[8][1]=$test_tmpdir."availability.xml";
+	$xml_urls[8][2]=$test_tmpdir."unitrates.xml";
+	$xml_urls[8][3]=$test_tmpdir."unit.xml";
 	// $xml_urls[9][2]=$test_tmpdir."nl";
 	// $xml_urls[10][1]=$test_tmpdir."1.xml";
 	// $xml_urls[11][1]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
@@ -378,7 +378,7 @@ if($testsysteem) {
 	// $xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
 	// $xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 	// $xml_urls[17][1]=$test_tmpdir."lev.xml";
-	$xml_urls[18][1]=$test_tmpdir."agence.xml";
+	// $xml_urls[18][1]=$test_tmpdir."agence.xml";
 	// $xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
 	// $xml_urls[20][1]="/tmp/locative.xml";
 	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
@@ -436,6 +436,11 @@ if(intval($argv[1])>0) {
 #
 # XML-url's verwerken
 #
+
+if($testsysteem) {
+	echo wt_dump($xml_urls, false);
+}
+
 @reset($xml_urls);
 while(list($key,$value)=@each($xml_urls)) {
 	unset($xml);
@@ -658,6 +663,9 @@ while(list($key,$value)=@each($xml_urls)) {
 							# Beschikbaar op dag (0=beschikbaar)
 							if(substr($value3["days"],$i,1)=="0") {
 								# wel beschikbaar
+								if($testsysteem and trim($value3["unique_serial"])=="42405001") {
+									echo trim($value3["unique_serial"])." - ".date("d-m-Y", $week).": beschikbaar\n";
+								}
 								$temp_beschikbaar[$week]++;
 								if($flexibele_xmlcodes[$key][trim($value3["unique_serial"])]) {
 									// if(!$testsysteem) {
@@ -666,6 +674,9 @@ while(list($key,$value)=@each($xml_urls)) {
 								}
 							} else {
 								# niet beschikbaar
+								if($testsysteem and trim($value3["unique_serial"])=="42405001") {
+									echo trim($value3["unique_serial"])." - ".date("d-m-Y", $week).": niet beschikbaar\n";
+								}
 								if($flexibele_xmlcodes[$key][trim($value3["unique_serial"])]) {
 									// if(!$testsysteem) {
 										xml_tempsave($key,trim($value3["unique_serial"]),$dag,"beschikbaar","0");
@@ -1385,9 +1396,9 @@ while(list($key,$value)=@each($soap_urls)) {
 }
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-#	echo wt_dump_with_unixtime($xml_beschikbaar);
-#	echo wt_dump_with_unixtime($xml_brutoprijs);
-#	exit;
+	// echo wt_dump_with_unixtime($xml_beschikbaar);
+	// echo wt_dump_with_unixtime($xml_brutoprijs);
+	// exit;
 }
 
 #
@@ -1449,7 +1460,7 @@ while($db->next_record()){
 }
 if($testsysteem) {
 	# test-query
-#	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.type_id=3394 ORDER BY t.leverancier_id;");
+	// $db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.type_id=9621 ORDER BY t.leverancier_id;");
 
 	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.leverancier_id IN (".$test_leverancierids.") ORDER BY t.leverancier_id;");
 
@@ -1759,6 +1770,8 @@ while($db->next_record()) {
 					$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]+=$value2;
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
+			} else {
+				$beschikbaar[$db->f("xml_type")][$db->f("type_id")][0]=0;
 			}
 
 			# Aanbiedingen (lastminutes)
@@ -2276,7 +2289,9 @@ if(is_array($discount_updates)) {
 #echo wt_dump($aantal_beschikbaar);
 
 #echo wt_dump_with_unixtime($xml_brutoprijs);
-#echo wt_dump_with_unixtime($beschikbaar);
+if($testsysteem) {
+	echo wt_dump_with_unixtime($beschikbaar);
+}
 
 #echo wt_dump($tarief_season);
 #exit;
@@ -2300,6 +2315,7 @@ if(is_array($discount_updates)) {
 #
 # voorraad aanpassen op basis van $beschikbaar
 #
+
 @reset($beschikbaar);
 while(list($key,$value)=@each($beschikbaar)) {
 	while(list($key2,$value2)=@each($value)) {
@@ -2689,7 +2705,7 @@ if(!$testsysteem) {
 	echo "</pre>\n\n";
 }
 
-function wt_dump_with_unixtime($array,$html=true) {
+function wt_dump_with_unixtime($array,$html=false) {
 	ob_start();
 	if(is_array($array)) {
 		print_r($array);
