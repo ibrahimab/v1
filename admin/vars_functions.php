@@ -147,6 +147,14 @@ function txt($id,$page="",$settings=array(""),$html=false) {
 			}
 		}
 	}
+
+	// Solution for German grammatical case (naamval): in die/der Schweiz
+	if($taal=="de") {
+		if(preg_match("@\bin die Schweiz\b@", $return)) {
+			$return = preg_replace("@\bin die Schweiz\b@", "in der Schweiz", $return);
+		}
+	}
+
 	return $return;
 }
 
