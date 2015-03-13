@@ -3583,7 +3583,7 @@ if($resultaten_tonen) {
 					$thema_url = $db3->f("naam");
 					$thema_url = preg_replace("@/@", "-", $thema_url);
 					$thema_url = preg_replace("@[^0-9-]@", "", $thema_url);
-					echo "<a href=\"".$vars["path"].txt("menu_thema")."/".$thema_url."/\" class=\"zoekresultaten_nieuwseizoen boxshadow\">";
+					echo "<a href=\"".$vars["path"].txt("menu_thema")."/".$thema_url."/\" class=\"zoekresultaten_nieuwseizoen boxshadow analytics_track_internal_click\" data-description=\"button 'nu al te boeken'\">";
 					echo html("bekijknutarievenvolgendseizoen", "zoek-en-boek", array("v_seizoennaam"=>$db3->f("naam")));
 					echo "&nbsp;&raquo;&nbsp;";
 					echo "</a>";

@@ -2553,10 +2553,35 @@ $(document).ready(function() {
 			return true;
 		});
 
+		// trigger Anayltics-event for internal clicks
+		$("a.analytics_track_internal_click").click(function(event) {
+
+			var internal_url = $(this).attr("href");
+			var description = "url";
+
+			if($(this).data("description")) {
+				description = $(this).data("description");
+			}
+
+			if (typeof ga != "undefined") {
+				ga('send', 'event', 'doorklik binnen de site', description, internal_url);
+			}
+
+			if(event.ctrlKey||event.which==2) {
+				// link is geklikt via CTRL-click: laat de link z'n gang gaan
+				return true;
+			} else {
+				setTimeout(function() {
+					// heel even wachten zodat Analytics kan laden
+					document.location.href = internal_url;
+				},100);
+
+				return false;
+			}
+		});
 
 
 		// switchen tussen valuta
-
 		if($.msDropdown) {
 			$(".currency_select").msDropdown();
 		}
