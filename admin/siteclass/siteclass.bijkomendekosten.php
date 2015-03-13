@@ -740,16 +740,9 @@ class bijkomendekosten {
 
 			$last_save_time = $this->wt_redis->hget("bk:".$db->f("wzt").":".$db->f("type_id"), "saved");
 
-			// echo "LAST:".$last_save_time."<br/>";
-
 			if($last_save_time<(time()-108000)) {
 
 				$counter++;
-
-				// if($cron) {
-				// 	echo $counter.". - ".microtime(true)." pre_calculate_type ".$db->f("type_id")."\n";
-				// 	flush();
-				// }
 
 				$this->pre_calculate_type($db->f("type_id"));
 
@@ -882,10 +875,12 @@ class bijkomendekosten {
 			if(is_array($save_redis_var)) {
 				foreach ($save_redis_var as $persons => $data) {
 					foreach ($data as $week => $total) {
-						$this->wt_redis->hset("bk_per_week:".$this->wzt.":".$type_id, $week.":".$persons, $total);
-						if($vars["tmp_info_tonen"]) {
-							echo "bk_per_week:".$this->wzt.":".$type_id." - ". $week.":".$persons." - ". $total."<br />";
-							flush();
+						if($total<>0) {
+							$this->wt_redis->hset("bk_per_week:".$this->wzt.":".$type_id, $week.":".$persons, $total);
+							if($vars["tmp_info_tonen"]) {
+								echo "bk_per_week:".$this->wzt.":".$type_id." - ". $week.":".$persons." - ". $total."<br />";
+								flush();
+							}
 						}
 					}
 				}
@@ -962,6 +957,25 @@ class bijkomendekosten {
 		return $return;
 	}
 
+	public function get_type_from_cache_all_persons_all_weeks($type_id, $wzt) {
+
+		//
+		// get surcharge extra persons (toeslag extra personen)
+		//
+
+		$bedrag = $this->wt_redis->hgetall("bk_per_week:".$wzt.":".$type_id);
+
+		if(is_array($bedrag)) {
+			foreach ($bedrag as $key => $value) {
+				if(preg_match("@([0-9]+):([0-9]+)$@", $key, $regs)) {
+					$return[$regs[2]][$regs[1]] = $value;
+				}
+			}
+		}
+
+		return $return;
+	}
+
 	public function store_complete_cache($wzt) {
 
 		$all_bk = $this->wt_redis->keys("bk:".$wzt.":*");
@@ -989,12 +1003,62 @@ class bijkomendekosten {
 
 		if(is_array($bk)) {
 			$this->wt_redis->store_array("bk:".$wzt, "all", $bk);
+			unset($bk);
 		}
+
+		//
+		// surcharge extra persons
+		//
+
+		$all_bk = $this->wt_redis->keys("bk_per_week:".$wzt.":*");
+		if(is_array($all_bk)) {
+			foreach ($all_bk as $key => $value) {
+				$content=$this->wt_redis->hgetall($value, false);
+				foreach ($content as $key2 => $value2) {
+
+					if(preg_match("@bk_per_week:([12]):([0-9]+)$@", $value, $regs)) {
+
+						$wzt = $regs[1];
+						$type_id = $regs[2];
+
+						if(preg_match("@^([0-9]+):([0-9]+)$@", $key2, $regs)) {
+
+							$week = $regs[1];
+							$aantalpersonen = $regs[2];
+
+							$bk_all_persons[$aantalpersonen][$type_id][$week] = $value2;
+							// $bk_all_weeks[$week][$aantalpersonen][$type_id] = $value2;
+						}
+					}
+				}
+			}
+		}
+
+		if(is_array($bk_all_persons)) {
+			foreach ($bk_all_persons as $key => $value) {
+				$this->wt_redis->store_array("bk_per_week:".$wzt, "all_persons:".$key, $value);
+			}
+			unset($bk_all_persons);
+		}
+		// if(is_array($bk_all_weeks)) {
+		// 	foreach ($bk_all_weeks as $key => $value) {
+		// 		$this->wt_redis->store_array("bk_per_week:".$wzt, "all_weeks:".$key, $value);
+		// 	}
+		// 	unset($bk_all_weeks);
+		// }
 	}
 
 	public function get_complete_cache($wzt) {
 
 		$return = $this->wt_redis->get_array("bk:".$wzt, "all");
+
+		return $return;
+
+	}
+
+	public function get_complete_cache_per_persons($wzt, $aantalpersonen) {
+
+		$return = $this->wt_redis->get_array("bk_per_week:".$wzt, "all_persons:".$aantalpersonen);
 
 		return $return;
 

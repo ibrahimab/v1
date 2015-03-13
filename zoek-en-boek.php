@@ -238,6 +238,12 @@ if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 	$bijkomendekosten = new bijkomendekosten;
 	$bk = $bijkomendekosten->get_complete_cache($vars["seizoentype"]);
 
+
+	if($_GET["fap"]) {
+		// get surcharge extra persons
+		$bk_all_persons = $bijkomendekosten->get_complete_cache_per_persons($vars["seizoentype"], $_GET["fap"]);
+	}
+
 	// echo number_format(memory_get_usage()/1024, 0, ",", ".")."<br/>";
 
 	// unset($bijkomendekosten);

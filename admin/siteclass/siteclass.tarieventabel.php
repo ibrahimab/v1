@@ -1607,6 +1607,10 @@ class tarieventabel {
 
 							$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], false);
 
+
+							// surcharge extra persons
+							$bk_add_to_price_per_person_per_week = $bijkomendekosten->get_type_from_cache_all_persons_all_weeks($this->type_id, $vars["seizoentype"]);
+
 							// toon losse accommodatie per persoon
 							if($this->toon_accommodatie_per_persoon and !$this->aantal_personen and is_array($bk_add_to_price)) {
 								foreach ($bk_add_to_price as $key => $value) {
@@ -1681,18 +1685,21 @@ class tarieventabel {
 						if($db->f("aanbieding_acc_euro")<>0) $korting["aanbieding_acc_euro"][$db->f("week")]=$db->f("aanbieding_acc_euro");
 					}
 
-					// if(!$this->begin) $this->begin=$db->f("week");
-					// $this->eind=$db->f("week");
-
-					// $this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
-
 					if($db->f("week")>=time() and $temp_verkoop_site>0 and $temp_beschikbaar and $temp_bruto>0) {
 
 						if($this->toon_accommodatie_per_persoon) {
 
 							if(is_array($bk_add_to_price)) {
 								foreach ($bk_add_to_price as $key => $value) {
-									$this->tarief[$key][$db->f("week")] = ($temp_verkoop_site + $value ) / $key;
+
+									// surcharge extra persons
+									if($bk_add_to_price_per_person_per_week[$key][$db->f("week")]) {
+										$bk_add_to_price_total = $bk_add_to_price_per_person_per_week[$key][$db->f("week")];;
+									} else {
+										$bk_add_to_price_total = 0;
+									}
+
+									$this->tarief[$key][$db->f("week")] = ($temp_verkoop_site + $value + $bk_add_to_price_total) / $key;
 
 									$this->tarief_exact[$key][$db->f("week")] = $this->tarief[$key][$db->f("week")];
 
@@ -1707,7 +1714,6 @@ class tarieventabel {
 
 							if($this->toon_bijkomendekosten) {
 								// add bijkomende kosten
-								// $this->tarief[$db->f("week")] += $bk_add_to_price[($_GET["ap"] ? $_GET["ap"] : $accinfo["optimaalaantalpersonen"])];
 								$this->tarief[$db->f("week")] += $bk_add_to_price[($_GET["ap"] ? $_GET["ap"] : 1)];
 
 								// round with ceil()

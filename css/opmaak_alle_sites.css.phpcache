@@ -3513,7 +3513,7 @@ nieuwe tarieventabel
 }
 
 .tarieventabel_tarieven_niet_beschikbaar_td {
-	background-color: #bababa;
+	background-color: #bababa !important;
 }
 
 
