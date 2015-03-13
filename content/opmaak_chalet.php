@@ -457,7 +457,11 @@ if($vars["verberg_linkerkolom"]) {
 	if($id=="index") {
 		include($include);
 	} else {
-		echo "<div style=\"min-height:290px;\">";
+		if($id=="zoek-en-boek") {
+			echo "<div style=\"min-height:1000px;\">";
+		} else {
+			echo "<div style=\"min-height:290px;\">";
+		}
 		include($include);
 		echo "</div>";
 
