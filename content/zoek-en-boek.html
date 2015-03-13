@@ -3515,6 +3515,22 @@ if($vars["zoeken_op_kaart"] and $zoeken_op_kaart) {
 echo "</div>";
 
 
+//
+// link to next season ("nu al te boeken")
+//
+if($vars["seizoentype"]==1 and $vars["taal"]=="nl" and !$_GET["filled"] and !$vars["zoekform_thema"] and !$vars["zoekform_weekendski"] and !$vars["zoekform_vallandrychalets"] and !$vars["zoekform_italissima_nieuwe_tarieven"] and !$vars["zoekform_aanbiedingen"] and $_GET["referer"]<>5) {
+	$db3->query("SELECT naam".$vars["ttv"]." AS naam FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen=4 ORDER BY begin DESC LIMIT 0,1;");
+	if($db3->next_record()) {
+		$thema_url = $db3->f("naam");
+		$thema_url = preg_replace("@/@", "-", $thema_url);
+		$thema_url = preg_replace("@[^0-9-]@", "", $thema_url);
+		echo "<a href=\"".$vars["path"].txt("menu_thema")."/".$thema_url."/\" class=\"zoekresultaten_nieuwseizoen analytics_track_internal_click\" data-description=\"button 'nu al te boeken'\">";
+		echo html("bekijknutarievenvolgendseizoen", "zoek-en-boek", array("v_seizoennaam"=>$db3->f("naam")));
+		echo "&nbsp;&raquo;&nbsp;";
+		echo "</a>";
+	}
+}
+
 echo "</form>";
 echo "</div>"; # afsluiten #zoekblok
 
@@ -3577,17 +3593,17 @@ if($resultaten_tonen) {
 				}
 			} else {
 
-				// link to next season ("nu al te boeken")
-				$db3->query("SELECT naam".$vars["ttv"]." AS naam FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen=4 ORDER BY begin DESC LIMIT 0,1;");
-				if($db3->next_record() and ($vars["lokale_testserver"] or $vars["acceptatie_testserver"])) {
-					$thema_url = $db3->f("naam");
-					$thema_url = preg_replace("@/@", "-", $thema_url);
-					$thema_url = preg_replace("@[^0-9-]@", "", $thema_url);
-					echo "<a href=\"".$vars["path"].txt("menu_thema")."/".$thema_url."/\" class=\"zoekresultaten_nieuwseizoen boxshadow analytics_track_internal_click\" data-description=\"button 'nu al te boeken'\">";
-					echo html("bekijknutarievenvolgendseizoen", "zoek-en-boek", array("v_seizoennaam"=>$db3->f("naam")));
-					echo "&nbsp;&raquo;&nbsp;";
-					echo "</a>";
-				}
+				// // link to next season ("nu al te boeken")
+				// $db3->query("SELECT naam".$vars["ttv"]." AS naam FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen=4 ORDER BY begin DESC LIMIT 0,1;");
+				// if($db3->next_record() and ($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $_GET["test"]==1)) {
+				// 	$thema_url = $db3->f("naam");
+				// 	$thema_url = preg_replace("@/@", "-", $thema_url);
+				// 	$thema_url = preg_replace("@[^0-9-]@", "", $thema_url);
+				// 	echo "<a href=\"".$vars["path"].txt("menu_thema")."/".$thema_url."/\" class=\"zoekresultaten_nieuwseizoen boxshadow analytics_track_internal_click\" data-description=\"button 'nu al te boeken'\">";
+				// 	echo html("bekijknutarievenvolgendseizoen", "zoek-en-boek", array("v_seizoennaam"=>$db3->f("naam")));
+				// 	echo "&nbsp;&raquo;&nbsp;";
+				// 	echo "</a>";
+				// }
 			}
 		}
 

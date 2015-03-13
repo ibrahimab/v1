@@ -2057,8 +2057,8 @@ $txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] vakanti
 $txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] holiday home found";
 
 $txt["nl"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="Nu al te boeken: [[v_seizoennaam]]";
-$txt["de"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="-";
-$txt["en"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="-";
+$txt["de"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="";
+$txt["en"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="";
 
 
 # zoek-en-boek: zoeken op kaart
@@ -3510,12 +3510,12 @@ $txt["nl"]["thema"]["aantalaccommodaties"]="Aantal accommodaties";
 $txt["de"]["thema"]["aantalaccommodaties"]="Anzahl Unterkünfte";
 $txt["en"]["thema"]["aantalaccommodaties"]="Number of accommodations";
 
-$txt["nl"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties voor [[v_themajaar]] met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
-$txt["de"]["thema"]["aantalaccommodatiesmettarieven"]="Anzahl Unterkünfte für [[v_themajaar]] mit Preisen: [[v_aantal]] (= [[v_percentage]] unseres gesamten Angebots)";
-$txt["en"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
+$txt["nl"]["thema"]["aantalaccommodatiesmettarieven"]="Accommodaties voor [[v_themajaar]] met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
+$txt["de"]["thema"]["aantalaccommodatiesmettarieven"]="Unterkünfte für [[v_themajaar]] mit Preisen: [[v_aantal]] (= [[v_percentage]] unseres gesamten Angebots)";
+$txt["en"]["thema"]["aantalaccommodatiesmettarieven"]="Accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
-$txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
-$txt["en_z"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
+$txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven"]="Accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
+$txt["en_z"]["thema"]["aantalaccommodatiesmettarieven"]="Accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
 $txt["nl"]["thema"]["zoekcriteriaopgeven"]="Zoekcriteria opgeven";
 $txt["de"]["thema"]["zoekcriteriaopgeven"]="Suchkriterien eingeben";

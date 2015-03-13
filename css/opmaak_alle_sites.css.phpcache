@@ -1558,16 +1558,25 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	width: 680px;
 	margin-bottom: 20px;
 	color: #003366;
+	font-weight: bold;
 }
 
 .zoekresultaten_nieuwseizoen {
+	font-weight: bold;
 	text-align: center;
 	display: block;
 	font-size: 1.1em;
 	padding: 5px;
-	background-color: #d5e1f9;
-	width: 680px;
-	margin-bottom: 20px;
+	background-color: #ffffff;
+	width: 668px;
+	margin-top: 25px;
+	margin-bottom: 30px;
+	color: #003366;
+	border: 1px solid #003366;
+	color: #d40139;
+}
+
+.zoekresultaten_nieuwseizoen:hover {
 	color: #003366;
 }
 
