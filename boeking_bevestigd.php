@@ -42,6 +42,9 @@ ga('ecommerce:send');";
 
 }
 
+if(!$_SESSION["boeking_tracking"]) {
+	$vars["googleanalytics"] = false;
+}
 
 // Mobile website only
 if($isMobile) {
