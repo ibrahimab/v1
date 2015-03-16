@@ -2058,7 +2058,7 @@ $txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] holiday
 
 $txt["nl"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="Nu al te boeken: [[v_seizoennaam]]";
 $txt["de"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="";
-$txt["en"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="";
+$txt["en"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="Ready to be booked: [[v_seizoennaam]]";
 
 
 # zoek-en-boek: zoeken op kaart

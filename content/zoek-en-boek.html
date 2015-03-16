@@ -3533,7 +3533,7 @@ echo "</div>";
 //
 // link to next season ("nu al te boeken")
 //
-if($vars["seizoentype"]==1 and $vars["taal"]=="nl" and !$_GET["filled"] and !$vars["zoekform_thema"] and !$vars["zoekform_weekendski"] and !$vars["zoekform_vallandrychalets"] and !$vars["zoekform_italissima_nieuwe_tarieven"] and !$vars["zoekform_aanbiedingen"] and $_GET["referer"]<>5) {
+if($vars["seizoentype"]==1 and !$_GET["filled"] and !$vars["zoekform_thema"] and !$vars["zoekform_weekendski"] and !$vars["zoekform_vallandrychalets"] and !$vars["zoekform_italissima_nieuwe_tarieven"] and !$vars["zoekform_aanbiedingen"] and $_GET["referer"]<>5) {
 	$db3->query("SELECT naam".$vars["ttv"]." AS naam FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen=4 ORDER BY begin DESC LIMIT 0,1;");
 	if($db3->next_record()) {
 		$thema_url = $db3->f("naam");
