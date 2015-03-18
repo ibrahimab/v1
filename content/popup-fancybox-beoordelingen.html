@@ -49,6 +49,7 @@ if($db->next_record()) {
 
 	if($vars["websitetype"]==7) {
 		$db->query("SELECT b.boeking_id,
+			b.boekingsnummer,
 			b.aankomstdatum_exact,
 			be.websitetekst_gewijzigd,
 			be.websitetekst_gewijzigd_en,
@@ -202,10 +203,10 @@ if(is_array($enquete)) {
 				case "C": case "T": case "V": case "X": case "Y": case "Z": case "I":
 					$value['tekst_language_flag'] = 'nl';
 				break;
-				case "B": case "K": 
+				case "B": case "K":
 					$value['tekst_language_flag'] = 'be';
 				break;
-				case "E": case "Q": case "H": 
+				case "E": case "Q": case "H":
 					$value['tekst_language_flag'] = 'en';
 				break;
 				case "D":
@@ -239,7 +240,7 @@ if(is_array($enquete)) {
 
 			//show original review language flag, only if a translation is available
 			if($translation_available) {
-				echo " <img src='/pic/flags/".$value['tekst_language_flag'].".png' height='15' />";
+				echo " <img src='".$vars["path"]."pic/flags/".$value['tekst_language_flag'].".png' height='15' />";
 			}
 
 			echo "</div>"; // afsluiten .beoordeling_enquete_bovenbalk
