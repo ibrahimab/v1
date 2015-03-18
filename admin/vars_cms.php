@@ -1008,7 +1008,7 @@ if($mustlogin) {
 	$cms->settings[47]["log"]["active"]=true;
 	$cms->db[47]["maintable"]="blog_reactie";
 
-	# 48 = accommodatie_review
+	# 48 = accommodatie_review (not in use anymore)
 	$cms->settings[48]["types"]="accommodatie-reviews";
 	$cms->settings[48]["type_single"]="accommodatie-review";
 	$cms->settings[48]["file"]="cms_accommodatie_reviews.php";
@@ -1194,7 +1194,6 @@ $vars["optiecategorie"]=array(1=>"n.v.t.",2=>"bijkomende kosten verblijf",3=>"sk
 
 $vars["inkoopbetaling_status"]=array(1=>"onderweg",2=>"ingeboekt");
 $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nitalics: [i]tekst[/i]\n\ninterne link: [link=/accommodatie/I4529/]tekst[/link]\n\nexterne link: [link=http://www.test.com/]tekst[/link]\n\n";
-$vars["accommodatie_review_bron"]=array(2=>"Posarelli");
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
 $vars["soort_garantie"]=array(1=>"seizoen en bulk",2=>"op naam en losse weken");
 $vars["soort_garantie_uitgebreid"]=array(1=>"seizoen en bulk (handmatig tonen op roominglist)",2=>"op naam en losse weken (automatisch tonen op roominglist)");

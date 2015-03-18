@@ -1048,37 +1048,6 @@ if($_GET["controleren"]) {
 
 
 
-
-#
-# Koppeling met accommodatie_review
-#
-$cms->settings[1]["connect"][]=48;
-$cms->settings[48]["parent"]=1;
-
-$cms->settings[48]["list"]["show_icon"]=false;
-$cms->settings[48]["list"]["edit_icon"]=true;
-$cms->settings[48]["list"]["delete_icon"]=true;
-$cms->settings[48]["list"]["add_link"]=true;
-$cms->settings[48]["list"]["delete_checkbox"]=true;
-
-$cms->settings[48]["list"]["hide"]=true;
-
-
-$cms->db[48]["where"]="accommodatie_id='".addslashes($_GET["1k0"])."'";
-$cms->db[48]["set"]="accommodatie_id='".addslashes($_GET["1k0"])."'";
-
-# Database db_field($counter,$type,$id,$field="",$options="")
-$cms->db_field(48,"yesno","actief");
-$cms->db_field(48,"select","bron","",array("selection"=>$vars["accommodatie_review_bron"]));
-$cms->db_field(48,"date","datum");
-
-# Listing list_field($counter,$id,$title="",$options="",$layout="")
-$cms->list_sort[48]=array("datum");
-$cms->list_field(48,"datum","Datum",array("date_format"=>"DD-MM-JJJJ"));
-$cms->list_field(48,"bron","Bron");
-
-
-
 # End declaration
 $cms->end_declaration();
 

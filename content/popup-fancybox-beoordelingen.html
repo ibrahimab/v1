@@ -2,33 +2,6 @@
 
 $accinfo=accinfo($_GET["typeid"]);
 
-
-// reviews Posarelli
-$db->query("SELECT accommodatie_review_id, UNIX_TIMESTAMP(ar.datum) AS datum, ar.naam, ar.tekst, ar.afbreken,
-		ar.websitetekst_gewijzigd_en,
-		ar.websitetekst_gewijzigd_nl,
-		ar.websitetekst_gewijzigd_de,
-		ar.tekst_language
-	FROM accommodatie_review ar INNER JOIN type t USING (accommodatie_id)
-	WHERE ar.bron=2 AND ar.actief=1 AND t.type_id='".intval($_GET["typeid"])."'
-	ORDER BY ar.datum DESC, ar.adddatetime DESC;");
-
-while($db->next_record()) {
-	$beoordeling_aantalbeoordelingen++;
-
-	$enquete["review_".$db->f("accommodatie_review_id")]["aankomstdatum_exact"]=$db->f("datum");
-	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_gewijzigd"]=$db->f("tekst");
-	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_naam"]=$db->f("naam");
-	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_gewijzigd_en"]=$db->f("websitetekst_gewijzigd_en");
-	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_gewijzigd_nl"]=$db->f("websitetekst_gewijzigd_nl");
-	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_gewijzigd_de"]=$db->f("websitetekst_gewijzigd_de");
-	$enquete["review_".$db->f("accommodatie_review_id")]["tekst_language"]=$db->f("tekst_language");
-
-}
-
-// echo wt_dump($accinfo["accommodatie_id"]);
-// exit;
-
 if($vars["websitetype"]==7) {
 	// Italissima: combine reviews from other types of the same accommodation
 	$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel, COUNT(be.type_id) AS aantal

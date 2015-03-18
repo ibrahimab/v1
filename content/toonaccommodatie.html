@@ -355,14 +355,6 @@ if($db->next_record()) {
 	if(($vars["taal"]=="nl" or $vars["taal"]=="en") and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6  or $vars["websitetype"]==7 or $vars["websitetype"]==8)) {
 
 
-		if(($vars["taal"]=="nl" or $vars["taal"]=="en") and $vars["websitetype"]==7) {
-			// reviews Posarelli
-			$db2->query("SELECT COUNT(accommodatie_review_id) AS aantal FROM accommodatie_review WHERE bron=2 AND actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
-			if($db2->next_record()) {
-				$review["counter"] = $db2->f("aantal");
-			}
-		}
-
 		if($vars["websitetype"]==7) {
 			// Italissima: combine reviews from other types of the same accommodation
 			$db2->query("SELECT AVG(be.vraag1_7) AS totaaloordeel, COUNT(be.type_id) AS aantal FROM boeking_enquete be, type t WHERE t.accommodatie_id='".intval($db->f("accommodatie_id"))."' AND be.type_id=t.type_id AND be.vraag1_7>0 AND be.beoordeeld=1 GROUP BY t.accommodatie_id;");

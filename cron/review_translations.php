@@ -23,26 +23,11 @@ $db->query("SELECT
 		FROM boeking_enquete be
 		WHERE be.tekst_language is null
 			and (be.websitetekst_gewijzigd is not null and be.websitetekst_gewijzigd != '')
-			and be.boeking_id is not null 
-			and be.websitetekst_gewijzigd_en is null 
-			and be.websitetekst_gewijzigd_de is null 
+			and be.boeking_id is not null
+			and be.websitetekst_gewijzigd_en is null
+			and be.websitetekst_gewijzigd_de is null
 			and be.websitetekst_gewijzigd_nl is null");
 update_translations('boeking_enquete', 'boeking_id', 'websitetekst_gewijzigd');
-
-$db->query("SELECT
-			be.accommodatie_review_id,
-			be.tekst,
-			be.websitetekst_gewijzigd_en,
-			be.websitetekst_gewijzigd_de,
-			be.websitetekst_gewijzigd_nl,
-			be.tekst_language
-		FROM accommodatie_review be
-		WHERE be.tekst_language is null
-		  	and be.websitetekst_gewijzigd_en is null 
-			and be.websitetekst_gewijzigd_de is null 
-			and be.websitetekst_gewijzigd_nl is null
-			and (be.tekst is not null and be.tekst != '')");
-update_translations('accommodatie_review', 'accommodatie_review_id', 'tekst');
 
 echo 'Review translations added: '.$updated_reviews.PHP_EOL.PHP_EOL;
 if (count($errors)) {
@@ -73,7 +58,7 @@ function update_translations($table, $primary_key_column, $text_column){
 		foreach(array_diff($vars["supported_languages"], array($detected_language)) as $language) {
 			$translated_text = $google_translate->translate_text($detected_language, $language, $text);
 			$translated_text = wt_utf8_decode($translated_text);
-			
+
 			if(!$translated_text) {
 				$errors[] = $google_translate->get_last_error();
 				continue;

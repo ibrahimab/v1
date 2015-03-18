@@ -397,15 +397,6 @@ if($db->next_record()) {
 	// beoordeling tonen
 	if(($vars["taal"]=="nl" or $vars["taal"]=="en") and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6  or $vars["websitetype"]==7 or $vars["websitetype"]==8)) {
 
-
-		if(($vars["taal"]=="nl" or $vars["taal"]=="en") and $vars["websitetype"]==7) {
-			// reviews Posarelli
-			$db2->query("SELECT COUNT(accommodatie_review_id) AS aantal FROM accommodatie_review WHERE bron=2 AND actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
-			if($db2->next_record()) {
-				$review["counter"] = $db2->f("aantal");
-			}
-		}
-
 		$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND vraag1_7>0 AND beoordeeld=1 GROUP BY type_id;");
 		if($db2->next_record()) {
 			$review["counter"] += $db2->f("aantal");
@@ -1669,7 +1660,7 @@ function toon_tekst_acc_en_type($tekst1,$tekst2="") {
 }
 if(!defined("wt_test") and !$voorkant_cms) {
 	$product_details_impressions['list'] = (ereg(txt("menu_aanbiedingen")."\.php",$_GET["back"]) or preg_match("/\/".txt("menu_aanbiedingen")."\//",$_GET["back"])) ? html("aanbiedingen","aanbiedingen") : html("zoekenboek","index");
-	$ie = (preg_match("@MSIE 8@",$_SERVER["HTTP_USER_AGENT"]) && preg_match("@accommodatie@",$_SERVER['SCRIPT_FILENAME']) === 1) ? true : false; 
+	$ie = (preg_match("@MSIE 8@",$_SERVER["HTTP_USER_AGENT"]) && preg_match("@accommodatie@",$_SERVER['SCRIPT_FILENAME']) === 1) ? true : false;
 	$google_tagmanager = new google_tagmanager;
 	echo $google_tagmanager->product_detail_impressions($product_details_impressions, $ie);
 }
