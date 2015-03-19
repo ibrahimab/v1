@@ -768,7 +768,7 @@ if($vars["seizoentype"]==2) {
 $title["agentenactie"]="Chalet.nl Agentenactie";
 $title["vroegboekkorting"]="Unieke aanbieding: 5% vroegboekkorting op je zomervakantie!";
 $title["montegufoni"]="Lezersaanbieding Smaak van Italië";
-$title["alpedhuzes"]="Alpe d'huZes 2013";
+$title["alpedhuzes"]="Alpe d'huZes 2015";
 $title["privacy-statement"]=txt("title_privacy-statement");
 $title["disclaimer"]=txt("title_disclaimer","",array("v_websitenaam"=>$vars["websitenaam"]));
 $title["favorieten"]=txt("title_favorieten");
