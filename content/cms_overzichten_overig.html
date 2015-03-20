@@ -829,9 +829,9 @@ if($_GET["t"]==1) {
 			}
 
 			if($acc_link) {
-				$cms_link = $vars["path"]."cms_accommodaties.php?edit=1&wzt=".$key."&1k0=".$db->f("accommodatie_id")."&gotouri=".urlencode($_SERVER["REQUEST_URI"])."#images";
+				$cms_link = $vars["path"]."cms_accommodaties.php?edit=1&wzt=".$key."&1k0=".$db->f("accommodatie_id")."&gotouri=".urlencode($vars["path"]."cms_accommodaties.php?show=1&wzt=".$key."&1k0=".$db->f("accommodatie_id"))."#images";
 			} else {
-				$cms_link = $vars["path"]."cms_types.php?edit=2&wzt=".$key."&2k0=".$db->f("type_id")."&1k0=".$db->f("accommodatie_id")."&gotouri=".urlencode($_SERVER["REQUEST_URI"])."#images";
+				$cms_link = $vars["path"]."cms_types.php?edit=2&wzt=".$key."&2k0=".$db->f("type_id")."&1k0=".$db->f("accommodatie_id")."&gotouri=".urlencode($vars["path"]."cms_accommodaties.php?show=1&wzt=".$key."&1k0=".$db->f("accommodatie_id"))."#images";
 			}
 
 			echo "<tr><td>".wt_he($db->f("plaats"))." - ".($key==2 ? $db->f("skigebied")." - " : "")."<a href=\"".wt_he($cms_link)."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")."</a> ".wt_he(trim($db->f("naam")." ".$db->f("tnaam")))."</td>";
