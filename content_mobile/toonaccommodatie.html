@@ -108,6 +108,11 @@ if($nieuwe_tarieventabel) {
 
 
 	$tarieventabel_object = new tarieventabel;
+	if($vars["toon_bijkomendekosten"]) {
+		$tarieventabel_object->toon_bijkomendekosten = true;
+		$tarieventabel_object->toon_accommodatie_per_persoon = true;
+	}
+
 
 	// interne informatie tonen?
 	if($voorkant_cms and $_COOKIE["loginuser"]["chalet"]<>15 and $_COOKIE["loginuser"]["chalet"]<>26) {

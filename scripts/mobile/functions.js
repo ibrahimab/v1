@@ -687,6 +687,8 @@ var landkaartklikbaar_info_hoverkleur="#636f07";
 var eerste_tab_getoond=false;
 var google_analytics_tab_verstuurd=false;
 var maxHeight = 0;
+var zoek_en_boek_links_active = true;
+
 
 $(document).ready(function() {
 	setTimeout(function() {
@@ -1571,6 +1573,7 @@ $(document).ready(function() {
 
 				var nieuwe_url=$(this).attr("href");
 
+
 				// retrieving the price based on the selected container: accommodation or type
 				var match_price = 0;
 				if ($(this).attr('class') == 'zoekresultaat_type') {
@@ -1630,25 +1633,37 @@ $(document).ready(function() {
 					// anders: even wachten om Analytics te kunnen sturen
 					setTimeout(function() {
 						// heel even wachten zodat Analytics kan laden
-						if(nieuwe_url.match(/zoek-en-boek/g) || nieuwe_url.match(/aanbiedingen/g)) {
-								var list = 'Zoek en boek';
-								if (nieuwe_url.match(/aanbiedingen/g)) list = 'Aanbiedingen';
-								var url = nieuwe_url.split('/');
+						if(nieuwe_url.match(/zoek-en-boek/g) || nieuwe_url.match(/aanbiedingen/g)){
+							var list = 'Zoek en boek';
+							if (nieuwe_url.match(/aanbiedingen/g)) list = 'Aanbiedingen';
+							var url = nieuwe_url.split('/');
+							if(lokale_testserver) {
+								var match_type = url[3].match("^([A-Z]{1,2})([0-9]+)");
+							} else {
 								var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");
-								$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
-								$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":match_type[2], "price":match_price[0], "url":nieuwe_url, "list":list}, function(data){
-									if(data.ok && typeof dataLayer !== 'undefined' && dataLayer !== null) {
-										var callBackJson={'eventCallback': function(){
-												document.location = nieuwe_url;
-											}};
-										var object = $.extend({}, data.dataLayer, callBackJson);
-										dataLayer.push(object);	
-									} else {
-										document.location.href = nieuwe_url;
-									}
-								});
+							}
+							$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
+							var product_clicks_type = 0;
+							var product_clicks_price = 0;
+							if(match_type != null) {
+								product_clicks_type = match_type[2];
+							}
+							if(match_price != null) {
+								product_clicks_price = match_price[0];
+							}
+							$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":product_clicks_type, "price":product_clicks_price, "url":nieuwe_url, "list":list}, function(data){
+								if(data.ok && typeof dataLayer !== 'undefined' && dataLayer !== null) {
+									var callBackJson={'eventCallback': function(){
+										document.location = nieuwe_url;
+										}};
+									var object = $.extend({}, data.dataLayer, callBackJson);
+									dataLayer.push(object);
+								} else {
+									document.location.href = nieuwe_url;
+								}
+							});
 						} else {
-								document.location.href = nieuwe_url;
+							document.location.href = nieuwe_url;
 						}
 					},100);
 
@@ -1706,6 +1721,84 @@ $(document).ready(function() {
 				// alert('a');
 				$("span#zoektijd").text($("div#page_load_time").data("time"));
 			}
+
+
+			$( "div.zoekresultaat_prijs_info_bijkomendekosten" ).hover(
+				function() {
+					zoek_en_boek_links_active = false;
+				}, function() {
+					zoek_en_boek_links_active = true;
+				}
+			);
+
+			// show bijkomende kosten
+			$("div.zoekresultaat_prijs_info_bijkomendekosten").click(function(event) {
+
+				var popup = $("div.zoekresultaat_prijs_info_bijkomendekosten_popup");
+				var new_popup = $("div.zoekresultaat_prijs_info_bijkomendekosten_empty").clone();
+				var icon = $(this);
+
+				if(icon.data("active")==="1") {
+					popup.fadeOut("fast");
+					icon.data("active", "0");
+				} else {
+
+					// hide all active popups
+					popup.hide();
+					$("div.zoekresultaat_prijs_info_bijkomendekosten").data("active", "0");
+
+
+					$.getJSON(absolute_path+"rpc_json.php", {"t": "get_content_zoekresultaat_prijs_info_bijkomendekosten_popup","type_id":icon.data("type_id"),"seizoen_id":icon.data("seizoen_id"),"arrangement":icon.data("arrangement")}, function(data) {
+						if(data.ok) {
+							if(data.html) {
+
+								icon.data("active", "1");
+
+								new_popup.removeClass("zoekresultaat_prijs_info_bijkomendekosten_empty");
+
+								new_popup.find("div").html(data.html);
+								new_popup.appendTo("html");
+
+								var position_left = icon.offset().left - $(window).scrollLeft(); //get the offset top of the element
+								var position_top = icon.offset().top;
+
+								// have the popup show at the lower right corner
+								position_left = position_left - new_popup.outerWidth();
+								position_top = position_top - new_popup.outerHeight();
+
+								new_popup.css("top", position_top+"px");
+								new_popup.css("left", position_left+"px");
+								new_popup.fadeIn("normal");
+
+								if(new_popup.offset().top - $(window).scrollTop() - 10 < 0) {
+									// console.log("buiten");
+									$('html, body').animate({scrollTop: new_popup.offset().top - 10}, 500);
+								}
+							} else {
+
+							}
+						}
+					});
+				}
+			});
+
+			// click somewhere: hide zoekresultaat_prijs_info_bijkomendekosten_popup
+			$("html").click(function(event) {
+
+				if (!$(event.target).hasClass("close") && $(event.target).closest(".zoekresultaat_prijs_info_bijkomendekosten_popup").length) {
+					return false;
+				}
+				var popup = $("div.zoekresultaat_prijs_info_bijkomendekosten_popup");
+				popup.fadeOut("fast");
+				$("div.zoekresultaat_prijs_info_bijkomendekosten").data("active", "0");
+			});
+
+			$(document).on("click","div.zoekresultaat_prijs_info_bijkomendekosten_popup img.close",function(event) {
+				var popup = $("div.zoekresultaat_prijs_info_bijkomendekosten_popup");
+				popup.fadeOut("fast");
+				$("div.zoekresultaat_prijs_info_bijkomendekosten").data("active", "0");
+			});
+
 		}
 
 		// zoeken binnen andere site: kijken of alle resultaten extern zijn (van Chalet.nl naar SuperSki)

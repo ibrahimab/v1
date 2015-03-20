@@ -18,6 +18,12 @@ if($_GET["fzt"]==html("zoekoptekst","index")) {
 	$_GET["fzt"]="";
 }
 
+if($vars["toon_bijkomendekosten"]) {
+	// zoekresultaat_prijs_info_bijkomendekosten_popup (hide by default)
+	$opmaak->html_at_the_bottom("<div class=\"zoekresultaat_prijs_info_bijkomendekosten_popup zoekresultaat_prijs_info_bijkomendekosten_empty\"><img src=\"".$vars["path"]."pic/close_icon.png\" class=\"close\" /><div></div></div>");
+}
+
+
 
 # Tekstzoeken: termen omzetten naar verfijningen
 include_once($unixdir . "content/vars/autocomplete.php");
@@ -1464,6 +1470,41 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 			unset($tarief_float);
 			if($tarief>0) {
+
+				if($vars["toon_bijkomendekosten"]) {
+
+					$temp_seizoen_id = $db->f("seizoen_id");
+					if(!$temp_seizoen_id) {
+
+						// TODO: use the actuel seizoen_id
+						$temp_seizoen_id="24";
+						// trigger_error("geen seizoen_id bekend",E_USER_NOTICE);
+					}
+
+					if($db->f("toonper")==1) {
+						// arrangement
+						$temp_aantalpersonen = ($_GET["fap"] ? $_GET["fap"] : $db->f("maxaantalpersonen"));
+						$bk_add_to_price = $bk[$db->f("type_id")][$temp_seizoen_id][$temp_aantalpersonen] / $temp_aantalpersonen;
+					} else {
+						// losse accommodatie
+						$temp_aantalpersonen = ($_GET["fap"] ? $_GET["fap"] : 1);
+						$bk_add_to_price = $bk[$db->f("type_id")][$temp_seizoen_id][$temp_aantalpersonen];
+
+						// surcharge extra persons
+						if($_GET["fap"] and $_GET["fad"] and $bk_all_persons[$db->f("type_id")][$_GET["fad"]]) {
+							$bk_add_to_price += $bk_all_persons[$db->f("type_id")][$_GET["fad"]];
+						}
+					}
+
+					$bk_used_seizoen_id[$db->f("type_id")] = $temp_seizoen_id;
+
+
+					if($bk_add_to_price>0) {
+						$tarief = $tarief + $bk_add_to_price;
+						$tarief = ceil($tarief);
+					}
+				}
+
 				$tarief_float=$tarief;
 				$tarief=number_format($tarief,0,",",".");
 			}
@@ -2400,6 +2441,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 						$results[$results_teller].="<div class=\"zoekresultaat_prijs\">";
 							if($value2["tarief"]) {
+
+								if($vars["toon_bijkomendekosten"]) {
+									// $results[$results_teller].="<div class=\"zoekresultaat_prijs_info_bijkomendekosten\" data-type_id=\"".($newresults_cheapest[$value] ? $newresults_cheapest[$value] : $value2["type_id"])."\" data-seizoen_id=\"".intval($bk_used_seizoen_id[$value2["type_id"]])."\" data-arrangement=\"".($value2["toonper"]==3 or $vars["wederverkoop"] ? "0" : "1")."\"></div>";
+								}
+
 								unset($zoekresultaat_prijs_periode);
 								$zoekresultaat_prijs_periode.="<div class=\"zoekresultaat_prijs_periode\">";
 								if($vars["zoekform_weekendski"]) {
