@@ -889,7 +889,6 @@ $(document).ready(function() {
 			return false;
 		});
 
-
 		if($().fancybox) {
 
 			// foto-popups via fancybox
@@ -1675,42 +1674,44 @@ $(document).ready(function() {
 			//
 			// autocomplete zoekformulier zoek-en-boek
 			//
-			$( "input[name=fzt]" ).autocomplete({
-				source: function( request, response ) {
-					$.ajax({
-						url: absolute_path+"rpc_json.php",
-						dataType: "json",
-						data: {
-							t: 3,
-							q: request.term
-						},
-						success: function( data ) {
-							response( $.map( data.results, function( item ) {
-								if(item.name!=='') {
-									return {
-										label: item.name,
-										value: item.name
-									};
-								}
-							}));
-						}
-					});
-				},
-				minLength: 2,
-				select: function( event, ui ) {
-					// waarde in input-field plaatsen
-					$("input[name=fzt]").val(ui.item.value);
+			if($().autocomplete) {
+				$( "input[name=fzt]" ).autocomplete({
+					source: function( request, response ) {
+						$.ajax({
+							url: absolute_path+"rpc_json.php",
+							dataType: "json",
+							data: {
+								t: 3,
+								q: request.term
+							},
+							success: function( data ) {
+								response( $.map( data.results, function( item ) {
+									if(item.name!=='') {
+										return {
+											label: item.name,
+											value: item.name
+										};
+									}
+								}));
+							}
+						});
+					},
+					minLength: 2,
+					select: function( event, ui ) {
+						// waarde in input-field plaatsen
+						$("input[name=fzt]").val(ui.item.value);
 
-					// form submitten
-					zoekblok_submit();
-				},
-				open: function() {
-					$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-				},
-				close: function() {
-					$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-				}
-			});
+						// form submitten
+						zoekblok_submit();
+					},
+					open: function() {
+						$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+					},
+					close: function() {
+						$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+					}
+				});
+			}
 
 			// zoektijd (search time)
 			if($("div#page_load_time").length!==0) {
@@ -2043,43 +2044,45 @@ $(document).ready(function() {
 		//
 		// autocomplete snelzoeken
 		//
-		$( ".tekstzoeken, .tekstzoeken_geen_chosen_layout" ).autocomplete({
-			source: function( request, response ) {
-				$.ajax({
-					url: absolute_path+"rpc_json.php",
-					dataType: "json",
-					data: {
-						t: 3,
-						q: request.term
-					},
-					success: function( data ) {
-						response( $.map( data.results, function( item ) {
-							if(item.name!=='') {
-								return {
-									label: item.name,
-									value: item.name
-								};
-							}
-						}));
-					}
-				});
-			},
-			minLength: 2,
-			select: function( event, ui ) {
-				// waarde in input-field plaatsen
-				$("input[name=fzt]").val(ui.item.value);
+		if($().autocomplete) {
+			$( ".tekstzoeken, .tekstzoeken_geen_chosen_layout" ).autocomplete({
+				source: function( request, response ) {
+					$.ajax({
+						url: absolute_path+"rpc_json.php",
+						dataType: "json",
+						data: {
+							t: 3,
+							q: request.term
+						},
+						success: function( data ) {
+							response( $.map( data.results, function( item ) {
+								if(item.name!=='') {
+									return {
+										label: item.name,
+										value: item.name
+									};
+								}
+							}));
+						}
+					});
+				},
+				minLength: 2,
+				select: function( event, ui ) {
+					// waarde in input-field plaatsen
+					$("input[name=fzt]").val(ui.item.value);
 
-				// form submitten
-				// zoekblok_submit();
-			},
-			open: function() {
-				$(this).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-				$(this).autocomplete('widget').css('z-index', 100);
-			},
-			close: function() {
-				$(this).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-			}
-		});
+					// form submitten
+					// zoekblok_submit();
+				},
+				open: function() {
+					$(this).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+					$(this).autocomplete('widget').css('z-index', 100);
+				},
+				close: function() {
+					$(this).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+				}
+			});
+		}
 
 
 		// zoek op kaart
@@ -3219,14 +3222,14 @@ $(document).ready(function() {
 		 * flagged. This is done by adding a [data-disable-paste="true"] to the input field/textarea
 		 */
 		 $('body').on('paste', '[data-disable-paste="true"]', function(event) {
-		     event.preventDefault();
+			 event.preventDefault();
 		 });
 
 		 /**
 		  * To disable users from dropping text into a field, please use the [data-disable-drop="true"]
 		  */
 		 $('body').on('drop', '[data-disable-drop="true"]', function(event) {
-		 	event.preventDefault();
+			event.preventDefault();
 		 });
 	}
 });

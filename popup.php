@@ -125,6 +125,7 @@ echo "<title>".wt_he($title[$_GET["id"]])."</title>";
 
 html {
 	overflow: -moz-scrollbars-vertical;
+	font-family: Verdana, Arial, Helvetica;
 }
 
 a {
@@ -309,20 +310,24 @@ if($_GET["id"]=="tarieventabel") {
 	}
 }
 
-?>
-</HEAD>
-<BODY bgcolor="<?php echo $bodybgcolor; ?>"><TABLE border="0" style="background-color:<?php echo $table; ?>;border: solid 2px <?php echo $table; ?>" width="100%" height="100%" cellspacing="0" cellpadding="5">
-<?php
+echo "</HEAD>";
 
-echo "<TR><TD height=\"30\"><TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><TR><TD style=\"font-size:10pt;\"><FONT color=\"".$thfontcolor."\"><B>".wt_he($title[$_GET["id"]])."&nbsp;</B></FONT></TD><TD width=\"20\">";
-if($noprint[$_GET["id"]]) {
-	echo "&nbsp;";
+if($_GET["fancybox"]) {
+	echo "<body>";
+	echo "<div style=\"padding:10px;\">";
 } else {
-	echo "<a href=\"javascript:window.print();\"><IMG SRC=\"pic/printer.gif\" border=\"0\" alt=\"".html("paginaafdrukken","popup")."\" width=\"20\" height=\"18\"></a>";
+	echo "<BODY bgcolor=\"".$bodybgcolor."\">";
+	echo "<TABLE border=\"0\" style=\"background-color:".$table.";border: solid 2px ".$table."\" width=\"100%\" height=\"100%\" cellspacing=\"0\" cellpadding=\"5\">";
+	echo "<TR><TD height=\"30\"><TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><TR><TD style=\"font-size:10pt;\"><FONT color=\"".$thfontcolor."\"><B>".wt_he($title[$_GET["id"]])."&nbsp;</B></FONT></TD><TD width=\"20\">";
+	if($noprint[$_GET["id"]]) {
+		echo "&nbsp;";
+	} else {
+		echo "<a href=\"javascript:window.print();\"><IMG SRC=\"pic/printer.gif\" border=\"0\" alt=\"".html("paginaafdrukken","popup")."\" width=\"20\" height=\"18\"></a>";
+	}
+	echo "</TD><TD width=\"75\" align=\"right\"><FONT SIZE=\"1\">&nbsp;<A HREF=\"javascript:self.close();\" class=\"venstersluiten\">".ereg_replace(" ","&nbsp;",html("venstersluiten"))."</A></FONT></TD></TR></TABLE></TD></TR>";
+	echo "<TR><TD bgcolor=\"#FFFFFF\" valign=\"top\" align=\"left\" class=\"content\">";
+	#echo "&nbsp;<BR><B>".wt_he($title[$_GET["id"]])."</B><P>";
 }
-echo "</TD><TD width=\"75\" align=\"right\"><FONT SIZE=\"1\">&nbsp;<A HREF=\"javascript:self.close();\" class=\"venstersluiten\">".ereg_replace(" ","&nbsp;",html("venstersluiten"))."</A></FONT></TD></TR></TABLE></TD></TR>";
-echo "<TR><TD bgcolor=\"#FFFFFF\" valign=\"top\" align=\"left\" class=\"content\">";
-#echo "&nbsp;<BR><B>".wt_he($title[$_GET["id"]])."</B><P>";
 
 if($_GET["id"]) {
 	if(in_array($_GET["id"],$meertalig_array)) {
@@ -334,5 +339,11 @@ if($_GET["id"]) {
 	}
 }
 
- ?></TD></TR></TABLE></BODY>
+if($_GET["fancybox"]) {
+	echo "</div>";
+} else {
+	echo "</TD></TR></TABLE>";
+}
+
+ ?></BODY>
 </HTML>

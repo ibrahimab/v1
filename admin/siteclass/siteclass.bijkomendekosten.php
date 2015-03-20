@@ -1248,6 +1248,7 @@ class bijkomendekosten {
 					if(isset($min)) {
 
 						$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".$vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bkid=".$db->f("bijkomendekosten_id")."');return false;\">";
+						// $info_link = "<a href=\"".wt_he($vars["path"]."popup.php?fancybox=1&tid=".intval($this->id)."&id=bijkomendekosten&bkid=".$db->f("bijkomendekosten_id"))."\" class=\"popup_fancybox\" rel=\"nofollow\">";
 
 						$html .= wt_he($db->f("naam"));
 						if($db->f("omschrijving")) {
