@@ -51,8 +51,12 @@ if($_GET["show"]<>9 and $_GET["edit"]<>9 and $_GET["add"]<>9 and !$_GET["oud"]) 
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(9,"text","naam");
-// if($vars["cmstaal"]) $cms->db_field(9,"text","naam_".$vars["cmstaal"]);
-$cms->db_field(9,"text","naam_en");
+if($vars["cmstaal"]) {
+	$cms->db_field(9,"text","naam_".$vars["cmstaal"]);
+} else {
+	$cms->db_field(9,"text","naam_en");
+	$cms->db_field(9,"text","naam_de");
+}
 $cms->db_field(9,"select","tonen","",array("selection"=>$vars["seizoen_tonen"]));
 $cms->db_field(9,"yesno","optietarieventonen");
 $cms->db_field(9,"yesno","optietarieven_controleren_in_cms");
@@ -136,6 +140,7 @@ if($vars["cmstaal"]) {
 } else {
 	$cms->edit_field(9,1,"naam","Naam");
 	$cms->edit_field(9,1,"naam_en","Naam Engels");
+	$cms->edit_field(9,1,"naam_de","Naam Duits");
 }
 $cms->edit_field(9,1,"type","Type");
 if($datum_niet_meer_wijzigen) {
