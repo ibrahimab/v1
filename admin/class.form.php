@@ -2454,7 +2454,15 @@ class form2 {
 		}
 		reset($this->fields["title"]);
 		while(list($key,$value)=each($this->fields["title"])) {
-			if(isset($this->outputtable_cell[$key])) $return.="<tr><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_left\">".wt_he(ereg_replace("\*$","",$value))."</td><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_right\">".(isset($this->outputtable_cell[$key]) ? $this->outputtable_cell[$key] : "&nbsp;")."</td></tr>";
+			if(isset($this->outputtable_cell[$key])) {
+				$title = $value;
+				if($this->fields["layout"][$key]["title_html"]) {
+					$title = strip_tags($title);
+				}
+				$title = ereg_replace("\*$","",$title);
+				$title = wt_he($title);
+				$return.="<tr><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_left\">".$title."</td><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_right\">".(isset($this->outputtable_cell[$key]) ? $this->outputtable_cell[$key] : "&nbsp;")."</td></tr>";
+			}
 			if(isset($this->outputtable_row[$key])) $return.="<tr><td style=\"text-align:left;vertical-align:top;\" colspan=\"2\">".wt_he($value)."</td></tr>";
 		}
 		$return.="</td></tr>";
