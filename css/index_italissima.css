@@ -293,9 +293,8 @@
 	text-align: left;
 }
 
-#hoofdpagina_sociallinks .twitter {
-	margin-left: 22px;
-	margin-right: 22px;
+#hoofdpagina_sociallinks a {
+	margin-left: 7px;
 }
 
 #hoofdpagina_trustpilot {
