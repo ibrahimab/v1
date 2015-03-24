@@ -29,7 +29,6 @@ if($_GET["cmsversie"]=="nieuw4") {
 
 		$accommodatie_id_inquery = "0";
 		$db->query("SELECT DISTINCT accommodatie_id FROM bk_accommodatie WHERE bk_soort_id='".intval($_GET["57k0"])."' AND seizoen_id IN (".$active_seasons.");");
-		// echo $db->lq;
 		while($db->next_record()) {
 			$accommodatie_id_inquery .= ",".$db->f("accommodatie_id");
 		}
