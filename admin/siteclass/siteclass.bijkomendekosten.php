@@ -1161,10 +1161,8 @@ class bijkomendekosten {
 
 						// info-icon
 						if($value["toelichting"]) {
-
 							$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".wt_he($vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bksid=".$key)."');return false;\">";
 							$kosten[$cat][$key] .= "&thinsp;".$info_link."<img src=\"".$vars["path"]."pic/information_icon_with_padding.png\" /></a> ";
-
 						}
 
 						if($value["verplicht"]==2 and $value["bedrag"]=="0.00") {
@@ -1446,6 +1444,12 @@ class bijkomendekosten {
 						// other costs
 						//
 						$kosten[$cat][$key] = wt_he($value["naam"]);
+
+						// info-icon
+						if($value["toelichting"]) {
+							$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".wt_he($vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bksid=".$key)."');return false;\">";
+							$kosten[$cat][$key] .= "&thinsp;".$info_link."<img src=\"".$vars["path"]."pic/information_icon_with_padding.png\" /></a> ";
+						}
 						if($value["verplicht"]==2 and $value["bedrag"]=="0.00") {
 							$kosten[$cat][$key] .= " (".wt_he($vars["bk_verplicht"][2]);
 							if($value["eenheid"]) {
