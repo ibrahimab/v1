@@ -164,7 +164,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=0;
 	$vars["schadeverzekering_mogelijk"]=0;
-	$vars["wederverkoop"]=true;
+	$vars["wederverkoop"]=false;
 	$vars["livechat_code"]=false;
 	// $vars["trustpilot_code"]="5aa723efa5@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
