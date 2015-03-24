@@ -79,10 +79,9 @@ class bijkomendekosten {
 
 			if(is_array($this->cms_data_seizoenen)) {
 				foreach ($this->cms_data_seizoenen as $key => $value) {
-					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bs.altijd_diversen, bs.prijs_per_nacht, bs.opgeven_bij_boeken, ba.".$this->soort."_id, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
+					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bs.altijd_diversen, bs.prijs_per_nacht, bs.opgeven_bij_boeken, ba.".$this->soort."_id, bs.toelichting".$vars["ttv"]." AS toelichting, bs.zonderleeftijd, bs.min_leeftijd, bs.max_leeftijd, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
 							   FROM bk_soort bs LEFT JOIN bk_".$this->soort." ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.".$this->soort."_id='".intval($this->id)."' AND ba.seizoen_id='".intval($key)."') WHERE bs.wzt='".intval($this->wzt)."' AND (ba.".$this->soort."_id IS NOT NULL OR bs.altijd_invullen=1)
 							   ORDER BY ba.borg_soort DESC, ba.inclusief DESC, bs.volgorde;");
-
 
 					while($db->next_record()) {
 						$seizoen_id = $key;
@@ -97,6 +96,10 @@ class bijkomendekosten {
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["altijd_diversen"] = $db->f("altijd_diversen");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["prijs_per_nacht"] = $db->f("prijs_per_nacht");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["opgeven_bij_boeken"] = $db->f("opgeven_bij_boeken");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["toelichting"] = $db->f("toelichting");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["zonderleeftijd"] = $db->f("zonderleeftijd");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["min_leeftijd"] = $db->f("min_leeftijd");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["max_leeftijd"] = $db->f("max_leeftijd");
 						if($db->f("seizoen_id")) {
 							$this->data[$seizoen_id][$db->f("bk_soort_id")]["filled"] = true;
 						}
@@ -823,18 +826,22 @@ class bijkomendekosten {
 
 				foreach ($data as $key => $value) {
 
-					if($value["filled"] and $value["verplicht"]==1 and $value["inclusief"]<>1 and $value["bedrag"]>0 and !$value["borg_soort"]) {
+					// only without min_leeftijd/max_leeftijd, or when zonderleeftijd is set
+					if((!$value["min_leeftijd"] or $value["zonderleeftijd"]) and (!$value["max_leeftijd"] or $value["zonderleeftijd"])) {
 
-						if($value["prijs_per_nacht"]) {
-							$value["bedrag"] = $value["bedrag"] * 7;
-						}
+						if($value["filled"] and $value["verplicht"]==1 and $value["inclusief"]<>1 and $value["bedrag"]>0 and !$value["borg_soort"]) {
 
-						if($value["eenheid"]==2) {
-							// per person
-							$per_person += $value["bedrag"];
-						} else {
-							// per accommodation
-							$per_accommodation += $value["bedrag"];
+							if($value["prijs_per_nacht"]) {
+								$value["bedrag"] = $value["bedrag"] * 7;
+							}
+
+							if($value["eenheid"]==2) {
+								// per person
+								$per_person += $value["bedrag"];
+							} else {
+								// per accommodation
+								$per_accommodation += $value["bedrag"];
+							}
 						}
 					}
 				}
@@ -1151,6 +1158,15 @@ class bijkomendekosten {
 						// other costs
 						//
 						$kosten[$cat][$key] = wt_he($value["naam"]);
+
+						// info-icon
+						if($value["toelichting"]) {
+
+							$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".wt_he($vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bksid=".$key)."');return false;\">";
+							$kosten[$cat][$key] .= "&thinsp;".$info_link."<img src=\"".$vars["path"]."pic/information_icon_with_padding.png\" /></a> ";
+
+						}
+
 						if($value["verplicht"]==2 and $value["bedrag"]=="0.00") {
 							$kosten[$cat][$key] .= " (".wt_he($vars["bk_verplicht"][2]);
 							if($value["eenheid"]) {
@@ -1202,14 +1218,16 @@ class bijkomendekosten {
 		$db2 = new DB_sql;
 
 		// variable surcharges
-		$db->query("SELECT a.bijkomendekosten1_id, a.bijkomendekosten2_id, a.bijkomendekosten3_id, a.bijkomendekosten4_id, a.bijkomendekosten5_id, a.bijkomendekosten6_id, t.bijkomendekosten1_id AS tbijkomendekosten1_id, t.bijkomendekosten2_id AS tbijkomendekosten2_id, t.bijkomendekosten3_id AS tbijkomendekosten3_id, t.bijkomendekosten4_id AS tbijkomendekosten4_id, t.bijkomendekosten5_id AS tbijkomendekosten5_id, t.bijkomendekosten6_id AS tbijkomendekosten6_id FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".addslashes($this->id)."';");
-		if($db->next_record()) {
-			for($i=1;$i<=6;$i++) {
-				if($db->f("bijkomendekosten".$i."_id")) {
-					$variabele_bijkomendekosten_inquery.=",".$db->f("bijkomendekosten".$i."_id");
-				}
-				if($db->f("tbijkomendekosten".$i."_id")) {
-					$variabele_bijkomendekosten_inquery.=",".$db->f("tbijkomendekosten".$i."_id");
+		if(!$vars["toon_bijkomendekosten"]) {
+			$db->query("SELECT a.bijkomendekosten1_id, a.bijkomendekosten2_id, a.bijkomendekosten3_id, a.bijkomendekosten4_id, a.bijkomendekosten5_id, a.bijkomendekosten6_id, t.bijkomendekosten1_id AS tbijkomendekosten1_id, t.bijkomendekosten2_id AS tbijkomendekosten2_id, t.bijkomendekosten3_id AS tbijkomendekosten3_id, t.bijkomendekosten4_id AS tbijkomendekosten4_id, t.bijkomendekosten5_id AS tbijkomendekosten5_id, t.bijkomendekosten6_id AS tbijkomendekosten6_id FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".addslashes($this->id)."';");
+			if($db->next_record()) {
+				for($i=1;$i<=6;$i++) {
+					if($db->f("bijkomendekosten".$i."_id")) {
+						$variabele_bijkomendekosten_inquery.=",".$db->f("bijkomendekosten".$i."_id");
+					}
+					if($db->f("tbijkomendekosten".$i."_id")) {
+						$variabele_bijkomendekosten_inquery.=",".$db->f("tbijkomendekosten".$i."_id");
+					}
 				}
 			}
 		}
@@ -1294,6 +1312,9 @@ class bijkomendekosten {
 		global $vars, $isMobile;
 
 		$kosten = $this->get_costs();
+		$variabele_kosten = $this->get_variable_costs();
+
+
 
 		if(is_array($kosten["inclusief"])) {
 			$return .= "<h1>".html("getoonde-prijs-inclusief","tarieventabel").":</h1>";
@@ -1316,6 +1337,11 @@ class bijkomendekosten {
 			$return .= "<ul>";
 			foreach ($kosten["diversen"] as $key => $value) {
 				$return .= "<li>".$value."</li>";
+			}
+			if(is_array($variabele_kosten)) {
+				foreach ($variabele_kosten as $key => $value) {
+					$return .= "<li>".$value."</li>";
+				}
 			}
 			$return .= "</ul>";
 		}
