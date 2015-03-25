@@ -2519,7 +2519,7 @@ class form2 {
 			$mail->html.=$fullbody;
 		} else {
 			$mail->html.=$topbody;
-			$url="http://".$_SERVER["HTTP_HOST"].$_SERVER["PHP_SELF"].($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "");
+			$url="http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 			$mail->html.="<p>".ereg_replace("\[URL\]","<a href=\"".$url."\">".wt_he($url)."</a>",$this->message("volgendegegevens")).":<p>".$this->outputtable()."<p>";
 			$mail->html.=$bottombody;
 		}
