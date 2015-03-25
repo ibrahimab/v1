@@ -6,3 +6,7 @@
 .toonacctabel_zonderborder th {
 	font-size: 1.0em;
 }
+
+[data-role="dialog-form"] {
+	display: none;
+}

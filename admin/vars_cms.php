@@ -489,10 +489,11 @@ if($mustlogin) {
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken zomeracc.",array("t"=>"7"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken beoordelingen",array("t"=>"11"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Nieuwsbrief-leden",array("t"=>"10"),true);
+    $layout->submenu_item('cms_overzichten','','cms_refund_requests','Incomplete retouraanvragen',null,true);
 	$layout->submenu_item("cms_overzichten","","cms_bezettingsoverzichten","Bezetting",array("t"=>"12"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Overig",array("t"=>"9"),true);
 
-
+    
 	$layout->menu_item("cms_plaatsen","Plaatsen","",true,false,array("slide"=>true));
 	$layout->submenu_item("cms_plaatsen","","cms_plaatsen","Winter",array("wzt"=>"1"),true);
 	$layout->submenu_item("cms_plaatsen","","cms_plaatsen","Zomer",array("wzt"=>"2"),true);
@@ -3034,6 +3035,22 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	}
 
 	return $return;
+}
+
+/**
+ * This helper function sets the appropiate content type,
+ * returns a json object and then exits the script.
+ * This is useful for AJAX requests
+ *
+ * @author Ibrahim Abdullah <ibrahim@chalet.nl>
+ * @param  mixed $data
+ * @return void
+ */
+function JsonResponse($data) {
+
+	header('Content-Type: text/json');
+	echo json_encode($data);
+	exit;
 }
 
 ?>

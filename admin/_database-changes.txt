@@ -58,6 +58,24 @@ ADD COLUMN `tekst_language` VARCHAR(2) NULL AFTER `websitetekst_gewijzigd_nl`;
 ALTER TABLE `type_seizoen` ADD `bijkomendekosten_checked` TINYINT(1) NOT NULL ;
 ALTER TABLE `accommodatie_seizoen` ADD `bijkomendekosten_checked` TINYINT(1) NOT NULL ;
 
+04-jan-2015 14:30
+CREATE TABLE `boeking_retour` 
+( 
+  `boeking_retour_id` INT(11) NOT NULL AUTO_INCREMENT , 
+  `boeking_id`        INT(11) NOT NULL , 
+  `naam`              VARCHAR(200) NOT NULL , 
+  `iban`              VARCHAR(30) NOT NULL , 
+  `bic`               VARCHAR(11) NULL DEFAULT NULL , 
+  `omschrijving`      VARCHAR(140) NOT NULL , 
+  `openstaand`        DECIMAL(10,2) NOT NULL , 
+  `aangemaakt_op`     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+  `betaald_op`        DATETIME NULL DEFAULT NULL , 
+  `ingetrokken_op`    DATETIME NULL DEFAULT NULL , 
+  PRIMARY KEY (`boeking_retour_id`) , 
+  INDEX (`boeking_id`) 
+) 
+ENGINE = MyISAM DEFAULT CHARSET = utf8 AUTO_INCREMENT = 1;
+
 12-dec-2014 17:25
 ALTER TABLE `extra_optie` ADD `alg_aantal` SMALLINT NULL DEFAULT NULL AFTER `deelnemers`;
 UPDATE `extra_optie` SET `alg_aantal`=1 WHERE `persoonnummer`='alg';

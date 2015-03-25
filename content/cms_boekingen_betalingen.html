@@ -4,7 +4,6 @@ if($mustlogin) {
 	echo boekingkoptekst($gegevens);
 }
 
-
 if($_GET["burl"]) {
 	if(preg_match("/cms_overzichten_overig/",$_GET["burl"])) {
 		echo "<a href=\"".wt_he($_GET["burl"])."\">terug naar overzicht vouchers</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"]."\">ga naar boekingsgegevens ".$gegevens["stap1"]["boekingsnummer"]."</a><p>";
@@ -88,7 +87,13 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 			if($nog_te_betalen<0) {
 				if($nog_te_betalen<>$gegevens["stap1"]["goedgekeurde_retourbetaling"]) {
 					echo "&nbsp;&nbsp;&nbsp;&bull; <a href=\"".wt_he($_SERVER["REQUEST_URI"])."&overbetaling=".urlencode(abs($nog_te_betalen))."\">overbetaling verdelen over andere boekingen van deze debiteur &raquo;</a>";
-					echo "<br />&nbsp;&nbsp;&nbsp;&bull; <a href=\"".wt_he($_SERVER["REQUEST_URI"])."\" onclick=\"return retourbetaling_goedkeuren(this,'De volgende retourbetaling goedkeuren:','".number_format(abs($nog_te_betalen),2,",","")."');\">retourbetaling goedkeuren &raquo;</a>";
+
+					/**
+					 * Refunds now need to be requested
+					 * This means that when you add the data-role "refund-request" to an element, 
+					 * it will call a form that needs to filled in before being processed.
+					 */
+					echo '<br />&nbsp;&nbsp;&nbsp;&bull; <a href="#" data-role="create-refund-request">retourbetaling aanvragen &raquo;</a>';
 				}
 			} else {
 				echo "&nbsp;";
@@ -123,6 +128,95 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 		}
 
 		echo "</table>&nbsp;<p>";
+		echo '<hr />';
+
+		$refundRequest = new RefundRequest($db);
+		$refunds       = $refundRequest->all($gegevens['stap1']['boekingid'], ['ingetrokken_op' => null]);
+?>
+		<table class="tbl" cellspacing="0" border="0">
+			<tr>
+				<td colspan="9"><strong>Retourbetalingen</strong></td>
+			</tr>
+			<tr>
+				<th>Naam</th>
+				<th>Omschrijving</th>
+				<th>IBAN</th>
+				<th>BIC</th>
+				<th>Bedrag</th>
+				<th>Aangevraagd op</th>
+				<th>Betaald op</th>
+				<th>Aanpassen</th>
+				<th>Annuleren</th>
+			</tr>
+			<?php while ($refunds->next_record()) : ?>
+			<tr>
+				<td><?php echo $refunds->f('name'); ?></td>
+				<td><?php echo $refunds->f('description'); ?></td>
+				<td><?php echo str_replace(' ', '', $refunds->f('iban')); ?></td>
+				<td><?php echo str_replace(' ', '', $refunds->f('bic')); ?></td>
+				<td>
+					&euro; <?php echo number_format($refunds->f('amount'), 2, ',', '.'); ?>
+				</td>
+				<td><?php echo $refunds->f('created_at'); ?></td>
+				<td style="text-align: center;" data-role="paid-at"><?php echo ($refunds->f('paid_at') === null ? 'n.v.t.' : $refunds->f('paid_at')); ?></td>
+                <td style="text-align:center;">
+                    <?php if (null === $refunds->f('paid_at')) : ?>
+                        <a href="#" data-role="update-refund-request" data-form-data='{"boeking_retour_id": <?php echo $refunds->f('boeking_retour_id'); ?>,"amount": <?php echo $refunds->f('amount'); ?>, "name": "<?php echo $refunds->f('name'); ?>", "iban": "<?php echo $refunds->f('iban'); ?>", "bic": "<?php echo $refunds->f('bic'); ?>", "description": "<?php echo $refunds->f('description'); ?>"}'>
+                            <img src="<?php echo $this->settings["path"]."pic/class.cms_edit.gif"; ?>" />
+                        </a>
+                    <?php endif; ?>
+                </td>
+				<td class="center" style="text-align:center;">
+					<?php if (null === $refunds->f('paid_at')) : ?>
+						<a href="#" data-role="mark-refund" data-method="cancel" data-id="<?php echo $refunds->f('boeking_retour_id'); ?>">
+                            <img src="<?php echo $this->settings["path"]."pic/class.cms_delete.gif"; ?>" />
+                        </a>
+					<?php endif; ?>
+				</td>
+			</tr>
+			<?php endwhile; ?>
+		</table>
+
+<?php
+        /**
+         * This is the actual refund-request form
+         * Landcode = 5 => Verenigde Staten
+         */
+        $fullname    = ($gegevens['stap2']['achternaam'] ? wt_he(wt_naam($gegevens['stap2']['voornaam'], $gegevens['stap2']['tussenvoegsel'], $gegevens['stap2']['achternaam'])) : '');
+        $dialog_form = '
+                        <div data-role="dialog-form" data-dialog="refund-request-dialog">
+                            <form data-role="refund-request-form" data-reservation-number="' . $gegevens['stap1']['boekingsnummer'] . '" data-reservation-id="' . $gegevens['stap1']['boekingid'] . '" data-land-code="' . $gegevens['stap1']['landcode'] . '">
+                                <table>
+                                    <tr>
+                                        <td><lable for="refund-request-form-label-amount" data-role="refund-request-form-label">Bedrag</label></td>
+                                        <td><input type="text" name="amount" class="ui-widget-content ui-corner-all" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="refund-request-form-label-name" data-role="refund-request-form-label">Naam</label></td>
+                                        <td><input type="text" name="name" class="ui-widget-content ui-corner-all" value="' . $fullname . '" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="refund-request-form-label-iban" data-role="refund-request-form-label">IBAN</label></td>
+                                        <td><input type="text" name="iban" class="ui-widget-content ui-corner-all" value="n.n.b." /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="refund-request-form-label-bic" data-role="refund-request-form-label">BIC</label></td>
+                                        <td><input type="text" name="bic" class="ui-widget-content ui-corner-all" value="' . ($gegevens['stap1']['landcode'] != 10 ? 'n.v.t.' : '') . '" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="refund-request-form-label-description" data-role="refund-request-form-label">Omschrijving</label></td>
+                                        <td>
+                                        	<textarea name="description" data-role="max-length" data-max-length="140" data-max-length-view="max-length" class="ui-widget-content ui-corner-all" rows="7" cols="21">Retourstorting ' . $gegevens['stap1']['boekingsnummer'] . '</textarea>
+                                        	<br />
+                                        	<span data-view="max-length">' . strlen('Retourstorting ' . $gegevens['stap1']['boekingsnummer']) . '</span> karakters
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                        ';
+
+        echo $dialog_form;
 	}
 }
 

@@ -388,6 +388,8 @@ if($_GET["uitgaand"]==1) {
 
 	#echo wt_dump($voldaan_array);
 	#exit;
+    $refundRequest = new RefundRequest($db);
+    $refunds       = $refundRequest->open();
 
 	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.aankomstdatum_exact, b.totale_reissom, b.goedgekeurde_betaling, b.aanbetaling1_dagennaboeken, b.aanbetaling1 , b.aanbetaling1_gewijzigd, UNIX_TIMESTAMP(b.aanbetaling2_datum) AS aanbetaling2_datum, b.aanbetaling2, b.totale_reissom_dagenvooraankomst, b.aanmaning_tekst, b.aanmaning_mailblokkeren, UNIX_TIMESTAMP(b.aanmaning_verstuurdatum) AS aanmaning_verstuurdatum, b.aanmaning_aantal, b.opmerkingen_intern, UNIX_TIMESTAMP(b.opmerkingen_intern_gewijzigd) AS opmerkingen_intern_gewijzigd, b.reisbureau_user_id, UNIX_TIMESTAMP(b.factuurdatum_eerste_factuur) AS factuurdatum_eerste_factuur, p.voornaam, p.tussenvoegsel, p.achternaam FROM boeking b, boeking_persoon p, factuur f WHERE f.boeking_id=b.boeking_id AND p.boeking_id=b.boeking_id AND p.persoonnummer=1 AND b.boekingsnummer<>''".$andq." ORDER BY b.aankomstdatum_exact;");
 #	if($db->num_rows()) {
@@ -435,8 +437,10 @@ if($_GET["uitgaand"]==1) {
 			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#ffa9a9;\">Rood</span> = boeking waarbij aanmaning is uitgezet</div>";
 			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#a6ffb3;\">Groen</span> = openstaand bedrag waarvan de <i>volledige betaling</i> al is goedgekeurd</div>";
 			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#94d3ff;\">Blauw</span> = openstaand bedrag waarvan een <i>gedeeltelijke betaling</i> al is goedgekeurd</div>";
+            echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#FDFF86;\">Geel</span> = Incomplete aanvraag retour te storten bedrag in systeem</div>";
+            echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#FFAE00;\">Oranje</span> = Complete aanvraag retour te storten bedrag in systeem</div>";
 			echo "</div>";
-
+            
 			echo "<div style=\"float:right;margin-top:-30px;\">";
 			echo "<table>";
 			echo "<form method=\"get\">";
@@ -649,6 +653,13 @@ if($_GET["uitgaand"]==1) {
 					# Achtergrondkleur en hovertext van de cel "Openst." bepalen
 					$cel_bgcolor="#ffffff";
 					$hovertext="";
+                    
+                    if (array_key_exists($db->f('boeking_id'), $refunds)) {
+                        if (null !== $refunds[$db->f('boeking_id')]['betaald_op']) {
+                            $cel_bgcolor = '#A6FFB3';
+                        }
+                    }
+                    
 					if($db->f("goedgekeurde_betaling")>0) {
 						if($toonopenstaand>0) {
 							if($db->f("goedgekeurde_betaling")>=$toonopenstaand) {
@@ -671,6 +682,15 @@ if($_GET["uitgaand"]==1) {
 							}
 						}
 					}
+                    
+                    if (array_key_exists($db->f('boeking_id'), $refunds)) {
+                        
+                        if ($refunds[$db->f('boeking_id')]['iban'] === 'n.n.b.') {
+                            $cel_bgcolor = '#fdff86';
+                        } else if (null === $refunds[$db->f('boeking_id')]['betaald_op']) {
+                            $cel_bgcolor = '#FFAE00';
+                        }
+                    }
 					echo "<td title=\"".$hovertext."\" align=\"right\" style=\"background-color:".$cel_bgcolor.";\">".($toonopenstaand<>0 ? number_format($toonopenstaand,2,",",".") : "&nbsp;")."</td>";
 					echo "<td align=\"right\">".$tevoldoentonen."</td><td align=\"center\">".($db->f("aanmaning_aantal")>0 ? $db->f("aanmaning_aantal") : "&nbsp;")."</td>".($db->f("aanmaning_verstuurdatum")>0 ? "<td title=\"Laatste aanmaning verstuurd: ".DATUM("DAG D MAAND JJJJ, UU:ZZ",$db->f("aanmaning_verstuurdatum"))."u.\" nowrap>".strftime("%e %b",$db->f("aanmaning_verstuurdatum")) : "<td>&nbsp;")."</td>";
 

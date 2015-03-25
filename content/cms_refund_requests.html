@@ -1,0 +1,100 @@
+<style type="text/css">
+	table, tr, td, th { border: 1px solid #000; }
+	tr th {	width: 80px; }
+	tr th.big { width: 150px; }
+	[data-role="select-contents"]:link, [data-role="select-contents"]:active, [data-role="select-contents"]:visited { 
+		color: #000; text-decoration: none; 
+	}
+	tr td.center { text-align: center; }
+	[data-role="select-contents"]:hover { color: red; }
+</style>
+<?php
+$refundRequest = new RefundRequest($db);
+if ($login->has_priv(27)) :
+    
+    $complete      = $refundRequest->all(null, ['ingetrokken_op' => null, 'betaald_op' => null, 'iban' => ['$ne' => 'n.n.b.']]);
+    if ($complete->num_rows() === 0) : ?>
+
+    	<strong>Geen retourbetalingen gevonden</strong>
+
+    <?php else : ?>
+	
+        <strong style="margin-top:10px; margin-bottom: 10px; display:block;">Complete retouraanvragen</strong>
+    	<table class="tbl" border="0" cellspacing="0">
+    		<tr>
+    			<th>Nr</th>
+    			<th>Naam</th>
+    			<th>Omschrijving</th>
+    			<th>IBAN</th>
+    			<th>BIC</th>
+    			<th>Openstaand</th>
+    			<th>Aangevraagd</th>
+    			<th>Afgerond</th>
+    		</tr>
+    		<?php while ($complete->next_record()) : ?>
+    		<tr>
+    			<td>
+    				<a href="cms_boekingen.php?show=21&21k0=<?php echo $complete->f('boeking_id'); ?>" target="_blank">
+    					<?php echo $complete->f('reservation_number'); ?>
+    				</a>
+    			</td>
+    			<td><a href="#" data-role="select-contents"><?php echo $complete->f('name'); ?></a></td>
+    			<td><a href="#" data-role="select-contents"><?php echo $complete->f('description'); ?></a></td>
+    			<td><a href="#" data-role="select-contents"><?php echo str_replace(' ', '', $complete->f('iban')); ?></a></td>
+    			<td><a href="#" data-role="select-contents"><?php echo str_replace(' ', '', $complete->f('bic')); ?></a></td>
+    			<td>
+    				<a href="#" data-role="select-contents">&euro; <?php echo number_format($complete->f('amount'), 2, ',', '.'); ?></a>
+    			</td>
+    			<td><?php echo $complete->f('created_at'); ?></td>
+    			<td class="center" style="text-align:center;">
+    				<a href="#" data-role="mark-refund" data-method="paid" data-id="<?php echo $complete->f('boeking_retour_id'); ?>">
+                        <img src="<?php echo $this->settings["path"]."pic/icon_okay.png"; ?>" />
+                    </a>
+    			</td>
+    		</tr>
+    		<?php endwhile; ?>
+    	</table>
+    <?php endif; ?>
+
+    <hr />
+    
+<?php endif; ?>
+
+<?php
+$incomplete = $refundRequest->all(null, ['ingetrokken_op' => null, 'betaald_op' => null, 'iban' => 'n.n.b.']);
+if ($incomplete->num_rows() === 0) : ?>
+
+	<strong>Geen incomplete retouraanvragen gevonden</strong>
+
+<?php else : ?>
+	
+    <strong style="margin-top:10px; margin-bottom: 10px; display:block;">Incomplete retouraanvragen</strong>
+	<table class="tbl" border="0" cellspacing="0">
+		<tr>
+			<th>Nr</th>
+			<th>Naam</th>
+			<th>Omschrijving</th>
+			<th>IBAN</th>
+			<th>BIC</th>
+			<th>Openstaand</th>
+			<th>Aangevraagd</th>
+		</tr>
+		<?php while ($incomplete->next_record()) : ?>
+		<tr>
+			<td>
+				<a href="cms_boekingen.php?show=21&21k0=<?php echo $incomplete->f('boeking_id'); ?>" target="_blank">
+					<?php echo $incomplete->f('reservation_number'); ?>
+				</a>
+			</td>
+			<td><?php echo $incomplete->f('name'); ?></td>
+			<td><?php echo $incomplete->f('description'); ?></td>
+			<td><?php echo str_replace(' ', '', $incomplete->f('iban')); ?></td>
+			<td><?php echo str_replace(' ', '', $incomplete->f('bic')); ?></td>
+			<td>
+				&euro; <?php echo number_format($incomplete->f('amount'), 2, ',', '.'); ?>
+			</td>
+			<td><?php echo $incomplete->f('created_at'); ?></td>
+		</tr>
+		<?php endwhile; ?>
+	</table>
+<?php endif; ?>
