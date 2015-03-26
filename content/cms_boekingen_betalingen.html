@@ -161,7 +161,7 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 				<td style="text-align: center;" data-role="paid-at"><?php echo ($refunds->f('paid_at') === null ? 'n.v.t.' : $refunds->f('paid_at')); ?></td>
                 <td style="text-align:center;">
                     <?php if (null === $refunds->f('paid_at')) : ?>
-                        <a href="#" data-role="update-refund-request" data-form-data='{"boeking_retour_id": <?php echo $refunds->f('boeking_retour_id'); ?>,"amount": <?php echo $refunds->f('amount'); ?>, "name": "<?php echo $refunds->f('name'); ?>", "iban": "<?php echo $refunds->f('iban'); ?>", "bic": "<?php echo $refunds->f('bic'); ?>", "description": "<?php echo $refunds->f('description'); ?>"}'>
+                        <a href="#" data-role="update-refund-request" data-form-data='{"boeking_retour_id": <?php echo $refunds->f('boeking_retour_id'); ?>,"amount": "<?php echo number_format($refunds->f('amount'), 2, ',', ''); ?>", "name": "<?php echo $refunds->f('name'); ?>", "iban": "<?php echo $refunds->f('iban'); ?>", "bic": "<?php echo $refunds->f('bic'); ?>", "description": "<?php echo trim($refunds->f('description')); ?>"}'>
                             <img src="<?php echo $this->settings["path"]."pic/class.cms_edit.gif"; ?>" />
                         </a>
                     <?php endif; ?>

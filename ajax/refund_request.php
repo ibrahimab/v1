@@ -34,10 +34,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 }
 
-$refundRequest = new RefundRequest($db);
+$refundRequest    = new RefundRequest($db);
+$params['amount'] = floatval(str_replace(',', '.', $params['amount']));
 
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    
+
     // updating refund request
     $refundRequest->update([
 
@@ -52,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     // formatting price for logs and comment
     $formatted_price = number_format(abs($params['amount']), 2, ',', '.');
 
-    chalet_log(sprintf('retourstorting t.w.v. € %s gewijzigd', [$formatted_price]), false, true);
+    chalet_log(sprintf('retourstorting t.w.v. € %s gewijzigd', $formatted_price), false, true);
     cmslog_pagina_title('retourstorting gewijzigd');
 
     // appending refund request to internal comments
@@ -83,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     // formatting price for logs and comment
     $formatted_price = number_format(abs($params['amount']), 2, ',', '.');
 
-    chalet_log(sprintf('Verzoek retourbetaling t.w.v. € %s aangemaakt', [$formatted_price]), false, true);
+    chalet_log(sprintf('Verzoek retourbetaling t.w.v. € %s aangemaakt', $formatted_price), false, true);
     cmslog_pagina_title('Verzoek retourbetaling aangemaakt');
 
     // appending refund request to internal comments
