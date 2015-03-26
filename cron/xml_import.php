@@ -1770,7 +1770,7 @@ while($db->next_record()) {
 					$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]+=$value2;
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
-			} elseif($xml_urls[8][1]) {
+			} elseif($xml_urls[8][1] and $xml_laatsteimport_gezien[8]) {
 				$beschikbaar[$db->f("xml_type")][$db->f("type_id")][0]=0;
 			}
 
