@@ -190,12 +190,6 @@ if($acc_aanwezig) {
 
 }
 
-// bijkomendekosten
-if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	$vars["toon_bijkomendekosten"] = true;
-}
-
-
 include "content/opmaak.php";
 
 ?>

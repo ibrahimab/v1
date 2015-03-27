@@ -3961,6 +3961,10 @@ $txt["nl"]["bijkomendekosten"]["bedrag-onbekend"]="bedrag onbekend";
 $txt["de"]["bijkomendekosten"]["bedrag-onbekend"]="Betrag unbekannt";
 $txt["en"]["bijkomendekosten"]["bedrag-onbekend"]="amount unknown";
 
+$txt["nl"]["bijkomendekosten"]["exacte-hoogte-onbekend"]="exacte hoogte onbekend";
+$txt["de"]["bijkomendekosten"]["exacte-hoogte-onbekend"]="-";
+$txt["en"]["bijkomendekosten"]["exacte-hoogte-onbekend"]="-";
+
 $txt["nl"]["bijkomendekosten"]["geen-borg-verschuldigd"]="niet van toepassing";
 $txt["de"]["bijkomendekosten"]["geen-borg-verschuldigd"]="keine Kaution erforderlich";
 $txt["en"]["bijkomendekosten"]["geen-borg-verschuldigd"]="no security deposit required";
@@ -6305,15 +6309,13 @@ $txt["nl"]["factuur"]["terugteontvangen"]="Terug te ontvangen";
 $txt["de"]["factuur"]["terugteontvangen"]="Zurückzuerstatten";
 $txt["en"]["factuur"]["terugteontvangen"]="To be refunded";
 
-$txt["nl"]["factuur"]["bedanktgecorboeking10dagen"]="Bedankt voor je gecorrigeerde boeking. Na ontvangst van het totaalbedrag sturen wij de reisdocumenten en routebeschrijving ca. 10 dagen voor vertrek naar je toe.";
-$txt["de"]["factuur"]["bedanktgecorboeking10dagen"]="Vielen Dank für die korrigierte Buchung.
-Nach Eingang der gesamten Zahlung bekommen Sie ca. 10 Tage vor Abfahrt die Reiseunterlagen und den Anreiseplan zugeschickt.";
-$txt["en"]["factuur"]["bedanktgecorboeking10dagen"]="Thank you for your amended booking. After we have received the total sum, we will send you the travel documents and route description approx. 10 days before your departure.";
+$txt["nl"]["factuur"]["bedanktgecorboeking10dagen"]="Na ontvangst van het totaalbedrag sturen wij de reisdocumenten en routebeschrijving ca. 10 dagen voor vertrek naar je toe.";
+$txt["de"]["factuur"]["bedanktgecorboeking10dagen"]="Nach Eingang der gesamten Zahlung bekommen Sie ca. 10 Tage vor Abfahrt die Reiseunterlagen und den Anreiseplan zugeschickt.";
+$txt["en"]["factuur"]["bedanktgecorboeking10dagen"]="After we have received the total sum, we will send you the travel documents and route description approx. 10 days before your departure.";
 
-$txt["nl"]["factuur"]["bedanktgecorboekingreispapieren"]="Bedankt voor je gecorrigeerde boeking. Na ontvangst van het totaalbedrag sturen wij de reisdocumenten en routebeschrijving naar je toe.";
-$txt["de"]["factuur"]["bedanktgecorboekingreispapieren"]="Vielen Dank für die korrigierte Buchung.
-Nach Eingang der gesamten Zahlung bekommen Sie die Reiseunterlagen und den Anreiseplan zugeschickt.";
-$txt["en"]["factuur"]["bedanktgecorboekingreispapieren"]="Thank you for your amended booking. After we have received the total sum, we will send you the travel documents and the route description.";
+$txt["nl"]["factuur"]["bedanktgecorboekingreispapieren"]="Na ontvangst van het totaalbedrag sturen wij de reisdocumenten en routebeschrijving naar je toe.";
+$txt["de"]["factuur"]["bedanktgecorboekingreispapieren"]="Nach Eingang der gesamten Zahlung bekommen Sie die Reiseunterlagen und den Anreiseplan zugeschickt.";
+$txt["en"]["factuur"]["bedanktgecorboekingreispapieren"]="After we have received the total sum, we will send you the travel documents and the route description.";
 
 $txt["nl"]["factuur"]["tercontrolebinnen24uur"]="Ter controle op fouten willen we je vragen deze bevestiging binnen 24 uur te controleren. Bij onjuistheden horen wij dit graag per omgaande.";
 $txt["de"]["factuur"]["tercontrolebinnen24uur"]="Zur Fehlerkontrolle bitten wir Sie, diese Bestätigung innerhalb 24 Stunden zu kontrollieren. Bitte teilen Sie uns etwaige Fehler umgehend mit.";
@@ -6438,6 +6440,18 @@ $txt["en"]["factuur"]["commissie_diverse_percentages"]="several percentages";
 $txt["nl"]["factuur"]["vermeldresnummer"]="Vermeld bij betaling het reserveringsnummer [[v_resnummer]].";
 $txt["de"]["factuur"]["vermeldresnummer"]="Bitte vermelden Sie bei Zahlung die Reservierungsnummer [[v_resnummer]].";
 $txt["en"]["factuur"]["vermeldresnummer"]="Please state your booking number [[v_resnummer]] when paying.";
+
+$txt["nl"]["factuur"]["inbegrepen"]="In het bovenstaande bedrag zijn de volgende zaken inbegrepen";
+$txt["de"]["factuur"]["inbegrepen"]="-";
+$txt["en"]["factuur"]["inbegrepen"]="-";
+
+$txt["nl"]["factuur"]["ter_plaatse"]="De volgende kosten zijn verplicht ter plaatse nog te voldoen";
+$txt["de"]["factuur"]["ter_plaatse"]="-";
+$txt["en"]["factuur"]["ter_plaatse"]="-";
+
+$txt["nl"]["factuur"]["verplichtekostenondervoorbehoud"]="Verplichte kosten ter plaatse proberen wij zo goed mogelijk te achterhalen. Toch kan het voorkomen dat de daadwerkelijke kosten ter plaatse afwijkend zijn.";
+$txt["de"]["factuur"]["verplichtekostenondervoorbehoud"]="-";
+$txt["en"]["factuur"]["verplichtekostenondervoorbehoud"]="-";
 
 $txt["nl"]["factuur"]["metvriendelijkegroet"]="Met vriendelijke groet,";
 $txt["de"]["factuur"]["metvriendelijkegroet"]="Mit freundlichen Grüßen,";

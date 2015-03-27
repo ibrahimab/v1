@@ -213,6 +213,7 @@ if(!$cron and !$cronmap and !$css and !$geen_tracker_cookie and !$_GET["nocache"
 	include($unixdir."admin/trackercookie.php");
 }
 
+
 #
 # Plaats- en accommodatie-pagina zonder afsluitende "/" reloaden
 #
@@ -235,6 +236,11 @@ if($boeking_bepaalt_taal and $_GET["bid"]) {
 # Testsite bepalen
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or (defined("wt_test") and wt_test===true)) {
 	$vars["testsite"]=file_get_contents($unixdir."tmp/testsite.txt");
+}
+
+// test system "bijkomendekosten"
+if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	$vars["toon_bijkomendekosten"] = true;
 }
 
 if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {

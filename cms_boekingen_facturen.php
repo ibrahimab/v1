@@ -320,17 +320,17 @@ if($form->okay) {
 					$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\n\nTel.: 0541 - 53 27 98\nKvK nr. 08116755\n\nIBAN: NL77 ABNA 0436 6729 01\nBIC: ABNANL2A\nBTW NL-8121.27.377.B.01\n",0,"R");
 				} elseif($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
 					# Adres voor Nederlanders
-					$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\n\nTel.: 0348 434649\nFax: 0348 690752\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
+					$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\n\nTel.: 0348 434649\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
 				} else {
 					if($this->gegevens["stap1"]["taal"]=="en") {
 						# Adres voor Engelstalige buitenlanders
-						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\nThe Netherlands\n\nTel.: +31 348 434649\nFax: +31 348 690752\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
+						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\nThe Netherlands\n\nTel.: +31 348 434649\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
 					} elseif($this->gegevens["stap1"]["taal"]=="de") {
 						# Adres voor Duitstalige buitenlanders
-						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\nNL-3447 GJ Woerden\nNiederlande\n\nTel.: +31 348 434649\nFax: +31 348 690752\nIHK Nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nMwSt.-Nr NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
+						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\nNL-3447 GJ Woerden\nNiederlande\n\nTel.: +31 348 434649\nIHK Nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nMwSt.-Nr NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
 					} else {
 						# Adres voor Nederlandstalige buitenlanders
-						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\nNederland\n\nTel.: +31 348 434649\nFax: +31 348 690752\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
+						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\nNederland\n\nTel.: +31 348 434649\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
 					}
 				}
 				$this->Ln(20);
@@ -635,30 +635,91 @@ if($form->okay) {
 			$pdf->Ln(1);
 		}
 
+		// bijkomendekosten
+		if($vars["toon_bijkomendekosten"]) {
 
-		// if($gegevens["stap1"]["factuur_tekstvak2"] and $aanbetalen<>0) {
-		// 	factuur_opties("",$gegevens["stap1"]["factuur_tekstvak2"],$aanbetalen,"plaintext");
-		// 	$pdf->Ln(1);
-		// }
 
-		// # Aanbetaling 2
-		// if($aanbetaling2_factuurtekst and $gegevens["stap1"]["aanbetaling2"]<>0) {
-		// 	factuur_opties("",$aanbetaling2_factuurtekst,$gegevens["stap1"]["aanbetaling2"],"plaintext");
-		// 	$pdf->Ln(1);
-		// }
+			$betaalinfo_tekst = txt("vermeldresnummer","factuur",array("v_resnummer"=>$gegevens["stap1"]["boekingsnummer"]))." ";
 
-		// if($restbetalen<>0) factuur_opties("",$gegevens["stap1"]["factuur_tekstvak3"],abs($restbetalen),"plaintext");
-		// $pdf->Ln(1);
+			if($gegevens["stap1"]["factuurdatum"]) {
+				if($gegevens["stap1"]["dagen_voor_vertrek"]>10) {
+					$betaalinfo_tekst .= txt("bedanktgecorboeking10dagen","factuur");
+				} else {
+					$betaalinfo_tekst .= txt("bedanktgecorboekingreispapieren","factuur");
+				}
+			} else {
+				$betaalinfo_tekst .= txt("tercontrolebinnen24uur","factuur");
+			}
 
-		$pdf->Cell(190,4,txt("vermeldresnummer","factuur",array("v_resnummer"=>$gegevens["stap1"]["boekingsnummer"])));
-		$pdf->Ln();
+			$pdf->Ln();
+			$pdf->MultiCell(0,4,$betaalinfo_tekst);
+			// $pdf->Cell(190,4,$betaalinfo_tekst);
+			$pdf->Ln();
 
-		if($pdf->GetY()>230) {
-			$pdf->AddPage();
+
+			$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
+			$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
+			$bk = $bijkomendekosten->get_factuur_data();
+
+			if(is_array($bk["voldaan"]) or is_array($bk["ter_plaatse"])) {
+				$pdf->Ln(1);
+			}
+
+			if(is_array($bk["voldaan"])) {
+				$pdf->Ln(1);
+				$pdf->SetFont("","B");
+				$pdf->Cell(190,4,txt("inbegrepen","factuur").":");
+				$pdf->SetFont("","");
+				$pdf->Ln();
+
+				foreach ($bk["voldaan"] as $key => $value) {
+					$pdf->Cell(190,4,"  ".chr(149)." ".$value["naam"]);
+					$pdf->Ln();
+				}
+			}
+
+			if($pdf->GetY()>250) {
+				$pdf->AddPage();
+			}
+
+			if(is_array($bk["ter_plaatse"])) {
+				if(is_array($bk["voldaan"])) {
+					$pdf->Ln();
+				} else {
+					$pdf->Ln(1);
+				}
+				$pdf->SetFont("","B");
+				$pdf->Cell(190,4,txt("ter_plaatse","factuur").":");
+				$pdf->SetFont("","");
+				$pdf->Ln();
+
+				foreach ($bk["ter_plaatse"] as $key => $value) {
+					$pdf->Cell(190,4,"  ".chr(149)." ".$value["naam"]." (".$value["toonbedrag"].")");
+					$pdf->Ln();
+				}
+				$pdf->Ln();
+
+				$pdf->MultiCell(0,4,txt("verplichtekostenondervoorbehoud", "factuur"));
+
+			}
+
+			if($pdf->GetY()>230) {
+				$pdf->AddPage();
+			}
+
+		} else {
+			$pdf->Cell(190,4,txt("vermeldresnummer","factuur",array("v_resnummer"=>$gegevens["stap1"]["boekingsnummer"])));
+			$pdf->Ln();
+
+			if($pdf->GetY()>230) {
+				$pdf->AddPage();
+			}
+
+			$pdf->Ln();
+			$pdf->MultiCell(0,4,$booking_payment->text["afsluiting"]);
+			$pdf->Ln();
+
 		}
-		$pdf->Ln();
-		$pdf->MultiCell(0,4,$booking_payment->text["afsluiting"]);
-		$pdf->Ln();
 
 		$pdf->Ln();
 		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {

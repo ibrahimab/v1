@@ -705,7 +705,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 		$bijkomendekosten->arrangement = true;
 	}
 
-	$kosten = $bijkomendekosten->get_costs();
+	$kosten = $bijkomendekosten->get_costs()["html"];
 
 	if(is_array($kosten["inclusief"])) {
 
