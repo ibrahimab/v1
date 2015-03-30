@@ -23,11 +23,11 @@ if ($login->has_priv(27)) :
     	<table class="tbl" border="0" cellspacing="0">
     		<tr>
     			<th>Nr</th>
+    			<th>Openstaand</th>
     			<th>Naam</th>
-    			<th>Omschrijving</th>
     			<th>IBAN</th>
     			<th>BIC</th>
-    			<th>Openstaand</th>
+    			<th>Omschrijving</th>
     			<th>Aangevraagd</th>
     			<th>Afgerond</th>
     		</tr>
@@ -38,13 +38,13 @@ if ($login->has_priv(27)) :
     					<?php echo $complete->f('reservation_number'); ?>
     				</a>
     			</td>
-    			<td><a href="#" data-role="select-contents"><?php echo $complete->f('name'); ?></a></td>
-    			<td><a href="#" data-role="select-contents"><?php echo $complete->f('description'); ?></a></td>
-    			<td><a href="#" data-role="select-contents"><?php echo str_replace(' ', '', $complete->f('iban')); ?></a></td>
-    			<td><a href="#" data-role="select-contents"><?php echo str_replace(' ', '', $complete->f('bic')); ?></a></td>
     			<td>
     				<a href="#" data-role="select-contents">&euro; <?php echo number_format($complete->f('amount'), 2, ',', '.'); ?></a>
     			</td>
+    			<td><a href="#" data-role="select-contents"><?php echo $complete->f('name'); ?></a></td>
+    			<td><a href="#" data-role="select-contents"><?php echo str_replace(' ', '', $complete->f('iban')); ?></a></td>
+    			<td><a href="#" data-role="select-contents"><?php echo str_replace(' ', '', $complete->f('bic')); ?></a></td>
+    			<td><a href="#" data-role="select-contents"><?php echo $complete->f('description'); ?></a></td>
     			<td><?php echo $complete->f('created_at'); ?></td>
     			<td class="center" style="text-align:center;">
     				<a href="#" data-role="mark-refund" data-method="paid" data-id="<?php echo $complete->f('boeking_retour_id'); ?>">
@@ -72,11 +72,11 @@ if ($incomplete->num_rows() === 0) : ?>
 	<table class="tbl" border="0" cellspacing="0">
 		<tr>
 			<th>Nr</th>
+			<th>Openstaand</th>
 			<th>Naam</th>
-			<th>Omschrijving</th>
 			<th>IBAN</th>
 			<th>BIC</th>
-			<th>Openstaand</th>
+			<th>Omschrijving</th>
 			<th>Aangevraagd</th>
 		</tr>
 		<?php while ($incomplete->next_record()) : ?>
@@ -86,13 +86,13 @@ if ($incomplete->num_rows() === 0) : ?>
 					<?php echo $incomplete->f('reservation_number'); ?>
 				</a>
 			</td>
-			<td><?php echo $incomplete->f('name'); ?></td>
-			<td><?php echo $incomplete->f('description'); ?></td>
-			<td><?php echo str_replace(' ', '', $incomplete->f('iban')); ?></td>
-			<td><?php echo str_replace(' ', '', $incomplete->f('bic')); ?></td>
 			<td>
 				&euro; <?php echo number_format($incomplete->f('amount'), 2, ',', '.'); ?>
 			</td>
+			<td><?php echo $incomplete->f('name'); ?></td>
+			<td><?php echo str_replace(' ', '', $incomplete->f('iban')); ?></td>
+			<td><?php echo str_replace(' ', '', $incomplete->f('bic')); ?></td>
+			<td><?php echo $incomplete->f('description'); ?></td>
 			<td><?php echo $incomplete->f('created_at'); ?></td>
 		</tr>
 		<?php endwhile; ?>

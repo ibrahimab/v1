@@ -1944,12 +1944,6 @@ function validate_refund_form(form, success) {
        errors.push('iban');
    }
 
-   if (prefix !== fields.description.substring(0, prefix.length)) {
-
-       form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-description"]').addClass(error_class);
-       errors.push('description');
-   }
-
    if ((use_bic && false === check_bic(fields.bic)) || ($.trim(fields.bic) === '')) {
 
        form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-bic"]').addClass(error_class);
