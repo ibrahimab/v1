@@ -660,7 +660,7 @@ if($form->okay) {
 
 			$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
 			$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
-			$bk = $bijkomendekosten->get_factuur_data();
+			$bk = $bijkomendekosten->get_factuur_data($gegevens);
 
 			if(is_array($bk["voldaan"]) or is_array($bk["ter_plaatse"])) {
 				$pdf->Ln(1);
@@ -671,7 +671,7 @@ if($form->okay) {
 				$pdf->SetFont("","B");
 				$pdf->Cell(190,4,txt("inbegrepen","factuur").":");
 				$pdf->SetFont("","");
-				$pdf->Ln();
+				$pdf->Ln(5);
 
 				foreach ($bk["voldaan"] as $key => $value) {
 					$pdf->Cell(190,4,"  ".chr(149)." ".$value["naam"]);
@@ -692,12 +692,38 @@ if($form->okay) {
 				$pdf->SetFont("","B");
 				$pdf->Cell(190,4,txt("ter_plaatse","factuur").":");
 				$pdf->SetFont("","");
-				$pdf->Ln();
+				$pdf->Ln(5);
 
+				// ter_plaatse where price is unknown
 				foreach ($bk["ter_plaatse"] as $key => $value) {
-					$pdf->Cell(190,4,"  ".chr(149)." ".$value["naam"]." (".$value["toonbedrag"].")");
+					if($value["bedragonbekend"]) {
+						// factuur_opties($value["aantal"], ,$value["totaalbedrag"],"optie",0,true);
+
+						$pdf->Cell(5,4,$value["aantal"],0,0,'L',0);
+						$pdf->Cell(5,4,"x",0,0,'C',0);
+						$pdf->Cell(157,4,$value["naam"]." (".$value["toonbedrag"].")",0,0,'L',0);
+						$pdf->Ln();
+
+						$bedragonbekend = true;
+					}
+				}
+				if($bedragonbekend) {
 					$pdf->Ln();
 				}
+				// ter_plaatse where price is known
+				foreach ($bk["ter_plaatse"] as $key => $value) {
+					if(!$value["bedragonbekend"]) {
+						factuur_opties($value["aantal"], $value["naam"]." (".$value["toonbedrag"].")",$value["totaalbedrag"],"optie",0,true);
+						$totaalbedrag_ter_plaatse += $value["totaalbedrag"];
+						$ter_plaatse_counter++;
+					}
+				}
+				if($ter_plaatse_counter>=2 and $totaalbedrag_ter_plaatse>0) {
+					factuur_opties("","","","optellen");
+					factuur_opties("",txt("totaal_ter_plaatse","factuur"),$totaalbedrag_ter_plaatse,"plaintext");
+				}
+
+
 				$pdf->Ln();
 
 				$pdf->MultiCell(0,4,txt("verplichtekostenondervoorbehoud", "factuur"));

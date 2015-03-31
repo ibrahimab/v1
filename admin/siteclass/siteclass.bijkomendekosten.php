@@ -69,8 +69,7 @@ class bijkomendekosten {
 
 			// get seasons
 			$this->seizoen_inquery .= ",0";
-			$db->query("SELECT seizoen_id, naam FROM seizoen WHERE eind>=(NOW() - INTERVAL 1 DAY) AND type='".intval($this->wzt)."'".($this->hide_inactive_seasons ? " AND tonen<>1" : "")." ORDER BY begin, eind;");
-			// echo $db->lq;
+			$db->query("SELECT seizoen_id, naam".$vars["ttv"]." AS naam FROM seizoen WHERE eind>=(NOW() - INTERVAL 1 DAY) AND type='".intval($this->wzt)."'".($this->hide_inactive_seasons ? " AND tonen<>1" : "")." ORDER BY begin, eind;");
 			while($db->next_record()) {
 				$this->cms_data_seizoenen[$db->f("seizoen_id")] = $db->f("naam");
 				$this->seizoen_inquery .= ",".$db->f("seizoen_id");
@@ -79,7 +78,7 @@ class bijkomendekosten {
 
 			if(is_array($this->cms_data_seizoenen)) {
 				foreach ($this->cms_data_seizoenen as $key => $value) {
-					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bs.altijd_diversen, bs.prijs_per_nacht, bs.opgeven_bij_boeken, ba.".$this->soort."_id, bs.toelichting".$vars["ttv"]." AS toelichting, bs.zonderleeftijd, bs.min_leeftijd, bs.max_leeftijd, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
+					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.vouchernaam".$vars["ttv"]." AS vouchernaam, bs.factuurnaam".$vars["ttv"]." AS factuurnaam, bs.altijd_invullen, bs.altijd_diversen, bs.prijs_per_nacht, bs.opgeven_bij_boeken, ba.".$this->soort."_id, bs.toelichting".$vars["ttv"]." AS toelichting, bs.zonderleeftijd, bs.min_leeftijd, bs.max_leeftijd, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
 							   FROM bk_soort bs LEFT JOIN bk_".$this->soort." ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.".$this->soort."_id='".intval($this->id)."' AND ba.seizoen_id='".intval($key)."') WHERE bs.wzt='".intval($this->wzt)."' AND (ba.".$this->soort."_id IS NOT NULL OR bs.altijd_invullen=1)
 							   ORDER BY ba.borg_soort DESC, ba.inclusief DESC, bs.volgorde;");
 
@@ -87,6 +86,8 @@ class bijkomendekosten {
 						$seizoen_id = $key;
 
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["naam"] = $db->f("naam");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["vouchernaam"] = $db->f("vouchernaam");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["factuurnaam"] = $db->f("factuurnaam");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["inclusief"] = $db->f("inclusief");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["verplicht"] = $db->f("verplicht");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["ter_plaatse"] = $db->f("ter_plaatse");
@@ -1122,6 +1123,8 @@ class bijkomendekosten {
 					}
 
 					$kosten["vars"][$cat][$key]["naam"] = $value["naam"];
+					$kosten["vars"][$cat][$key]["vouchernaam"] = $value["vouchernaam"];
+					$kosten["vars"][$cat][$key]["factuurnaam"] = $value["factuurnaam"];
 					$kosten["vars"][$cat][$key]["verplicht"] = $value["verplicht"];
 					$kosten["vars"][$cat][$key]["ter_plaatse"] = $value["ter_plaatse"];
 					$kosten["vars"][$cat][$key]["bedrag"] = $value["bedrag"];
@@ -1129,6 +1132,9 @@ class bijkomendekosten {
 					$kosten["vars"][$cat][$key]["borg_soort"] = $value["borg_soort"];
 					$kosten["vars"][$cat][$key]["eenheid"] = $value["eenheid"];
 					$kosten["vars"][$cat][$key]["inclusief"] = $value["inclusief"];
+					$kosten["vars"][$cat][$key]["min_leeftijd"] = $value["min_leeftijd"];
+					$kosten["vars"][$cat][$key]["max_leeftijd"] = $value["max_leeftijd"];
+					$kosten["vars"][$cat][$key]["zonderleeftijd"] = $value["zonderleeftijd"];
 
 					if($value["borg_soort"]) {
 						//
@@ -1312,7 +1318,7 @@ class bijkomendekosten {
 		return $return;
 	}
 
-	public function get_factuur_data() {
+	public function get_factuur_data($gegevens) {
 		//
 		// get data to show on invoice/factuur
 		//
@@ -1325,8 +1331,66 @@ class bijkomendekosten {
 			foreach ($kosten["vars"]["inclusief"] as $key => $value) {
 				if($key<>"skipas") {
 					if($value["ter_plaatse"]==1) {
-						$return["ter_plaatse"][$key]["naam"] = $value["naam"];
+						//
+						// ter_plaatse
+						//
+						$return["ter_plaatse"][$key]["naam"] = $value["factuurnaam"];
 						$return["ter_plaatse"][$key]["bedrag"] = $value["bedrag"];
+						$return["ter_plaatse"][$key]["eenheid"] = $value["eenheid"];
+						$return["ter_plaatse"][$key]["zonderleeftijd"] = $value["zonderleeftijd"];
+						$return["ter_plaatse"][$key]["min_leeftijd"] = $value["min_leeftijd"];
+						$return["ter_plaatse"][$key]["max_leeftijd"] = $value["max_leeftijd"];
+						$aantal = 0;
+						if($value["eenheid"]==2 or $value["eenheid"]==12) {
+							// eenheid = "per person" or "per person each time"
+
+							if($value["min_leeftijd"] or $value["max_leeftijd"]) {
+
+								// echo wt_dump($gegevens["stap3"]);
+								foreach ($gegevens["stap3"] as $persoonnummer => $persoon) {
+									if($persoon["geboortedatum"]) {
+
+										$leeftijd = wt_leeftijd($persoon["geboortedatum"], mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
+										// echo "leeftijd :".$persoonnummer." ".$leeftijd."<br />\n";
+										if($value["min_leeftijd"] and $value["max_leeftijd"]) {
+											if($leeftijd>=$value["min_leeftijd"] and $leeftijd<=$value["max_leeftijd"]) {
+												$aantal++;
+											}
+										} elseif($value["min_leeftijd"]) {
+											if($leeftijd>=$value["min_leeftijd"]) {
+												$aantal++;
+											}
+										} elseif($value["max_leeftijd"]) {
+											if($leeftijd<=$value["max_leeftijd"]) {
+												$aantal++;
+											}
+										}
+									} elseif($value["zonderleeftijd"]) {
+										$aantal ++;
+									}
+								}
+								$geboortedatum_ingevuld = @count($gegevens["stap3"]["geboortedatum_ingevuld"]);
+								if(!$aantal and $geboortedatum_ingevuld==$gegevens["stap1"]["aantalpersonen"]) {
+									unset($return["ter_plaatse"][$key]);
+									continue;
+								}
+
+							} else {
+								$aantal = $gegevens["stap1"]["aantalpersonen"];
+							}
+						} else {
+							$aantal = 1;
+						}
+// echo $value["naam"].": ".$aantal."\n<br />";
+						// exit;
+
+						$return["ter_plaatse"][$key]["aantal"] = $aantal;
+						$return["ter_plaatse"][$key]["totaalbedrag"] = $value["bedrag"] * $aantal;
+						if($value["prijs_per_nacht"]) {
+							$return["ter_plaatse"][$key]["totaalbedrag"] = $return["ter_plaatse"][$key]["totaalbedrag"] * $gegevens["stap1"]["aantalnachten"];
+						}
+						$return["ter_plaatse"][$key]["totaalbedrag"] = round($return["ter_plaatse"][$key]["totaalbedrag"], 2);
+
 						if($value["bedrag"]>0) {
 							$return["ter_plaatse"][$key]["toonbedrag"] = "€ ".$this->toonbedrag($value["bedrag"]);
 							if($value["prijs_per_nacht"]) {
@@ -1336,9 +1400,13 @@ class bijkomendekosten {
 							}
 						} else {
 							$return["ter_plaatse"][$key]["toonbedrag"] = txt("exacte-hoogte-onbekend", "bijkomendekosten");
+							$return["ter_plaatse"][$key]["bedragonbekend"] = true;
 						}
 					} elseif($value["inclusief"]==1) {
-						$return["voldaan"][$key]["naam"] = $value["naam"];
+						//
+						// inclusief
+						//
+						$return["voldaan"][$key]["naam"] = $value["factuurnaam"];
 					}
 				}
 			}

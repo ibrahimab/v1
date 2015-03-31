@@ -6449,9 +6449,13 @@ $txt["nl"]["factuur"]["inbegrepen"]="In het bovenstaande bedrag zijn de volgende
 $txt["de"]["factuur"]["inbegrepen"]="-";
 $txt["en"]["factuur"]["inbegrepen"]="-";
 
-$txt["nl"]["factuur"]["ter_plaatse"]="De volgende kosten zijn verplicht ter plaatse nog te voldoen";
+$txt["nl"]["factuur"]["ter_plaatse"]="De volgende kosten zijn verplicht ter plaatse nog te voldoen, op basis van de aan ons doorgegeven bezetting";
 $txt["de"]["factuur"]["ter_plaatse"]="-";
 $txt["en"]["factuur"]["ter_plaatse"]="-";
+
+$txt["nl"]["factuur"]["totaal_ter_plaatse"]="Totaal ter plaatse te voldoen";
+$txt["de"]["factuur"]["totaal_ter_plaatse"]="-";
+$txt["en"]["factuur"]["totaal_ter_plaatse"]="-";
 
 $txt["nl"]["factuur"]["verplichtekostenondervoorbehoud"]="Verplichte kosten ter plaatse proberen wij zo goed mogelijk te achterhalen. Toch is het mogelijk dat de daadwerkelijke kosten ter plaatse afwijkend zijn.";
 $txt["de"]["factuur"]["verplichtekostenondervoorbehoud"]="-";
