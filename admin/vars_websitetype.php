@@ -68,7 +68,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["website"]="C";
 	$vars["taal"]="nl";
 	$vars["websiteland"]="nl";
-	$vars["ttv"]="";
+	if(!$vars["ttv"]) $vars["ttv"]="";
 	$vars["basehref"]="https://www.chalet.nl/";
 	$vars["email"]="info@chalet.nl";
 	$path="/";

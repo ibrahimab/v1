@@ -6309,6 +6309,10 @@ $txt["nl"]["factuur"]["terugteontvangen"]="Terug te ontvangen";
 $txt["de"]["factuur"]["terugteontvangen"]="Zurückzuerstatten";
 $txt["en"]["factuur"]["terugteontvangen"]="To be refunded";
 
+$txt["nl"]["factuur"]["aanwebsitenaam"]="aan [[v_websitenaam]]";
+$txt["de"]["factuur"]["aanwebsitenaam"]="to [[v_websitenaam]]";
+$txt["en"]["factuur"]["aanwebsitenaam"]="an [[v_websitenaam]]";
+
 $txt["nl"]["factuur"]["bedanktgecorboeking10dagen"]="Na ontvangst van het totaalbedrag sturen wij de reisdocumenten en routebeschrijving ca. 10 dagen voor vertrek naar je toe.";
 $txt["de"]["factuur"]["bedanktgecorboeking10dagen"]="Nach Eingang der gesamten Zahlung bekommen Sie ca. 10 Tage vor Abfahrt die Reiseunterlagen und den Anreiseplan zugeschickt.";
 $txt["en"]["factuur"]["bedanktgecorboeking10dagen"]="After we have received the total sum, we will send you the travel documents and route description approx. 10 days before your departure.";
@@ -6449,7 +6453,7 @@ $txt["nl"]["factuur"]["ter_plaatse"]="De volgende kosten zijn verplicht ter plaa
 $txt["de"]["factuur"]["ter_plaatse"]="-";
 $txt["en"]["factuur"]["ter_plaatse"]="-";
 
-$txt["nl"]["factuur"]["verplichtekostenondervoorbehoud"]="Verplichte kosten ter plaatse proberen wij zo goed mogelijk te achterhalen. Toch kan het voorkomen dat de daadwerkelijke kosten ter plaatse afwijkend zijn.";
+$txt["nl"]["factuur"]["verplichtekostenondervoorbehoud"]="Verplichte kosten ter plaatse proberen wij zo goed mogelijk te achterhalen. Toch is het mogelijk dat de daadwerkelijke kosten ter plaatse afwijkend zijn.";
 $txt["de"]["factuur"]["verplichtekostenondervoorbehoud"]="-";
 $txt["en"]["factuur"]["verplichtekostenondervoorbehoud"]="-";
 

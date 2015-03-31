@@ -609,6 +609,7 @@ if($form->okay) {
 		//
 		$booking_payment = new booking_payment($gegevens);
 		$booking_payment->bereken_bedragen_opnieuw=true;
+		$booking_payment->toon_aan_websitenaam=true;
 		$booking_payment->get_amounts();
 
 		if($booking_payment->amount["reedsvoldaan"]<>0) {

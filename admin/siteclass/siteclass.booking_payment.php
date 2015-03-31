@@ -213,6 +213,29 @@ class booking_payment {
 			// To be refunded
 			//
 			$this->text["eindbetaling"]=txt("terugteontvangen","factuur");
+		} else {
+			if($this->toon_aan_websitenaam) {
+				//
+				// add websitenaam to text ("... aan Chalet.nl")
+				//
+
+				if($this->text["aanbetaling1"]) {
+					$this->text["aanbetaling1"] .= " ".txt("aanwebsitenaam","factuur", array("v_websitenaam"=>$this->gegevens["stap1"]["website_specifiek"]["websitenaam"]));
+				}
+
+				if($this->text["aanbetaling2"]) {
+					$this->text["aanbetaling2"] .= " ".txt("aanwebsitenaam","factuur", array("v_websitenaam"=>$this->gegevens["stap1"]["website_specifiek"]["websitenaam"]));
+				}
+
+				if($this->text["reedsvoldaan"]) {
+					$this->text["reedsvoldaan"] .= " ".txt("aanwebsitenaam","factuur", array("v_websitenaam"=>$this->gegevens["stap1"]["website_specifiek"]["websitenaam"]));
+				}
+
+				if($this->text["eindbetaling"]) {
+					$this->text["eindbetaling"] .= " ".txt("aanwebsitenaam","factuur", array("v_websitenaam"=>$this->gegevens["stap1"]["website_specifiek"]["websitenaam"]));
+				}
+
+			}
 		}
 
 		// total amount
