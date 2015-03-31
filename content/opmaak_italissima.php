@@ -211,10 +211,10 @@ if($vars["italissima_topfoto"]) {
 }
 echo "\" width=\"760\" height=\"160\" alt=\"\" />";
 
-// // Zoover-awards op italissima.nl en italissima.be
-if($vars["website"]=="I" || $vars["website"] == "K") {
-	echo "<a href=\"http://www.zooverawards.nl/stemmen/vakantiehuizen/italissima\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\"><img src=\"".wt_he($vars["path"]."pic/banners/zoover/zoover-2015.png")."\"></a>";
-}
+// Zoover-awards op italissima.nl en italissima.be
+// if($vars["website"]=="I" || $vars["website"] == "K") {
+// 	echo "<a href=\"http://www.zooverawards.nl/stemmen/vakantiehuizen/italissima\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\"><img src=\"".wt_he($vars["path"]."pic/banners/zoover/zoover-2015.png")."\"></a>";
+// }
 
 echo "</div>\n"; # afsluiten topfoto
 
