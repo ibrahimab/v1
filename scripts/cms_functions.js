@@ -902,9 +902,13 @@ $(document).ready(function() {
 	//
 	$("input.copy_field").change(function(event) {
 		if($(this).data("copy_field_to")) {
-			var copy_field_to = $("input[name='input["+$(this).data("copy_field_to")+"]']");
-			if(copy_field_to.length!==0 && copy_field_to.val()=="") {
-				copy_field_to.val($(this).val());
+			var copy_field_to_array = $(this).data("copy_field_to").split(",");
+			var copy_field_to = '';
+			for (i = 0; i < copy_field_to_array.length; i++) {
+				copy_field_to = $("input[name='input["+copy_field_to_array[i]+"]']");
+				if(copy_field_to.length!==0 && copy_field_to.val()=="") {
+					copy_field_to.val($(this).val());
+				}
 			}
 		}
 	});
@@ -1761,7 +1765,7 @@ function retourbetaling_goedkeuren(theLink, msg, bedrag) {
  * This is taken from the jquery validation plugin, and somewhat changed
  * to make it standalone without the jquery validation plugin.
  * Reason is because I only needed the iban check
- * 
+ *
  * @copyright https://github.com/jzaefferer/jquery-validation
  * @author    Ibrahim Abdullah <ibrahim@chalet.nl>
  * @param     String
@@ -1771,7 +1775,7 @@ var check_iban = (function(e){var t=e.replace(/ /g,"").toUpperCase(),n="",r=true
 
 /**
  * This method checks the validity of BIC/Swift codes entered
- * 
+ *
  * @copyright http://networking.mydesigntool.com/viewtopic.php?tid=307&id=31
  * @author    Ibrahim Abdullah <ibrahim@chalet.nl>
  * @param     String
@@ -1780,9 +1784,9 @@ var check_iban = (function(e){var t=e.replace(/ /g,"").toUpperCase(),n="",r=true
 var check_bic  = (function(e){var t=/^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$/;return t.test(e)});
 
 /**
- * This functions transforms european number format 
+ * This functions transforms european number format
  * to javascript readable number
- * 
+ *
  * @author Ibrahim Abdullah <ibrahim@chalet.nl>
  * @param  number String
  * @return Float
@@ -1810,7 +1814,7 @@ var euro_to_float = function(number) {
  * @param size.height       height of dialog
  * @param labels.submit     submit button label
  * @param labels.cancel     cancel button label
- * @param submit_handler    submit handler 
+ * @param submit_handler    submit handler
  * @param close_handler     close_handler
  * @return $.dialog
  */
@@ -1893,7 +1897,7 @@ function popup_dialog(title, message, submit_handler) {
  * This was extracted because this method handles either a create action or an update
  */
 function validate_refund_form(form, success) {
-    
+
    /**
     * This method is called when someone submits the form
     * It validates, and when successfull sends the request further
@@ -1922,7 +1926,7 @@ function validate_refund_form(form, success) {
     * - amount
     *   => has to be greater than 0
     * - iban
-    * - description 
+    * - description
     *   => has to start with @see(prefix) according to JIRA-CMS-75
     *   => has to be a maximum of 140 characters according to JIRA-CMS-75
     */
@@ -1961,7 +1965,7 @@ function validate_refund_form(form, success) {
 }
 
 /**
- * This method creates a dialog, performs validations 
+ * This method creates a dialog, performs validations
  * and on success executes an ajax request that will persist the data.
  *
  * @param selector Dialog html div
@@ -1975,10 +1979,10 @@ function create_refund_form(selector) {
     return dialog_form(selector, {width: 400, height: 400}, {submit: 'Toevoegen', cancel: 'Annuleren'}, function(form) {
 
         validate_refund_form.apply(this, [form, function(fields) {
-            
+
             // appending boeking_id
             fields['boeking_id'] = form.data('reservation-id');
-            
+
             $.ajax({
 
                 type:    'post',
@@ -2008,7 +2012,7 @@ function create_refund_form(selector) {
 }
 
 /**
- * This method creates a dialog, performs validations 
+ * This method creates a dialog, performs validations
  * and on success executes an ajax request that will update the refund request
  *
  * @param selector Dialog html div
@@ -2022,10 +2026,10 @@ function update_refund_form(selector, fields) {
 
     // setting form data
     var form = $(selector).find('form');
-    
+
     form.get(0).reset();
     for (var i in fields) {
-        
+
         if (fields.hasOwnProperty(i)) {
             form.find('[name="' + i + '"]').val(fields[i]);
         }
@@ -2034,10 +2038,10 @@ function update_refund_form(selector, fields) {
     return dialog_form(selector, {width: 400, height: 400}, {submit: 'Aanpassen', cancel: 'Annuleren'}, function(form) {
 
         validate_refund_form.apply(this, [form, function(form_data) {
-            
+
             // appending retour ID
             form_data['boeking_retour_id'] = fields['boeking_retour_id'];
-            
+
             $.ajax({
 
                 type:    'put',
@@ -2070,7 +2074,7 @@ function mark_refund(node, id, rows) {
 
 	var element = $(node);
 	var method  = element.data('method');
-	
+
 	$.ajax({
 
 		type: 'post',
@@ -2085,7 +2089,7 @@ function mark_refund(node, id, rows) {
 					rows.fadeOut(function() {
 							rows.remove();
 						});
-                        
+
     			}
 
     		} else {
@@ -2205,7 +2209,7 @@ $(function() {
         event.preventDefault();
         create_refund_form('[data-role="dialog-form"][data-dialog="refund-request-dialog"]').dialog('open');
     });
-    
+
     $('body').on('click', '[data-role="update-refund-request"]', function(event) {
 
         event.preventDefault();
@@ -2213,13 +2217,13 @@ $(function() {
     });
 
     /**
-     * This function will it possible to select the contents of 
+     * This function will it possible to select the contents of
      * an element when clicked.
      */
     $('body').on('click', '[data-role="select-contents"]', function(event) {
 
     	event.preventDefault();
-    	
+
     	var selection = window.getSelection();
         var range     = document.createRange();
 
