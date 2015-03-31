@@ -36,6 +36,8 @@ $cms->db_field(57,"text","naam");
 if($vars["cmstaal"]) $cms->db_field(57,"text","naam_".$vars["cmstaal"]);
 $cms->db_field(57,"text","vouchernaam");
 if($vars["cmstaal"]) $cms->db_field(57,"text","vouchernaam_".$vars["cmstaal"]);
+$cms->db_field(57,"text","factuurnaam");
+if($vars["cmstaal"]) $cms->db_field(57,"text","factuurnaam_".$vars["cmstaal"]);
 $cms->db_field(57,"textarea","toelichting");
 if($vars["cmstaal"]) $cms->db_field(57,"textarea","toelichting_".$vars["cmstaal"]);
 $cms->db_field(57,"yesno","altijd_invullen");
@@ -107,12 +109,16 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(57,1,"vouchernaam","Naam op voucher NL","",array("noedit"=>true));
 	$cms->edit_field(57,1,"vouchernaam_".$vars["cmstaal"],"Naam op voucher ".strtoupper($vars["cmstaal"]));
 
+	$cms->edit_field(57,1,"factuurnaam","Naam op factuur NL","",array("noedit"=>true));
+	$cms->edit_field(57,1,"factuurnaam_".$vars["cmstaal"],"Naam op factuur ".strtoupper($vars["cmstaal"]));
+
 	$cms->edit_field(57,0,"toelichting","Toelichting NL","",array("noedit"=>true));
 	$cms->edit_field(57,0,"toelichting_".$vars["cmstaal"],"Toelichting  (accommodatiepagina, na doorklikken) ".strtoupper($vars["cmstaal"]));
 } else {
 
-	$cms->edit_field(57,1,"naam","Naam","",array("data_field"=>array("copy_field_to"=>"vouchernaam")),array("input_class"=>"wtform_input copy_field"));
+	$cms->edit_field(57,1,"naam","Naam","",array("data_field"=>array("copy_field_to"=>"vouchernaam,factuurnaam")),array("input_class"=>"wtform_input copy_field"));
 	$cms->edit_field(57,1,"vouchernaam","Naam op voucher");
+	$cms->edit_field(57,1,"factuurnaam","Naam op factuur");
 	$cms->edit_field(57,0,"toelichting","Toelichting (accommodatiepagina, na doorklikken)");
 }
 
