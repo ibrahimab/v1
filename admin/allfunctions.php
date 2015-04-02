@@ -1007,10 +1007,10 @@ if (!function_exists("datum")) {
 		} elseif($language=="de") {
 			// deutsch
 
-			$a = ereg_replace("(^|[^a-zA-Z0-9ä])DD MND","DD. MND",$a);
-			$a = ereg_replace("(^|[^a-zA-Z0-9ä])D MND","D. MND",$a);
-			$a = ereg_replace("(^|[^a-zA-Z0-9ä])DD MAAND","DD. MAAND",$a);
-			$a = ereg_replace("(^|[^a-zA-Z0-9ä])D MAAND","D. MAAND",$a);
+			$a = ereg_replace("(^|[^a-zA-Z0-9ä])DD MND","\\1DD. MND",$a);
+			$a = ereg_replace("(^|[^a-zA-Z0-9ä])D MND","\\1D. MND",$a);
+			$a = ereg_replace("(^|[^a-zA-Z0-9ä])DD MAAND","\\1DD. MAAND",$a);
+			$a = ereg_replace("(^|[^a-zA-Z0-9ä])D MAAND","\\1D. MAAND",$a);
 
 
 			switch(wt_adodb_date("w",$time)) {
