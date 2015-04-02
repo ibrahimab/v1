@@ -222,7 +222,7 @@ echo "<div style=\"clear: both;\"></div>\n";
 
 # alleen voor print
 echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
-echo "<h2>".wt_he($vars["websitenaam"])."</h2>";
+echo "<strong style=\"color: #661700; font-size:1.2em; font-weight: bold; display:block;\">".wt_he($vars["websitenaam"])."</strong>";
 echo "<b>".wt_he(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
 echo "</div>"; # afsluiten menubalk_print
 
