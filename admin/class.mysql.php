@@ -111,6 +111,9 @@ class DB_Sql {
 		if($this->Overwrite_Host) {
 			$Host     = $this->Overwrite_Host;
 		}
+		if($this->Overwrite_Database) {
+			$Database     = $this->Overwrite_Database;
+		}
 
 		/* establish connection, select database */
 		if ( 0 == $this->Link_ID ) {
