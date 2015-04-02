@@ -101,11 +101,16 @@ class RefundRequest {
 		return self::getDb();
 	}
     
+    /**
+     * Get all open refund requests
+     *
+     * @return array
+     */
     public function open() {
         
-		$sql= "SELECT `br`.`boeking_id`, `br`.`iban`, `br`.`betaald_op`
-	           FROM   `boeking_retour` AS `br`
-               WHERE  `br`.`ingetrokken_op` IS NULL";
+		$sql = "SELECT `br`.`boeking_id`, `br`.`iban`, `br`.`betaald_op`
+	            FROM   `boeking_retour` AS `br`
+                WHERE  `br`.`ingetrokken_op` IS NULL";
 
 		self::query($sql);
         $ids = [];
@@ -120,6 +125,29 @@ class RefundRequest {
         }
         
         return $ids;
+    }
+    
+    /**
+     * Count all the open refund requests
+     *
+     * @return integer
+     */
+    public function countOpen()
+    {
+		$sql = "SELECT COUNT(`br`.`boeking_id`) AS total
+	            FROM   `boeking_retour` AS `br`
+                WHERE  `br`.`ingetrokken_op` IS NULL
+                AND    `br`.`betaald_op`     IS NULL
+                AND    `br`.`iban` != 'n.n.b.'";
+
+		self::query($sql);
+        $db  = self::getDB();
+        
+        if ($db->next_record()) {
+            return $db->f('total');
+        }
+        
+        return 0;
     }
 
 	/**
