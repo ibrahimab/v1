@@ -49,8 +49,9 @@ if(defined("wt_test_name") and (wt_test_name=="macbook" or wt_test_name=="ss" or
 
 	$vars["tmp_info_tonen"] = true;
 	$bijkomendekosten = new bijkomendekosten;
+	$bijkomendekosten->pre_calculate_all_types();
 	// $bijkomendekosten->pre_calculate_type(3208);
-	$bijkomendekosten->store_complete_cache(1);
+	// $bijkomendekosten->store_complete_cache(1);
 	// $bijkomendekosten->pre_calculate_variable_costs(313);
 
 	// echo wt_dump($bijkomendekosten->data_var);

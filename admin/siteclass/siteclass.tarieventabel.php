@@ -1212,9 +1212,6 @@ class tarieventabel {
 			$bijkomendekosten->accinfo = $this->accinfo;
 
 			$toelichting = $bijkomendekosten->toon_type();
-
-			$bk = $bijkomendekosten->get_factuur_data();
-			// echo wt_dump($bk);
 			// $toelichting = $bijkomendekosten->toon_type_temporary();
 
 		} else {

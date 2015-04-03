@@ -44,7 +44,11 @@ class booking_payment {
 
 		// determine reeds voldaan
 		if($this->bereken_reeds_voldaan) {
-			$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum FROM boeking_betaling WHERE boeking_id='".intval($this->gegevens["stap1"]["boekingid"])."' ORDER BY datum;");
+			if($vars["lokale_testserver"]) {
+				$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum FROM boeking_betaling WHERE boeking_id='".intval($this->gegevens["stap1"]["boekingid"])."' AND 1=2 ORDER BY datum;");
+			} else {
+				$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum FROM boeking_betaling WHERE boeking_id='".intval($this->gegevens["stap1"]["boekingid"])."' ORDER BY datum;");
+			}
 			while($db->next_record()) {
 				$reeds_voldaan=round($reeds_voldaan+$db->f("bedrag"),2);
 				$reeds_voldaan_datum[]=array("date" => $db->f("datum"), "amount" => round($db->f("bedrag"), 2));
@@ -213,29 +217,6 @@ class booking_payment {
 			// To be refunded
 			//
 			$this->text["eindbetaling"]=txt("terugteontvangen","factuur");
-		} else {
-			if($this->toon_aan_websitenaam) {
-				//
-				// add websitenaam to text ("... aan Chalet.nl")
-				//
-
-				if($this->text["aanbetaling1"]) {
-					$this->text["aanbetaling1"] .= " ".txt("aanwebsitenaam","factuur", array("v_websitenaam"=>$this->gegevens["stap1"]["website_specifiek"]["websitenaam"]));
-				}
-
-				if($this->text["aanbetaling2"]) {
-					$this->text["aanbetaling2"] .= " ".txt("aanwebsitenaam","factuur", array("v_websitenaam"=>$this->gegevens["stap1"]["website_specifiek"]["websitenaam"]));
-				}
-
-				if($this->text["reedsvoldaan"]) {
-					$this->text["reedsvoldaan"] .= " ".txt("aanwebsitenaam","factuur", array("v_websitenaam"=>$this->gegevens["stap1"]["website_specifiek"]["websitenaam"]));
-				}
-
-				if($this->text["eindbetaling"]) {
-					$this->text["eindbetaling"] .= " ".txt("aanwebsitenaam","factuur", array("v_websitenaam"=>$this->gegevens["stap1"]["website_specifiek"]["websitenaam"]));
-				}
-
-			}
 		}
 
 		// total amount

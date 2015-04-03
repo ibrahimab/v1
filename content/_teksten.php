@@ -6309,10 +6309,6 @@ $txt["nl"]["factuur"]["terugteontvangen"]="Terug te ontvangen";
 $txt["de"]["factuur"]["terugteontvangen"]="Zurückzuerstatten";
 $txt["en"]["factuur"]["terugteontvangen"]="To be refunded";
 
-$txt["nl"]["factuur"]["aanwebsitenaam"]="aan [[v_websitenaam]]";
-$txt["de"]["factuur"]["aanwebsitenaam"]="to [[v_websitenaam]]";
-$txt["en"]["factuur"]["aanwebsitenaam"]="an [[v_websitenaam]]";
-
 $txt["nl"]["factuur"]["bedanktgecorboeking10dagen"]="Na ontvangst van het totaalbedrag sturen wij de reisdocumenten en routebeschrijving ca. 10 dagen voor vertrek naar je toe.";
 $txt["de"]["factuur"]["bedanktgecorboeking10dagen"]="Nach Eingang der gesamten Zahlung bekommen Sie ca. 10 Tage vor Abfahrt die Reiseunterlagen und den Anreiseplan zugeschickt.";
 $txt["en"]["factuur"]["bedanktgecorboeking10dagen"]="After we have received the total sum, we will send you the travel documents and route description approx. 10 days before your departure.";
@@ -6421,6 +6417,10 @@ $txt["nl"]["factuur"]["eindtotaal"]="Eindtotaal";
 $txt["de"]["factuur"]["eindtotaal"]="Gesamtsumme";
 $txt["en"]["factuur"]["eindtotaal"]="Sum total";
 
+$txt["nl"]["factuur"]["tevoldoenaanwebsite"]="Totaal te betalen aan [[v_websitenaam]]";
+$txt["de"]["factuur"]["tevoldoenaanwebsite"]="-";
+$txt["en"]["factuur"]["tevoldoenaanwebsite"]="-";
+
 $txt["nl"]["factuur"]["totaal_klant"]="Totaal klant";
 $txt["de"]["factuur"]["totaal_klant"]="Gesamtsumme Kunde";
 $txt["en"]["factuur"]["totaal_klant"]="Total sum client";
@@ -6445,7 +6445,7 @@ $txt["nl"]["factuur"]["vermeldresnummer"]="Vermeld bij betaling het reserverings
 $txt["de"]["factuur"]["vermeldresnummer"]="Bitte vermelden Sie bei Zahlung die Reservierungsnummer [[v_resnummer]].";
 $txt["en"]["factuur"]["vermeldresnummer"]="Please state your booking number [[v_resnummer]] when paying.";
 
-$txt["nl"]["factuur"]["inbegrepen"]="In het bovenstaande bedrag zijn de volgende zaken inbegrepen";
+$txt["nl"]["factuur"]["inbegrepen"]="In de bovenstaande reissom zijn de volgende zaken inbegrepen";
 $txt["de"]["factuur"]["inbegrepen"]="-";
 $txt["en"]["factuur"]["inbegrepen"]="-";
 
@@ -6457,7 +6457,7 @@ $txt["nl"]["factuur"]["totaal_ter_plaatse"]="Totaal ter plaatse te voldoen";
 $txt["de"]["factuur"]["totaal_ter_plaatse"]="-";
 $txt["en"]["factuur"]["totaal_ter_plaatse"]="-";
 
-$txt["nl"]["factuur"]["verplichtekostenondervoorbehoud"]="Verplichte kosten ter plaatse proberen wij zo goed mogelijk te achterhalen. Toch is het mogelijk dat de daadwerkelijke kosten ter plaatse afwijkend zijn.";
+$txt["nl"]["factuur"]["verplichtekostenondervoorbehoud"]="De kosten ter plaatse proberen wij zo goed mogelijk te achterhalen. Toch is het mogelijk dat de daadwerkelijke kosten afwijken.";
 $txt["de"]["factuur"]["verplichtekostenondervoorbehoud"]="-";
 $txt["en"]["factuur"]["verplichtekostenondervoorbehoud"]="-";
 
@@ -7797,6 +7797,22 @@ $txt["en"]["vertrekinfo"]["inclusief"]="Including";
 $txt["nl"]["vertrekinfo"]["exclusief"]="Exclusief";
 $txt["de"]["vertrekinfo"]["exclusief"]="Exklusive";
 $txt["en"]["vertrekinfo"]["exclusief"]="Excluding";
+
+$txt["nl"]["vertrekinfo"]["inclusief"]="Inclusief";
+$txt["de"]["vertrekinfo"]["inclusief"]="Inklusive";
+$txt["en"]["vertrekinfo"]["inclusief"]="Including";
+
+$txt["nl"]["vertrekinfo"]["verplichttevoldoen"]="Verplicht ter plaatse te voldoen";
+$txt["de"]["vertrekinfo"]["verplichttevoldoen"]="-";
+$txt["en"]["vertrekinfo"]["verplichttevoldoen"]="-";
+
+$txt["nl"]["vertrekinfo"]["optioneel"]="Optioneel";
+$txt["de"]["vertrekinfo"]["optioneel"]="Optional";
+$txt["en"]["vertrekinfo"]["optioneel"]="Optional";
+
+$txt["nl"]["vertrekinfo"]["diversen"]="Diversen";
+$txt["de"]["vertrekinfo"]["diversen"]="Unterschiedliches";
+$txt["en"]["vertrekinfo"]["diversen"]="Miscellaneous";
 
 $txt["nl"]["vertrekinfo"]["skipassen"]="Skipassen";
 $txt["de"]["vertrekinfo"]["skipassen"]="Skipässe";

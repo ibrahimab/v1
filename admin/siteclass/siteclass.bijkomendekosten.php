@@ -1318,7 +1318,7 @@ class bijkomendekosten {
 		return $return;
 	}
 
-	public function get_factuur_data($gegevens) {
+	public function get_booking_data($gegevens) {
 		//
 		// get data to show on invoice/factuur
 		//
@@ -1343,15 +1343,12 @@ class bijkomendekosten {
 						$aantal = 0;
 						if($value["eenheid"]==2 or $value["eenheid"]==12) {
 							// eenheid = "per person" or "per person each time"
-
 							if($value["min_leeftijd"] or $value["max_leeftijd"]) {
 
-								// echo wt_dump($gegevens["stap3"]);
 								foreach ($gegevens["stap3"] as $persoonnummer => $persoon) {
 									if($persoon["geboortedatum"]) {
 
 										$leeftijd = wt_leeftijd($persoon["geboortedatum"], mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
-										// echo "leeftijd :".$persoonnummer." ".$leeftijd."<br />\n";
 										if($value["min_leeftijd"] and $value["max_leeftijd"]) {
 											if($leeftijd>=$value["min_leeftijd"] and $leeftijd<=$value["max_leeftijd"]) {
 												$aantal++;
@@ -1381,8 +1378,6 @@ class bijkomendekosten {
 						} else {
 							$aantal = 1;
 						}
-// echo $value["naam"].": ".$aantal."\n<br />";
-						// exit;
 
 						$return["ter_plaatse"][$key]["aantal"] = $aantal;
 						$return["ter_plaatse"][$key]["totaalbedrag"] = $value["bedrag"] * $aantal;
