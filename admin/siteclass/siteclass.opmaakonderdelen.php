@@ -80,6 +80,10 @@ class opmaakonderdelen {
 		// parse internal user data (email address) for testing purposes
 		if($voorkant_cms and is_object($login)) {
 			$data_email = $login->vars["email"];
+		} elseif($vars["acceptatie_testserver"] and $_COOKIE["acceptance_email"]) {
+			$data_email = $_COOKIE["acceptance_email"];
+		} elseif($vars["acceptatie_testserver"]) {
+			$data_email = "info@chalet.nl";
 		} elseif($vars["lokale_testserver"]) {
 			$data_email = "noreply@webtastic.nl";
 		}
