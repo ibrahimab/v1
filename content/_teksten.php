@@ -7790,6 +7790,14 @@ $txt["nl"]["vertrekinfo"]["devolgendezakenexcl"]="De volgende zaken zijn exclusi
 $txt["de"]["vertrekinfo"]["devolgendezakenexcl"]="Folgende Nebenkosten sind bei dieser Unterkunft nicht im Preis inkludiert";
 $txt["en"]["vertrekinfo"]["devolgendezakenexcl"]="The following details are exclusive";
 
+$txt["nl"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="Op de door jou geboekte accommodatie zijn de volgende zaken van toepassing";
+$txt["de"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="-";
+$txt["en"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="-";
+
+$txt["nl"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="De kosten ter plaatse proberen wij zo goed mogelijk te achterhalen. Toch is het mogelijk dat de daadwerkelijke kosten afwijken.";
+$txt["de"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="-";
+$txt["en"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="-";
+
 $txt["nl"]["vertrekinfo"]["inclusief"]="Inclusief";
 $txt["de"]["vertrekinfo"]["inclusief"]="Inklusive";
 $txt["en"]["vertrekinfo"]["inclusief"]="Including";

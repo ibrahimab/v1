@@ -1325,11 +1325,63 @@ class bijkomendekosten {
 
 		global $vars;
 
+		if($gegevens["stap1"]["accinfo"]["skipasid"]) {
+			$this->arrangement = true;
+		}
+
 		$kosten = $this->get_costs();
+
+		// borg
+		if($this->vertrekinfo) {
+			if(is_array($kosten["vars"])) {
+				foreach ($kosten["vars"] as $key => $value) {
+					foreach ($value as $key2 => $value2) {
+						unset($use_key);
+						if($value2["borg_soort"]==4) {
+							$use_key = "diversen";
+						} elseif($value2["borg_soort"]) {
+							$use_key = "ter_plaatse";
+						} elseif($key=="diversen") {
+							$use_key = "diversen";
+						} elseif($key=="uitbreiding") {
+							$use_key = "uitbreiding";
+						}
+						if($use_key) {
+							$return[$use_key][$key2]["naam"] = $value2["factuurnaam"];
+							$return[$use_key][$key2]["bedrag"] = $value2["bedrag"];
+							$return[$use_key][$key2]["eenheid"] = $value2["eenheid"];
+							$return[$use_key][$key2]["zonderleeftijd"] = $value2["zonderleeftijd"];
+							$return[$use_key][$key2]["min_leeftijd"] = $value2["min_leeftijd"];
+							$return[$use_key][$key2]["max_leeftijd"] = $value2["max_leeftijd"];
+							$return[$use_key][$key2]["borg_soort"] = $value2["borg_soort"];
+
+							if($value2["borg_soort"]==4) {
+								$return[$use_key][$key2]["naam"] .= ": ".$vars["bk_borg_soort"][4];
+							} elseif($value2["bedrag"]>0) {
+								$return[$use_key][$key2]["toonbedrag"] = "€ ".$this->toonbedrag($value2["bedrag"]);
+								if($value2["prijs_per_nacht"]) {
+									$return[$use_key][$key2]["toonbedrag"] .= " ".txt("pppn", "bijkomendekosten");
+								} else {
+									$return[$use_key][$key2]["toonbedrag"] .= " ".$vars["bk_eenheid"][$value2["eenheid"]];
+								}
+							} else {
+								$return[$use_key][$key2]["toonbedrag"] = txt("exacte-hoogte-onbekend", "bijkomendekosten");
+								$return[$use_key][$key2]["bedragonbekend"] = true;
+							}
+						}
+					}
+				}
+			}
+		}
 
 		if(is_array($kosten["vars"]["inclusief"])) {
 			foreach ($kosten["vars"]["inclusief"] as $key => $value) {
-				if($key<>"skipas") {
+				if($key=="skipas" and $this->vertrekinfo) {
+					//
+					// skipas
+					//
+					$return["voldaan"]["skipas"]["naam"] = $value["naam"];
+				} else {
 					if($value["ter_plaatse"]==1) {
 						//
 						// ter_plaatse
