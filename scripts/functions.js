@@ -294,20 +294,20 @@ function wt_mktime () {
 }
 
 function testgegevens() {
-	$("input[name='input[voornaam]']").val('ATest');
+	$("input[name='input[voornaam]']").val('Aatest');
 	$("input[name='input[tussenvoegsel]']").val('de');
 	$("input[name='input[achternaam]']").val('Boer');
-	$("input[name='input[plaats]']").val('Utrecht');
+	$("input[name='input[plaats]']").val('Woerden');
 	$("input[name='input[land]']").val('Nederland');
-	$("input[name='input[telefoonnummer]']").val('030-1234567');
+	$("input[name='input[telefoonnummer]']").val('0348-123456');
 	$("select[name='input[geboortedatum][day]']").val('15');
 	$("select[name='input[geboortedatum][month]']").val('5');
 	$("select[name='input[geboortedatum][year]']").val('1985');
 	$("#radiogeslacht1").attr("checked", true);
 	// $("input[name='input[geslacht]'][0].checked=true;
 	$("input[name='input[mobielwerk]']").val('06-12345678');
-	$("input[name='input[email]']").val('noreply@webtastic.nl');
-	$("input[name='input[email_confirmatie]']").val('noreply@webtastic.nl');
+	$("input[name='input[email]']").val( $(".voorkant_cms_datadiv").data("email") );
+	$("input[name='input[email_confirmatie]']").val( $(".voorkant_cms_datadiv").data("email") );
 	$("input[name='input[adres]']").val('Testpad 11');
 	$("input[name='input[postcode]']").val('1111 AA');
 }
