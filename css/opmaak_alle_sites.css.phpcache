@@ -1990,6 +1990,19 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	text-align: right;
 }
 
+.zoekresultaat_type_prijs_skipas {
+	background-image: url('../pic/icons/incl-skipas.png');
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	width: 99px;
+	padding-right: 6px;
+}
+
+.zoekresultaat_type_prijs_skipas_1000 {
+	width: 104px;
+	padding-right: 1px;
+}
+
 .zoekresultaat_type_aanbieding {
 	float: right;
 	color: #d40139;

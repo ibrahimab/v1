@@ -2695,7 +2695,28 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						}
 
 					$results[$results_teller].="</div>";
-					$results[$results_teller].="<div class=\"zoekresultaat_type_prijs".($value2["type_id_aanbieding"] ? " zoekresultaat_type_prijs_aanbieding" : "")."\">";
+
+					$prijs_div_title = "";
+					$prijs_div_class = "zoekresultaat_type_prijs";
+					if($value2["tarief"]) {
+						if($value2["toonper"]<>3 && !$vars["wederverkoop"]) {
+
+							$prijs_div_title = txt("ppinclusiefskipas", "zoek-en-boek");
+							$prijs_div_class .= " zoekresultaat_type_prijs_skipas";
+
+							if($value2["tarief"]>=1000) {
+								$prijs_div_class .= " zoekresultaat_type_prijs_skipas_1000";
+							}
+						} else {
+							$prijs_div_title = txt("peraccommodatie", "zoek-en-boek");
+						}
+					}
+
+
+					if($value2["type_id_aanbieding"]) {
+						$prijs_div_class .= " zoekresultaat_type_prijs_aanbieding";
+					}
+					$results[$results_teller].="<div class=\"".trim($prijs_div_class)."\" title=\"".wt_he($prijs_div_title)."\">";
 					if($value2["tarief"]) {
 						$results[$results_teller].="&euro;&nbsp;".number_format($value2["tarief"],0,",",".");
 						if($value2["toonper"]==3 or $vars["wederverkoop"]) {

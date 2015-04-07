@@ -2095,6 +2095,10 @@ $txt["nl"]["zoek-en-boek"]["inclusiefskipas"]="inclusief skipas";
 $txt["de"]["zoek-en-boek"]["inclusiefskipas"]="Skipass inklusive";
 $txt["en"]["zoek-en-boek"]["inclusiefskipas"]="+ ski lift pass";
 
+$txt["nl"]["zoek-en-boek"]["ppinclusiefskipas"]="per persoon inclusief skipas";
+$txt["de"]["zoek-en-boek"]["ppinclusiefskipas"]="pro Person Skipass inklusive";
+$txt["en"]["zoek-en-boek"]["ppinclusiefskipas"]="per person including ski lift pass";
+
 $txt["nl"]["zoek-en-boek"]["peraccommodatie"]="per accommodatie";
 $txt["de"]["zoek-en-boek"]["peraccommodatie"]="pro Unterkunft";
 $txt["en"]["zoek-en-boek"]["peraccommodatie"]="per accommodation";
