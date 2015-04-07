@@ -830,8 +830,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		}
 	} elseif($_GET["stap"]==2) {
 		if(!$mustlogin and !$boeking_wijzigen) {
-			if($vars["lokale_testserver"]) {
-				$form->field_htmlrow("","ALLEEN OP LOKALE TESTSERVER: <a href=\"javascript:testgegevens();\">Testgegevens invullen</a>");
+			if($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $voorkant_cms) {
+				$form->field_htmlrow("","<div style=\"background-color:#ebebeb;padding:3px;font-style:italic;margin:10px 0 10px 0;\">ALLEEN VOOR TEST-DOELEINDEN: <a href=\"javascript:testgegevens();\">Testgegevens invullen</a></div>");
 			}
 			$form->field_noedit("accnaam",txt("accommodatie","boeken"),"",array("text"=>$accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"]));
 		} else {

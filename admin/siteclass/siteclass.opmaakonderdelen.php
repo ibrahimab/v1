@@ -41,17 +41,11 @@ class opmaakonderdelen {
 
 
 	function body_tag() {
-                global $isMobile;
 		// toon de body-tag (en bijbehorende elementen)
 
-		global $id, $onload, $vars, $data_onload;
+		global $id, $onload, $vars, $data_onload, $voorkant_cms, $login;
 
 		$return.="<body";
-                // if($isMobile) {
-                //     if($id<>"index") $return.=" onscroll=\"document.getElementById('terugnaarboven').style.display='block'\"";
-                // } else {
-                //     if($id<>"index") $return.=" onscroll=\"document.getElementById('terugnaarboven').style.visibility='visible'\"";
-                // }
 		if($onload) $return.=" onload=\"".$onload."\"";
 		if($data_onload) $return.=" data-onload=\"".$data_onload."\"";
 		$return.=" id=\"body_".$id."\"";
@@ -82,6 +76,21 @@ class opmaakonderdelen {
 			</style>
 			";
 		}
+
+		// parse internal user data (email address) for testing purposes
+		if($voorkant_cms and is_object($login)) {
+			$data_email = $login->vars["email"];
+		} elseif($vars["acceptatie_testserver"] and $_COOKIE["acceptance_email"]) {
+			$data_email = $_COOKIE["acceptance_email"];
+		} elseif($vars["acceptatie_testserver"]) {
+			$data_email = "info@chalet.nl";
+		} elseif($vars["lokale_testserver"]) {
+			$data_email = "noreply@webtastic.nl";
+		}
+		if($data_email) {
+			$return .= "<div class=\"voorkant_cms_datadiv\" data-email=\"".wt_he($data_email)."\">";
+		}
+
 		return $return;
 	}
 
