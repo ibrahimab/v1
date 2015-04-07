@@ -15,6 +15,18 @@ if(!$_GET["wzt"]) {
 	}
 }
 
+// determine position of new block
+if($_POST["input"]["positie"]) {
+	$positie = $_POST["input"]["positie"];
+}
+
+// determine position of existing block
+if($_GET["edit"]==59 and $_GET["59k0"]) {
+	$db->query("SELECT positie FROM homepageblok WHERE homepageblok_id='".intval($_GET["59k0"])."';");
+	if($db->next_record()) {
+		$positie = $db->f("positie");
+	}
+}
 
 #
 # Database-declaratie
@@ -109,10 +121,10 @@ $cms->edit_field(59,1,"volgorde","Volgorde");
 $cms->edit_field(59,0,"begindatum","Begindatum","","",array("calendar"=>true));
 $cms->edit_field(59,0,"einddatum","Einddatum","","",array("calendar"=>true));
 $cms->edit_field(59,0,"htmlrow","<hr><b>Afbeelding</b><br /><br /><i>Links (groot) = 562 x 428 pixels<br />Rechts (kleiner) = 562 x 196 pixels</i>");
-if($_POST["input"]["positie"]==1) {
+if($positie==1) {
 	# large left
 	$cms->edit_field(59,1,"picgroot","Afbeelding","",array("img_width"=>"562","img_height"=>"428"));
-} elseif($_POST["input"]["positie"]==2) {
+} elseif($positie==2) {
 	# small right
 	$cms->edit_field(59,1,"picgroot","Afbeelding","",array("img_width"=>"562","img_height"=>"196"));
 } else {
