@@ -1200,7 +1200,7 @@ class tarieventabel {
 		global $vars, $voorkant_cms;
 
 
-		if($this->toon_bijkomendekosten and $this->first_seizoen_id) {
+		if($this->toon_bijkomendekosten and $this->first_seizoen_id and $NU_EVEN_NIET) {
 
 			//
 			// end-version of bijkomendekosten (all costs are included)
@@ -1232,7 +1232,11 @@ class tarieventabel {
 				foreach ($this->seizoeninfo as $seizoen_id => $value) {
 					// multiple seasons
 					$bijkomendekosten->seizoen_id = $seizoen_id;
-					$toelichting_season[$seizoen_id] = $bijkomendekosten->toon_type_temporary();
+					if($this->toon_bijkomendekosten) {
+						$toelichting_season[$seizoen_id] = $bijkomendekosten->toon_type();
+					} else {
+						$toelichting_season[$seizoen_id] = $bijkomendekosten->toon_type_temporary();
+					}
 
 					if($check_for_doubles and $check_for_doubles==$toelichting_season[$seizoen_id]) {
 						$both_season_are_the_same = true;
@@ -1270,7 +1274,11 @@ class tarieventabel {
 			} else {
 				// one season
 				$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
-				$toelichting = $bijkomendekosten->toon_type_temporary();
+				if($this->toon_bijkomendekosten) {
+					$toelichting = $bijkomendekosten->toon_type();
+				} else {
+					$toelichting = $bijkomendekosten->toon_type_temporary();
+				}
 			}
 		}
 
