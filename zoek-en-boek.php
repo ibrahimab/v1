@@ -232,7 +232,7 @@ if($vars["websitetype"]<>6) {
 }
 
 // bijkomendekosten
-if($vars["toon_bijkomendekosten"]) {
+if($vars["toon_bijkomendekosten_stap1"]) {
 
 	// echo number_format(memory_get_usage()/1024, 0, ",", ".")."<br/>";
 	$bijkomendekosten = new bijkomendekosten;

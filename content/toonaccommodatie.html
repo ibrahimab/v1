@@ -151,7 +151,7 @@ if($nieuwe_tarieventabel) {
 
 
 	$tarieventabel_object = new tarieventabel;
-	if($vars["toon_bijkomendekosten"]) {
+	if($vars["toon_bijkomendekosten_stap1"]) {
 		$tarieventabel_object->toon_bijkomendekosten = true;
 		$tarieventabel_object->toon_accommodatie_per_persoon = true;
 	}
@@ -1924,7 +1924,7 @@ if($db->next_record()) {
 		echo "</div>";
 
 
-		if($vars["toon_bijkomendekosten"]) {
+		if($vars["toon_bijkomendekosten_stap1"]) {
 			$bijkomendekosten = new bijkomendekosten;
 			$bk = $bijkomendekosten->get_complete_cache($vars["seizoentype"]);
 		}
@@ -1945,7 +1945,7 @@ if($db->next_record()) {
 					} else {
 						$prijs=$db2->f("c_verkoop_site");
 					}
-					if($vars["toon_bijkomendekosten"] and $prijs) {
+					if($vars["toon_bijkomendekosten_stap1"] and $prijs) {
 						// bijkomende kosten other types
 						if($db2->f("toonper")==1) {
 							// arrangement

@@ -240,7 +240,8 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or (defined("wt_test") and 
 
 // test system "bijkomendekosten"
 if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	$vars["toon_bijkomendekosten"] = true;
+	// $vars["toon_bijkomendekosten"] = true;
+	$vars["toon_bijkomendekosten_stap1"] = true;
 }
 
 if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
