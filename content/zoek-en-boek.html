@@ -2706,10 +2706,13 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						if($value2["toonper"]<>3 && !$vars["wederverkoop"]) {
 
 							$prijs_div_title = txt("ppinclusiefskipas", "zoek-en-boek");
-							$prijs_div_class .= " zoekresultaat_type_prijs_skipas";
 
-							if($value2["tarief"]>=1000) {
-								$prijs_div_class .= " zoekresultaat_type_prijs_skipas_1000";
+							if($_GET["skipas-icoon"]) {
+								$prijs_div_class .= " zoekresultaat_type_prijs_skipas";
+
+								if($value2["tarief"]>=1000) {
+									$prijs_div_class .= " zoekresultaat_type_prijs_skipas_1000";
+								}
 							}
 						} else {
 							$prijs_div_title = txt("peraccommodatie", "zoek-en-boek");
