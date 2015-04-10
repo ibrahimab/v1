@@ -1300,3 +1300,11 @@ ul.wie-zijn-wij > li ul li {
 .zoover_awards:hover {
 	opacity: 0.8;
 }
+
+.zoekresultaat_prijs_info_bijkomendekosten_popup {
+	background-color: #ffd38f;
+}
+
+.zoekresultaat_prijs_info_bijkomendekosten_popup h2 {
+	color: #661700;
+}

@@ -1233,7 +1233,7 @@ class bijkomendekosten {
 		$db2 = new DB_sql;
 
 		// variable surcharges
-		if(!$vars["toon_bijkomendekosten"]) {
+		if(!$vars["toon_bijkomendekosten_stap1"]) {
 			$db->query("SELECT a.bijkomendekosten1_id, a.bijkomendekosten2_id, a.bijkomendekosten3_id, a.bijkomendekosten4_id, a.bijkomendekosten5_id, a.bijkomendekosten6_id, t.bijkomendekosten1_id AS tbijkomendekosten1_id, t.bijkomendekosten2_id AS tbijkomendekosten2_id, t.bijkomendekosten3_id AS tbijkomendekosten3_id, t.bijkomendekosten4_id AS tbijkomendekosten4_id, t.bijkomendekosten5_id AS tbijkomendekosten5_id, t.bijkomendekosten6_id AS tbijkomendekosten6_id FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".addslashes($this->id)."';");
 			if($db->next_record()) {
 				for($i=1;$i<=6;$i++) {

@@ -1063,3 +1063,11 @@ form {
 .breadcrumb_vocabulary {
 	float:left;
 }
+
+.zoekresultaat_prijs_info_bijkomendekosten_popup {
+	background-color: #cfbcd8;
+}
+
+.zoekresultaat_prijs_info_bijkomendekosten_popup h2 {
+	color: #5f227b;
+}

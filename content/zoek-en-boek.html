@@ -1596,12 +1596,16 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 				if($vars["toon_bijkomendekosten_stap1"]) {
 
-					$temp_seizoen_id = $db->f("seizoen_id");
-					if(!$temp_seizoen_id) {
-
-						// TODO: use the actuel seizoen_id
-						$temp_seizoen_id="24";
-						// trigger_error("geen seizoen_id bekend",E_USER_NOTICE);
+					if($db->f("seizoen_id")) {
+						$temp_seizoen_id = $db->f("seizoen_id");
+					} else {
+						if(!$bk_seizoen_id) {
+							$db0->query("SELECT seizoen_id FROM seizoen WHERE type IN (".$vars["seizoentype"].") AND tonen=3 AND eind>NOW() ORDER BY seizoen_id LIMIT 0,1;");
+							if($db0->next_record()) {
+								$bk_seizoen_id = $db0->f("seizoen_id");
+							}
+						}
+						$temp_seizoen_id = $bk_seizoen_id;
 					}
 
 					if($db->f("toonper")==1) {
@@ -2604,7 +2608,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 							if($value2["tarief"]) {
 
 								if($vars["toon_bijkomendekosten_stap1"]) {
-									$results[$results_teller].="<div class=\"zoekresultaat_prijs_info_bijkomendekosten\" data-type_id=\"".($newresults_cheapest[$value] ? $newresults_cheapest[$value] : $value2["type_id"])."\" data-seizoen_id=\"".intval($bk_used_seizoen_id[$value2["type_id"]])."\" data-arrangement=\"".($value2["toonper"]==3 or $vars["wederverkoop"] ? "0" : "1")."\"></div>";
+									$results[$results_teller].="<div class=\"zoekresultaat_prijs_info_bijkomendekosten\" data-type_id=\"".($newresults_cheapest[$value] ? $newresults_cheapest[$value] : $value2["type_id"])."\" data-seizoen_id=\"".intval($bk_used_seizoen_id[$value2["type_id"]])."\" data-arrangement=\"".($value2["toonper"]==3 || $vars["wederverkoop"] ? "0" : "1")."\"></div>";
 								}
 
 								unset($zoekresultaat_prijs_periode);
