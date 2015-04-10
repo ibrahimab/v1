@@ -1991,7 +1991,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 }
 
 .zoekresultaat_type_prijs_skipas {
-	background-image: url('../pic/icons/incl-skipas-test1.png');
+	background-image: url('../pic/icons/incl-skipas-test2.png');
 	background-repeat: no-repeat;
 	background-position: 5px 4px;
 	width: 99px;
