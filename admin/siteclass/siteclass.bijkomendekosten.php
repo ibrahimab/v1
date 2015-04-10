@@ -836,8 +836,8 @@ class bijkomendekosten {
 								$value["bedrag"] = $value["bedrag"] * 7;
 							}
 
-							if($value["eenheid"]==2) {
-								// per person
+							if($value["eenheid"]==2 or $value["eenheid"]==9) {
+								// "per person" or "per set"
 								$per_person += $value["bedrag"];
 							} else {
 								// per accommodation
