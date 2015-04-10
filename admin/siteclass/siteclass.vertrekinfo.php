@@ -372,7 +372,7 @@ class vertrekinfo {
 		$kosten = $bijkomendekosten->get_costs();
 
 		if(is_array($bk["voldaan"])) {
-			$bk_html .= "<b>".html("inclusief","vertrekinfo").":</b>";
+			$bk_html .= "<b>".html("inclusief-reedsvoldaan","vertrekinfo").":</b>";
 			$bk_html .= "<ul style=\"margin-top:0;padding-left:13px;\">";
 			foreach ($bk["voldaan"] as $key => $value) {
 				$bk_html .= "<li style=\"line-height:10px;\">".wt_he($value["naam"])."</li>";

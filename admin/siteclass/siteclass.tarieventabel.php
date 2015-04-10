@@ -1252,7 +1252,7 @@ class tarieventabel {
 					$toelichting .= "<form><select class=\"tarieventabel_toelichting_switch_seasons\">";
 					foreach ($toelichting_season as $seizoen_id => $value) {
 						$season_counter++;
-						$toelichting .= "<option value=\"".$seizoen_id."\"".($season_counter==1 ? " selected" : "").">".wt_he($this->seizoeninfo[$seizoen_id]["naam"])."</option>";
+						$toelichting .= "<option value=\"".$seizoen_id."\"".($season_counter==1 ? " selected" : "").">&nbsp;".wt_he($this->seizoeninfo[$seizoen_id]["naam"])."&nbsp;</option>";
 					}
 					$toelichting .= "</select></form>";
 
@@ -1295,7 +1295,9 @@ class tarieventabel {
 				$return .= "</div>";
 			}
 
+			$return .= "<div class=\"tarieventabel_toelichting_inner\">";
 			$return .= $toelichting;
+			$return .= "</div>"; # afsluiten .tarieventabel_toelichting_inner
 
 			$return .= "</div>"; # afsluiten .tarieventabel_toelichting
 		}

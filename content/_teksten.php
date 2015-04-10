@@ -7810,9 +7810,9 @@ $txt["nl"]["vertrekinfo"]["exclusief"]="Exclusief";
 $txt["de"]["vertrekinfo"]["exclusief"]="Exklusive";
 $txt["en"]["vertrekinfo"]["exclusief"]="Excluding";
 
-$txt["nl"]["vertrekinfo"]["inclusief"]="Inclusief";
-$txt["de"]["vertrekinfo"]["inclusief"]="Inklusive";
-$txt["en"]["vertrekinfo"]["inclusief"]="Including";
+$txt["nl"]["vertrekinfo"]["inclusief-reedsvoldaan"]="Inclusief / reeds voldaan";
+$txt["de"]["vertrekinfo"]["inclusief-reedsvoldaan"]="-";
+$txt["en"]["vertrekinfo"]["inclusief-reedsvoldaan"]="-";
 
 $txt["nl"]["vertrekinfo"]["verplichttevoldoen"]="Verplicht ter plaatse te voldoen";
 $txt["de"]["vertrekinfo"]["verplichttevoldoen"]="-";
