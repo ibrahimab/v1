@@ -30,7 +30,7 @@ include($unixdir."admin/vars.php");
 
 $huidig_uur = date("H");
 
-
+// pre calculate additional costs for all types
 if($huidig_uur>=1 and $huidig_uur<=5) {
 	$bijkomendekosten = new bijkomendekosten;
 	$bijkomendekosten->pre_calculate_all_types(100);

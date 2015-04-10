@@ -30,15 +30,15 @@ include($unixdir."admin/vars.php");
 
 $huidig_uur = date("H");
 
+// pre calculate additional costs for all types
 if($huidig_uur>=1 and $huidig_uur<=5) {
-	// $bijkomendekosten = new bijkomendekosten;
-	// $bijkomendekosten->pre_calculate_all_types(100);
+	$bijkomendekosten = new bijkomendekosten;
+	$bijkomendekosten->pre_calculate_all_types(100);
 }
 
 // Types without bijkomendekosten in Redis: calculate
-// $bijkomendekosten = new bijkomendekosten;
-// $bijkomendekosten->pre_calculate_missing_types();
-
+$bijkomendekosten = new bijkomendekosten;
+$bijkomendekosten->pre_calculate_missing_types();
 
 #
 # Controle op onjuiste wederverkoop-tarieven (elke 15 minuten)
