@@ -902,20 +902,40 @@ class tarieventabel {
 					$return.="<div class=\"tarieventabel_tarieven_div\">";
 
 					if($this->tarief[$key][$key2]>0) {
-						if($this->toonkorting_1[$key2] or $this->toonkorting_2[$key2] or $this->toonkorting_3[$key2]) {
-							$return.="<div class=\"tarieventabel_tarieven_aanbieding\">";
-						}
 
 						if($this->tarief[$key][$key2]>=10000) {
-							$return.=number_format($this->tarief[$key][$key2],0,",",".");
+							$te_tonen_bedrag["euro"]=number_format($this->tarief[$key][$key2],0,",",".");
 						} else {
-							$return.=number_format($this->tarief[$key][$key2],0,",","");
+							$te_tonen_bedrag["euro"]=number_format($this->tarief[$key][$key2],0,",","");
 						}
-						$this->tarieven_getoond[$this->week_seizoen_id[$key2]]=true;
 
 						if($this->toonkorting_1[$key2] or $this->toonkorting_2[$key2] or $this->toonkorting_3[$key2]) {
-							$return.="</div>";
+							$return.="<div class=\"tarieventabel_tarieven_aanbieding\"";
+						} else {
+							$return.="<div";
 						}
+
+						if($this->meerdere_valuta) {
+							$bedrag_andere_valuta["gbp"]=round($this->wisselkoers["gbp"]*$this->tarief[$key][$key2]);
+
+							if($bedrag_andere_valuta["gbp"]>=10000) {
+								$te_tonen_bedrag["gbp"]=number_format($bedrag_andere_valuta["gbp"],0,",",".");
+							} else {
+								$te_tonen_bedrag["gbp"]=number_format($bedrag_andere_valuta["gbp"],0,",","");
+							}
+							$return.=" data-euro=\"".wt_he($te_tonen_bedrag["euro"])."\" data-gbp=\"".wt_he($te_tonen_bedrag["gbp"])."\"";
+						}
+						$return.=">";
+
+						if($this->meerdere_valuta and $this->actieve_valuta=="gbp") {
+							$return.=$te_tonen_bedrag["gbp"];
+						} else {
+							$return.=$te_tonen_bedrag["euro"];
+						}
+
+						$this->tarieven_getoond[$this->week_seizoen_id[$key2]]=true;
+
+						$return.="</div>";
 					} else {
 						$return.="<div class=\"tarieventabel_tarieven_niet_beschikbaar\">";
 						$return.="&nbsp;";
@@ -1010,9 +1030,7 @@ class tarieventabel {
 
 					$this->tarieven_getoond[$this->week_seizoen_id[$key]]=true;
 
-					// if($this->toonkorting_1[$key] or $this->toonkorting_2[$key] or $this->toonkorting_3[$key]) {
-						$return.="</div>";
-					// }
+					$return.="</div>";
 				} else {
 					$return.="<div class=\"tarieventabel_tarieven_niet_beschikbaar\">";
 					$return.="&nbsp;";
