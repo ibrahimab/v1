@@ -110,6 +110,10 @@ $(document).ready(function() {
 		<td><a href="http://www.google.com/analytics">www.google.com/analytics</a></td>
 		<td>Google Analytics</td>
 	</tr>
+	<tr>
+		<td><a href="sneltoetsen">www.chalet.nl/sneltoetsen</a></td>
+		<td>Sneltoetsen</td>
+	</tr>
 
 </table>
 
