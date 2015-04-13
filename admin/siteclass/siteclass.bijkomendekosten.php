@@ -1512,6 +1512,9 @@ class bijkomendekosten {
 			$return .= "</ul>";
 		}
 
+		if($this->accinfo["begincode"]=="Z") {
+			$return .= "<div class=\"tarieventabel_kosten_zwitserse_franken\">".html("kosten-zwitserse-franken","bijkomendekosten")."</div>";
+		}
 
 		if(!$isMobile){
 			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
