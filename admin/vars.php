@@ -239,11 +239,11 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or (defined("wt_test") and 
 }
 
 // test system "bijkomendekosten"
-if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	$vars["toon_bijkomendekosten"] = true;
+if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and !$_GET["cmsuit"]) {
+	// $vars["toon_bijkomendekosten"] = true;
 	$vars["toon_bijkomendekosten_stap1"] = true;
 }
-if($_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==10) {
+if($_COOKIE["loginuser"]["chalet"] and !$_GET["cmsuit"] and ($_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $_SERVER["REMOTE_ADDR"]=="31.223.173.113")) {
 	$vars["toon_bijkomendekosten_stap1"] = true;
 }
 
