@@ -159,7 +159,8 @@ class tarieventabel {
 		$return .= ":</div>";
 		$return .= "<span class=\"tarieventabel_totaalprijs_right\">&euro;&nbsp;".number_format($aantalpersonen*$this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")."</span>";
 		$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\">".html("boeknu", "toonaccommodatie")." &raquo;</button>";
-		$return .= "<div class=\"tarieventabel_totaalprijs_klik\">".html("klik-op-datum-personen", "tarieventabel")."</div>";
+		$return .= "<div class=\"tarieventabel_totaalprijs_opmerking1\">".html("totaalprijs-opgebouwd", "tarieventabel")."</div>";
+		$return .= "<div class=\"tarieventabel_totaalprijs_opmerking2\">".html("klik-op-datum-personen", "tarieventabel")."</div>";
 
 		$return .= "</div>"; // close .tarieventabel_totaalprijs
 

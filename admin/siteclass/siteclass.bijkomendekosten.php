@@ -1512,9 +1512,13 @@ class bijkomendekosten {
 			$return .= "</ul>";
 		}
 
+		$return .= "<div class=\"tarieventabel_kosten_ter_plaatse_indicatief\">";
 		if($this->accinfo["begincode"]=="Z") {
-			$return .= "<div class=\"tarieventabel_kosten_zwitserse_franken\">".html("kosten-zwitserse-franken","bijkomendekosten")."</div>";
+			$return .= html("kosten-zwitserse-franken-indicatief","bijkomendekosten");
+		} else {
+			$return .= html("kosten-indicatief","bijkomendekosten");
 		}
+		$return .= "</div>";
 
 		if(!$isMobile){
 			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
@@ -1724,7 +1728,7 @@ class bijkomendekosten {
 		}
 
 		if($this->accinfo["begincode"]=="Z") {
-			$return .= "<div class=\"tarieventabel_kosten_zwitserse_franken\">".html("kosten-zwitserse-franken","bijkomendekosten")."</div>";
+			$return .= "<div class=\"tarieventabel_kosten_ter_plaatse_indicatief\">".html("kosten-zwitserse-franken","bijkomendekosten")."</div>";
 		}
 
 		if(!$isMobile) {

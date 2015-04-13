@@ -441,7 +441,7 @@ td.selecteerbaarbedrag:hover{
 	display: none;
 }
 
-.tarieventabel_kosten_zwitserse_franken {
+.tarieventabel_kosten_ter_plaatse_indicatief {
 	font-style: italic;
 	margin-top: 1.5em;
 }
@@ -3039,7 +3039,13 @@ nieuwe tarieventabel
 	border: 1px solid #003366;
 }
 
-.tarieventabel_totaalprijs_klik {
+.tarieventabel_totaalprijs_opmerking1 {
+	font-weight: normal;
+	font-style: normal;
+	margin-bottom: 16px;
+}
+
+.tarieventabel_totaalprijs_opmerking2 {
 	font-weight: normal;
 	font-style: italic;
 }

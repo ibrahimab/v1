@@ -3852,6 +3852,10 @@ $txt["nl"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Totaalprijs op b
 $txt["de"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Gesamtpreis für [[v_aantal]] Personen";
 $txt["en"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Total price based on [[v_aantal]] persons";
 
+$txt["nl"]["tarieventabel"]["totaalprijs-opgebouwd"]="Deze totaalprijs is opgebouwd uit de totale verplichte kosten van je vakantie. De getoonde prijs is inclusief de mogelijke kosten die ter plaatse voldaan moeten worden.";
+$txt["de"]["tarieventabel"]["totaalprijs-opgebouwd"]="";
+$txt["en"]["tarieventabel"]["totaalprijs-opgebouwd"]="This total price consists of all mandatory costs of your holiday. The price shown includes possible costs paid locally.";
+
 $txt["nl"]["tarieventabel"]["klik-op-datum-personen"]="Klik in bovenstaande prijstabel om aankomstdatum/aantal personen te wijzigen.";
 $txt["de"]["tarieventabel"]["klik-op-datum-personen"]="Bitte klicken sie auf oben stehende Preisliste um Ankunftsdatum/Personenzahl zu ändern.";
 $txt["en"]["tarieventabel"]["klik-op-datum-personen"]="Click in the above pricing table to change the date of arrival / number of people.";
@@ -3988,6 +3992,16 @@ $txt["en"]["bijkomendekosten"]["pppn"]="per person per night";
 $txt["nl"]["bijkomendekosten"]["kosten-zwitserse-franken"]="Kosten ter plaatse zijn vrijwel altijd in Zwitserse franken te voldoen. Wegens een veranderlijke wisselkoers zijn de betreffende eurobedragen alleen ter indicatie.";
 $txt["de"]["bijkomendekosten"]["kosten-zwitserse-franken"]="Kosten vor Ort sind nahezu immer in Schweizer Franken zu begleichen. Wegen des veränderlichen Wechselkurses sind die gezeigten Euro-Beträge ausschließlich indikativ.";
 $txt["en"]["bijkomendekosten"]["kosten-zwitserse-franken"]="Costs locally are almost always paid in Swiss francs. Euro amounts shown only serve as an indication due to variable exchange rates.";
+
+$txt["nl"]["bijkomendekosten"]["kosten-zwitserse-franken-indicatief"]="De genoemde plaatselijke kosten zijn vrijwel altijd in Zwitserse franken te voldoen. Deze kosten zijn met zorg samengesteld, maar blijven mede wegens een veranderlijke wisselkoers indicatief.";
+$txt["de"]["bijkomendekosten"]["kosten-zwitserse-franken-indicatief"]="";
+$txt["en"]["bijkomendekosten"]["kosten-zwitserse-franken-indicatief"]="The costs listed are almost always paid in Swiss francs. The list has been carefully put together, but remains indicative partly due to the variable exchange rate.";
+
+$txt["nl"]["bijkomendekosten"]["kosten-indicatief"]="De genoemde plaatselijke kosten zijn met zorg samengesteld, maar blijven indicatief.";
+$txt["de"]["bijkomendekosten"]["kosten-indicatief"]="";
+$txt["en"]["bijkomendekosten"]["kosten-indicatief"]="The costs listed are put together carefully, but the list remains indicative.";
+
+
 
 
 
@@ -6461,7 +6475,7 @@ $txt["nl"]["factuur"]["totaal_ter_plaatse"]="Totaal ter plaatse te voldoen";
 $txt["de"]["factuur"]["totaal_ter_plaatse"]="-";
 $txt["en"]["factuur"]["totaal_ter_plaatse"]="-";
 
-$txt["nl"]["factuur"]["verplichtekostenondervoorbehoud"]="De kosten ter plaatse proberen wij zo goed mogelijk te achterhalen. Toch is het mogelijk dat de daadwerkelijke kosten afwijken.";
+$txt["nl"]["factuur"]["verplichtekostenondervoorbehoud"]="De genoemde plaatselijke kosten zijn met zorg samengesteld, maar blijven indicatief.";
 $txt["de"]["factuur"]["verplichtekostenondervoorbehoud"]="-";
 $txt["en"]["factuur"]["verplichtekostenondervoorbehoud"]="-";
 
