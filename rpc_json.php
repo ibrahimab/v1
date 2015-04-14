@@ -728,6 +728,23 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	$tarieventabel_object->seizoen_id=$_GET["seizoen_id_inquery"];
 
 	$return["html"]=$tarieventabel_object->info_totaalprijs($_GET["ap"], $_GET["d"]);
+
+} elseif($_GET["t"]=="get_content_tarieventabel_totaalprijs_specificatie_popup") {
+	//
+	// get content for tarieventabel_totaalprijs_specificatie_popup
+	//
+
+	//
+	// tarieventabel: click to show total amount
+	//
+	$tarieventabel_object = new tarieventabel;
+	$tarieventabel_object->toon_bijkomendekosten = true;
+	$tarieventabel_object->toon_accommodatie_per_persoon = true;
+	$tarieventabel_object->type_id=$_GET["type_id"];
+	$tarieventabel_object->seizoen_id=$_GET["seizoen_id"];
+
+	$return["html"]=$tarieventabel_object->specificatie_totaalprijs($_GET["ap"], $_GET["d"]);
+
 } elseif ($_GET["t"] == "product_clicks") {
 	$google_tagmanager = new google_tagmanager;
 	$db->query("SELECT a.accommodatie_id, a.naam, t.type_id, a.wzt, a.weekendski, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen, t.tonen AS ttonen, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($_GET['type_id'])."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");

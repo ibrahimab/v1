@@ -1308,3 +1308,18 @@ ul.wie-zijn-wij > li ul li {
 .zoekresultaat_prijs_info_bijkomendekosten_popup h2 {
 	color: #661700;
 }
+
+.tarieventabel_totaalprijs_specificatie_popup {
+	background-color: #ffd38f;
+	border-color: #661700;
+}
+
+.tarieventabel_totaalprijs {
+	background-color: #ffd38f;
+	border-color: #661700;
+	color: #661700;
+}
+
+.tarieventabel_totaalprijs_opmerking1, .tarieventabel_totaalprijs_opmerking2 {
+	color: #000000;
+}

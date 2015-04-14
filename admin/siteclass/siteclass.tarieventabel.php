@@ -141,7 +141,7 @@ class tarieventabel {
 
 	public function info_totaalprijs($aantalpersonen, $aankomstdatum) {
 
-		global $vars;
+		global $vars, $opmaak;
 
 		$this->tarieven_uit_database();
 
@@ -150,6 +150,15 @@ class tarieventabel {
 		$return .= "<div class=\"tarieventabel_totaalprijs_left\">".html("geselecteerde-aankomstdatum", "tarieventabel").":</div>";
 		$return .= "<span class=\"tarieventabel_totaalprijs_right datum\">".datum("DAG D MAAND JJJJ", $this->unixtime_week[$aankomstdatum], $vars["taal"])."</span>";
 
+
+
+		// per person
+		$return .= "<div class=\"tarieventabel_totaalprijs_left\">";
+		$return .= html("prijs-per-persoon","tarieventabel");
+		$return .= ":</div>";
+		$return .= "<span class=\"tarieventabel_totaalprijs_right\">&euro;&nbsp;".number_format($this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")."</span>";
+
+		// total
 		$return .= "<div class=\"tarieventabel_totaalprijs_left\">";
 		if($aantalpersonen==1) {
 			$return .= html("totaalprijs-op-basis-1-persoon","tarieventabel");
@@ -157,14 +166,115 @@ class tarieventabel {
 			$return .= html("totaalprijs-op-basis-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
 		}
 		$return .= ":</div>";
-		$return .= "<span class=\"tarieventabel_totaalprijs_right\">&euro;&nbsp;".number_format($aantalpersonen*$this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")."</span>";
+
+		if($this->arrangement) {
+			$totaalbedrag = $this->tarief_zonder_bk[$aantalpersonen][$aankomstdatum] * $aantalpersonen;
+		} else {
+			$totaalbedrag = $this->tarief_zonder_bk[$aankomstdatum];
+		}
+		$totaalbedrag = $totaalbedrag + $this->tarief_alleen_bk[$aantalpersonen][$aankomstdatum];
+
+		$return .= "<span class=\"tarieventabel_totaalprijs_right\">&euro;&nbsp;".number_format($totaalbedrag, 2, ",", ".")."</span>";
+
+		// i-icon for specification popup
+		$return .= "<div class=\"tarieventabel_totaalprijs_specificatie\" data-active=\"0\" data-aantalpersonen=\"".intval($aantalpersonen)."\"
+		data-seizoen_id=\"".$this->week_seizoen_id[$aankomstdatum]."\" data-week=\"".intval($aankomstdatum)."\"></div>";
+
+		// book-button
 		$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\">".html("boeknu", "toonaccommodatie")." &raquo;</button>";
+
 		$return .= "<div class=\"tarieventabel_totaalprijs_opmerking1\">".html("totaalprijs-opgebouwd", "tarieventabel")."</div>";
 		$return .= "<div class=\"tarieventabel_totaalprijs_opmerking2\">".html("klik-op-datum-personen", "tarieventabel")."</div>";
 
 		$return .= "</div>"; // close .tarieventabel_totaalprijs
 
 		return $return;
+
+	}
+
+	public function specificatie_totaalprijs($aantalpersonen, $aankomstdatum) {
+		//
+		// get specification total amount
+		//
+
+		global $vars;
+
+		$this->tarieven_uit_database();
+
+		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+		$bijkomendekosten->seizoen_id = $this->seizoen_id;
+		$bijkomendekosten->pre_boeken = true;
+		$bijkomendekosten->aantalpersonen = $aantalpersonen;
+		$bijkomendekosten->accinfo = $this->accinfo;
+
+		$bk = $bijkomendekosten->get_booking_data($gegevens);
+
+
+		$return .= "<table>";
+		$return .= "<tr class=\"tarieventabel_totaalprijs_specificatie_popup_bold\"><td colspan=\"5\">".html("specificatie-totaalprijs", "bijkomendekosten")."</td></tr>";
+		$return .= "<tr><td colspan=\"5\">&nbsp;</td></tr>";
+
+		if($this->arrangement) {
+			$totaalbedrag_chalet_nl = $this->tarief_zonder_bk[$aantalpersonen][$aankomstdatum] * $aantalpersonen;
+			$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">".$aantalpersonen."</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".html("accommodatieplusskipas", "bijkomendekosten")." (&euro;&nbsp;".$this->toonbedrag($this->tarief_zonder_bk[$aantalpersonen][$aankomstdatum])." ".html("pp", "bijkomendekosten").")</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_chalet_nl, 2, ",", ".")."</td></tr>";
+		} else {
+			$totaalbedrag_chalet_nl = $this->tarief_zonder_bk[$aankomstdatum];
+
+			// surcharge extra persons?
+			if($this->bk_add_to_price_per_person_per_week[$aantalpersonen][$aankomstdatum]) {
+				$totaalbedrag_chalet_nl += $this->bk_add_to_price_per_person_per_week[$aantalpersonen][$aankomstdatum];
+			}
+
+			$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">1</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".html("accommodatie", "bijkomendekosten")."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_chalet_nl, 2, ",", ".")."</td></tr>";
+		}
+
+		foreach ($bk["aan_chalet_nl"] as $key => $value) {
+			$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">".$value["aantal"]."</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".wt_he($value["naam"]);
+			if($value["toonbedrag"]) {
+				$return .= " (".wt_he($value["toonbedrag"]).")";
+			}
+			$return .= "</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($value["totaalbedrag"], 2, ",", ".")."</td></tr>";
+			$totaalbedrag_chalet_nl += $value["totaalbedrag"];
+		}
+
+
+		$totaalbedrag += $totaalbedrag_chalet_nl;
+
+		$return .= "<tr><td colspan=\"5\">&nbsp;</td></tr>";
+		$return .= "<tr class=\"tarieventabel_totaalprijs_specificatie_popup_bold\"><td colspan=\"3\">".html("totaal-aan-chalet-nl", "bijkomendekosten", array("v_websitenaam"=>$vars["websitenaam"]))."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_chalet_nl, 2, ",", ".")."</td></tr>";
+		$return .= "<tr><td colspan=\"5\">&nbsp;</td></tr>";
+
+
+		if(is_array($bk["ter_plaatse"])) {
+			foreach ($bk["ter_plaatse"] as $key => $value) {
+
+				if(!$value["bedragonbekend"] and $value["totaalbedrag"]>0) {
+
+					$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">".$value["aantal"]."</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".wt_he($value["naam"]." (".$value["toonbedrag"].")")."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($value["totaalbedrag"], 2, ",", ".")."</td></tr>";
+					$totaalbedrag_ter_plaatse += $value["totaalbedrag"];
+				}
+			}
+			if($totaalbedrag_ter_plaatse>0) {
+				$return .= "<tr><td colspan=\"5\">&nbsp;</td></tr>";
+				$return .= "<tr class=\"tarieventabel_totaalprijs_specificatie_popup_bold\"><td colspan=\"3\">".html("totaal-ter-plaatse", "bijkomendekosten")."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_ter_plaatse, 2, ",", ".")."</td></tr>";
+				$return .= "<tr><td colspan=\"5\">&nbsp;</td></tr>";
+
+				$totaalbedrag += $totaalbedrag_ter_plaatse;
+
+			}
+		}
+		$return .= "<tr class=\"tarieventabel_totaalprijs_specificatie_popup_bold\"><td colspan=\"3\">";
+		if($aantalpersonen==1) {
+			$return .= html("totaalprijs-op-basis-1-persoon","bijkomendekosten");
+		} else {
+			$return .= html("totaalprijs-op-basis-x-personen","bijkomendekosten", array("v_aantal"=>$aantalpersonen));
+		}
+		$return .= "</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag, 2, ",", ".")."</td></tr>";
+
+		$return .= "</table>";
+
+		return $return;
+
 
 	}
 
@@ -1072,6 +1182,12 @@ class tarieventabel {
 
 	}
 
+	private function toonbedrag($bedrag) {
+		$return = number_format($bedrag, 2, ",", ".");
+		$return = preg_replace("@,00$@", ",-", $return);
+		return $return;
+	}
+
 	private function bijkomende_kosten() {
 
 		global $vars;
@@ -1125,15 +1241,6 @@ class tarieventabel {
 					}
 					if(isset($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"])) {
 
-						if(!$bijkomendekosten_header_getoond) {
-
-							// $bijkomendekosten_header2.="<TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
-							// $bijkomendekosten_header2.="<TR><TH colspan=\"2\">".html("bijkomendekosten","toonaccommodatie")."";
-
-							$bijkomendekosten_header_getoond=true;
-						}
-
-						// $bijkomendekosten_table.="<tr><td>";
 						$bijkomendekosten_table.="<table cellspacing=\"0\" border=\"0\" class=\"bijkomendekosten_table\">";
 						$bijkomendekosten_table.="<tr>";
 						$bijkomendekosten_table.="<td width=\"440\" class=\"nowrap".($db2->f("min_personen") ? " valigntop" : "")."\">".wt_he($db2->f("naam"));
@@ -1170,7 +1277,6 @@ class tarieventabel {
 								//
 								// surcharge extra persons with variable prices
 								//
-								// $bijkomendekosten_table.="<td colspan=\"4\" align=\"right\" class=\"nowrap\">".html("maximaalXeuro","toonaccommodatie", array("v_bedragmin"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"], 2, ",", "."), "v_bedragmax"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"], 2, ",", ".")))."<br/><span class=\"berekentotaalbedrag\">(<a href=\"".wt_he($vars["path"].txt("menu_calc").".php?tid=".$this->type_id."&back=".urlencode($_SERVER["REQUEST_URI"]."#prijsinformatie"))."\">".html("berekentotaalbedrag", "toonaccommodatie")."</a>)</span></td>";
 								$bijkomendekosten_table.="<td colspan=\"4\" align=\"right\" class=\"nowrap\">".html("maximaalXeuro","toonaccommodatie", array("v_bedragmin"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"], 2, ",", "."), "v_bedragmax"=>number_format($bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"], 2, ",", "."), "h_1"=>"<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?tid=".intval($this->type_id)."&id=bijkomendekosten&bkid=".$db2->f("bijkomendekosten_id")."');\">", "h_2"=>"</a>"))."</td>";
 							} else {
 								$bijkomendekosten_table.="<td colspan=\"4\" align=\"right\">".html("afhankelijkvandatum","toonaccommodatie")."</td>";
@@ -1179,11 +1285,7 @@ class tarieventabel {
 						}
 						$bijkomendekosten_table.="</tr>";
 						$bijkomendekosten_table.="</table>";
-						// $bijkomendekosten_table.="</td></tr>";
 					}
-				}
-				if($bijkomendekosten_header_getoond) {
-					// $bijkomendekosten_table.="</TABLE>";
 				}
 			}
 		}
@@ -1501,7 +1603,7 @@ class tarieventabel {
 							$seizoen_cache_fetched[$db->f("seizoen_id")] = true;
 
 							$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], true);
-
+							$bk_add_to_price_total = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], false);
 						}
 					}
 
@@ -1553,13 +1655,14 @@ class tarieventabel {
 
 						$this->tarief[$db->f("personen")][$db->f("week")]=$db->f("prijs");
 
+						$this->tarief_zonder_bk[$db->f("personen")][$db->f("week")]=$db->f("prijs");
+						$this->tarief_alleen_bk[$db->f("personen")][$db->f("week")] = $bk_add_to_price_total[$db->f("personen")];
+
 						if($this->toon_bijkomendekosten) {
 							// add bijkomende kosten
 							$this->tarief[$db->f("personen")][$db->f("week")] += $bk_add_to_price[$db->f("personen")];
 
-
 							$this->tarief_exact[$db->f("personen")][$db->f("week")] = $this->tarief[$db->f("personen")][$db->f("week")];
-
 
 							// round with ceil()
 							$this->tarief[$db->f("personen")][$db->f("week")] = ceil($this->tarief[$db->f("personen")][$db->f("week")]);
@@ -1638,7 +1741,7 @@ class tarieventabel {
 
 
 							// surcharge extra persons
-							$bk_add_to_price_per_person_per_week = $bijkomendekosten->get_type_from_cache_all_persons_all_weeks($this->type_id, $vars["seizoentype"]);
+							$this->bk_add_to_price_per_person_per_week = $bijkomendekosten->get_type_from_cache_all_persons_all_weeks($this->type_id, $vars["seizoentype"]);
 
 							// toon losse accommodatie per persoon
 							if($this->toon_accommodatie_per_persoon and !$this->aantal_personen and is_array($bk_add_to_price)) {
@@ -1716,19 +1819,23 @@ class tarieventabel {
 
 					if($db->f("week")>=time() and $temp_verkoop_site>0 and $temp_beschikbaar and $temp_bruto>0) {
 
+						$this->tarief_zonder_bk[$db->f("week")]=$temp_verkoop_site;
+
 						if($this->toon_accommodatie_per_persoon) {
 
 							if(is_array($bk_add_to_price)) {
 								foreach ($bk_add_to_price as $key => $value) {
 
 									// surcharge extra persons
-									if($bk_add_to_price_per_person_per_week[$key][$db->f("week")]) {
-										$bk_add_to_price_total = $bk_add_to_price_per_person_per_week[$key][$db->f("week")];;
+									if($this->bk_add_to_price_per_person_per_week[$key][$db->f("week")]) {
+										$bk_add_to_price_total = $this->bk_add_to_price_per_person_per_week[$key][$db->f("week")];
 									} else {
 										$bk_add_to_price_total = 0;
 									}
 
 									$this->tarief[$key][$db->f("week")] = ($temp_verkoop_site + $value + $bk_add_to_price_total) / $key;
+
+									$this->tarief_alleen_bk[$key][$db->f("week")] = $value + $bk_add_to_price_total;
 
 									$this->tarief_exact[$key][$db->f("week")] = $this->tarief[$key][$db->f("week")];
 

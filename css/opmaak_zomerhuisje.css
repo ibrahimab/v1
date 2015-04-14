@@ -1071,3 +1071,18 @@ form {
 .zoekresultaat_prijs_info_bijkomendekosten_popup h2 {
 	color: #5f227b;
 }
+
+.tarieventabel_totaalprijs_specificatie_popup {
+	background-color: #cfbcd8;
+	border-color: #5f227b;
+}
+
+.tarieventabel_totaalprijs {
+	background-color: #cfbcd8;
+	border-color: #5f227b;
+	color: #5f227b;
+}
+
+.tarieventabel_totaalprijs_opmerking1, .tarieventabel_totaalprijs_opmerking2 {
+	color: #000000;
+}
