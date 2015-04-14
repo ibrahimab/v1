@@ -119,11 +119,15 @@ if($skigebiedid) {
 			}
 		}
 
-		# Tijdelijk: doorsturen naar Italissima
-		// if($db->f("land_id")==5 and $skigebiedid<>135 and $skigebiedid<>142 and $skigebiedid<>168 and ($vars["website"]=="Z" or $vars["website"]=="N")) {
-		// 	header("Location: https://www.italissima.nl".$_SERVER["REQUEST_URI"],true,301);
-		// 	exit;
-		// }
+		# Tijdelijk: Zomerhuisje doorsturen naar Italissima
+		if($skigebiedid<>135 and $skigebiedid<>142 and $skigebiedid<>168 and $skigebiedid<>219 and ($vars["website"]=="Z" or $vars["website"]=="N")) {
+
+			$db->query("SELECT land_id FROM view_accommodatie WHERE land_id=5 AND skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."';");
+			if($db->next_record()) {
+				header("Location: https://www.italissima.nl".$_SERVER["REQUEST_URI"],true,301);
+				exit;
+			}
+		}
 	} else {
 		$db->query("SELECT DISTINCT l.naam".$vars["ttv"]." AS land FROM plaats p, land l WHERE l.land_id=p.land_id AND p.skigebied_id=".$skigebiedid.";");
 		if($db->next_record()) {
