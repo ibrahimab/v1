@@ -41,3 +41,6 @@ csv/
 
 # never ignore any php-file
 !*.php
+
+# besides localtest.php
+localtest.php
