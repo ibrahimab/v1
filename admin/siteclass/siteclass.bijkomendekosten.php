@@ -733,7 +733,7 @@ class bijkomendekosten {
 
 	}
 
-	public function pre_calculate_all_types($limit=0) {
+	public function pre_calculate_all_types($limit=0, $force=false) {
 
 		global $cron;
 
@@ -744,7 +744,7 @@ class bijkomendekosten {
 
 			$last_save_time = $this->wt_redis->hget("bk:".$db->f("wzt").":".$db->f("type_id"), "saved");
 
-			if($last_save_time<(time()-82800)) {
+			if($last_save_time<(time()-82800) or $force) {
 
 				$counter++;
 
@@ -752,7 +752,7 @@ class bijkomendekosten {
 
 				$new[$db->f("wzt")] = true;
 
-				if($limit and $counter>=$limit) {
+				if($limit>0 and $counter>=$limit) {
 					break;
 				}
 			}
