@@ -744,7 +744,7 @@ class bijkomendekosten {
 
 			$last_save_time = $this->wt_redis->hget("bk:".$db->f("wzt").":".$db->f("type_id"), "saved");
 
-			if($last_save_time<(time()-108000)) {
+			if($last_save_time<(time()-82800)) {
 
 				$counter++;
 
@@ -1393,6 +1393,7 @@ class bijkomendekosten {
 
 		if(is_array($kosten["vars"]["inclusief"])) {
 			foreach ($kosten["vars"]["inclusief"] as $key => $value) {
+				$aantal = 0;
 				if($key=="skipas" and $this->vertrekinfo) {
 					//
 					// skipas
@@ -1482,7 +1483,9 @@ class bijkomendekosten {
 
 								// eenheid = "per person" or "per person each time"
 								if($value["eenheid"]==2 or $value["eenheid"]==12) {
-									$aantal = $gegevens["stap1"]["aantalpersonen"];
+									if((!$value["min_leeftijd"] and !$value["max_leeftijd"]) or $value["zonderleeftijd"]) {
+										$aantal = $gegevens["stap1"]["aantalpersonen"];
+									}
 								} else {
 									$aantal = 1;
 								}

@@ -229,12 +229,14 @@ class tarieventabel {
 		}
 
 		foreach ($bk["aan_chalet_nl"] as $key => $value) {
-			$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">".$value["aantal"]."</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".wt_he($value["naam"]);
-			if($value["toonbedrag"]) {
-				$return .= " (".wt_he($value["toonbedrag"]).")";
+			if(!$value["bedragonbekend"] and $value["totaalbedrag"]>0) {
+				$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">".$value["aantal"]."</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".wt_he($value["naam"]);
+				if($value["toonbedrag"]) {
+					$return .= " (".wt_he($value["toonbedrag"]).")";
+				}
+				$return .= "</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($value["totaalbedrag"], 2, ",", ".")."</td></tr>";
+				$totaalbedrag_chalet_nl += $value["totaalbedrag"];
 			}
-			$return .= "</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($value["totaalbedrag"], 2, ",", ".")."</td></tr>";
-			$totaalbedrag_chalet_nl += $value["totaalbedrag"];
 		}
 
 
