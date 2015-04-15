@@ -247,6 +247,9 @@ if($_COOKIE["loginuser"]["chalet"] and !$_GET["cmsuit"] and ($_SERVER["REMOTE_AD
 	$vars["toon_bijkomendekosten_stap1"] = true;
 }
 
+// toon_bijkomendekosten_stap1 for everyone
+$vars["toon_bijkomendekosten_stap1"] = true;
+
 if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
 	# bezoek op alleen IP-adres doorsturen naar juiste hostname
 	header("Location: https://www.chalet.nl/");
