@@ -1480,7 +1480,7 @@ class form2 {
 			# Yesno
 			if(!$this->filled) {
 				# Prevalue bepalen
-				if($this->fields["prevalue"][$id]["selection"]) {
+				if(is_array($this->fields["prevalue"][$id]) and $this->fields["prevalue"][$id]["selection"]) {
 					$this->value[$id]=$this->fields["prevalue"][$id]["selection"];
 				} elseif($_GET["pv_".$id]) {
 					$this->value[$id]=$_GET["pv_".$id];
