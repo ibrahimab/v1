@@ -1600,9 +1600,13 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$temp_seizoen_id = $db->f("seizoen_id");
 					} else {
 						if(!$bk_seizoen_id) {
-							$db0->query("SELECT seizoen_id FROM seizoen WHERE type IN (".$vars["seizoentype"].") AND tonen=3 AND eind>NOW() ORDER BY seizoen_id LIMIT 0,1;");
-							if($db0->next_record()) {
-								$bk_seizoen_id = $db0->f("seizoen_id");
+							if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
+								$bk_seizoen_id = $vars["themainfo"]["tarievenbekend_seizoen_id"];
+							} else {
+								$db0->query("SELECT seizoen_id FROM seizoen WHERE type IN (".$vars["seizoentype"].") AND tonen=3 AND eind>NOW() ORDER BY seizoen_id LIMIT 0,1;");
+								if($db0->next_record()) {
+									$bk_seizoen_id = $db0->f("seizoen_id");
+								}
 							}
 						}
 						$temp_seizoen_id = $bk_seizoen_id;

@@ -30,11 +30,4 @@ include($unixdir."admin/vars.php");
 echo date("d-m-Y H:i")."u.<pre>\n\nChalet.nl elke nacht 0:00 uur\n\n\n";
 flush();
 
-// update bijkomende kosten Redis
-// $bijkomendekosten = new bijkomendekosten;
-// $bijkomendekosten->pre_calculate_all_types(true);
-
-
-
-
 ?>

@@ -1781,7 +1781,6 @@ $(document).ready(function() {
 								new_popup.fadeIn("normal");
 
 								if(new_popup.offset().top - $(window).scrollTop() - 10 < 0) {
-									// console.log("buiten");
 									$('html, body').animate({scrollTop: new_popup.offset().top - 10}, 500);
 								}
 							} else {
@@ -2520,6 +2519,72 @@ $(document).ready(function() {
 				event.preventDefault();
 			});
 
+
+			//
+			// show specification bijkomende kosten
+			//
+			$(document).on("click", "div.tarieventabel_totaalprijs_specificatie", function () {
+
+				var popup = $("div.tarieventabel_totaalprijs_specificatie_popup");
+				var new_popup = $("div.tarieventabel_totaalprijs_specificatie_empty").clone();
+				var icon = $(this);
+
+				if($(".tarieventabel_totaalprijs_specificatie_popup").is(":visible")) {
+					popup.fadeOut("fast");
+				} else {
+
+					$.getJSON(absolute_path+"rpc_json.php", {
+						"t": "get_content_tarieventabel_totaalprijs_specificatie_popup",
+						"ap": icon.data("aantalpersonen"),
+						"d": $(this).data("week"),
+						"type_id": $(".tarieventabel_wrapper").data("type_id"),
+						"seizoen_id": icon.data("seizoen_id")
+					}, function(data) {
+						if(data.ok) {
+							if(data.html) {
+
+								new_popup.removeClass("tarieventabel_totaalprijs_specificatie_empty");
+
+								new_popup.find("div").html(data.html);
+								new_popup.appendTo("html");
+
+								var position_left = icon.offset().left - $(window).scrollLeft(); //get the offset top of the element
+								var position_top = icon.offset().top;
+
+								// have the popup show at the lower right corner
+								position_left = position_left - new_popup.outerWidth() - 5;
+								position_top = position_top - new_popup.outerHeight() + 20;
+
+								new_popup.css("top", position_top+"px");
+								new_popup.css("left", position_left+"px");
+								new_popup.fadeIn("normal");
+
+								if(new_popup.offset().top - $(window).scrollTop() - 10 < 0) {
+									$('html, body').animate({scrollTop: new_popup.offset().top - 10}, 500);
+								}
+							} else {
+
+							}
+						}
+					});
+				}
+			});
+
+			// click somewhere: hide tarieventabel_totaalprijs_specificatie_popup
+			$("html").click(function(event) {
+
+				if (!$(event.target).hasClass("close") && $(event.target).closest(".tarieventabel_totaalprijs_specificatie_popup").length) {
+					return false;
+				}
+
+				var popup = $("div.tarieventabel_totaalprijs_specificatie_popup");
+				popup.fadeOut("fast");
+			});
+
+			$(document).on("click","div.tarieventabel_totaalprijs_specificatie_popup img.close",function(event) {
+				var popup = $("div.tarieventabel_totaalprijs_specificatie_popup");
+				popup.fadeOut("fast");
+			});
 		}
 
 		if($(".tarieventabel_toelichting_active_season").length!==0) {

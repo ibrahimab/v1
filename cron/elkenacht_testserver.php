@@ -31,7 +31,7 @@ include($unixdir."admin/vars.php");
 
 
 $bijkomendekosten = new bijkomendekosten;
-$bijkomendekosten->pre_calculate_all_types();
+$bijkomendekosten->pre_calculate_all_types(0, true);
 
 
 

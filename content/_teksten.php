@@ -3844,6 +3844,10 @@ $txt["nl"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Geselecteerde aankom
 $txt["de"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Gewähltes Ankunftsdatum";
 $txt["en"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Selected arrival date";
 
+$txt["nl"]["tarieventabel"]["prijs-per-persoon"]="Prijs per persoon";
+$txt["de"]["tarieventabel"]["prijs-per-persoon"]="";
+$txt["en"]["tarieventabel"]["prijs-per-persoon"]="Price per person";
+
 $txt["nl"]["tarieventabel"]["totaalprijs-op-basis-1-persoon"]="Totaalprijs op basis van 1 persoon";
 $txt["de"]["tarieventabel"]["totaalprijs-op-basis-1-persoon"]="Gesamtpreis für 1 Person";
 $txt["en"]["tarieventabel"]["totaalprijs-op-basis-1-persoon"]="Total price based on 1 person";
@@ -4001,8 +4005,37 @@ $txt["nl"]["bijkomendekosten"]["kosten-indicatief"]="De genoemde plaatselijke ko
 $txt["de"]["bijkomendekosten"]["kosten-indicatief"]="";
 $txt["en"]["bijkomendekosten"]["kosten-indicatief"]="The costs listed are put together carefully, but the list remains indicative.";
 
+$txt["nl"]["bijkomendekosten"]["specificatie-totaalprijs"]="Specificatie totaalprijs";
+$txt["de"]["bijkomendekosten"]["specificatie-totaalprijs"]="";
+$txt["en"]["bijkomendekosten"]["specificatie-totaalprijs"]="Price breakdown";
 
+$txt["nl"]["bijkomendekosten"]["accommodatieplusskipas"]="Accommodatie + skipas";
+$txt["de"]["bijkomendekosten"]["accommodatieplusskipas"]="Unterkunft + Skipass";
+$txt["en"]["bijkomendekosten"]["accommodatieplusskipas"]="Accommodation + ski-lift pass";
 
+$txt["nl"]["bijkomendekosten"]["accommodatie"]="Accommodatie";
+$txt["de"]["bijkomendekosten"]["accommodatie"]="Unterkunft";
+$txt["en"]["bijkomendekosten"]["accommodatie"]="Accommodation";
+
+$txt["nl"]["bijkomendekosten"]["totaal-aan-chalet-nl"]="Totaal te betalen aan [[v_websitenaam]]";
+$txt["de"]["bijkomendekosten"]["totaal-aan-chalet-nl"]="";
+$txt["en"]["bijkomendekosten"]["totaal-aan-chalet-nl"]="To be paid to [[v_websitenaam]]";
+
+$txt["nl"]["bijkomendekosten"]["reserveringskosten"]="Reserveringskosten";
+$txt["de"]["bijkomendekosten"]["reserveringskosten"]="Reservierungskosten";
+$txt["en"]["bijkomendekosten"]["reserveringskosten"]="Booking costs";
+
+$txt["nl"]["bijkomendekosten"]["totaal-ter-plaatse"]="Totaal ter plaatse te betalen";
+$txt["de"]["bijkomendekosten"]["totaal-ter-plaatse"]="";
+$txt["en"]["bijkomendekosten"]["totaal-ter-plaatse"]="To be paid locally";
+
+$txt["nl"]["bijkomendekosten"]["totaalprijs-op-basis-1-persoon"]="Totaalprijs op basis van 1 persoon";
+$txt["de"]["bijkomendekosten"]["totaalprijs-op-basis-1-persoon"]="Gesamtpreis für 1 Person";
+$txt["en"]["bijkomendekosten"]["totaalprijs-op-basis-1-persoon"]="Total price based on 1 person";
+
+$txt["nl"]["bijkomendekosten"]["totaalprijs-op-basis-x-personen"]="Totaalprijs op basis van [[v_aantal]] personen";
+$txt["de"]["bijkomendekosten"]["totaalprijs-op-basis-x-personen"]="Gesamtpreis für [[v_aantal]] Personen";
+$txt["en"]["bijkomendekosten"]["totaalprijs-op-basis-x-personen"]="Total price based on [[v_aantal]] persons";
 
 
 #

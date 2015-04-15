@@ -1843,7 +1843,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 
 .zoekresultaat_prijs_info_bijkomendekosten_popup {
 	position: absolute;
-	z-index: 500;
+	z-index: 5000;
 	font-size: 0.9em;
 	top: -100px;
 	left: -1000px;
@@ -3013,13 +3013,15 @@ nieuwe tarieventabel
 
 .tarieventabel_totaalprijs_left {
 	display:inline-block;
-	width:290px;
+	width: 290px;
 	margin-bottom: 10px;
 }
 
 .tarieventabel_totaalprijs_right {
 	color: #000000;
 	display: inline-block;
+	text-align: right;
+	width: 200px;
 }
 
 .tarieventabel_totaalprijs_right.datum {
@@ -3031,12 +3033,82 @@ nieuwe tarieventabel
 	display: inline-block;
 	background-color: #fb6703;
 	color: #ffffff;
-	margin-left: 30px;
+	margin-left: 25px;
 	cursor: pointer;
 }
 
 .tarieventabel_totaalprijs button:hover {
 	border: 1px solid #003366;
+}
+
+.tarieventabel_totaalprijs_specificatie {
+	display: inline-block;
+	background:url("../pic/information_icon_with_padding.png") top left no-repeat;
+	width: 18px;
+	height:18px;
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+.tarieventabel_totaalprijs_specificatie:hover {
+	opacity: 0.6;
+}
+
+.tarieventabel_totaalprijs_specificatie_popup {
+	position: absolute;
+	z-index: 500;
+	font-size: 0.9em;
+	top: -100px;
+	left: -1000px;
+	width: 530px;
+	min-height: 100px;
+	border: 1px solid #003366;
+	background-color: #d5e1f9;
+	-moz-box-shadow: 5px 5px 5px #888;
+	-webkit-box-shadow: 5px 5px 5px #888;
+	box-shadow: 5px 5px 5px #888;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#888888')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#888888');
+	display: none;
+
+
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	padding: 10px;
+}
+
+.tarieventabel_totaalprijs_specificatie_popup table {
+	width: 100%;
+}
+
+.tarieventabel_totaalprijs_specificatie_popup table td {
+	vertical-align: top;
+}
+
+.tarieventabel_totaalprijs_specificatie_aantal {
+	text-align: right;
+}
+
+.tarieventabel_totaalprijs_specificatie_naam {
+	width: 99%;
+}
+
+.tarieventabel_totaalprijs_specificatie_popup_bold {
+	font-weight: bold;
+}
+
+.tarieventabel_totaalprijs_specificatie_popup_bedrag {
+	text-align: right;
+}
+
+.tarieventabel_totaalprijs_specificatie_popup img.close {
+	float: right;
+	cursor: pointer;
+}
+
+.tarieventabel_totaalprijs_specificatie_popup img.close:hover {
+	opacity: 0.6;
 }
 
 .tarieventabel_totaalprijs_opmerking1 {

@@ -733,7 +733,7 @@ class bijkomendekosten {
 
 	}
 
-	public function pre_calculate_all_types($limit=0) {
+	public function pre_calculate_all_types($limit=0, $force=false) {
 
 		global $cron;
 
@@ -744,7 +744,7 @@ class bijkomendekosten {
 
 			$last_save_time = $this->wt_redis->hget("bk:".$db->f("wzt").":".$db->f("type_id"), "saved");
 
-			if($last_save_time<(time()-108000)) {
+			if($last_save_time<(time()-82800) or $force) {
 
 				$counter++;
 
@@ -752,7 +752,7 @@ class bijkomendekosten {
 
 				$new[$db->f("wzt")] = true;
 
-				if($limit and $counter>=$limit) {
+				if($limit>0 and $counter>=$limit) {
 					break;
 				}
 			}
@@ -851,7 +851,7 @@ class bijkomendekosten {
 					$total = $per_accommodation + $i * $per_person;
 					$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, $seizoen_id.":".$i, $total);
 					if($vars["tmp_info_tonen"]) {
-						echo "bk:".$this->wzt.":".$type_id." - ".$seizoen_id.":".$i." - ".$total."<br/>";
+						echo "bk:".$this->wzt.":".$type_id." - ".$seizoen_id.":".$i." - ".$total." <br/>\n";
 						flush();
 					}
 				}
@@ -886,7 +886,7 @@ class bijkomendekosten {
 						if($total<>0) {
 							$this->wt_redis->hset("bk_per_week:".$this->wzt.":".$type_id, $week.":".$persons, $total);
 							if($vars["tmp_info_tonen"]) {
-								echo "bk_per_week:".$this->wzt.":".$type_id." - ". $week.":".$persons." - ". $total."<br />";
+								echo "bk_per_week:".$this->wzt.":".$type_id." - ". $week.":".$persons." - ". $total." <br />\n";
 								flush();
 							}
 						}
@@ -1331,6 +1331,23 @@ class bijkomendekosten {
 
 		$kosten = $this->get_costs();
 
+		if($this->pre_boeken) {
+			//
+			// get data without a booking
+			//
+
+			// fill booking data
+			$gegevens["stap1"]["aantalpersonen"] = $this->aantalpersonen;
+			$gegevens["stap1"]["accinfo"] = $this->accinfo;
+
+			for($i=1; $i<=$this->aantalpersonen ; $i++) {
+				$gegevens["stap3"][$i] = true;
+			}
+
+			// toeristenbelasting: always 7 nights
+			$gegevens["stap1"]["aantalnachten"] = 7;
+		}
+
 		// borg
 		if($this->vertrekinfo) {
 			if(is_array($kosten["vars"])) {
@@ -1376,6 +1393,7 @@ class bijkomendekosten {
 
 		if(is_array($kosten["vars"]["inclusief"])) {
 			foreach ($kosten["vars"]["inclusief"] as $key => $value) {
+				$aantal = 0;
 				if($key=="skipas" and $this->vertrekinfo) {
 					//
 					// skipas
@@ -1454,17 +1472,73 @@ class bijkomendekosten {
 						// inclusief
 						//
 						$return["voldaan"][$key]["naam"] = $value["factuurnaam"];
+
+					} elseif($value["verplicht"]==1 and $value["inclusief"]==0) {
+
+						if($this->pre_boeken) {
+
+							if($value["bedrag"]>0) {
+
+								$return["aan_chalet_nl"][$key]["naam"] = $value["factuurnaam"];
+
+								// eenheid = "per person" or "per person each time"
+								if($value["eenheid"]==2 or $value["eenheid"]==12) {
+									if((!$value["min_leeftijd"] and !$value["max_leeftijd"]) or $value["zonderleeftijd"]) {
+										$aantal = $gegevens["stap1"]["aantalpersonen"];
+									}
+								} else {
+									$aantal = 1;
+								}
+
+								$return["aan_chalet_nl"][$key]["aantal"] = $aantal;
+								$return["aan_chalet_nl"][$key]["totaalbedrag"] = $value["bedrag"] * $aantal;
+
+								if($value["prijs_per_nacht"]) {
+									$return["aan_chalet_nl"][$key]["totaalbedrag"] = $return["aan_chalet_nl"][$key]["totaalbedrag"] * $gegevens["stap1"]["aantalnachten"];
+								}
+
+								$return["aan_chalet_nl"][$key]["toonbedrag"] = "€ ".$this->toonbedrag($value["bedrag"]);
+								if($value["prijs_per_nacht"]) {
+									$return["aan_chalet_nl"][$key]["toonbedrag"] .= " ".txt("pppn", "bijkomendekosten");
+								} else {
+									$return["aan_chalet_nl"][$key]["toonbedrag"] .= " ".$vars["bk_eenheid"][$value["eenheid"]];
+								}
+							}
+
+						}
 					}
 				}
 			}
 		}
 
-		// echo wt_dump($return);
-		// echo wt_dump($kosten["vars"]);
-		// exit;
+		if($this->pre_boeken) {
+
+			// always reserveringskosten
+
+			$return["aan_chalet_nl"]["reserveringskosten"]["naam"] = txt("reserveringskosten", "bijkomendekosten");
+			$return["aan_chalet_nl"]["reserveringskosten"]["aantal"] = 1;
+			$return["aan_chalet_nl"]["reserveringskosten"]["totaalbedrag"] = $vars["reserveringskosten"];
+
+		}
+		return $return;
+	}
+
+	public function get_specification() {
+
+		//
+		// get specification for 1 specific type/date/persons
+		//
+
+		global $vars;
+
+		$this->get_data();
+
+		$db = new DB_sql;
+
+		$kosten = $this->get_costs()["html"];
+
 
 		return $return;
-
 
 
 	}

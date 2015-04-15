@@ -2,9 +2,9 @@
 
 #
 #
-# Dit script wordt op elke minuut gerund op de server web01.chalet.nl met het account chalet02 (acceptatie-testserver).
+# This script is run after a database-import on the acceptance-server (on web01.chalet.nl)
 #
-# /usr/bin/php /var/www/chalet.nl/html_test/cron/elkeminuut_acceptatietest.php test
+# /usr/bin/php /var/www/chalet.nl/html_test/cron/redis_pre_calculate_all_types.php
 #
 
 
@@ -17,7 +17,7 @@ if($argv[1]=="test" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 	echo "<pre>";
-} elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/elkeminuut.php") {
+} elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/redis_pre_calculate_all_types.php") {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
 	$unixdir="/var/www/chalet.nl/html_test/";
@@ -28,13 +28,9 @@ $geen_tracker_cookie=true;
 $boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
 
-$huidig_uur = date("H");
+$vars["tmp_info_tonen"] = true;
 
-// pre calculate additional costs for all types
-if($huidig_uur>=4 and $huidig_uur<=5) {
-	sleep(10);
-	$bijkomendekosten = new bijkomendekosten;
-	$bijkomendekosten->pre_calculate_all_types(100);
-}
+$bijkomendekosten = new bijkomendekosten;
+$bijkomendekosten->pre_calculate_all_types(0, true);
 
 ?>
