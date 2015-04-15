@@ -851,7 +851,7 @@ class bijkomendekosten {
 					$total = $per_accommodation + $i * $per_person;
 					$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, $seizoen_id.":".$i, $total);
 					if($vars["tmp_info_tonen"]) {
-						echo "bk:".$this->wzt.":".$type_id." - ".$seizoen_id.":".$i." - ".$total."<br/>";
+						echo "bk:".$this->wzt.":".$type_id." - ".$seizoen_id.":".$i." - ".$total." <br/>\n";
 						flush();
 					}
 				}
@@ -886,7 +886,7 @@ class bijkomendekosten {
 						if($total<>0) {
 							$this->wt_redis->hset("bk_per_week:".$this->wzt.":".$type_id, $week.":".$persons, $total);
 							if($vars["tmp_info_tonen"]) {
-								echo "bk_per_week:".$this->wzt.":".$type_id." - ". $week.":".$persons." - ". $total."<br />";
+								echo "bk_per_week:".$this->wzt.":".$type_id." - ". $week.":".$persons." - ". $total." <br />\n";
 								flush();
 							}
 						}

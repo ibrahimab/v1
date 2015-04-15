@@ -569,12 +569,31 @@ class tarieventabel {
 
 			// check for afwijkende vertrekdag
 			if($this->show_afwijkend_legenda and $this->afwijkend_aantal_nachten) {
+
+				$aankomst_weekdag = mktime(0, 0, 0, 1, 3+$this->accinfo["aankomst_plusmin"], 2015); // = Saturday +- aankomst_plusmin
+				$vertrek_weekdag = mktime(0, 0, 0, 1, 3+$this->accinfo["vertrek_plusmin"], 2015); // = Saturday +- vertrek_plusmin
+
 				foreach ($this->aantalnachten as $key_datum => $value_nachten) {
 					if($key_datum>time()) {
-						if($value_nachten and ($value_nachten<>7 or $this->dag_van_de_week_afwijkend[$key_datum])) {
+
+						$eind=mktime(0,0,0,date("m",$this->unixtime_week[$key_datum]),date("d",$this->unixtime_week[$key_datum])+$value_nachten,date("Y",$this->unixtime_week[$key_datum]));
+
+						$include_row = false;
+						$dag_van_de_week_afwijkend = false;
+						if($this->accinfo["aankomst_plusmin"] or $this->accinfo["vertrek_plusmin"]) {
+							if(date("w", $aankomst_weekdag)<>date("w", $this->unixtime_week[$key_datum]) or date("w", $vertrek_weekdag)<>date("w", $eind)) {
+								$include_row = true;
+								$dag_van_de_week_afwijkend = true;
+							}
+						} else {
+							$include_row = true;
+						}
+
+						if($value_nachten and ($value_nachten<>7 or $this->dag_van_de_week_afwijkend[$key_datum] or $dag_van_de_week_afwijkend)) {
 							if($this->unixtime_week[$key_datum]) {
-								$eind=mktime(0,0,0,date("m",$this->unixtime_week[$key_datum]),date("d",$this->unixtime_week[$key_datum])+$value_nachten,date("Y",$this->unixtime_week[$key_datum]));
-								$afwijkend .= "<div>".DATUM("DAG D MND JJJJ", $this->unixtime_week[$key_datum])." - ".DATUM("DAG D MND JJJJ", $eind)." (".$value_nachten." ".($value_nachten==1 ? html("nacht", "vars") : html("nachten", "vars")).")</div>";
+								if($include_row) {
+									$afwijkend .= "<div>".DATUM("DAG D MND JJJJ", $this->unixtime_week[$key_datum], $vars["taal"])." - ".DATUM("DAG D MND JJJJ", $eind, $vars["taal"])." (".$value_nachten." ".($value_nachten==1 ? html("nacht", "vars") : html("nachten", "vars")).")</div>";
+								}
 							}
 						}
 					}
@@ -720,7 +739,7 @@ class tarieventabel {
 			}
 
 			if($this->dag_van_de_week_afwijkend[$key] and $key>time()) {
-				$class = " tarieventabel_datumbalk_opvallend";
+				$class .= " tarieventabel_datumbalk_opvallend";
 				if($this->show_afwijkend_legenda and $this->afwijkend_aantal_nachten) {
 					$star = "*";
 				}

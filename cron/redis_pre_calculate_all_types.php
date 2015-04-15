@@ -4,7 +4,7 @@
 #
 # This script is run after a database-import on the acceptance-server (on web01.chalet.nl)
 #
-# /usr/bin/php /var/www/chalet.nl/html_test/cron/redis_pre_calculate_all_types
+# /usr/bin/php /var/www/chalet.nl/html_test/cron/redis_pre_calculate_all_types.php
 #
 
 
