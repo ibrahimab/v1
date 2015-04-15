@@ -1843,7 +1843,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 
 .zoekresultaat_prijs_info_bijkomendekosten_popup {
 	position: absolute;
-	z-index: 500;
+	z-index: 5000;
 	font-size: 0.9em;
 	top: -100px;
 	left: -1000px;
