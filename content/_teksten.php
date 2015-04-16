@@ -2057,7 +2057,7 @@ $txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] vakanti
 $txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] holiday home found";
 
 $txt["nl"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="Nu al te boeken: [[v_seizoennaam]]";
-$txt["de"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="";
+$txt["de"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="Jetzt schon buchbar: [[v_seizoennaam]]";
 $txt["en"]["zoek-en-boek"]["bekijknutarievenvolgendseizoen"]="Ready to be booked: [[v_seizoennaam]]";
 
 
@@ -3845,7 +3845,7 @@ $txt["de"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Gewähltes Ankunftsda
 $txt["en"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Selected arrival date";
 
 $txt["nl"]["tarieventabel"]["prijs-per-persoon"]="Prijs per persoon";
-$txt["de"]["tarieventabel"]["prijs-per-persoon"]="";
+$txt["de"]["tarieventabel"]["prijs-per-persoon"]="Preis pro Person";
 $txt["en"]["tarieventabel"]["prijs-per-persoon"]="Price per person";
 
 $txt["nl"]["tarieventabel"]["totaalprijs-op-basis-1-persoon"]="Totaalprijs op basis van 1 persoon";
@@ -3857,7 +3857,7 @@ $txt["de"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Gesamtpreis für 
 $txt["en"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Total price based on [[v_aantal]] persons";
 
 $txt["nl"]["tarieventabel"]["totaalprijs-opgebouwd"]="Deze totaalprijs is opgebouwd uit de totale verplichte kosten van je vakantie. De getoonde prijs is inclusief de mogelijke kosten die ter plaatse voldaan moeten worden.";
-$txt["de"]["tarieventabel"]["totaalprijs-opgebouwd"]="";
+$txt["de"]["tarieventabel"]["totaalprijs-opgebouwd"]="Der Gesamtpreis ist aufgebaut aus den gesamten obligatorischen Kosten Ihres Urlaubs. Der gezeigte Preis ist inklusive möglicher Nebenkosten die vor Ort bezahlt werden müssen.";
 $txt["en"]["tarieventabel"]["totaalprijs-opgebouwd"]="This total price consists of all mandatory costs of your holiday. The price shown includes possible costs paid locally.";
 
 $txt["nl"]["tarieventabel"]["klik-op-datum-personen"]="Klik in bovenstaande prijstabel om aankomstdatum/aantal personen te wijzigen.";
@@ -3998,15 +3998,15 @@ $txt["de"]["bijkomendekosten"]["kosten-zwitserse-franken"]="Kosten vor Ort sind 
 $txt["en"]["bijkomendekosten"]["kosten-zwitserse-franken"]="Costs locally are almost always paid in Swiss francs. Euro amounts shown only serve as an indication due to variable exchange rates.";
 
 $txt["nl"]["bijkomendekosten"]["kosten-zwitserse-franken-indicatief"]="De genoemde plaatselijke kosten zijn vrijwel altijd in Zwitserse franken te voldoen. Deze kosten zijn met zorg samengesteld, maar blijven mede wegens een veranderlijke wisselkoers indicatief.";
-$txt["de"]["bijkomendekosten"]["kosten-zwitserse-franken-indicatief"]="";
+$txt["de"]["bijkomendekosten"]["kosten-zwitserse-franken-indicatief"]="Die genannten Nebenkosten vor Ort sind nahezu immer in Schweizer Franken zu begleichen. Obwohl diese Nebenkosten sorgfältig zusammengestellt sind, bleiben diese wegen des veränderlichen Wechselkurses jedoch indikativ.";
 $txt["en"]["bijkomendekosten"]["kosten-zwitserse-franken-indicatief"]="The costs listed are almost always paid in Swiss francs. The list has been carefully put together, but remains indicative partly due to the variable exchange rate.";
 
 $txt["nl"]["bijkomendekosten"]["kosten-indicatief"]="De genoemde plaatselijke kosten zijn met zorg samengesteld, maar blijven indicatief.";
-$txt["de"]["bijkomendekosten"]["kosten-indicatief"]="";
+$txt["de"]["bijkomendekosten"]["kosten-indicatief"]="Obwohl die genannten Nebenkosten vor Ort sorgfältig zusammengestellt sind, bleiben diese jedoch indikativ.";
 $txt["en"]["bijkomendekosten"]["kosten-indicatief"]="The costs listed are put together carefully, but the list remains indicative.";
 
 $txt["nl"]["bijkomendekosten"]["specificatie-totaalprijs"]="Specificatie totaalprijs";
-$txt["de"]["bijkomendekosten"]["specificatie-totaalprijs"]="";
+$txt["de"]["bijkomendekosten"]["specificatie-totaalprijs"]="Gesamtpreis-Berechnung";
 $txt["en"]["bijkomendekosten"]["specificatie-totaalprijs"]="Price breakdown";
 
 $txt["nl"]["bijkomendekosten"]["accommodatieplusskipas"]="Accommodatie + skipas";
@@ -4018,7 +4018,7 @@ $txt["de"]["bijkomendekosten"]["accommodatie"]="Unterkunft";
 $txt["en"]["bijkomendekosten"]["accommodatie"]="Accommodation";
 
 $txt["nl"]["bijkomendekosten"]["totaal-aan-chalet-nl"]="Totaal te betalen aan [[v_websitenaam]]";
-$txt["de"]["bijkomendekosten"]["totaal-aan-chalet-nl"]="";
+$txt["de"]["bijkomendekosten"]["totaal-aan-chalet-nl"]="Insgesamt zu bezahlen an [[v_websitenaam]]";
 $txt["en"]["bijkomendekosten"]["totaal-aan-chalet-nl"]="To be paid to [[v_websitenaam]]";
 
 $txt["nl"]["bijkomendekosten"]["reserveringskosten"]="Reserveringskosten";
@@ -4026,7 +4026,7 @@ $txt["de"]["bijkomendekosten"]["reserveringskosten"]="Reservierungskosten";
 $txt["en"]["bijkomendekosten"]["reserveringskosten"]="Booking costs";
 
 $txt["nl"]["bijkomendekosten"]["totaal-ter-plaatse"]="Totaal ter plaatse te betalen";
-$txt["de"]["bijkomendekosten"]["totaal-ter-plaatse"]="";
+$txt["de"]["bijkomendekosten"]["totaal-ter-plaatse"]="Insgesamt vor Ort zu bezahlen";
 $txt["en"]["bijkomendekosten"]["totaal-ter-plaatse"]="To be paid locally";
 
 $txt["nl"]["bijkomendekosten"]["totaalprijs-op-basis-1-persoon"]="Totaalprijs op basis van 1 persoon";
