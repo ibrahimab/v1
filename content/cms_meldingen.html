@@ -80,14 +80,14 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[13]]["vertalingen"]) {
 			$doorloop_array=array("","v","z","i");
 		}
 
-		while(list($key,$value)=each($doorloop_array)) {
+		foreach ($doorloop_array as $key => $value) {
 			if($value) {
 				$afwijking="_".$value;
 			} else {
 				$afwijking="";
 			}
 
-			while(list($key2,$value2)=each($txta["nl".$afwijking])) {
+			foreach ($txta["nl".$afwijking] as $key2 => $value2) {
 				if($value2 and !$txta[$check_for_language.$afwijking][$key2]) {
 					$onvertaald=true;
 					if($vars["lokale_testserver"]) {
@@ -96,8 +96,8 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[13]]["vertalingen"]) {
 				}
 			}
 
-			while(list($key2,$value2)=each($txt["nl".$afwijking])) {
-				while(list($key3,$value3)=each($value2)) {
+			foreach ($txt["nl".$afwijking] as $key2 => $value2) {
+				foreach ($value2 as $key3 => $value3) {
 					if(!$txt[$check_for_language.$afwijking][$key2][$key3] and $key3) {
 						$onvertaald=true;
 						if($vars["lokale_testserver"]) {
@@ -108,9 +108,6 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[13]]["vertalingen"]) {
 			}
 		}
 		if($GLOBALS["nieuwe_vertaling"][$check_for_language]) $onvertaald=true;
-
-	// TIJDELIJK uitgezet
-	// $onvertaald = false;
 
 		if($onvertaald) {
 			echo "\n<hr>&nbsp;<br><b>Let op! Er zijn teksten die nog niet in het ".$check_for_language_name." zijn vertaald. Ga naar de <a href=\"cms_vertalingen.php".($check_for_language<>"en" ? "?taal=".$check_for_language : "")."\">vertaalmodule</a> om de vertaling aan Jeroen door te geven.</b><br>&nbsp;";
