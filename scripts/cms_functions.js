@@ -1002,7 +1002,8 @@ $(document).ready(function() {
 		})
 	});
 
-	$(".cms_bk_seizoen form").submit(function(event) {
+	$(document).on("submit", ".cms_bk_seizoen form", function(event) {
+
 		event.preventDefault();
 
 		var form = $(this);

@@ -17,8 +17,8 @@ $geen_tracker_cookie = true;
 $unixdir="../";
 include("../admin/vars.php");
 
-#wt_jabber("boschman@gmail.com",$vars["basehref"].$_SERVER["REQUEST_URI"]);
-#mail("jeroen@webtastic.nl","json","json ".wt_dump($_GET,false));
+// wt_jabber("boschmanusa@gmail.com",$vars["basehref"].$_SERVER["REQUEST_URI"]);
+// mail("jeroen@webtastic.nl","json","json ".wt_dump($_GET,false));
 
 function wt_echo_json($array) {
 

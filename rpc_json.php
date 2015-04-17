@@ -62,7 +62,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 
 	while ( list( $key, $value )=each( $query ) ) {
 		$db->query( $value );
-		//  wt_jabber("boschman@gmail.com",$db->lastquery);
+		//  wt_jabber("boschmanusa@gmail.com",$db->lastquery);
 		$return["ok"]=true;
 		if ( $db->num_rows() ) {
 			while ( $db->next_record() ) {
@@ -174,7 +174,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	}
 
 	$db->query( "SELECT count(t.type_id) AS aantal, p.plaats_id, p.skigebied_id, p.naam, p.gps_lat, p.gps_long, s.naam AS skigebied FROM plaats p, land l, type t, accommodatie a, skigebied s WHERE p.skigebied_id=s.skigebied_id AND a.weekendski=0 AND t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id".$andquery." GROUP BY p.plaats_id;" );
-	// wt_jabber("boschman@gmail.com",$db->lastquery);
+	// wt_jabber("boschmanusa@gmail.com",$db->lastquery);
 	if ( $db->num_rows() ) {
 		$return["ok"]=true;
 		while ( $db->next_record() ) {
