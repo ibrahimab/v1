@@ -20,6 +20,17 @@ if(!$_GET["wzt"]) {
 	}
 }
 
+if($_GET["add"]<>5 and $_GET["edit"]<>5) {
+	// determine number of toon_op_homepage-villages
+	$db->query("SELECT COUNT(p.plaats_id) AS aantal, s.skigebied_id FROM plaats p INNER JOIN skigebied s USING(skigebied_id) WHERE s.toon_op_homepage=1 AND p.toon_op_homepage=1 GROUP BY p.skigebied_id;");
+	while($db->next_record()) {
+		$toon_op_homepage_aantal[$db->f("skigebied_id")] = $db->f("aantal");
+		if($db->f("aantal")>=2) {
+			$toon_op_homepage[$db->f("skigebied_id")] = "ja";
+		}
+	}
+}
+
 # Skigebieden-array vullen voor koppelingen
 $db->query("SELECT DISTINCT s.skigebied_id, s.naam, l.naam AS land FROM skigebied s, plaats p, land l WHERE s.wzt='".addslashes($_GET["wzt"])."' AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id ORDER BY l.naam, s.naam;");
 while($db->next_record()) {
@@ -74,6 +85,8 @@ while(list($key,$value)=each($vars["websites_inactief"])) {
 	unset($vars["websites_wzt"][$_GET["wzt"]][$key]);
 }
 $cms->db_field(5,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
+$cms->db_field(5,"select","toon_op_homepage_list","skigebied_id",array("selection"=>$toon_op_homepage));
+$cms->db_field(5,"select","toon_op_homepage_aantal_plaatsen","skigebied_id",array("selection"=>$toon_op_homepage_aantal));
 $cms->db_field(5,"text","altnaam");
 $cms->db_field(5,"text","altnaam_zichtbaar");
 $cms->db_field(5,"text","kortenaam1");
@@ -83,6 +96,7 @@ $cms->db_field(5,"text","kortenaam4");
 $cms->db_field(5,"textarea","xmlnaam");
 #$cms->db_field(5,"checkbox","kenmerken","",array("selection"=>$vars["kenmerken_skigebied_".$_GET["wzt"]]));
 $cms->db_field(5,"multiradio","kenmerken","",array("selection"=>$vars["kenmerken_skigebied_".$_GET["wzt"]],"multiselection"=>array(1=>"ja",2=>"nee",3=>"onbekend",4=>"niet relevant"),"multiselectionfields"=>array(1=>"kenmerken",2=>"kenmerken_nee",3=>"kenmerken_onbekend",4=>"kenmerken_irrelevant")));
+$cms->db_field(5,"yesno","toon_op_homepage");
 $cms->db_field(5,"text","korteomschrijving");
 $korteomschrijving_info = array("info"=>"Vul een korte/krachtige omschrijving van de skigebied in 1 zin voor op de skigebied pagina (voor bezoekers en zoekmachines).");
 if($vars["cmstaal"]) $cms->db_field(5,"text","korteomschrijving_".$vars["cmstaal"]);
@@ -154,9 +168,18 @@ $cms->db_field(5,"text","foto_onderschrift");
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_field(5,"naam","Naam");
 $cms->list_field(5,"websites","Sites");
+$cms->list_field(5,"toon_op_homepage_list","Op homepage");
+$cms->list_field(5,"toon_op_homepage_aantal_plaatsen","Aantal plaatsen op homepage");
+
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(5,0,"websites","Toon in totaaloverzicht op",array("selection"=>($_GET["wzt"]==1 ? "B,C,T,W" : "N,O,Z")),"",array("one_per_line"=>true));
+if($_GET["wzt"]==1) {
+	$cms->edit_field(5,0,"toon_op_homepage","Toon dit skigebied op de homepage van bovenstaande sites (nog niet in gebruik)");
+} else {
+	$cms->edit_field(5,0,"toon_op_homepage","Toon deze regio op de homepage van bovenstaande sites (nog niet in gebruik)");
+}
+
 if($vars["cmstaal"]) {
 	$cms->edit_field(5,1,"naam", "Naam NL","",array("noedit"=>true));
 	$cms->edit_field(5,1,"naam_".$vars["cmstaal"], "Naam ".strtoupper($vars["cmstaal"]));

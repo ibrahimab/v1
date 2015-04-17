@@ -23,6 +23,11 @@ if($_GET["4k0"]) {
 		$laatste_seizoen=$db->f("seizoen_id");
 	}
 
+	# toon_op_homepage active on ski-area/region?
+	$db->query("SELECT p.plaats_id FROM skigebied s INNER JOIN plaats p USING(skigebied_id) WHERE p.plaats_id='".intval($_GET["4k0"])."' AND s.toon_op_homepage=1;");
+	if($db->next_record()) {
+		$skigebied_toon_op_homepage = true;
+	}
 	# Vertrekinfo-tracking
 	$vertrekinfo_tracking_array=array("vertrekinfo_plaatsroute");
 	if($vars["cmstaal"]) {
@@ -30,6 +35,14 @@ if($_GET["4k0"]) {
 	}
 	$vertrekinfo_tracking=vertrekinfo_tracking("plaats",$vertrekinfo_tracking_array,$_GET["4k0"],$laatste_seizoen);
 }
+if($_GET["add"]<>4 and $_GET["edit"]<>4) {
+	// determine number of toon_op_homepage-villages
+	$db->query("SELECT p.plaats_id FROM plaats p INNER JOIN skigebied s USING(skigebied_id) WHERE s.toon_op_homepage=1 AND p.toon_op_homepage=1;");
+	while($db->next_record()) {
+		$toon_op_homepage[$db->f("plaats_id")] = "ja";
+	}
+}
+
 
 # Toegevoegde accommodaties opslaan
 if($_POST["leverancierscode_filled"]) {
@@ -84,11 +97,12 @@ while(list($key,$value)=each($vars["websites_inactief"])) {
 	unset($vars["websites_wzt"][$_GET["wzt"]][$key]);
 }
 $cms->db_field(4,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
+$cms->db_field(4,"select","toon_op_homepage_list","plaats_id",array("selection"=>$toon_op_homepage));
 $cms->db_field(4,"text","altnaam");
 $cms->db_field(4,"text","altnaam_zichtbaar");
 $cms->db_field(4,"select","skigebied_id","",array("othertable"=>"5","otherkeyfield"=>"skigebied_id","otherfield"=>"naam","otherwhere"=>"wzt='".addslashes($_GET["wzt"])."'"));
-#$cms->db_field(4,"checkbox","kenmerken","",array("selection"=>$vars["kenmerken_plaats_".$_GET["wzt"]]));
 $cms->db_field(4,"multiradio","kenmerken","",array("selection"=>$vars["kenmerken_plaats_".$_GET["wzt"]],"multiselection"=>array(1=>"ja",2=>"nee",3=>"onbekend",4=>"niet relevant"),"multiselectionfields"=>array(1=>"kenmerken",2=>"kenmerken_nee",3=>"kenmerken_onbekend",4=>"kenmerken_irrelevant")));
+$cms->db_field(4,"yesno","toon_op_homepage");
 $cms->db_field(4,"select","aantalacc","plaats_id",array("selection"=>$aantalacc));
 $cms->db_field(4,"select","aantalpers","plaats_id",array("selection"=>$aantalpers));
 $cms->db_field(4,"select","plaatslink","plaats_id",array("selection"=>$plaatslink));
@@ -159,11 +173,19 @@ if($_GET["wzt"]==2) {
 $cms->list_field(4,"land_id","Land");
 $cms->list_field(4,"aantalacc","Aantal acc");
 $cms->list_field(4,"aantalpers","Capaciteit");
+$cms->list_field(4,"toon_op_homepage_list","Op homepage");
 $cms->list_field(4,"plaatslink","Link","",array("html"=>true));
 $cms->list_field(4,"websites","Sites");
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(4,0,"websites","Toon in totaaloverzicht op",array("selection"=>($_GET["wzt"]==1 ? "B,C,T,W" : "N,O,Z")),"",array("one_per_line"=>true));
+if($skigebied_toon_op_homepage) {
+	if($_GET["wzt"]==1) {
+		$cms->edit_field(4,0,"toon_op_homepage","Toon deze plaats op de homepage bij het betreffende skigebied (nog niet in gebruik)");
+	} else {
+		$cms->edit_field(4,0,"toon_op_homepage","Toon deze plaats op de homepage bij de betreffende regio (nog niet in gebruik)");
+	}
+}
 if($vars["cmstaal"]) {
 	$cms->edit_field(4,1,"naam", "Naam NL","",array("noedit"=>true));
 	$cms->edit_field(4,1,"naam_".$vars["cmstaal"], "Naam ".strtoupper($vars["cmstaal"]));
