@@ -36,12 +36,6 @@ if($gegevens["stap1"]["boekingid"]) {
 	$gegevens["fin"]=$temp_gegevens["fin"][1];
 }
 
-if($vars["lokale_testserver"]) {
-	unset($gegevens["stap1"]["factuurdatum"]);
-	// echo wt_dump($gegevens);
-	// exit;
-}
-
 # frm = formname (mag ook wat anders zijn)
 $form=new form2("frm");
 $form->settings["fullname"]="Naam";
@@ -339,7 +333,7 @@ if($form->okay) {
 						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\nNederland\n\nTel.: +31 348 434649\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
 					}
 				}
-				$this->Ln(2);
+				$this->Ln(20);
 			}
 
 			function Footer() {
@@ -457,15 +451,6 @@ if($form->okay) {
 		$pdf->SetFont("","");
 		$pdf->Ln();
 		$pdf->Ln();
-
-		function factuur_hr() {
-			global $pdf;
-
-			$pdf->SetDrawColor(188,188,188);
-
-			$y = $pdf->GetY();
-			$pdf->Line(10, $y, 210-10, $y);
-		}
 
 		function factuur_opties($aantal,$naam,$bedrag,$type="optie",$toonnul=0,$no_bold=false) {
 			global $pdf;
@@ -607,11 +592,9 @@ if($form->okay) {
 			}
 
 			factuur_opties("","","","optellen");
-			// factuur_opties("",txt("eindtotaal","factuur"),$gegevens["fin"]["totale_reissom"],"plaintext");
-			factuur_opties("",txt("tevoldoenaanwebsite","factuur", array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"])),$gegevens["fin"]["totale_reissom"],"plaintext");
+			factuur_opties("",txt("eindtotaal","factuur"),$gegevens["fin"]["totale_reissom"],"plaintext");
 		} else {
-			// factuur_opties("",txt("eindtotaal","factuur"),$gegevens["fin"]["totale_reissom"],"plaintext");
-			factuur_opties("",txt("tevoldoenaanwebsite","factuur", array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"])),$gegevens["fin"]["totale_reissom"],"plaintext");
+			factuur_opties("",txt("eindtotaal","factuur"),$gegevens["fin"]["totale_reissom"],"plaintext");
 			if($pdf->GetY()>250) {
 				$pdf->AddPage();
 			}
@@ -676,33 +659,18 @@ if($form->okay) {
 
 			$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
 			$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
-			$bk = $bijkomendekosten->get_booking_data($gegevens);
+			$bk = $bijkomendekosten->get_factuur_data();
 
 			if(is_array($bk["voldaan"]) or is_array($bk["ter_plaatse"])) {
-				// $pdf->Ln(1);
-			}
-
-			// $pdf->MultiCell(0,4,"AAAA\n".txt("verplichtekostenondervoorbehoud", "factuur")."\n11112\n3283838\n939393\n595959\nZZZZZ");
-
-
-			function factuur_include_inbegrepen($bk) {
-				global $pdf;
-
+				$pdf->Ln(1);
 			}
 
 			if(is_array($bk["voldaan"])) {
-
-				// add new page?
-				$y = $pdf->GetY();
-				$y += 4 + 6;
-				$y += (count($bk["voldaan"]) * 5);
-
-				if($y>260) {
-					$pdf->AddPage();
-				}
-
+				$pdf->Ln(1);
+				$pdf->SetFont("","B");
 				$pdf->Cell(190,4,txt("inbegrepen","factuur").":");
-				$pdf->Ln(6);
+				$pdf->SetFont("","");
+				$pdf->Ln();
 
 				foreach ($bk["voldaan"] as $key => $value) {
 					$pdf->Cell(190,4,"  ".chr(149)." ".$value["naam"]);
@@ -710,65 +678,28 @@ if($form->okay) {
 				}
 			}
 
+			if($pdf->GetY()>250) {
+				$pdf->AddPage();
+			}
+
 			if(is_array($bk["ter_plaatse"])) {
-
-				// add new page?
-				$y = $pdf->GetY();
-				$y += 4 + 6;
-				$y += (count($bk["ter_plaatse"]) * 5);
-				if(count($bk["ter_plaatse"])>1) {
-					$y += 10;
-				}
-
-				if($y>260) {
-					$pdf->AddPage();
+				if(is_array($bk["voldaan"])) {
+					$pdf->Ln();
 				} else {
-					$pdf->Ln(4);
-					factuur_hr();
-					$pdf->Ln(4);
+					$pdf->Ln(1);
 				}
-
 				$pdf->SetFont("","B");
 				$pdf->Cell(190,4,txt("ter_plaatse","factuur").":");
 				$pdf->SetFont("","");
-				$pdf->Ln(6);
+				$pdf->Ln();
 
-				// ter_plaatse where price is unknown
 				foreach ($bk["ter_plaatse"] as $key => $value) {
-					if($value["bedragonbekend"]) {
-						// factuur_opties($value["aantal"], ,$value["totaalbedrag"],"optie",0,true);
-
-						$pdf->Cell(5,4,$value["aantal"],0,0,'L',0);
-						$pdf->Cell(5,4,"x",0,0,'C',0);
-						$pdf->Cell(157,4,$value["naam"]." (".$value["toonbedrag"].")",0,0,'L',0);
-						$pdf->Ln();
-
-						$bedragonbekend = true;
-					}
-				}
-				if($bedragonbekend) {
+					$pdf->Cell(190,4,"  ".chr(149)." ".$value["naam"]." (".$value["toonbedrag"].")");
 					$pdf->Ln();
 				}
-				// ter_plaatse where price is known
-				foreach ($bk["ter_plaatse"] as $key => $value) {
-					if(!$value["bedragonbekend"]) {
-						factuur_opties($value["aantal"], $value["naam"]." (".$value["toonbedrag"].")",$value["totaalbedrag"],"optie",0,true);
-						$totaalbedrag_ter_plaatse += $value["totaalbedrag"];
-						$ter_plaatse_counter++;
-					}
-				}
-				if($ter_plaatse_counter>=2 and $totaalbedrag_ter_plaatse>0) {
-					factuur_opties("","","","optellen");
-					factuur_opties("",txt("totaal_ter_plaatse","factuur"),$totaalbedrag_ter_plaatse,"plaintext");
-				}
-
-
 				$pdf->Ln();
 
 				$pdf->MultiCell(0,4,txt("verplichtekostenondervoorbehoud", "factuur"));
-				$pdf->Ln(4);
-				// factuur_hr();
-				$pdf->Ln(4);
 
 			}
 
