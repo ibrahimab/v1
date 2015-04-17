@@ -534,7 +534,10 @@ class tarieventabel {
 				$return.="</div>";
 			}
 
-
+			// show "click for total"-message
+			$return .= "<div class=\"tarieventabel_totaal_message\">";
+			$return .= html("klik-voor-totaalbedrag", "tarieventabel");
+			$return .= "</div>";
 
 			// legenda
 			$return.="<div class=\"tarieventabel_legenda\">";

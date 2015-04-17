@@ -3816,6 +3816,10 @@ $txt["nl"]["tarieventabel"]["minderpersonen_verbergen"]="inklappen";
 $txt["de"]["tarieventabel"]["minderpersonen_verbergen"]="zuklappen";
 $txt["en"]["tarieventabel"]["minderpersonen_verbergen"]="fold up";
 
+$txt["nl"]["tarieventabel"]["klik-voor-totaalbedrag"]="Klik in bovenstaande prijstabel voor een gespecificeerd totaalbedrag.";
+$txt["de"]["tarieventabel"]["klik-voor-totaalbedrag"]="";
+$txt["en"]["tarieventabel"]["klik-voor-totaalbedrag"]="Click in the above pricing table for a detailed total.";
+
 $txt["nl"]["tarieventabel"]["legenda_aanbieding"]="aanbieding (korting al doorberekend)";
 $txt["de"]["tarieventabel"]["legenda_aanbieding"]="Angebot (Rabatt schon verrechnet)";
 $txt["en"]["tarieventabel"]["legenda_aanbieding"]="special offer";
