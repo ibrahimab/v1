@@ -8,7 +8,7 @@ $robot_noindex       = true;
 include 'admin/vars.php';
 
 
-if (in_array($vars['website'], array('C', 'I'))) {
+if (in_array($vars['website'], array('C', 'I', 'K', 'B'))) {
     
 	$title['zoover_awards']="Zoover awards 2015";
 	include 'content/opmaak.php';

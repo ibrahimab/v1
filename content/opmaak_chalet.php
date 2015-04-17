@@ -241,10 +241,11 @@ echo "</td><td>";
 echo "</td></tr></table>";
 echo "</div>\n";
 
-// // Zoover-awards
-// if($vars["website"]=="C" || $vars["website"] == "B") {
-// 	echo "<a href=\"http://www.zooverawards.nl/stemmen/wintersport/chalet.nl\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\"><img src=\"".wt_he($vars["path"]."pic/banners/zoover/zoover-2015.png")."\"></a>";
-// }
+// Zoover-awards
+if($vars["website"]=="C" || $vars["website"] == "B") {
+    echo "<a href=\"" . $vars['path'] . "zooverawards2015\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\" style=\"right: 120px; top: 20px;\"><img src=\"".wt_he($vars["path"]."pic/tijdelijk/zoover/chalet/zoover-1.png")."\"></a>";
+    echo "<a href=\"" . $vars['path'] . "zooverawards2015\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\" style=\"top: 20px;\"><img src=\"".wt_he($vars["path"]."pic/tijdelijk/zoover/chalet/zoover-2.png")."\"></a>";
+}
 
 echo "<div id=\"topfoto\">";
 echo "<img src=\"".$vars["path"]."pic/topfoto_";
