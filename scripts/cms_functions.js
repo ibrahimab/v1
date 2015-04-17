@@ -920,7 +920,7 @@ $(document).ready(function() {
 
 
 	// track changes
-	$(".cms_bk_row select, .cms_bk_row input[type=text]").change(function(event) {
+	$(document).on("change", ".cms_bk_row select, .cms_bk_row input[type=text]", function(event) {
 
 		var form = $(this).closest("form");
 		var seizoen_id = form.find("input[name='seizoen_id']").val();
@@ -938,7 +938,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$("select[name=bk_new]").change(function(event) {
+	$(document).on("change", "select[name=bk_new]", function(event) {
 
 		var bk_soort_id = $(this).val();
 		var form = $(this).closest("form");
@@ -960,7 +960,7 @@ $(document).ready(function() {
 	});
 
 
-	$("input[name=type_afwijkingen_overschrijven]").change(function(event) {
+	$(document).on("change", "input[name=type_afwijkingen_overschrijven]", function(event) {
 
 		var form = $(this).closest("form");
 
@@ -995,7 +995,7 @@ $(document).ready(function() {
 	});
 
 	// bk: opmerkingen_intern: keep synced
-	$(".cms_bk_opmerkingen_intern textarea").blur(function(event) {
+	$(document).on("blur", ".cms_bk_opmerkingen_intern textarea", function(event) {
 		var cms_bk_opmerkingen_intern = $(this).val();
 		$(".cms_bk_opmerkingen_intern textarea").each(function(){
 			$(this).val(cms_bk_opmerkingen_intern);
