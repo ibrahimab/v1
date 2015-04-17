@@ -2602,8 +2602,20 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 							$results[$results_teller].="<div class=\"zoekresultaat_omschrijving"."\">".wt_he((!$newresults_multiple&&$value2["tkorteomschrijving"] ? $value2["tkorteomschrijving"] : $value2["korteomschrijving"]))."</div>";
 
+						if($value2["toonper"]==3 or $vars["wederverkoop"]) {
+							// losse accommodatie
+							$arrangement = false;
+						} else {
+							$arrangement = true;
+						}
+
+						if($arrangement) {
+							// skipas-icon
+							$results[$results_teller].="<div class=\"zoekresultaat_skipas".($newresultsminmax[$value]["aanbieding"] ? " zoekresultaat_skipas_en_aanbieding" : "")."\">".html("incl-skipas","accommodaties")."</div>";
+						}
+
 						if($newresultsminmax[$value]["aanbieding"]) {
-							$results[$results_teller].="<div class=\"zoekresultaat_aanbieding\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding","accommodaties")."</div>";
+							$results[$results_teller].="<div class=\"zoekresultaat_aanbieding".($arrangement ? " zoekresultaat_aanbieding_en_skipas" : "")."\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding","accommodaties")."</div>";
 						}
 
 						$results[$results_teller].="</div>";
@@ -2708,16 +2720,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					$prijs_div_class = "zoekresultaat_type_prijs";
 					if($value2["tarief"]) {
 						if($value2["toonper"]<>3 && !$vars["wederverkoop"]) {
-
 							$prijs_div_title = txt("ppinclusiefskipas", "zoek-en-boek");
-
-							if($_GET["skipas-icoon"]) {
-								$prijs_div_class .= " zoekresultaat_type_prijs_skipas";
-
-								if($value2["tarief"]>=1000) {
-									$prijs_div_class .= " zoekresultaat_type_prijs_skipas_1000";
-								}
-							}
 						} else {
 							$prijs_div_title = txt("peraccommodatie", "zoek-en-boek");
 						}

@@ -1449,6 +1449,10 @@ $txt["nl"]["accommodaties"]["aanbieding"]="aanbieding";
 $txt["de"]["accommodaties"]["aanbieding"]="Angebot";
 $txt["en"]["accommodaties"]["aanbieding"]="special offer";
 
+$txt["nl"]["accommodaties"]["incl-skipas"]="incl. skipas";
+$txt["de"]["accommodaties"]["incl-skipas"]="inkl. Skipass";
+$txt["en"]["accommodaties"]["incl-skipas"]="incl. lift pass";
+
 $txt["nl"]["accommodaties"]["aantalgevonden"]="Aantal gevonden accommodaties";
 $txt["de"]["accommodaties"]["aantalgevonden"]="Anzahl gefundene Unterkünfte";
 $txt["en"]["accommodaties"]["aantalgevonden"]="Number of results";

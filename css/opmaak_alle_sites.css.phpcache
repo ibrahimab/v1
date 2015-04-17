@@ -1792,6 +1792,23 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	border: 0;
 }
 
+.zoekresultaat_skipas {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	position: absolute;
+	top: 0px;
+	right: -3px;
+	font-size: 0.8em;
+	background:url("../pic/icons/incl-skipas.png") center 4px no-repeat;
+	width: 70px;
+	height: 60px;
+	padding-top: 43px;
+	text-align: center;
+	white-space: nowrap;
+	color: #003366;
+}
+
 .zoekresultaat_aanbieding {
 	position: absolute;
 	top: 7px;
@@ -1806,6 +1823,14 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	margin-top: -9px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.zoekresultaat_skipas_en_aanbieding {
+	right: 65px;
+}
+
+.zoekresultaat_aanbieding_en_skipas {
+
 }
 
 .zoekresultaat_andereregio {
@@ -1988,19 +2013,6 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	padding: 3px;
 	padding-right: 10px;
 	text-align: right;
-}
-
-.zoekresultaat_type_prijs_skipas {
-	background-image: url('../pic/icons/incl-skipas-test2.png');
-	background-repeat: no-repeat;
-	background-position: 5px 4px;
-	width: 99px;
-	padding-right: 6px;
-}
-
-.zoekresultaat_type_prijs_skipas_1000 {
-	width: 104px;
-	padding-right: 1px;
 }
 
 .zoekresultaat_type_aanbieding {
