@@ -74,7 +74,7 @@ RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} !^test\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !^dev\..*\..* [NC]
-RewriteCond %{HTTP_HOST} !^ibrahim\..*\..* [NC]
+RewriteCond %{HTTP_HOST} !^local\..*\..* [NC] 
 RewriteCond %{HTTP_HOST} !^wwwtest\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !postvak\.net [NC]
 RewriteCond %{HTTP_HOST} !netromtest [NC]
@@ -129,7 +129,7 @@ RewriteCond %{HTTP_HOST} !^www[23]?\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^srv01\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^dev\.chalet\.nl [NC]
-RewriteCond %{HTTP_HOST} !^ibrahim\.chalet\.nl [NC]
+RewriteCond %{HTTP_HOST} !^local\.chalet\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
 
@@ -519,6 +519,11 @@ RewriteRule ^kixx$ actie-kixx.php?%{QUERY_STRING}
 # Onderzoek Dunja
 RewriteRule ^onderzoek/$ /onderzoek [L,R=301]
 RewriteRule ^onderzoek$ onderzoek.php?%{QUERY_STRING}
+
+RewriteRule ^zooverawards2015/$ /zooverawards2015 [L,R=301]
+RewriteRule ^zoover/$ /zoover [L,R=301]
+RewriteRule ^zooverawards2015$ zoover_awards.php?%{QUERY_STRING}
+RewriteRule ^zoover$ zoover_awards.php?%{QUERY_STRING}
 
 #
 # afgelopen acties
