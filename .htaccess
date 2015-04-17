@@ -520,10 +520,9 @@ RewriteRule ^kixx$ actie-kixx.php?%{QUERY_STRING}
 RewriteRule ^onderzoek/$ /onderzoek [L,R=301]
 RewriteRule ^onderzoek$ onderzoek.php?%{QUERY_STRING}
 
+RewriteRule ^zoover/?$ /zooverawards2015 [L,R=301]
 RewriteRule ^zooverawards2015/$ /zooverawards2015 [L,R=301]
-RewriteRule ^zoover/$ /zoover [L,R=301]
 RewriteRule ^zooverawards2015$ zoover_awards.php?%{QUERY_STRING}
-RewriteRule ^zoover$ zoover_awards.php?%{QUERY_STRING}
 
 #
 # afgelopen acties
