@@ -1124,6 +1124,9 @@ class bijkomendekosten {
 						$cat = "diversen";
 					} elseif($value["inclusief"]==1 or $value["verplicht"]==1) {
 						$cat = "inclusief";
+					} elseif($value["inclusief"]==0 and $value["verplicht"]==3) {
+						// exclusief + zelf te verzorgen
+						$cat = "diversen";
 					} else {
 						$cat = "uitbreiding";
 					}
@@ -1388,7 +1391,13 @@ class bijkomendekosten {
 									$return[$use_key][$key2]["toonbedrag"] .= " ".$vars["bk_eenheid"][$value2["eenheid"]];
 								}
 							} else {
-								$return[$use_key][$key2]["toonbedrag"] = txt("exacte-hoogte-onbekend", "bijkomendekosten");
+								if($value2["verplicht"]==3) {
+									// zelf te verzorgen
+									$return[$use_key][$key2]["toonbedrag"] = txt("zelf-te-verzorgen", "bijkomendekosten");
+								} else {
+									// exacte hoogte onbekend
+									$return[$use_key][$key2]["toonbedrag"] = txt("exacte-hoogte-onbekend", "bijkomendekosten");
+								}
 								$return[$use_key][$key2]["bedragonbekend"] = true;
 							}
 						}
