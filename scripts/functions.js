@@ -2522,7 +2522,7 @@ $(document).ready(function() {
 			//
 			// copy text to clipboard (voorkant_cms)
 			//
-			$(document).on("click", ".tarieventabel_totaalprijs .copy-to-clipboard-icon", function () {
+			$(document).on("click", ".tarieventabel_totaalprijs .copy-to-clipboard-icon", function(event) {
 				var textarea = document.querySelector('.copy-to-clipboard-text');
 				var deze = $(this);
 				textarea.select();
@@ -2535,7 +2535,7 @@ $(document).ready(function() {
 						}, 150);
 					}
 				} catch(err) {
-
+					alert('De kopieerfunctie werkt helaas niet in deze browser.');
 				}
 			});
 

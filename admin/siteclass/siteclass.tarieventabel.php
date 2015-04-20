@@ -184,21 +184,21 @@ class tarieventabel {
 			$email_text .= "\n";
 			$email_text .= txt("mailcopy-voor-omschrijving", "tarieventabel").": ".$this->accinfo["url"];
 			$email_text .= "\n";
-			if($aantalpersonen==1) {
-				$email_text .= html("mailcopy-bezetting-1-persoon","tarieventabel");
-			} else {
-				$email_text .= html("mailcopy-bezetting-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
-			}
-			$email_text .= ": € ".number_format($this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")." ".txt("perpersoon", "tarieventabel");
 			if($this->accinfo["wzt"]==1) {
+				if($aantalpersonen==1) {
+					$email_text .= html("mailcopy-bezetting-1-persoon","tarieventabel");
+				} else {
+					$email_text .= html("mailcopy-bezetting-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
+				}
+				$email_text .= ": € ".number_format($this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")." ".txt("perpersoon", "tarieventabel");
 				$email_text .= ", ";
 				if($this->arrangement) {
 					$email_text .= txt("mailcopy-inclusief-x-daagse-skipas", "tarieventabel", array("v_skipasaantaldagen"=>$this->accinfo["skipas_aantaldagen"], "v_skipasnaam"=>$this->accinfo["skipas_naam"]));
 				} else {
 					$email_text .= txt("mailcopy-excl-skipassen", "tarieventabel");
 				}
+				$email_text .= "\n";
 			}
-			$email_text .= "\n";
 			if($aantalpersonen==1) {
 				$email_text .= html("totaalprijs-op-basis-1-persoon","tarieventabel");
 			} else {
@@ -249,7 +249,6 @@ class tarieventabel {
 		$bijkomendekosten->accinfo = $this->accinfo;
 
 		$bk = $bijkomendekosten->get_booking_data($gegevens);
-
 
 		$return .= "<table>";
 		$return .= "<tr class=\"tarieventabel_totaalprijs_specificatie_popup_bold\"><td colspan=\"5\">".html("specificatie-totaalprijs", "bijkomendekosten")."</td></tr>";
