@@ -3023,6 +3023,10 @@ nieuwe tarieventabel
 	color: #003366;
 }
 
+.tarieventabel_totaalprijs_white {
+	background-color: #ffffff !important;
+}
+
 .tarieventabel_totaalprijs_left {
 	display:inline-block;
 	width: 290px;
@@ -3040,6 +3044,21 @@ nieuwe tarieventabel
 	font-weight: normal;
 }
 
+.tarieventabel_totaalprijs .copy-to-clipboard-icon {
+	display: inline-block;
+	background: url("../pic/icons/copy.png") top left no-repeat;
+	height: 16px;
+	width: 16px;
+	cursor: pointer;
+	margin: 0 0 -4px 3px;
+}
+
+.tarieventabel_totaalprijs .copy-to-clipboard-text {
+	position: absolute;
+	top: -1000px;
+	left: -1000px;
+}
+
 .tarieventabel_totaalprijs button {
 	border: 1px solid #fb6703;
 	display: inline-block;
@@ -3055,7 +3074,7 @@ nieuwe tarieventabel
 
 .tarieventabel_totaalprijs_specificatie {
 	display: inline-block;
-	background:url("../pic/information_icon_with_padding.png") top left no-repeat;
+	background: url("../pic/information_icon_with_padding.png") top left no-repeat;
 	width: 18px;
 	height:18px;
 	margin-left: 5px;

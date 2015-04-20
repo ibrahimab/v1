@@ -3821,7 +3821,7 @@ $txt["de"]["tarieventabel"]["minderpersonen_verbergen"]="zuklappen";
 $txt["en"]["tarieventabel"]["minderpersonen_verbergen"]="fold up";
 
 $txt["nl"]["tarieventabel"]["klik-voor-totaalbedrag"]="Klik in bovenstaande prijstabel voor een gespecificeerd totaalbedrag.";
-$txt["de"]["tarieventabel"]["klik-voor-totaalbedrag"]="";
+$txt["de"]["tarieventabel"]["klik-voor-totaalbedrag"]="Klicken Sie auf oben stehende Preistabelle für einen detaillierten Gesamtbetrag.";
 $txt["en"]["tarieventabel"]["klik-voor-totaalbedrag"]="Click in the above pricing table for a detailed total.";
 
 $txt["nl"]["tarieventabel"]["legenda_aanbieding"]="aanbieding (korting al doorberekend)";
@@ -3863,6 +3863,34 @@ $txt["en"]["tarieventabel"]["totaalprijs-op-basis-1-persoon"]="Total price based
 $txt["nl"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Totaalprijs op basis van [[v_aantal]] personen";
 $txt["de"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Gesamtpreis für [[v_aantal]] Personen";
 $txt["en"]["tarieventabel"]["totaalprijs-op-basis-x-personen"]="Total price based on [[v_aantal]] persons";
+
+$txt["nl"]["tarieventabel"]["mailcopy-max"]="max.";
+$txt["de"]["tarieventabel"]["mailcopy-max"]="";
+$txt["en"]["tarieventabel"]["mailcopy-max"]="max.";
+
+$txt["nl"]["tarieventabel"]["mailcopy-voor-omschrijving"]="Voor omschrijving";
+$txt["de"]["tarieventabel"]["mailcopy-voor-omschrijving"]="";
+$txt["en"]["tarieventabel"]["mailcopy-voor-omschrijving"]="For description";
+
+$txt["nl"]["tarieventabel"]["mailcopy-bezetting-1-persoon"]="Bezetting 1 personen";
+$txt["de"]["tarieventabel"]["mailcopy-bezetting-1-persoon"]="";
+$txt["en"]["tarieventabel"]["mailcopy-bezetting-1-persoon"]="Price with 1 person";
+
+$txt["nl"]["tarieventabel"]["mailcopy-bezetting-x-personen"]="Bezetting [[v_aantal]] personen";
+$txt["de"]["tarieventabel"]["mailcopy-bezetting-x-personen"]="";
+$txt["en"]["tarieventabel"]["mailcopy-bezetting-x-personen"]="Price with [[v_aantal]] persons";
+
+$txt["nl"]["tarieventabel"]["mailcopy-inclusief-x-daagse-skipas"]="inclusief [[v_skipasaantaldagen]]-daagse skipas [[v_skipasnaam]]";
+$txt["de"]["tarieventabel"]["mailcopy-inclusief-x-daagse-skipas"]="";
+$txt["en"]["tarieventabel"]["mailcopy-inclusief-x-daagse-skipas"]="-";
+
+$txt["nl"]["tarieventabel"]["mailcopy-excl-skipassen"]="excl. skipassen";
+$txt["de"]["tarieventabel"]["mailcopy-excl-skipassen"]="";
+$txt["en"]["tarieventabel"]["mailcopy-excl-skipassen"]="excl. lift passes";
+
+$txt["nl"]["tarieventabel"]["mailcopy-per-week"]="per week";
+$txt["de"]["tarieventabel"]["mailcopy-per-week"]="";
+$txt["en"]["tarieventabel"]["mailcopy-per-week"]="per week";
 
 $txt["nl"]["tarieventabel"]["totaalprijs-opgebouwd"]="Deze totaalprijs is opgebouwd uit de totale verplichte kosten van je vakantie. De getoonde prijs is inclusief de mogelijke kosten die ter plaatse voldaan moeten worden.";
 $txt["de"]["tarieventabel"]["totaalprijs-opgebouwd"]="Der Gesamtpreis ist aufgebaut aus den gesamten obligatorischen Kosten Ihres Urlaubs. Der gezeigte Preis ist inklusive möglicher Nebenkosten die vor Ort bezahlt werden müssen.";

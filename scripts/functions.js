@@ -2519,6 +2519,25 @@ $(document).ready(function() {
 				event.preventDefault();
 			});
 
+			//
+			// copy text to clipboard (voorkant_cms)
+			//
+			$(document).on("click", ".tarieventabel_totaalprijs .copy-to-clipboard-icon", function () {
+				var textarea = document.querySelector('.copy-to-clipboard-text');
+				var deze = $(this);
+				textarea.select();
+				try {
+					var successful = document.execCommand('copy');
+					if(successful) {
+						$(".tarieventabel_totaalprijs").addClass("tarieventabel_totaalprijs_white");
+						window.setTimeout(function(){
+							$(".tarieventabel_totaalprijs").removeClass("tarieventabel_totaalprijs_white");
+						}, 150);
+					}
+				} catch(err) {
+
+				}
+			});
 
 			//
 			// show specification bijkomende kosten

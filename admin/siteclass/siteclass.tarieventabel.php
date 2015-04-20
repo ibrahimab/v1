@@ -141,7 +141,7 @@ class tarieventabel {
 
 	public function info_totaalprijs($aantalpersonen, $aankomstdatum) {
 
-		global $vars, $opmaak;
+		global $vars, $opmaak, $voorkant_cms;
 
 		$this->tarieven_uit_database();
 
@@ -165,7 +165,6 @@ class tarieventabel {
 		} else {
 			$return .= html("totaalprijs-op-basis-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
 		}
-		$return .= ":</div>";
 
 		if($this->arrangement) {
 			$totaalbedrag = $this->tarief_zonder_bk[$aantalpersonen][$aankomstdatum] * $aantalpersonen;
@@ -173,6 +172,48 @@ class tarieventabel {
 			$totaalbedrag = $this->tarief_zonder_bk[$aankomstdatum];
 		}
 		$totaalbedrag = $totaalbedrag + $this->tarief_alleen_bk[$aantalpersonen][$aankomstdatum];
+
+		if( $voorkant_cms ) {
+
+
+			// echo wt_dump($this->accinfo);
+
+			$email_text .= date("d/m/Y", $this->unixtime_week[$aankomstdatum]);
+			$email_text .= " ";
+			$email_text .= $this->accinfo["plaats"]." / ".$this->accinfo["accnaam"]." (".txt("mailcopy-max", "tarieventabel")." ".$this->accinfo["maxaantalpersonen"]." ".($this->accinfo["maxaantalpersonen"]==1 ? txt("persoon", "tarieventabel") : txt("personen", "tarieventabel")).")";
+			$email_text .= "\n";
+			$email_text .= txt("mailcopy-voor-omschrijving", "tarieventabel").": ".$this->accinfo["url"];
+			$email_text .= "\n";
+			if($aantalpersonen==1) {
+				$email_text .= html("mailcopy-bezetting-1-persoon","tarieventabel");
+			} else {
+				$email_text .= html("mailcopy-bezetting-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
+			}
+			$email_text .= ": € ".number_format($this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")." ".txt("perpersoon", "tarieventabel");
+			if($this->accinfo["wzt"]==1) {
+				$email_text .= ", ";
+				if($this->arrangement) {
+					$email_text .= txt("mailcopy-inclusief-x-daagse-skipas", "tarieventabel", array("v_skipasaantaldagen"=>$this->accinfo["skipas_aantaldagen"], "v_skipasnaam"=>$this->accinfo["skipas_naam"]));
+				} else {
+					$email_text .= txt("mailcopy-excl-skipassen", "tarieventabel");
+				}
+			}
+			$email_text .= "\n";
+			if($aantalpersonen==1) {
+				$email_text .= html("totaalprijs-op-basis-1-persoon","tarieventabel");
+			} else {
+				$email_text .= html("totaalprijs-op-basis-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
+			}
+			$email_text .= ": € ".number_format($totaalbedrag, 2, ",", ".");
+			$email_text .= " ".txt("mailcopy-per-week", "tarieventabel");
+			$email_text .= "\n";
+
+			$return .= "<span class=\"copy-to-clipboard-icon\" title=\"kopieer mailtekst naar klembord\"></span>";
+			$return .= "<textarea class=\"copy-to-clipboard-text\">".wt_he($email_text)."</textarea>";
+		}
+
+		$return .= ":";
+		$return .= "</div>";
 
 		$return .= "<span class=\"tarieventabel_totaalprijs_right\">&euro;&nbsp;".number_format($totaalbedrag, 2, ",", ".")."</span>";
 
