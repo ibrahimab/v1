@@ -236,26 +236,22 @@ if($vars["toon_bijkomendekosten_stap1"]) {
 
 	// echo number_format(memory_get_usage()/1024, 0, ",", ".")."<br/>";
 	$bijkomendekosten = new bijkomendekosten;
-	$bk = $bijkomendekosten->get_complete_cache($vars["seizoentype"]);
 
+	if( $vars["websitetype"]==6 ) {
+		// Chaletsinvallandry.nl: get both winter and summer
+
+		$bk_winter = $bijkomendekosten->get_complete_cache(1);
+		$bk_summer = $bijkomendekosten->get_complete_cache(2);
+
+		$bk = $bk_winter;
+	} else {
+		$bk = $bijkomendekosten->get_complete_cache($vars["seizoentype"]);
+	}
 
 	if($_GET["fap"]) {
 		// get surcharge extra persons
 		$bk_all_persons = $bijkomendekosten->get_complete_cache_per_persons($vars["seizoentype"], $_GET["fap"]);
 	}
-
-	// echo number_format(memory_get_usage()/1024, 0, ",", ".")."<br/>";
-
-	// unset($bijkomendekosten);
-	// echo number_format(memory_get_usage()/1024, 0, ",", ".")."<br/>";
-
-	// echo wt_dump($bk);
-	// exit;
-
-	// echo "<pre>";
-	// echo count($bk);
-	// var_dump($bk);
-	// exit;
 }
 
 include "content/opmaak.php";

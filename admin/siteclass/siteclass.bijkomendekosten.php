@@ -1086,14 +1086,20 @@ class bijkomendekosten {
 
 		global $vars;
 
-		$this->get_data();
-
 		$db = new DB_sql;
 
 		// get accinfo
 		if(!$this->accinfo) {
 			$this->accinfo=accinfo($this->id);
 		}
+
+		// Chaletsinvallandry: correct seizoentype
+		if($vars["websitetype"]==6 and isset($this->accinfo["wzt"])) {
+			$vars["seizoentype"]=$this->accinfo["wzt"];
+		}
+
+		$this->get_data();
+
 
 		if($this->arrangement) {
 			// Skipasgegevens uit database halen

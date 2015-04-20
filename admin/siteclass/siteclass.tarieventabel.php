@@ -1542,6 +1542,11 @@ class tarieventabel {
 				$this->accinfo=accinfo($this->type_id);
 			}
 
+			// Chaletsinvallandry: correct seizoentype
+			if($vars["websitetype"]==6 and isset($this->accinfo["wzt"])) {
+				$vars["seizoentype"]=$this->accinfo["wzt"];
+			}
+
 			if($this->accinfo["toonper"]==3 or $vars["wederverkoop"]) {
 
 			} else {
