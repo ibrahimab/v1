@@ -21,33 +21,18 @@ if($vars["lokale_testserver"]) {
 	}
 
 	# Testsite bepalen indien niet bekend
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-		$vars["cms_basehref"]="http://ss.postvak.net/chalet/";
-
-		if(!$vars["testsite"]) {
-			$vars["testsite"]=@file_get_contents("/home/webtastic/html/chalet/tmp/testsite.txt");
-		}
-	}
-
-	# Testsite bepalen indien niet bekend
 	if(defined("wt_test_hostname")) {
 		$vars["cms_basehref"]="http://".constant("wt_test_hostname")."/chalet/";
 
 		if(!$vars["testsite"]) {
 			$vars["testsite"]=@file_get_contents($unixdir."tmp/testsite.txt");
 		}
+		if($mustlogin or !$vars["testsite"]) {
+			// CMS or no testsite? Always use C (=Chalet.nl)
+			$vars["testsite"] = "C";
+		}
 	}
 
-	# Testsite bepalen
-	if($_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro") {
-		$vars["cms_basehref"]="http://chalet-dev.web.netromtest.ro/";
-		if(!$vars["testsite"]) {
-			$vars["testsite"]=@file_get_contents("/var/www/chalet/chalet-dev/tmp/testsite.txt");
-		}
-		if(!$vars["testsite"]) {
-			$vars["testsite"]="C";
-		}
-	}
 } else {
 	$vars["cms_basehref"]="https://www.chalet.nl/";
 }
