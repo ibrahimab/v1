@@ -3774,7 +3774,7 @@ $txt["en_i"]["tarieventabel"]["oranjebedragen"]="The special offers are shown in
 
 $txt["nl"]["tarieventabel"]["perpersoon"]="per persoon";
 $txt["de"]["tarieventabel"]["perpersoon"]="pro Person";
-$txt["en"]["tarieventabel"]["perpersoon"]="per persoon";
+$txt["en"]["tarieventabel"]["perpersoon"]="per person";
 
 $txt["nl"]["tarieventabel"]["wederverkoop_beschikbaarheid"]="Beschikbaarheid";
 $txt["de"]["tarieventabel"]["wederverkoop_beschikbaarheid"]="Verfügbarkeit";
@@ -4009,9 +4009,9 @@ $txt["nl"]["bijkomendekosten"]["bedrag-onbekend"]="bedrag onbekend";
 $txt["de"]["bijkomendekosten"]["bedrag-onbekend"]="Betrag unbekannt";
 $txt["en"]["bijkomendekosten"]["bedrag-onbekend"]="amount unknown";
 
-$txt["nl"]["bijkomendekosten"]["exacte-hoogte-onbekend"]="exacte hoogte onbekend";
-$txt["de"]["bijkomendekosten"]["exacte-hoogte-onbekend"]="-";
-$txt["en"]["bijkomendekosten"]["exacte-hoogte-onbekend"]="-";
+$txt["nl"]["bijkomendekosten"]["exact-bedrag-onbekend"]="exact bedrag onbekend";
+$txt["de"]["bijkomendekosten"]["exact-bedrag-onbekend"]="";
+$txt["en"]["bijkomendekosten"]["exact-bedrag-onbekend"]="exact price unknown";
 
 $txt["nl"]["bijkomendekosten"]["geen-borg-verschuldigd"]="niet van toepassing";
 $txt["de"]["bijkomendekosten"]["geen-borg-verschuldigd"]="keine Kaution erforderlich";
@@ -7877,13 +7877,13 @@ $txt["nl"]["vertrekinfo"]["devolgendezakenexcl"]="De volgende zaken zijn exclusi
 $txt["de"]["vertrekinfo"]["devolgendezakenexcl"]="Folgende Nebenkosten sind bei dieser Unterkunft nicht im Preis inkludiert";
 $txt["en"]["vertrekinfo"]["devolgendezakenexcl"]="The following details are exclusive";
 
-$txt["nl"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="Op de door jou geboekte accommodatie zijn de volgende zaken van toepassing";
-$txt["de"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="-";
-$txt["en"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="-";
+$txt["nl"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="Voor [[v_accommodatie]] is het goed om het volgende te weten";
+$txt["de"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="";
+$txt["en"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="For [[v_accommodatie]] it's good to know the following";
 
-$txt["nl"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="De kosten ter plaatse proberen wij zo goed mogelijk te achterhalen. Toch is het mogelijk dat de daadwerkelijke kosten afwijken.";
-$txt["de"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="-";
-$txt["en"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="-";
+$txt["nl"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="De genoemde plaatselijke kosten zijn met zorg samengesteld, maar blijven indicatief.";
+$txt["de"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="Obwohl die genannten Nebenkosten vor Ort sorgfältig zusammengestellt sind, bleiben diese jedoch indikativ.";
+$txt["en"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="The costs listed are put together carefully, but the list remains indicative.";
 
 $txt["nl"]["vertrekinfo"]["inclusief"]="Inclusief";
 $txt["de"]["vertrekinfo"]["inclusief"]="Inklusive";
@@ -7894,12 +7894,12 @@ $txt["de"]["vertrekinfo"]["exclusief"]="Exklusive";
 $txt["en"]["vertrekinfo"]["exclusief"]="Excluding";
 
 $txt["nl"]["vertrekinfo"]["inclusief-reedsvoldaan"]="Inclusief / reeds voldaan";
-$txt["de"]["vertrekinfo"]["inclusief-reedsvoldaan"]="-";
-$txt["en"]["vertrekinfo"]["inclusief-reedsvoldaan"]="-";
+$txt["de"]["vertrekinfo"]["inclusief-reedsvoldaan"]="";
+$txt["en"]["vertrekinfo"]["inclusief-reedsvoldaan"]="Includes / already paid";
 
 $txt["nl"]["vertrekinfo"]["verplichttevoldoen"]="Verplicht ter plaatse te voldoen";
-$txt["de"]["vertrekinfo"]["verplichttevoldoen"]="-";
-$txt["en"]["vertrekinfo"]["verplichttevoldoen"]="-";
+$txt["de"]["vertrekinfo"]["verplichttevoldoen"]="";
+$txt["en"]["vertrekinfo"]["verplichttevoldoen"]="Mandatory to be paid locally";
 
 $txt["nl"]["vertrekinfo"]["optioneel"]="Optioneel";
 $txt["de"]["vertrekinfo"]["optioneel"]="Optional";

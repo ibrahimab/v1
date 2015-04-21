@@ -418,7 +418,7 @@ class vertrekinfo {
 
 		if($bk_html) {
 			// add bijkomendekosten-info
-			$content.="<p>".html("bij-boeking-de-volgende-incl-excl","vertrekinfo").":</p>";
+			$content.="<p>".html("bij-boeking-de-volgende-incl-excl", "vertrekinfo", array("v_accommodatie"=>ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["accommodatie"])).":</p>";
 			$content .= $bk_html;
 
 			if(is_array($bk["ter_plaatse"]) or is_array($bk["uitbreiding"]) or is_array($bk["diversen"])) {
