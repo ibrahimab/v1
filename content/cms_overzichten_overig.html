@@ -756,6 +756,7 @@ if($_GET["t"]==1) {
 	echo "<br/>";
 
 	echo "<ul>";
+	echo "<li><a href=\"#bkk_gewist\">Accommodatie-bijkomendekosten gewist op typeniveau</a></li>";
 	echo "<li><a href=\"#afbeeldingen1\">Kwaliteit winterafbeeldingen</a></li>";
 	echo "<li><a href=\"#afbeeldingen2\">Kwaliteit zomerafbeeldingen</a></li>";
 	echo "<li><a href=\"#naamleverancier\">Accommodaties met een verschil tussen 'Naam op website' en 'Naam volgens leverancier'</a></li>";
@@ -776,6 +777,54 @@ if($_GET["t"]==1) {
 	echo "<br/>";
 
 	// echo "<hr>";
+
+
+	//
+	// accommodatie-bijkomendekosten gewist op typeniveau
+	//
+	$db->query("SELECT seizoen_id, naam FROM seizoen WHERE eind>NOW()");
+	while($db->next_record()) {
+		$active_season .= ",".$db->f("seizoen_id");
+		$season_array[$db->f("seizoen_id")] = $db->f("naam");
+	}
+	$active_season = substr($active_season, 1);
+	$db->query("SELECT bk_soort_id, accommodatie_id, seizoen_id FROM bk_accommodatie WHERE seizoen_id IN (".$active_season.");");
+	while($db->next_record()) {
+		$bk_acc[$db->f("accommodatie_id")][$db->f("seizoen_id")][$db->f("bk_soort_id")] = true;
+	}
+	$db->query("SELECT bk_soort_id, type_id, seizoen_id FROM bk_type WHERE seizoen_id IN (".$active_season.");");
+	while($db->next_record()) {
+		$bk_type[$db->f("type_id")][$db->f("seizoen_id")][$db->f("bk_soort_id")] = true;
+	}
+	$db->query("SELECT naam, tnaam, type_id, accommodatie_id, begincode, wzt FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND archief=0 ORDER BY wzt, plaats, naam, tnaam, type_id;");
+	// echo $db->lq;
+	while($db->next_record()) {
+		foreach ($season_array as $key => $value) {
+			if(is_array($bk_acc[$db->f("accommodatie_id")][$key])) {
+				foreach ($bk_acc[$db->f("accommodatie_id")][$key] as $key2 => $value2) {
+					if(!$bk_type[$db->f("type_id")][$key][$key2]) {
+
+						if(!$al_gehad[$db->f("accommodatie_id").$key."_".$key2]) {
+							$al_gehad[$db->f("accommodatie_id").$key."_".$key2] = true;
+							if(!$intro_getoond) {
+								echo "<hr><br /><br />";
+								echo "<a name=\"bkk_gewist\"></a>";
+								echo "<h2>Bij de volgende accommodaties zijn accommodatie-bijkomendekosten gewist op typeniveau</h2>";
+
+								echo "<ul>";
+								$intro_getoond = true;
+							}
+							$url = "cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."#bijkomendekosten_".$key;
+							echo "<li>".$season_array[$key]." - "."<a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." ".$db->f("naam")." ".$db->f("tnaam"))."</a></li>";
+						}
+					}
+				}
+			}
+		}
+	}
+	if($intro_getoond) {
+		echo "</ul>";
+	}
 
 
 	//
