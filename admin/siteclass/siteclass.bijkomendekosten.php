@@ -1334,7 +1334,7 @@ class bijkomendekosten {
 
 		global $vars;
 
-		if($gegevens["stap1"]["accinfo"]["skipasid"]) {
+		if($gegevens["stap1"]["accinfo"]["skipasid"] and !$gegevens["stap1"]["wederverkoop"]) {
 			$this->arrangement = true;
 		}
 
@@ -1373,7 +1373,7 @@ class bijkomendekosten {
 							$use_key = "uitbreiding";
 						}
 						if($use_key) {
-							$return[$use_key][$key2]["naam"] = $value2["factuurnaam"];
+							$return[$use_key][$key2]["naam"] = $value2["vouchernaam"];
 							$return[$use_key][$key2]["bedrag"] = $value2["bedrag"];
 							$return[$use_key][$key2]["eenheid"] = $value2["eenheid"];
 							$return[$use_key][$key2]["zonderleeftijd"] = $value2["zonderleeftijd"];
@@ -1394,9 +1394,9 @@ class bijkomendekosten {
 								if($value2["verplicht"]==3) {
 									// zelf te verzorgen
 									$return[$use_key][$key2]["toonbedrag"] = txt("zelf-te-verzorgen", "bijkomendekosten");
-								} else {
+								} elseif($value2["bedrag"]=="0.00") {
 									// exacte hoogte onbekend
-									$return[$use_key][$key2]["toonbedrag"] = txt("exacte-hoogte-onbekend", "bijkomendekosten");
+									$return[$use_key][$key2]["toonbedrag"] = txt("exact-bedrag-onbekend", "bijkomendekosten");
 								}
 								$return[$use_key][$key2]["bedragonbekend"] = true;
 							}
@@ -1411,15 +1411,19 @@ class bijkomendekosten {
 				$aantal = 0;
 				if($key=="skipas" and $this->vertrekinfo) {
 					//
-					// skipas
+					// show no ski lift pass on vertrekinfo
 					//
-					$return["voldaan"]["skipas"]["naam"] = $value["naam"];
+					continue;
 				} else {
 					if($value["ter_plaatse"]==1) {
 						//
 						// ter_plaatse
 						//
-						$return["ter_plaatse"][$key]["naam"] = $value["factuurnaam"];
+						if($this->vertrekinfo) {
+							$return["ter_plaatse"][$key]["naam"] = $value["vouchernaam"];
+						} else {
+							$return["ter_plaatse"][$key]["naam"] = $value["factuurnaam"];
+						}
 						$return["ter_plaatse"][$key]["bedrag"] = $value["bedrag"];
 						$return["ter_plaatse"][$key]["eenheid"] = $value["eenheid"];
 						$return["ter_plaatse"][$key]["zonderleeftijd"] = $value["zonderleeftijd"];
@@ -1479,14 +1483,19 @@ class bijkomendekosten {
 								$return["ter_plaatse"][$key]["toonbedrag"] .= " ".$vars["bk_eenheid"][$value["eenheid"]];
 							}
 						} else {
-							$return["ter_plaatse"][$key]["toonbedrag"] = txt("exacte-hoogte-onbekend", "bijkomendekosten");
+							$return["ter_plaatse"][$key]["toonbedrag"] = txt("exact-bedrag-onbekend", "bijkomendekosten");
 							$return["ter_plaatse"][$key]["bedragonbekend"] = true;
 						}
 					} elseif($value["inclusief"]==1) {
 						//
 						// inclusief
 						//
-						$return["voldaan"][$key]["naam"] = $value["factuurnaam"];
+						if($this->vertrekinfo) {
+							$return["voldaan"][$key]["naam"] = $value["vouchernaam"];
+						} else {
+							$return["voldaan"][$key]["naam"] = $value["factuurnaam"];
+						}
+
 
 					} elseif($value["verplicht"]==1 and $value["inclusief"]==0) {
 
@@ -1494,7 +1503,12 @@ class bijkomendekosten {
 
 							if($value["bedrag"]>0) {
 
-								$return["aan_chalet_nl"][$key]["naam"] = $value["factuurnaam"];
+								if($this->vertrekinfo) {
+									$return["aan_chalet_nl"][$key]["naam"] = $value["vouchernaam"];
+								} else {
+									$return["aan_chalet_nl"][$key]["naam"] = $value["factuurnaam"];
+
+								}
 
 								// eenheid = "per person" or "per person each time"
 								if($value["eenheid"]==2 or $value["eenheid"]==12) {

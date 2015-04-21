@@ -179,11 +179,7 @@ function accinfo($typeid,$aankomstdatum=0,$aantalpersonen=0,$options=array()) {
 	if($gegevens["stap1"]["wederverkoop"] or $options["wederverkoop"]) {
 		$wederverkoop=true;
 	} else {
-		if($mustlogin and $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-			$wederverkoop=false;
-		} else {
-			$wederverkoop=$vars["wederverkoop"];
-		}
+		$wederverkoop=$vars["wederverkoop"];
 	}
 
 	$db=new DB_sql;
