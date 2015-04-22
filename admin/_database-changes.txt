@@ -3,6 +3,12 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+22-apr-2015 15:50
+
+ALTER TABLE `extra_optie` ADD `bk_soort_id` INT NULL DEFAULT NULL ;
+
+
+
 17-apr-2015 17:30
 
 ALTER TABLE `plaats` ADD `toon_op_homepage` TINYINT(1) NOT NULL DEFAULT '0' AFTER `kenmerken_irrelevant`;
