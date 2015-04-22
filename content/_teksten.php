@@ -4010,7 +4010,7 @@ $txt["de"]["bijkomendekosten"]["bedrag-onbekend"]="Betrag unbekannt";
 $txt["en"]["bijkomendekosten"]["bedrag-onbekend"]="amount unknown";
 
 $txt["nl"]["bijkomendekosten"]["exact-bedrag-onbekend"]="exact bedrag onbekend";
-$txt["de"]["bijkomendekosten"]["exact-bedrag-onbekend"]="";
+$txt["de"]["bijkomendekosten"]["exact-bedrag-onbekend"]="genauer Betrag unbekannt";
 $txt["en"]["bijkomendekosten"]["exact-bedrag-onbekend"]="exact price unknown";
 
 $txt["nl"]["bijkomendekosten"]["geen-borg-verschuldigd"]="niet van toepassing";
@@ -7878,7 +7878,7 @@ $txt["de"]["vertrekinfo"]["devolgendezakenexcl"]="Folgende Nebenkosten sind bei 
 $txt["en"]["vertrekinfo"]["devolgendezakenexcl"]="The following details are exclusive";
 
 $txt["nl"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="Voor [[v_accommodatie]] is het goed om het volgende te weten";
-$txt["de"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="";
+$txt["de"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="Für [[v_accommodatie]] ist es gut, Folgendes zu wissen";
 $txt["en"]["vertrekinfo"]["bij-boeking-de-volgende-incl-excl"]="For [[v_accommodatie]] it's good to know the following";
 
 $txt["nl"]["vertrekinfo"]["verplichtekostenondervoorbehoud"]="De genoemde plaatselijke kosten zijn met zorg samengesteld, maar blijven indicatief.";
@@ -7894,11 +7894,11 @@ $txt["de"]["vertrekinfo"]["exclusief"]="Exklusive";
 $txt["en"]["vertrekinfo"]["exclusief"]="Excluding";
 
 $txt["nl"]["vertrekinfo"]["inclusief-reedsvoldaan"]="Inclusief / reeds voldaan";
-$txt["de"]["vertrekinfo"]["inclusief-reedsvoldaan"]="";
+$txt["de"]["vertrekinfo"]["inclusief-reedsvoldaan"]="Inklusive / bereits bezahlt";
 $txt["en"]["vertrekinfo"]["inclusief-reedsvoldaan"]="Includes / already paid";
 
 $txt["nl"]["vertrekinfo"]["verplichttevoldoen"]="Verplicht ter plaatse te voldoen";
-$txt["de"]["vertrekinfo"]["verplichttevoldoen"]="";
+$txt["de"]["vertrekinfo"]["verplichttevoldoen"]="Obligatorisch vor Ort zu bezahlen";
 $txt["en"]["vertrekinfo"]["verplichttevoldoen"]="Mandatory to be paid locally";
 
 $txt["nl"]["vertrekinfo"]["optioneel"]="Optioneel";
