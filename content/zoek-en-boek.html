@@ -3889,10 +3889,10 @@ if($resultaten_tonen) {
 
 			$temp_qs=$_SERVER["QUERY_STRING"];
 			$temp_qs=ereg_replace("&page=[0-9]{1,}","",$temp_qs);
-			$temp_qs=ereg_replace("&scrolly=[0-9]{1,}","",$temp_qs);
-			$temp_qs=ereg_replace("\?scrolly=[0-9]{1,}&","?",$temp_qs);
-			$temp_qs=ereg_replace("\?scrolly=[0-9]{1,}$","",$temp_qs);
-			$temp_qs=ereg_replace("scrolly=[0-9]{1,}","",$temp_qs);
+			$temp_qs=ereg_replace("&scrolly=[0-9\.]{1,}","",$temp_qs);
+			$temp_qs=ereg_replace("\?scrolly=[0-9\.]{1,}&","?",$temp_qs);
+			$temp_qs=ereg_replace("\?scrolly=[0-9\.]{1,}$","",$temp_qs);
+			$temp_qs=ereg_replace("scrolly=[0-9\.]{1,}","",$temp_qs);
 			$temp_qs=ereg_replace("thema=[a-zA-Z0-9-]{1,}","",$temp_qs);
 			if(substr($temp_qs,0,1)=="&") $temp_qs=substr($temp_qs,1);
 
@@ -4003,7 +4003,7 @@ if($vars["zoeken_op_kaart"] and is_array($zoeken_op_kaart_data)) {
 		}
 
 		echo "<div class=\"data_zoeken_op_kaart\" data-gps_lat=\"".wt_he($value["gps_lat"])."\" data-gps_long=\"".wt_he($value["gps_long"])."\" data-plaatsland=\"".wt_he($value["plaatsland"])."\" data-aantalpersonen=\"".$value["optimaalaantalpersonen"].($value["maxaantalpersonen"]>$value["optimaalaantalpersonen"] ? " - ".$value["maxaantalpersonen"] : "")." ".($value["maxaantalpersonen"]==1 ? html("persoon") : html("personen"))."\" data-naamhtml=\"".wt_he($value["naamhtml"])."\" data-afbeelding=\"".wt_he($value["afbeelding"])."\" data-url=\"".wt_he($value["url"])."\" data-tarief=\"".wt_he($zoeken_op_kaart_tarief)."\" data-key=\"".wt_he($value["accommodatie_id"])."\" data-kwaliteit=\"".wt_he($value["kwaliteit"])."\" data-omschrijving=\"".wt_he($value["omschrijving"])."\"></div>";
-}
+	}
 }
 
 if($vars["verfijnen_aanbieden"]) {
