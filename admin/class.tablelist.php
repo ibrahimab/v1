@@ -322,7 +322,7 @@ class tablelist {
 				if($this->settings["aname_top"]) {
 					$return.="#".wt_he($this->settings["aname_top"]);
 				}
-				$return.="\">";
+				$return.="\" rel=\"nofollow\">";
 				$return.=wt_he($value);
 				$return.="</a>";
 				if($this->set_sort[1]==$key) {
