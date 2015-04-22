@@ -1148,7 +1148,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		if(is_array($gegevens["stap4"]["algemene_optie"]["soort"])) {
 			# Handmatige algemene opties tonen
 			while(list($key,$value)=each($gegevens["stap4"]["algemene_optie"]["soort"])) {
-				if(!$gegevens["stap4"]["algemene_optie"]["kortingscode"][$key] and !$gegevens["stap4"]["algemene_optie"]["bijkomendekosten_id"][$key] and !$gegevens["stap4"]["algemene_optie"]["bewerkbaar"][$key]) {
+				if(!$gegevens["stap4"]["algemene_optie"]["kortingscode"][$key] and !$gegevens["stap4"]["algemene_optie"]["bijkomendekosten_id"][$key] and !$gegevens["stap4"]["algemene_optie"]["bk_soort_id"][$key] and !$gegevens["stap4"]["algemene_optie"]["bewerkbaar"][$key]) {
 					if(!$koptekst_algemeneopties_getoond) {
 						$form->field_htmlrow("","<b>".txt("algemeneopties","boeken")."</b>");
 						$koptekst_algemeneopties_getoond=true;
@@ -1358,7 +1358,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				# Extra (handmatige) opties tonen (niet te bewerken)
 				@reset($gegevens["stap4"][$i]["extra_opties"]["soort"]);
 				while(list($key,$value)=@each($gegevens["stap4"][$i]["extra_opties"]["soort"])) {
-					if(!$gegevens["stap4"][$i]["extra_opties"]["bijkomendekosten_id"][$key]) {
+					if(!$gegevens["stap4"][$i]["extra_opties"]["bijkomendekosten_id"][$key] and !$gegevens["stap4"][$i]["extra_opties"]["bk_soort_id"][$key]) {
 						$form->field_noedit("extra_optie".$i.$key,ucfirst($value),"",array("html"=>wt_he($gegevens["stap4"][$i]["extra_opties"]["naam"][$key]).": &euro;&nbsp;".$gegevens["stap4"][$i]["extra_opties"]["verkoop"][$key]));
 					}
 				}

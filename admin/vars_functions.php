@@ -1090,7 +1090,7 @@ function boekinginfo($boekingid) {
 	if($return["stap4"][2]) $doorloop_status=2; else $doorloop_status=1;
 
 	# Handmatige opties
-	$db->query("SELECT extra_optie_id, soort, naam, verkoop, inkoop, korting, commissie, persoonnummer, deelnemers, alg_aantal, toonnul, persoonsgegevensgewenst, kortingscode, bijkomendekosten_id, hoort_bij_accommodatieinkoop, skipas_id, optieleverancier_id, optiecategorie FROM extra_optie WHERE boeking_id='".addslashes($boekingid)."' AND verberg_voor_klant=0 ORDER BY soort, naam;");
+	$db->query("SELECT extra_optie_id, soort, naam, verkoop, inkoop, korting, commissie, persoonnummer, deelnemers, alg_aantal, toonnul, persoonsgegevensgewenst, kortingscode, bijkomendekosten_id, bk_soort_id, hoort_bij_accommodatieinkoop, skipas_id, optieleverancier_id, optiecategorie FROM extra_optie WHERE boeking_id='".addslashes($boekingid)."' AND verberg_voor_klant=0 ORDER BY soort, naam;");
 	if($db->num_rows()) {
 		for($i=1;$i<=$doorloop_status;$i++) {
 			$db->seek();
@@ -1114,6 +1114,7 @@ function boekinginfo($boekingid) {
 						$return["stap4"][$i]["algemene_optie"]["toonnul"][$db->f("extra_optie_id")]=$db->f("toonnul");
 						$return["stap4"][$i]["algemene_optie"]["kortingscode"][$db->f("extra_optie_id")]=$db->f("kortingscode");
 						$return["stap4"][$i]["algemene_optie"]["bijkomendekosten_id"][$db->f("extra_optie_id")]=$db->f("bijkomendekosten_id");
+						$return["stap4"][$i]["algemene_optie"]["bk_soort_id"][$db->f("extra_optie_id")]=$db->f("bk_soort_id");
 						if(!$db->f("hoort_bij_accommodatieinkoop")) {
 							$return["stap4"][$i]["algemene_optie"]["optiecategorie"][$db->f("extra_optie_id")]=$db->f("optiecategorie");
 						}
@@ -1197,6 +1198,7 @@ function boekinginfo($boekingid) {
 								$return["stap4"][$i][$value]["optieonderdeel_extra"][]=true;
 								$return["stap4"][$i][$value]["extra_opties"]["soort"][$db->f("extra_optie_id")]=$db->f("soort");
 								$return["stap4"][$i][$value]["extra_opties"]["bijkomendekosten_id"][$db->f("extra_optie_id")]=$db->f("bijkomendekosten_id");
+								$return["stap4"][$i][$value]["extra_opties"]["bk_soort_id"][$db->f("extra_optie_id")]=$db->f("bk_soort_id");
 								$return["stap4"][$i][$value]["extra_opties"]["naam"][$db->f("extra_optie_id")]=$db->f("naam");
 								$return["stap4"][$i][$value]["extra_opties"]["verkoop"][$db->f("extra_optie_id")]=$db->f("verkoop");
 
@@ -3271,195 +3273,211 @@ function boeking_bewerkbeveiliging($boekingid,$type) {
 }
 
 function bereken_bijkomendekosten($boekingid) {
+
+	//
+	// old function. Will become obsolete when CMS-27 is fully live
+	//
+
 	global $vars;
 
-	$gegevens=get_boekinginfo($boekingid);
 
-	$db=new DB_sql;
-	$db2=new DB_sql;
+	$gegevens = get_boekinginfo($boekingid);
 
-	while(list($key,$value)=@each($gegevens["stap4"]["bijkomendekosten"])) {
-		if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$key; else $bijkomendekosten_inquery=$key;
-	}
+	if($vars["toon_bijkomendekosten"]) {
 
-	# Oude gegevens inlezen
-	$db->query("SELECT bijkomendekosten_id, naam, verkoop, inkoop, korting, omzetbonus, hoort_bij_accommodatieinkoop, optiecategorie FROM extra_optie WHERE bijkomendekosten_id IS NOT NULL AND boeking_id='".$gegevens["stap1"]["boekingid"]."';");
-	while($db->next_record()) {
-		$voorheen[$db->f("bijkomendekosten_id")]["naam"]=$db->f("naam");
-		$voorheen[$db->f("bijkomendekosten_id")]["verkoop"]=$db->f("verkoop");
-		$voorheen[$db->f("bijkomendekosten_id")]["inkoop"]=$db->f("inkoop");
-		$voorheen[$db->f("bijkomendekosten_id")]["korting"]=$db->f("korting");
-		$voorheen[$db->f("bijkomendekosten_id")]["omzetbonus"]=$db->f("omzetbonus");
-		$voorheen[$db->f("bijkomendekosten_id")]["hoort_bij_accommodatieinkoop"]=$db->f("hoort_bij_accommodatieinkoop");
-		$voorheen[$db->f("bijkomendekosten_id")]["optiecategorie"]=$db->f("optiecategorie");
-	}
+		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
+		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
 
-	# Bijkomende kosten gekoppeld aan accommodatie en type
-	$db->query("SELECT a.bijkomendekosten1_id, a.bijkomendekosten2_id, a.bijkomendekosten3_id, a.bijkomendekosten4_id, a.bijkomendekosten5_id, a.bijkomendekosten6_id, t.bijkomendekosten1_id AS tbijkomendekosten1_id, t.bijkomendekosten2_id AS tbijkomendekosten2_id, t.bijkomendekosten3_id AS tbijkomendekosten3_id, t.bijkomendekosten4_id AS tbijkomendekosten4_id, t.bijkomendekosten5_id AS tbijkomendekosten5_id, t.bijkomendekosten6_id AS tbijkomendekosten6_id FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".addslashes($gegevens["stap1"]["typeid"])."';");
-	if($db->next_record()) {
-		for($i=1;$i<=6;$i++) {
-			if($db->f("bijkomendekosten".$i."_id")) {
-				if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$db->f("bijkomendekosten".$i."_id"); else $bijkomendekosten_inquery=$db->f("bijkomendekosten".$i."_id");
-			}
-			if($db->f("tbijkomendekosten".$i."_id")) {
-				if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$db->f("tbijkomendekosten".$i."_id"); else $bijkomendekosten_inquery=$db->f("tbijkomendekosten".$i."_id");
-			}
+		$bijkomendekosten->add_to_booking($gegevens);
+
+	} else {
+
+		$db=new DB_sql;
+		$db2=new DB_sql;
+
+		while(list($key,$value)=@each($gegevens["stap4"]["bijkomendekosten"])) {
+			if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$key; else $bijkomendekosten_inquery=$key;
 		}
-	}
 
-	# Bijkomende kosten gekoppeld aan skipas
-	if($gegevens["stap1"]["accinfo"]["skipasid"]) {
-		$db->query("SELECT bijkomendekosten_id FROM skipas WHERE skipas_id='".addslashes($gegevens["stap1"]["accinfo"]["skipasid"])."';");
-		if($db->next_record()) {
-			if($db->f("bijkomendekosten_id")) {
-				if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$db->f("bijkomendekosten_id"); else $bijkomendekosten_inquery=$db->f("bijkomendekosten_id");
-			}
-		}
-	}
-
-	# Oude gegevens wissen (alleen bij bijkomende kosten die nu ook nog aanwezig zijn bij de accommodatie/type)
-	if($bijkomendekosten_inquery) {
-		$db->query("DELETE FROM extra_optie WHERE bijkomendekosten_id IS NOT NULL AND bijkomendekosten_id IN (".$bijkomendekosten_inquery.") AND boeking_id='".$gegevens["stap1"]["boekingid"]."';");
-	}
-
-	# Alle deelnemers in $alle_deelnemers
-	for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
-		if($alle_deelnemers) $alle_deelnemers.=",".$i; else $alle_deelnemers=$i;
-	}
-
-	if($bijkomendekosten_inquery) {
-		$db->query("SELECT b.bijkomendekosten_id, b.gekoppeldaan, b.hoort_bij_accommodatieinkoop, b.optiecategorie, bt.verkoop, bt.inkoop, bt.korting, bt.omzetbonus, b.naam".$gegevens["stap1"]["website_specifiek"]["ttv"]." AS naam, b.perboekingpersoon, b.min_leeftijd, b.max_leeftijd, b.zonderleeftijd, b.min_personen, b.max_personen FROM bijkomendekosten b, bijkomendekosten_tarief bt WHERE bt.bijkomendekosten_id=b.bijkomendekosten_id AND bt.seizoen_id='".$gegevens["stap1"]["seizoenid"]."' AND bt.week='".$gegevens["stap1"]["aankomstdatum"]."' AND b.bijkomendekosten_id IN (".$bijkomendekosten_inquery.");");
+		# Oude gegevens inlezen
+		$db->query("SELECT bijkomendekosten_id, naam, verkoop, inkoop, korting, omzetbonus, hoort_bij_accommodatieinkoop, optiecategorie FROM extra_optie WHERE bijkomendekosten_id IS NOT NULL AND boeking_id='".$gegevens["stap1"]["boekingid"]."';");
 		while($db->next_record()) {
-			unset($save, $alg_aantal);
-			if($db->f("perboekingpersoon")==1) {
-				$save["persoonnummer"]="alg";
-				$alg_aantal = 1;
-			} else {
-				$save["persoonnummer"]="pers";
-				if($db->f("gekoppeldaan")==3) {
-					$save["deelnemers"]=$gegevens["stap4"]["bijkomendekosten"][$db->f("bijkomendekosten_id")];
+			$voorheen[$db->f("bijkomendekosten_id")]["naam"]=$db->f("naam");
+			$voorheen[$db->f("bijkomendekosten_id")]["verkoop"]=$db->f("verkoop");
+			$voorheen[$db->f("bijkomendekosten_id")]["inkoop"]=$db->f("inkoop");
+			$voorheen[$db->f("bijkomendekosten_id")]["korting"]=$db->f("korting");
+			$voorheen[$db->f("bijkomendekosten_id")]["omzetbonus"]=$db->f("omzetbonus");
+			$voorheen[$db->f("bijkomendekosten_id")]["hoort_bij_accommodatieinkoop"]=$db->f("hoort_bij_accommodatieinkoop");
+			$voorheen[$db->f("bijkomendekosten_id")]["optiecategorie"]=$db->f("optiecategorie");
+		}
+
+		# Bijkomende kosten gekoppeld aan accommodatie en type
+		$db->query("SELECT a.bijkomendekosten1_id, a.bijkomendekosten2_id, a.bijkomendekosten3_id, a.bijkomendekosten4_id, a.bijkomendekosten5_id, a.bijkomendekosten6_id, t.bijkomendekosten1_id AS tbijkomendekosten1_id, t.bijkomendekosten2_id AS tbijkomendekosten2_id, t.bijkomendekosten3_id AS tbijkomendekosten3_id, t.bijkomendekosten4_id AS tbijkomendekosten4_id, t.bijkomendekosten5_id AS tbijkomendekosten5_id, t.bijkomendekosten6_id AS tbijkomendekosten6_id FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".addslashes($gegevens["stap1"]["typeid"])."';");
+		if($db->next_record()) {
+			for($i=1;$i<=6;$i++) {
+				if($db->f("bijkomendekosten".$i."_id")) {
+					if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$db->f("bijkomendekosten".$i."_id"); else $bijkomendekosten_inquery=$db->f("bijkomendekosten".$i."_id");
+				}
+				if($db->f("tbijkomendekosten".$i."_id")) {
+					if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$db->f("tbijkomendekosten".$i."_id"); else $bijkomendekosten_inquery=$db->f("tbijkomendekosten".$i."_id");
+				}
+			}
+		}
+
+		# Bijkomende kosten gekoppeld aan skipas
+		if($gegevens["stap1"]["accinfo"]["skipasid"]) {
+			$db->query("SELECT bijkomendekosten_id FROM skipas WHERE skipas_id='".addslashes($gegevens["stap1"]["accinfo"]["skipasid"])."';");
+			if($db->next_record()) {
+				if($db->f("bijkomendekosten_id")) {
+					if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$db->f("bijkomendekosten_id"); else $bijkomendekosten_inquery=$db->f("bijkomendekosten_id");
+				}
+			}
+		}
+
+		# Oude gegevens wissen (alleen bij bijkomende kosten die nu ook nog aanwezig zijn bij de accommodatie/type)
+		if($bijkomendekosten_inquery) {
+			$db->query("DELETE FROM extra_optie WHERE bijkomendekosten_id IS NOT NULL AND bijkomendekosten_id IN (".$bijkomendekosten_inquery.") AND boeking_id='".$gegevens["stap1"]["boekingid"]."';");
+		}
+
+		# Alle deelnemers in $alle_deelnemers
+		for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+			if($alle_deelnemers) $alle_deelnemers.=",".$i; else $alle_deelnemers=$i;
+		}
+
+		if($bijkomendekosten_inquery) {
+			$db->query("SELECT b.bijkomendekosten_id, b.gekoppeldaan, b.hoort_bij_accommodatieinkoop, b.optiecategorie, bt.verkoop, bt.inkoop, bt.korting, bt.omzetbonus, b.naam".$gegevens["stap1"]["website_specifiek"]["ttv"]." AS naam, b.perboekingpersoon, b.min_leeftijd, b.max_leeftijd, b.zonderleeftijd, b.min_personen, b.max_personen FROM bijkomendekosten b, bijkomendekosten_tarief bt WHERE bt.bijkomendekosten_id=b.bijkomendekosten_id AND bt.seizoen_id='".$gegevens["stap1"]["seizoenid"]."' AND bt.week='".$gegevens["stap1"]["aankomstdatum"]."' AND b.bijkomendekosten_id IN (".$bijkomendekosten_inquery.");");
+			while($db->next_record()) {
+				unset($save, $alg_aantal);
+				if($db->f("perboekingpersoon")==1) {
+					$save["persoonnummer"]="alg";
+					$alg_aantal = 1;
 				} else {
-					if($db->f("min_personen") and $db->f("max_personen")) {
-						//
-						// check for number of persons for this booking (min_personen / max_personen)
-						//
+					$save["persoonnummer"]="pers";
+					if($db->f("gekoppeldaan")==3) {
+						$save["deelnemers"]=$gegevens["stap4"]["bijkomendekosten"][$db->f("bijkomendekosten_id")];
+					} else {
+						if($db->f("min_personen") and $db->f("max_personen")) {
+							//
+							// check for number of persons for this booking (min_personen / max_personen)
+							//
 
-						// toeslag (surcharge) = general option ("alg")
-						$save["persoonnummer"]="alg";
+							// toeslag (surcharge) = general option ("alg")
+							$save["persoonnummer"]="alg";
 
-						if($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
+							if($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
 
+								//
+								// check for age
+								//
+
+								unset($geboortedatum_sort);
+								for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+									if(isset($gegevens["stap3"][$i]["geboortedatum"])) {
+										$geboortedatum_sort[$i] = $gegevens["stap3"][$i]["geboortedatum"];
+									} else {
+										// fake birth date: today minus 30 years
+										$geboortedatum_sort[$i] = mktime(0,0,0, date("m"), date("d"), date("Y")-30);
+									}
+								}
+
+								// order by age (from old to young)
+								asort($geboortedatum_sort);
+								unset($persoon_counter);
+								foreach ($geboortedatum_sort as $i => $geboortedatum) {
+									$persoon_counter++;
+									if($persoon_counter>=$db->f("min_personen") and $persoon_counter<=$db->f("max_personen")) {
+
+										$leeftijd=wt_leeftijd($geboortedatum, mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
+										if($db->f("min_leeftijd") and $db->f("max_leeftijd")) {
+											if($leeftijd>=$db->f("min_leeftijd") and $leeftijd<=$db->f("max_leeftijd")) {
+												$alg_aantal++;
+											}
+										} elseif($db->f("min_leeftijd")) {
+											if($leeftijd>=$db->f("min_leeftijd")) {
+												$alg_aantal++;
+											}
+										} elseif($db->f("max_leeftijd")) {
+											if($leeftijd<=$db->f("max_leeftijd")) {
+												$alg_aantal++;
+											}
+										}
+									}
+								}
+
+							} else {
+								for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+									if($i>=$db->f("min_personen") and $i<=$db->f("max_personen")) {
+										$alg_aantal++;
+									}
+								}
+							}
+						} elseif($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
 							//
 							// check for age
 							//
-
-							unset($geboortedatum_sort);
 							for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 								if(isset($gegevens["stap3"][$i]["geboortedatum"])) {
-									$geboortedatum_sort[$i] = $gegevens["stap3"][$i]["geboortedatum"];
-								} else {
-									// fake birth date: today minus 30 years
-									$geboortedatum_sort[$i] = mktime(0,0,0, date("m"), date("d"), date("Y")-30);
-								}
-							}
-
-							// order by age (from old to young)
-							asort($geboortedatum_sort);
-							unset($persoon_counter);
-							foreach ($geboortedatum_sort as $i => $geboortedatum) {
-								$persoon_counter++;
-								if($persoon_counter>=$db->f("min_personen") and $persoon_counter<=$db->f("max_personen")) {
-
-									$leeftijd=wt_leeftijd($geboortedatum, mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
+									$leeftijd=wt_leeftijd($gegevens["stap3"][$i]["geboortedatum"],mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
 									if($db->f("min_leeftijd") and $db->f("max_leeftijd")) {
 										if($leeftijd>=$db->f("min_leeftijd") and $leeftijd<=$db->f("max_leeftijd")) {
-											$alg_aantal++;
+											if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
 										}
 									} elseif($db->f("min_leeftijd")) {
 										if($leeftijd>=$db->f("min_leeftijd")) {
-											$alg_aantal++;
+											if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
 										}
 									} elseif($db->f("max_leeftijd")) {
 										if($leeftijd<=$db->f("max_leeftijd")) {
-											$alg_aantal++;
+											if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
 										}
 									}
+								} elseif($db->f("zonderleeftijd")) {
+									if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
 								}
 							}
-
 						} else {
-							for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
-								if($i>=$db->f("min_personen") and $i<=$db->f("max_personen")) {
-									$alg_aantal++;
-								}
-							}
+							$save["deelnemers"]=$alle_deelnemers;
 						}
-					} elseif($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
-						//
-						// check for age
-						//
-						for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
-							if(isset($gegevens["stap3"][$i]["geboortedatum"])) {
-								$leeftijd=wt_leeftijd($gegevens["stap3"][$i]["geboortedatum"],mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
-								if($db->f("min_leeftijd") and $db->f("max_leeftijd")) {
-									if($leeftijd>=$db->f("min_leeftijd") and $leeftijd<=$db->f("max_leeftijd")) {
-										if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
-									}
-								} elseif($db->f("min_leeftijd")) {
-									if($leeftijd>=$db->f("min_leeftijd")) {
-										if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
-									}
-								} elseif($db->f("max_leeftijd")) {
-									if($leeftijd<=$db->f("max_leeftijd")) {
-										if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
-									}
-								}
-							} elseif($db->f("zonderleeftijd")) {
-								if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
-							}
-						}
-					} else {
-						$save["deelnemers"]=$alle_deelnemers;
 					}
 				}
-			}
 
-			if($voorheen[$db->f("bijkomendekosten_id")]) {
-				$save["naam"]=$voorheen[$db->f("bijkomendekosten_id")]["naam"];
-				$save["verkoop"]=$voorheen[$db->f("bijkomendekosten_id")]["verkoop"];
-				$save["inkoop"]=$voorheen[$db->f("bijkomendekosten_id")]["inkoop"];
-				$save["korting"]=$voorheen[$db->f("bijkomendekosten_id")]["korting"];
-				$save["omzetbonus"]=$voorheen[$db->f("bijkomendekosten_id")]["omzetbonus"];
-				$save["hoort_bij_accommodatieinkoop"]=$voorheen[$db->f("bijkomendekosten_id")]["hoort_bij_accommodatieinkoop"];
-				$save["optiecategorie"]=$voorheen[$db->f("bijkomendekosten_id")]["optiecategorie"];
-			} else {
-				$save["naam"]=$db->f("naam");
-				$save["verkoop"]=$db->f("verkoop");
-				$save["inkoop"]=$db->f("inkoop");
-				$save["korting"]=$db->f("korting");
-				$save["omzetbonus"]=$db->f("omzetbonus");
-				$save["hoort_bij_accommodatieinkoop"]=$db->f("hoort_bij_accommodatieinkoop");
-				$save["optiecategorie"]=$db->f("optiecategorie");
-			}
-			if($save["verkoop"]<>0 or $save["verkoop"]=="0.00") {
-				# Alleen opslaan als verkoopprijs is gezet
-				$db2->query("INSERT INTO extra_optie SET boeking_id='".$gegevens["stap1"]["boekingid"]."', persoonnummer='".$save["persoonnummer"]."', deelnemers='".$save["deelnemers"]."', ".($save["persoonnummer"]=="alg" ? "alg_aantal='".intval($alg_aantal)."', " : "")."naam='".addslashes($save["naam"])."', verkoop='".addslashes($save["verkoop"])."', inkoop='".addslashes($save["inkoop"])."', korting='".addslashes($save["korting"])."', omzetbonus='".addslashes($save["omzetbonus"])."', hoort_bij_accommodatieinkoop='".addslashes($save["hoort_bij_accommodatieinkoop"])."', optiecategorie='".addslashes($save["optiecategorie"])."', bijkomendekosten_id='".addslashes($db->f("bijkomendekosten_id"))."';");
+				if($voorheen[$db->f("bijkomendekosten_id")]) {
+					$save["naam"]=$voorheen[$db->f("bijkomendekosten_id")]["naam"];
+					$save["verkoop"]=$voorheen[$db->f("bijkomendekosten_id")]["verkoop"];
+					$save["inkoop"]=$voorheen[$db->f("bijkomendekosten_id")]["inkoop"];
+					$save["korting"]=$voorheen[$db->f("bijkomendekosten_id")]["korting"];
+					$save["omzetbonus"]=$voorheen[$db->f("bijkomendekosten_id")]["omzetbonus"];
+					$save["hoort_bij_accommodatieinkoop"]=$voorheen[$db->f("bijkomendekosten_id")]["hoort_bij_accommodatieinkoop"];
+					$save["optiecategorie"]=$voorheen[$db->f("bijkomendekosten_id")]["optiecategorie"];
+				} else {
+					$save["naam"]=$db->f("naam");
+					$save["verkoop"]=$db->f("verkoop");
+					$save["inkoop"]=$db->f("inkoop");
+					$save["korting"]=$db->f("korting");
+					$save["omzetbonus"]=$db->f("omzetbonus");
+					$save["hoort_bij_accommodatieinkoop"]=$db->f("hoort_bij_accommodatieinkoop");
+					$save["optiecategorie"]=$db->f("optiecategorie");
+				}
+				if($save["verkoop"]<>0 or $save["verkoop"]=="0.00") {
+					# Alleen opslaan als verkoopprijs is gezet
+					$db2->query("INSERT INTO extra_optie SET boeking_id='".$gegevens["stap1"]["boekingid"]."', persoonnummer='".$save["persoonnummer"]."', deelnemers='".$save["deelnemers"]."', ".($save["persoonnummer"]=="alg" ? "alg_aantal='".intval($alg_aantal)."', " : "")."naam='".addslashes($save["naam"])."', verkoop='".addslashes($save["verkoop"])."', inkoop='".addslashes($save["inkoop"])."', korting='".addslashes($save["korting"])."', omzetbonus='".addslashes($save["omzetbonus"])."', hoort_bij_accommodatieinkoop='".addslashes($save["hoort_bij_accommodatieinkoop"])."', optiecategorie='".addslashes($save["optiecategorie"])."', bijkomendekosten_id='".addslashes($db->f("bijkomendekosten_id"))."';");
+				}
 			}
 		}
-	}
 
-	# Kijken of het factuurbedrag afwijkt van de berekende totale reissom (en dan "factuur_bedrag_wijkt_af" aanpassen)
-	if($gegevens["stap1"]["totale_reissom"]>0) {
-		$gegevens=get_boekinginfo($boekingid);
-		if($gegevens["fin"]["totale_reissom"]>0) {
-			$verschil=round($gegevens["stap1"]["totale_reissom"]-$gegevens["fin"]["totale_reissom"],2);
-			if(abs($verschil)>0.01) {
-				$factuur_bedrag_wijkt_af=1;
-			} else {
-				$factuur_bedrag_wijkt_af=0;
-			}
-			if($gegevens["stap1"]["aankomstdatum"]>time() and (($gegevens["stap1"]["factuur_bedrag_wijkt_af"] and !$factuur_bedrag_wijkt_af) or (!$gegevens["stap1"]["factuur_bedrag_wijkt_af"] and $factuur_bedrag_wijkt_af))) {
-				$db2->query("UPDATE boeking SET factuur_bedrag_wijkt_af='".$factuur_bedrag_wijkt_af."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+		# Kijken of het factuurbedrag afwijkt van de berekende totale reissom (en dan "factuur_bedrag_wijkt_af" aanpassen)
+		if($gegevens["stap1"]["totale_reissom"]>0) {
+			$gegevens=get_boekinginfo($boekingid);
+			if($gegevens["fin"]["totale_reissom"]>0) {
+				$verschil=round($gegevens["stap1"]["totale_reissom"]-$gegevens["fin"]["totale_reissom"],2);
+				if(abs($verschil)>0.01) {
+					$factuur_bedrag_wijkt_af=1;
+				} else {
+					$factuur_bedrag_wijkt_af=0;
+				}
+				if($gegevens["stap1"]["aankomstdatum"]>time() and (($gegevens["stap1"]["factuur_bedrag_wijkt_af"] and !$factuur_bedrag_wijkt_af) or (!$gegevens["stap1"]["factuur_bedrag_wijkt_af"] and $factuur_bedrag_wijkt_af))) {
+					$db2->query("UPDATE boeking SET factuur_bedrag_wijkt_af='".$factuur_bedrag_wijkt_af."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+				}
 			}
 		}
 	}
