@@ -1348,7 +1348,7 @@ class bijkomendekosten {
 			if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$key; else $bijkomendekosten_inquery=$key;
 		}
 
-		# Oude gegevens inlezen
+		// Oude gegevens inlezen
 		$db->query("SELECT bijkomendekosten_id, naam, verkoop, inkoop, korting, omzetbonus, hoort_bij_accommodatieinkoop, optiecategorie FROM extra_optie WHERE bijkomendekosten_id IS NOT NULL AND boeking_id='".$gegevens["stap1"]["boekingid"]."';");
 		while($db->next_record()) {
 			$voorheen[$db->f("bijkomendekosten_id")]["naam"]=$db->f("naam");
@@ -1360,7 +1360,7 @@ class bijkomendekosten {
 			$voorheen[$db->f("bijkomendekosten_id")]["optiecategorie"]=$db->f("optiecategorie");
 		}
 
-		# Bijkomende kosten gekoppeld aan accommodatie en type
+		// Bijkomende kosten gekoppeld aan accommodatie en type
 		$db->query("SELECT a.bijkomendekosten1_id, a.bijkomendekosten2_id, a.bijkomendekosten3_id, a.bijkomendekosten4_id, a.bijkomendekosten5_id, a.bijkomendekosten6_id, t.bijkomendekosten1_id AS tbijkomendekosten1_id, t.bijkomendekosten2_id AS tbijkomendekosten2_id, t.bijkomendekosten3_id AS tbijkomendekosten3_id, t.bijkomendekosten4_id AS tbijkomendekosten4_id, t.bijkomendekosten5_id AS tbijkomendekosten5_id, t.bijkomendekosten6_id AS tbijkomendekosten6_id FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".addslashes($gegevens["stap1"]["typeid"])."';");
 		if($db->next_record()) {
 			for($i=1;$i<=6;$i++) {
@@ -1373,7 +1373,7 @@ class bijkomendekosten {
 			}
 		}
 
-		# Bijkomende kosten gekoppeld aan skipas
+		// Bijkomende kosten gekoppeld aan skipas
 		if($gegevens["stap1"]["accinfo"]["skipasid"]) {
 			$db->query("SELECT bijkomendekosten_id FROM skipas WHERE skipas_id='".addslashes($gegevens["stap1"]["accinfo"]["skipasid"])."';");
 			if($db->next_record()) {
@@ -1383,12 +1383,12 @@ class bijkomendekosten {
 			}
 		}
 
-		# Oude gegevens wissen (alleen bij bijkomende kosten die nu ook nog aanwezig zijn bij de accommodatie/type)
+		// Oude gegevens wissen (alleen bij bijkomende kosten die nu ook nog aanwezig zijn bij de accommodatie/type)
 		if($bijkomendekosten_inquery) {
 			$db->query("DELETE FROM extra_optie WHERE bijkomendekosten_id IS NOT NULL AND bijkomendekosten_id IN (".$bijkomendekosten_inquery.") AND boeking_id='".$gegevens["stap1"]["boekingid"]."';");
 		}
 
-		# Alle deelnemers in $alle_deelnemers
+		// Alle deelnemers in $alle_deelnemers
 		for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 			if($alle_deelnemers) $alle_deelnemers.=",".$i; else $alle_deelnemers=$i;
 		}
@@ -1543,17 +1543,9 @@ class bijkomendekosten {
 
 		while($db->next_record()) {
 
-
-			// TODO:
-			// borg vooraf te betalen?
-
-
-
 			unset($save, $alg_aantal);
 
-
 			if($db->f("eenheid")==2 or $db->f("eenheid")==12 or $db->f("eenheid")==9) {
-
 
 				// eenheid = "per person" or "per person each time" or "per set"
 				if($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
@@ -1622,15 +1614,12 @@ class bijkomendekosten {
 				$save["optiecategorie"]=2;
 			}
 			if($save["verkoop"]<>0) {
-				# Alleen opslaan als verkoopprijs is gezet
+				// Alleen opslaan als verkoopprijs is gezet
 				$db2->query("INSERT INTO extra_optie SET boeking_id='".$gegevens["stap1"]["boekingid"]."', persoonnummer='".$save["persoonnummer"]."', deelnemers='".$save["deelnemers"]."', ".($save["persoonnummer"]=="alg" ? "alg_aantal='".intval($alg_aantal)."', " : "")."naam='".addslashes($save["naam"])."', verkoop='".addslashes($save["verkoop"])."', inkoop='".addslashes($save["inkoop"])."', korting='".addslashes($save["korting"])."', omzetbonus='".addslashes($save["omzetbonus"])."', hoort_bij_accommodatieinkoop='".addslashes($save["hoort_bij_accommodatieinkoop"])."', optiecategorie='".addslashes($save["optiecategorie"])."', bk_soort_id='".addslashes($db->f("bk_soort_id"))."';");
-				// echo $db2->lq."<br />";
 			}
 		}
 
-// exit;
-
-		# Kijken of het factuurbedrag afwijkt van de berekende totale reissom (en dan "factuur_bedrag_wijkt_af" aanpassen)
+		// Kijken of het factuurbedrag afwijkt van de berekende totale reissom (en dan "factuur_bedrag_wijkt_af" aanpassen)
 		if($gegevens["stap1"]["totale_reissom"]>0) {
 			$gegevens=get_boekinginfo($boekingid);
 			if($gegevens["fin"]["totale_reissom"]>0) {
@@ -1645,7 +1634,6 @@ class bijkomendekosten {
 				}
 			}
 		}
-
 	}
 
 	public function get_booking_data($gegevens) {

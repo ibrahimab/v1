@@ -910,7 +910,7 @@ $vars["bk_ter_plaatse_cms"] = array(0=>"vooraf", 1=>"ter plaatse");
 $vars["bk_eenheid"] = array(1=>txt("per-verblijf", "bijkomendekosten"), 2=>txt("pp", "bijkomendekosten"), 3=>txt("per-dag", "bijkomendekosten"), 4=>txt("per-stuk", "bijkomendekosten"), 5=>txt("per-keer", "bijkomendekosten"), 6=>txt("per-kwh", "bijkomendekosten"), 7=>txt("per-liter", "bijkomendekosten"), 8=>txt("per-nacht", "bijkomendekosten"), 9=>txt("per-set", "bijkomendekosten"), 10=>txt("per-week", "bijkomendekosten"), 11=>txt("per-zak", "bijkomendekosten"), 12=>txt("pp-per-keer", "bijkomendekosten"), 13=>txt("per-uur", "bijkomendekosten"), 14=>txt("per-kubieke-meter", "bijkomendekosten"));
 $vars["bk_eenheid_cms"] = array(1=>"per verblijf",2=>"per persoon", 3=>"per dag", 4=>"per stuk", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak", 12=>"p.p. per keer", 13=>"per uur", 14=>"per kubieke meter");
 $vars["bk_borg_soort"] = array(1=>txt("contant-te-voldoen", "bijkomendekosten"), 2=>txt("per-creditcard-te-voldoen", "bijkomendekosten"), 3=>txt("contant-of-per-creditcard", "bijkomendekosten"), 4=>txt("niet-van-toepassing", "bijkomendekosten"), 5=>txt("bedrag-onbekend", "bijkomendekosten"), 6=>txt("vooraf-te-voldoen", "bijkomendekosten"));
-$vars["bk_borg_soort_cms"] = array(1=>"contant",2=>"creditcard", 3=>"contant of creditcard", 6=>"vooraf", 4=>"niet van toepassing", 5=>"bedrag onbekend");
+$vars["bk_borg_soort_cms"] = array(1=>"contant",2=>"creditcard", 3=>"contant of creditcard", 6=>"vooraf via eigenaar", 4=>"niet van toepassing", 5=>"bedrag onbekend");
 
 
 # Welke taal in welk land?
