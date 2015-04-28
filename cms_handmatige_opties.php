@@ -5,13 +5,13 @@ $mustlogin=true;
 include("admin/vars.php");
 
 if($_GET["edit"]==23 and $_GET["23k0"]) {
-	$db->query("SELECT bijkomendekosten_id FROM extra_optie WHERE extra_optie_id='".addslashes($_GET["23k0"])."';");
-	if($db->next_record() and $db->f("bijkomendekosten_id")) {
+	$db->query("SELECT bijkomendekosten_id, bk_soort_id FROM extra_optie WHERE extra_optie_id='".addslashes($_GET["23k0"])."';");
+	if($db->next_record() and ($db->f("bijkomendekosten_id") or $db->f("bk_soort_id"))) {
 		$bijkomendekosten=true;
 	}
 }
 
-$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id, persoonnummer, deelnemers, alg_aantal FROM extra_optie WHERE boeking_id='".addslashes($_GET["bid"])."';");
+$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id, bk_soort_id, persoonnummer, deelnemers, alg_aantal FROM extra_optie WHERE boeking_id='".addslashes($_GET["bid"])."';");
 while($db->next_record()) {
 
 	if($db->f("persoonnummer")=="pers") {
@@ -25,7 +25,7 @@ while($db->next_record()) {
 		$aantal[$db->f("extra_optie_id")]=$db->f("alg_aantal");
 	}
 
-	if($db->f("bijkomendekosten_id")) {
+	if($db->f("bijkomendekosten_id") or $db->f("bk_soort_id")) {
 		$soort[$db->f("extra_optie_id")]="Bijkomende kosten";
 
 
