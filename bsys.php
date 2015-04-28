@@ -22,8 +22,9 @@ if($_GET["laatstefactuur"] and $_GET["bid"]) {
 			$file=$vars["unixdir"]."pdf/facturen/".$db2->f("filename");
 			if(file_exists($file)) {
                 
-				header('Content-type: application/pdf');
-                header('Content-Disposition: atachment; filename=factuur-' . $_GET['bid'] . '.pdf');
+				header('Content-Type: application/pdf');
+                header('Content-Disposition: atachment; filename=\'factuur-' . $_GET['bid'] . '.pdf\'');
+                header('Content-Length: ' . filesize($file));
 				readfile($file);
                 
 			} else {
