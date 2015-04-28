@@ -21,12 +21,12 @@ if($_GET["laatstefactuur"] and $_GET["bid"]) {
 		if($db2->next_record()) {
 			$file=$vars["unixdir"]."pdf/facturen/".$db2->f("filename");
 			if(file_exists($file)) {
-                
+
 				header('Content-Type: application/pdf');
-                header('Content-Disposition: atachment; filename=\'' . basename($file) . '\'');
-                header('Content-Length: ' . filesize($file));
+				header('Content-Disposition: atachment; filename=\'' . basename($file) . '\'');
+				header('Content-Length: ' . filesize($file));
 				readfile($file);
-                
+
 			} else {
 				trigger_error("factuur-bestand niet aanwezig",E_USER_NOTICE);
 			}
