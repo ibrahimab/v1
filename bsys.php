@@ -29,6 +29,8 @@ if($_GET["laatstefactuur"] and $_GET["bid"]) {
 		} else {
 			trigger_error("factuur niet aanwezig in database",E_USER_NOTICE);
 		}
+	} else {
+		trigger_error("boeking niet gevonden met boekingid_inquery ".$boekingid_inquery,E_USER_NOTICE);
 	}
 	exit;
 }
