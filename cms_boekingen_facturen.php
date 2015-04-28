@@ -659,7 +659,7 @@ if($form->okay) {
 
 			$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
 			$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
-			$bk = $bijkomendekosten->get_factuur_data();
+			$bk = $bijkomendekosten->get_booking_data();
 
 			if(is_array($bk["voldaan"]) or is_array($bk["ter_plaatse"])) {
 				$pdf->Ln(1);
