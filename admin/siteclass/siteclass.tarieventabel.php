@@ -186,9 +186,9 @@ class tarieventabel {
 			$email_text .= "\n";
 			if($this->accinfo["wzt"]==1) {
 				if($aantalpersonen==1) {
-					$email_text .= html("mailcopy-bezetting-1-persoon","tarieventabel");
+					$email_text .= txt("mailcopy-bezetting-1-persoon","tarieventabel");
 				} else {
-					$email_text .= html("mailcopy-bezetting-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
+					$email_text .= txt("mailcopy-bezetting-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
 				}
 				$email_text .= ": € ".number_format($this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")." ".txt("perpersoon", "tarieventabel");
 				$email_text .= ", ";
@@ -200,9 +200,9 @@ class tarieventabel {
 				$email_text .= "\n";
 			}
 			if($aantalpersonen==1) {
-				$email_text .= html("totaalprijs-op-basis-1-persoon","tarieventabel");
+				$email_text .= txt("totaalprijs-op-basis-1-persoon","tarieventabel");
 			} else {
-				$email_text .= html("totaalprijs-op-basis-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
+				$email_text .= txt("totaalprijs-op-basis-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
 			}
 			$email_text .= ": € ".number_format($totaalbedrag, 2, ",", ".");
 			$email_text .= " ".txt("mailcopy-per-week", "tarieventabel");
