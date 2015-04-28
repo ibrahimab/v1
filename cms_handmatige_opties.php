@@ -4,44 +4,6 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
-if($_GET["edit"]==23 and $_GET["23k0"]) {
-	$db->query("SELECT bijkomendekosten_id, bk_soort_id FROM extra_optie WHERE extra_optie_id='".addslashes($_GET["23k0"])."';");
-	if($db->next_record() and ($db->f("bijkomendekosten_id") or $db->f("bk_soort_id"))) {
-		$bijkomendekosten=true;
-	}
-}
-
-$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id, bk_soort_id, persoonnummer, deelnemers, alg_aantal FROM extra_optie WHERE boeking_id='".addslashes($_GET["bid"])."';");
-while($db->next_record()) {
-
-	if($db->f("persoonnummer")=="pers") {
-		if($db->f("deelnemers")) {
-			$temp_aantal = preg_split("@,@", $db->f("deelnemers"));
-			$aantal[$db->f("extra_optie_id")]=count($temp_aantal);
-		} else {
-			$aantal[$db->f("extra_optie_id")]=0;
-		}
-	} else {
-		$aantal[$db->f("extra_optie_id")]=$db->f("alg_aantal");
-	}
-
-	if($db->f("bijkomendekosten_id") or $db->f("bk_soort_id")) {
-		$soort[$db->f("extra_optie_id")]="Bijkomende kosten";
-
-
-		if($db->f("persoonnummer")=="pers" and !$db->f("deelnemers")) {
-			$geen_deelnemers[$db->f("extra_optie_id")] = true;
-		}
-	} else {
-		$soort[$db->f("extra_optie_id")]=ucfirst($db->f("soort"));
-	}
-}
-
-if(!is_array($soort)) $soort[1]="-";
-
-#
-# Gegevens uit database halen
-#
 $temp_gegevens=boekinginfo($_GET["bid"]);
 
 $gegevens["stap1"]=$temp_gegevens["stap1"];
@@ -78,10 +40,65 @@ $gegevens["stap5"]=$temp_gegevens["stap5"];
 $vars["keuze_persoonnummer"]["alg"]="algemene optie (niet aan personen gekoppeld)";
 $vars["keuze_persoonnummer"]["pers"]="bepaalde personen";
 
-
 for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 	$vars["personen"][$i]=($i==1 ? "Hoofdboeker" : "Persoon ".$i)." (".wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"]).")";
 }
+
+if($_GET["edit"]==23 and $_GET["23k0"]) {
+	$db->query("SELECT bijkomendekosten_id, bk_soort_id, persoonnummer, deelnemers FROM extra_optie WHERE extra_optie_id='".intval($_GET["23k0"])."';");
+	if($db->next_record()) {
+		if($db->f("bijkomendekosten_id")) {
+			$bijkomendekosten_surcharge = true;
+		}
+		if($db->f("bk_soort_id")) {
+			$bijkomendekosten = true;
+		}
+		if($db->f("persoonnummer")=="pers") {
+			$bijkomendekosten_persoonnummer_pers = true;
+
+			$deelnemers_array = preg_split("@,@", $db->f("deelnemers"));
+			foreach ($vars["personen"] as $key => $value) {
+				if(in_array($key, $deelnemers_array)) {
+					$deelnemers .= "\n".$value;
+				}
+			}
+		}
+	}
+}
+
+$db->query("SELECT extra_optie_id, soort, bijkomendekosten_id, bk_soort_id, persoonnummer, deelnemers, alg_aantal FROM extra_optie WHERE boeking_id='".intval($_GET["bid"])."';");
+while($db->next_record()) {
+
+	if($db->f("persoonnummer")=="pers") {
+		if($db->f("deelnemers")) {
+			$temp_aantal = preg_split("@,@", $db->f("deelnemers"));
+			$aantal[$db->f("extra_optie_id")]=count($temp_aantal);
+		} else {
+			$aantal[$db->f("extra_optie_id")]=0;
+		}
+	} else {
+		$aantal[$db->f("extra_optie_id")]=$db->f("alg_aantal");
+	}
+
+	if($db->f("bijkomendekosten_id") or $db->f("bk_soort_id")) {
+		$soort[$db->f("extra_optie_id")]="Bijkomende kosten";
+
+
+		if($db->f("persoonnummer")=="pers" and !$db->f("deelnemers")) {
+			$geen_deelnemers[$db->f("extra_optie_id")] = true;
+		}
+	} else {
+		$soort[$db->f("extra_optie_id")]=ucfirst($db->f("soort"));
+	}
+}
+
+if(!is_array($soort)) $soort[1]="-";
+
+#
+# Gegevens uit database halen
+#
+
+
 
 $cms->settings[23]["list"]["show_icon"]=false;
 $cms->settings[23]["list"]["edit_icon"]=true;
@@ -141,24 +158,30 @@ if($_POST["frm_filled"] and $_POST["input"]["voucher"]) {
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 
-if($bijkomendekosten) {
+if($bijkomendekosten_surcharge or $bijkomendekosten) {
 	$cms->edit_field(23,1,"htmlrow","<b>Bijkomende kosten");
 } else {
 	$cms->edit_field(23,1,"htmlrow","<b>Handmatige optie");
 	$cms->edit_field(23,1,"verberg_voor_klant","Verberg deze handmatige optie voor de klant","","",array("info"=>"Verbergen kun je gebruiken om de inkoopgegevens van een optie aan te passen (correctie inkoop optie)."));
 }
-if(!$bijkomendekosten) $cms->edit_field(23,1,"soort","Optie-soort");
+if(!$bijkomendekosten_surcharge and !$bijkomendekosten) $cms->edit_field(23,1,"soort","Optie-soort");
 $cms->edit_field(23,1,"naam","Omschrijving");
 if($geen_deelnemers[$_GET["23k0"]]) {
 	$cms->edit_field(23,1,"htmlcol","Gekoppeld aan", array("html"=>"-aan geen enkele deelnemer gekoppeld-"));
 } else {
-	$cms->edit_field(23,1,"persoonnummer","Gekoppeld aan","",array("noedit"=>$bijkomendekosten));
+	$cms->edit_field(23,1,"persoonnummer","Gekoppeld aan","",array("noedit"=>($bijkomendekosten_surcharge||$bijkomendekosten ? true : false)));
 }
-if(!$bijkomendekosten) $cms->edit_field(23,0,"deelnemers","Deelnemers","","",array("one_per_line"=>true));
+if($bijkomendekosten_persoonnummer_pers) {
+	$cms->edit_field(23,1,"htmlcol","Deelnemers", array("html"=>nl2br(wt_he(trim($deelnemers)))));
+} elseif(!$bijkomendekosten_surcharge and !$bijkomendekosten) {
+	$cms->edit_field(23, 0, "deelnemers", "Deelnemers", "", "", array("one_per_line"=>true));
+}
 $cms->edit_field(23,1,"verkoop","Verkoopprijs","",array("negative"=>true));
 $cms->edit_field(23,1,"inkoop","Inkoopprijs","",array("negative"=>true));
 $cms->edit_field(23,0,"korting","Kortingspercentage");
-$cms->edit_field(23,0,"alg_aantal","Aantal keer (alleen voor algemene optie)");
+if(!$bijkomendekosten_persoonnummer_pers) {
+	$cms->edit_field(23,0,"alg_aantal","Aantal keer (alleen voor algemene optie)","",array("noedit"=>($bijkomendekosten_surcharge||$bijkomendekosten ? true : false)));
+}
 if(!$bijkomendekosten) {
 	if($gegevens["stap1"]["reisbureau_user_id"]) {
 		$cms->edit_field(23,0,"commissie","Commissiepercentage");
