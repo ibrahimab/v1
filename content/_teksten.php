@@ -1111,7 +1111,7 @@ $txt["en"]["index"]["koptekst_mobile"]="Chalets and apartments[[h_b]]for 2 to 50
 
 $txt["nl"]["index"]["koptekst_italissima_mobile"]="Agriturismi en overige vakantiehuizen in Italië";
 $txt["de"]["index"]["koptekst_italissima_mobile"]="Agriturismi und sonstige Ferienhäuser in Italien";
-$txt["en"]["index"]["koptekst_italissima_mobile"]="Agriturismi and additional holiday homes in Italy";
+$txt["en"]["index"]["koptekst_italissima_mobile"]="Agriturismi and other holiday homes in Italy";
 
 $txt["nl"]["index"]["linksboven"]="Ruim 1.100 chalets, appartementen en hotels voor 2 tot 50 personen in [[h_1]]Frankrijk[[h_4]], [[h_2]]Oostenrijk[[h_4]] en [[h_3]]Zwitserland[[h_4]].";
 $txt["de"]["index"]["linksboven"]="Über 1.100 Chalets, Appartements und Hotels für 2 bis 50 Personen in [[h_1]]Frankreich[[h_4]], [[h_2]]Österreich[[h_4]] und [[h_3]]der Schweiz[[h_4]].";
@@ -1346,7 +1346,7 @@ $txt["en"]["index"]["inleidingvallandry"]="Vallandry is a versatile mountain vil
 # Homepage Italissima / Italyhomes
 #
 $txt["nl_i"]["index"]["koptekst"]="Agriturismi en overige vakantiehuizen in Italië";
-$txt["en_i"]["index"]["koptekst"]="Agriturismi and additional holiday homes in Italy";
+$txt["en_i"]["index"]["koptekst"]="Agriturismi and other holiday homes in Italy";
 
 $txt["nl"]["index"]["zoeken_per_regio"]="Zoeken per regio";
 $txt["de"]["index"]["zoeken_per_regio"]="Suchen pro Region";
