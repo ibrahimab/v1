@@ -1173,15 +1173,8 @@ $vars["factuurnummer_prefix"]=array(2006=>"67",2007=>"78",2008=>"89",2009=>"90",
 $vars["aanbetaling1_dagennaboeken"]=10;
 $vars["totale_reissom_dagenvooraankomst"]=42;
 $vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js";
+$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
 
-#$vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js";
-
-if(($id == "toonaccommodatie") && ($isMobile)){
-	# oude jquery ui-versie nodig voor zomer-tarieventabel in IE9
-	$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js";
-} else {
-	$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
-}
 
 // activate jquery scrollup plugin on every page
 $vars["jquery_scrollup"] = true;

@@ -2437,7 +2437,7 @@ $(document).ready(function() {
 		});
 
 		// kijken of de scrollbuttons uitgeschakeld moeten worden
-		tarieventabel_controleer_scrollbuttons();
+		// tarieventabel_controleer_scrollbuttons();
 
 
 		// externe links als Anayltics-event opslaan
@@ -2570,18 +2570,15 @@ function tarieventabel_toelichting_check_season() {
 	// check which bijkomendekosten-season has to be shown (based on scroll position)
 	//
 
-	if($("#prijsinformatie").is(":visible")) {
+	if($(".tarieventabel_datadiv").length!==0) {
+		var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
 
-		if($(".tarieventabel_datadiv").length!==0) {
-			var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
-
-			if($(".tarieventabel_datadiv").data("begin_seizoen")) {
-				var seizoenwissel = (parseInt($(".tarieventabel_datadiv").data("begin_seizoen"))-5) * 67;
-				if(leftPos>seizoenwissel) {
-					tarieventabel_toelichting_change_season($(".tarieventabel_datadiv").data("last_seizoen_id"));
-				} else {
-					tarieventabel_toelichting_change_season($(".tarieventabel_datadiv").data("first_seizoen_id"));
-				}
+		if($(".tarieventabel_datadiv").data("begin_seizoen")) {
+			var seizoenwissel = (parseInt($(".tarieventabel_datadiv").data("begin_seizoen"))-5) * 67;
+			if(leftPos>seizoenwissel) {
+				tarieventabel_toelichting_change_season($(".tarieventabel_datadiv").data("last_seizoen_id"));
+			} else {
+				tarieventabel_toelichting_change_season($(".tarieventabel_datadiv").data("first_seizoen_id"));
 			}
 		}
 	}

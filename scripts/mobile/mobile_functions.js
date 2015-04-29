@@ -144,6 +144,7 @@ $(".slideshow").jCarouselLite(carouselOptions);
 						},
 
 			change: function( event, ui ) {
+
 								var scrollTop = $(".accordion").scrollTop();
 								if(ui.newHeader.offset())
 									var top = $(ui.newHeader).offset().top;
@@ -151,9 +152,7 @@ $(".slideshow").jCarouselLite(carouselOptions);
 									var top = ui.oldHeader.offset().top;
 								//do magic to scroll the user to the correct location
 								//works in IE, firefox chrome and safari
-								$("html,body").animate({ scrollTop: scrollTop + top -35 }, "slow", function(){
-									tarieventabel_toelichting_check_season();
-								});
+								$("html,body").animate({ scrollTop: scrollTop + top -35 }, "slow");
 								// 2 = ligging accordion tab
 				if(ui.options.active == 2) {
 					//we have to set center for map after resize, but we need to know center BEFORE we resize it
@@ -162,9 +161,10 @@ $(".slideshow").jCarouselLite(carouselOptions);
 					google.maps.event.trigger(map, "resize"); //this fix the problem with not completely map
 					map.setCenter(new google.maps.LatLng(mapOptions.googlemaps_lat,mapOptions.googlemaps_long));
 				}
+				if(ui.options.active == 5) {
+					tarieventabel_controleer_scrollbuttons();
+				}
 			},
-
-
 
 		});
 	}
