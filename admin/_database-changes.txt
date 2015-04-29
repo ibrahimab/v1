@@ -2,6 +2,8 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+29-apr-2015 10:15
+ALTER TABLE `diverse_instellingen` CHANGE `wisselkoers_pond` `wisselkoers_pond` DECIMAL(19,4) NOT NULL;
 
 17-apr-2015 17:30
 
@@ -53,12 +55,12 @@ ALTER TABLE `boeking` ADD `geannuleerd_op` DATETIME NULL DEFAULT NULL AFTER `gea
 ALTER TABLE `accommodatie` ADD `vertrekinfo_noodtelefoonnummer_accommodatie` VARCHAR(100) NULL DEFAULT NULL AFTER `vertrekinfo_telefoonnummer`;
 
 16-jan-2015 09:15
-ALTER TABLE `boeking_enquete` 
+ALTER TABLE `boeking_enquete`
 ADD COLUMN `websitetekst_gewijzigd_en` TEXT NULL AFTER `websitetekst_gewijzigd`,
 ADD COLUMN `websitetekst_gewijzigd_de` TEXT NULL AFTER `websitetekst_gewijzigd_en`,
 ADD COLUMN `websitetekst_gewijzigd_nl` TEXT NULL AFTER `websitetekst_gewijzigd_de`,
 ADD COLUMN `tekst_language` VARCHAR(2) NULL AFTER `websitetekst_gewijzigd_nl`;
-ALTER TABLE `accommodatie_review` 
+ALTER TABLE `accommodatie_review`
 ADD COLUMN `websitetekst_gewijzigd_en` TEXT NULL AFTER `tekst`,
 ADD COLUMN `websitetekst_gewijzigd_de` TEXT NULL AFTER `websitetekst_gewijzigd_en`,
 ADD COLUMN `websitetekst_gewijzigd_nl` TEXT NULL AFTER `websitetekst_gewijzigd_de`,
@@ -69,21 +71,21 @@ ALTER TABLE `type_seizoen` ADD `bijkomendekosten_checked` TINYINT(1) NOT NULL ;
 ALTER TABLE `accommodatie_seizoen` ADD `bijkomendekosten_checked` TINYINT(1) NOT NULL ;
 
 04-jan-2015 14:30
-CREATE TABLE `boeking_retour` 
-( 
-  `boeking_retour_id` INT(11) NOT NULL AUTO_INCREMENT , 
-  `boeking_id`        INT(11) NOT NULL , 
-  `naam`              VARCHAR(200) NOT NULL , 
-  `iban`              VARCHAR(30) NOT NULL , 
-  `bic`               VARCHAR(11) NULL DEFAULT NULL , 
-  `omschrijving`      VARCHAR(140) NOT NULL , 
-  `openstaand`        DECIMAL(10,2) NOT NULL , 
+CREATE TABLE `boeking_retour`
+(
+  `boeking_retour_id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `boeking_id`        INT(11) NOT NULL ,
+  `naam`              VARCHAR(200) NOT NULL ,
+  `iban`              VARCHAR(30) NOT NULL ,
+  `bic`               VARCHAR(11) NULL DEFAULT NULL ,
+  `omschrijving`      VARCHAR(140) NOT NULL ,
+  `openstaand`        DECIMAL(10,2) NOT NULL ,
   `aangemaakt_op`     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
-  `betaald_op`        DATETIME NULL DEFAULT NULL , 
-  `ingetrokken_op`    DATETIME NULL DEFAULT NULL , 
-  PRIMARY KEY (`boeking_retour_id`) , 
-  INDEX (`boeking_id`) 
-) 
+  `betaald_op`        DATETIME NULL DEFAULT NULL ,
+  `ingetrokken_op`    DATETIME NULL DEFAULT NULL ,
+  PRIMARY KEY (`boeking_retour_id`) ,
+  INDEX (`boeking_id`)
+)
 ENGINE = MyISAM DEFAULT CHARSET = utf8 AUTO_INCREMENT = 1;
 
 12-dec-2014 17:25
