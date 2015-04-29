@@ -38,13 +38,13 @@ $huidig_uur = date("H");
 
 // Wisselkoers pond opvragen
 if($huidig_uur==10 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
-	$koers_json=file_get_contents("http://rate-exchange.appspot.com/currency?from=EUR&to=GBP");
-	if($koers_json) {
-		$koers_array=json_decode($koers_json, true);
-		// echo wt_dump($koers_array);
-		if($koers_array["rate"]) {
-			// echo $koers_array["rate"];
-			$db->query("UPDATE diverse_instellingen SET wisselkoers_pond=".addslashes($koers_array["rate"])." WHERE diverse_instellingen_id=1;");
+
+	$koers_json = file_get_contents('https://rate-exchange.herokuapp.com/fetchRate?from=EUR&to=GBP');
+	if ($koers_json) {
+
+		$koers_array = json_decode($koers_json, true);
+		if (isset($koers_array['Rate'])) {
+			$db->query('UPDATE diverse_instellingen SET wisselkoers_pond = ' . round(floatval($koers_array['Rate']), 4) . ' WHERE diverse_instellingen_id=1;');
 		}
 	}
 }
