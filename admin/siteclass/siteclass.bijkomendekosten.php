@@ -1709,6 +1709,12 @@ class bijkomendekosten {
 								}
 								$return[$use_key][$key2]["bedragonbekend"] = true;
 							}
+
+							// borg accommodatie
+							if($value2["borg_soort"] and $value2["borg_soort"]<>4 and $value2["borg_soort"]<>5) {
+								$return[$use_key][$key2]["toonbedrag"] .= ", ".$vars["bk_borg_soort"][$value2["borg_soort"]];
+							}
+
 						}
 					}
 				}
