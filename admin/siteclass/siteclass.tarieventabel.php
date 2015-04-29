@@ -424,7 +424,7 @@ class tarieventabel {
 
 	private function tabel_content() {
 
-		global $vars;
+		global $vars, $isMobile;
 
 		if($this->tarief) {
 
@@ -575,9 +575,11 @@ class tarieventabel {
 			}
 
 			// show "click for total"-message
-			$return .= "<div class=\"tarieventabel_totaal_message\">";
-			$return .= html("klik-voor-totaalbedrag", "tarieventabel");
-			$return .= "</div>";
+			if( !$isMobile ) {
+				$return .= "<div class=\"tarieventabel_totaal_message\">";
+				$return .= html("klik-voor-totaalbedrag", "tarieventabel");
+				$return .= "</div>";
+			}
 
 			// legenda
 			$return.="<div class=\"tarieventabel_legenda\">";
@@ -2109,7 +2111,7 @@ class tarieventabel {
 
 		$db = new DB_sql;
 
-		if($zomerwinterkoppeling_accommodatie_id) {
+		if($zomerwinterkoppeling_accommodatie_id and !$isMobile) {
 			$db->query("SELECT t.websites FROM type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".intval($zomerwinterkoppeling_accommodatie_id)."' AND a.tonen=1 AND t.tonen=1;");
 			if($db->next_record()) {
 				if($vars["websitetype"]==1 or $vars["websitetype"]==4 or ($vars["websitetype"]==6 and $vars["seizoentype"]==1)) {

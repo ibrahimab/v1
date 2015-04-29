@@ -409,7 +409,7 @@ $txta["nl_z"]["subtitel"]="Vakantie in zomer, voorjaar en najaar - Vakantiehuize
 $txta["en_z"]["subtitel"]="Summer Holidays - Chalets - Accommodations - Holiday Homes";
 
 $txta["nl_i"]["subtitel"]="Agriturismi en overige vakantiehuizen in Italië";
-$txta["en_i"]["subtitel"]="Agriturismi and additional holiday homes in Italy";
+$txta["en_i"]["subtitel"]="Agriturismi and other holiday homes in Italy";
 
 $txta["nl_w"]["subtitel"]="Wintersport - Superdeals voor skivakanties";
 $txta["en_w"]["subtitel"]="-";
