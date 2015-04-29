@@ -39,7 +39,7 @@ $huidig_uur = date("H");
 // Wisselkoers pond opvragen
 if($huidig_uur==10 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
 
-	$koers_json = file_get_contents('https://rate-exchange.herokuapp.com/fetchRate?from=EUR&to=USD');
+	$koers_json = file_get_contents('https://rate-exchange.herokuapp.com/fetchRate?from=EUR&to=GBP');
 	if ($koers_json) {
 
 		$koers_array = json_decode($koers_json, true);
