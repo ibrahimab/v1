@@ -2217,27 +2217,30 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 
 		foreach ($bk["ter_plaatse"] as $key => $value) {
 
-			$kleurteller++;
-			if($kleurteller>1) unset($kleurteller);
+			if($value["subtotaal"]<>0) {
 
-			$bedrag = $value["totaalbedrag"];
+				$kleurteller++;
+				if($kleurteller>1) unset($kleurteller);
 
-			$totaal_ter_plaatse += $bedrag;
+				$bedrag = $value["totaalbedrag"];
 
-			if(!$isMobile) {
-				$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he($value["naam"]);
-				$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($value["subtotaal"]),2,',','.')."</td>";
-				$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$value["aantal"]."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
-				$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($value["totaalbedrag"]),2,',','.')."</td>";
-				$return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($value["totaalbedrag"],false)."</td>";
-				$return.="</tr>";
-			} else {
-				$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : " style=\"background-color:#ffffff\"")."><td>".wt_he($value["naam"]).":";
-				$return.="<div class=\"costs\">&euro; ".number_format(abs($value["subtotaal"]),2,',','.');
-				$return.=" x ".$value["aantal"]." = ";
-				$return.=" &euro; ".number_format(abs($value["totaalbedrag"]),2,',','.');
-				$return.=" ".trim(reissom_tabel_korting_of_min_tekst($value["totaalbedrag"],false),"&nbsp;")."</div></td>";
-				$return.="</tr>";
+				$totaal_ter_plaatse += $bedrag;
+
+				if(!$isMobile) {
+					$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he($value["naam"]);
+					$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($value["subtotaal"]),2,',','.')."</td>";
+					$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$value["aantal"]."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
+					$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($value["totaalbedrag"]),2,',','.')."</td>";
+					$return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($value["totaalbedrag"],false)."</td>";
+					$return.="</tr>";
+				} else {
+					$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : " style=\"background-color:#ffffff\"")."><td>".wt_he($value["naam"]).":";
+					$return.="<div class=\"costs\">&euro; ".number_format(abs($value["subtotaal"]),2,',','.');
+					$return.=" x ".$value["aantal"]." = ";
+					$return.=" &euro; ".number_format(abs($value["totaalbedrag"]),2,',','.');
+					$return.=" ".trim(reissom_tabel_korting_of_min_tekst($value["totaalbedrag"],false),"&nbsp;")."</div></td>";
+					$return.="</tr>";
+				}
 			}
 		}
 
