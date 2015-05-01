@@ -1261,6 +1261,14 @@ a.opm {
 	text-align: right;
 }
 
+.boekingkoptekst_acc_link {
+	color: #ffffff !important;
+}
+
+.boekingkoptekst_acc_link:hover {
+	color: #888888 !important;
+}
+
 @media print {
 
 	body {

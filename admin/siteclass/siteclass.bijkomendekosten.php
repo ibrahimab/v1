@@ -1786,11 +1786,17 @@ class bijkomendekosten {
 						}
 
 						$return["ter_plaatse"][$key]["aantal"] = $aantal;
+						$return["ter_plaatse"][$key]["subtotaal"] = $value["bedrag"];
 						$return["ter_plaatse"][$key]["totaalbedrag"] = $value["bedrag"] * $aantal;
 						if($value["prijs_per_nacht"]) {
 							$return["ter_plaatse"][$key]["totaalbedrag"] = $return["ter_plaatse"][$key]["totaalbedrag"] * $gegevens["stap1"]["aantalnachten"];
+							$return["ter_plaatse"][$key]["subtotaal"] = $return["ter_plaatse"][$key]["subtotaal"] * $gegevens["stap1"]["aantalnachten"];
 						}
 						$return["ter_plaatse"][$key]["totaalbedrag"] = round($return["ter_plaatse"][$key]["totaalbedrag"], 2);
+
+						if($return["ter_plaatse"][$key]["totaalbedrag"]>0) {
+							$return["ter_plaatse_actief"] = true;
+						}
 
 						if($value["bedrag"]>0) {
 							$return["ter_plaatse"][$key]["toonbedrag"] = "€ ".$this->toonbedrag($value["bedrag"]);

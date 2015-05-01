@@ -2022,6 +2022,21 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 		}
 	}
 
+	// bijkomendekosten ter plaatse
+	if($vars["toon_bijkomendekosten"]) {
+		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
+		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
+		$bk = $bijkomendekosten->get_booking_data($gegevens);
+	}
+
+	if($bk["ter_plaatse_actief"]) {
+		$totaal_text = html("totaal-aan-chalet-nl", "vars", array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]));
+		$totaal_klant_text = html("totaal-aan-chalet-nl-klant", "vars", array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]));
+	} else {
+		$totaal_text = html("totalereissom", "vars");
+		$totaal_klant_text = html("totalereissom_klant", "vars");
+	}
+
 	if($gegevens["fin"]["commissie_accommodatie"]<>0 or $gegevens["fin"]["commissie_opties"]<>0) {
 
 		# Commissie reisbureau
@@ -2040,12 +2055,12 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 		if($kleurteller>1) unset($kleurteller);
 
 		if(!$isMobile) {
-			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("totalereissom_klant","vars");
+			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".$totaal_klant_text;
 			$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["totale_reissom_zonder_commissie_aftrek"],2,',','.')."</td>";
 			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
 			$return.="</tr>";
 		} else {
-			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td>".html("totalereissom_klant","vars").":";
+			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td>".$totaal_klant_text.":";
 			$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["totale_reissom_zonder_commissie_aftrek"],2,',','.');
 			$return.="</div></td>";
 			$return.="</tr>";
@@ -2144,7 +2159,7 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "").$temp_class."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-		$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"".$temp_class."><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("totalereissom","vars");
+		$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"".$temp_class."><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".$totaal_text;
 		$return.="</td><td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["totale_reissom"],2,',','.')."</td>";
 		$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
 		$return.="</tr>";
@@ -2167,18 +2182,116 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 		if($kleurteller>1) unset($kleurteller);
 
 		if(!$isMobile) {
-			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("totalereissom","vars");
+			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".$totaal_text;
 			$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["totale_reissom"],2,',','.')."</td>";
 			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
 			$return.="</tr>";
 		} else {
-			$return.="<tr class=\"mobile_row\" style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td>".html("totalereissom","vars").":";
+			$return.="<tr class=\"mobile_row\" style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td>".$totaal_text.":";
 			$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["totale_reissom"],2,',','.');
 			$return.="</div></td>";
 			$return.="</tr>";
 		}
-
 	}
+
+	if($bk["ter_plaatse_actief"]) {
+
+		// empty row
+		$kleurteller++;
+		if($kleurteller>1) unset($kleurteller);
+		if(!$isMobile) {
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
+		} else {
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
+		}
+
+		$kleurteller++;
+		if($kleurteller>1) unset($kleurteller);
+		if(!$isMobile) {
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\"><i>".html("ter_plaatse", "vars").":</i></td></tr>";
+		} else {
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td><i>".html("ter_plaatse", "vars").":</i></td></tr>";
+		}
+
+// echo wt_dump($bk["ter_plaatse"]);
+
+		foreach ($bk["ter_plaatse"] as $key => $value) {
+
+			$kleurteller++;
+			if($kleurteller>1) unset($kleurteller);
+
+			$bedrag = $value["totaalbedrag"];
+
+			$totaal_ter_plaatse += $bedrag;
+
+			if(!$isMobile) {
+				$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he($value["naam"]);
+				$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($value["subtotaal"]),2,',','.')."</td>";
+				$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$value["aantal"]."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
+				$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($value["totaalbedrag"]),2,',','.')."</td>";
+				$return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($value["totaalbedrag"],false)."</td>";
+				$return.="</tr>";
+			} else {
+				$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : " style=\"background-color:#ffffff\"")."><td>".wt_he($value["naam"]).":";
+				$return.="<div class=\"costs\">&euro; ".number_format(abs($value["subtotaal"]),2,',','.');
+				$return.=" x ".$value["aantal"]." = ";
+				$return.=" &euro; ".number_format(abs($value["totaalbedrag"]),2,',','.');
+				$return.=" ".trim(reissom_tabel_korting_of_min_tekst($value["totaalbedrag"],false),"&nbsp;")."</div></td>";
+				$return.="</tr>";
+			}
+		}
+
+		// // empty row
+		// $kleurteller++;
+		// if($kleurteller>1) unset($kleurteller);
+		// if(!$isMobile) {
+		// 	$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
+		// } else {
+		// 	$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
+		// }
+
+		# Totaal ter plaatse
+		$kleurteller++;
+		if($kleurteller>1) unset($kleurteller);
+
+		if(!$isMobile) {
+			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("totaal-ter-plaatse", "vars");
+			$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($totaal_ter_plaatse,2,',','.')."</td>";
+			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+			$return.="</tr>";
+		} else {
+			$return.="<tr class=\"mobile_row\" style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td>".html("totaal-ter-plaatse", "vars").":";
+			$return.="<div class=\"costs\">&euro; ".number_format($totaal_ter_plaatse,2,',','.');
+			$return.="</div></td>";
+			$return.="</tr>";
+		}
+
+		// empty row
+		$kleurteller++;
+		if($kleurteller>1) unset($kleurteller);
+		if(!$isMobile) {
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
+		} else {
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
+		}
+
+		# Totale reissom
+		$kleurteller++;
+		if($kleurteller>1) unset($kleurteller);
+
+		if(!$isMobile) {
+			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("totalereissom", "vars");
+			$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["totale_reissom"]+$totaal_ter_plaatse,2,',','.')."</td>";
+			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+			$return.="</tr>";
+		} else {
+			$return.="<tr class=\"mobile_row\" style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td>".html("totalereissom", "vars").":";
+			$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["totale_reissom"]+$totaal_ter_plaatse,2,',','.');
+			$return.="</div></td>";
+			$return.="</tr>";
+		}
+	}
+
 
 	# Inkoop
 	if($inkoop) {
@@ -3283,7 +3396,7 @@ function bereken_bijkomendekosten($boekingid) {
 
 	$gegevens = get_boekinginfo($boekingid);
 
-	if($vars["toon_bijkomendekosten"]) {
+	if($vars["toon_bijkomendekosten_stap1"]) {
 
 		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
 		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];

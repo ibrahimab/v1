@@ -1057,6 +1057,10 @@ $txt["nl"]["vars"]["wederverkoop_tooncommissie"]="Toon/verberg commissie";
 $txt["de"]["vars"]["wederverkoop_tooncommissie"]="Provision zeigen/ausblenden";
 $txt["en"]["vars"]["wederverkoop_tooncommissie"]="Show/hide commission";
 
+$txt["nl"]["vars"]["ter_plaatse"]="De volgende kosten zijn verplicht ter plaatse te voldoen";
+$txt["de"]["vars"]["ter_plaatse"]="-";
+$txt["en"]["vars"]["ter_plaatse"]="-";
+
 $txt["nl"]["vars"]["totalereissom"]="Totale reissom";
 $txt["de"]["vars"]["totalereissom"]="Gesamtreisesumme";
 $txt["en"]["vars"]["totalereissom"]="Total travel sum";
@@ -1064,6 +1068,18 @@ $txt["en"]["vars"]["totalereissom"]="Total travel sum";
 $txt["nl"]["vars"]["totalereissom_klant"]="Totaal reissom klant";
 $txt["de"]["vars"]["totalereissom_klant"]="Gesamtreisesumme Kunde";
 $txt["en"]["vars"]["totalereissom_klant"]="Total travel sum client";
+
+$txt["nl"]["vars"]["totaal-aan-chalet-nl"]="Totaal te betalen aan [[v_websitenaam]]";
+$txt["de"]["vars"]["totaal-aan-chalet-nl"]="Insgesamt zu bezahlen an [[v_websitenaam]]";
+$txt["en"]["vars"]["totaal-aan-chalet-nl"]="To be paid to [[v_websitenaam]]";
+
+$txt["nl"]["vars"]["totaal-aan-chalet-nl-klant"]="Totaal door klant te betalen aan [[v_websitenaam]]";
+$txt["de"]["vars"]["totaal-aan-chalet-nl-klant"]="";
+$txt["en"]["vars"]["totaal-aan-chalet-nl-klant"]="";
+
+$txt["nl"]["vars"]["totaal-ter-plaatse"]="Totaal ter plaatse te betalen";
+$txt["de"]["vars"]["totaal-ter-plaatse"]="Insgesamt vor Ort zu bezahlen";
+$txt["en"]["vars"]["totaal-ter-plaatse"]="To be paid locally";
 
 $txt["nl"]["vars"]["gebruikersnaamuitloggen"]="[[v_gebruiker]] uitloggen";
 $txt["de"]["vars"]["gebruikersnaamuitloggen"]="[[v_gebruiker]] abmelden";

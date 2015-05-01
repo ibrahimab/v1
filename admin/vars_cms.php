@@ -368,12 +368,12 @@ if($mustlogin) {
 	}
 
 	$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true,false,array("slide"=>true));
-	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","huidig systeem",array("cmsversie"=>"huidig"),true);
-	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","nieuw: variabel per week",array("cmsversie"=>"nieuw1"),true);
-	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast winter",array("cmsversie"=>"nieuw2", "wzt"=>1),true);
-	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: vast zomer",array("cmsversie"=>"nieuw3", "wzt"=>2),true);
-	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: nakijken winter",array("cmsversie"=>"nieuw4", "wzt"=>1),true);
-	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw: nakijken zomer",array("cmsversie"=>"nieuw4", "wzt"=>2),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","opties/skipassen",array("cmsversie"=>"huidig"),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","toeslagen extra personen",array("cmsversie"=>"nieuw1"),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","vaste kosten winter",array("cmsversie"=>"nieuw2", "wzt"=>1),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","vaste kosten zomer",array("cmsversie"=>"nieuw3", "wzt"=>2),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nakijken winter",array("cmsversie"=>"nieuw4", "wzt"=>1),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nakijken zomer",array("cmsversie"=>"nieuw4", "wzt"=>2),true);
 
 #	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true);
 	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true,false,array("slide"=>true));
@@ -493,7 +493,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_overzichten","","cms_bezettingsoverzichten","Bezetting",array("t"=>"12"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Overig",array("t"=>"9"),true);
 
-    
+
 	$layout->menu_item("cms_plaatsen","Plaatsen","",true,false,array("slide"=>true));
 	$layout->submenu_item("cms_plaatsen","","cms_plaatsen","Winter",array("wzt"=>"1"),true);
 	$layout->submenu_item("cms_plaatsen","","cms_plaatsen","Zomer",array("wzt"=>"2"),true);
@@ -1688,6 +1688,10 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 }
 
 function boekingkoptekst($gegevens,$voucherstatus=true) {
+	//
+	// generate header above booking in CMS
+	//
+
 	global $vars;
 	# Boekingsinfo bovenaan tonen in CMS
 	if($gegevens) {
@@ -1696,7 +1700,7 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 		if($db->next_record()) {
 			$temp["leverancier_naam"]=$db->f("naam");
 		}
-		$return.="<table cellspacing=\"0\" style=\"width:100%;font-weight:bold;background-color:#0d3e88;color:#ffffff;border: solid #0d3e88 1px;padding: 2px;\" border=\"0\">";
+		$return.="<table cellspacing=\"0\" style=\"width:100%;font-weight:bold;background-color:#0d3e88;color:#ffffff;border: solid #0d3e88 1px;padding: 2px;\" class=\"boekingkoptekst\" border=\"0\">";
 		$return.="<tr><td style=\"width:700px;\">";
 		if($gegevens["stap1"]["goedgekeurd"]) {
 			$return.="Boeking ".($gegevens["stap1"]["boekingsnummer"] ? $gegevens["stap1"]["boekingsnummer"] : "");
@@ -1715,16 +1719,25 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 
 		$return.="</td><td align=\"right\">Laatste factuur</td><td>&nbsp;&nbsp;</td><td>".wt_he($laatstefactuur)."</td></tr>";
 		$return.="<tr><td style=\"width:700px;\">";
-		$return.=wt_he($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." - ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam"]." (".$gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"].($gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"]<>$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] ? "-".$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] : "")."p.)");
-#		if($temp["leverancier_naam"]) $return.=" - ".wt_he($temp["leverancier_naam"]);
+		if($vars["lokale_testserver"]) {
+			$link = $vars["basehref"];
+		} else {
+			$link = $vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]];
+		}
+		$link .= txt("menu_accommodatie")."/".$gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]."/#prijsinformatie";
+
+		if($vars["lokale_testserver"]) {
+			$link = $vars["basehref"]."cms.php?testsite=".$gegevens["stap1"]["website"]."&gotourl=".urlencode($link);
+		}
+
+		$return .= "<a href=\"".wt_he($link)."\" target=\"_blank\" class=\"boekingkoptekst_acc_link\">";
+		$return.=wt_he($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"])."</a> - ".wt_he(ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam"]." (".$gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"].($gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"]<>$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] ? "-".$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] : "")."p.)");
 		$return.="</td><td align=\"right\" nowrap>Mail optiesbijboeken</td><td>&nbsp;&nbsp;</td><td>".wt_he(($gegevens["stap1"]["mailverstuurd_opties"] ? date("d-m-Y",$gegevens["stap1"]["mailverstuurd_opties"]) : "-"))."</td></tr>";
 		$return.="<tr><td style=\"width:700px;\">";
-#		$return.=DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]);
 		if($temp["leverancier_naam"]) $return.="Leverancier: ".wt_he($temp["leverancier_naam"]); else $return.="&nbsp;";
 		$return.="</td>";
 
 		# Openstaand bedrag
-#		$nog_te_betalen=$gegevens["fin"]["totale_reissom"];
 		$nog_te_betalen=round($gegevens["stap1"]["totale_reissom"],2);
 		$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum FROM boeking_betaling WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		while($db->next_record()) {
@@ -1734,18 +1747,15 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 		$vars["temp_openstaand_minus_goedgekeurd"]=round($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_betaling"],2);
 
 		$return.="<td align=\"right\" nowrap>&nbsp;Openstaand bedrag</td><td>&nbsp;&nbsp;</td><td>&euro; ".number_format($nog_te_betalen,2,',','.')."</td></tr>";
-#		if($gegevens["stap1"]["voucherstatus"] and $voucherstatus) $return.="<tr><td>&nbsp;</td><td align=\"right\">Voucherstatus</td><td>&nbsp;&nbsp;</td><td nowrap>".$vars["voucherstatus"][$gegevens["stap1"]["voucherstatus"]]."</td></tr>";
 		$return.="<tr><td>";
 		$return.=DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]);
-		$return.="</td><td align=\"right\">Voucherstatus</td><td>&nbsp;&nbsp;</td><td nowrap>".$vars["voucherstatus"][$gegevens["stap1"]["voucherstatus"]]."</td></tr>";
+		$return.=" - ".$gegevens["stap1"]["aantalpersonen"]." pers.</td><td align=\"right\">Voucherstatus</td><td>&nbsp;&nbsp;</td><td nowrap>".$vars["voucherstatus"][$gegevens["stap1"]["voucherstatus"]]."</td></tr>";
 
 		$return.="</table>";
 
 		# balk met inkoop en marge
 		$return.="<table cellspacing=\"0\" class=\"margebalk\" border=\"0\">";
 		$reissom_tabel=reissom_tabel($gegevens,$gegevens["stap1"]["accinfo"],"",true);
-
-#echo wt_dump($reissom_tabel["bedragen"]["optieinkoop"]);
 
 		$factuur_bedrag_wijkt_af=0;
 		$verschil=0;
