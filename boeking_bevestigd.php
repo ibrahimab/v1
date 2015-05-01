@@ -81,7 +81,6 @@ if($isMobile) {
 		# Inschrijven nieuwsbrief
 		if($form->input["nieuwsbrief"] and $form->input["nieuwsbrief"]<>"3") {
 			$nieuwsbrief_waardes=array("email"=>$gegevens["stap2"]["email"],"voornaam"=>$gegevens["stap2"]["voornaam"],"tussenvoegsel"=>$gegevens["stap2"]["tussenvoegsel"],"achternaam"=>$gegevens["stap2"]["achternaam"],"per_wanneer"=>$form->input["nieuwsbrief"]);
-			var_dump($nieuwsbrief_waardes);
 			nieuwsbrief_inschrijven($vars["seizoentype"],$nieuwsbrief_waardes);
 		}
 

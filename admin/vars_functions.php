@@ -4132,12 +4132,14 @@ function nieuwsbrief_inschrijven($wzt,$nieuwsbrief_waardes) {
 		$data['viewMode']="STATICINTEGRATION";
 	}
 
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	if($vars["lokale_testserver"]) {
 		echo wt_dump($data);
 		exit;
-	}
+	} elseif($vars["acceptatie_testserver"]) {
 
-	$result=nieuwsbrief_inschrijven_bij_blinker("http://m16.mailplus.nl/genericservice/code/servlet/Redirect",$data);
+	} else {
+		$result=nieuwsbrief_inschrijven_bij_blinker("http://m16.mailplus.nl/genericservice/code/servlet/Redirect",$data);
+	}
 }
 
 function nieuwsbrief_inschrijven_bij_blinker($URL,$data, $referrer="") {
