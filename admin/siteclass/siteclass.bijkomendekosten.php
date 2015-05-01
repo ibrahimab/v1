@@ -1537,7 +1537,7 @@ class bijkomendekosten {
 		$db->query("DELETE FROM extra_optie WHERE bk_soort_id IS NOT NULL AND boeking_id='".$gegevens["stap1"]["boekingid"]."';");
 
 		// get bk
-		$db->query("SELECT bs.bk_soort_id, bs.factuurnaam".$vars["ttv"]." AS factuurnaam, bs.prijs_per_nacht, bs.opgeven_bij_boeken, bs.zonderleeftijd, bs.min_leeftijd, bs.max_leeftijd, bs.hoort_bij_accommodatieinkoop, ba.eenheid, ba.borg_soort, ba.bedrag
+		$db->query("SELECT bs.bk_soort_id, bs.factuurnaam".$vars["ttv"]." AS factuurnaam, bs.prijs_per_nacht, bs.opgeven_bij_boeken, bs.zonderleeftijd, bs.min_leeftijd, bs.max_leeftijd, bs.hoort_bij_accommodatieinkoop, bs.optiecategorie, ba.eenheid, ba.borg_soort, ba.bedrag
 				   FROM bk_soort bs INNER JOIN bk_type ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.type_id='".intval($this->id)."' AND ba.seizoen_id='".intval($this->seizoen_id)."') WHERE (ba.inclusief=0 AND ba.verplicht=1 AND ba.ter_plaatse=0)
 				   ORDER BY bs.volgorde;");
 
@@ -1611,7 +1611,7 @@ class bijkomendekosten {
 				$save["korting"]=0;
 				$save["omzetbonus"]=0;
 				$save["hoort_bij_accommodatieinkoop"]=$db->f("hoort_bij_accommodatieinkoop");
-				$save["optiecategorie"]=2;
+				$save["optiecategorie"]=$db->f("optiecategorie");
 			}
 			if($save["verkoop"]<>0) {
 				// Alleen opslaan als verkoopprijs is gezet
