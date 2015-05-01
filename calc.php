@@ -362,6 +362,12 @@ if($_GET["stap"]==1) {
 			# Schadeverzekering opslaan
 			$db->query("UPDATE boeking SET schadeverzekering='".addslashes($_POST["schadeverzekering"])."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 
+
+			// save persons
+			for($i=1; $i<=$gegevens["stap1"]["aantalpersonen"]; $i++) {
+				$db->query("INSERT INTO boeking_persoon SET boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', persoonnummer='".$i."', status=2;");
+			}
+
 			# Algemene opties opslaan
 			@reset($_POST["inputalg"]);
 			while(list($key,$value)=@each($_POST["inputalg"])) {
@@ -379,7 +385,8 @@ if($_GET["stap"]==1) {
 						for($i=1;$i<=$value2;$i++) {
 							$persoonnummer=$persoonnummer+1;
 							if($key=="ann") {
-								$db->query("INSERT INTO boeking_persoon SET boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', persoonnummer='".$persoonnummer."', status=2, annverz='".$key2."';");
+								// $db->query("INSERT INTO boeking_persoon SET boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', persoonnummer='".$persoonnummer."', status=2, annverz='".$key2."';");
+								$db->query("UPDATE boeking_persoon SET annverz='".$key2."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."' AND persoonnummer='".$persoonnummer."' AND status=2;");
 
 								# Verzekerd bedrag bepalen en opslaan
 								$temp_gegevens2=get_boekinginfo($gegevens["stap1"]["boekingid"]);
