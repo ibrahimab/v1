@@ -69,7 +69,7 @@ class bijkomendekosten {
 
 			// get seasons
 			$this->seizoen_inquery .= ",0";
-			$db->query("SELECT seizoen_id, naam".$vars["ttv"]." AS naam FROM seizoen WHERE eind>=(NOW() - INTERVAL 1 DAY) AND type='".intval($this->wzt)."'".($this->hide_inactive_seasons ? " AND tonen<>1" : "")." ORDER BY begin, eind;");
+			$db->query("SELECT seizoen_id, naam".$vars["ttv"]." AS naam FROM seizoen WHERE ".($this->seasons_use_old_dates ? "1=1" : "eind>=(NOW() - INTERVAL 1 DAY)")." AND type='".intval($this->wzt)."'".($this->seasons_hide_inactive ? " AND tonen<>1" : "")." ORDER BY begin, eind;");
 			while($db->next_record()) {
 				$this->cms_data_seizoenen[$db->f("seizoen_id")] = $db->f("naam");
 				$this->seizoen_inquery .= ",".$db->f("seizoen_id");
@@ -261,7 +261,7 @@ class bijkomendekosten {
 		global $vars, $login;
 
 		// hide seasons that are inactive
-		$this->hide_inactive_seasons = true;
+		$this->seasons_hide_inactive = true;
 
 		$this->get_cms_data();
 
@@ -810,6 +810,8 @@ class bijkomendekosten {
 		$this->id = $type_id;
 		$this->soort = "type";
 
+		$this->seasons_use_old_dates = true;
+		$this->seasons_hide_inactive = true;
 
 		$this->get_data_done = false;
 		$this->get_data();
