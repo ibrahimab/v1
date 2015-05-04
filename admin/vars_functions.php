@@ -3396,10 +3396,14 @@ function bereken_bijkomendekosten($boekingid) {
 
 	global $vars;
 
-
 	$gegevens = get_boekinginfo($boekingid);
 
-	if($vars["toon_bijkomendekosten_stap1"]) {
+	if($gegevens["stap1"]["boekingid"] and $gegevens["stap1"]["boekingid"]<=484475) {
+		// old bookings: do not apply the new system
+		$use_old_system = true;
+	}
+
+	if($vars["toon_bijkomendekosten_stap1"] and !$use_old_system) {
 
 		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
 		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];

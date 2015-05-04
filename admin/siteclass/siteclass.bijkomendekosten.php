@@ -1619,6 +1619,7 @@ class bijkomendekosten {
 				// Alleen opslaan als verkoopprijs is gezet
 				$db2->query("INSERT INTO extra_optie SET boeking_id='".$gegevens["stap1"]["boekingid"]."', persoonnummer='".$save["persoonnummer"]."', deelnemers='".$save["deelnemers"]."', ".($save["persoonnummer"]=="alg" ? "alg_aantal='".intval($alg_aantal)."', " : "")."naam='".addslashes($save["naam"])."', verkoop='".addslashes($save["verkoop"])."', inkoop='".addslashes($save["inkoop"])."', korting='".addslashes($save["korting"])."', omzetbonus='".addslashes($save["omzetbonus"])."', hoort_bij_accommodatieinkoop='".addslashes($save["hoort_bij_accommodatieinkoop"])."', optiecategorie='".addslashes($save["optiecategorie"])."', bk_soort_id='".addslashes($db->f("bk_soort_id"))."';");
 			}
+
 		}
 
 		// Kijken of het factuurbedrag afwijkt van de berekende totale reissom (en dan "factuur_bedrag_wijkt_af" aanpassen)
