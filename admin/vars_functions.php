@@ -2023,7 +2023,7 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 	}
 
 	// bijkomendekosten ter plaatse
-	if($vars["toon_bijkomendekosten"]) {
+	if($vars["toon_bijkomendekosten_stap1"]) {
 		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
 		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
 		$bk = $bijkomendekosten->get_booking_data($gegevens);
