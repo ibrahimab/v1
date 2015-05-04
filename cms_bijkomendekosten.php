@@ -20,7 +20,10 @@ if(!$_GET["33k0"]) {
 
 
 if($_GET["cmsversie"]=="huidig") {
-	$cms->db[33]["where"]="temp_old_system='1'";
+	$cms->db[33]["where"]="temp_old_system='1' AND gekoppeldaan<>1";
+	$cms->db[33]["set"]="temp_old_system='1'";
+} elseif($_GET["cmsversie"]=="oud") {
+	$cms->db[33]["where"]="temp_old_system='1' AND gekoppeldaan=1";
 	$cms->db[33]["set"]="temp_old_system='1'";
 } else {
 	$cms->db[33]["where"]="temp_old_system='0'";
@@ -61,7 +64,11 @@ if($sz_controle) {
 $cms->settings[33]["list"]["show_icon"]=true;
 $cms->settings[33]["list"]["edit_icon"]=true;
 $cms->settings[33]["list"]["delete_icon"]=true;
-$cms->settings[33]["list"]["add_link"]=true;
+if($_GET["cmsversie"]=="oud") {
+	$cms->settings[33]["list"]["add_link"]=false;
+} else {
+	$cms->settings[33]["list"]["add_link"]=true;
+}
 $cms->settings[33]["show"]["goto_new_record"]=true;
 
 # List list_field($counter,$id,$title="",$options="",$layout="")

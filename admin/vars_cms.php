@@ -374,6 +374,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","vaste kosten zomer",array("cmsversie"=>"nieuw3", "wzt"=>2),true);
 	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nakijken winter",array("cmsversie"=>"nieuw4", "wzt"=>1),true);
 	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nakijken zomer",array("cmsversie"=>"nieuw4", "wzt"=>2),true);
+	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","accommodaties (oud)",array("cmsversie"=>"oud"),true);
 
 #	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true);
 	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true,false,array("slide"=>true));
