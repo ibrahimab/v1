@@ -1059,7 +1059,7 @@ $txt["en"]["vars"]["wederverkoop_tooncommissie"]="Show/hide commission";
 
 $txt["nl"]["vars"]["ter_plaatse"]="De volgende kosten zijn verplicht ter plaatse te voldoen";
 $txt["de"]["vars"]["ter_plaatse"]="";
-$txt["en"]["vars"]["ter_plaatse"]="";
+$txt["en"]["vars"]["ter_plaatse"]="The following costs are mandatory to be paid locally";
 
 $txt["nl"]["vars"]["totalereissom"]="Totale reissom";
 $txt["de"]["vars"]["totalereissom"]="Gesamtreisesumme";
@@ -1075,7 +1075,7 @@ $txt["en"]["vars"]["totaal-aan-chalet-nl"]="To be paid to [[v_websitenaam]]";
 
 $txt["nl"]["vars"]["totaal-aan-chalet-nl-klant"]="Totaal door klant te betalen aan [[v_websitenaam]]";
 $txt["de"]["vars"]["totaal-aan-chalet-nl-klant"]="";
-$txt["en"]["vars"]["totaal-aan-chalet-nl-klant"]="";
+$txt["en"]["vars"]["totaal-aan-chalet-nl-klant"]="To be paid to [[v_websitenaam]] by client";
 
 $txt["nl"]["vars"]["totaal-ter-plaatse"]="Totaal ter plaatse te betalen";
 $txt["de"]["vars"]["totaal-ter-plaatse"]="Insgesamt vor Ort zu bezahlen";
@@ -6522,7 +6522,7 @@ $txt["en"]["factuur"]["eindtotaal"]="Sum total";
 
 $txt["nl"]["factuur"]["tevoldoenaanwebsite"]="Totaal te betalen aan [[v_websitenaam]]";
 $txt["de"]["factuur"]["tevoldoenaanwebsite"]="";
-$txt["en"]["factuur"]["tevoldoenaanwebsite"]="";
+$txt["en"]["factuur"]["tevoldoenaanwebsite"]="Total to be paid to [[v_websitenaam]]";
 
 $txt["nl"]["factuur"]["totaal_klant"]="Totaal klant";
 $txt["de"]["factuur"]["totaal_klant"]="Gesamtsumme Kunde";
@@ -6550,15 +6550,15 @@ $txt["en"]["factuur"]["vermeldresnummer"]="Please state your booking number [[v_
 
 $txt["nl"]["factuur"]["inbegrepen"]="In bovenstaande reissom zijn de volgende zaken inbegrepen";
 $txt["de"]["factuur"]["inbegrepen"]="";
-$txt["en"]["factuur"]["inbegrepen"]="";
+$txt["en"]["factuur"]["inbegrepen"]="In the above price the following things are included";
 
 $txt["nl"]["factuur"]["ter_plaatse"]="De volgende kosten zijn verplicht ter plaatse nog te voldoen";
 $txt["de"]["factuur"]["ter_plaatse"]="";
-$txt["en"]["factuur"]["ter_plaatse"]="";
+$txt["en"]["factuur"]["ter_plaatse"]="The following costs are mandatory to be paid locally";
 
 $txt["nl"]["factuur"]["totaal_ter_plaatse"]="Totaal ter plaatse te voldoen, op basis van de aan ons doorgegeven bezetting";
 $txt["de"]["factuur"]["totaal_ter_plaatse"]="";
-$txt["en"]["factuur"]["totaal_ter_plaatse"]="";
+$txt["en"]["factuur"]["totaal_ter_plaatse"]="Total to be paid locally, based on your provided information";
 
 $txt["nl"]["factuur"]["verplichtekostenondervoorbehoud"]="De genoemde plaatselijke kosten zijn met zorg samengesteld, maar blijven indicatief.";
 $txt["de"]["factuur"]["verplichtekostenondervoorbehoud"]="Obwohl die genannten Nebenkosten vor Ort sorgfältig zusammengestellt sind, bleiben diese jedoch indikativ.";
