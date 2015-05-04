@@ -36,6 +36,12 @@ if($gegevens["stap1"]["boekingid"]) {
 	$gegevens["fin"]=$temp_gegevens["fin"][1];
 }
 
+if($vars["lokale_testserver"]) {
+	unset($gegevens["stap1"]["factuurdatum"]);
+	// echo wt_dump($gegevens);
+	// exit;
+}
+
 # frm = formname (mag ook wat anders zijn)
 $form=new form2("frm");
 $form->settings["fullname"]="Naam";
@@ -333,7 +339,7 @@ if($form->okay) {
 						$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\nNederland\n\nTel.: +31 348 434649\nKvK nr. 30209634\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nBTW NL-8169.23.462.B.01\nABN AMRO - Woerden",0,"R");
 					}
 				}
-				$this->Ln(20);
+				$this->Ln(2);
 			}
 
 			function Footer() {
@@ -452,6 +458,15 @@ if($form->okay) {
 		$pdf->Ln();
 		$pdf->Ln();
 
+		function factuur_hr() {
+			global $pdf;
+
+			$pdf->SetDrawColor(188,188,188);
+
+			$y = $pdf->GetY();
+			$pdf->Line(10, $y, 210-10, $y);
+		}
+
 		function factuur_opties($aantal,$naam,$bedrag,$type="optie",$toonnul=0,$no_bold=false) {
 			global $pdf;
 			# Breedte = 190
@@ -502,7 +517,7 @@ if($form->okay) {
 				factuur_opties($value,ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]),$bedrag*$value,"optie",$gegevens["stap4"]["optie_onderdeelid_toonnul"][$key]);
 			}
 		}
-		if($gegevens["fin"]["totale_reissom"]<>$gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]-$gegevens["fin"]["commissie_totaal"]) {
+		if($gegevens["fin"]["totale_reissom"]-$gegevens["fin"]["reserveringskosten"]<>$gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]-$gegevens["fin"]["commissie_totaal"]) {
 			# Subtotaal
 			factuur_opties("","","","optellen");
 			factuur_opties("",txt("subtotaal","factuur"),$gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]+$gegevens["stap4"]["optie_bedrag_buiten_annuleringsverzekering"],"plaintext");
@@ -592,9 +607,11 @@ if($form->okay) {
 			}
 
 			factuur_opties("","","","optellen");
-			factuur_opties("",txt("eindtotaal","factuur"),$gegevens["fin"]["totale_reissom"],"plaintext");
+			// factuur_opties("",txt("eindtotaal","factuur"),$gegevens["fin"]["totale_reissom"],"plaintext");
+			factuur_opties("",txt("tevoldoenaanwebsite","factuur", array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"])),$gegevens["fin"]["totale_reissom"],"plaintext");
 		} else {
-			factuur_opties("",txt("eindtotaal","factuur"),$gegevens["fin"]["totale_reissom"],"plaintext");
+			// factuur_opties("",txt("eindtotaal","factuur"),$gegevens["fin"]["totale_reissom"],"plaintext");
+			factuur_opties("",txt("tevoldoenaanwebsite","factuur", array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"])),$gegevens["fin"]["totale_reissom"],"plaintext");
 			if($pdf->GetY()>250) {
 				$pdf->AddPage();
 			}
@@ -602,7 +619,102 @@ if($form->okay) {
 
 		$pdf->Ln();
 		$pdf->Cell(190,4,"");
-		$pdf->Ln();
+		$pdf->Ln(2);
+
+
+		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
+		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
+		$bk = $bijkomendekosten->get_booking_data($gegevens);
+
+		if(is_array($bk["voldaan"])) {
+
+			// add new page?
+			$y = $pdf->GetY();
+			$y += 4 + 6;
+			$y += (count($bk["voldaan"]) * 5);
+
+			if($y>260) {
+				$pdf->AddPage();
+			}
+
+			$pdf->Cell(190,4,txt("inbegrepen","factuur").":");
+			$pdf->Ln(6);
+
+			foreach ($bk["voldaan"] as $key => $value) {
+				$pdf->Cell(190,4,"  ".chr(149)." ".$value["naam"]);
+				$pdf->Ln();
+			}
+			$inbegrepen_getoond = true;
+		}
+
+		if(is_array($bk["ter_plaatse"])) {
+
+			// add new page?
+			$y = $pdf->GetY();
+			$y += 4 + 6;
+			$y += (count($bk["ter_plaatse"]) * 5);
+			if(count($bk["ter_plaatse"])>1) {
+				$y += 10;
+			}
+
+			if($y>260) {
+				$pdf->AddPage();
+			} else {
+				if($inbegrepen_getoond) {
+					$pdf->Ln(5);
+				} else {
+					$pdf->Ln(1);
+				}
+			}
+
+			$pdf->Cell(190,4,txt("ter_plaatse","factuur").":");
+			$pdf->Ln(6);
+
+			// ter_plaatse where price is unknown
+			foreach ($bk["ter_plaatse"] as $key => $value) {
+				if($value["bedragonbekend"]) {
+					// factuur_opties($value["aantal"], ,$value["totaalbedrag"],"optie",0,true);
+
+					$pdf->Cell(5,4,$value["aantal"],0,0,'L',0);
+					$pdf->Cell(5,4,"x",0,0,'C',0);
+					$pdf->Cell(157,4,$value["naam"]." (".$value["toonbedrag"].")",0,0,'L',0);
+					$pdf->Ln();
+
+					$bedragonbekend = true;
+				}
+			}
+			if($bedragonbekend) {
+				$pdf->Ln();
+			}
+			// ter_plaatse where price is known
+			foreach ($bk["ter_plaatse"] as $key => $value) {
+				if(!$value["bedragonbekend"]) {
+					factuur_opties($value["aantal"], $value["naam"]." (".$value["toonbedrag"].")",$value["totaalbedrag"],"optie",0,true);
+					$totaalbedrag_ter_plaatse += $value["totaalbedrag"];
+					$ter_plaatse_counter++;
+				}
+			}
+			if($ter_plaatse_counter>=2 and $totaalbedrag_ter_plaatse>0) {
+				factuur_opties("","","","optellen");
+				factuur_opties("", txt("totaal_ter_plaatse","factuur"), $totaalbedrag_ter_plaatse, "plaintext", 0, true);
+			}
+
+			if($bedragonbekend and !$ter_plaatse_counter) {
+
+			} else {
+				$pdf->Ln();
+			}
+
+			$pdf->MultiCell(0,4,txt("verplichtekostenondervoorbehoud", "factuur"));
+			$pdf->Ln(6);
+		} else {
+			$pdf->Ln(6);
+		}
+
+		if($pdf->GetY()>260) {
+			$pdf->AddPage();
+		}
+
 
 		//
 		// betalingen
@@ -636,90 +748,27 @@ if($form->okay) {
 		}
 
 		// bijkomendekosten
-		if($vars["toon_bijkomendekosten"]) {
 
+		$betaalinfo_tekst = txt("vermeldresnummer","factuur",array("v_resnummer"=>$gegevens["stap1"]["boekingsnummer"]))." ";
 
-			$betaalinfo_tekst = txt("vermeldresnummer","factuur",array("v_resnummer"=>$gegevens["stap1"]["boekingsnummer"]))." ";
-
-			if($gegevens["stap1"]["factuurdatum"]) {
-				if($gegevens["stap1"]["dagen_voor_vertrek"]>10) {
-					$betaalinfo_tekst .= txt("bedanktgecorboeking10dagen","factuur");
-				} else {
-					$betaalinfo_tekst .= txt("bedanktgecorboekingreispapieren","factuur");
-				}
+		if($gegevens["stap1"]["factuurdatum"]) {
+			if($gegevens["stap1"]["dagen_voor_vertrek"]>10) {
+				$betaalinfo_tekst .= txt("bedanktgecorboeking10dagen","factuur");
 			} else {
-				$betaalinfo_tekst .= txt("tercontrolebinnen24uur","factuur");
+				$betaalinfo_tekst .= txt("bedanktgecorboekingreispapieren","factuur");
 			}
-
-			$pdf->Ln();
-			$pdf->MultiCell(0,4,$betaalinfo_tekst);
-			// $pdf->Cell(190,4,$betaalinfo_tekst);
-			$pdf->Ln();
-
-
-			$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
-			$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
-			$bk = $bijkomendekosten->get_booking_data($gegevens);
-
-			if(is_array($bk["voldaan"]) or is_array($bk["ter_plaatse"])) {
-				$pdf->Ln(1);
-			}
-
-			if(is_array($bk["voldaan"])) {
-				$pdf->Ln(1);
-				$pdf->SetFont("","B");
-				$pdf->Cell(190,4,txt("inbegrepen","factuur").":");
-				$pdf->SetFont("","");
-				$pdf->Ln();
-
-				foreach ($bk["voldaan"] as $key => $value) {
-					$pdf->Cell(190,4,"  ".chr(149)." ".$value["naam"]);
-					$pdf->Ln();
-				}
-			}
-
-			if($pdf->GetY()>250) {
-				$pdf->AddPage();
-			}
-
-			if(is_array($bk["ter_plaatse"])) {
-				if(is_array($bk["voldaan"])) {
-					$pdf->Ln();
-				} else {
-					$pdf->Ln(1);
-				}
-				$pdf->SetFont("","B");
-				$pdf->Cell(190,4,txt("ter_plaatse","factuur").":");
-				$pdf->SetFont("","");
-				$pdf->Ln();
-
-				foreach ($bk["ter_plaatse"] as $key => $value) {
-					$pdf->Cell(190,4,"  ".chr(149)." ".$value["naam"]." (".$value["toonbedrag"].")");
-					$pdf->Ln();
-				}
-				$pdf->Ln();
-
-				$pdf->MultiCell(0,4,txt("verplichtekostenondervoorbehoud", "factuur"));
-
-			}
-
-			if($pdf->GetY()>230) {
-				$pdf->AddPage();
-			}
-
 		} else {
-			$pdf->Cell(190,4,txt("vermeldresnummer","factuur",array("v_resnummer"=>$gegevens["stap1"]["boekingsnummer"])));
-			$pdf->Ln();
-
-			if($pdf->GetY()>230) {
-				$pdf->AddPage();
-			}
-
-			$pdf->Ln();
-			$pdf->MultiCell(0,4,$booking_payment->text["afsluiting"]);
-			$pdf->Ln();
-
+			$betaalinfo_tekst .= txt("tercontrolebinnen24uur","factuur");
 		}
+
+		$pdf->Ln();
+		$pdf->MultiCell(0,4,$betaalinfo_tekst);
+		$pdf->Ln();
+
+		if($pdf->GetY()>230) {
+			$pdf->AddPage();
+		}
+
 
 		$pdf->Ln();
 		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
