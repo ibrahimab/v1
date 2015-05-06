@@ -1,24 +1,24 @@
 <?php
 
-#
-# Nog doen:
-#	- "mail new password"-form
-#
-#
-# Loginnaam : maximaal 128 karakters
-# Wachtwoord: maximaal 32 karakters
-#
-#
-#
-# Verplichte settings:
-#	- $login->settings["adminmail"]
-#	- $login->$this->settings["name"]
-#
+
+// Nog doen:
+// 	- "mail new password"-form
+
+
+// Loginnaam : maximaal 128 karakters
+// Wachtwoord: maximaal 32 karakters
+
+
+
+// Verplichte settings:
+// 	- $login->settings["adminmail"]
+// 	- $login->$this->settings["name"]
+
 
 class Login {
 
 	function Login() {
-#		ini_set("session.name","SID");
+		// ini_set("session.name","SID");
 		ini_set("session.use_cookies",1);
 		ini_set("session.use_only_cookies",1);
 		@ini_set("session.use_trans_sid",0);
@@ -29,7 +29,7 @@ class Login {
 	function init() {
 
 		if(!$this->init) {
-			# Vaste waarden
+			// Vaste waarden
 			if(!isset($this->settings["name"])) $this->settings["name"]="login";
 			if(!isset($this->settings["logout_number"])) $this->settings["logout_number"]=1;
 			if(!isset($this->settings["mustlogin"])) $this->settings["mustlogin"]=true;
@@ -76,7 +76,7 @@ class Login {
 				if(!isset($this->settings["message"]["wronglogintemp"])) $this->settings["message"]["wronglogintemp"]="Account geblokkeerd: <A HREF=\"http://www.webtastic.nl/account-geblokkeerd-temp.html?blocktime=\" target=\"_blank\">meer informatie</A>";
 				if(!isset($this->settings["message"]["accountblocked"])) $this->settings["message"]["accountblocked"]="Account geblokkeerd: <A HREF=\"http://www.webtastic.nl/account-geblokkeerd-set.html\" target=\"_blank\">meer informatie</A>";
 				if(!isset($this->settings["message"]["minimaluserlevel"])) $this->settings["message"]["minimaluserlevel"]="Dit account is niet actief.";
-#				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="Om uw naam en password te kunnen onthouden, moet u cookies aanzetten.";
+				// if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="Om uw naam en password te kunnen onthouden, moet u cookies aanzetten.";
 				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="Om in te kunnen loggen moet u cookies aanzetten bij uw browser.";
 			} elseif($this->settings["language"]=="en") {
 				if(!isset($this->settings["message"]["login"])) $this->settings["message"]["login"]="Username";
@@ -98,7 +98,7 @@ class Login {
 				if(!isset($this->settings["message"]["wronglogintemp"])) $this->settings["message"]["wronglogintemp"]="Account blocked: <A HREF=\"http://www.webtastic.nl/account-geblokkeerd-temp-en.html?blocktime=\" target=\"_blank\">more information</A>";
 				if(!isset($this->settings["message"]["accountblocked"])) $this->settings["message"]["accountblocked"]="Account blocked: <A HREF=\"http://www.webtastic.nl/account-geblokkeerd-set-en.html\" target=\"_blank\">more information</A>";
 				if(!isset($this->settings["message"]["minimaluserlevel"])) $this->settings["message"]["minimaluserlevel"]="This username is not active.";
-#				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies to remember your username and password.";
+				// if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies to remember your username and password.";
 				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies in your browser to log in.";
 			} elseif($this->settings["language"]=="de") {
 				if(!isset($this->settings["message"]["login"])) $this->settings["message"]["login"]="Benutzernamen";
@@ -120,7 +120,7 @@ class Login {
 				if(!isset($this->settings["message"]["wronglogintemp"])) $this->settings["message"]["wronglogintemp"]="Konto gesperrt: <A HREF=\"http://www.webtastic.nl/account-geblokkeerd-temp-en.html?blocktime=\" target=\"_blank\">more information</A>";
 				if(!isset($this->settings["message"]["accountblocked"])) $this->settings["message"]["accountblocked"]="Konto gesperrt: <A HREF=\"http://www.webtastic.nl/account-geblokkeerd-set-en.html\" target=\"_blank\">more information</A>";
 				if(!isset($this->settings["message"]["minimaluserlevel"])) $this->settings["message"]["minimaluserlevel"]="Dieser Benutzername ist nicht aktiv.";
-#				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies to remember your username and password.";
+				// if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies to remember your username and password.";
 				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="Sie müssen Cookies in Ihrem Browser aktivieren um sich anzumelden.";
 			} elseif($this->settings["language"]=="fr") {
 				if(!isset($this->settings["message"]["login"])) $this->settings["message"]["login"]="Nom d'utilisateur";
@@ -152,12 +152,12 @@ class Login {
 			if(!isset($this->settings["font"]["size"])) $this->settings["font"]["size"]="2";
 			if(!isset($this->settings["cookie"]["timeinminutes"])) $this->settings["cookie"]["timeinminutes"]="525600";
 
-			# Indien rememberpassword=false: altijd cookies wissen
+			// Indien rememberpassword=false: altijd cookies wissen
 			if(!$this->settings["settings"]["rememberpassword"] and ($_COOKIE["loginuser"][$this->settings["name"]] or $_COOKIE["loginsessionid"][$this->settings["name"]])) {
 				$this->delete_all_cookies();
 			}
 
-			# cookie-settings
+			// cookie-settings
 			if($this->settings["mustlogin_via_https"] and $_SERVER["HTTPS"]=="on") {
 				if(!isset($this->settings["cookies"]["secure"])) $this->settings["cookies"]["secure"]=true;
 				if(!isset($this->settings["cookies"]["httponly"])) $this->settings["cookies"]["httponly"]=true;
@@ -173,7 +173,7 @@ class Login {
 				ini_set("session.cookie_secure",1);
 			}
 
-			# session starten
+			// session starten
 			if (function_exists("wt_session_start")) {
 				wt_session_start();
 			} else {
@@ -183,7 +183,7 @@ class Login {
 				session_register("LOGIN");
 			}
 
-			# Zet een cookie om te kijken of cookies aan staan
+			// Zet een cookie om te kijken of cookies aan staan
 			setcookie("checklong","on",time()+315360000,"/");
 
 			$this->init=true;
@@ -432,7 +432,7 @@ class Login {
 		}
 	}
 
-	# Functie om lastlogin en logincount in de database op te slaan
+	// Functie om lastlogin en logincount in de database op te slaan
 	function setlastlogin($erasewronglogin=false) {
 		$db=new DB_sql;
 		$newhosts=trim(gethostbyaddr($_SERVER["REMOTE_ADDR"])." [".$_SERVER["REMOTE_ADDR"]."] : ".date("r"));
@@ -467,12 +467,12 @@ class Login {
 			}
 			$db->query("UPDATE ".$this->settings["db"]["tablename"]." SET wrongtime='".addslashes($wrongtime)."'".$wronghost.", wrongcount='".addslashes($wrongcount)."' WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($db->f($this->settings["db"]["fielduserid"]))."';");
 		}
-		# Alle cookies wissen
+		// Alle cookies wissen
 		$this->delete_all_cookies();
 	}
 
 	function delete_all_cookies() {
-		# Cookie wissen
+		// Cookie wissen
 		if(floatval(phpversion())>5.2) {
 			setcookie("loginuser[".$this->settings["name"]."]","",time()-864000,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
 			setcookie("loginsessionid[".$this->settings["name"]."]","",time()-864000,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
@@ -507,18 +507,18 @@ class Login {
 		$body="\nSite: ".$_SERVER["HTTP_HOST"]."\nOnderdeel: ".$this->settings["name"]."\nIP-adres: ".$_SERVER["REMOTE_ADDR"]."\n".($_SERVER["REMOTE_HOST"] ? "Host: ".$_SERVER["REMOTE_HOST"]."\n" : "").($_SERVER["HTTP_USER_AGENT"] ? "Gebruikte browser: ".$_SERVER["HTTP_USER_AGENT"]."\n" : "")."URL: http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."\n\n".$text."\n\n";
 		$from="automail@webtastic.nl";
 		$fromname="WebTastic Login";
-#		if($this->settings["adminmail"]) mail($this->settings["adminmail"],$subject,$body,"Bcc: track@webtastic.nl\n".$from);
+		// if($this->settings["adminmail"]) mail($this->settings["adminmail"],$subject,$body,"Bcc: track@webtastic.nl\n".$from);
 		if($this->settings["adminmail"]) wt_mail($this->settings["adminmail"],$subject,$body,$from,$fromname);
 		if(!ereg("@webtastic\.nl$",$this->settings["adminmail"]) and $this->settings["mail_wt"]) {
-#			mail("jeroen@webtastic.nl",$subject,$body,$from);
+			// mail("jeroen@webtastic.nl",$subject,$body,$from);
 			wt_mail("systeembeheer@webtastic.nl",$subject,$body,$from,$fromname);
 		}
 	}
 
 	function uniqueid_ip_check($uniqueid_ip_all) {
-		#
-		# actuele $uniqueid uit de lijst filteren op basis van REMOTE_ADDR en geldigheid time
-		#
+
+		// actuele $uniqueid uit de lijst filteren op basis van REMOTE_ADDR en geldigheid time
+
 		$uniqueid_ip_all_array=explode("\n",$uniqueid_ip_all);
 		while(list($key,$value)=@each($uniqueid_ip_all_array)) {
 			if(preg_match("/^([0-9]+)_([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})_(.*)$/",$value,$regs)) {
@@ -612,17 +612,17 @@ class Login {
 		if($db->next_record()) {
 
 			if(isset($db->Record["uniqueid_ip"])) {
-				# nieuw uniqueid-systeem (met IP-adres-controle)
+				// nieuw uniqueid-systeem (met IP-adres-controle)
 				$uniqueid_ip=$db->f("uniqueid_ip");
 
-				# kijken of de uniqueid geldig is
+				// kijken of de uniqueid geldig is
 				$uniqueid=$this->uniqueid_ip_check($uniqueid_ip);
 				if(!$uniqueid) {
-					# niet geldig / onbekend: nieuwe aanmaken
+					// niet geldig / onbekend: nieuwe aanmaken
 					$uniqueid=$this->uniqueid_ip_save($uniqueid_ip,$userid);
 				}
 			} else {
-				# oude systeem (werkt ook prima, is alleen minder veilig)
+				// oude systeem (werkt ook prima, is alleen minder veilig)
 				if($db->f("uniqueid")) {
 					$uniqueid=$db->f("uniqueid");
 				} else {
@@ -634,7 +634,7 @@ class Login {
 		}
 
 
-		# cookies plaatsen
+		// cookies plaatsen
 		if($remember_login) {
 			$time=time()+($this->settings["cookie"]["timeinminutes"]*60);
 		} else {
@@ -647,12 +647,13 @@ class Login {
 			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/","",$this->settings["cookies"]["secure"]);
 			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"]);
 		}
-		setcookie("lin[".$this->settings["name"]."]","dl0j82",$time,"/"); # willekeurige waardie die (ook zonder https) aangeeft dat iemand is ingelogd
+		// willekeurige waardie die (ook zonder https) aangeeft dat iemand is ingelogd
+		setcookie("lin[".$this->settings["name"]."]","dl0j82",$time,"/");
 		if($this->settings["extra_unsafe_cookie"]) {
 			setcookie($this->settings["extra_unsafe_cookie"]."[".$this->settings["name"]."]",md5($_SERVER["REMOTE_ADDR"]."_".$this->settings["name"]."_QjJEJ938ja2"),$time,"/");
 		}
 
-		# Gebruikers-gegevens uit database halen
+		// Gebruikers-gegevens uit database halen
 		$db->query("SELECT * FROM ".$this->settings["db"]["tablename"]." WHERE ".($this->settings["db"]["where"] ? $this->settings["db"]["where"]." AND " : "").$this->settings["db"]["fielduserid"]."='".addslashes($userid)."';");
 
 		if($db->num_rows()==1 and $db->next_record()) {
@@ -678,7 +679,7 @@ class Login {
 		$this->init();
 		$this->end_declaration=true;
 
-		# zorgen voor https (indien verplicht)
+		// zorgen voor https (indien verplicht)
 		if($this->settings["mustlogin"] and $this->settings["mustlogin_via_https"] and $_SERVER["HTTPS"]<>"on" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
 			if($_SERVER["HTTP_HOST"] and $_SERVER["REQUEST_URI"]) {
 				header("Location: https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
@@ -686,8 +687,8 @@ class Login {
 			}
 		}
 
-		# Oude passwords omzetten
-		if($this->settings["convert_old_passwords"] and $this->settings["salt"] and ($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
+		// Oude passwords omzetten
+		if($this->settings["convert_old_passwords"] and $this->settings["salt"] and ($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="37.34.56.191" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
 			$db0=new DB_sql;
 
 			$db->query("ALTER TABLE ".$this->settings["db"]["tablename"]." CHANGE password password CHAR(41) NOT NULL DEFAULT '';");
@@ -711,7 +712,7 @@ class Login {
 			exit;
 		}
 
-		# Logout
+		// Logout
 		if($_GET["logout"]==$this->settings["logout_number"] or $_GET["logoutall"]==$this->settings["logout_number"]) {
 			$this->logout($_GET["logoutall"]);
 			$this->reload();
@@ -741,16 +742,16 @@ class Login {
 						if($_COOKIE["checklong"]<>"on") {
 							$this->errormessage=$this->settings["message"]["nocookies"];
 						} elseif($db->f("wrongcount")>$this->settings["loginpogingen"] and $db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {
-							# Te veel foute inlogpogingen: account geblokkeerd
+							// Te veel foute inlogpogingen: account geblokkeerd
 							$this->errormessage=ereg_replace("blocktime=","blocktime=".($db->f("wrongtime")+$this->settings["loginblocktime"]),$this->settings["message"]["wronglogintemp"]);
-#							$this->wronglogin($db->f("user_id"));
+							// $this->wronglogin($db->f("user_id"));
 						} elseif($password_database<>$password_entry) {
-							# Login-wachtwoordcombinatie onjuist
+							// Login-wachtwoordcombinatie onjuist
 							$wrongcount=$db->f("wrongcount")+1;
 							if($wrongcount>$this->settings["loginpogingen"] and $db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {
 								$this->errormessage=ereg_replace("blocktime=","blocktime=".($db->f("wrongtime")+$this->settings["loginblocktime"]),$this->settings["message"]["wronglogintemp"]);
 
-								# mailtje sturen
+								// mailtje sturen
 								$foutloginmail="Account ".$_POST["username"][$this->settings["name"]]." tijdelijk geblokeerd (tot ".date("d-m-Y, H:i",($db->f("wrongtime")+$this->settings["loginblocktime"]))." uur)\n";
 								if($this->settings["mailpassword_attempt"]) $foutloginmail.="WW-poging: ===".$_POST["password"][$this->settings["name"]]."===";
 								$this->sendmail($foutloginmail);
@@ -759,31 +760,31 @@ class Login {
 							}
 							$this->wronglogin($db->f("user_id"));
 						} elseif($password_database==$password_entry and $db->num_rows()==1) {
-							# Loginnaam en wachtwoord kloppen
+							// Loginnaam en wachtwoord kloppen
 							if($db->f($this->settings["db"]["fielduserlevel"])<0) {
-								# Account geblokkeerd - userlevel<0
+								// Account geblokkeerd - userlevel<0
 								$this->errormessage=$this->settings["message"]["accountblocked"];
 							} elseif($db->f($this->settings["db"]["fielduserlevel"])<$this->settings["minimaluserlevel"]) {
-								# Te laag userlevel
+								// Te laag userlevel
 								$this->errormessage=$this->settings["message"]["minimaluserlevel"];
 							} elseif($_POST["remember"]=="on" and $this->settings["settings"]["rememberpassword"]) {
-								# Inloggen gelukt - login/password opslaan in cookie
+								// Inloggen gelukt - login/password opslaan in cookie
 								$this->logged_in=true;
 								$time=time()+($this->settings["cookie"]["timeinminutes"]*60);
 
 								$temp_userid=$db->f($this->settings["db"]["fielduserid"]);
 
 								if(isset($db->Record["uniqueid_ip"])) {
-									# nieuw uniqueid-systeem (met IP-adres-controle)
+									// nieuw uniqueid-systeem (met IP-adres-controle)
 
-									# kijken of de uniqueid geldig is
+									// kijken of de uniqueid geldig is
 									$uniqueid=$this->uniqueid_ip_check($db->Record["uniqueid_ip"]);
 									if(!$uniqueid) {
-										# niet geldig / onbekend: nieuwe aanmaken
+										// niet geldig / onbekend: nieuwe aanmaken
 										$uniqueid=$this->uniqueid_ip_save($db->Record["uniqueid_ip"],$temp_userid);
 									}
 								} else {
-									# oude systeem (werkt ook prima, is alleen minder veilig)
+									// oude systeem (werkt ook prima, is alleen minder veilig)
 									if($db->f("uniqueid")) {
 										$uniqueid=$db->f("uniqueid");
 									} else {
@@ -798,12 +799,13 @@ class Login {
 									setcookie("loginuser[".$this->settings["name"]."]",$temp_userid,$time,"/","",$this->settings["cookies"]["secure"]);
 									setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"]);
 								}
-								setcookie("lin[".$this->settings["name"]."]","dl0j82",$time,"/"); # willekeurige waardie die (ook zonder https) aangeeft dat iemand is ingelogd
+								// willekeurige waardie die (ook zonder https) aangeeft dat iemand is ingelogd
+								setcookie("lin[".$this->settings["name"]."]","dl0j82",$time,"/");
 								if($this->settings["extra_unsafe_cookie"]) {
 									setcookie($this->settings["extra_unsafe_cookie"]."[".$this->settings["name"]."]",md5($_SERVER["REMOTE_ADDR"]."_".$this->settings["name"]."_QjJEJ938ja2"),$time,"/");
 								}
 							} else {
-								# Inloggen gelukt - login niet onthouden
+								// Inloggen gelukt - login niet onthouden
 								$this->logged_in=true;
 
 								if($this->settings["extra_unsafe_cookie"]) {
@@ -819,49 +821,49 @@ class Login {
 					$this->errormessage=$this->settings["message"]["wronglogin"];
 				}
 			}
-			# Cookies checken of er eerder is ingelogd
+			// Cookies checken of er eerder is ingelogd
 			if($this->settings["settings"]["rememberpassword"] and !$this->logged_in and $_COOKIE["loginuser"][$this->settings["name"]] and $_COOKIE["loginsessionid"][$this->settings["name"]] and !$_POST["loginfilled"]) {
 				$db->query("SELECT * FROM ".$this->settings["db"]["tablename"]." WHERE ".($this->settings["db"]["where"] ? $this->settings["db"]["where"]." AND " : "").$this->settings["db"]["fielduserid"]."='".addslashes($_COOKIE["loginuser"][$this->settings["name"]])."';");
 				if($db->next_record()) {
 					if($db->f("wrongcount")>$this->settings["loginpogingen"] and $db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {
-						# Er is al te vaak verkeerd ingelogd
-#						$this->wronglogin($db->f("user_id"));
+						// Er is al te vaak verkeerd ingelogd
+						// $this->wronglogin($db->f("user_id"));
 						$this->errormessage=ereg_replace("blocktime=","blocktime=".($db->f("wrongtime")+$this->settings["loginblocktime"]),$this->settings["message"]["wronglogintemp"]);
 					} else {
 						if(isset($db->Record["uniqueid_ip"])) {
-							# nieuw uniqueid-systeem (met IP-adres-controle)
+							// nieuw uniqueid-systeem (met IP-adres-controle)
 
-							# kijken of de uniqueid geldig is
+							// kijken of de uniqueid geldig is
 							$uniqueid=$this->uniqueid_ip_check($db->Record["uniqueid_ip"]);
 						} else {
-							# oude systeem (werkt ook prima, is alleen minder veilig)
+							// oude systeem (werkt ook prima, is alleen minder veilig)
 							$uniqueid=$db->f("uniqueid");
 						}
 						if(strlen($_COOKIE["loginsessionid"][$this->settings["name"]])>1 and $uniqueid==$_COOKIE["loginsessionid"][$this->settings["name"]] and $db->num_rows()==1) {
-							# Cookie klopt met uniqueid
+							// Cookie klopt met uniqueid
 							if($db->f($this->settings["db"]["fielduserlevel"])<0) {
-								# Account geblokkeerd - userlevel<0
+								// Account geblokkeerd - userlevel<0
 								$this->errormessage=$this->settings["message"]["accountblocked"];
 							} elseif($db->f($this->settings["db"]["fielduserlevel"])<$this->settings["minimaluserlevel"]) {
-								# Te laag userlevel
+								// Te laag userlevel
 								$this->errormessage=$this->settings["message"]["minimaluserlevel"];
 							} else {
 								$this->logged_in=true;
 							}
 						} else {
-							# Cookie klopt niet
+							// Cookie klopt niet
 							if($_COOKIE["loginsessionid"][$this->settings["name"]]) {
 								$this->wronglogin($db->f("user_id"));
 								$wrongcount=$db->f("wrongcount")+1;
 
-#								wt_mail("jeroen@webtastic.nl","Loginclass ".$this->settings["name"]." - ".$db->f($this->settings["db"]["fieldusername"]),"loginsessionid-cookie: ===".$_COOKIE["loginsessionid"][$this->settings["name"]]."===\nuniqueid-database: ===".$uniqueid."===\n\n".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+								// wt_mail("jeroen@webtastic.nl","Loginclass ".$this->settings["name"]." - ".$db->f($this->settings["db"]["fieldusername"]),"loginsessionid-cookie: ===".$_COOKIE["loginsessionid"][$this->settings["name"]]."===\nuniqueid-database: ===".$uniqueid."===\n\n".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
 
 								if($wrongcount>$this->settings["loginpogingen"] and $db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {
-									# Mailtje sturen
-	#								$foutloginmail="Account ".$db->f($this->settings["db"]["fieldusername"])." tijdelijk geblokeerd (tot ".date("d-m-Y, H:i",($db->f("wrongtime")+$this->settings["loginblocktime"]))." uur)\nsession\n";
-	#								$foutloginmail.="loginsessionid: ===".$_COOKIE["loginsessionid"][$this->settings["name"]]."===";
-	#								$this->sendmail($foutloginmail);
-	#								$this->errormessage=ereg_replace("blocktime=","blocktime=".($db->f("wrongtime")+$this->settings["loginblocktime"]),$this->settings["message"]["wronglogintemp"]);
+									// Mailtje sturen
+									// $foutloginmail="Account ".$db->f($this->settings["db"]["fieldusername"])." tijdelijk geblokeerd (tot ".date("d-m-Y, H:i",($db->f("wrongtime")+$this->settings["loginblocktime"]))." uur)\nsession\n";
+									// $foutloginmail.="loginsessionid: ===".$_COOKIE["loginsessionid"][$this->settings["name"]]."===";
+									// $this->sendmail($foutloginmail);
+									// $this->errormessage=ereg_replace("blocktime=","blocktime=".($db->f("wrongtime")+$this->settings["loginblocktime"]),$this->settings["message"]["wronglogintemp"]);
 								}
 							}
 						}
@@ -870,7 +872,7 @@ class Login {
 			}
 
 			if($this->logged_in) {
-				# Waarden uit DB halen, opslaan in $_SESSION["LOGIN"] en pagina reloaden (indien het formulier net is ingevuld)
+				// Waarden uit DB halen, opslaan in $_SESSION["LOGIN"] en pagina reloaden (indien het formulier net is ingevuld)
 				$_SESSION["LOGIN"][$this->settings["name"]]["logged_in"]=true;
 				$fieldnames=$db->metadata($this->settings["db"]["tablename"],true);
 				while(list($name,$value)=each($fieldnames["meta"])) {
@@ -878,7 +880,7 @@ class Login {
 				}
 				$this->setlastlogin(1);
 
-				# Mailtje sturen na login?
+				// Mailtje sturen na login?
 				if($this->settings["mail_after_login"]) {
 					if($_SESSION["LOGIN"][$this->settings["name"]][$this->settings["db"]["fieldusername"]]=="webtastic" or ereg("@webtastic",$this->settings["mail_after_login"])) {
 
@@ -908,23 +910,24 @@ class Login {
 				}
 
 			} elseif(!$this->logged_in) {
-				#
-				# niet ingelogd
-				#
+				//
+				// niet ingelogd
+				//
 
-				# lin-cookie wissen
+
+				// lin-cookie wissen
 				if($_COOKIE["lin"][$this->settings["name"]]) {
 					setcookie("lin[".$this->settings["name"]."]","",time()-864000,"/");
 					unset($_COOKIE["lin"][$this->settings["name"]]);
 				}
 
-				# extra_unsafe_cookie wissen
+				// extra_unsafe_cookie wissen
 				if($this->settings["extra_unsafe_cookie"]) {
 					setcookie($this->settings["extra_unsafe_cookie"]."[".$this->settings["name"]."]","",time()-864000,"/");
 					unset($_COOKIE[$this->settings["extra_unsafe_cookie"]][$this->settings["name"]]);
 				}
 
-				# Nog niet ingelogd? Ga naar loginpagina
+				// Nog niet ingelogd? Ga naar loginpagina
 				if(!$this->settings["checkloginpage"]) $this->settings["checkloginpage"]=$this->settings["loginpage"];
 				if($this->settings["mustlogin"] and $this->settings["loginpage"] and !ereg($this->settings["checkloginpage"]."$",$_SERVER["PHP_SELF"])) {
 					$_SESSION["LOGIN"][$this->settings["name"]]["comefromurl"]=$this->currenturl();
@@ -935,7 +938,7 @@ class Login {
 
 		if($_SESSION["LOGIN"][$this->settings["name"]]["logged_in"]) {
 			if($this->settings["recheck_userdata"]) {
-				# Gebruikers-gegevens opnieuw uit database halen
+				// Gebruikers-gegevens opnieuw uit database halen
 				$db->query("SELECT * FROM ".$this->settings["db"]["tablename"]." WHERE ".($this->settings["db"]["where"] ? $this->settings["db"]["where"]." AND " : "").$this->settings["db"]["fielduserid"]."='".addslashes($_SESSION["LOGIN"][$this->settings["name"]][$this->settings["db"]["fielduserid"]])."';");
 				if($db->num_rows()==1 and $db->next_record()) {
 					$this->logged_in=true;

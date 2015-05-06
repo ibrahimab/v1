@@ -98,7 +98,7 @@ class cms_layout {
 	}
 
 	function display_all($current_title="") {
-		global $cms,$db,$db2,$db3,$db4,$form,$login,$vars,$cms_form,$gegevens,$mustlogin,$_GLOBAL,$txt,$txta,$taal;
+		global $cms,$db,$db2,$db3,$db4,$form,$login,$vars,$cms_form,$gegevens,$mustlogin,$_GLOBAL,$txt,$txta,$taal,$debugbarRenderer;
 		if($current_title) {
 			if($this->cmslog_pagina_id) {
 				$db->query("UPDATE cmslog_pagina SET title='".addslashes($current_title)."' WHERE cmslog_pagina_id='".addslashes($this->cmslog_pagina_id)."';");
@@ -114,6 +114,11 @@ class cms_layout {
 		echo "  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
 		echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">";
 		echo "<head>\n";
+
+		if($vars["lokale_testserver"] and is_object($debugbarRenderer)) {
+			echo $debugbarRenderer->renderHead();
+		}
+
 		echo "<title>".wt_he($this->settings["system_name"]);
 
 
@@ -404,6 +409,11 @@ class cms_layout {
 
 			</script><?php
 		}
+
+		if($vars["lokale_testserver"] and is_object($debugbarRenderer)) {
+			echo $debugbarRenderer->render();
+		}
+
 		echo "</body></html>";
 	}
 

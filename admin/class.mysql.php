@@ -248,7 +248,14 @@ class DB_Sql {
 			}
 
 			$number_of_results = @mysql_num_rows( $this->Query_ID );
-			$wt_debugbar->getCollector("database")->addMessage($filename." ".$linenumber." ".$Query_String." (results: ".intval($number_of_results)." - ".number_format($query_time, 4)." sec.)", (floatval($query_time)>0.1 ? "slowquery" : "query"));
+
+			if(preg_match("@^UPDATE@", $Query_String)) {
+				$affected_rows = @mysql_affected_rows( $this->Link_ID );
+			} else {
+				unset($affected_rows);
+			}
+
+			$wt_debugbar->getCollector("database")->addMessage($filename." ".$linenumber." ".$Query_String." (".(isset($affected_rows) ? "affected rows: ".intval($affected_rows) : "results: ".intval($number_of_results))." - ".number_format($query_time, 4)." sec.)", (floatval($query_time)>0.1 ? "slowquery" : "query"));
 		}
 
 
