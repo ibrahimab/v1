@@ -375,7 +375,7 @@ class vertrekinfo {
 			$bk_html .= "<b>".html("inclusief-reedsvoldaan","vertrekinfo").":</b>";
 			$bk_html .= "<ul style=\"margin-top:0;padding-left:13px;\">";
 			foreach ($bk["voldaan"] as $key => $value) {
-				$bk_html .= "<li style=\"line-height:10px;\">".wt_he($value["naam"])."</li>";
+				$bk_html .= "<li>".wt_he($value["naam"])."</li>";
 			}
 			$bk_html .= "</ul>";
 		}
@@ -383,7 +383,7 @@ class vertrekinfo {
 			$bk_html .= "<b>".html("verplichttevoldoen","vertrekinfo").":</b>";
 			$bk_html .= "<ul style=\"margin-top:0;padding-left:13px;\">";
 			foreach ($bk["ter_plaatse"] as $key => $value) {
-				$bk_html .= "<li style=\"line-height:10px;\">".wt_he($value["naam"]);
+				$bk_html .= "<li>".wt_he($value["naam"]);
 				if($value["toonbedrag"]) {
 					$bk_html .= " (".wt_he($value["toonbedrag"]).")";
 				}
@@ -395,7 +395,7 @@ class vertrekinfo {
 			$bk_html .= "<b>".html("optioneel","vertrekinfo").":</b>";
 			$bk_html .= "<ul style=\"margin-top:0;padding-left:13px;\">";
 			foreach ($bk["uitbreiding"] as $key => $value) {
-				$bk_html .= "<li style=\"line-height:10px;\">".wt_he($value["naam"]);
+				$bk_html .= "<li>".wt_he($value["naam"]);
 				if($value["toonbedrag"]) {
 					$bk_html .= " (".wt_he($value["toonbedrag"]).")";
 				}
@@ -407,7 +407,7 @@ class vertrekinfo {
 			$bk_html .= "<b>".html("diversen","vertrekinfo").":</b>";
 			$bk_html .= "<ul style=\"margin-top:0;padding-left:13px;\">";
 			foreach ($bk["diversen"] as $key => $value) {
-				$bk_html .= "<li style=\"line-height:10px;\">".wt_he($value["naam"]);
+				$bk_html .= "<li>".wt_he($value["naam"]);
 				if($value["toonbedrag"]) {
 					$bk_html .= " (".wt_he($value["toonbedrag"]).")";
 				}
