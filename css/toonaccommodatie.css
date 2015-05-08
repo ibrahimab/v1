@@ -310,6 +310,27 @@ a.alletypes_niet_beschikbaar {
 	margin-left: 200px;
 }
 
+.toonaccommodatie_skipas {
+	float: right;
+	font-size: 0.7em;
+	margin-right: -17px;
+
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	background:url("../pic/icons/incl-skipas.png") center 4px no-repeat;
+	width: 70px;
+	height: 60px;
+	padding-top: 45px;
+	text-align: center;
+	white-space: nowrap;
+	color: #003366;
+}
+
+.toonaccommodatie_skipas_en_aanbieding {
+	margin-right: 2px;
+}
+
 #toonaccommodatie_aanbieding {
 	float: right;
 	margin-right: -10px;

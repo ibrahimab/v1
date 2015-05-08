@@ -2703,6 +2703,14 @@ $txt["en"]["accommodatiemail"]["nietallevelden"]="not all fields are filled out 
 # Accommodatiepagina (bijvoorbeeld https://www.chalet.nl/accommodatie/F265/)
 #
 
+$txt["nl"]["toonaccommodatie"]["incl-skipas"]="incl. skipas";
+$txt["de"]["toonaccommodatie"]["incl-skipas"]="inkl. Skipass";
+$txt["en"]["toonaccommodatie"]["incl-skipas"]="incl. lift pass";
+
+$txt["nl"]["toonaccommodatie"]["inclusiefskipas"]="inclusief skipas";
+$txt["de"]["toonaccommodatie"]["inclusiefskipas"]="Skipass inklusive";
+$txt["en"]["toonaccommodatie"]["inclusiefskipas"]="including ski lift pass";
+
 $txt["nl"]["toonaccommodatie"]["accommodatienietgevonden"]="Accommodatie niet gevonden";
 $txt["de"]["toonaccommodatie"]["accommodatienietgevonden"]="Unterkunft nicht gefunden";
 $txt["en"]["toonaccommodatie"]["accommodatienietgevonden"]="Accommodation not found";
