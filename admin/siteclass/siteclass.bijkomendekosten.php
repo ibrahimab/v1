@@ -200,9 +200,6 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 
 			// check for differences between accommodatie and type
 			if($this->soort=="accommodatie") {
-				// $db->query("SELECT bt.type_id FROM bk_type bt LEFT JOIN bk_accommodatie ba ON (bt.inclusief=ba.inclusief AND bt.verplicht=ba.verplicht AND bt.ter_plaatse=ba.ter_plaatse AND bt.eenheid=ba.eenheid AND bt.borg_soort=ba.borg_soort AND bt.bedrag=ba.bedrag) WHERE bt.bk_soort_id=ba.bk_soort_id AND bt.seizoen_id=ba.seizoen_id AND bt.type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($this->id)."') AND ba.accommodatie_id='".intval($this->id)."';");
-				// echo $db->lq;
-
 
 				// get all types
 				$db->query("SELECT begincode, type_id, optimaalaantalpersonen, maxaantalpersonen FROM view_accommodatie WHERE accommodatie_id='".intval($this->id)."';");
@@ -210,7 +207,6 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 					$this->all_types[$db->f("type_id")] = $db->f("begincode").$db->f("type_id");
 					$this->all_types_aantalpersonen[$db->f("type_id")] = $db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : ""). " p";
 				}
-
 
 				$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bt.seizoen_id, bt.inclusief, bt.verplicht, bt.ter_plaatse, bt.eenheid, bt.borg_soort, bt.bedrag, t.type_id, t.begincode FROM bk_type bt INNER JOIN bk_soort bs USING (bk_soort_id) INNER JOIN view_accommodatie t USING (type_id) WHERE t.accommodatie_id='".intval($this->id)."' AND bt.seizoen_id IN (".substr($this->seizoen_inquery,1).")
 						   ORDER BY bt.type_id, bt.inclusief DESC, bs.volgorde;");
@@ -855,12 +851,12 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 
 						if($value["filled"] and $value["verplicht"]==1 and $value["inclusief"]<>1 and $value["bedrag"]>0 and !$value["borg_soort"]) {
 
-							if($value["prijs_per_nacht"]) {
+							// prijs_per_nacht + per dag (eenheid 3) + per nacht (eenheid 8)
+							if($value["prijs_per_nacht"] or $value["eenheid"]==3 or $value["eenheid"]==8) {
 								$value["bedrag"] = $value["bedrag"] * 7;
 							}
-
-							if($value["eenheid"]==2 or $value["eenheid"]==9) {
-								// "per person" or "per set"
+							if($value["eenheid"]==2 or $value["eenheid"]==12 or $value["eenheid"]==9) {
+								// eenheid = "per person" or "per person each time" or "per set"
 								$per_person += $value["bedrag"];
 							} else {
 								// per accommodation
@@ -1663,26 +1659,28 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 				if($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
 
 					$save["persoonnummer"]="pers";
-					foreach ($gegevens["stap3"] as $persoonnummer => $persoon) {
-						if(is_int($persoonnummer)) {
-							if($persoon["geboortedatum"]) {
+					if( is_array($gegevens["stap3"]) ) {
+						foreach ($gegevens["stap3"] as $persoonnummer => $persoon) {
+							if(is_int($persoonnummer)) {
+								if($persoon["geboortedatum"]) {
 
-								$leeftijd = wt_leeftijd($persoon["geboortedatum"], mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
-								if($db->f("min_leeftijd") and $db->f("max_leeftijd")) {
-									if($leeftijd>=$db->f("min_leeftijd") and $leeftijd<=$db->f("max_leeftijd")) {
-										if($save["deelnemers"]) $save["deelnemers"].=",".$persoonnummer; else $save["deelnemers"]=$persoonnummer;
+									$leeftijd = wt_leeftijd($persoon["geboortedatum"], mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
+									if($db->f("min_leeftijd") and $db->f("max_leeftijd")) {
+										if($leeftijd>=$db->f("min_leeftijd") and $leeftijd<=$db->f("max_leeftijd")) {
+											if($save["deelnemers"]) $save["deelnemers"].=",".$persoonnummer; else $save["deelnemers"]=$persoonnummer;
+										}
+									} elseif($db->f("min_leeftijd")) {
+										if($leeftijd>=$db->f("min_leeftijd")) {
+											if($save["deelnemers"]) $save["deelnemers"].=",".$persoonnummer; else $save["deelnemers"]=$persoonnummer;
+										}
+									} elseif($db->f("max_leeftijd")) {
+										if($leeftijd<=$db->f("max_leeftijd")) {
+											if($save["deelnemers"]) $save["deelnemers"].=",".$persoonnummer; else $save["deelnemers"]=$persoonnummer;
+										}
 									}
-								} elseif($db->f("min_leeftijd")) {
-									if($leeftijd>=$db->f("min_leeftijd")) {
-										if($save["deelnemers"]) $save["deelnemers"].=",".$persoonnummer; else $save["deelnemers"]=$persoonnummer;
-									}
-								} elseif($db->f("max_leeftijd")) {
-									if($leeftijd<=$db->f("max_leeftijd")) {
-										if($save["deelnemers"]) $save["deelnemers"].=",".$persoonnummer; else $save["deelnemers"]=$persoonnummer;
-									}
+								} elseif($db->f("zonderleeftijd")) {
+									if($save["deelnemers"]) $save["deelnemers"].=",".$persoonnummer; else $save["deelnemers"]=$persoonnummer;
 								}
-							} elseif($db->f("zonderleeftijd")) {
-								if($save["deelnemers"]) $save["deelnemers"].=",".$persoonnummer; else $save["deelnemers"]=$persoonnummer;
 							}
 						}
 					}
@@ -1708,7 +1706,9 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 				$save["naam"]=$db->f("factuurnaam");
 
 				$save["verkoop"] = $db->f("bedrag");
-				if($db->f("prijs_per_nacht")) {
+
+				// prijs_per_nacht + per dag (eenheid 3) + per nacht (eenheid 8)
+				if($db->f("prijs_per_nacht") or $db->f("eenheid")==3 or $db->f("eenheid")==8) {
 					// per night
 					$save["verkoop"] = $save["verkoop"] * $gegevens["stap1"]["aantalnachten"];
 				} elseif($db->f("eenheid")==10) {
@@ -1861,26 +1861,28 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 							// eenheid = "per person" or "per person each time" or "per set"
 							if($value["min_leeftijd"] or $value["max_leeftijd"]) {
 
-								foreach ($gegevens["stap3"] as $persoonnummer => $persoon) {
-									if(is_int($persoonnummer)) {
-										if($persoon["geboortedatum"]) {
+								if( is_array($gegevens["stap3"]) ) {
+									foreach ($gegevens["stap3"] as $persoonnummer => $persoon) {
+										if(is_int($persoonnummer)) {
+											if($persoon["geboortedatum"]) {
 
-											$leeftijd = wt_leeftijd($persoon["geboortedatum"], mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
-											if($value["min_leeftijd"] and $value["max_leeftijd"]) {
-												if($leeftijd>=$value["min_leeftijd"] and $leeftijd<=$value["max_leeftijd"]) {
-													$aantal++;
+												$leeftijd = wt_leeftijd($persoon["geboortedatum"], mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
+												if($value["min_leeftijd"] and $value["max_leeftijd"]) {
+													if($leeftijd>=$value["min_leeftijd"] and $leeftijd<=$value["max_leeftijd"]) {
+														$aantal++;
+													}
+												} elseif($value["min_leeftijd"]) {
+													if($leeftijd>=$value["min_leeftijd"]) {
+														$aantal++;
+													}
+												} elseif($value["max_leeftijd"]) {
+													if($leeftijd<=$value["max_leeftijd"]) {
+														$aantal++;
+													}
 												}
-											} elseif($value["min_leeftijd"]) {
-												if($leeftijd>=$value["min_leeftijd"]) {
-													$aantal++;
-												}
-											} elseif($value["max_leeftijd"]) {
-												if($leeftijd<=$value["max_leeftijd"]) {
-													$aantal++;
-												}
+											} elseif($value["zonderleeftijd"]) {
+												$aantal ++;
 											}
-										} elseif($value["zonderleeftijd"]) {
-											$aantal ++;
 										}
 									}
 								}
@@ -1900,7 +1902,9 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 						$return["ter_plaatse"][$key]["aantal"] = $aantal;
 						$return["ter_plaatse"][$key]["subtotaal"] = $value["bedrag"];
 						$return["ter_plaatse"][$key]["totaalbedrag"] = $value["bedrag"] * $aantal;
-						if($value["prijs_per_nacht"]) {
+
+						// prijs_per_nacht + per dag (eenheid 3) + per nacht (eenheid 8)
+						if($value["prijs_per_nacht"] or $value["eenheid"]==3 or $value["eenheid"]==8) {
 							$return["ter_plaatse"][$key]["totaalbedrag"] = $return["ter_plaatse"][$key]["totaalbedrag"] * $gegevens["stap1"]["aantalnachten"];
 							$return["ter_plaatse"][$key]["subtotaal"] = $return["ter_plaatse"][$key]["subtotaal"] * $gegevens["stap1"]["aantalnachten"];
 						}
@@ -1966,7 +1970,8 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 								$return["aan_chalet_nl"][$key]["aantal"] = $aantal;
 								$return["aan_chalet_nl"][$key]["totaalbedrag"] = $value["bedrag"] * $aantal;
 
-								if($value["prijs_per_nacht"]) {
+								// prijs_per_nacht + per dag (eenheid 3) + per nacht (eenheid 8)
+								if($value["prijs_per_nacht"] or $value["eenheid"]==3 or $value["eenheid"]==8) {
 									$return["aan_chalet_nl"][$key]["totaalbedrag"] = $return["aan_chalet_nl"][$key]["totaalbedrag"] * $gegevens["stap1"]["aantalnachten"];
 								}
 
