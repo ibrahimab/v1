@@ -1955,6 +1955,12 @@ if($db->next_record()) {
 							// losse accommodatie
 							$temp_aantalpersonen = ($_GET["ap"] ? $_GET["ap"] : 1);
 							$bk_add_to_price = $bk[$db2->f("type_id")][$db2->f("seizoen_id")][$temp_aantalpersonen];
+
+							// surcharge extra persons (toeslag extra personen)
+							$bk_add_to_price_per_person_per_week = $bijkomendekosten->get_type_from_cache_all_persons_all_weeks($db2->f("type_id"), $vars["seizoentype"]);
+							if( isset( $bk_add_to_price_per_person_per_week[$temp_aantalpersonen][$_GET["d"]] ) ) {
+								$bk_add_to_price += $bk_add_to_price_per_person_per_week[$temp_aantalpersonen][$_GET["d"]];
+							}
 						}
 
 						if($bk_add_to_price>0) {
