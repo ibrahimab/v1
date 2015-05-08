@@ -233,6 +233,39 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$form->field_htmlrow("","<hr><b>Accommodaties die een hogere vergoeding voor TradeTracker-affiliates (1 accommodatie-code per regel)</b><br/><i>Deze functionaliteit is nog niet actief maar invullen van de codes kan al wel.</i>");
 	$form->field_textarea(0,"tradetracker_higher_payout","Accommodatie-codes",array("field"=>"tradetracker_higher_payout"),"","",array("style"=>"height:400px"));
 
+	if( $vars["acceptatie_testserver"] or $vars["lokale_testserver"]) {
+		$form->field_htmlrow("","<hr><b>Git-branch op test.chalet.nl</b>");
+
+		$gitfile = dirname(__FILE__)."/.git/HEAD";
+		if( file_exists($gitfile) ) {
+			$git_current_branch = trim(basename(file_get_contents($gitfile)));
+		}
+
+		// git-branches
+		$db->query("SELECT git_branches FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+		if( $db->next_record() ) {
+			$git_branches = explode("\n", $db->f("git_branches"));
+			foreach ($git_branches as $key => $value) {
+				if( preg_match("@^([a-z0-9_-]+) (.*)$@", $value, $regs)) {
+					$vars["git_branches"][$regs[1]] = trim($regs[2])." (".trim($regs[1]).")";
+				}
+			}
+		}
+
+		$form->field_htmlcol("","Huidige branch", array("html"=>wt_he(($vars["git_branches"][$git_current_branch] ? $vars["git_branches"][$git_current_branch] : $git_current_branch))));
+
+		$checkfile = "/var/www/chalet.nl/html_test/tmp/git-autopull-acceptance-test.txt";
+
+		if( file_exists($checkfile) ) {
+			$git_selected_branch = trim(file_get_contents($checkfile));
+			$form->field_htmlcol("","Wordt nu gepulld", array("html"=>wt_he(($vars["git_branches"][$git_selected_branch] ? $vars["git_branches"][$git_selected_branch] : $git_selected_branch))));
+		} else {
+			$form->field_select(0,"git_change_to_branch","Switch naar branch","","",array("selection"=>$vars["git_branches"]));
+		}
+	}
+
+
+
 	# aantal beschikbare kortingscodes bepalen
 	$db->query("SELECT COUNT(enquete_kortingscode_id) AS aantal FROM enquete_kortingscode WHERE verzonden IS NULL;");
 	if($db->next_record()) {
@@ -275,6 +308,11 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 	if($form->okay) {
 		$form->save_db();
+
+		// git change to branch
+		if( $form->input["git_change_to_branch"] ) {
+			file_put_contents("/var/www/chalet.nl/html_test/tmp/git-autopull-acceptance-test.txt", trim($form->input["git_change_to_branch"]));
+		}
 
 		# Woordenlijst autocomplete
 		$db->query("SELECT woorden_autocomplete_winter, woorden_autocomplete_winter_en, woorden_autocomplete_zomer FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
