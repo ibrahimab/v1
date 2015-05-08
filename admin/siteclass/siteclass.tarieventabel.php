@@ -175,9 +175,6 @@ class tarieventabel {
 
 		if( $voorkant_cms ) {
 
-
-			// echo wt_dump($this->accinfo);
-
 			$email_text .= date("d/m/Y", $this->unixtime_week[$aankomstdatum]);
 			$email_text .= " ";
 			$email_text .= $this->accinfo["plaats"]." / ".$this->accinfo["accnaam"]." (".txt("mailcopy-max", "tarieventabel")." ".$this->accinfo["maxaantalpersonen"]." ".($this->accinfo["maxaantalpersonen"]==1 ? txt("persoon", "tarieventabel") : txt("personen", "tarieventabel")).")";
@@ -247,6 +244,7 @@ class tarieventabel {
 		$bijkomendekosten->pre_boeken = true;
 		$bijkomendekosten->aantalpersonen = $aantalpersonen;
 		$bijkomendekosten->accinfo = $this->accinfo;
+		$bijkomendekosten->aankomstdatum = $aankomstdatum;
 
 		$bk = $bijkomendekosten->get_booking_data($gegevens);
 
@@ -260,10 +258,10 @@ class tarieventabel {
 		} else {
 			$totaalbedrag_chalet_nl = $this->tarief_zonder_bk[$aankomstdatum];
 
-			// surcharge extra persons?
-			if($this->bk_add_to_price_per_person_per_week[$aantalpersonen][$aankomstdatum]) {
-				$totaalbedrag_chalet_nl += $this->bk_add_to_price_per_person_per_week[$aantalpersonen][$aankomstdatum];
-			}
+			// // surcharge extra persons?
+			// if($this->bk_add_to_price_per_person_per_week[$aantalpersonen][$aankomstdatum]) {
+			// 	$totaalbedrag_chalet_nl += $this->bk_add_to_price_per_person_per_week[$aantalpersonen][$aankomstdatum];
+			// }
 
 			$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">1</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".html("accommodatie", "bijkomendekosten")."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_chalet_nl, 2, ",", ".")."</td></tr>";
 		}
