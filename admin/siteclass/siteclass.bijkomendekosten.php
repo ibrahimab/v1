@@ -78,7 +78,7 @@ class bijkomendekosten {
 
 			if(is_array($this->cms_data_seizoenen)) {
 				foreach ($this->cms_data_seizoenen as $key => $value) {
-					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.vouchernaam".$vars["ttv"]." AS vouchernaam, bs.factuurnaam".$vars["ttv"]." AS factuurnaam, bs.altijd_invullen, bs.altijd_diversen, bs.prijs_per_nacht, bs.opgeven_bij_boeken, ba.".$this->soort."_id, bs.toelichting".$vars["ttv"]." AS toelichting, bs.zonderleeftijd, bs.min_leeftijd, bs.max_leeftijd, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
+					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.vouchernaam".$vars["ttv"]." AS vouchernaam, bs.factuurnaam".$vars["ttv"]." AS factuurnaam, bs.altijd_invullen, bs.altijd_diversen, bs.altijd_diversen_indien_niet_inclusief, bs.prijs_per_nacht, bs.opgeven_bij_boeken, ba.".$this->soort."_id, bs.toelichting".$vars["ttv"]." AS toelichting, bs.zonderleeftijd, bs.min_leeftijd, bs.max_leeftijd, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
 							   FROM bk_soort bs LEFT JOIN bk_".$this->soort." ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.".$this->soort."_id='".intval($this->id)."' AND ba.seizoen_id='".intval($key)."') WHERE bs.wzt='".intval($this->wzt)."' AND (ba.".$this->soort."_id IS NOT NULL OR bs.altijd_invullen=1)
 							   ORDER BY ba.borg_soort DESC, ba.inclusief DESC, bs.volgorde;");
 
@@ -95,6 +95,7 @@ class bijkomendekosten {
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["borg_soort"] = $db->f("borg_soort");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["bedrag"] = $db->f("bedrag");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["altijd_diversen"] = $db->f("altijd_diversen");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["altijd_diversen_indien_niet_inclusief"] = $db->f("altijd_diversen_indien_niet_inclusief");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["prijs_per_nacht"] = $db->f("prijs_per_nacht");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["opgeven_bij_boeken"] = $db->f("opgeven_bij_boeken");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["toelichting"] = $db->f("toelichting");
@@ -1235,6 +1236,8 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 						$cat = "inclusief";
 					} elseif($value["inclusief"]==0 and $value["verplicht"]==3) {
 						// exclusief + zelf te verzorgen
+						$cat = "diversen";
+					} elseif( $value["altijd_diversen_indien_niet_inclusief"] ) {
 						$cat = "diversen";
 					} else {
 						$cat = "uitbreiding";
