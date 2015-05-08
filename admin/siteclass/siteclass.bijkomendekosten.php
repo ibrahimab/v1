@@ -265,11 +265,13 @@ class bijkomendekosten {
 
 		$this->get_cms_data();
 
+		$db = new DB_sql;
+
 
 		if(is_array($this->cms_data_seizoenen))	{
 			foreach ($this->cms_data_seizoenen as $key => $value) {
 
-				unset($inclusief_tekst_html, $exclusief_tekst_html, $in_exclusief_tekst);
+				unset($kopieer_seizoen_id, $kopieer_button_text, $inclusief_tekst_html, $exclusief_tekst_html, $in_exclusief_tekst);
 
 				$this->seizoen_id = $key;
 
@@ -277,10 +279,25 @@ class bijkomendekosten {
 					$return .= "<div id=\"bijkomendekosten\"></div>";
 				}
 
-				if($this->seizoen_counter==1 and $this->soort=="accommodatie") {
-					// copy season button
-					$return .= "<div class=\"cms_bk_kopieer cms_bk_kopieer_season\" data-last_seizoen_id=\"".intval($this->last_seizoen_id)."\" data-seizoen_id=\"".intval($this->seizoen_id)."\" data-id=\"".intval($this->id)."\"><button>&#x2193; kopieer bijkomende kosten naar onderstaand seizoen &#x2193;</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-ebebeb.gif\"><br />&nbsp;&nbsp;&nbsp;<i>Let op: bestaande gegevens worden direct overschreven.</i></div>";
+				if($this->soort=="accommodatie") {
 
+					if($this->seizoen_counter==1) {
+						$kopieer_button_text = "&#x2193; kopieer bijkomende kosten naar onderstaand seizoen &#x2193;";
+						$kopieer_seizoen_id = $this->last_seizoen_id;
+
+					} elseif(count($this->cms_data_seizoenen)==1) {
+
+						// get previous seizoen_id
+						$db->query("SELECT ba.seizoen_id, s.naam FROM bk_accommodatie ba INNER JOIN seizoen s USING(seizoen_id) WHERE ba.seizoen_id<".$this->seizoen_id." AND ba.accommodatie_id='".intval($this->id)."' ORDER BY ba.seizoen_id DESC LIMIT 0,1;");
+						if( $db->next_record() ) {
+							$kopieer_button_text = "kopieer bijkomende kosten van vorig seizoen (".wt_he($db->f("naam")).")";
+							$kopieer_seizoen_id = $db->f("seizoen_id");
+						}
+					}
+					if( $kopieer_button_text and $kopieer_seizoen_id ) {
+						// copy season button
+						$return .= "<div class=\"cms_bk_kopieer cms_bk_kopieer_season\" data-last_seizoen_id=\"".intval($kopieer_seizoen_id)."\" data-seizoen_id=\"".intval($this->seizoen_id)."\" data-id=\"".intval($this->id)."\"><button>".$kopieer_button_text."</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-ebebeb.gif\"><br />&nbsp;&nbsp;&nbsp;<i>Let op: bestaande gegevens worden direct overschreven.</i></div>";
+					}
 				}
 
 				$this->seizoen_counter++;
@@ -290,8 +307,6 @@ class bijkomendekosten {
 				$return .= "<div class=\"cms_bk_seizoen cms_bk_seizoen_".($this->seizoen_counter==1 ? "first" : "nth")."\" data-seizoen_id=\"".$key."\" id=\"bijkomendekosten_".$key."\"><h2>Bijkomende kosten ".wt_he($value).($this->soort=="type" ? " - type-niveau" : "")."</h2>";
 
 
-
-				$db = new DB_sql;
 
 				if($this->soort=="type") {
 					$db->query("SELECT bk_opmerkingen_intern FROM accommodatie WHERE accommodatie_id=(SELECT accommodatie_id FROM type WHERE type_id='".intval($this->id)."');");
