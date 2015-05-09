@@ -4,13 +4,27 @@
 // script to autopull Git commits
 //
 
-// webhook: http://test.chalet.nl/wt_git_autopull.php
+// webhook 1:
+// to deploy various branches to test.chalet.nl
+// url: http://test.chalet.nl/wt_git_autopull.php
 
-include_once("/var/www/chalet.nl/html_test/admin/allfunctions.php");
 
-$checkfile = "/var/www/chalet.nl/html_test/tmp/git-autopull-acceptance-test.txt";
+// webhook 2:
+// to deploy production branch to live-servers web01.chalet.nl and web02.chalet.nl
+// url: http://www2.chalet.nl/wt_git_autopull.php?git-deploy=1
 
-$current_branch_file = "/var/www/chalet.nl/html_test/tmp/git-current-branch.txt";
+
+$unixdir = dirname(__FILE__) . "/";
+
+include_once($unixdir."admin/allfunctions.php");
+
+if( $_GET["git-deploy"]==1 ) {
+	$checkfile = "/home/chaletnl/Website-Chalet.nl/tmp/git-deploy.txt";
+} else {
+	$checkfile = $unixdir."tmp/git-autopull-acceptance-test.txt";
+}
+
+$current_branch_file = $unixdir."tmp/git-current-branch.txt";
 
 if($argv[1]=="cron") {
 
@@ -35,16 +49,25 @@ if($argv[1]=="cron") {
 
 		$obj = json_decode($_POST["payload"], true);
 
-		$current_branch = trim(file_get_contents($current_branch_file));
+		if( $_GET["git-deploy"] ) {
 
-		if( !$current_branch ) {
-			$current_branch = "acceptance-test";
-		}
+			if(preg_match("@production$@",$obj["ref"])) {
+				touch($checkfile);
+			}
 
-		// wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false)."\n\nCurrent:".$current_branch);
+		} else {
 
-		if(preg_match("@".$current_branch."$@",$obj["ref"])) {
-			file_put_contents($checkfile, $current_branch);
+			$current_branch = trim(file_get_contents($current_branch_file));
+
+			if( !$current_branch ) {
+				$current_branch = "acceptance-test";
+			}
+
+			// wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false)."\n\nCurrent:".$current_branch);
+
+			if(preg_match("@".$current_branch."$@",$obj["ref"])) {
+				file_put_contents($checkfile, $current_branch);
+			}
 		}
 	}
 	echo "OK";
