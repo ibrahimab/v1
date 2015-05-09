@@ -7,4 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
+    'GorkaLaucirica\\HipchatAPIv2Client' => array($vendorDir . '/gorkalaucirica/hipchat-v2-api-client'),
+    'Buzz' => array($vendorDir . '/kriswallsmith/buzz/lib'),
 );
