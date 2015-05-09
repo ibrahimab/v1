@@ -37,6 +37,21 @@ use GorkaLaucirica\HipchatAPIv2Client\Client;
 use GorkaLaucirica\HipchatAPIv2Client\API\RoomAPI;
 use GorkaLaucirica\HipchatAPIv2Client\Model\Message;
 
+$auth = new OAuth2('WuSNBiog1IjRoijaag5BUaM04r3alQTrjgnlV8O4');
+$client = new Client($auth);
+$roomAPI = new RoomAPI($client);
+$msg = new Message();
+$msg->setMessage("Auto-notify: production branch has been deployed to web01.chalet.nl and web02.chalet.nl.");
+$msg->setNotify(true);
+$msg->setColor("green");
+
+// id 900265 = GitHub meldingen
+// id 1502695 = API-test
+$send = $roomAPI->sendRoomNotification(1502695, $msg);
+
+
+exit;
+
 touch("/tmp/last-git-deploy");
 // mail("jeroen@webtastic.nl","Chalet-upstart git-deploy","Upstart-script draait om ".date("r"));
 
@@ -65,9 +80,9 @@ for($i=1; $i<=60; $i++) {
 		$msg->setMessage("Auto-notify: production branch has been deployed to web01.chalet.nl and web02.chalet.nl.");
 		$msg->setNotify(true);
 		$msg->setColor("green");
+
 		// id 900265 = GitHub meldingen
 		// id 1502695 = API-test
-
 		$send = $roomAPI->sendRoomNotification(1502695, $msg);
 
 	}
