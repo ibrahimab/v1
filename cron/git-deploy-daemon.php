@@ -50,25 +50,41 @@ for($i=1; $i<=60; $i++) {
 	if ( file_exists($checkfile)) {
 
 		echo "git-deploy ".date("r")."\n\n";
-		mail("jeroen@webtastic.nl","git-deploy","deploy now: ".date("r"));
 
 		unlink($checkfile);
 
-		passthru("cd /home/chaletnl/Website-Chalet.nl/;git fetch origin;git checkout production;git reset --hard origin/production");
-		passthru("/usr/bin/sitecopy -r /home/chaletnl/.sitecopyrc -p /home/chaletnl/.sitecopy --update chalet_web01");
-		passthru("/usr/bin/sitecopy -r /home/chaletnl/.sitecopyrc -p /home/chaletnl/.sitecopy --update chalet_web02");
+		exec("cd /home/chaletnl/Website-Chalet.nl/;git fetch origin;git checkout production;git reset --hard origin/production", $git_output);
+
+		exec("/usr/bin/sitecopy -r /home/chaletnl/.sitecopyrc -p /home/chaletnl/.sitecopy --list chalet_web01", $sitecopy_output1);
+
+		exec("/usr/bin/sitecopy -r /home/chaletnl/.sitecopyrc -p /home/chaletnl/.sitecopy --update chalet_web01", $sitecopy_output2);
+		exec("/usr/bin/sitecopy -r /home/chaletnl/.sitecopyrc -p /home/chaletnl/.sitecopy --update chalet_web02", $sitecopy_output3);
+
+
+		$git_output = trim(implode("\n", $git_output));
+
+		$sitecopy_output1 = trim(implode("\n", $sitecopy_output1));
+		$sitecopy_output2 = trim(implode("\n", $sitecopy_output2));
+		$sitecopy_output3 = trim(implode("\n", $sitecopy_output3));
+
+		$log1 = preg_replace("@^.*These items have been changed since the last update:(.*)sitecopy: The remote.*$@s", "\\1", $sitecopy_output1);
+		$log1 = trim($log1);
+
+		$hipchat_msg = "Auto-notify: production branch has been deployed to web01 and web02: ".$log1;
+
+		mail("chaletmailbackup+systemlog@gmail.com","git-deploy Chalet.nl","Deployed ".date("r")."\n\n\n".$hipchat_msg."\n\n\n".$git_output."\n\n\n".$sitecopy_output1."\n\n\n".$sitecopy_output2."\n\n\n".$sitecopy_output3);
 
 		$auth = new OAuth2('WuSNBiog1IjRoijaag5BUaM04r3alQTrjgnlV8O4');
 		$client = new Client($auth);
 		$roomAPI = new RoomAPI($client);
 		$msg = new Message();
-		$msg->setMessage("Auto-notify: production branch has been deployed to web01.chalet.nl and web02.chalet.nl.");
+		$msg->setMessage( $hipchat_msg );
 		$msg->setNotify(true);
 		$msg->setColor("green");
 
 		// id 900265 = GitHub meldingen
 		// id 1502695 = API-test
-		$send = $roomAPI->sendRoomNotification(1502695, $msg);
+		$send = $roomAPI->sendRoomNotification(900265, $msg);
 
 	}
 	sleep(1);
