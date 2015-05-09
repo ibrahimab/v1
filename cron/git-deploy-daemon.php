@@ -37,6 +37,7 @@ use GorkaLaucirica\HipchatAPIv2Client\Client;
 use GorkaLaucirica\HipchatAPIv2Client\API\RoomAPI;
 use GorkaLaucirica\HipchatAPIv2Client\Model\Message;
 
+<<<<<<< HEAD
 $auth = new OAuth2('WuSNBiog1IjRoijaag5BUaM04r3alQTrjgnlV8O4');
 $client = new Client($auth);
 $roomAPI = new RoomAPI($client);
@@ -52,6 +53,8 @@ $send = $roomAPI->sendRoomNotification(1502695, $msg);
 
 exit;
 
+=======
+>>>>>>> 1da1a5e... [CMS-146] first version git-deploy
 touch("/tmp/last-git-deploy");
 // mail("jeroen@webtastic.nl","Chalet-upstart git-deploy","Upstart-script draait om ".date("r"));
 
