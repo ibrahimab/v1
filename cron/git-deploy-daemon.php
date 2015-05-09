@@ -67,10 +67,12 @@ for($i=1; $i<=60; $i++) {
 		$sitecopy_output2 = trim(implode("\n", $sitecopy_output2));
 		$sitecopy_output3 = trim(implode("\n", $sitecopy_output3));
 
+		$git_commit = trim(preg_replace("@^.*HEAD is now at [a-z0-9]+ (.*)$@s", "\\1", $git_output));
+
 		$log1 = preg_replace("@^.*These items have been changed since the last update:(.*)sitecopy: The remote.*$@s", "\\1", $sitecopy_output1);
 		$log1 = trim($log1);
 
-		$hipchat_msg = "Auto-notify: production branch has been deployed to web01 and web02: ".$log1;
+		$hipchat_msg = "Auto-notify: commit \"".$git_commit."\" has been deployed to web01 and web02: ".$log1;
 
 		mail("chaletmailbackup+systemlog@gmail.com","git-deploy Chalet.nl","Deployed ".date("r")."\n\n\n".$hipchat_msg."\n\n\n".$git_output."\n\n\n".$sitecopy_output1."\n\n\n".$sitecopy_output2."\n\n\n".$sitecopy_output3);
 
