@@ -613,21 +613,21 @@ $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_1"]="Beste [NAAM],
 
 Deze winter ben je via [WEBSITE] op wintersport geweest en ben je in de volgende accommodatie verbleven: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
 
-Wij willen je daarom als eerste laten weten dat dit [SOORTACCOMMODATIE], evenals een aantal andere accommodaties, nu al te boeken is voor het volgende winterseizoen.
+Wij willen je daarom als eerste laten weten dat dit [SOORTACCOMMODATIE], evenals een aantal andere accommodaties, nu al te boeken is voor het volgende winterseizoen. Het is belangrijk om te weten deze prijzen voortaan inclusief bijkomende kosten vermeld worden. Bij de prijstabel vind je een overzicht waardoor het in een oogopslag duidelijk is wat de totaalprijs is en kom je achteraf niet voor onaangename verrassingen te staan.
 
 Elk jaar constateren we weer dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.
 
 [b]Klantvoordeel[/b]
 We geven je nu een [b]optie van [OPTIEDAGEN] dagen[/b] in plaats van de gebruikelijke 3-daagse optie, om je de kans te geven rustig met je reisgenoten te overleggen. Via een van de twee onderstaande links kun je gebruik maken van dit voordeel:
 [ul][li][link=[LINK_ACC]]Een vrijblijvende optie van [OPTIEDAGEN] dagen nemen op [ACCOMMODATIENAAM][/link][/li]
-[li][link=[LINK_ALGEMEEN]]Een andere accommodatie zoeken uit ons actuele aanbod voor winter 2014/2015 en te profiteren van de extra lange optie[/link][/li][/ul]
+[li][link=[LINK_ALGEMEEN]]Een andere accommodatie zoeken uit ons actuele aanbod voor winter 2015/2016 en te profiteren van de extra lange optie[/link][/li][/ul]
 Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
 
 Alvast veel vakantie-voorpret toegewenst!
 
 [ondertekening]";
 
-# winter EN
+# winter DE
 $txt["de"]["vars"]["mail_klanten_vorig_seizoen_1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Sie sind diesen Winter über [WEBSITE] in den Wintersporturlaub gefahren und verblieben dabei in folgender Unterkunft: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
@@ -639,12 +639,14 @@ Jedes Jahr stellen wir wieder fest, dass vor allem die großen Unterkünfte sehr b
 [b]Kundenvorteil[/b]
 Wir geben Ihnen jetzt eine [b] Option von [OPTIEDAGEN] Tagen[/b] statt der gewöhnlichen dreitägigen Option, damit Sie zusammen mit Ihren Mitreisenden in aller Ruhe überlegen können. Klicken Sie auf einen der unten stehenden Links um diesen Vorteil zu benutzen:
 [ul][li][link=[LINK_ACC]]Eine unverbindliche Option von [OPTIEDAGEN] Tagen nehmen auf [ACCOMMODATIENAAM][/link][/li]
-[li][link=[LINK_ALGEMEEN]]Eine andere Unterkunft suchen aus unserem aktuellen Angebot für Winter 2014/2015 und den Vorteil der extra langen Option zu nutzen [/link][/li][/ul]
+[li][link=[LINK_ALGEMEEN]]Eine andere Unterkunft suchen aus unserem aktuellen Angebot für Winter 2015/2016 und den Vorteil der extra langen Option zu nutzen [/link][/li][/ul]
 Sie können uns natürlich auch eine [link=[LINK_CONTACT]]E-Mail[/link] mit Ihren Wünschen schreiben.  Lassen Sie sich unverbindlich beraten.
 
 Wir wünschen Ihnen im Voraus viel Urlaubsvorfreude!
 
 [ondertekening]";
+
+# winter EN
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_1"]="Dear [NAAM],
 
 This past winter you went on a winter holiday via [WEBSITE] and you were staying in this accommodation: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
@@ -656,7 +658,7 @@ Every year we notice that the big accommodations are very popular and are booked
 [b]Your advantage[/b]
 We can now give you an [b]option of [OPTIEDAGEN] days[/b] instead of the normal 3-day option, to give you the chance to discuss with fellow travelers. Through one of the two links below you can make use of this advantage:
 [ul][li][link=[LINK_ACC]]A noncommital option of [OPTIEDAGEN] days on [ACCOMMODATIENAAM][/link][/li]
-[li][link=[LINK_ALGEMEEN]]Search for another already available accommodation for the 2014/2015 winter season and take advantage of the same extra long option[/link][/li][/ul]
+[li][link=[LINK_ALGEMEEN]]Search for another already available accommodation for the 2015/2016 winter season and take advantage of the same extra long option[/link][/li][/ul]
 Of course it is also possible to send us your wishes [link=[LINK_CONTACT]]by e-mail[/link]. We will gladly give you proper advice to help you find a fitting accommodation.
 
 We wish you a lot of fun with your search!
@@ -690,7 +692,7 @@ Wir informieren Sie deshalb zuerst, dass diese(s) [SOORTACCOMODATIE], sowie eini
 [b]Kundenvorteil[/b]
 Wir geben Ihnen jetzt eine [b] Option von [OPTIEDAGEN] Tagen[/b] statt der gewöhnlichen dreitägigen Option, damit Sie zusammen mit Ihren Mitreisenden in aller Ruhe überlegen können. Klicken Sie auf einen der unten stehenden Links um diesen Vorteil zu benutzen:
 [ul][li][link=[LINK_ACC]]Eine unverbindliche Option von [OPTIEDAGEN] Tagen nehmen auf [ACCOMMODATIENAAM][/link][/li]
-[li][link=[LINK_ALGEMEEN]]Eine andere Unterkunft suchen aus unserem aktuellen Angebot für Winter 2014/2015 und den Vorteil der extra langen Option zu nutzen [/link][/li][/ul]
+[li][link=[LINK_ALGEMEEN]]Eine andere Unterkunft suchen aus unserem aktuellen Angebot und den Vorteil der extra langen Option zu nutzen [/link][/li][/ul]
 Sie können uns natürlich auch eine [link=[LINK_CONTACT]]E-Mail[/link] mit Ihren Wünschen schreiben.  Lassen Sie sich unverbindlich beraten.
 
 Wir wünschen Ihnen im Voraus viel Urlaubsvorfreude!
@@ -721,12 +723,12 @@ $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]=
 
 Ga jij komend seizoen ook weer op wintersport via [WEBSITE]?
 
-Na je vorige wintersportvakantie heb je aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2014/2015. Daarom nodigen we je hierbij uit om onze accommodaties te bekijken. We hebben weer een mooi aanbod kunnen samenstellen met onder meer veel extra mogelijkheden voor cateringservice.
+Na je vorige wintersportvakantie heb je aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2015/2016. Daarom nodigen we je hierbij uit om onze accommodaties te bekijken. We hebben weer een mooi aanbod kunnen samenstellen met onder meer veel extra mogelijkheden voor cateringservice.
 
 [b]Klantvoordeel[/b]
 Om je de kans te geven rustig met je reisgenoten te overleggen, geven we je als klant nu een [b]extra lange optie[/b] in plaats van de gebruikelijke 3-daagse optie. De lengte van de optie is afhankelijk van de accommodatie en de verblijfsperiode. Via onderstaande link kun je gebruik maken van dit voordeel:
 
-[link=[LINK_ALGEMEEN]]Een accommodatie zoeken voor winter 2014/2015 en profiteren van de extra lange optie.[/link]
+[link=[LINK_ALGEMEEN]]Een accommodatie zoeken voor winter 2015/2016 en profiteren van de extra lange optie.[/link]
 
 Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
 
@@ -739,12 +741,12 @@ $txt["de"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]=
 
 fahren Sie nächste Saison auch wieder in den Wintersporturlaub mit [WEBSITE]?
 
-Nach Ihrem vorigen Wintersporturlaub haben Sie den Wunsch ausgesprochen, von uns informiert zu werden über das Wintersportangebot für Winter 2014/2015. Wir laden Sie deshalb ein, unsere Unterkünfte anzuschauen. Wir haben wieder ein schönes Angebot zusammengestellt mit u.a. vielen extra Möglichkeiten für Catering-Service.
+Nach Ihrem vorigen Wintersporturlaub haben Sie den Wunsch ausgesprochen, von uns informiert zu werden über das Wintersportangebot für Winter 2015/2016. Wir laden Sie deshalb ein, unsere Unterkünfte anzuschauen. Wir haben wieder ein schönes Angebot zusammengestellt mit u.a. vielen extra Möglichkeiten für Catering-Service.
 
 [b]Kundenvorteil[/b]
 Damit Sie zusammen mit Ihren Mitreisenden die Möglichkeit haben, in aller Ruhe überlegen zu können, geben wir Ihnen als Kunden jetzt eine [b]extra lange Option[/b] statt der gewöhnlichen dreitägigen Option. Die Länge der Option ist von der Unterkunft und der Aufenthaltsdauer abhängig. Klicken Sie auf unten stehenden Link um diesen Vorteil zu nutzen:
 
-[link=[LINK_ALGEMEEN]]Eine Unterkunft suchen für Winter 2014/2015 und den Vorteil der extra langen Option nutzen.[/link]
+[link=[LINK_ALGEMEEN]]Eine Unterkunft suchen für Winter 2015/2016 und den Vorteil der extra langen Option nutzen.[/link]
 
 Sie können uns natürlich auch eine [link=[LINK_CONTACT]]E-Mail[/link] mit Ihren Wünschen schreiben.  Lassen Sie sich unverbindlich beraten.
 
@@ -753,14 +755,14 @@ Wir wünschen Ihnen im Voraus viel Urlaubsvorfreude!
 [ondertekening]";
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Dear [NAAM],
 
-This past winter you went on a winter holiday via [WEBSITE]. You let us know that you wanted to be informed about our winter accommodations for the 2014/2015 winter season. That's why we want you to be among the first to know that a big part of our accommodations can now be booked.
+This past winter you went on a winter holiday via [WEBSITE]. You let us know that you wanted to be informed about our winter accommodations for the 2015/2016 winter season. That's why we want you to be among the first to know that a big part of our accommodations can now be booked.
 
 [b]Your advantage[/b]
 Every year we notice that the big accommodations are very popular and are booked early. This is especially true for the Christmas and spring holidays, which are already in high demand. So we recommend you don't wait too long to start your search.
 
 We can now give you an [b]extra long option[/b] instead of the normal 3-day option, to give you the chance to discuss with fellow travelers. The length of the option depends on the accommodation and the period of stay. Through the link below you can make use of this advantage:
 
-[link=[LINK_ALGEMEEN]]Search for an accommodation for the winter 2014/2015 winter season and take advantage of the extra long option[/link]
+[link=[LINK_ALGEMEEN]]Search for an accommodation for the winter 2015/2016 winter season and take advantage of the extra long option[/link]
 
 Of course it is also possible to send us your wishes [link=[LINK_CONTACT]]by e-mail[/link]. We will gladly give you proper advice to help you find a fitting accommodation.
 
@@ -814,7 +816,7 @@ We hope you have fun your search for a good accommodation!
 [ondertekening]";
 
 
-$txt["nl"]["vars"]["newpricesmail_1"] = "Beste geïnteresseerde,\n\nOp [WEBSITE] heb je aangegeven bericht te willen ontvangen zodra de prijzen van [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] voor het winterseizoen van [SEIZOEN] bekend zijn.\n\nBij deze willen we je laten weten dat deze prijzen nu online staan en de accommodatie geboekt kan worden.\n\nElk jaar constateren we dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.\n\nAlvast veel vakantie-voorpret toegewenst!\n\n[ondertekening]";
+$txt["nl"]["vars"]["newpricesmail_1"] = "Beste geïnteresseerde,\n\nOp [WEBSITE] heb je aangegeven bericht te willen ontvangen zodra de prijzen van [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] voor het winterseizoen van [SEIZOEN] bekend zijn.\n\nBij deze willen we je laten weten dat deze prijzen nu online staan en de accommodatie geboekt kan worden. Het is belangrijk om te weten dat deze prijzen voortaan inclusief bijkomende kosten vermeld worden. Bij de prijstabel vind je een overzicht waardoor het in een oogopslag duidelijk is wat de totaalprijs is en kom je achteraf niet voor onaangename verrassingen te staan.\n\nElk jaar constateren we dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.\n\nAlvast veel vakantie-voorpret toegewenst!\n\n[ondertekening]";
 $txt["de"]["vars"]["newpricesmail_1"]="Lieber Interessent,
 
 auf  [WEBSITE] haben Sie den Wunsch ausgesprochen, von uns informiert zu werden sobald die Preise von [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] für die Wintersaison von [SEIZOEN] bekannt sind.
@@ -2859,8 +2861,8 @@ $txt["nl"]["toonaccommodatie"]["geldigheid"]="Geldigheid";
 $txt["de"]["toonaccommodatie"]["geldigheid"]="Gültigkeit";
 $txt["en"]["toonaccommodatie"]["geldigheid"]="Validity";
 
-$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor winter 2014/2015 zijn momenteel nog geen tarieven bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
-$txt["de"]["toonaccommodatie"]["tarievennognietbekend"]="Für den Winter 2014/2015 sind im Moment noch keine Preise bekannt. Bitte [[l1]]kontaktieren[[/l1]] Sie uns für eine Preisindikation. ";
+$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor komende winter zijn momenteel nog geen tarieven bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
+$txt["de"]["toonaccommodatie"]["tarievennognietbekend"]="Für den nächsten Winter sind im Moment noch keine Preise bekannt. Bitte [[l1]]kontaktieren[[/l1]] Sie uns für eine Preisindikation. ";
 $txt["en"]["toonaccommodatie"]["tarievennognietbekend"]="The rates for this accommodation are not yet known. Please [[l1]]contact[[/l1]] us so that we can check the rate for you.";
 
 $txt["nl_z"]["toonaccommodatie"]["tarievennognietbekend"]="De tarieven voor deze accommodatie zijn nog niet bekend. Neem [[l1]]contact[[/l1]] met ons op zodat wij de prijs voor je kunnen nagaan.";
