@@ -37,8 +37,7 @@ if($argv[1]=="cron") {
 			$git_branch = "acceptance-test";
 		}
 
-		// passthru("cd /var/www/chalet.nl/html_test/;git checkout -b ".$git_branch);
-		passthru("cd /var/www/chalet.nl/html_test/;git fetch origin;git checkout ".$git_branch.";git reset --hard origin/".$git_branch);
+		passthru("cd /var/www/chalet.nl/html_test/;git fetch --all;git checkout ".$git_branch.";git reset --hard origin/".$git_branch);
 
 		file_put_contents($current_branch_file, $git_branch);
 	}
@@ -62,8 +61,6 @@ if($argv[1]=="cron") {
 			if( !$current_branch ) {
 				$current_branch = "acceptance-test";
 			}
-
-			// wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false)."\n\nCurrent:".$current_branch);
 
 			if(preg_match("@".$current_branch."$@",$obj["ref"])) {
 				file_put_contents($checkfile, $current_branch);
