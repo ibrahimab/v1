@@ -62,6 +62,7 @@ class DB_Sql {
 
 		if(defined("wt_test") and wt_test===true) {
 			if(defined("wt_db_host")) $GLOBALS["mysqlsettings"]["host"]=wt_db_host;
+			if(defined("wt_db_host")) $GLOBALS["mysqlsettings"]["localhost"]=wt_db_host;
 			if(defined("wt_db_user")) $GLOBALS["mysqlsettings"]["user"]=wt_db_user;
 			if(defined("wt_db_password")) $GLOBALS["mysqlsettings"]["password"]=wt_db_password;
 		}
