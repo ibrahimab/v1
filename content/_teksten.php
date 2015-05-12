@@ -613,7 +613,7 @@ $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_1"]="Beste [NAAM],
 
 Deze winter ben je via [WEBSITE] op wintersport geweest en ben je in de volgende accommodatie verbleven: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
 
-Wij willen je daarom als eerste laten weten dat dit [SOORTACCOMMODATIE], evenals een aantal andere accommodaties, nu al te boeken is voor het volgende winterseizoen. Het is belangrijk om te weten deze prijzen voortaan inclusief bijkomende kosten vermeld worden. Bij de prijstabel vind je een overzicht waardoor het in een oogopslag duidelijk is wat de totaalprijs is en kom je achteraf niet voor onaangename verrassingen te staan.
+Wij willen je daarom als eerste laten weten dat dit [SOORTACCOMMODATIE], evenals een aantal andere accommodaties, nu al te boeken is voor het volgende winterseizoen. Het is belangrijk om te weten dat deze prijzen voortaan inclusief bijkomende kosten vermeld worden. Bij de prijstabel vind je een overzicht waardoor het in een oogopslag duidelijk is wat de totaalprijs is en kom je achteraf niet voor onaangename verrassingen te staan.
 
 Elk jaar constateren we weer dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.
 
