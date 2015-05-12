@@ -42,6 +42,7 @@ $cms->db_field(57,"textarea","toelichting");
 if($vars["cmstaal"]) $cms->db_field(57,"textarea","toelichting_".$vars["cmstaal"]);
 $cms->db_field(57,"yesno","altijd_invullen");
 $cms->db_field(57,"yesno","altijd_diversen");
+$cms->db_field(57,"yesno","altijd_diversen_indien_niet_inclusief");
 $cms->db_field(57,"yesno","prijs_per_nacht");
 $cms->db_field(57,"yesno","borg");
 $cms->db_field(57,"yesno","opgeven_bij_boeken");
@@ -125,6 +126,7 @@ if($vars["cmstaal"]) {
 $cms->edit_field(57,1,"altijd_invullen","Deze kosten moeten bij iedere accommodatie worden ingevuld");
 // $cms->edit_field(57,1,"altijd_diversen","Deze kosten vallen altijd onder het kopje \"Diversen\", behalve wanneer deze onder \"inclusief\" vallen");
 $cms->edit_field(57,1,"altijd_diversen","Deze kosten vallen altijd onder het kopje \"Diversen\"");
+$cms->edit_field(57,1,"altijd_diversen_indien_niet_inclusief","Deze kosten vallen nooit onder het kopje \"Uitbreidingsmogelijkheden\"");
 $cms->edit_field(57,1,"opgeven_bij_boeken","Dit moet door de klant bij boeken worden doorgegeven (alleen actief als iets exclusief en optioneel is)");
 $cms->edit_field(57,0,"eenheden","Te selecteren eenheden", "", "", array("one_per_line"=>true));
 

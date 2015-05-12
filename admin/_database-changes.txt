@@ -3,6 +3,9 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+8-may-2015 22:48
+ALTER TABLE `bk_soort` ADD `altijd_diversen_indien_niet_inclusief` TINYINT(1) NOT NULL AFTER `altijd_diversen`;
+
 8-may-2015 08:44
 ALTER TABLE `diverse_instellingen` ADD `git_branches` TEXT NOT NULL ;
 

@@ -275,9 +275,13 @@ if($db->next_record()) {
 	echo "<img src=\"".imageurl($afbeelding.".jpg",170,127)."\" itemprop=\"image\" alt=\"".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
 	echo "</div>";
 	echo "<div id=\"toonaccommodatie_kopteksten\">";
-	if($aanbieding_actief) {
+	if( $aanbieding_actief ) {
 		echo "<a href=\"#prijsinformatie\" id=\"toonaccommodatie_aanbieding\" title=\"".html("bekijkdeaanbieding","toonaccommodatie")."\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding_klein","toonaccommodatie")."</a>";
 	}
+	if( $accinfo["toonper"]==1 and !$vars["wederverkoop"] ) {
+		echo "<div class=\"toonaccommodatie_skipas".( $aanbieding_actief ? " toonaccommodatie_skipas_en_aanbieding" : "")."\" title=\"".html("inclusiefskipas","toonaccommodatie")."\">".html("incl-skipas","accommodaties")."</div>";
+	}
+
 	if($accinfo["bestelnaam"] and $voorkant_cms) echo "<i>(".wt_he($accinfo["bestelnaam"]).")</i><br>";
 	echo "<h1 itemprop=\"name\">".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</h1>";
 	echo "<h3 style=\"padding-bottom:3px;\">".($db->f("tnaam") ? wt_he($db->f("tnaam")) : "&nbsp;")."</h3>";
@@ -1955,6 +1959,12 @@ if($db->next_record()) {
 							// losse accommodatie
 							$temp_aantalpersonen = ($_GET["ap"] ? $_GET["ap"] : 1);
 							$bk_add_to_price = $bk[$db2->f("type_id")][$db2->f("seizoen_id")][$temp_aantalpersonen];
+
+							// surcharge extra persons (toeslag extra personen)
+							$bk_add_to_price_per_person_per_week = $bijkomendekosten->get_type_from_cache_all_persons_all_weeks($db2->f("type_id"), $vars["seizoentype"]);
+							if( isset( $bk_add_to_price_per_person_per_week[$temp_aantalpersonen][$_GET["d"]] ) ) {
+								$bk_add_to_price += $bk_add_to_price_per_person_per_week[$temp_aantalpersonen][$_GET["d"]];
+							}
 						}
 
 						if($bk_add_to_price>0) {
