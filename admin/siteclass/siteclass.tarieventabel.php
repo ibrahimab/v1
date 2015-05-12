@@ -167,11 +167,11 @@ class tarieventabel {
 		}
 
 		if($this->arrangement) {
-			$totaalbedrag = $this->tarief_zonder_bk[$aantalpersonen][$aankomstdatum] * $aantalpersonen;
+			$totaalbedrag_aleen_acc = $this->tarief_zonder_bk[$aantalpersonen][$aankomstdatum] * $aantalpersonen;
 		} else {
-			$totaalbedrag = $this->tarief_zonder_bk[$aankomstdatum];
+			$totaalbedrag_aleen_acc = $this->tarief_zonder_bk[$aankomstdatum];
 		}
-		$totaalbedrag = $totaalbedrag + $this->tarief_alleen_bk[$aantalpersonen][$aankomstdatum];
+		$totaalbedrag = $totaalbedrag_aleen_acc + $this->tarief_alleen_bk[$aantalpersonen][$aankomstdatum];
 
 		if( $voorkant_cms ) {
 
@@ -221,7 +221,30 @@ class tarieventabel {
 		// book-button
 		$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\">".html("boeknu", "toonaccommodatie")." &raquo;</button>";
 
-		$return .= "<div class=\"tarieventabel_totaalprijs_opmerking1\">".html("totaalprijs-opgebouwd", "tarieventabel")."</div>";
+		if($this->toon_commissie and $this->commissie[$aankomstdatum]>0) {
+
+			// calculate commission
+			$commissie_bedrag = round(($this->commissie[$aankomstdatum]/100) * $totaalbedrag_aleen_acc, 2);
+
+			// show commission
+			$return .= "<div class=\"tarieventabel_totaalprijs_commissie\">";
+			$return .= "<div class=\"tarieventabel_totaalprijs_left\">";
+			$return .= html("wederverkoop_commissie","tarieventabel");
+			$return .= " (".number_format($this->commissie[$aankomstdatum],0,",","")."% x &euro;&nbsp;".number_format($totaalbedrag_aleen_acc, 2, ",", ".").")";
+
+			$return .= ":</div>";
+			$return .= "<span class=\"tarieventabel_totaalprijs_right\">&euro;&nbsp;".number_format($commissie_bedrag, 2, ",", ".")."</span>";
+			$return .= "</div>"; // close .tarieventabel_totaalprijs_commissie
+
+			// link to show/hide commission
+			$return .= "<a href=\"#\" data-default=\"".html("wederverkoop_tooncommissie1","tarieventabel")."\" data-hide=\"".html("wederverkoop_tooncommissie2","tarieventabel")."\" class=\"tarieventabel_totaalprijs_toggle_commissie\">".html("wederverkoop_tooncommissie1","tarieventabel")."</a>";
+
+		}
+
+		$return .= "<div class=\"tarieventabel_totaalprijs_opmerking1\">".html("totaalprijs-opgebouwd", "tarieventabel");
+
+
+		$return .= "</div>";
 		$return .= "<div class=\"tarieventabel_totaalprijs_opmerking2\">".html("klik-op-datum-personen", "tarieventabel")."</div>";
 
 		$return .= "</div>"; // close .tarieventabel_totaalprijs
@@ -1911,6 +1934,13 @@ class tarieventabel {
 									// round with ceil()
 									$this->tarief[$key][$db->f("week")] = ceil($this->tarief[$key][$db->f("week")]);
 
+									// commissie
+									if($this->tarief[$key][$db->f("week")]>0) {
+										$this->commissie[$db->f("week")] = $db->f("wederverkoop_commissie_agent");
+										if($vars["chalettour_aanpassing_commissie"]) {
+											$this->commissie[$db->f("week")] = $this->commissie[$db->f("week")] + $vars["chalettour_aanpassing_commissie"];
+										}
+									}
 								}
 							}
 						} else {
@@ -1925,15 +1955,15 @@ class tarieventabel {
 								$this->tarief[$db->f("week")] = ceil($this->tarief[$db->f("week")]);
 							}
 
-
+							// commissie
 							if($this->tarief[$db->f("week")]>0) {
-								// $tarieventabel_tonen[$db->f("week")]=1;
 								$this->commissie[$db->f("week")]=$db->f("wederverkoop_commissie_agent");
 								if($vars["chalettour_aanpassing_commissie"]) {
 									$this->commissie[$db->f("week")]=$this->commissie[$db->f("week")]+$vars["chalettour_aanpassing_commissie"];
 								}
 							}
 						}
+
 
 						// Voorraad bepalen t.b.v. ingelogde reisbureaus
 						// 1 = beschikbaar (groen), 2 = op aanvraag (licht oranje), 3 = niet beschikbaar (grijs)

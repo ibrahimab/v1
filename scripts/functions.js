@@ -2344,6 +2344,33 @@ $(document).ready(function() {
 
 			});
 
+
+			// tarieventabel: meer/minder personen tonen
+			$(document).on("click", "a.tarieventabel_totaalprijs_toggle_commissie", function(event) {
+
+				event.preventDefault();
+
+				var deze=$(this);
+
+				if ( $(".tarieventabel_totaalprijs_commissie").is(":visible") ) {
+
+					// close
+					$(".tarieventabel_totaalprijs_commissie").slideUp("normal", function(){
+						deze.html(deze.data("default"));
+					});
+
+				} else {
+
+					// open
+					$(".tarieventabel_totaalprijs_commissie").slideDown("normal", function(){
+						deze.html(deze.data("hide"));
+					});
+				}
+
+				return false;
+
+			});
+
 			// tarieventabel: te verbergen tr's verbergen (laag aantal personen/commissie bij reisagent)
 			$(".tarieventabel_verbergen").hide();
 

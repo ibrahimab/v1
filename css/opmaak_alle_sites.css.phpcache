@@ -3072,6 +3072,17 @@ nieuwe tarieventabel
 	border: 1px solid #003366;
 }
 
+.tarieventabel_totaalprijs_commissie {
+	font-weight: normal;
+	display: none;
+}
+
+.tarieventabel_totaalprijs_toggle_commissie {
+	margin:0;
+	display: block;
+	font-weight: normal;
+}
+
 .tarieventabel_totaalprijs_specificatie {
 	display: inline-block;
 	background: url("../pic/information_icon_with_padding.png") top left no-repeat;

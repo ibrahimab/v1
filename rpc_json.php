@@ -727,6 +727,11 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	$tarieventabel_object->type_id=$_GET["type_id"];
 	$tarieventabel_object->seizoen_id=$_GET["seizoen_id_inquery"];
 
+	// commissie tonen aan reisagenten?
+	if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_commissie_inzien"]) or ($voorkant_cms and $_COOKIE["loginuser"]["chalet"]<>15 and $_COOKIE["loginuser"]["chalet"]<>26))) {
+		$tarieventabel_object->toon_commissie = true;
+	}
+
 	$return["html"]=$tarieventabel_object->info_totaalprijs($_GET["ap"], $_GET["d"]);
 
 } elseif($_GET["t"]=="get_content_tarieventabel_totaalprijs_specificatie_popup") {
