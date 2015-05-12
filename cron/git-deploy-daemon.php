@@ -38,7 +38,6 @@ use GorkaLaucirica\HipchatAPIv2Client\API\RoomAPI;
 use GorkaLaucirica\HipchatAPIv2Client\Model\Message;
 
 touch("/tmp/last-git-deploy");
-// mail("jeroen@webtastic.nl","Chalet-upstart git-deploy","Upstart-script draait om ".date("r"));
 
 $unixdir = dirname(dirname(__FILE__)) . "/";
 
@@ -72,7 +71,7 @@ for($i=1; $i<=60; $i++) {
 		$log1 = preg_replace("@^.*These items have been changed since the last update:(.*)sitecopy: The remote.*$@s", "\\1", $sitecopy_output1);
 		$log1 = trim($log1);
 
-		$hipchat_msg = "Auto-notify: commit \"".$git_commit."\" has been deployed to web01 and web02: ".$log1;
+		$hipchat_msg = "Auto-notify: pushed production-commit(s) deployed to web01 and web02. Changed files: ".$log1;
 
 		mail("chaletmailbackup+systemlog@gmail.com","git-deploy Chalet.nl","Deployed ".date("r")."\n\n\n".$hipchat_msg."\n\n\n".$git_output."\n\n\n".$sitecopy_output1."\n\n\n".$sitecopy_output2."\n\n\n".$sitecopy_output3);
 
