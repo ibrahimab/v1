@@ -38,7 +38,7 @@ if($_GET["referer"] and !preg_match("/scrolly/",$_SERVER["REQUEST_URI"]) and !pr
 #$vars["verberg_linkerkolom"]=true;
 
 # Google Maps: zoeken op kaart
-if($vars["websitetype"]==3 or $vars["websitetype"]==7) {
+if(!$isMobile and ($vars["websitetype"]==3 or $vars["websitetype"]==7)) {
 	$vars["googlemaps"]=true;
 	$vars["zoeken_op_kaart"]=true;
 }
