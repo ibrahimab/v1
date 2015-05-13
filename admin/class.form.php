@@ -666,6 +666,10 @@ class form2 {
 		$this->newfield("upload","upload",$obl,$id,$title,$db,$prevalue,$options,$layout);
 	}
 
+	function field_mongodb_upload($obl, $id, $title, $options) {
+		$this->newfield('mongodb_upload', 'mongodb_upload', $obl, $id, $title, '', '', $options, '');
+	}
+
 	function field_url($obl,$id,$title,$db="",$prevalue="",$options="",$layout="") {
 		$this->newfield("text","url",$obl,$id,$title,$db,$prevalue,$options,$layout);
 	}
@@ -1476,6 +1480,79 @@ class form2 {
 					}
 				}
 			}
+
+		} elseif ($this->fields['type'][$id] === 'mongodb_upload') {
+
+			/**
+			 * This is a new form class type called 'mongodb_upload'
+			 *
+			 * This allows one to upload files to mongodb using just one required options (collection)
+			 * If you also provide a file_id, the files will be grouped by this ID.
+			 * If you don't, the form class will update the uploaded files with the db_insert_id when known.
+			 */
+
+			$mongodb  	 = $vars['mongodb']['wrapper'];
+			$fileId		 = $this->fields['options'][$id]['file_id'];
+			$collection  = $this->fields['options'][$id]['collection'];
+			$collections = array_flip($vars['mongodb']['collections']);
+			$limit       = $this->fields['options'][$id]['limit'];
+			$count 	  	 = $mongodb->countFiles($collection, $fileId);
+
+			if ($count > 0) {
+
+				$template = '<div class="image-grid-3">
+								<img src="' . $vars['path'] . 'gridfs.php?c=' . $collections[$collection] . '&fid=' . $fileId . '&r={rank}" />
+						 	 </div>';
+
+				$return .= '<div class="image-grid">';
+
+				for ($i = 1; $i <= $count; $i++) {
+					$return .= str_replace('{rank}', $i, $template);
+				}
+
+				$return .= '</div>';
+			}
+
+			$return .= '<input type="file" name="input[' . $id . '][]" class="wtform_input_narrow"';
+
+			if ($this->fields['options'][$id]['must_be_filetype'] === 'jpg') {
+				$return .= ' accept="image/jpeg"';
+			} elseif ($this->fields['options'][$id]['accept_element']) {
+				$return .= ' accept="' . $this->fields['options'][$id]['accept_element'] . '"';
+			}
+
+			if ($limit > 1) {
+				$return .= ' multiple="multiple"';
+			}
+
+			$return .= ' />';
+
+			if (!$this->fields['layout'][$id]['hide_imginfo']) {
+
+				if (($this->fields['options'][$id]['img_ratio_width'] and $this->fields['options'][$id]['img_ratio_height']) or ($this->fields['options'][$id]['img_width'] and $this->fields['options'][$id]['img_height']) or $this->fields['options'][$id]['showfiletype']) {
+
+					$return .= '<span class="wtform_small">&nbsp;(';
+					if ($this->fields['options'][$id]['showfiletype']) {
+
+						$return .= $this->message('showfiletype', '', array(1 => $this->fields['options'][$id]['must_be_filetype']));
+						$spatie  = true;
+					}
+
+					if ($this->fields['options'][$id]['img_ratio_width'] and $this->fields['options'][$id]['img_ratio_height']) {
+
+						if ($spatie) $return .= ' ';
+						$return .= $this->message('imgsize_ratio', '', array(1 => $this->fields['options'][$id]['img_ratio_width'], 2 => $this->fields['options'][$id]['img_ratio_height']));
+
+					} elseif ($this->fields['options'][$id]['img_width'] and $this->fields['options'][$id]['img_height']) {
+
+						if ($spatie) $return .= ' ';
+						$return .= $this->message('imgsize_size', '', array(1 => $this->fields['options'][$id]['img_width'], 2 => $this->fields['options'][$id]['img_height']));
+					}
+
+					$return .= ')</span>';
+				}
+			}
+
 		} elseif($this->fields["type"][$id]=="yesno") {
 			# Yesno
 			if(!$this->filled) {
@@ -2422,6 +2499,58 @@ class form2 {
 					if($this->file_uploaded[$key]) {
 						$this->outputtable_cell[$key]=$this->message("zie_attachment");
 					}
+
+				} elseif ($value === 'mongodb_upload') {
+
+					/**
+					 * Processing mongodb uploads
+					 *
+					 * This section processes the selected files to be uploaded
+					 * to mongodb. It also keeps track of the files uploaded in case
+					 * a file_id is not provided in the options so the form class will
+					 * update these files with the correct one once it has been generated.
+					 *
+					 * It will ignore all uploads once it exceeded the provided limit and shows
+					 * an error.
+					 */
+					$files = $_FILES['input']['tmp_name'][$key];
+					if (is_array($files)) {
+
+						$limit   	        = $this->fields['options'][$key]['limit'];
+						$collection         = $this->fields['options'][$key]['collection'];
+						$fileId		        = $this->fields['options'][$key]['file_id'];
+						$mongodb 	        = $vars['mongodb']['wrapper'];
+						$maxRank 	        = $mongodb->maxRank($collection, $fileId);
+						$this->mongo_upload = [$key => []];
+
+						if ($maxRank < $limit) {
+
+							foreach ($files as $i => $file) {
+
+								if (!$file) {
+									continue;
+								}
+
+								$id = $mongodb->storeFile($collection, $file, [
+
+									'file_id'  => intval($fileId),
+									'rank'	   => ++$maxRank,
+									'filename' => $_FILES['input']['name'][$key][$i]
+								]);
+
+								$this->mongo_upload[$key][$i] = $id;
+
+								if ($maxRank === $limit) {
+									break;
+								}
+							}
+
+						} else {
+
+							$this->error[$key] = 'U heeft al ' . $limit . ' hoofdafbeeldingen. Verwijder eerst een afbeelding voordat u een ander kunt uploaden';
+						}
+					}
+
 				} elseif($value=="url") {
 					if($this->value[$key]=="http://") $this->value[$key]="";
 					# Trailing slash toevoegen
@@ -2755,6 +2884,22 @@ class form2 {
 								}
 							}
 							$d->close();
+						}
+					}
+				}
+
+				/**
+				 * This part will update the mongodb entries when new item has been added (unknown id when uploaded)
+				 * to the now known id.
+				 */
+				if (is_array($this->mongo_upload) && count($this->mongo_upload) > 0 && $this->db_insert_id) {
+
+					$mongodb = $vars['mongodb']['wrapper'];
+					foreach ($this->mongo_upload as $key => $files) {
+
+						$collection = $this->fields['options'][$key]['collection'];
+						foreach ($files as $i => $id) {
+							$file = $mongodb->updateFileId($collection, $id, $this->db_insert_id);
 						}
 					}
 				}

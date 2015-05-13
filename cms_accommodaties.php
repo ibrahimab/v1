@@ -304,7 +304,7 @@ $cms->db_field(1,"integer","optiedagen_klanten_vorig_seizoen","","",array("text"
 $cms->db_field(1,"text","gps_lat");
 $cms->db_field(1,"text","gps_long");
 
-$cms->db_field(1,"picture","picgroot","",array("savelocation"=>"pic/cms/accommodaties/","filetype"=>"jpg"));
+$cms->db_field(1,"mongodb_picture","picgroot","",array("savelocation"=>"pic/cms/accommodaties/","filetype"=>"jpg"));
 $cms->db_field(1,"picture","hoofdfoto_accommodatie","",array("savelocation"=>"pic/cms/hoofdfoto_accommodatie/","filetype"=>"jpg"));
 #$cms->db_field(1,"picture","picklein","",array("savelocation"=>"pic/cms/accommodaties_tn/","filetype"=>"jpg"));
 $cms->db_field(1,"picture","picaanvullend","",array("savelocation"=>"pic/cms/accommodaties_aanvullend/","filetype"=>"jpg","multiple"=>true));
@@ -604,7 +604,7 @@ if($_GET["wzt"]==1) {
 $cms->edit_field(1,0,"htmlrow","<hr><b id=\"images\">Afbeeldingen</b><br><i>Afbeeldingen kunnen in groot formaat worden ge&uuml;pload; het systeem zet ze om naar de juiste afmetingen. De verhouding moet wel altijd 4:3 zijn.</i>");
 #$cms->edit_field(1,0,"picgroot","Grote hoofdafbeelding","",array("img_width"=>"240","img_height"=>"180"));
 #$cms->edit_field(1,0,"picklein","Kleine hoofdafbeelding","",array("img_width"=>"60","img_height"=>"45"));
-$cms->edit_field(1,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));
+$cms->edit_field(1,0,'picgroot', 'Hoofdafbeelding', '', array('collection' => 'accommodations.large', 'file_id' => $_GET['1k0'], 'limit' => 3, 'img_minwidth' => 240, 'img_minheight' => 180, 'img_ratio_width' => 4, 'img_ratio_height' => 3));
 $cms->edit_field(1,0,"hoofdfoto_accommodatie","Hoofdafbeelding (groot formaat; wordt nu nog niet gebruikt)","",array("img_minwidth"=>"600","img_minheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3"),array("info"=>"Upload de foto in een zo groot mogelijk formaat. Deze foto wordt nu nog niet gebruikt. Pas zodra veel hoofdfoto's in groot formaat beschikbaar zijn, wordt er naar deze versie overgestapt."));
 $cms->edit_field(1,0,"picaanvullend","Aanvullende afbeelding(en)","",array("autoresize"=>false,"img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
 $cms->edit_field(1,0,"picaanvullendonderaan","Aanvullende afbeelding(en) (komen onderaan)","",array("autoresize"=>false,"img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
