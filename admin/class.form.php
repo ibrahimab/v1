@@ -1496,21 +1496,31 @@ class form2 {
 			$collection  = $this->fields['options'][$id]['collection'];
 			$collections = array_flip($vars['mongodb']['collections']);
 			$limit       = $this->fields['options'][$id]['limit'];
-			$count 	  	 = $mongodb->countFiles($collection, $fileId);
 
-			if ($count > 0) {
+			if (intval($fileId) > 0) {
 
-				$template = '<div class="image-grid-3">
-								<img src="' . $vars['path'] . 'gridfs.php?c=' . $collections[$collection] . '&fid=' . $fileId . '&r={rank}" />
-						 	 </div>';
+				$files = $mongodb->getFiles($collection, $fileId);
 
-				$return .= '<div class="image-grid">';
+				if ($files > 0) {
 
-				for ($i = 1; $i <= $count; $i++) {
-					$return .= str_replace('{rank}', $i, $template);
+					$template = '<div class="image-grid-3">
+									<img src="' . $vars['path'] . 'gridfs.php?c={collection}&fid={fileId}&r={rank}" /> <br />
+									<input type="checkbox" name="delete_mongodb[{id}][{_id}]" /> afbeelding wissen <br />
+									volgorde: <input type="text" name="rank_mongodb[{id}][{_id}]" value="{rank}" style="width: 40px;" /> <br />
+									label: <input type="text" name="label_mongodb[{id}][{_id}]" value="{label}" style="width: 170px;" />
+							 	 </div>';
+
+					$return .= '<div class="image-grid">';
+
+					foreach ($files as $file) {
+
+						$return .= str_replace(['{collection}', '{fileId}', '{id}', '{rank}', '{label}', '{_id}'],
+											   [$collections[$collection], $fileId, $id, $file['metadata']['rank'], $file['metadata']['label'], $file['_id']],
+											   $template);
+					}
+
+					$return .= '</div>';
 				}
-
-				$return .= '</div>';
 			}
 
 			$return .= '<input type="file" name="input[' . $id . '][]" class="wtform_input_narrow"';
@@ -2523,31 +2533,33 @@ class form2 {
 						$maxRank 	        = $mongodb->maxRank($collection, $fileId);
 						$this->mongo_upload = [$key => []];
 
-						if ($maxRank < $limit) {
+						foreach ($files as $i => $file) {
 
-							foreach ($files as $i => $file) {
-
-								if (!$file) {
-									continue;
-								}
-
-								$id = $mongodb->storeFile($collection, $file, [
-
-									'file_id'  => intval($fileId),
-									'rank'	   => ++$maxRank,
-									'filename' => $_FILES['input']['name'][$key][$i]
-								]);
-
-								$this->mongo_upload[$key][$i] = $id;
-
-								if ($maxRank === $limit) {
-									break;
-								}
+							if (!$file) {
+								continue;
 							}
 
-						} else {
+							if ($maxRank >= $limit) {
 
-							$this->error[$key] = 'U heeft al ' . $limit . ' hoofdafbeeldingen. Verwijder eerst een afbeelding voordat u een ander kunt uploaden';
+								$this->error[$key] = 'U heeft al ' . $limit . ' hoofdafbeeldingen. Verwijder eerst een afbeelding voordat u een ander kunt uploaden';
+								break;
+							}
+
+							list($width, $height) = getimagesize($file);
+							$id = $mongodb->storeFile($collection, $file, [
+
+								'file_id'  => intval($fileId),
+								'rank'	   => ++$maxRank,
+								'filename' => $_FILES['input']['name'][$key][$i],
+								'width'    => $width,
+								'height'   => $height,
+							]);
+
+							$this->mongo_upload[$key][$i] = $id;
+
+							if ($maxRank === $limit) {
+								break;
+							}
 						}
 					}
 
@@ -2782,6 +2794,18 @@ class form2 {
 								$this->deleted_images[$temp["filename"]]=true;
 							}
 						}
+					}
+				}
+			}
+
+			if (isset($_POST['delete_mongodb'])) {
+
+				$mongodb = $vars['mongodb']['wrapper'];
+				foreach ($_POST['delete_mongodb'] as $key => $files) {
+
+					$collection = $this->fields['options'][$key]['collection'];
+					foreach ($files as $_id => $val) {
+						$mongodb->removeFile($collection, $_id);
 					}
 				}
 			}

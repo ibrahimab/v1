@@ -28,10 +28,10 @@ class MongoWrapper
 
 	public function getFiles($collectionName, $fileId)
 	{
-		$db     = $this->mongodb->files;
-		$gridfs = $db->getGridFS($collectionName);
+		$db     	= $this->mongodb->files;
+		$collection = $db->{$collectionName . '.files'};
 
-		return $gridfs->find(['metadata.file_id' => intval($fileId)]);
+		return $collection->find(['metadata.file_id' => intval($fileId)]);
 	}
 
 	public function getFile($collectionName, $fileId, $rank)
@@ -84,6 +84,14 @@ class MongoWrapper
 		$db 	= $this->mongodb->files;
 		$gridfs = $db->getGridFS($collectionName);
 
-		return $gridfs->update(['_id' => $gridFSId], ['$set' => ['metadata.file_id' => $fileId]]);
+		return $gridfs->update(['_id' => new MongoId($gridFSId)], ['$set' => ['metadata.file_id' => $fileId]]);
+	}
+
+	public function removeFile($collectionName, $gridFSId)
+	{
+		$db 	= $this->mongodb->files;
+		$gridfs = $db->getGridFS($collectionName);
+
+		return $gridfs->remove(['_id' => new MongoId($gridFSId)]);
 	}
 }
