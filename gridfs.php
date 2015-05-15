@@ -11,3 +11,9 @@ $file    = $mongodb->getFile($vars['mongodb']['collections'][$_GET['c']], $_GET[
 header('Content-Type: image/jpg');
 echo $file->getBytes();
 exit;
+
+/**
+ * - Caching
+ * - eTag/Last Modified (browser caching)
+ * - GET size params
+ */
