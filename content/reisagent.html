@@ -4,9 +4,6 @@ if($login_rb->logged_in) {
 	echo html("ubentingelogd","reisbureau");
 
 	echo "<br>&nbsp;<ul>";
-	if($vars["taal"]=="nl") {
-		echo "<li><span class=\"gekleurdetekst\" style=\"font-weight:bold;\">Nieuws:</span> <a href=\"".$vars["path"]."reisagent_nieuws.php\">Nieuwe functie: onze informatie met jouw logo!</a></li>";
-	}
 	echo "<li><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php\">".html("accommodatieboeken","reisbureau")."</a></li>";
 	echo "<li><a href=\"".$vars["path"]."reisagent_overzicht.php\">".html("overzichtboekingen","reisbureau")."</a></li>";
 	echo "<li><a href=\"".$vars["path"]."reisagent_overzicht.php?calculations=1\">".html("overzichtprijsberekeningen","reisbureau")."</a></li>";
