@@ -5,7 +5,7 @@ include 'admin/vars.php';
 // $_GET['c']   = collection shortcut name
 // $_GET['fid'] = file id in meta data
 // $_GET['r']   = rank of file
-$mongodb = new MongoWrapper();
+$mongodb = $vars['mongodb']['wrapper'];
 $file    = $mongodb->getFile($vars['mongodb']['collections'][$_GET['c']], $_GET['fid'], $_GET['r']);
 
 header('Content-Type: image/jpg');

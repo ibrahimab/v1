@@ -9,9 +9,9 @@ class MongoWrapper
 {
 	protected $mongodb;
 
-	public function __construct()
+	public function __construct($server)
 	{
-		$this->mongodb = new MongoClient();
+		$this->mongodb = new MongoClient($server);
 	}
 
 	public function storeFile($collectionName, $tmpFile, $metaData)
