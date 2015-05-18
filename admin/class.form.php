@@ -1503,20 +1503,46 @@ class form2 {
 
 				if ($files > 0) {
 
-					$template = '<div class="image-grid-3">
-									<img src="' . $vars['path'] . 'gridfs.php?c={collection}&fid={fileId}&r={rank}" /> <br />
-									<input type="checkbox" name="delete_mongodb[{id}][{_id}]" /> afbeelding wissen <br />
-									volgorde: <input type="text" name="rank_mongodb[{id}][{_id}]" value="{rank}" style="width: 40px;" /> <br />
-									label: <input type="text" name="label_mongodb[{id}][{_id}]" value="{label}" style="width: 170px;" />
-							 	 </div>';
+					$template  = '<div class="image-grid-3">
+							   		<img src="' . $vars['path'] . 'gridfs.php?c={collection}&fid={fileId}&r={rank}" /> <br />
+							   		<input type="checkbox" name="delete_mongodb[{id}][{_id}]" /> afbeelding wissen <br />
+							   		volgorde: <input type="text" name="rank_mongodb[{id}][{_id}]" value="{rankField}" style="width: 40px;" /> <br />
+							   		label: <input type="text" name="label_mongodb[{id}][{_id}]" value="{label}" style="width: 170px;" /> <br />
+							   	 ';
+
+					if (isset($this->fields['options'][$id]['kinds'])) {
+
+						$template .= 'soort: <select name="kind_mongodb[{id}][{_id}]">';
+						foreach ($this->fields['options'][$id]['kinds'] as $identifier => $title) {
+							$template .= '<option value="' . $identifier . '"{' . $identifier . 'KindSelected}>' . $title . '</option>';
+						}
+
+						$template .= '</select>';
+					}
+
+					$template .= '</div>';
 
 					$return .= '<div class="image-grid">';
 
 					foreach ($files as $file) {
 
-						$return .= str_replace(['{collection}', '{fileId}', '{id}', '{rank}', '{label}', '{_id}'],
-											   [$collections[$collection], $fileId, $id, $file['metadata']['rank'], $file['metadata']['label'], $file['_id']],
-											   $template);
+						$image = str_replace(['{collection}', '{fileId}', '{id}', '{rank}', '{rankField}', '{label}', '{_id}'],
+						  				     [$collections[$collection], $fileId, $id, $file['metadata']['rank'], ($rank += 10), $file['metadata']['label'], $file['_id']],
+											 $template);
+
+						if (isset($this->fields['options'][$id]['kinds'])) {
+
+							foreach ($this->fields['options'][$id]['kinds'] as $identifier => $title) {
+
+								if ($file['metadata']['kind'] === $identifier) {
+									$image = str_replace('{' . $identifier . 'KindSelected}', ' selected="selected"', $image);
+								} else {
+									$image = str_replace('{' . $identifier . 'KindSelected}', '', $image);
+								}
+							}
+						}
+
+						$return .= $image;
 					}
 
 					$return .= '</div>';
@@ -2529,6 +2555,21 @@ class form2 {
 						$limit   	        = $this->fields['options'][$key]['limit'];
 						$collection         = $this->fields['options'][$key]['collection'];
 						$fileId		        = $this->fields['options'][$key]['file_id'];
+						$sizeOptions		= [];
+
+						if ($this->fields['options'])
+						$sizeOptions		= [
+
+							'width'       => $this->fields['options'][$key]['img_width'],
+							'height'      => $this->fields['options'][$key]['img_height'],
+							'max_width'	  => $this->fields['options'][$key]['img_maxwidth'],
+							'max_height'  => $this->fields['options'][$key]['img_maxheight'],
+							'min_width'   => $this->fields['options'][$key]['img_minwidth'],
+							'min_height'  => $this->fields['options'][$key]['img_minheight'],
+							'ratio_width' => $this->fields['options'][$key]['img_ratio_width'],
+							'ratio_width' => $this->fields['options'][$key]['img_ratio_height'],
+						];
+
 						$mongodb 	        = $vars['mongodb']['wrapper'];
 						$maxRank 	        = $mongodb->maxRank($collection, $fileId);
 						$this->mongo_upload = [$key => []];
@@ -2539,18 +2580,14 @@ class form2 {
 								continue;
 							}
 
-							if ($maxRank >= $limit) {
-
-								$this->error[$key] = 'U heeft al ' . $limit . ' hoofdafbeeldingen. Verwijder eerst een afbeelding voordat u een ander kunt uploaden';
-								break;
-							}
-
 							list($width, $height) = getimagesize($file);
+
 							$id = $mongodb->storeFile($collection, $file, [
 
 								'file_id'  => intval($fileId),
 								'rank'	   => ++$maxRank,
 								'filename' => $_FILES['input']['name'][$key][$i],
+								'kind'	   => $this->fields['options'][$key]['default_kind'],
 								'width'    => $width,
 								'height'   => $height,
 							]);
@@ -2848,6 +2885,64 @@ class form2 {
 							}
 						}
 					}
+				}
+			}
+
+			if (isset($_POST['kind_mongodb'])) {
+
+				$mongodb = $vars['mongodb']['wrapper'];
+				foreach ($_POST['kind_mongodb'] as $key => $kinds) {
+
+					$collection = $this->fields['options'][$key]['collection'];
+					$bulk		= $mongodb->getBulkUpdater($collection);
+
+					foreach ($kinds as $_id => $kind) {
+
+						$bulk->add(['q' => ['_id'  => new MongoId($_id)],
+									'u' => ['$set' => ['metadata.kind' => $kind]]]);
+					}
+
+					$bulk->execute();
+				}
+			}
+
+			if (isset($_POST['label_mongodb'])) {
+
+				$mongodb = $vars['mongodb']['wrapper'];
+				foreach ($_POST['label_mongodb'] as $key => $labels) {
+
+					$collection = $this->fields['options'][$key]['collection'];
+					$bulk		= $mongodb->getBulkUpdater($collection);
+					foreach ($labels as $_id => $label) {
+
+						$bulk->add(['q' => ['_id'  => new MongoId($_id)],
+									'u' => ['$set' => ['metadata.label' => $label]]]);
+					}
+
+					$bulk->execute();
+				}
+			}
+
+			if (isset($_POST['rank_mongodb'])) {
+
+				$mongodb = $vars['mongodb']['wrapper'];
+
+				foreach ($_POST['rank_mongodb'] as $key => $ranks) {
+
+					// sorting
+					asort($ranks, SORT_NUMERIC);
+
+					$i			  = 1;
+					$collection   = $this->fields['options'][$key]['collection'];
+					$bulk		  = $mongodb->getBulkUpdater($collection);
+
+					foreach ($ranks as $_id => $rank) {
+
+						$bulk->add(['q' => ['_id'  => new MongoId($_id)],
+									'u' => ['$set' => ['metadata.rank' => $i++]]]);
+					}
+
+					$bulk->execute();
 				}
 			}
 

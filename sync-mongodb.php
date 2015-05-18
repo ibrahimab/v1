@@ -14,118 +14,83 @@ function dump()
  * Connecting to MongoDB
  */
 $mongodb    = new MongoClient();
-$db         = $mongodb->chalet_files;
+$db         = $mongodb->files;
 
-$directories = [
+$transfers = [
 
-    [
-        'old' => 'accommodaties',
-        'new' => 'accommodations.big',
-    ],
+	[
+		'collection'  => 'accommodations',
+		'directories' => [
 
-    [
-        'old' => 'hoofdfoto_accommodatie',
-        'new' => 'accommodations.large',
-    ],
-
-    [
-        'old' => 'accommodaties_aanvullend',
-        'new' => 'accommodations.additional',
-    ],
-
-    [
-        'old' => 'accommodaties_aanvullend_onderaan',
-        'new' => 'accommodations.additional.down',
-    ],
-
-    [
-        'old' => 'accommodaties_aanvullend_breed',
-        'new' => 'accommodations.additional.large',
-    ],
-
-    [
-        'old' => 'types',
-        'new' => 'types.additional',
-    ],
-
-    [
-        'old' => 'types_breed',
-        'new' => 'types.additional.large',
-    ],
-
-    [
-        'old' => 'types_specifiek',
-        'new' => 'types.big',
-    ],
-
-    [
-        'old' => 'hoofdfoto_type',
-        'new' => 'types.large',
-    ],
-
-    [
-        'old' => 'types_specifiek_tn',
-        'new' => 'types.tiny',
-    ],
-
-    [
-        'old' => 'plaatsen',
-        'new' => 'places.normal',
-    ],
-
-    [
-        'old' => 'plaatsen_breed',
-        'new' => 'places.big',
-    ],
-
-    [
-        'old' => 'plaatsen_landkaarten',
-        'new' => 'places.maps',
-    ],
+			[
+				'name' => 'accommodaties',
+				'kind' => 'main',
+				'rank' => false,
+			],
+			[
+				'name' => 'hoofdfoto_accommodatie',
+				'kind' => 'main',
+				'rank' => false,
+			],
+			[
+				'name' => 'accommodaties_aanvullend',
+				'kind' => 'additional',
+				'rank' => true,
+			],
+			[
+				'name' => 'accommodaties_aanvullend_onderaan',
+				'kind' => 'additional-below',
+				'rank' => true,
+			],
+			[
+				'name' => 'accommodaties_aanvullend_breed',
+				'kind' => 'additional',
+				'rank' => true,
+			],
+	],
 ];
 
 $do = [];
-foreach ($directories as $directory) {
+foreach ($transfers as $transfer) {
 
-    if (false === in_array($directory['new'], $do)) {
-        continue;
-    }
+    $gridfs = $db->getGridFS($transfer['collection']);
 
-    $grid              = $db->getGridFS($directory['new']);
-    $directoryIterator = new RecursiveDirectoryIterator('pic/cms/' . $directory['old']);
-    $iterator          = new RecursiveIteratorIterator($directoryIterator);
-    $regexIterator     = new RegexIterator($iterator, '/^.+\.jpg$/i', RecursiveRegexIterator::GET_MATCH);
+	foreach ($transfer['directories'] as $directory) {
 
-    if (iterator_count($regexIterator) > 0) {
+	    $directoryIterator = new RecursiveDirectoryIterator('/var/www/chalet.nl/html/pic/cms/' . $directory['name']);
+	    $iterator          = new RecursiveIteratorIterator($directoryIterator);
+	    $regexIterator     = new RegexIterator($iterator, '/^.+\.jpg$/i', RecursiveRegexIterator::GET_MATCH);
 
-        $i = 0;
-        foreach ($regexIterator as $file) {
+	    if (iterator_count($regexIterator) > 0) {
 
-            $pathinfo        = pathinfo($file[0]);
-            list($id, $rank) = explode('-', $pathinfo['filename']);
+	        foreach ($regexIterator as $file) {
 
-            $grid->storeFile($file[0], [
+	            $pathinfo 			  = pathinfo($file[0]);
+				list($width, $height) = getimagesize($file[0]);
 
-                'metadata' => [
+				if (true === $directory['rank']) {
 
-                    'id'         => intval($id),
-                    'rank'       => (null === $rank ? 1 : intval($rank)),
-                    'created_at' => new MongoDate(),
-                ],
-            ]);
-        }
-    }
+					list($id, $rank) = explode('-', $pathinfo['filename']);
+
+				} else {
+
+					$id   = $pathinfo['filename'];
+					$rank = 1;
+				}
+
+	            $gridfs->storeFile($file[0], [
+
+	                'metadata' => [
+
+	                    'file_id'  => intval($id),
+	                    'rank'     => intval($rank),
+						'filename' => $pathinfo['filename'] . '.' . $pathinfo['extension'],
+						'kind'	   => $directory['kind'],
+						'width'    => $width,
+						'height'   => $height,
+	                ],
+	            ]);
+	        }
+	    }
+	}
 }
-
-$grid   = $db->getGridFS('places.normal');
-// $cursor = $grid->find();
-// $cursor->next();// $cursor->next();$cursor->next();$cursor->next();$cursor->next();$cursor->next();$cursor->next();$cursor->next();
-$image  = $grid->findOne();
-// $image  = $grid->findOne(['metadata.id' => 1]);
-// $image = $cursor->current();
-//dump($image);exit;
-header('Content-type: image/jpg');
-echo $image->getBytes();
-
-$mongodb->close();
-exit;
