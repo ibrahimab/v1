@@ -137,6 +137,19 @@ class wt_redis {
 		return $return;
 	}
 
+	public function set($key, $value) {
+
+		wt_debugbar_message("set key:".$key." - value:".$value, "query", "redis");
+
+		try {
+			$return = $this->redis->set($this->prefix.$key, $value);
+		}
+		catch (Exception $e) {
+			$this->error("error redis set:". $e->getMessage());
+		}
+		return $return;
+	}
+
 	public function get($key) {
 
 		wt_debugbar_message("get key:".$key, "query", "redis");
