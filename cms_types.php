@@ -443,17 +443,18 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(2,1,"htmlcol","Accommodatie-exclusief",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["exclusief"]))."</span>"));
 	$cms->edit_field(2,0,"exclusief","Type-exclusief (verouderd)");
 }
-$cms->edit_field(2,1,"htmlrow","<hr>");
 
-if($vars["cmstaal"]) {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo"]))."</span>"));
-	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst NL","",array("noedit"=>true));
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo_".$vars["cmstaal"]]))."</span>"));
-	$cms->edit_field(2,0,"voucherinfo_".$vars["cmstaal"],"Type-vouchertekst ".strtoupper($vars["cmstaal"]));
-} else {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo"]))."</span>"));
-	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst");
-}
+// disable "vouchertekst" (requested by Wouter; 15-04-2015)
+// $cms->edit_field(2,1,"htmlrow","<hr>");
+// if($vars["cmstaal"]) {
+// 	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo"]))."</span>"));
+// 	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst NL","",array("noedit"=>true));
+// 	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo_".$vars["cmstaal"]]))."</span>"));
+// 	$cms->edit_field(2,0,"voucherinfo_".$vars["cmstaal"],"Type-vouchertekst ".strtoupper($vars["cmstaal"]));
+// } else {
+// 	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo"]))."</span>"));
+// 	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst");
+// }
 
 #$cms->edit_field(2,0,"picgroot","Grote hoofdafbeelding","",array("img_width"=>"240","img_height"=>"180"));
 #$cms->edit_field(2,0,"picklein","Kleine hoofdafbeelding","",array("img_width"=>"60","img_height"=>"45"));
