@@ -620,12 +620,6 @@ $cms->edit_field(1,0,"video","Toon deze video op de accommodatiepagina");
 $cms->edit_field(1,0,"htmlrow","<hr><b>Goedkeuren bovenstaande teksten/gegevens</b>");
 $cms->edit_field(1,0,"teksten_seizoengoedgekeurd","Teksten zijn goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 
-$cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Nederlands (NIET MEER IN GEBRUIK!)</b>");
-$cms->edit_field(1,0,"route","Bestand","",array("showfiletype"=>true));
-$cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
-$cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Engels (NIET MEER IN GEBRUIK!)</b>");
-$cms->edit_field(1,0,"route_en","Bestand (Engelstalig)","",array("showfiletype"=>true));
-$cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd_en","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 
 # Nieuw vertrekinfo-systeem
 $cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
@@ -669,37 +663,8 @@ if($vertrekinfo_tracking["vertrekinfo_uiterlijkeinchecktijd"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_uiterlijkeinchecktijd"]))."</div>"));
 }
 $cms->edit_field(1,0,"vertrekinfo_uitchecktijd","Uitchecktijd","","",array("info"=>"Bijvoorbeeld: '09:00'"));
-$cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Inclusief'</i>");
-if($vars["cmstaal"]) {
-	$cms->edit_field(1,0,"vertrekinfo_inclusief","Afwijkende inclusief-tekst NL","",array("noedit"=>true));
-	$cms->edit_field(1,0,"vertrekinfo_inclusief_".$vars["cmstaal"],"Afwijkende inclusief-tekst ".strtoupper($vars["cmstaal"]),"","",array("info"=>"Indien de tekst niet afwijkt van de website-tekst, dan hier niks invullen."));
-	if($vertrekinfo_tracking["vertrekinfo_inclusief_".$vars["cmstaal"]]) {
-		$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_inclusief_".$vars["cmstaal"]]))."</div>"));
-	}
-} else {
-	$cms->edit_field(1,0,"htmlcol","Inclusief-tekst website",array("html"=>"<div id=\"vertrekinfo_inclusief_website\" class=\"vertrekinfo_prevalue\"></div>"));
-	if($vertrekinfo_tracking["inclusief"]) {
-		$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["inclusief"]))."</div>"));
-	}
-	$cms->edit_field(1,0,"vertrekinfo_inclusief","Afwijkende inclusief-tekst","","",array("info"=>"Indien de tekst niet afwijkt van de website-tekst, dan hier niks invullen."));
-	if($vertrekinfo_tracking["vertrekinfo_inclusief"]) {
-		$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_inclusief"]))."</div>"));
-	}
-}
-$cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Exclusief'</i>");
-if($vars["cmstaal"]) {
-	$cms->edit_field(1,0,"vertrekinfo_exclusief","Afwijkende exclusief-tekst NL","",array("noedit"=>true));
-	$cms->edit_field(1,0,"vertrekinfo_exclusief_".$vars["cmstaal"],"Afwijkende exclusief-tekst ".strtoupper($vars["cmstaal"]),"","",array("info"=>"Indien de tekst niet afwijkt van de website-tekst, dan hier niks invullen."));
-	if($vertrekinfo_tracking["vertrekinfo_exclusief_".$vars["cmstaal"]]) {
-		$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_exclusief_".$vars["cmstaal"]]))."</div>"));
-	}
-} else {
-	$cms->edit_field(1,0,"htmlcol","Exclusief-tekst website",array("html"=>"<div id=\"vertrekinfo_exclusief_website\" class=\"vertrekinfo_prevalue\"></div>"));
-	if($vertrekinfo_tracking["exclusief"]) {
-		$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["exclusief"]))."</div>"));
-	}
-	$cms->edit_field(1,0,"vertrekinfo_exclusief","Afwijkende exclusief-tekst","","",array("info"=>"Indien de tekst niet afwijkt van de website-tekst, dan hier niks invullen."));
-}
+
+
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Routebeschrijving naar de receptie of accommodatie' (wordt toegevoegd aan de routebeschrijving naar de betreffende plaats)</i>");
 $db0->query("SELECT vertrekinfo_plaatsroute".($vars["cmstaal"] ? "_en" : "")." AS vertrekinfo_plaatsroute FROM plaats WHERE plaats_id='".intval($plaats_id)."';");
 if($db0->next_record()) {
