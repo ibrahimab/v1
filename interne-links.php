@@ -107,6 +107,10 @@ $(document).ready(function() {
 		<td>Github Wiki</td>
 	</tr>
 	<tr>
+		<td><a href="http://www2.chalet.nl/cms_error_log.php?show=0">http://www2.chalet.nl/cms_error_log.php?show=0</a></td>
+		<td>Interne PHP-errorlog</td>
+	</tr>
+	<tr>
 		<td><a href="http://www.google.com/analytics">www.google.com/analytics</a></td>
 		<td>Google Analytics</td>
 	</tr>
