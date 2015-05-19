@@ -186,7 +186,7 @@ function __autoload($classname) {
 spl_autoload_register('__autoload');
 
 // Include "Composer" autoloader.
-include $unixdir."vendor/autoload.php";
+include_once $unixdir."vendor/autoload.php";
 
 
 // DebugBar
