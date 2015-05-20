@@ -6,6 +6,22 @@
 
 echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+// Posarelli-codes omzetten
+include("content/temp_omzetten.php");
+foreach ($omzetten as $key => $value) {
+	$db->query("UPDATE xml_importvalues SET xmlcode='".wt_as($value)."' WHERE leverancier_id=131 AND xmlcode='".wt_as($key)."';");
+	echo $db->lq." - AF: ".$db->affected_rows()."<br />";
+	usleep(100000);
+}
+
+sleep(5);
+
+echo "<hr><br/><br/><hr>";
+foreach ($omzetten_type as $key => $value) {
+	$db->query("UPDATE xml_importvalues SET xmlcode='".wt_as($value)."' WHERE leverancier_id=131 AND xmlcode='".wt_as($key)."';");
+	echo $db->lq." - AF: ".$db->affected_rows()."<br />";
+	usleep(100000);
+}
 
 // foreach ($vars["seizoentype_namen"] as $wzt => $seizoen_naam) {
 // 	echo $seizoen_naam."<br />";
@@ -77,9 +93,6 @@ echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbs
 // }
 // echo "</ul>";
 
-
-// Posarelli-codes omzetten
-// include("content/temp_omzetten.php");
 
 // // url's types Posarelli
 // $teller=0;
