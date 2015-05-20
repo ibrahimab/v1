@@ -44,7 +44,7 @@ if($vars["lokale_testserver"]) {
 $_SERVER["HTTP_HOST"]=strtolower($_SERVER["HTTP_HOST"]);
 if(substr($_SERVER["HTTP_HOST"],-3)==":80") $_SERVER["HTTP_HOST"]=substr($_SERVER["HTTP_HOST"],0,-3);
 if(substr($_SERVER["HTTP_HOST"],-1)==".") $_SERVER["HTTP_HOST"]=substr($_SERVER["HTTP_HOST"],0,-1);
-if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="wwwtest.chalet.nl" or $_SERVER["HTTP_HOST"]=="test.chalet.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="C")) {
+if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="wwwtest.chalet.nl" or $_SERVER["HTTP_HOST"]=="web01.chalet.nl" or $_SERVER["HTTP_HOST"]=="web02.chalet.nl" or $_SERVER["HTTP_HOST"]=="test.chalet.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="C")) {
 	# Chalet.nl Winter
 	$vars["websitetype"]=1;
 	$vars["websitenaam"]="Chalet.nl";

@@ -7,9 +7,20 @@
 //		these URL's should return "OK". If not, there is an error in the used service.
 //
 //		https://www.chalet.nl/monitor-services.php?type=httpd
+//		http://web01.chalet.nl/monitor-services.php?type=httpd
+//		http://web02.chalet.nl/monitor-services.php?type=httpd
+//
 //		https://www.chalet.nl/monitor-services.php?type=mysql
+//		http://web01.chalet.nl/monitor-services.php?type=mysql
+//		http://web02.chalet.nl/monitor-services.php?type=mysql
+//
 //		https://www.chalet.nl/monitor-services.php?type=redis
+//		http://web01.chalet.nl/monitor-services.php?type=redis
+//		http://web02.chalet.nl/monitor-services.php?type=redis
+//
 //		https://www.chalet.nl/monitor-services.php?type=mongodb
+//		http://web01.chalet.nl/monitor-services.php?type=mongodb
+//		http://web02.chalet.nl/monitor-services.php?type=mongodb
 //
 //
 
