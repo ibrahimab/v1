@@ -37,7 +37,7 @@ $huidig_uur = date("H");
 
 
 // Wisselkoers pond opvragen
-if($huidig_uur==10 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+if($huidig_uur==10 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
 
 	$koers_json = file_get_contents('https://rate-exchange.herokuapp.com/fetchRate?from=EUR&to=GBP');
 	if ($koers_json) {
@@ -50,7 +50,7 @@ if($huidig_uur==10 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv
 }
 
 // aanbetaling1 vastzetten na 15 dagen
-if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test12") {
+if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test12") {
 	$vijftien_dagen_geleden = date("Y-m-d", mktime(0,0,0,date("m"), date("d")-15, date("Y")));
 	$db->query("UPDATE boeking SET aanbetaling1_vastgezet=1 WHERE aanbetaling1_vastgezet=0 AND factuurdatum_eerste_factuur IS NOT NULL AND factuurdatum_eerste_factuur<='".$vijftien_dagen_geleden."';");
 }
@@ -146,7 +146,7 @@ unset($gegevens);
 #
 # Uitnodigingen voor de enquete versturen (niet aan wederverkoop-boekingen)
 #
-if(($huidig_uur>12 and $huidig_uur<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+if(($huidig_uur>12 and $huidig_uur<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
 	unset($teller);
 	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.vertrekdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.vertrekdatum_exact<'".(time()-172800)."' AND b.vertrekdatum_exact>'".(time()-1209600)."' AND b.mailblokkeren_enquete=0 AND b.mailverstuurd_enquete IS NULL AND reisbureau_user_id IS NULL ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
 	if($db->num_rows()) {
@@ -282,7 +282,7 @@ if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 #
 # Controleren op wijzigingen in XML-imports
 #
-if(($huidig_uur==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+if(($huidig_uur==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test") {
 		echo "via cms_xmlnewimport.html controleren op XML-imports<br>";
 	}
@@ -293,7 +293,9 @@ if(($huidig_uur==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtas
 		include($unixdir."content/cms_xmlnewimport.html");
 	}
 }
-
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test") {
+	exit;
+}
 
 #
 # Volgorde van blokken hoofdpagina resetten (zodat deze weer 10, 20, 30, etc... wordt)
