@@ -282,7 +282,7 @@ if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 #
 # Controleren op wijzigingen in XML-imports
 #
-if(($huidig_uur==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if(($huidig_uur==5 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test") {
 		echo "via cms_xmlnewimport.html controleren op XML-imports<br>";
 	}
