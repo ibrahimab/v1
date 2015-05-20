@@ -23,6 +23,8 @@
 #echo wt_dump($_POST);
 #exit;
 
+if(!$cms_xmlnewimport_init) {
+
 	/**
 	 * Gets the images and differences in a table row
 	 */
@@ -96,7 +98,6 @@
 		$teller = explode(".", $image[1]);
 		return $teller[0];
 	}
-if(!$cms_xmlnewimport_init) {
 
 	function xml_striphtml($code) {
 		$return=$code;
@@ -784,10 +785,10 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 		#Interhome
 
-		if(file_exists($path."suppliers/interhome/index.php")) {
-			require_once($path."suppliers/interhome/index.php");
+		if(file_exists($vars["unixdir"]."suppliers/interhome/index.php")) {
+			require_once($vars["unixdir"]."suppliers/interhome/index.php");
 		} else {
-			die("Invalid supplier: Interhome");
+			trigger_error( "Invalid supplier: Interhome", E_USER_NOTICE );
 		}
 
 		$interHome = new InterHome();
@@ -974,10 +975,10 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 	} elseif($_GET["lev"] == 35) {
 		#Direkt Holidays
-		if(file_exists($path."suppliers/direktholidays/index.php")) {
-			require_once($path."suppliers/direktholidays/index.php");
+		if(file_exists($vars["unixdir"]."suppliers/direktholidays/index.php")) {
+			require_once($vars["unixdir"]."suppliers/direktholidays/index.php");
 		} else {
-			die("Invalid supplier: Direkt Holidays");
+			trigger_error( "Invalid supplier: Direkt Holidays", E_USER_NOTICE );
 		}
 
 		if(isset($_POST["filled"])) {
@@ -1063,10 +1064,10 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 		# Alpin Rentals
 
 
-		if(file_exists($path."suppliers/newyseservice/index.php")) {
-			require_once($path."suppliers/newyseservice/index.php");
+		if(file_exists($vars["unixdir"]."suppliers/newyseservice/index.php")) {
+			require_once($vars["unixdir"]."suppliers/newyseservice/index.php");
 		} else {
-			die("Invalid supplier: Alpin Rentals");
+			trigger_error( "Invalid supplier: Alpin Rentals", E_USER_NOTICE );
 		}
 
 		$alpinRentals = new AlpinRentals();
