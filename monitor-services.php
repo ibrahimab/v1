@@ -4,7 +4,7 @@
 // script to monitor the services of www.chalet.nl
 //
 // usage:
-//		these URL's should return "OK". If not, there is an error in the used service.
+//		these URL's should return "OK" (status 200). If not, there is an error in the used service (status 500).
 //
 //		https://www.chalet.nl/monitor-services.php?type=httpd
 //		http://web01.chalet.nl/monitor-services.php?type=httpd
@@ -75,6 +75,7 @@ switch ( $_GET["type"] ) {
 if( $service_okay ) {
 	echo "OK";
 } else {
+	header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 	echo "Error in service ".$_GET["type"];
 }
 
