@@ -258,7 +258,7 @@ $xml_urls[7][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=e
 
 # Posarelli
 if(get_slow_suppliers(8) or $argv[1]) {
-	$xml_urls[8][1]="http://export.easyreserve.com/availability.xml";
+	$xml_urls[8][1]="http://export.easyreserve.com/cha_availability.xml";
 	$xml_urls[8][2]="http://export.easyreserve.com/unitrates.xml";
 	$xml_urls[8][3]="http://export.easyreserve.com/unit.xml"; # lastminutes
 }
