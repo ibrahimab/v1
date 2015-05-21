@@ -230,7 +230,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$form->field_textarea(0,"woorden_autocomplete_winter_en","Woordenlijst winter (EN)",array("field"=>"woorden_autocomplete_winter_en"));
 	$form->field_textarea(0,"woorden_autocomplete_zomer","Woordenlijst zomer (NL)",array("field"=>"woorden_autocomplete_zomer"));
 
-	$form->field_htmlrow("","<hr><b>Accommodaties die een hogere vergoeding voor TradeTracker-affiliates (1 accommodatie-code per regel)</b><br/><i>Deze functionaliteit is nog niet actief maar invullen van de codes kan al wel.</i>");
+	$form->field_htmlrow("","<hr><b>Accommodaties met een hogere vergoeding voor TradeTracker-affiliates (1 accommodatie-code per regel)</b><br/><i>Deze functionaliteit is nog niet actief maar invullen van de codes kan al wel.</i>");
 	$form->field_textarea(0,"tradetracker_higher_payout","Accommodatie-codes",array("field"=>"tradetracker_higher_payout"),"","",array("style"=>"height:400px"));
 
 	if( $vars["acceptatie_testserver"] or $vars["lokale_testserver"]) {
