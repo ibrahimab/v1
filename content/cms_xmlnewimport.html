@@ -633,14 +633,14 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 							if(is_array($propertyimage_id[$value["id"]])) {
 								reset($propertyimage_id[$value["id"]]);
 								while(list($key3,$value3)=each($propertyimage_id[$value["id"]])) {
-									$new[$uniekeid]["accafbeelding"][$value3["sort_value"]]="http://www.posarellivillas.com".trim($value3["imagename"]);
+									$new[$uniekeid]["accafbeelding"][$value3["sort_value"]]="http://img.posarellivillas.com".trim($value3["imagename"]);
 								}
 							}
 
 							if(is_array($unitimage_id[$uniekeid])) {
 								reset($unitimage_id[$uniekeid]);
 								while(list($key3,$value3)=each($unitimage_id[$uniekeid])) {
-									$new[$uniekeid]["typeafbeelding"][$value3["sort_value"]]="http://www.posarellivillas.com".trim($value3["imageurl"]);
+									$new[$uniekeid]["typeafbeelding"][$value3["sort_value"]]="http://img.posarellivillas.com".trim($value3["imageurl"]);
 								}
 							}
 
