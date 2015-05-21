@@ -3926,6 +3926,11 @@ $txt["nl"]["tarieventabel"]["klik-op-datum-personen"]="Klik in bovenstaande prij
 $txt["de"]["tarieventabel"]["klik-op-datum-personen"]="Bitte klicken sie auf oben stehende Preisliste um Ankunftsdatum/Personenzahl zu ändern.";
 $txt["en"]["tarieventabel"]["klik-op-datum-personen"]="Click in the above pricing table to change the date of arrival / number of people.";
 
+$txt["nl"]["tarieventabel"]["melding-redis-down"]="Vanwege een (tijdelijke) technische storing zijn de getoonde bedragen in de prijstabel zonder bijkomende kosten. Klik in de prijstabel op een prijs en vervolgens op het i-icoontje om de specificatie inclusief bijkomende kosten te zien. Onze excuses voor het ongemak.";
+$txt["de"]["tarieventabel"]["melding-redis-down"]="";
+$txt["en"]["tarieventabel"]["melding-redis-down"]="";
+
+
 // tarieventabel bijkomende kosten
 $txt["nl"]["bijkomendekosten"]["inclusief"]="inclusief";
 $txt["de"]["bijkomendekosten"]["inclusief"]="inklusive";
