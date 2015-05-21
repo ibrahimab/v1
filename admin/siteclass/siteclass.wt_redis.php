@@ -5,24 +5,6 @@
 */
 
 
-/*
-
-function wt_debugbar_message($message, $label="info", $collector="messages") {
-	//
-	// send messages to phpdebugbar (http://phpdebugbar.com/)
-	//
-	if(is_object($wt_debugbar)) {
-		$wt_debugbar->getCollector($collector)->addMessage($message, $label);
-	}
-}
-
-
-*/
-
-
-// IMHO you should catch the RedisException and reconnect to redis server yourself. and also you should check your redis.conf.
-
-
 class wt_redis {
 
 	private $redis;
@@ -57,7 +39,7 @@ class wt_redis {
 			$this->error("Couldn't connect to Redis:". $e->getMessage());
 		}
 		if($return) {
-			// wt_debugbar_message("connected to redis-server ".wt_redis_host, "connect", "redis");
+			wt_debugbar_message("connected to redis-server ".wt_redis_host, "connect", "redis");
 		}
 		return $return;
 	}
@@ -89,6 +71,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis store_array:". $e->getMessage());
+			return false;
 		}
 	}
 
@@ -101,6 +84,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis get_array:". $e->getMessage());
+			return false;
 		}
 
 		if($data) {
@@ -120,6 +104,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis array_group_exists:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -133,6 +118,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis array_group_delete:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -146,6 +132,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis set:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -159,6 +146,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis get:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -177,6 +165,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis hset:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -190,6 +179,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis hget:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -207,6 +197,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis hgetall:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -220,6 +211,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis hexists:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -233,6 +225,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis del:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -246,6 +239,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis exists:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}
@@ -259,6 +253,7 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis exists:". $e->getMessage());
+			return false;
 		}
 		return $return;
 	}

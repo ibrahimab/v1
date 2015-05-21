@@ -15,6 +15,7 @@ class tarieventabel {
 	public $toon_commissie;
 
 	private $actieve_kolom;
+	private $bk_fetched;
 
 	public $meerdere_valuta;
 
@@ -566,12 +567,27 @@ class tarieventabel {
 			}
 			$return.="</div>";
 
-			// show "click for total"-message
-			if( !$isMobile ) {
-				$return .= "<div class=\"tarieventabel_totaal_message\">";
-				$return .= html("klik-voor-totaalbedrag", "tarieventabel");
+
+			if ( $this->bk_fetched ) {
+				//
+				// show "click for total"-message
+				//
+				if( !$isMobile ) {
+					$return .= "<div class=\"tarieventabel_totaal_message\">";
+					$return .= html("klik-voor-totaalbedrag", "tarieventabel");
+					$return .= "</div>";
+				}
+			} else {
+				//
+				// redis down? Show error message
+				//
+				$return .= "<div class=\"tarieventabel_redis_error_message\">";
+				$return .= html("melding-redis-down", "tarieventabel");
 				$return .= "</div>";
+
+				trigger_error( "no redis bijkomendekosten available",E_USER_NOTICE );
 			}
+
 
 			// legenda
 			$return.="<div class=\"tarieventabel_legenda\">";
@@ -1494,6 +1510,10 @@ class tarieventabel {
 
 						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], true);
 						$bk_add_to_price_total = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], false);
+
+						if( is_array($bk_add_to_price) and max($bk_add_to_price)>0 ) {
+							$this->bk_fetched = true;
+						}
 					}
 
 
@@ -1624,12 +1644,15 @@ class tarieventabel {
 
 						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], false);
 
+						if( is_array($bk_add_to_price) and max($bk_add_to_price)>0 ) {
+							$this->bk_fetched = true;
+						}
 
 						// surcharge extra persons
 						$this->bk_add_to_price_per_person_per_week = $bijkomendekosten->get_type_from_cache_all_persons_all_weeks($this->type_id, $vars["seizoentype"]);
 
 						// toon losse accommodatie per persoon
-						if(!$this->arrangement and !$this->aantal_personen and is_array($bk_add_to_price)) {
+						if(!$this->aantal_personen and is_array($bk_add_to_price)) {
 							foreach ($bk_add_to_price as $key => $value) {
 								$this->aantal_personen[$key] = true;
 							}

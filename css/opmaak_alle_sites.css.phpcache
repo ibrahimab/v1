@@ -3447,6 +3447,12 @@ nieuwe tarieventabel
 	text-decoration: underline; !important;
 }
 
+.tarieventabel_redis_error_message {
+	margin: 10px 0 15px 162px;
+	padding: 5px;
+	background-color: yellow;
+}
+
 .tarieventabel_totaal_message {
 	margin: 10px 0 15px 162px;
 }
