@@ -2023,11 +2023,9 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 	}
 
 	// bijkomendekosten ter plaatse
-	if($vars["toon_bijkomendekosten_stap1"]) {
-		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
-		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
-		$bk = $bijkomendekosten->get_booking_data($gegevens);
-	}
+	$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
+	$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
+	$bk = $bijkomendekosten->get_booking_data($gegevens);
 
 	if($bk["ter_plaatse_actief"]) {
 		$totaal_text = html("totaal-aan-chalet-nl", "vars", array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]));
@@ -3403,7 +3401,7 @@ function bereken_bijkomendekosten($boekingid) {
 		$use_old_system = true;
 	}
 
-	if($vars["toon_bijkomendekosten_stap1"] and !$use_old_system) {
+	if(!$use_old_system) {
 
 		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
 		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];

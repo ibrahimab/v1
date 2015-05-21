@@ -722,8 +722,6 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	// tarieventabel: click to show total amount
 	//
 	$tarieventabel_object = new tarieventabel;
-	$tarieventabel_object->toon_bijkomendekosten = true;
-	$tarieventabel_object->toon_accommodatie_per_persoon = true;
 	$tarieventabel_object->type_id=$_GET["type_id"];
 	$tarieventabel_object->seizoen_id=$_GET["seizoen_id_inquery"];
 
@@ -743,8 +741,6 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	// tarieventabel: click to show total amount
 	//
 	$tarieventabel_object = new tarieventabel;
-	$tarieventabel_object->toon_bijkomendekosten = true;
-	$tarieventabel_object->toon_accommodatie_per_persoon = true;
 	$tarieventabel_object->type_id=$_GET["type_id"];
 	$tarieventabel_object->seizoen_id=$_GET["seizoen_id"];
 

@@ -116,7 +116,7 @@ class tarieventabel {
 			$this->scroll_first_monthyear = date("Ym", $this->seizoeninfo[$this->first_seizoen_id]["begin"]);
 		}
 
-		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id . (isset($_GET['fdu']) ? '&fdu=' . $_GET['fdu'] : '') . "&o=".urlencode($_GET["o"]).(!$this->arrangement && $this->get_aantal_personen ? "&ap=".intval($this->get_aantal_personen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\" data-scroll_first_monthyear=\"".wt_he($this->scroll_first_monthyear)."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_id_inquery=\"".wt_he($this->seizoen_id)."\" data-toon_bijkomendekosten=\"".($this->toon_bijkomendekosten ? "1" : "0")."\">";
+		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id . (isset($_GET['fdu']) ? '&fdu=' . $_GET['fdu'] : '') . "&o=".urlencode($_GET["o"]).(!$this->arrangement && $this->get_aantal_personen ? "&ap=".intval($this->get_aantal_personen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\" data-scroll_first_monthyear=\"".wt_he($this->scroll_first_monthyear)."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_id_inquery=\"".wt_he($this->seizoen_id)."\">";
 
 
 		$return .= $this->tabel_top();
@@ -360,12 +360,10 @@ class tarieventabel {
 		} else {
 			$return .= html("ineuros","tarieventabel");
 		}
-		if($this->toon_accommodatie_per_persoon) {
-			$return .= ", ".html("perpersoon","tarieventabel");
-		} elseif($this->arrangement) {
+		if($this->arrangement) {
 			$return .= ", ".html("perpersooninclskipas","tarieventabel");
 		} else {
-			$return .= ", ".html("peraccommodatie","tarieventabel");
+			$return .= ", ".html("perpersoon","tarieventabel");
 		}
 
 		$return .= "</div>"; // afsluiten .tarieventabel_top_left
@@ -455,25 +453,23 @@ class tarieventabel {
 
 			// bepalen welke aantallen personen direct zichtbaar moeten zijn
 
-			if($this->arrangement or $this->toon_accommodatie_per_persoon) {
-				$this->max_personen=max(array_keys($this->aantal_personen));
-				$this->min_personen=min(array_keys($this->aantal_personen));
+			$this->max_personen=max(array_keys($this->aantal_personen));
+			$this->min_personen=min(array_keys($this->aantal_personen));
 
-				if($this->get_aantal_personen) {
-					// valt het aantal personen binnen de capaciteit van deze accommodatie?
-					if($this->get_aantal_personen<$this->min_personen or $this->get_aantal_personen>$this->max_personen) {
-						// zo niet: aantal personen niet gebruiken bij tonen tarieventabel
-						unset($this->get_aantal_personen);
-					}
+			if($this->get_aantal_personen) {
+				// valt het aantal personen binnen de capaciteit van deze accommodatie?
+				if($this->get_aantal_personen<$this->min_personen or $this->get_aantal_personen>$this->max_personen) {
+					// zo niet: aantal personen niet gebruiken bij tonen tarieventabel
+					unset($this->get_aantal_personen);
 				}
+			}
 
-				if($this->get_aantal_personen) {
-					$this->max_personen_tonen=$this->get_aantal_personen+2;
-					$this->min_personen_tonen=$this->get_aantal_personen-2;
-				} else {
-					$this->max_personen_tonen=max(array_keys($this->aantal_personen));
-					$this->min_personen_tonen=$this->max_personen_tonen-4;
-				}
+			if($this->get_aantal_personen) {
+				$this->max_personen_tonen=$this->get_aantal_personen+2;
+				$this->min_personen_tonen=$this->get_aantal_personen-2;
+			} else {
+				$this->max_personen_tonen=max(array_keys($this->aantal_personen));
+				$this->min_personen_tonen=$this->max_personen_tonen-4;
 			}
 
 
@@ -542,36 +538,18 @@ class tarieventabel {
 			// korting
 			if($this->aanbieding_actief and ($this->toonkorting_soort_1 or $this->toonkorting_soort_2)) {
 				$return.="<tr><td>";
-				if($this->accinfo["toonper"]==1 or $this->toon_accommodatie_per_persoon) {
-					$return.=html("kortingaccommodatie","tarieventabel");
-				} else {
+				if($this->arrangement) {
 					$return.=html("korting","tarieventabel");
+				} else {
+					$return.=html("kortingaccommodatie","tarieventabel");
 				}
 				$return.="</td></tr>";
 			}
 
 
-			if($this->arrangement) {
-
-				// regels met aantal personen tonen
-				foreach ($this->aantal_personen as $key => $value) {
-					$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($this->get_aantal_personen==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
-				}
-			} else {
-				if($this->toon_accommodatie_per_persoon) {
-
-					// regels met aantal personen tonen
-					foreach ($this->aantal_personen as $key => $value) {
-						$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($this->get_aantal_personen==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
-					}
-				} else {
-					$return.="<tr><td>".html("prijsperaccommodatie","tarieventabel")."</td></tr>";
-
-					if($this->toon_commissie) {
-						// commissie tonen aan reisagenten
-						$return.="<tr class=\"tarieventabel_verbergen\"><td>".html("wederverkoop_commissie","tarieventabel")."</td></tr>";
-					}
-				}
+			// regels met aantal personen tonen
+			foreach ($this->aantal_personen as $key => $value) {
+				$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($this->get_aantal_personen==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
 			}
 
 
@@ -580,20 +558,13 @@ class tarieventabel {
 			$return .= $this->tabel_tarieven();
 
 			// minder personen open/dichtklappen
-			if($this->arrangement or $this->toon_accommodatie_per_persoon) {
-				$return.="<div class=\"tarieventabel_toggle_toon_verberg\">";
-				if($this->max_personen_tonen<$this->max_personen or $this->min_personen_tonen>$this->min_personen) {
-					$return.="<a href=\"#\" data-default=\"".html("minderpersonen","tarieventabel")."\" data-hide=\"".html("minderpersonen_verbergen","tarieventabel")."\"><i class=\"icon-chevron-sign-down\"></i>&nbsp;<span>".html("minderpersonen","tarieventabel")."</span></a>";
-				} else {
-					$return.="&nbsp;";
-				}
-				$return.="</div>";
-			} elseif($this->toon_commissie) {
-				// commissie open/dichtklappen
-				$return.="<div class=\"tarieventabel_toggle_toon_verberg\">";
-				$return.="<a href=\"#\" data-default=\"".html("wederverkoop_tooncommissie1","tarieventabel")."\" data-hide=\"".html("wederverkoop_tooncommissie2","tarieventabel")."\"><i class=\"icon-chevron-sign-down\"></i>&nbsp;<span>".html("wederverkoop_tooncommissie1","tarieventabel")."</span></a>";
-				$return.="</div>";
+			$return.="<div class=\"tarieventabel_toggle_toon_verberg\">";
+			if($this->max_personen_tonen<$this->max_personen or $this->min_personen_tonen>$this->min_personen) {
+				$return.="<a href=\"#\" data-default=\"".html("minderpersonen","tarieventabel")."\" data-hide=\"".html("minderpersonen_verbergen","tarieventabel")."\"><i class=\"icon-chevron-sign-down\"></i>&nbsp;<span>".html("minderpersonen","tarieventabel")."</span></a>";
+			} else {
+				$return.="&nbsp;";
 			}
+			$return.="</div>";
 
 			// show "click for total"-message
 			if( !$isMobile ) {
@@ -1044,119 +1015,15 @@ class tarieventabel {
 			$return.="</tr>";
 		}
 
-		# daadwerkelijke tarieven tonen
-		if($this->arrangement or $this->toon_accommodatie_per_persoon) {
+		//
+		// tarieven-cellen tonen
+		//
 
-			//
-			// arrangement
-			//
-			// tarieven-cellen tonen
-			//
+		foreach ($this->aantal_personen as $key => $value) {
 
-			foreach ($this->aantal_personen as $key => $value) {
-
-				$return.="<tr class=\"tarieventabel_tarieven".($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? " tarieventabel_verbergen" : "").($this->get_aantal_personen==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : "")."\" data-aantalpersonen=\"".$key."\">";
-				$kolomteller=0;
-				foreach ($this->dag as $key2 => $value2) {
-					$kolomteller++;
-
-					$class="";
-
-					if($kolomteller==1) {
-						$class.=" tarieventabel_tarieven_kolom_links";
-					} elseif($kolomteller==count($this->dag)) {
-						$class.=" tarieventabel_tarieven_kolom_rechts";
-					}
-
-					if($this->seizoenswissel($key2,true)) {
-						$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
-					}
-					if($this->seizoenswissel($key2,false)) {
-						$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
-					}
-
-					if($this->tarief[$key][$key2]>0) {
-						$class.=" tarieventabel_tarieven_beschikbaar";
-					}
-
-					if($this->get_aantal_personen==$key and $_GET["d"]==$key2) {
-						$class.=" tarieventabel_tarieven_gekozen";
-					} elseif($this->get_aantal_personen==$key and !$_GET["d"]) {
-						$class.=" tarieventabel_tarieven_gekozen";
-					} elseif($_GET["d"]==$key2 and !$this->get_aantal_personen) {
-						$class.=" tarieventabel_tarieven_gekozen";
-					}
-
-					// voor Selina
-					if($this->tarief[$key][$key2]>0) {
-
-					} else {
-						$class.=" tarieventabel_tarieven_niet_beschikbaar_td";
-					}
-
-					$return.="<td class=\"".trim($class)."\" data-week=\"".$key2."\">";
-
-					$return.="<div class=\"tarieventabel_tarieven_div\">";
-
-					if($this->tarief[$key][$key2]>0) {
-
-						if($this->tarief[$key][$key2]>=10000) {
-							$te_tonen_bedrag["euro"]=number_format($this->tarief[$key][$key2],0,",",".");
-						} else {
-							$te_tonen_bedrag["euro"]=number_format($this->tarief[$key][$key2],0,",","");
-						}
-
-						if($this->toonkorting_1[$key2] or $this->toonkorting_2[$key2] or $this->toonkorting_3[$key2]) {
-							$return.="<div class=\"tarieventabel_tarieven_aanbieding\"";
-						} else {
-							$return.="<div";
-						}
-
-						if($this->meerdere_valuta) {
-							$bedrag_andere_valuta["gbp"]=round($this->wisselkoers["gbp"]*$this->tarief[$key][$key2]);
-
-							if($bedrag_andere_valuta["gbp"]>=10000) {
-								$te_tonen_bedrag["gbp"]=number_format($bedrag_andere_valuta["gbp"],0,",",".");
-							} else {
-								$te_tonen_bedrag["gbp"]=number_format($bedrag_andere_valuta["gbp"],0,",","");
-							}
-							$return.=" data-euro=\"".wt_he($te_tonen_bedrag["euro"])."\" data-gbp=\"".wt_he($te_tonen_bedrag["gbp"])."\"";
-						}
-						$return.=">";
-
-						if($this->meerdere_valuta and $this->actieve_valuta=="gbp") {
-							$return.=$te_tonen_bedrag["gbp"];
-						} else {
-							$return.=$te_tonen_bedrag["euro"];
-						}
-
-						$this->tarieven_getoond[$this->week_seizoen_id[$key2]]=true;
-
-						$return.="</div>";
-					} else {
-						$return.="<div class=\"tarieventabel_tarieven_niet_beschikbaar\">";
-						$return.="&nbsp;";
-						$return.="</div>";
-
-						$this->tarieventabel_tarieven_niet_beschikbaar=true;
-					}
-
-					$return.="</div></td>";
-				}
-				$return.="</tr>";
-			}
-
-		} else {
-
-			//
-			// losse accommodatie
-			//
-			// tarieven-cellen tonen
-			//
-
-			$return.="<tr class=\"tarieventabel_tarieven\">";
+			$return.="<tr class=\"tarieventabel_tarieven".($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? " tarieventabel_verbergen" : "").($this->get_aantal_personen==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : "")."\" data-aantalpersonen=\"".$key."\">";
 			$kolomteller=0;
-			foreach ($this->dag as $key => $value) {
+			foreach ($this->dag as $key2 => $value2) {
 				$kolomteller++;
 
 				$class="";
@@ -1167,48 +1034,52 @@ class tarieventabel {
 					$class.=" tarieventabel_tarieven_kolom_rechts";
 				}
 
-				if($this->seizoenswissel($key,true)) {
+				if($this->seizoenswissel($key2,true)) {
 					$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
 				}
-				if($this->seizoenswissel($key,false)) {
+				if($this->seizoenswissel($key2,false)) {
 					$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
 				}
 
-				if($this->tarief[$key]>0) {
+				if($this->tarief[$key][$key2]>0) {
 					$class.=" tarieventabel_tarieven_beschikbaar";
 				}
 
-				if($_GET["d"]==$key) {
+				if($this->get_aantal_personen==$key and $_GET["d"]==$key2) {
+					$class.=" tarieventabel_tarieven_gekozen";
+				} elseif($this->get_aantal_personen==$key and !$_GET["d"]) {
+					$class.=" tarieventabel_tarieven_gekozen";
+				} elseif($_GET["d"]==$key2 and !$this->get_aantal_personen) {
 					$class.=" tarieventabel_tarieven_gekozen";
 				}
 
 				// voor Selina
-				if($this->tarief[$key]>0) {
+				if($this->tarief[$key][$key2]>0) {
 
 				} else {
 					$class.=" tarieventabel_tarieven_niet_beschikbaar_td";
 				}
 
-				$return.="<td class=\"".trim($class)."\" data-week=\"".$key."\">";
+				$return.="<td class=\"".trim($class)."\" data-week=\"".$key2."\">";
 
 				$return.="<div class=\"tarieventabel_tarieven_div\">";
 
-				if($this->tarief[$key]>0) {
+				if($this->tarief[$key][$key2]>0) {
 
-					if($this->tarief[$key]>=10000) {
-						$te_tonen_bedrag["euro"]=number_format($this->tarief[$key],0,",",".");
+					if($this->tarief[$key][$key2]>=10000) {
+						$te_tonen_bedrag["euro"]=number_format($this->tarief[$key][$key2],0,",",".");
 					} else {
-						$te_tonen_bedrag["euro"]=number_format($this->tarief[$key],0,",","");
+						$te_tonen_bedrag["euro"]=number_format($this->tarief[$key][$key2],0,",","");
 					}
 
-					if($this->toonkorting_1[$key] or $this->toonkorting_2[$key] or $this->toonkorting_3[$key]) {
+					if($this->toonkorting_1[$key2] or $this->toonkorting_2[$key2] or $this->toonkorting_3[$key2]) {
 						$return.="<div class=\"tarieventabel_tarieven_aanbieding\"";
 					} else {
 						$return.="<div";
 					}
 
 					if($this->meerdere_valuta) {
-						$bedrag_andere_valuta["gbp"]=round($this->wisselkoers["gbp"]*$this->tarief[$key]);
+						$bedrag_andere_valuta["gbp"]=round($this->wisselkoers["gbp"]*$this->tarief[$key][$key2]);
 
 						if($bedrag_andere_valuta["gbp"]>=10000) {
 							$te_tonen_bedrag["gbp"]=number_format($bedrag_andere_valuta["gbp"],0,",",".");
@@ -1225,7 +1096,7 @@ class tarieventabel {
 						$return.=$te_tonen_bedrag["euro"];
 					}
 
-					$this->tarieven_getoond[$this->week_seizoen_id[$key]]=true;
+					$this->tarieven_getoond[$this->week_seizoen_id[$key2]]=true;
 
 					$return.="</div>";
 				} else {
@@ -1239,29 +1110,9 @@ class tarieventabel {
 				$return.="</div></td>";
 			}
 			$return.="</tr>";
-
-
-			// commissie voor reisagenten
-			if($this->toon_commissie) {
-				$return.="<tr class=\"tarieventabel_commissie_tr tarieventabel_verbergen\">";
-				$kolomteller=0;
-				foreach ($this->dag_van_de_week as $key => $value) {
-
-					$class="";
-
-					$kolomteller++;
-
-					if($kolomteller==1) {
-						$class.=" tarieventabel_tarieven_kolom_links";
-					} elseif($kolomteller==count($this->dag_van_de_week)) {
-						$class.=" tarieventabel_tarieven_kolom_rechts";
-					}
-
-					$return.="<td class=\"".trim($class)."\">".($this->commissie[$key]>0 ? number_format($this->commissie[$key],0,",","")."%" : "&nbsp;")."</td>";
-				}
-				$return.="</tr>";
-			}
 		}
+
+
 
 		$return.="</table></div>";
 
@@ -1377,24 +1228,9 @@ class tarieventabel {
 			}
 		}
 		if($bijkomendekosten_table) {
-			if($NU_EVEN_NIET and $optie_pulldown_teller and $bijkomendekosten_afhankelijkvandatum) {
-				// bijkomende kosten die afhankelijk zijn van datum: tijdelijk niet oproepbaar ($NU_EVEN_NIET) per exacte datum. Als er een datum is geselecteerd: dan worden de juist kosten al getoond
-				$return.="<form name=\"bijkomendekostentabel2".$seizoenid."\" method=\"get\" action=\"".$_SERVER["PHP_SELF"]."#prijsinformatie\" style=\"padding:0px;\">";
-				$return.="<h1>".html("bijkomendekosten","toonaccommodatie").":</h1><div class=\"toelichting_onderdeel\">";
-				// $return.=$bijkomendekosten_header2;
-				$return.="<input type=\"hidden\" name=\"selecttab\" value=\"tarieven\">\n";
 
-				@reset($_GET);
-				while(list($key2,$value2)=@each($_GET)) {
-					if($key2<>"optie_datum" and $key2<>"selecttab" and !is_array($value2)) $return.="<input type=\"hidden\" name=\"".$key2."\" value=\"".wt_he($value2)."\">\n";
-				}
-				$return.=ereg_replace("optietabel".$seizoenid,"bijkomendekostentabel2".$seizoenid,ereg_replace(html("optietarieven","toonaccommodatie")." ","",$optie_pulldown_html));
-			} else {
-				$return.="<h1>".html("bijkomendekosten","toonaccommodatie").":</h1><div class=\"toelichting_onderdeel\">";
-				// $return.=$bijkomendekosten_header2;
-			}
-			// $return.="</th></tr>";
-
+			$return.="<h1>".html("bijkomendekosten","toonaccommodatie").":</h1>";
+			$return.="<div class=\"toelichting_onderdeel\">";
 			$return.=$bijkomendekosten_table;
 
 			$return.="</div>";
@@ -1407,87 +1243,57 @@ class tarieventabel {
 
 		global $vars, $voorkant_cms;
 
+		if(!$this->first_seizoen_id) {
+			// trigger_error("missing first_season_id",E_USER_NOTICE);
+		}
 
-		if($this->toon_bijkomendekosten and $this->first_seizoen_id and $NU_EVEN_NIET) {
+		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+		$bijkomendekosten->arrangement = $this->arrangement;
+		$bijkomendekosten->accinfo = $this->accinfo;
+		if($this->seizoen_counter>1) {
 
-			//
-			// end-version of bijkomendekosten (all costs are included)
-			//
+			foreach ($this->seizoeninfo as $seizoen_id => $value) {
+				// multiple seasons
+				$bijkomendekosten->seizoen_id = $seizoen_id;
+				$toelichting_season[$seizoen_id] = $bijkomendekosten->toon_type();
 
-			$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
-			$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
-			$bijkomendekosten->arrangement = $this->arrangement;
-			$bijkomendekosten->accinfo = $this->accinfo;
+				if($check_for_doubles and $check_for_doubles==$toelichting_season[$seizoen_id]) {
+					$both_season_are_the_same = true;
+				}
 
-			$toelichting = $bijkomendekosten->toon_type();
-			// $toelichting = $bijkomendekosten->toon_type_temporary();
+				$check_for_doubles = $toelichting_season[$seizoen_id];
+			}
+
+			if($both_season_are_the_same) {
+				$toelichting = $check_for_doubles;
+			} else {
+
+				$toelichting .= "<form><select class=\"tarieventabel_toelichting_switch_seasons\">";
+				foreach ($toelichting_season as $seizoen_id => $value) {
+					$season_counter++;
+					$toelichting .= "<option value=\"".$seizoen_id."\"".($season_counter==1 ? " selected" : "").">&nbsp;".wt_he($this->seizoeninfo[$seizoen_id]["naam"])."&nbsp;</option>";
+				}
+				$toelichting .= "</select></form>";
+
+				$toelichting .= "<div class=\"tarieventabel_toelichting_all_seasons\">";
+
+				$toelichting .= "<div class=\"tarieventabel_toelichting_active_season\"></div>";
+
+				foreach ($toelichting_season as $seizoen_id => $value) {
+
+					$toelichting .= "<div class=\"tarieventabel_toelichting_one_season\" data-seizoen_id=\"".$seizoen_id."\">";
+					$toelichting .= $value;
+					$toelichting .= "</div>";
+
+				}
+				$toelichting .= "</div>";
+			}
+
 
 		} else {
-
-			//
-			// temporary version of bijkomendekosten
-			//
-
-			if(!$this->first_seizoen_id) {
-				// trigger_error("missing first_season_id",E_USER_NOTICE);
-			}
-
-			$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
-			$bijkomendekosten->arrangement = $this->arrangement;
-			$bijkomendekosten->accinfo = $this->accinfo;
-			if($this->seizoen_counter>1) {
-
-				foreach ($this->seizoeninfo as $seizoen_id => $value) {
-					// multiple seasons
-					$bijkomendekosten->seizoen_id = $seizoen_id;
-					if($this->toon_bijkomendekosten) {
-						$toelichting_season[$seizoen_id] = $bijkomendekosten->toon_type();
-					} else {
-						$toelichting_season[$seizoen_id] = $bijkomendekosten->toon_type_temporary();
-					}
-
-					if($check_for_doubles and $check_for_doubles==$toelichting_season[$seizoen_id]) {
-						$both_season_are_the_same = true;
-					}
-
-					$check_for_doubles = $toelichting_season[$seizoen_id];
-				}
-
-				if($both_season_are_the_same) {
-					$toelichting = $check_for_doubles;
-				} else {
-
-					$toelichting .= "<form><select class=\"tarieventabel_toelichting_switch_seasons\">";
-					foreach ($toelichting_season as $seizoen_id => $value) {
-						$season_counter++;
-						$toelichting .= "<option value=\"".$seizoen_id."\"".($season_counter==1 ? " selected" : "").">&nbsp;".wt_he($this->seizoeninfo[$seizoen_id]["naam"])."&nbsp;</option>";
-					}
-					$toelichting .= "</select></form>";
-
-					$toelichting .= "<div class=\"tarieventabel_toelichting_all_seasons\">";
-
-					$toelichting .= "<div class=\"tarieventabel_toelichting_active_season\"></div>";
-
-					foreach ($toelichting_season as $seizoen_id => $value) {
-
-						$toelichting .= "<div class=\"tarieventabel_toelichting_one_season\" data-seizoen_id=\"".$seizoen_id."\">";
-						$toelichting .= $value;
-						$toelichting .= "</div>";
-
-					}
-					$toelichting .= "</div>";
-				}
-
-
-			} else {
-				// one season
-				$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
-				if($this->toon_bijkomendekosten) {
-					$toelichting = $bijkomendekosten->toon_type();
-				} else {
-					$toelichting = $bijkomendekosten->toon_type_temporary();
-				}
-			}
+			// one season
+			$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
+			$toelichting = $bijkomendekosten->toon_type();
 		}
 
 		if($toelichting) {
@@ -1495,13 +1301,11 @@ class tarieventabel {
 
 
 			// info totaalprijs
-			if($this->toon_bijkomendekosten) {
-				$return .= "<div class=\"tarieventabel_totaalprijs_wrapper\">";
-				if($_GET["ap"] and $_GET["d"]) {
-					$return .= $this->info_totaalprijs($_GET["ap"], $_GET["d"]);
-				}
-				$return .= "</div>";
+			$return .= "<div class=\"tarieventabel_totaalprijs_wrapper\">";
+			if($_GET["ap"] and $_GET["d"]) {
+				$return .= $this->info_totaalprijs($_GET["ap"], $_GET["d"]);
 			}
+			$return .= "</div>";
 
 			$return .= "<div class=\"tarieventabel_toelichting_inner\">";
 			$return .= $toelichting;
@@ -1592,11 +1396,7 @@ class tarieventabel {
 			$db = new DB_sql;
 			$db2 = new DB_sql;
 
-			if($this->toon_bijkomendekosten) {
-				$bijkomendekosten = new bijkomendekosten;
-			}
-
-
+			$bijkomendekosten = new bijkomendekosten;
 
 			# Accinfo
 			if($accinfo) {
@@ -1614,7 +1414,6 @@ class tarieventabel {
 
 			} else {
 				$this->arrangement=true;
-				$this->toon_accommodatie_per_persoon = false;
 			}
 
 
@@ -1689,14 +1488,12 @@ class tarieventabel {
 					# seizoen_id bij een bepaalde week bepalen
 					$this->week_seizoen_id[$db->f("week")]=$db->f("seizoen_id");
 
-					if($this->toon_bijkomendekosten) {
 
-						if(!$seizoen_cache_fetched[$db->f("seizoen_id")]) {
-							$seizoen_cache_fetched[$db->f("seizoen_id")] = true;
+					if(!$seizoen_cache_fetched[$db->f("seizoen_id")]) {
+						$seizoen_cache_fetched[$db->f("seizoen_id")] = true;
 
-							$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], true);
-							$bk_add_to_price_total = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], false);
-						}
+						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], true);
+						$bk_add_to_price_total = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], false);
 					}
 
 
@@ -1750,15 +1547,13 @@ class tarieventabel {
 						$this->tarief_zonder_bk[$db->f("personen")][$db->f("week")]=$db->f("prijs");
 						$this->tarief_alleen_bk[$db->f("personen")][$db->f("week")] = $bk_add_to_price_total[$db->f("personen")];
 
-						if($this->toon_bijkomendekosten) {
-							// add bijkomende kosten
-							$this->tarief[$db->f("personen")][$db->f("week")] += $bk_add_to_price[$db->f("personen")];
+						// add bijkomende kosten
+						$this->tarief[$db->f("personen")][$db->f("week")] += $bk_add_to_price[$db->f("personen")];
 
-							$this->tarief_exact[$db->f("personen")][$db->f("week")] = $this->tarief[$db->f("personen")][$db->f("week")];
+						$this->tarief_exact[$db->f("personen")][$db->f("week")] = $this->tarief[$db->f("personen")][$db->f("week")];
 
-							// round with ceil()
-							$this->tarief[$db->f("personen")][$db->f("week")] = ceil($this->tarief[$db->f("personen")][$db->f("week")]);
-						}
+						// round with ceil()
+						$this->tarief[$db->f("personen")][$db->f("week")] = ceil($this->tarief[$db->f("personen")][$db->f("week")]);
 
 						$this->aantal_personen[$db->f("personen")]=true;
 
@@ -1824,24 +1619,21 @@ class tarieventabel {
 				// echo $db->lq;
 				while($db->next_record()) {
 
-					if($this->toon_bijkomendekosten) {
+					if(!$seizoen_cache_fetched[$db->f("seizoen_id")]) {
+						$seizoen_cache_fetched[$db->f("seizoen_id")] = true;
 
-						if(!$seizoen_cache_fetched[$db->f("seizoen_id")]) {
-							$seizoen_cache_fetched[$db->f("seizoen_id")] = true;
-
-							$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], false);
+						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $this->accinfo["maxaantalpersonen"], false);
 
 
-							// surcharge extra persons
-							$this->bk_add_to_price_per_person_per_week = $bijkomendekosten->get_type_from_cache_all_persons_all_weeks($this->type_id, $vars["seizoentype"]);
+						// surcharge extra persons
+						$this->bk_add_to_price_per_person_per_week = $bijkomendekosten->get_type_from_cache_all_persons_all_weeks($this->type_id, $vars["seizoentype"]);
 
-							// toon losse accommodatie per persoon
-							if($this->toon_accommodatie_per_persoon and !$this->aantal_personen and is_array($bk_add_to_price)) {
-								foreach ($bk_add_to_price as $key => $value) {
-									$this->aantal_personen[$key] = true;
-								}
-								krsort($this->aantal_personen);
+						// toon losse accommodatie per persoon
+						if(!$this->arrangement and !$this->aantal_personen and is_array($bk_add_to_price)) {
+							foreach ($bk_add_to_price as $key => $value) {
+								$this->aantal_personen[$key] = true;
 							}
+							krsort($this->aantal_personen);
 						}
 					}
 
@@ -1913,56 +1705,35 @@ class tarieventabel {
 
 						$this->tarief_zonder_bk[$db->f("week")]=$temp_verkoop_site;
 
-						if($this->toon_accommodatie_per_persoon) {
+						if(is_array($bk_add_to_price)) {
+							foreach ($bk_add_to_price as $key => $value) {
 
-							if(is_array($bk_add_to_price)) {
-								foreach ($bk_add_to_price as $key => $value) {
-
-									// surcharge extra persons
-									if($this->bk_add_to_price_per_person_per_week[$key][$db->f("week")]) {
-										$bk_add_to_price_total = $this->bk_add_to_price_per_person_per_week[$key][$db->f("week")];
-									} else {
-										$bk_add_to_price_total = 0;
-									}
-
-									$this->tarief[$key][$db->f("week")] = ($temp_verkoop_site + $value + $bk_add_to_price_total) / $key;
-
-									$this->tarief_alleen_bk[$key][$db->f("week")] = $value + $bk_add_to_price_total;
-
-									$this->tarief_exact[$key][$db->f("week")] = $this->tarief[$key][$db->f("week")];
-
-									// round with ceil()
-									$this->tarief[$key][$db->f("week")] = ceil($this->tarief[$key][$db->f("week")]);
-
-									// commissie
-									if($this->tarief[$key][$db->f("week")]>0) {
-										$this->commissie[$db->f("week")] = $db->f("wederverkoop_commissie_agent");
-										if($vars["chalettour_aanpassing_commissie"]) {
-											$this->commissie[$db->f("week")] = $this->commissie[$db->f("week")] + $vars["chalettour_aanpassing_commissie"];
-										}
-									}
+								// surcharge extra persons
+								if($this->bk_add_to_price_per_person_per_week[$key][$db->f("week")]) {
+									$bk_add_to_price_total = $this->bk_add_to_price_per_person_per_week[$key][$db->f("week")];
+								} else {
+									$bk_add_to_price_total = 0;
 								}
-							}
-						} else {
 
-							$this->tarief[$db->f("week")]=$temp_verkoop_site;
+								$this->tarief[$key][$db->f("week")] = ($temp_verkoop_site + $value + $bk_add_to_price_total) / $key;
 
-							if($this->toon_bijkomendekosten) {
-								// add bijkomende kosten
-								$this->tarief[$db->f("week")] += $bk_add_to_price[($_GET["ap"] ? $_GET["ap"] : 1)];
+								$this->tarief_alleen_bk[$key][$db->f("week")] = $value + $bk_add_to_price_total;
+
+								$this->tarief_exact[$key][$db->f("week")] = $this->tarief[$key][$db->f("week")];
 
 								// round with ceil()
-								$this->tarief[$db->f("week")] = ceil($this->tarief[$db->f("week")]);
-							}
+								$this->tarief[$key][$db->f("week")] = ceil($this->tarief[$key][$db->f("week")]);
 
-							// commissie
-							if($this->tarief[$db->f("week")]>0) {
-								$this->commissie[$db->f("week")]=$db->f("wederverkoop_commissie_agent");
-								if($vars["chalettour_aanpassing_commissie"]) {
-									$this->commissie[$db->f("week")]=$this->commissie[$db->f("week")]+$vars["chalettour_aanpassing_commissie"];
+								// commissie
+								if($this->tarief[$key][$db->f("week")]>0) {
+									$this->commissie[$db->f("week")] = $db->f("wederverkoop_commissie_agent");
+									if($vars["chalettour_aanpassing_commissie"]) {
+										$this->commissie[$db->f("week")] = $this->commissie[$db->f("week")] + $vars["chalettour_aanpassing_commissie"];
+									}
 								}
 							}
 						}
+
 
 
 						// Voorraad bepalen t.b.v. ingelogde reisbureaus

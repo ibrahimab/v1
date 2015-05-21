@@ -404,33 +404,6 @@ if($vars["verberg_linkerkolom"]) {
 			echo "</ul></div>";
 			echo "</div>\n";
 		}
-		# Nieuwsbrief
-		if($vars["nieuwsbrief_aanbieden"] and $NU_EVEN_NIET) {
-			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
-			echo "<div class=\"kop\">Nieuwsbrief</div>";
-			echo "<div>Mis nooit aanbiedingen, nieuws en reistips.</div>";
-			$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
-			echo "<form method=\"post\" action=\"".wt_he($nieuwsbrief_url)."\">";
-			echo "<div style=\"margin-top:5px;\"><input type=\"email\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
-			echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
-			echo "</form>";
-			echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
-
-			echo "<div style=\"clear:both;\"></div>";
-
-			if($vars["website"]=="C" and $id=="index") {
-				echo "<div id=\"hoofdpagina_sociallinks\">";
-				echo "<div style=\"float:left;\">";
-				echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-				echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
-				echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
-				echo "<a href=\"https://plus.google.com/+ChaletNLWintersport\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
-				echo "</div>\n";
-				echo "<div style=\"float:right;\"></div>";
-				echo "<div style=\"clear: both;\"></div>\n";
-				echo "</div>\n"; # afsluiten #hoofdpagina_sociallinks
-			}
-		}
 
 		if($vars["website"]=="C" and $id<>"alpedhuzes" and $id=="index") {
 			# Alpe d'HuZes

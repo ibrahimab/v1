@@ -107,12 +107,8 @@ if($_GET["printvertrekinfo"]) {
 	# Vertrekinfo printen
 	$tmpfile=$vars["unixdir"]."tmp/vertrekinfo-".uniqid().".pfd";
 
-	if($vars["toon_bijkomendekosten_stap1"]) {
-		$vertrekinfo = new vertrekinfo;
-		$vars["vertrekinfo_boeking"] = $vertrekinfo->create($gegevens,$tmpfile);
-	} else {
-		$vars["vertrekinfo_boeking"]=vertrekinfo_boeking($gegevens,$tmpfile);
-	}
+	$vertrekinfo = new vertrekinfo;
+	$vars["vertrekinfo_boeking"] = $vertrekinfo->create($gegevens,$tmpfile);
 
 	if($vars["vertrekinfo_boeking"]["error"]) {
 		echo $vars["vertrekinfo_boeking"]["error"];
@@ -343,12 +339,8 @@ if($_POST["input"]["vouchersmailen"]) {
 		# Vertrekinfo-pdf aanmaken
 		$pdffile_route=$vars["unixdir"]."tmp/vertrekinfo-".uniqid().".pfd";
 
-		if($vars["toon_bijkomendekosten_stap1"]) {
-			$vertrekinfo = new vertrekinfo;
-			$vars["vertrekinfo_boeking"] = $vertrekinfo->create($gegevens,$pdffile_route);
-		} else {
-			$vars["vertrekinfo_boeking"]=vertrekinfo_boeking($gegevens,$pdffile_route);
-		}
+		$vertrekinfo = new vertrekinfo;
+		$vars["vertrekinfo_boeking"] = $vertrekinfo->create($gegevens,$pdffile_route);
 		if($vars["vertrekinfo_boeking"]["error"]) {
 			unset($pdffile_route);
 			echo $vars["vertrekinfo_boeking"]["error"];
@@ -356,12 +348,8 @@ if($_POST["input"]["vouchersmailen"]) {
 		}
 } else {
 	# Vertrekinfo alleen maar laden
-	if($vars["toon_bijkomendekosten_stap1"]) {
-		$vertrekinfo = new vertrekinfo;
-		$vars["vertrekinfo_boeking"] = $vertrekinfo->create($gegevens);
-	} else {
-		$vars["vertrekinfo_boeking"]=vertrekinfo_boeking($gegevens);
-	}
+	$vertrekinfo = new vertrekinfo;
+	$vars["vertrekinfo_boeking"] = $vertrekinfo->create($gegevens);
 }
 
 # Gegevens uit vertrekinfo doorgeven aan voucher

@@ -238,18 +238,6 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or (defined("wt_test") and 
 	$vars["testsite"]=file_get_contents($unixdir."tmp/testsite.txt");
 }
 
-// test system "bijkomendekosten"
-if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and !$_GET["cmsuit"]) {
-	// $vars["toon_bijkomendekosten"] = true;
-	$vars["toon_bijkomendekosten_stap1"] = true;
-}
-if($_COOKIE["loginuser"]["chalet"] and !$_GET["cmsuit"] and ($_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $_SERVER["REMOTE_ADDR"]=="31.223.173.113")) {
-	$vars["toon_bijkomendekosten_stap1"] = true;
-}
-
-// toon_bijkomendekosten_stap1 for everyone
-$vars["toon_bijkomendekosten_stap1"] = true;
-
 if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
 	# bezoek op alleen IP-adres doorsturen naar juiste hostname
 	header("Location: https://www.chalet.nl/");

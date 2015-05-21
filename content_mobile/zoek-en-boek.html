@@ -18,10 +18,8 @@ if($_GET["fzt"]==html("zoekoptekst","index")) {
 	$_GET["fzt"]="";
 }
 
-if($vars["toon_bijkomendekosten_stap1"]) {
-	// zoekresultaat_prijs_info_bijkomendekosten_popup (hide by default)
-	$opmaak->html_at_the_bottom("<div class=\"zoekresultaat_prijs_info_bijkomendekosten_popup zoekresultaat_prijs_info_bijkomendekosten_empty\"><img src=\"".$vars["path"]."pic/close_icon.png\" class=\"close\" /><div></div></div>");
-}
+// zoekresultaat_prijs_info_bijkomendekosten_popup (hide by default)
+$opmaak->html_at_the_bottom("<div class=\"zoekresultaat_prijs_info_bijkomendekosten_popup zoekresultaat_prijs_info_bijkomendekosten_empty\"><img src=\"".$vars["path"]."pic/close_icon.png\" class=\"close\" /><div></div></div>");
 
 
 
@@ -1322,29 +1320,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				}
 			}
 		}
-
-		// functie uitgezet op 09-10-2012; getoonde gegevens waren niet correct
-		// TODO: herstellen en weer aanzetten overzicht andere beschikbare flexibele datums Italissima
-		if($vars["flexibel_toegestaan"] and is_array($flex_alt) and $NU_EVEN_NIET) {
-			$flex_alt_html.="<div class=\"flexalternatieven boxshadow\">";
-			$flex_alt_html.="<i>".html("bekijkeventueelook","zoek-en-boek").":</i><br><br>";
-
-			while(list($key,$value)=each($flex_alt)) {
-				if(!$flex_aankomstdatum) {
-					if($_GET["altad"]) {
-						$flex_aankomstdatum=$_GET["altad"];
-					} elseif($_GET["fad"]) {
-						$flex_aankomstdatum=$_GET["fad"];
-					}
-				}
-				if($key==$flex_aankomstdatum."_".mktime(0,0,0,date("m",$flex_aankomstdatum),date("d",$flex_aankomstdatum)+$aantalnachten-1,date("Y",$flex_aankomstdatum))) {
-					$flex_alt_html.="<span style=\"font-style:italic;color:#555555;\">".$value.": ".$flex_alt_resultatenzonderlink[$key]."</span><br>";
-				} else {
-					$flex_alt_html.=$value.": ".$flex_alt_resultatenlink[$key]."<br>";
-				}
-			}
-			$flex_alt_html.="</div>";
-		}
 	}
 	while(list($key,$value)=each($query)) {
 		$db->query($value);
@@ -1471,38 +1446,35 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 			unset($tarief_float);
 			if($tarief>0) {
 
-				if($vars["toon_bijkomendekosten_stap1"]) {
+				$temp_seizoen_id = $db->f("seizoen_id");
+				if(!$temp_seizoen_id) {
 
-					$temp_seizoen_id = $db->f("seizoen_id");
-					if(!$temp_seizoen_id) {
+					// TODO: use the actuel seizoen_id
+					$temp_seizoen_id="24";
+					// trigger_error("geen seizoen_id bekend",E_USER_NOTICE);
+				}
 
-						// TODO: use the actuel seizoen_id
-						$temp_seizoen_id="24";
-						// trigger_error("geen seizoen_id bekend",E_USER_NOTICE);
+				if($db->f("toonper")==1) {
+					// arrangement
+					$temp_aantalpersonen = ($_GET["fap"] ? $_GET["fap"] : $db->f("maxaantalpersonen"));
+					$bk_add_to_price = $bk[$db->f("type_id")][$temp_seizoen_id][$temp_aantalpersonen] / $temp_aantalpersonen;
+				} else {
+					// losse accommodatie
+					$temp_aantalpersonen = ($_GET["fap"] ? $_GET["fap"] : 1);
+					$bk_add_to_price = $bk[$db->f("type_id")][$temp_seizoen_id][$temp_aantalpersonen];
+
+					// surcharge extra persons
+					if($_GET["fap"] and $_GET["fad"] and $bk_all_persons[$db->f("type_id")][$_GET["fad"]]) {
+						$bk_add_to_price += $bk_all_persons[$db->f("type_id")][$_GET["fad"]];
 					}
+				}
 
-					if($db->f("toonper")==1) {
-						// arrangement
-						$temp_aantalpersonen = ($_GET["fap"] ? $_GET["fap"] : $db->f("maxaantalpersonen"));
-						$bk_add_to_price = $bk[$db->f("type_id")][$temp_seizoen_id][$temp_aantalpersonen] / $temp_aantalpersonen;
-					} else {
-						// losse accommodatie
-						$temp_aantalpersonen = ($_GET["fap"] ? $_GET["fap"] : 1);
-						$bk_add_to_price = $bk[$db->f("type_id")][$temp_seizoen_id][$temp_aantalpersonen];
-
-						// surcharge extra persons
-						if($_GET["fap"] and $_GET["fad"] and $bk_all_persons[$db->f("type_id")][$_GET["fad"]]) {
-							$bk_add_to_price += $bk_all_persons[$db->f("type_id")][$_GET["fad"]];
-						}
-					}
-
-					$bk_used_seizoen_id[$db->f("type_id")] = $temp_seizoen_id;
+				$bk_used_seizoen_id[$db->f("type_id")] = $temp_seizoen_id;
 
 
-					if($bk_add_to_price>0) {
-						$tarief = $tarief + $bk_add_to_price;
-						$tarief = ceil($tarief);
-					}
+				if($bk_add_to_price>0) {
+					$tarief = $tarief + $bk_add_to_price;
+					$tarief = ceil($tarief);
 				}
 
 				$tarief_float=$tarief;
@@ -2441,10 +2413,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 						$results[$results_teller].="<div class=\"zoekresultaat_prijs\">";
 							if($value2["tarief"]) {
-
-								if($vars["toon_bijkomendekosten_stap1"]) {
-									// $results[$results_teller].="<div class=\"zoekresultaat_prijs_info_bijkomendekosten\" data-type_id=\"".($newresults_cheapest[$value] ? $newresults_cheapest[$value] : $value2["type_id"])."\" data-seizoen_id=\"".intval($bk_used_seizoen_id[$value2["type_id"]])."\" data-arrangement=\"".($value2["toonper"]==3 or $vars["wederverkoop"] ? "0" : "1")."\"></div>";
-								}
 
 								unset($zoekresultaat_prijs_periode);
 								$zoekresultaat_prijs_periode.="<div class=\"zoekresultaat_prijs_periode\">";

@@ -158,15 +158,8 @@ if($argv[1]=="test.chalet.nl") {
 	}
 } else {
 	if(!$argv[1] and !$testsysteem) {
-		if(date("i")==5 and $current_hour>=8 and $current_hour<=20 and $NU_EVEN_NIET) {
-			# Alle leveranciers worden doorlopen tussen 8 en 20 uur
-		} elseif(date("i")==5 and ($current_hour==3 or $current_hour==11 or $current_hour==15 or $current_hour==19)) {
+		if(date("i")==5 and ($current_hour==3 or $current_hour==11 or $current_hour==15 or $current_hour==19)) {
 			// temporarily: only import at 3, 11, 15 and 19 h
-		} elseif(date("i")==5 and ($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==22) and $NU_EVEN_NIET) {
-			# Alle leveranciers worden doorlopen om 0, 3, 6 en 22 uur
-		} elseif($current_hour==10 and date("i")==20 and $NU_EVEN_NIET) {
-			# Om alle leveranciers als test allemaal te kunnen nalopen
-
 		} else {
 			$db->query("SELECT handmatige_xmlimport_id FROM diverse_instellingen WHERE handmatige_xmlimport_id>0;");
 			if($db->next_record()) {

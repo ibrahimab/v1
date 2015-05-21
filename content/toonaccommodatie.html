@@ -151,10 +151,6 @@ if($nieuwe_tarieventabel) {
 
 
 	$tarieventabel_object = new tarieventabel;
-	if($vars["toon_bijkomendekosten_stap1"]) {
-		$tarieventabel_object->toon_bijkomendekosten = true;
-		$tarieventabel_object->toon_accommodatie_per_persoon = true;
-	}
 
 	$tarieventabel_object->show_afwijkend_legenda = true;
 	if($weekendski) {
@@ -1927,11 +1923,8 @@ if($db->next_record()) {
 		echo html("alletypes2","toonaccommodatie");
 		echo "</div>";
 
-
-		if($vars["toon_bijkomendekosten_stap1"]) {
-			$bijkomendekosten = new bijkomendekosten;
-			$bk = $bijkomendekosten->get_complete_cache($vars["seizoentype"]);
-		}
+		$bijkomendekosten = new bijkomendekosten;
+		$bk = $bijkomendekosten->get_complete_cache($vars["seizoentype"]);
 
 
 		while($db2->next_record()) {
@@ -1949,7 +1942,7 @@ if($db->next_record()) {
 					} else {
 						$prijs=$db2->f("c_verkoop_site");
 					}
-					if($vars["toon_bijkomendekosten_stap1"] and $prijs) {
+					if($prijs) {
 						// bijkomende kosten other types
 						if($db2->f("toonper")==1) {
 							// arrangement
@@ -2109,7 +2102,7 @@ if(!defined("wt_test") and !$voorkant_cms) {
 	echo $google_tagmanager->product_detail_impressions($product_details_impressions, $ie);
 }
 
-if($vars["toon_bijkomendekosten_stap1"] and is_object($opmaak)) {
+if(is_object($opmaak)) {
 	// tarieventabel_totaalprijs_specificatie_popup (hide by default)
 	$opmaak->html_at_the_bottom("<div class=\"tarieventabel_totaalprijs_specificatie_popup tarieventabel_totaalprijs_specificatie_empty\"><img src=\"".$vars["path"]."pic/close_icon.png\" class=\"close\" /><div></div></div>");
 }

@@ -393,8 +393,6 @@ if($mustlogin) {
 	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen","Vervallen aanvragen",array("bt"=>"7","archief"=>"0"),true);
 
 	$layout->menu_item("cms_diversen","Diversen","",true,false,array("slide"=>true));
-	$layout->submenu_item("cms_diversen","","cms_diversen","Actielijst WebTastic",array("t"=>"1"),true);
-	$layout->submenu_item("cms_diversen","","cms_diversen","Actielijst archief",array("t"=>"2"),true);
 	$layout->submenu_item("cms_diversen","","cms_blog","Blog Chalet.nl/be",array("websitetype"=>"1"),true);
 	$layout->submenu_item("cms_diversen","","cms_blog","Blog Italissima",array("websitetype"=>"7"),true);
 	$layout->submenu_item("cms_diversen","","cms_reisblog","Reisblog Italissima","",true);

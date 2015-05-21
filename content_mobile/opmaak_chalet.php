@@ -3,42 +3,26 @@
 $page_id = $id;
 # Te includen bestand bepalen
 
-//if($_SERVER["REMOTE_ADDR"] == '192.168.192.240') {
-//	if($language_content) {
-//		if(file_exists("content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html")) {
-//			$include="content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html";
-//		}
-//	} else {
-//		if(file_exists("content".$mobile."/".$id."_chalet.html")) {
-//			$include="content".$mobile."/".$id."_chalet.html";
-//		} elseif(file_exists("content".$mobile."/".$id."_nieuw.html")) {
-//			$include="content".$mobile."/".$id."_nieuw.html";
-//		} elseif(file_exists("content".$mobile."/".$id.".html")) {
-//			$include="content".$mobile."/".$id.".html";
-//		}
-//	}
-//} else {
-	// Restrict access to certain pages
-//	$allow = array("index", "zoek-en-boek", "contact", "toonaccommodatie", "vraag-ons-advies",
-//	"aanbiedingen", "veelgestelde-vragen", "boeken", "boeking_bevestigd", "bsys_selecteren", "bsys",
-//    "bsys_payments", "bsys_wijzigen", "favorieten");
-//	if(in_array($id, $allow)) {
-	if($language_content) {
-		if(file_exists("content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html")) {
-			$include="content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html";
-		}
-	} else {
+if( $id=="tacc") {
+	// temporarily: content_mobile/tacc.html has been removed. Will this lead to problems? (21-05-2015)
+	trigger_error( "tacc opgevraagd op mobiele site",E_USER_NOTICE );
+}
 
-		if(file_exists("content".$mobile."/".$id."_chalet.html")) {
-			$include="content".$mobile."/".$id."_chalet.html";
-		} elseif(file_exists("content".$mobile."/".$id."_nieuw.html")) {
-			$include="content".$mobile."/".$id."_nieuw.html";
-		} elseif(file_exists("content".$mobile."/".$id.".html")) {
-			$include="content".$mobile."/".$id.".html";
-		}
+if($language_content) {
+	if(file_exists("content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html")) {
+		$include="content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html";
 	}
-//	}
-//}
+} else {
+
+	if(file_exists("content".$mobile."/".$id."_chalet.html")) {
+		$include="content".$mobile."/".$id."_chalet.html";
+	} elseif(file_exists("content".$mobile."/".$id."_nieuw.html")) {
+		$include="content".$mobile."/".$id."_nieuw.html";
+	} elseif(file_exists("content".$mobile."/".$id.".html")) {
+		$include="content".$mobile."/".$id.".html";
+	}
+}
+
 if(!$include) {
 	// header("Location: ".$vars["path"],true,301);
 	// exit;

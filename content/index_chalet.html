@@ -95,7 +95,7 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 	echo "<div class=\"bloklinks_blauwelijn\"></div>";
 
 
-	if($NU_EVEN_NIET) {
+	if($blog_active) {
 		// hide blog (as requested by Bjorn on 18-9-2014)
 		$db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,1;");
 		if($db->num_rows()) {

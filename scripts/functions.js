@@ -2375,107 +2375,89 @@ $(document).ready(function() {
 			$(".tarieventabel_verbergen").hide();
 
 
-			if($(".tarieventabel_wrapper").data("toon_bijkomendekosten")=="1") {
-				//
-				// tarieventabel: click to show total amount
-				//
+			//
+			// tarieventabel: click to show total amount
+			//
 
-				$("td.tarieventabel_tarieven_beschikbaar").click(function(event) {
+			$("td.tarieventabel_tarieven_beschikbaar").click(function(event) {
 
-					// alert( $( "div.tarieventabel_totaalprijs_wrapper" ).outerHeight() );
+				// alert( $( "div.tarieventabel_totaalprijs_wrapper" ).outerHeight() );
 
-					event.preventDefault();
-					var new_html;
+				event.preventDefault();
+				var new_html;
 
-					// scroll down if necessary
-					var position_tarieventabel = parseInt( $(".tarieventabel_maanden_top").offset().top - 2, 10);
-					var position_scroll = parseInt( $(document).scrollTop(), 10);
+				// scroll down if necessary
+				var position_tarieventabel = parseInt( $(".tarieventabel_maanden_top").offset().top - 2, 10);
+				var position_scroll = parseInt( $(document).scrollTop(), 10);
 
-					var scroll_time = 800;
+				var scroll_time = 800;
 
-					if(position_scroll > position_tarieventabel ) {
-						position_tarieventabel = position_scroll;
-						scroll_time = 0;
-					}
+				if(position_scroll > position_tarieventabel ) {
+					position_tarieventabel = position_scroll;
+					scroll_time = 0;
+				}
 
-					if($( "div.tarieventabel_totaalprijs_wrapper" ).outerHeight()==0) {
-						//
-						// no tarieventabel_totaalprijs_wrapper visible yet
-						//
-						$("div.tarieventabel_totaalprijs_wrapper").hide();
-						$.when(
-								$("html, body").animate({scrollTop: position_tarieventabel}, scroll_time, "swing")
-							,
-								$.getJSON(absolute_path+"rpc_json.php", {
-									"t": "tarieventabel_totaalprijs",
-									"ap": $(this).parent().data("aantalpersonen"),
-									"d": $(this).data("week"),
-									"type_id": $(".tarieventabel_wrapper").data("type_id"),
-									"seizoen_id_inquery": $(".tarieventabel_wrapper").data("seizoen_id_inquery")
-								}, function(data) {
-									if(data.ok) {
-										new_html = data.html;
-									}
-								})
-						).done(function() {
-							// $( "div.tarieventabel_totaalprijs" ).replaceWith(new_html);
-							$( "div.tarieventabel_totaalprijs_wrapper" ).html(new_html);
-							$( "div.tarieventabel_totaalprijs_wrapper" ).slideDown("slow", function() {
-								// $( "div.tarieventabel_totaalprijs_wrapper" ).effect("pulsate", { times: 1 });
-							});
+				if($( "div.tarieventabel_totaalprijs_wrapper" ).outerHeight()==0) {
+					//
+					// no tarieventabel_totaalprijs_wrapper visible yet
+					//
+					$("div.tarieventabel_totaalprijs_wrapper").hide();
+					$.when(
+							$("html, body").animate({scrollTop: position_tarieventabel}, scroll_time, "swing")
+						,
+							$.getJSON(absolute_path+"rpc_json.php", {
+								"t": "tarieventabel_totaalprijs",
+								"ap": $(this).parent().data("aantalpersonen"),
+								"d": $(this).data("week"),
+								"type_id": $(".tarieventabel_wrapper").data("type_id"),
+								"seizoen_id_inquery": $(".tarieventabel_wrapper").data("seizoen_id_inquery")
+							}, function(data) {
+								if(data.ok) {
+									new_html = data.html;
+								}
+							})
+					).done(function() {
+						// $( "div.tarieventabel_totaalprijs" ).replaceWith(new_html);
+						$( "div.tarieventabel_totaalprijs_wrapper" ).html(new_html);
+						$( "div.tarieventabel_totaalprijs_wrapper" ).slideDown("slow", function() {
+							// $( "div.tarieventabel_totaalprijs_wrapper" ).effect("pulsate", { times: 1 });
 						});
+					});
 
-					} else {
+				} else {
 
-						$.when(
-								$("div.tarieventabel_totaalprijs_wrapper").animate({ opacity: 0 })
-							,
-								$("html, body").animate({scrollTop: position_tarieventabel}, scroll_time, "swing")
-							,
-								$.getJSON(absolute_path+"rpc_json.php", {
-									"t": "tarieventabel_totaalprijs",
-									"ap": $(this).parent().data("aantalpersonen"),
-									"d": $(this).data("week"),
-									"type_id": $(".tarieventabel_wrapper").data("type_id"),
-									"seizoen_id_inquery": $(".tarieventabel_wrapper").data("seizoen_id_inquery")
-								}, function(data) {
-									if(data.ok) {
-										new_html = data.html;
-									}
-								})
-						).done(function() {
-							$( "div.tarieventabel_totaalprijs" ).replaceWith(new_html);
-							$( "div.tarieventabel_totaalprijs_wrapper" ).animate({ opacity: 1 });
-						});
-					}
-				});
+					$.when(
+							$("div.tarieventabel_totaalprijs_wrapper").animate({ opacity: 0 })
+						,
+							$("html, body").animate({scrollTop: position_tarieventabel}, scroll_time, "swing")
+						,
+							$.getJSON(absolute_path+"rpc_json.php", {
+								"t": "tarieventabel_totaalprijs",
+								"ap": $(this).parent().data("aantalpersonen"),
+								"d": $(this).data("week"),
+								"type_id": $(".tarieventabel_wrapper").data("type_id"),
+								"seizoen_id_inquery": $(".tarieventabel_wrapper").data("seizoen_id_inquery")
+							}, function(data) {
+								if(data.ok) {
+									new_html = data.html;
+								}
+							})
+					).done(function() {
+						$( "div.tarieventabel_totaalprijs" ).replaceWith(new_html);
+						$( "div.tarieventabel_totaalprijs_wrapper" ).animate({ opacity: 1 });
+					});
+				}
+			});
 
-				// click on small "book now" button
-				$(document).on("click", ".tarieventabel_totaalprijs button", function(event) {
-					event.preventDefault();
+			// click on small "book now" button
+			$(document).on("click", ".tarieventabel_totaalprijs button", function(event) {
+				event.preventDefault();
 
-					var url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week")+"&ap="+$(this).data("aantalpersonen");
-					document.location.href=url;
+				var url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week")+"&ap="+$(this).data("aantalpersonen");
+				document.location.href=url;
 
-				});
+			});
 
-			} else {
-				//
-				// tarieventabel: click to book
-				//
-				$("td.tarieventabel_tarieven_beschikbaar").click(function(event) {
-					event.preventDefault();
-
-					var url='';
-					if($(this).parent().data("aantalpersonen")>0) {
-						url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week")+"&ap="+$(this).parent().data("aantalpersonen");
-					} else {
-						url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week");
-					}
-					document.location.href=url;
-
-				});
-			}
 
 			//
 			// tarieventabel: scrollen
