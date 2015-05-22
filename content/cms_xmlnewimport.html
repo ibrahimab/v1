@@ -537,117 +537,119 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					$onbekend_plaats[$value["city"]]=true;
 				}
 
-				reset($unit_id[$value["id"]]);
-				while(list($key2,$value2)=each($unit_id[$value["id"]])) {
+				if( is_array($unit_id[$value["id"]]) ) {
+					reset($unit_id[$value["id"]]);
+					while(list($key2,$value2)=each($unit_id[$value["id"]])) {
 
-					$uniekeid=trim($value2["unique_serial"]);
+						$uniekeid=trim($value2["unique_serial"]);
 
-					$check_import = check_import_stage($uniekeid, $type_xmlcode, $verberg_xmlcode, $imported_acc, $counter);
+						$check_import = check_import_stage($uniekeid, $type_xmlcode, $verberg_xmlcode, $imported_acc, $counter);
 
-					if($check_import == "continue") {
-						continue;
-					} elseif($check_import == "break") {
-						break;
-					}
-
-					# Type-gegevens
-					if($bekend_skigebied and $bekend_plaats) {
-
-						$volgnummer++;
-
-						if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" and $volgnummer>50) {
-							# testsysteem: maximaal 50 resultaten tonen
+						if($check_import == "continue") {
 							continue;
+						} elseif($check_import == "break") {
+							break;
 						}
 
-						$new[$uniekeid]["volgnummer"]=$volgnummer;
-						$new[$uniekeid]["accid"]=$value["id"];
-						$new[$uniekeid]["accnaam"]=trim($value["name"]);
-						$new[$uniekeid]["typenaam"]=trim($value2["unitname"]);
+						# Type-gegevens
+						if($bekend_skigebied and $bekend_plaats) {
 
-						if(eregi("^(".$new[$uniekeid]["accnaam"].")(.*)$",$new[$uniekeid]["typenaam"],$regs)) {
-							$new[$uniekeid]["accnaam"]=$regs[1];
-							$new[$uniekeid]["typenaam"]=$regs[2];
-						} elseif(strtoupper($new[$uniekeid]["accnaam"])==$new[$uniekeid]["accnaam"]) {
-							$new[$uniekeid]["accnaam"]=ucwords(strtolower($new[$uniekeid]["accnaam"]));
-						}
+							$volgnummer++;
 
-						$new[$uniekeid]["skigebied_id"]=$bekend_skigebied;
-						$new[$uniekeid]["plaats_id"]=$bekend_plaats;
-
-						$new[$uniekeid]["optimaalaantalpersonen"]=$value2["maxcapacity"];
-						$new[$uniekeid]["maxaantalpersonen"]=$value2["maxcapacity"];
-
-						$new[$uniekeid]["slaapkamers"]=$value2["bedroomsnumber"];
-						$new[$uniekeid]["badkamers"]=$value2["bathroomsnumber"];
-
-						for($i=1;$i<=5;$i++) {
-							if($value2["class_".$i]==1) {
-								$new[$uniekeid]["kwaliteit"]=(6-$i);
+							if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" and $volgnummer>50) {
+								# testsysteem: maximaal 50 resultaten tonen
+								continue;
 							}
-						}
 
-						if($type_xmlcode[$uniekeid]) {
-							$new[$uniekeid]["new"]=false;
-						} else {
-							$new[$uniekeid]["new"]=true;
-						}
+							$new[$uniekeid]["volgnummer"]=$volgnummer;
+							$new[$uniekeid]["accid"]=$value["id"];
+							$new[$uniekeid]["accnaam"]=trim($value["name"]);
+							$new[$uniekeid]["typenaam"]=trim($value2["unitname"]);
 
-						// Get the images only when saving the accommodations
-						if(isset($_POST["filled"]) || isset($_GET["checkforchanges"]) || isset($_GET["toonwijzigingen"]) || ($_GET['lev'] == 131) || isset($_GET["herstel"])) {
+							if(eregi("^(".$new[$uniekeid]["accnaam"].")(.*)$",$new[$uniekeid]["typenaam"],$regs)) {
+								$new[$uniekeid]["accnaam"]=$regs[1];
+								$new[$uniekeid]["typenaam"]=$regs[2];
+							} elseif(strtoupper($new[$uniekeid]["accnaam"])==$new[$uniekeid]["accnaam"]) {
+								$new[$uniekeid]["accnaam"]=ucwords(strtolower($new[$uniekeid]["accnaam"]));
+							}
 
-							if(is_array($propertydesc_id[$value["id"]])) {
-								reset($propertydesc_id[$value["id"]]);
-								while(list($key3,$value3)=each($propertydesc_id[$value["id"]])) {
-									if($value3["language"]==0 or $value3["language"]==6) {
-										if($value3["language"]==0) {
-											$addlang="_en";
-										} else {
-											$addlang="";
+							$new[$uniekeid]["skigebied_id"]=$bekend_skigebied;
+							$new[$uniekeid]["plaats_id"]=$bekend_plaats;
+
+							$new[$uniekeid]["optimaalaantalpersonen"]=$value2["maxcapacity"];
+							$new[$uniekeid]["maxaantalpersonen"]=$value2["maxcapacity"];
+
+							$new[$uniekeid]["slaapkamers"]=$value2["bedroomsnumber"];
+							$new[$uniekeid]["badkamers"]=$value2["bathroomsnumber"];
+
+							for($i=1;$i<=5;$i++) {
+								if($value2["class_".$i]==1) {
+									$new[$uniekeid]["kwaliteit"]=(6-$i);
+								}
+							}
+
+							if($type_xmlcode[$uniekeid]) {
+								$new[$uniekeid]["new"]=false;
+							} else {
+								$new[$uniekeid]["new"]=true;
+							}
+
+							// Get the images only when saving the accommodations
+							if(isset($_POST["filled"]) || isset($_GET["checkforchanges"]) || isset($_GET["toonwijzigingen"]) || ($_GET['lev'] == 131) || isset($_GET["herstel"])) {
+
+								if(is_array($propertydesc_id[$value["id"]])) {
+									reset($propertydesc_id[$value["id"]]);
+									while(list($key3,$value3)=each($propertydesc_id[$value["id"]])) {
+										if($value3["language"]==0 or $value3["language"]==6) {
+											if($value3["language"]==0) {
+												$addlang="_en";
+											} else {
+												$addlang="";
+											}
+											$new[$uniekeid]["accomschrijving".$addlang]=xml_striphtml($value3["maindescription"]);
 										}
-										$new[$uniekeid]["accomschrijving".$addlang]=xml_striphtml($value3["maindescription"]);
 									}
 								}
-							}
 
-							if(is_array($unitdesc_id[$uniekeid])) {
-								reset($unitdesc_id[$uniekeid]);
-								while(list($key3,$value3)=each($unitdesc_id[$uniekeid])) {
-									if($value3["language"]==0 or $value3["language"]==6) {
-										if($value3["language"]==0) {
-											$addlang="_en";
-										} else {
-											$addlang="";
+								if(is_array($unitdesc_id[$uniekeid])) {
+									reset($unitdesc_id[$uniekeid]);
+									while(list($key3,$value3)=each($unitdesc_id[$uniekeid])) {
+										if($value3["language"]==0 or $value3["language"]==6) {
+											if($value3["language"]==0) {
+												$addlang="_en";
+											} else {
+												$addlang="";
+											}
+											$new[$uniekeid]["typeindeling".$addlang]=xml_striphtml($value3["unitdescription"]);
+											if(ereg("^([0-9]+) m2\.?(.*)$",$new[$uniekeid]["typeindeling"],$regs)) {
+												$new[$uniekeid]["typeindeling".$addlang]=trim($regs[2]);
+												$new[$uniekeid]["oppervlakte"]=trim($regs[1]);
+											}
+											$new[$uniekeid]["typeexclusief"]=xml_striphtml($value3["unitpolicies"]);
 										}
-										$new[$uniekeid]["typeindeling".$addlang]=xml_striphtml($value3["unitdescription"]);
-										if(ereg("^([0-9]+) m2\.?(.*)$",$new[$uniekeid]["typeindeling"],$regs)) {
-											$new[$uniekeid]["typeindeling".$addlang]=trim($regs[2]);
-											$new[$uniekeid]["oppervlakte"]=trim($regs[1]);
-										}
-										$new[$uniekeid]["typeexclusief"]=xml_striphtml($value3["unitpolicies"]);
 									}
 								}
-							}
 
-							# Afbeeldingen
-							if(is_array($propertyimage_id[$value["id"]])) {
-								reset($propertyimage_id[$value["id"]]);
-								while(list($key3,$value3)=each($propertyimage_id[$value["id"]])) {
-									$new[$uniekeid]["accafbeelding"][$value3["sort_value"]]="http://img.posarellivillas.com".trim($value3["imagename"]);
+								# Afbeeldingen
+								if(is_array($propertyimage_id[$value["id"]])) {
+									reset($propertyimage_id[$value["id"]]);
+									while(list($key3,$value3)=each($propertyimage_id[$value["id"]])) {
+										$new[$uniekeid]["accafbeelding"][$value3["sort_value"]]="http://img.posarellivillas.com".trim($value3["imagename"]);
+									}
 								}
-							}
 
-							if(is_array($unitimage_id[$uniekeid])) {
-								reset($unitimage_id[$uniekeid]);
-								while(list($key3,$value3)=each($unitimage_id[$uniekeid])) {
-									$new[$uniekeid]["typeafbeelding"][$value3["sort_value"]]="http://img.posarellivillas.com".trim($value3["imageurl"]);
+								if(is_array($unitimage_id[$uniekeid])) {
+									reset($unitimage_id[$uniekeid]);
+									while(list($key3,$value3)=each($unitimage_id[$uniekeid])) {
+										$new[$uniekeid]["typeafbeelding"][$value3["sort_value"]]="http://img.posarellivillas.com".trim($value3["imageurl"]);
+									}
 								}
-							}
 
-							$counter++;
-						} #end if $_POST["filled"]
-					} # end if $bekend_skigebied and $bekend_plaats
-				} # end while $unit_id
+								$counter++;
+							} #end if $_POST["filled"]
+						} # end if $bekend_skigebied and $bekend_plaats
+					} # end while $unit_id
+				} # end if is_array
 			} # end while $property
 		} # end if $property
 
