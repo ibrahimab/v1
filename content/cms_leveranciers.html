@@ -5,7 +5,7 @@ if($_GET["schoonmaakkosten"]) {
 
 	echo "<h2>Schoonmaakkosten Posarelli-accommodaties</h2>";
 	unset($inquery);
-	if($xml=@simplexml_load_file("http://export.easyreserve.com/unit.xml")) {
+	if($xml=@simplexml_load_file("http://export.easyreserve.com/cha_unit.xml")) {
 		$xml=xml_structure_convert($xml);
 #		echo wt_dump($xml);
 		while(list($key,$value)=each($xml)) {

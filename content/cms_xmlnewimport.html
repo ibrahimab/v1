@@ -15,9 +15,9 @@
 
 
 
-# http://export.easyreserve.com/propertyDescription.xml
-# http://export.easyreserve.com/unitDescription.xml
-# http://export.easyreserve.com/amenities.xml
+# http://export.easyreserve.com/cha_propertyDescription.xml
+# http://export.easyreserve.com/cha_unitDescription.xml
+# http://export.easyreserve.com/cha_amenities.xml
 #
 
 #echo wt_dump($_POST);
@@ -452,7 +452,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 			# Posarellivillas
 			#
 			$property=getxml("posarellivillas","http://export.easyreserve.com/cha_property.xml");
-			$unit=getxml("posarellivillas","http://export.easyreserve.com/unit.xml");
+			$unit=getxml("posarellivillas","http://export.easyreserve.com/cha_unit.xml");
 
 			# $unit omzetten naar $unit_id
 			unset($omzetteller);
@@ -468,8 +468,8 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 		// Get the information only when saving the accommodations
 		if(isset($_POST["filled"]) || isset($_GET["checkforchanges"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["herstel"])) {
 
-			$propertydesc=getxml("posarellivillas","http://export.easyreserve.com/propertyDescription.xml");
-			$unitdesc=getxml("posarellivillas","http://export.easyreserve.com/unitDescription.xml");
+			$propertydesc=getxml("posarellivillas","http://export.easyreserve.com/cha_propertyDescription.xml");
+			$unitdesc=getxml("posarellivillas","http://export.easyreserve.com/cha_unitDescription.xml");
 
 			# $propertydesc omzetten naar $propertydesc_id
 			unset($omzetteller);
@@ -496,8 +496,8 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 		# Get images only when importing the accommodation
 		if(($_GET['lev']==131 || isset($_POST["filled"])) &&  ($_GET['lev']==131 || !isset($_GET["toonwijzigingen"]) ) && !isset($_GET["herstel"])) {
-			$propertyimage=getxml("posarellivillas","http://export.easyreserve.com/propertyImage.xml");
-			$unitimage=getxml("posarellivillas","http://export.easyreserve.com/unitImage.xml");
+			$propertyimage=getxml("posarellivillas","http://export.easyreserve.com/cha_propertyImage.xml");
+			$unitimage=getxml("posarellivillas","http://export.easyreserve.com/cha_unitImage.xml");
 
 			# $propertyimage omzetten naar $propertyimage_id
 			unset($omzetteller);
