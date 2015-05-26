@@ -2060,7 +2060,7 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 		if(!$isMobile){
 			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
 			if(!$vars["wederverkoop"]) {
-					$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
+					$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->id)."&ap=".wt_he($_GET["ap"])."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
 			}
 			$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
 		}
