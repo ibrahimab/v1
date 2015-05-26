@@ -29,9 +29,10 @@ class MongoWrapper
 	public function getFiles($collectionName, $fileId)
 	{
 		$db     	= $this->mongodb->files;
-		$collection = $db->{$collectionName . '.files'};
+		$collection = $db->{$collectionName};
 
-		return $collection->find(['metadata.file_id' => intval($fileId)]);
+		return $collection->find(['file_id' => intval($fileId)])
+						  ->sort(['rank'    => 1]);
 	}
 
 	public function getFile($collectionName, $fileId, $rank)
@@ -39,7 +40,7 @@ class MongoWrapper
 		$db 	= $this->mongodb->files;
 		$gridfs = $db->getGridFS($collectionName);
 
-		return $gridfs->findOne(['metadata.file_id' => intval($fileId), 'metadata.rank' => intval($rank)]);
+		return $gridfs->findOne(['file_id' => intval($fileId), 'metadata.rank' => intval($rank)]);
 	}
 
 	public function countFiles($collectionName, $fileId)
@@ -47,7 +48,7 @@ class MongoWrapper
 		$db 	= $this->mongodb->files;
 		$gridfs = $db->getGridFS($collectionName);
 
-		return $gridfs->count(['metadata.file_id' => intval($fileId)]);
+		return $gridfs->count(['file_id' => intval($fileId)]);
 	}
 
 	public function maxRank($collectionName, $fileId)
@@ -58,14 +59,14 @@ class MongoWrapper
 
 			[
 				'$match' => [
-					'metadata.file_id' => intval($fileId)
+					'file_id' => intval($fileId)
 				]
 			],
 			[
 				'$group' => [
 					'_id'  => 'maxRank',
 					'rank' => [
-						'$max' => '$metadata.rank',
+						'$max' => '$rank',
 					]
 				]
 			]
@@ -87,11 +88,19 @@ class MongoWrapper
 		return $gridfs->update(['_id' => new MongoId($gridFSId)], ['$set' => ['metadata.file_id' => $fileId]]);
 	}
 
-	public function removeFile($collectionName, $gridFSId)
+	public function removeMetadata($collectionName, $_id)
 	{
-		$db 	= $this->mongodb->files;
-		$gridfs = $db->getGridFS($collectionName);
+		$db 	    = $this->mongodb->files;
+		$collection = $db->{$collectionName};
 
-		return $gridfs->remove(['_id' => new MongoId($gridFSId)]);
+		return $collection->remove(['_id' => new MongoId($_id)]);
+	}
+
+	public function getBulkUpdater($collectionName)
+	{
+		$db 		= $this->mongodb->files;
+		$collection = $db->{$collectionName};
+
+		return new MongoUpdateBatch($collection);
 	}
 }

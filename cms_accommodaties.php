@@ -603,7 +603,7 @@ if($_GET["wzt"]==1) {
 
 $cms->edit_field(1,0,"htmlrow","<hr><b id=\"images\">Afbeeldingen</b><br><i>Afbeeldingen kunnen in groot formaat worden ge&uuml;pload; het systeem zet ze om naar de juiste afmetingen. De verhouding moet wel altijd 4:3 zijn.</i>");
 
-$cms->edit_field(1, 0, 'mongo_pictures', 'Afbeeldingen', '', array('collection' => 'accommodations', 'file_id' => $_GET['1k0'], 'multiple' => true, 'default_kind' => 'additional', 'kinds' => ['main' => 'Hoofdafbeelding', 'sub' => 'Hoofdafbeelding (overig)', 'additional' => 'Aanvullende afbeelding', 'additional-below' => 'Aanvullende afbeelding (onderaan)'], 'img_minwidth' => 240, 'img_minheight' => 180, 'img_ratio_width' => 4, 'img_ratio_height' => 3));
+$cms->edit_field(1, 0, 'mongo_pictures', 'Afbeeldingen', '', array('collection' => 'accommodations', 'file_id' => $_GET['1k0'], 'directory_prefix' => 'pic/cms/', 'multiple' => true, 'default_kind' => 'accommodaties_aanvullend', 'kinds' => ['hoofdfoto_accommodatie' => 'Hoofdafbeelding', 'accommodaties' => 'Hoofdafbeelding (overig)', 'accommodaties_aanvullend' => 'Aanvullende afbeelding', 'accommodaties_aanvullend_breed' => 'Aanvullende afbeelding (breed)', 'accommodaties_aanvullend_onderaan' => 'Aanvullende afbeelding (onderaan)'], 'showfiletype' => true, 'must_be_filetype' => 'jpg', 'img_minwidth' => 240, 'img_minheight' => 180, 'img_ratio_width' => 4, 'img_ratio_height' => 3));
 
 $cms->edit_field(1,0,"htmlrow","<hr><b>Video</b>");
 $cms->edit_field(1,0,"video_url","URL van Vimeo");

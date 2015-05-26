@@ -1490,102 +1490,88 @@ class form2 {
 			 * If you also provide a file_id, the files will be grouped by this ID.
 			 * If you don't, the form class will update the uploaded files with the db_insert_id when known.
 			 */
-
-			$mongodb  	 = $vars['mongodb']['wrapper'];
-			$fileId		 = $this->fields['options'][$id]['file_id'];
-			$collection  = $this->fields['options'][$id]['collection'];
-			$collections = array_flip($vars['mongodb']['collections']);
-			$limit       = $this->fields['options'][$id]['limit'];
-
-			if (intval($fileId) > 0) {
-
-				$files = $mongodb->getFiles($collection, $fileId);
-
-				if ($files > 0) {
-
-					$template  = '<div class="image-grid-3">
-							   		<img src="' . $vars['path'] . 'gridfs.php?c={collection}&fid={fileId}&r={rank}" /> <br />
-							   		<input type="checkbox" name="delete_mongodb[{id}][{_id}]" /> afbeelding wissen <br />
-							   		volgorde: <input type="text" name="rank_mongodb[{id}][{_id}]" value="{rankField}" style="width: 40px;" /> <br />
-							   		label: <input type="text" name="label_mongodb[{id}][{_id}]" value="{label}" style="width: 170px;" /> <br />
-							   	 ';
-
-					if (isset($this->fields['options'][$id]['kinds'])) {
-
-						$template .= 'soort: <select name="kind_mongodb[{id}][{_id}]">';
-						foreach ($this->fields['options'][$id]['kinds'] as $identifier => $title) {
+			$options = $this->fields['options'][$id];
+			if (intval($options['file_id']) > 0) {
+				
+				$mongodb  = $vars['mongodb']['wrapper'];
+				$files    = $mongodb->getFiles($options['collection'], $options['file_id']);
+				
+				if (count($files) > 0) {
+					
+					$template = '<div class="image-grid-3">
+								   <img src="{location}" /> <br />
+								   wissen: <input type="checkbox" name="imagemetadatadelete[{id}][{_id}]" /> <br />
+								   volgorde: <input type="text" name="imagemetadatarank[{id}][{_id}]" value="{rank}" style="width: 40px;" /> <br />
+								   label: <input type="text" name="imagemetadatalabel[{id}][{_id}]" value="{label}" style="width: 170px;" /> <br />';
+							   
+				    if (isset($options['kinds'])) {
+					
+						$template .= 'soort: <select name="imagemetadatakind[{id}][{_id}]">';
+				   		foreach ($this->fields['options'][$id]['kinds'] as $identifier => $title) {
 							$template .= '<option value="' . $identifier . '"{' . $identifier . 'KindSelected}>' . $title . '</option>';
 						}
-
+			   		
 						$template .= '</select>';
 					}
-
+			   	
 					$template .= '</div>';
-
-					$return .= '<div class="image-grid">';
-
+					$return   .= '<div class="image-grid">';
+					$rank 	   = 0;
+				
 					foreach ($files as $file) {
-
-						$image = str_replace(['{collection}', '{fileId}', '{id}', '{rank}', '{rankField}', '{label}', '{_id}'],
-						  				     [$collections[$collection], $fileId, $id, $file['metadata']['rank'], ($rank += 10), $file['metadata']['label'], $file['_id']],
-											 $template);
-
-						if (isset($this->fields['options'][$id]['kinds'])) {
-
-							foreach ($this->fields['options'][$id]['kinds'] as $identifier => $title) {
-
-								if ($file['metadata']['kind'] === $identifier) {
+						
+						$location = '/chalet-pic/' . $file['directory'] . '/' . $file['filename'];
+						$image    = str_replace(['{id}', '{_id}', '{rank}', '{label}', '{location}'], [$id, $file['_id'], ($rank += 10), $file['label'], $location], $template);
+						
+						if (isset($options['kinds'])) {
+						
+							foreach ($options['kinds'] as $identifier => $title) {
+							
+								if ($file['kind'] === $identifier) {
 									$image = str_replace('{' . $identifier . 'KindSelected}', ' selected="selected"', $image);
 								} else {
 									$image = str_replace('{' . $identifier . 'KindSelected}', '', $image);
 								}
 							}
 						}
-
+						
 						$return .= $image;
 					}
-
-					$return .= '</div>';
+					
+					$return .= '</div><div style="clear: both;">&nbsp;</div>';
 				}
 			}
-
-			$return .= '<input type="file" name="input[' . $id . '][]" class="wtform_input_narrow"';
-
-			if ($this->fields['options'][$id]['must_be_filetype'] === 'jpg') {
-				$return .= ' accept="image/jpeg"';
-			} elseif ($this->fields['options'][$id]['accept_element']) {
-				$return .= ' accept="' . $this->fields['options'][$id]['accept_element'] . '"';
+			
+			$attributes = [
+				'class' => ($this->fields['layout'][$id]['input_class'] ? $this->fields['layout'][$id]['input_class'] : 'wtform_input_narrow')
+			];
+			
+			if ($options['must_be_filetype'] === 'jpg') {
+				$attributes['accept'] = 'image/jpeg';
+			} else if ($options['accept_element']){
+				$attributes['accept'] = $options['accept_element'];
 			}
-
-			if ($limit > 1) {
-				$return .= ' multiple="multiple"';
-			}
-
-			$return .= ' />';
-
+			
+			$uploader = new Uploader('input[' . $id . ']', true, $attributes);
+			$return  .= $uploader->generateField();
+			
 			if (!$this->fields['layout'][$id]['hide_imginfo']) {
-
-				if (($this->fields['options'][$id]['img_ratio_width'] and $this->fields['options'][$id]['img_ratio_height']) or ($this->fields['options'][$id]['img_width'] and $this->fields['options'][$id]['img_height']) or $this->fields['options'][$id]['showfiletype']) {
-
-					$return .= '<span class="wtform_small">&nbsp;(';
-					if ($this->fields['options'][$id]['showfiletype']) {
-
-						$return .= $this->message('showfiletype', '', array(1 => $this->fields['options'][$id]['must_be_filetype']));
-						$spatie  = true;
+			
+				if (($options['img_ratio_width'] && $options['img_ratio_height']) || ($options['img_width'] && $options['img_height']) || ($options['showfiletype'])) {
+				
+					if ($options['showfiletype']) {
+						$help[] = $this->message('showfiletype', '', [1 => $options['must_be_filetype']]);
 					}
-
-					if ($this->fields['options'][$id]['img_ratio_width'] and $this->fields['options'][$id]['img_ratio_height']) {
-
-						if ($spatie) $return .= ' ';
-						$return .= $this->message('imgsize_ratio', '', array(1 => $this->fields['options'][$id]['img_ratio_width'], 2 => $this->fields['options'][$id]['img_ratio_height']));
-
-					} elseif ($this->fields['options'][$id]['img_width'] and $this->fields['options'][$id]['img_height']) {
-
-						if ($spatie) $return .= ' ';
-						$return .= $this->message('imgsize_size', '', array(1 => $this->fields['options'][$id]['img_width'], 2 => $this->fields['options'][$id]['img_height']));
+				
+					if ($options['img_ratio_width'] && $options['img_ratio_height']) {
+						$help[] = $this->message('imgsize_ratio', '', [1 => $options['img_ratio_width'], 2 => $options['img_ratio_height']]);
 					}
-
-					$return .= ')</span>';
+				
+					if ($options['img_width'] && $options['img_height']) {
+						$help[] = $this->message('imgsize_size', '', [1 => $options['img_width'], 2 => $options['img_height']]);
+					}
+				
+					$return .= '<span class="wtform_small"> (' . trim(implode(' ', $help)) . ')</span>';
 				}
 			}
 
@@ -2546,9 +2532,8 @@ class form2 {
 					 * a file_id is not provided in the options so the form class will
 					 * update these files with the correct one once it has been generated.
 					 *
-					 * It will ignore all uploads once it exceeded the provided limit and shows
-					 * an error.
 					 */
+
 					$files = $_FILES['input']['tmp_name'][$key];
 					if (is_array($files)) {
 
@@ -2599,6 +2584,66 @@ class form2 {
 							}
 						}
 					}
+					*/
+					$uploader = new ImageUploader($key, true);
+					$options  = $this->fields['options'][$key];
+
+					if ($options['img_width'] || $options['img_height'] || $options['img_maxwidth'] || $options['img_maxheight'] || ($options['img_ratio_width'] && $options['img_ratio_height'])) {
+						
+						if ($options['img_width']) {
+							$uploader->setOption(ImageUploader::IMAGE_WIDTH, $options['img_width']);
+						}
+						
+						if ($options['img_height']) {
+							$uploader->setOption(ImageUploader::IMAGE_HEIGHT, $options['img_height']);
+						}
+						
+						if ($options['img_minwidth']) {
+							$uploader->setOption(ImageUploader::IMAGE_MIN_WIDTH, $options['img_minwidth']);
+						}
+						
+						if($options['img_minheight']) {
+							$uploader->setOption(ImageUploader::IMAGE_MIN_HEIGHT, $options['img_minheight']);
+						}
+						
+						if ($options['img_maxwidth']) {
+							$uploader->setOption(ImageUploader::IMAGE_MAX_WIDTH, $options['img_maxwidth']);
+						}
+						
+						if($options['img_maxheight']) {
+							$uploader->setOption(ImageUploader::IMAGE_MAX_HEIGHT, $options['img_maxheight']);
+						}
+						
+						if ($options['img_ratio_width'] && $options['img_ratio_height']) {
+							
+							$uploader->setOption(ImageUploader::IMAGE_RATIO_WIDTH,  $options['img_ratio_width']);
+							$uploader->setOption(ImageUploader::IMAGE_RATIO_HEIGHT, $options['img_ratio_height']);
+						}
+					}
+					
+					try {
+						
+						$uploader->check('input');
+						
+					} catch (\Exception $e) {
+						
+						$errorCode = $e->getCode();
+						$error	   = null;
+						
+						var_dump($errorCode);
+						var_dump(ImageUploader::ERROR_IMAGE_WIDTH);
+						if ($errorCode === ImageUploader::ERROR_IMAGE_WIDTH || $errorCode === ImageUploader::ERROR_IMAGE_HEIGHT) {
+							
+							if (null !== $uploader->getOption(ImageUploader::IMAGE_WIDTH)) {
+								$error = $this->message('error_img_size', '', [1 => $options['img_width'], 2 => $options['img_height']]);								
+							} else {
+								$error = $this->message('error_img_size_width', '', [1 => $options['img_width']]);
+							}
+						}
+						
+						var_dump($error);
+					}
+					exit;
 
 				} elseif($value=="url") {
 					if($this->value[$key]=="http://") $this->value[$key]="";
@@ -2835,18 +2880,6 @@ class form2 {
 				}
 			}
 
-			if (isset($_POST['delete_mongodb'])) {
-
-				$mongodb = $vars['mongodb']['wrapper'];
-				foreach ($_POST['delete_mongodb'] as $key => $files) {
-
-					$collection = $this->fields['options'][$key]['collection'];
-					foreach ($files as $_id => $val) {
-						$mongodb->removeFile($collection, $_id);
-					}
-				}
-			}
-
 			# Eventueel: form_after_imagedelte-functie runnen
 			if(function_exists(form_after_imagedelete)) {
 				form_after_imagedelete($this);
@@ -2888,46 +2921,61 @@ class form2 {
 				}
 			}
 
-			if (isset($_POST['kind_mongodb'])) {
+			if (isset($_POST['imagemetadatadelete'])) {
 
 				$mongodb = $vars['mongodb']['wrapper'];
-				foreach ($_POST['kind_mongodb'] as $key => $kinds) {
+				foreach ($_POST['imagemetadatadelete'] as $key => $files) {
 
 					$collection = $this->fields['options'][$key]['collection'];
-					$bulk		= $mongodb->getBulkUpdater($collection);
+					foreach ($files as $_id => $val) {
 
+						$mongodb->removeMetadata($collection, $_id);
+						unset($_POST['imagemetadatarank'][$key][$_id]);
+					}
+				}
+			}
+
+			if (isset($_POST['imagemetadatakind'])) {
+
+				$mongodb = $vars['mongodb']['wrapper'];
+				foreach ($_POST['imagemetadatakind'] as $key => $kinds) {
+
+					$collection = $this->fields['options'][$key]['collection'];
+					$bulk	    = $mongodb->getBulkUpdater($collection);
+					
 					foreach ($kinds as $_id => $kind) {
 
 						$bulk->add(['q' => ['_id'  => new MongoId($_id)],
-									'u' => ['$set' => ['metadata.kind' => $kind]]]);
+									'u' => ['$set' => ['kind' => $kind]]]);
 					}
 
 					$bulk->execute();
 				}
 			}
-
-			if (isset($_POST['label_mongodb'])) {
+			
+			if (isset($_POST['imagemetadatalabel'])) {
 
 				$mongodb = $vars['mongodb']['wrapper'];
-				foreach ($_POST['label_mongodb'] as $key => $labels) {
+				foreach ($_POST['imagemetadatalabel'] as $key => $labels) {
 
-					$collection = $this->fields['options'][$key]['collection'];
-					$bulk		= $mongodb->getBulkUpdater($collection);
+					$collection      = $this->fields['options'][$key]['collection'];
+					$bulk		     = $mongodb->getBulkUpdater($collection);
+					
 					foreach ($labels as $_id => $label) {
 
 						$bulk->add(['q' => ['_id'  => new MongoId($_id)],
-									'u' => ['$set' => ['metadata.label' => $label]]]);
+									'u' => ['$set' => ['label' => $label]]]);
 					}
 
 					$bulk->execute();
 				}
 			}
 
-			if (isset($_POST['rank_mongodb'])) {
+			if (isset($_POST['imagemetadatarank'])) {
 
 				$mongodb = $vars['mongodb']['wrapper'];
 
-				foreach ($_POST['rank_mongodb'] as $key => $ranks) {
+				foreach ($_POST['imagemetadatarank'] as $key => $ranks) {
 
 					// sorting
 					asort($ranks, SORT_NUMERIC);
@@ -2939,7 +2987,7 @@ class form2 {
 					foreach ($ranks as $_id => $rank) {
 
 						$bulk->add(['q' => ['_id'  => new MongoId($_id)],
-									'u' => ['$set' => ['metadata.rank' => $i++]]]);
+									'u' => ['$set' => ['rank' => $i++]]]);
 					}
 
 					$bulk->execute();
