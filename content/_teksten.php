@@ -3928,7 +3928,7 @@ $txt["en"]["tarieventabel"]["klik-op-datum-personen"]="Click in the above pricin
 
 $txt["nl"]["tarieventabel"]["melding-redis-down"]="Vanwege een (tijdelijke) technische storing zijn de getoonde bedragen in de prijstabel zonder bijkomende kosten. Klik in de prijstabel op een prijs en vervolgens op het i-icoontje om de specificatie inclusief bijkomende kosten te zien. Onze excuses voor het ongemak.";
 $txt["de"]["tarieventabel"]["melding-redis-down"]="";
-$txt["en"]["tarieventabel"]["melding-redis-down"]="";
+$txt["en"]["tarieventabel"]["melding-redis-down"]="The pricing table does currently not include all mandatory costs, due to a (temporary) technical issue. To see the price with all mandatory costs, please select a price in the pricing table and use the blue information icon for the detailed total. Our apologies for the inconvenience.";
 
 
 // tarieventabel bijkomende kosten
