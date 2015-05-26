@@ -11,7 +11,7 @@ if($_GET["tid"]) {
 	$accinfo = accinfo($typeid);
 }
 
-$db->query("SELECT seizoen_id, week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".intval($_GET["bkid"])."' AND verkoop>0 ORDER BY week;");
+$db->query("SELECT seizoen_id, week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".intval($_GET["bkid"])."' AND verkoop>0 AND week>'".time()."' ORDER BY week;");
 if($db->num_rows()) {
 	while($db->next_record()) {
 
