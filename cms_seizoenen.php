@@ -46,7 +46,7 @@ $cms->settings[9]["list"]["delete_icon"]=false;
 $cms->settings[9]["show"]["goto_new_record"]=false;
 
 if($_GET["show"]<>9 and $_GET["edit"]<>9 and $_GET["add"]<>9 and !$_GET["oud"]) {
-	$cms->db[9]["where"]="UNIX_TIMESTAMP(eind)>'".(time()-864000)."'";
+	$cms->db[9]["where"]="(UNIX_TIMESTAMP(eind)>'".(time()-864000)."' OR tonen>1)";
 }
 
 # Database db_field($counter,$type,$id,$field="",$options="")
