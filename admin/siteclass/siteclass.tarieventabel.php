@@ -52,7 +52,7 @@ class tarieventabel {
 
 			// number of persons
 			if( isset( $_GET["ap"] ) ) {
-				$this->aantal_personen = $_GET["ap"];
+				$this->aantalpersonen = $_GET["ap"];
 			}
 
 			// arrival date
@@ -162,7 +162,7 @@ class tarieventabel {
 			$this->scroll_first_monthyear = date("Ym", $this->seizoeninfo[$this->first_seizoen_id]["begin"]);
 		}
 
-		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($this->config->path.txt("menu_boeken").".php?tid=".$this->type_id . (isset($this->verblijfsduur) ? '&fdu=' . $this->verblijfsduur : '') . (!$this->arrangement && $this->aantal_personen ? "&ap=".intval($this->aantal_personen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\" data-scroll_first_monthyear=\"".wt_he($this->scroll_first_monthyear)."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_id_inquery=\"".wt_he($this->seizoen_id)."\">";
+		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($this->config->path.txt("menu_boeken").".php?tid=".$this->type_id . (isset($this->verblijfsduur) ? '&fdu=' . $this->verblijfsduur : '') . (!$this->arrangement && $this->aantalpersonen ? "&ap=".intval($this->aantalpersonen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\" data-scroll_first_monthyear=\"".wt_he($this->scroll_first_monthyear)."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_id_inquery=\"".wt_he($this->seizoen_id)."\">";
 
 
 		$return .= $this->tabel_top();
@@ -338,11 +338,6 @@ class tarieventabel {
 		} else {
 			$totaalbedrag_chalet_nl = $this->tarief_zonder_bk[$aankomstdatum];
 
-			// // surcharge extra persons?
-			// if($this->bk_add_to_price_per_person_per_week[$aantalpersonen][$aankomstdatum]) {
-			// 	$totaalbedrag_chalet_nl += $this->bk_add_to_price_per_person_per_week[$aantalpersonen][$aankomstdatum];
-			// }
-
 			$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">1</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".html("accommodatie", "bijkomendekosten")."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_chalet_nl, 2, ",", ".")."</td></tr>";
 		}
 
@@ -516,22 +511,22 @@ class tarieventabel {
 
 			// bepalen welke aantallen personen direct zichtbaar moeten zijn
 
-			$this->max_personen=max(array_keys($this->aantal_personen_array));
-			$this->min_personen=min(array_keys($this->aantal_personen_array));
+			$this->max_personen=max(array_keys($this->aantalpersonen_array));
+			$this->min_personen=min(array_keys($this->aantalpersonen_array));
 
-			if($this->aantal_personen) {
+			if($this->aantalpersonen) {
 				// valt het aantal personen binnen de capaciteit van deze accommodatie?
-				if($this->aantal_personen<$this->min_personen or $this->aantal_personen>$this->max_personen) {
+				if($this->aantalpersonen<$this->min_personen or $this->aantalpersonen>$this->max_personen) {
 					// zo niet: aantal personen niet gebruiken bij tonen tarieventabel
-					unset($this->aantal_personen);
+					unset($this->aantalpersonen);
 				}
 			}
 
-			if($this->aantal_personen) {
-				$this->max_personen_tonen=$this->aantal_personen+2;
-				$this->min_personen_tonen=$this->aantal_personen-2;
+			if($this->aantalpersonen) {
+				$this->max_personen_tonen=$this->aantalpersonen+2;
+				$this->min_personen_tonen=$this->aantalpersonen-2;
 			} else {
-				$this->max_personen_tonen=max(array_keys($this->aantal_personen_array));
+				$this->max_personen_tonen=max(array_keys($this->aantalpersonen_array));
 				$this->min_personen_tonen=$this->max_personen_tonen-4;
 			}
 
@@ -610,8 +605,8 @@ class tarieventabel {
 
 
 			// regels met aantal personen tonen
-			foreach ($this->aantal_personen_array as $key => $value) {
-				$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($this->aantal_personen==$key && !$this->aankomstdatum ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
+			foreach ($this->aantalpersonen_array as $key => $value) {
+				$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($this->aantalpersonen==$key && !$this->aankomstdatum ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
 			}
 
 
@@ -659,11 +654,11 @@ class tarieventabel {
 				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_legenda_kleurenblokje_aanbieding tarieventabel_tarieven_aanbieding\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_aanbieding","tarieventabel")."</div>";
 			}
 			if($this->arrangement) {
-				if($this->aantal_personen and $this->aankomstdatum) {
+				if($this->aantalpersonen and $this->aankomstdatum) {
 					$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_gekozen\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_gekozen_datum_aantal_personen","tarieventabel")."</div>";
-				} elseif($this->aantal_personen and !$this->aankomstdatum) {
+				} elseif($this->aantalpersonen and !$this->aankomstdatum) {
 					$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_gekozen\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_gekozen_aantal_personen","tarieventabel")."</div>";
-				} elseif($this->aankomstdatum and !$this->aantal_personen) {
+				} elseif($this->aankomstdatum and !$this->aantalpersonen) {
 					$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_gekozen\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_gekozen_datum","tarieventabel")."</div>";
 				}
 			} else {
@@ -1087,9 +1082,6 @@ class tarieventabel {
 
 				$return.="<td class=\"".trim($class)."\">";
 
-
-
-
 				if($this->toonkorting_1[$key] or $this->toonkorting_2[$key]) {
 					$return.="<div class=\"tarieventabel_tarieven_aanbieding\">";
 
@@ -1112,9 +1104,9 @@ class tarieventabel {
 		// tarieven-cellen tonen
 		//
 
-		foreach ($this->aantal_personen_array as $key => $value) {
+		foreach ($this->aantalpersonen_array as $key => $value) {
 
-			$return.="<tr class=\"tarieventabel_tarieven".($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? " tarieventabel_verbergen" : "").($this->aantal_personen==$key && !$this->aankomstdatum ? " tarieventabel_tarieven_gekozen" : "")."\" data-aantalpersonen=\"".$key."\">";
+			$return.="<tr class=\"tarieventabel_tarieven".($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? " tarieventabel_verbergen" : "").($this->aantalpersonen==$key && !$this->aankomstdatum ? " tarieventabel_tarieven_gekozen" : "")."\" data-aantalpersonen=\"".$key."\">";
 			$kolomteller=0;
 			foreach ($this->dag as $key2 => $value2) {
 				$kolomteller++;
@@ -1138,11 +1130,11 @@ class tarieventabel {
 					$class.=" tarieventabel_tarieven_beschikbaar";
 				}
 
-				if($this->aantal_personen==$key and $this->aankomstdatum==$key2) {
+				if($this->aantalpersonen==$key and $this->aankomstdatum==$key2) {
 					$class.=" tarieventabel_tarieven_gekozen";
-				} elseif($this->aantal_personen==$key and !$this->aankomstdatum) {
+				} elseif($this->aantalpersonen==$key and !$this->aankomstdatum) {
 					$class.=" tarieventabel_tarieven_gekozen";
-				} elseif($this->aankomstdatum==$key2 and !$this->aantal_personen) {
+				} elseif($this->aankomstdatum==$key2 and !$this->aantalpersonen) {
 					$class.=" tarieventabel_tarieven_gekozen";
 				}
 
@@ -1293,10 +1285,9 @@ class tarieventabel {
 		if($toelichting) {
 			$return .= "<div class=\"tarieventabel_toelichting\">";
 
-
 			// info totaalprijs
 			$return .= "<div class=\"tarieventabel_totaalprijs_wrapper\">";
-			if($this->aantalpersonen and $this->aankomstdatum) {
+			if( $this->aantalpersonen and $this->aantalpersonen<=$this->accinfo["maxaantalpersonen"] and $this->aankomstdatum and $this->tarief[$this->aantalpersonen][$this->aankomstdatum]>0 ) {
 				$return .= $this->info_totaalprijs($this->aantalpersonen, $this->aankomstdatum);
 			}
 			$return .= "</div>";
@@ -1488,7 +1479,7 @@ class tarieventabel {
 						// round with ceil()
 						$this->tarief[$db->f("personen")][$db->f("week")] = ceil($this->tarief[$db->f("personen")][$db->f("week")]);
 
-						$this->aantal_personen_array[$db->f("personen")]=true;
+						$this->aantalpersonen_array[$db->f("personen")]=true;
 
 						if($db->f("week")>time()) {
 
@@ -1555,11 +1546,11 @@ class tarieventabel {
 						$this->bk_add_to_price_per_person_per_week = $bijkomendekosten->get_type_from_cache_all_persons_all_weeks($this->type_id, $this->config->seizoentype);
 
 						// toon losse accommodatie per persoon
-						if(!$this->aantal_personen_array and is_array($bk_add_to_price)) {
+						if(!$this->aantalpersonen_array and is_array($bk_add_to_price)) {
 							foreach ($bk_add_to_price as $key => $value) {
-								$this->aantal_personen_array[$key] = true;
+								$this->aantalpersonen_array[$key] = true;
 							}
-							krsort($this->aantal_personen_array);
+							krsort($this->aantalpersonen_array);
 						}
 					}
 
