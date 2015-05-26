@@ -3927,7 +3927,7 @@ $txt["de"]["tarieventabel"]["klik-op-datum-personen"]="Bitte klicken sie auf obe
 $txt["en"]["tarieventabel"]["klik-op-datum-personen"]="Click in the above pricing table to change the date of arrival / number of people.";
 
 $txt["nl"]["tarieventabel"]["melding-redis-down"]="Vanwege een (tijdelijke) technische storing zijn de getoonde bedragen in de prijstabel zonder bijkomende kosten. Klik in de prijstabel op een prijs en vervolgens op het i-icoontje om de specificatie inclusief bijkomende kosten te zien. Onze excuses voor het ongemak.";
-$txt["de"]["tarieventabel"]["melding-redis-down"]="";
+$txt["de"]["tarieventabel"]["melding-redis-down"]="Es tut uns leid, aber wegen einer (vorübergehenden) technischen Störung sind die gezeigten Beträge in der Preistabelle ohne Nebenkosten. Klicken Sie in der Preistabelle auf einen Preis und danach auf das i-Symbol um die Spezifikation inklusive Nebenkosten anzuschauen.";
 $txt["en"]["tarieventabel"]["melding-redis-down"]="The pricing table does currently not include all mandatory costs, due to a (temporary) technical issue. To see the price with all mandatory costs, please select a price in the pricing table and use the blue information icon for the detailed total. Our apologies for the inconvenience.";
 
 
