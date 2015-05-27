@@ -64,6 +64,7 @@ if($argv[1]=="cron") {
 
 			if(preg_match("@".$current_branch."$@",$obj["ref"])) {
 				file_put_contents($checkfile, $current_branch);
+				chmod($checkfile, 0666);
 			}
 		}
 	}

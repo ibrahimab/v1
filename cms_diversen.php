@@ -311,7 +311,9 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 		// git change to branch
 		if( $form->input["git_change_to_branch"] ) {
-			file_put_contents("/var/www/chalet.nl/html_test/tmp/git-autopull-acceptance-test.txt", trim($form->input["git_change_to_branch"]));
+			$checkfile = "/var/www/chalet.nl/html_test/tmp/git-autopull-acceptance-test.txt";
+			file_put_contents($checkfile, trim($form->input["git_change_to_branch"]));
+			chmod($checkfile, 0666);
 		}
 
 		# Woordenlijst autocomplete
