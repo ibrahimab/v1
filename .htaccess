@@ -75,7 +75,7 @@ RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} !^test\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !^web[0-9]{2}\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !^dev\..*\..* [NC]
-RewriteCond %{HTTP_HOST} !^local\..*\..* [NC] 
+RewriteCond %{HTTP_HOST} !^local\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !^wwwtest\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !postvak\.net [NC]
 RewriteCond %{HTTP_HOST} !netromtest [NC]
@@ -259,6 +259,8 @@ RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238
 RewriteCond %{REMOTE_ADDR} !^89\.200\.202\.34
 # BuroDMG
 RewriteCond %{REMOTE_ADDR} !^62\.194\.11\.6
+# Ibrahim
+RewriteCond %{REMOTE_ADDR} !^62\.194\.208\.250
 
 RewriteRule ^(.*)$ https://www.chalet.nl/error_msg.php?t=1 [L,R=301]
 
