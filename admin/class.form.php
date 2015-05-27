@@ -1492,41 +1492,41 @@ class form2 {
 			 */
 			$options = $this->fields['options'][$id];
 			if (intval($options['file_id']) > 0) {
-				
+
 				$mongodb  = $vars['mongodb']['wrapper'];
 				$files    = $mongodb->getFiles($options['collection'], $options['file_id']);
-				
+
 				if (count($files) > 0) {
-					
+
 					$template = '<div class="image-grid-3">
 								   <img src="{location}" /> <br />
 								   wissen: <input type="checkbox" name="imagemetadatadelete[{id}][{_id}]" /> <br />
 								   volgorde: <input type="text" name="imagemetadatarank[{id}][{_id}]" value="{rank}" style="width: 40px;" /> <br />
 								   label: <input type="text" name="imagemetadatalabel[{id}][{_id}]" value="{label}" style="width: 170px;" /> <br />';
-							   
+
 				    if (isset($options['kinds'])) {
-					
+
 						$template .= 'soort: <select name="imagemetadatakind[{id}][{_id}]">';
 				   		foreach ($this->fields['options'][$id]['kinds'] as $identifier => $title) {
 							$template .= '<option value="' . $identifier . '"{' . $identifier . 'KindSelected}>' . $title . '</option>';
 						}
-			   		
+
 						$template .= '</select>';
 					}
-			   	
+
 					$template .= '</div>';
 					$return   .= '<div class="image-grid">';
 					$rank 	   = 0;
-				
+
 					foreach ($files as $file) {
-						
-						$location = '/chalet-pic/' . $file['directory'] . '/' . $file['filename'];
+
+						$location = $vars['path'] . 'pic/cms/' . $file['directory'] . '/' . $file['filename'];
 						$image    = str_replace(['{id}', '{_id}', '{rank}', '{label}', '{location}'], [$id, $file['_id'], ($rank += 10), $file['label'], $location], $template);
-						
+
 						if (isset($options['kinds'])) {
-						
+
 							foreach ($options['kinds'] as $identifier => $title) {
-							
+
 								if ($file['kind'] === $identifier) {
 									$image = str_replace('{' . $identifier . 'KindSelected}', ' selected="selected"', $image);
 								} else {
@@ -1534,43 +1534,43 @@ class form2 {
 								}
 							}
 						}
-						
+
 						$return .= $image;
 					}
-					
+
 					$return .= '</div><div style="clear: both;">&nbsp;</div>';
 				}
 			}
-			
+
 			$attributes = [
 				'class' => ($this->fields['layout'][$id]['input_class'] ? $this->fields['layout'][$id]['input_class'] : 'wtform_input_narrow')
 			];
-			
+
 			if ($options['must_be_filetype'] === 'jpg') {
 				$attributes['accept'] = 'image/jpeg';
 			} else if ($options['accept_element']){
 				$attributes['accept'] = $options['accept_element'];
 			}
-			
-			$uploader = new Uploader('input[' . $id . ']', true, $attributes);
+
+			$uploader = new ImageUploader('input[' . $id . ']', true, $attributes);
 			$return  .= $uploader->generateField();
-			
+
 			if (!$this->fields['layout'][$id]['hide_imginfo']) {
-			
+
 				if (($options['img_ratio_width'] && $options['img_ratio_height']) || ($options['img_width'] && $options['img_height']) || ($options['showfiletype'])) {
-				
+
 					if ($options['showfiletype']) {
 						$help[] = $this->message('showfiletype', '', [1 => $options['must_be_filetype']]);
 					}
-				
+
 					if ($options['img_ratio_width'] && $options['img_ratio_height']) {
 						$help[] = $this->message('imgsize_ratio', '', [1 => $options['img_ratio_width'], 2 => $options['img_ratio_height']]);
 					}
-				
+
 					if ($options['img_width'] && $options['img_height']) {
 						$help[] = $this->message('imgsize_size', '', [1 => $options['img_width'], 2 => $options['img_height']]);
 					}
-				
+
 					$return .= '<span class="wtform_small"> (' . trim(implode(' ', $help)) . ')</span>';
 				}
 			}
@@ -2533,117 +2533,134 @@ class form2 {
 					 * update these files with the correct one once it has been generated.
 					 *
 					 */
-
-					$files = $_FILES['input']['tmp_name'][$key];
-					if (is_array($files)) {
-
-						$limit   	        = $this->fields['options'][$key]['limit'];
-						$collection         = $this->fields['options'][$key]['collection'];
-						$fileId		        = $this->fields['options'][$key]['file_id'];
-						$sizeOptions		= [];
-
-						if ($this->fields['options'])
-						$sizeOptions		= [
-
-							'width'       => $this->fields['options'][$key]['img_width'],
-							'height'      => $this->fields['options'][$key]['img_height'],
-							'max_width'	  => $this->fields['options'][$key]['img_maxwidth'],
-							'max_height'  => $this->fields['options'][$key]['img_maxheight'],
-							'min_width'   => $this->fields['options'][$key]['img_minwidth'],
-							'min_height'  => $this->fields['options'][$key]['img_minheight'],
-							'ratio_width' => $this->fields['options'][$key]['img_ratio_width'],
-							'ratio_width' => $this->fields['options'][$key]['img_ratio_height'],
-						];
-
-						$mongodb 	        = $vars['mongodb']['wrapper'];
-						$maxRank 	        = $mongodb->maxRank($collection, $fileId);
-						$this->mongo_upload = [$key => []];
-
-						foreach ($files as $i => $file) {
-
-							if (!$file) {
-								continue;
-							}
-
-							list($width, $height) = getimagesize($file);
-
-							$id = $mongodb->storeFile($collection, $file, [
-
-								'file_id'  => intval($fileId),
-								'rank'	   => ++$maxRank,
-								'filename' => $_FILES['input']['name'][$key][$i],
-								'kind'	   => $this->fields['options'][$key]['default_kind'],
-								'width'    => $width,
-								'height'   => $height,
-							]);
-
-							$this->mongo_upload[$key][$i] = $id;
-
-							if ($maxRank === $limit) {
-								break;
-							}
-						}
-					}
-					*/
-					$uploader = new ImageUploader($key, true);
+					$uploader = new ImageUploader($key, isset($options['multi']));
 					$options  = $this->fields['options'][$key];
+					$uploader->setDestination($options['destination']);
 
 					if ($options['img_width'] || $options['img_height'] || $options['img_maxwidth'] || $options['img_maxheight'] || ($options['img_ratio_width'] && $options['img_ratio_height'])) {
-						
+
 						if ($options['img_width']) {
 							$uploader->setOption(ImageUploader::IMAGE_WIDTH, $options['img_width']);
 						}
-						
+
 						if ($options['img_height']) {
 							$uploader->setOption(ImageUploader::IMAGE_HEIGHT, $options['img_height']);
 						}
-						
+
 						if ($options['img_minwidth']) {
 							$uploader->setOption(ImageUploader::IMAGE_MIN_WIDTH, $options['img_minwidth']);
 						}
-						
+
 						if($options['img_minheight']) {
 							$uploader->setOption(ImageUploader::IMAGE_MIN_HEIGHT, $options['img_minheight']);
 						}
-						
+
 						if ($options['img_maxwidth']) {
 							$uploader->setOption(ImageUploader::IMAGE_MAX_WIDTH, $options['img_maxwidth']);
 						}
-						
+
 						if($options['img_maxheight']) {
 							$uploader->setOption(ImageUploader::IMAGE_MAX_HEIGHT, $options['img_maxheight']);
 						}
-						
+
 						if ($options['img_ratio_width'] && $options['img_ratio_height']) {
-							
+
 							$uploader->setOption(ImageUploader::IMAGE_RATIO_WIDTH,  $options['img_ratio_width']);
 							$uploader->setOption(ImageUploader::IMAGE_RATIO_HEIGHT, $options['img_ratio_height']);
 						}
-					}
-					
-					try {
-						
-						$uploader->check('input');
-						
-					} catch (\Exception $e) {
-						
-						$errorCode = $e->getCode();
-						$error	   = null;
-						
-						var_dump($errorCode);
-						var_dump(ImageUploader::ERROR_IMAGE_WIDTH);
-						if ($errorCode === ImageUploader::ERROR_IMAGE_WIDTH || $errorCode === ImageUploader::ERROR_IMAGE_HEIGHT) {
-							
-							if (null !== $uploader->getOption(ImageUploader::IMAGE_WIDTH)) {
-								$error = $this->message('error_img_size', '', [1 => $options['img_width'], 2 => $options['img_height']]);								
-							} else {
-								$error = $this->message('error_img_size_width', '', [1 => $options['img_width']]);
-							}
+
+						if ($options['must_be_filetype']) {
+							$uploader->setOption(ImageUploader::IMAGE_FILE_TYPE, $options['must_be_filetype']);
 						}
-						
-						var_dump($error);
 					}
-					exit;
+
+					$validated  = $uploader->validate('input');
+					$errorCodes = $uploader->getErrors();
+					$errors     = [];
+
+					foreach ($errorCodes as $errorData) {
+
+						switch (true) {
+
+							case in_array($errorData['code'], [ImageUploader::ERROR_IMAGE_WIDTH, ImageUploader::ERROR_IMAGE_HEIGHT]):
+
+								if ($options['img_width'] && $options['img_height']) {
+									$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_size', '', [1 => $options['img_width'], 2 => $options['img_height']]);
+								} elseif ($options['img_width']) {
+									$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_size_width', '', [1 => $options['img_width']]);
+								} elseif ($options['img_height']) {
+									$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_size_height', '', [1 => $options['img_height']]);
+								}
+
+							break;
+
+							case in_array($errorData['code'], [ImageUploader::ERROR_IMAGE_MIN_WIDTH, ImageUploader::ERROR_IMAGE_MIN_HEIGHT]):
+
+								if ($options['img_minwidth'] && $options['img_minheight']) {
+									$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_size_minsize', '', [1 => $options['img_minwidth'], 2 => $options['img_minheight']]);
+								} elseif ($options['img_minwidth']) {
+									$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_size_minwidth', '', [1 => $options['img_minwidth']]);
+								} elseif ($options['img_minheight']) {
+									$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_size_minheight', '', [1 => $options['img_minheight']]);
+								}
+
+							break;
+
+							case in_array($errorData['code'], [ImageUploader::ERROR_IMAGE_MAX_WIDTH, ImageUploader::ERROR_IMAGE_MAX_HEIGHT]):
+
+								if ($options['img_maxwidth'] && $options['img_maxheight']) {
+									$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_size_maxsize', '', [1 => $options['img_maxwidth'], 2 => $options['img_maxheight']]);
+								} elseif ($options['img_maxwidth']) {
+									$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_size_maxwidth', '', [1 => $options['img_maxwidth']]);
+								} elseif ($options['img_maxheight']) {
+									$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_size_maxheight', '', [1 => $options['img_maxheight']]);
+								}
+
+							break;
+
+							case $errorData['code'] === ImageUploader::ERROR_IMAGE_RATIO:
+
+								$errors[] = '(' . $errorData['name'] . ') ' . $this->message('error_img_ratio', '', [1 => $options['img_ratio_width'], 2 => $options['img_ratio_height']]);
+
+							break;
+						}
+					}
+
+					$uploadedFiles = $uploader->getUploadedFiles();
+					if (count($uploadedFiles) > 0) {
+
+						$files          = [];
+						$mongodb        = $vars['mongodb']['wrapper'];
+						$fileId		    = intval($options['file_id']);
+						$collectionName = $options['collection'];
+						$maxRank 	    = ($fileId === 0 ? 0 : $mongodb->maxRank($collectionName, $fileId));
+						$collection     = $mongodb->getCollection($collectionName);
+						$batch		    = [];
+
+						foreach ($uploadedFiles as $uploadedFile) {
+
+							$files[] = $uploadedFile['old'];
+							$data    = [
+
+								'file_id'   => $fileId,
+								'rank'	    => ++$maxRank,
+								'filename'  => $uploadedFile['new'],
+								'directory' => $uploadedFile['directory'],
+								'kind'	    => $options['default_kind'],
+								'width'     => $uploadedFile['width'],
+								'height'    => $uploadedFile['height'],
+							];
+
+							$collection->insert($data);
+							$this->mongo_upload[$key][] = $data['_id'];
+						}
+
+						$_SESSION['wt_popupmsg'] = 'De volgende bestanden zijn geupload: ' . implode(', ', $files);
+					}
+
+					if (count($errors) > 0) {
+						$this->error[$key] = '<ul><li>' . implode('</li><li>', $errors) . '</li></ul>';
+					}
 
 				} elseif($value=="url") {
 					if($this->value[$key]=="http://") $this->value[$key]="";
@@ -2927,9 +2944,19 @@ class form2 {
 				foreach ($_POST['imagemetadatadelete'] as $key => $files) {
 
 					$collection = $this->fields['options'][$key]['collection'];
+
 					foreach ($files as $_id => $val) {
 
+						$metadata = $mongodb->getFile($collection, $_id);
 						$mongodb->removeMetadata($collection, $_id);
+
+						// getting dirname (parent directory), because we already save the directory in the metadata
+						$location = dirname($this->fields['options'][$key]['destination']) . '/' . $metadata['directory'] . '/' . $metadata['filename'];
+
+						if (file_exists($location)) {
+							unlink($location);
+						}
+
 						unset($_POST['imagemetadatarank'][$key][$_id]);
 					}
 				}
@@ -2942,7 +2969,7 @@ class form2 {
 
 					$collection = $this->fields['options'][$key]['collection'];
 					$bulk	    = $mongodb->getBulkUpdater($collection);
-					
+
 					foreach ($kinds as $_id => $kind) {
 
 						$bulk->add(['q' => ['_id'  => new MongoId($_id)],
@@ -2952,7 +2979,7 @@ class form2 {
 					$bulk->execute();
 				}
 			}
-			
+
 			if (isset($_POST['imagemetadatalabel'])) {
 
 				$mongodb = $vars['mongodb']['wrapper'];
@@ -2960,7 +2987,7 @@ class form2 {
 
 					$collection      = $this->fields['options'][$key]['collection'];
 					$bulk		     = $mongodb->getBulkUpdater($collection);
-					
+
 					foreach ($labels as $_id => $label) {
 
 						$bulk->add(['q' => ['_id'  => new MongoId($_id)],

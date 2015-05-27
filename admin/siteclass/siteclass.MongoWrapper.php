@@ -14,18 +14,6 @@ class MongoWrapper
 		$this->mongodb = new MongoClient($server);
 	}
 
-	public function storeFile($collectionName, $tmpFile, $metaData)
-	{
-		$db		= $this->mongodb->files;
-		$gridfs = $db->getGridFS($collectionName);
-
-		return $gridfs->storeFile($tmpFile, [
-
-			'filename' => $metaData['filename'],
-			'metadata' => $metaData,
-		]);
-	}
-
 	public function getFiles($collectionName, $fileId)
 	{
 		$db     	= $this->mongodb->files;
@@ -35,27 +23,19 @@ class MongoWrapper
 						  ->sort(['rank'    => 1]);
 	}
 
-	public function getFile($collectionName, $fileId, $rank)
+	public function getFile($collectionName, $_id)
 	{
 		$db 	= $this->mongodb->files;
-		$gridfs = $db->getGridFS($collectionName);
+		$gridfs = $db->{$collectionName};
 
-		return $gridfs->findOne(['file_id' => intval($fileId), 'metadata.rank' => intval($rank)]);
-	}
-
-	public function countFiles($collectionName, $fileId)
-	{
-		$db 	= $this->mongodb->files;
-		$gridfs = $db->getGridFS($collectionName);
-
-		return $gridfs->count(['file_id' => intval($fileId)]);
+		return $gridfs->findOne(['_id' => new MongoId($_id)]);
 	}
 
 	public function maxRank($collectionName, $fileId)
 	{
-		$db 	 = $this->mongodb->files;
-		$gridfs  = $db->getGridFS($collectionName);
-		$results = $gridfs->aggregate([
+		$db 	    = $this->mongodb->files;
+		$collection = $db->{$collectionName};
+		$results    = $collection->aggregate([
 
 			[
 				'$match' => [
@@ -80,12 +60,12 @@ class MongoWrapper
 		return $maxRank;
 	}
 
-	public function updateFileId($collectionName, $gridFSId, $fileId)
+	public function updateFileId($collectionName, $_id, $fileId)
 	{
-		$db 	= $this->mongodb->files;
-		$gridfs = $db->getGridFS($collectionName);
+		$db 	    = $this->mongodb->files;
+		$collection = $db->{$collectionName};
 
-		return $gridfs->update(['_id' => new MongoId($gridFSId)], ['$set' => ['metadata.file_id' => $fileId]]);
+		return $collection->update(['_id' => new MongoId($_id)], ['$set' => ['file_id' => $fileId]]);
 	}
 
 	public function removeMetadata($collectionName, $_id)
@@ -102,5 +82,10 @@ class MongoWrapper
 		$collection = $db->{$collectionName};
 
 		return new MongoUpdateBatch($collection);
+	}
+
+	public function getCollection($collectionName)
+	{
+		return $this->mongodb->files->{$collectionName};
 	}
 }
