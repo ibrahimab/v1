@@ -1,36 +1,70 @@
 <?php
 
-
 /**
 * class as a basis for XML-exports (e.g. TradeTracker)
 *
 * @author: Jeroen Boschman (jeroen@webtastic.nl)
-* @since: 2015-05-29 10:08:00
+* @since: 2015-05-29 11:00
 */
 
 class xmlExport extends chaletDefault
 {
 
+	/**  general data of accommodation-types  */
 	protected $type_data;
+
+	/**  price-data of accommodation-types  */
 	protected $type_price;
+
+	/**  arrival-dates of accommodation-types  */
 	protected $type_arrival;
+
+	/**  departure-dates of accommodation-types  */
 	protected $type_departure;
+
+	/**  number of nights of accommodation-types  */
 	protected $type_number_of_nights;
+
+	/**  additional costs (bijkomende kosten) of accommodation-types  */
 	protected $type_bkk;
+
+	/**  facilities (kenmerken) of accommodation-types  */
 	protected $type_kenmerken;
+
+	/**  which facilities to use  */
 	protected $facilites_show_array;
 
+	/**  XMLWriter-object  */
 	protected $x;
 
+	/**  Letter of the current website  */
 	public $website;
+
+	/**  which type-ids to include in the export  */
 	public $type_ids;
 
+	/**  Only use special offers (aanbiedingen)?  */
+	public $aanbieding;
+
+	/**
+	 * call the parent constructor
+	 *
+	 * @return void
+	 */
 	function __construct()
 	{
+
 		parent::__construct();
+
 	}
 
-	protected function query_database() {
+	/**
+	 * query all needed data from the database
+	 *
+	 * @return void
+	 */
+	protected function query_database()
+	{
 
 		$db = new DB_sql;
 
@@ -313,8 +347,6 @@ class xmlExport extends chaletDefault
 			$skipas[$db->f( "skipas_id" )] = $db->f( "website_omschrijving" );
 		}
 
-		// $skipas
-
 		//
 		// convert to utf-8
 		//
@@ -347,7 +379,16 @@ class xmlExport extends chaletDefault
 		}
 	}
 
-	protected function check_input() {
+	/**
+	 * check if all needed input is provided. If not: trigger error
+	 * check for:
+	 * - $this->name
+	 * - $this->website
+	 *
+	 * @return void
+	 */
+	protected function check_input()
+	{
 
 		if( ! $this->name ) {
 			trigger_error( "XML-export var name not set",E_USER_NOTICE );
@@ -360,7 +401,14 @@ class xmlExport extends chaletDefault
 		}
 	}
 
-	private function createXML() {
+	/**
+	 * check input, query database, invoke XMLWriter object
+	 * and call child-function createSpecificXML()
+	 *
+	 * @return void
+	 */
+	private function createXML()
+	{
 
 		$this->check_input();
 		$this->query_database();
@@ -374,7 +422,13 @@ class xmlExport extends chaletDefault
 
 	}
 
-	public function showXML() {
+	/**
+	 * call createXML and echo the created XML
+	 *
+	 * @return void
+	 */
+	public function showXML()
+	{
 
 		$this->createXML();
 
@@ -388,34 +442,17 @@ class xmlExport extends chaletDefault
 		echo $this->x->outputMemory();
 	}
 
-	public function saveXML() {
+	/**
+	 * call createXML and save the created XML to a file
+	 * TODO: save file
+	 *
+	 * @return void
+	 */
+	public function saveXML()
+	{
 
 		$this->createXML();
 
 	}
-
-	protected function xml_text($text, $use_cdata=true) {
-		#
-		# function om tekst om te zetten naar correcte XML-inhoud
-		#
-		$return=$text;
-		if($return) {
-			$return=iconv("Windows-1252","UTF-8",$return);
-			if(strpos(" ".$return,"<") or strpos(" ".$return,">") or strpos(" ".$return,"&") or strpos(" ".$return,'"') or strpos(" ".$return,"'")) {
-				if($use_cdata) {
-					$return="<![CDATA[".$return."]]>";
-				} else {
-					$return=str_replace("&","&amp;",$return);
-					$return=str_replace("<","&lt;",$return);
-					$return=str_replace(">","&gt;",$return);
-					$return=str_replace('"',"&quot;",$return);
-					$return=str_replace("'","&apos;",$return);
-				}
-			}
-		}
-		return $return;
-	}
-
 }
-
 

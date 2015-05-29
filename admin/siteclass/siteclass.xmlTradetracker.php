@@ -1,24 +1,38 @@
 <?php
 
-
 /**
-* class as a basis for XML-exports (e.g. TradeTracker)
+* XML-export for affiliate-provider TradeTracker
 *
 * @author: Jeroen Boschman (jeroen@webtastic.nl)
-* @since: 2015-05-29 10:08:00
+* @since: 2015-05-29 22:00
 */
 
 class xmlTradetracker extends xmlExport
 {
 
-	public $aanbieding;
+	/**  name of the export (used in the filename for caching)  */
 	protected $name = "tradetracker";
 
-	function __construct() {
+	/**
+	 * call the parent constructor
+	 *
+	 * @return void
+	 */
+	function __construct()
+	{
+
 		parent::__construct();
+
 	}
 
-	protected function createSpecificXML() {
+	/**
+	 * create XML according to TradeTracker-structure
+	 * and store data in parent object $this->x (XMLWriter)
+	 *
+	 * @return void
+	 */
+	protected function createSpecificXML()
+	{
 
 		$this->x->startElement('productFeed');
 
@@ -164,9 +178,5 @@ class xmlTradetracker extends xmlExport
 
 		$this->x->endElement(); // close productFeed
 	}
-
-
-
-
 
 }

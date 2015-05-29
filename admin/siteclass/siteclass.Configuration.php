@@ -9,6 +9,8 @@
 
 class Configuration
 {
+
+	/**  Location for overloaded configdata  */
 	protected $configdata = array();
 
 

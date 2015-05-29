@@ -10,8 +10,14 @@
 class kenmerken extends chaletDefault
 {
 
+	/**  type_id of accommodation to query  */
 	private $type_id;
 
+	/**
+	 * call the parent constructor
+	 *
+	 * @return void
+	 */
 	function __construct()
 	{
 
@@ -19,7 +25,49 @@ class kenmerken extends chaletDefault
 
 	}
 
-	public function get_kenmerken( $type_id, $kenmerken_array = "" ) {
+	/**
+	 * query all needed data from the database
+	 *
+	 * @return void
+	 */
+	private function query_database()
+	{
+		$db = new DB_sql;
+
+		$db->query("SELECT
+					t.kenmerken AS kenmerken_type,
+					a.kenmerken AS kenmerken_accommodatie,
+					p.kenmerken AS kenmerken_plaats,
+					s.kenmerken AS kenmerken_skigebied,
+					a.toonper
+					FROM type t
+					INNER JOIN accommodatie a USING (accommodatie_id)
+					INNER JOIN plaats p USING (plaats_id)
+					INNER JOIN skigebied s USING (skigebied_id)
+
+					WHERE t.type_id='".intval($this->type_id)."'
+		;");
+		if( $db->next_record() ) {
+			$kenmerken_array["type"] = $db->f( "kenmerken_type" );
+			$kenmerken_array["accommodatie"] = $db->f( "kenmerken_accommodatie" );
+			$kenmerken_array["plaats"] = $db->f( "kenmerken_plaats" );
+			$kenmerken_array["skigebied"] = $db->f( "kenmerken_skigebied" );
+			$kenmerken_array["toonper"] = $db->f( "toonper" );
+		}
+
+		return $kenmerken_array;
+
+	}
+
+	/**
+	 * convert comma seperated list of kenmerken-id's to an key-array of active kenmerken
+	 *
+	 * @param integer type_id of wanted accommodation-type
+	 * @param array already available database-data (type, accommodatie, plaats, skigebied)
+	 * @return array
+	 */
+	public function get_kenmerken( $type_id, $kenmerken_array = "" )
+	{
 
 		$this->type_id = $type_id;
 
@@ -134,36 +182,6 @@ class kenmerken extends chaletDefault
 		}
 
 		return $toon_kenmerken;
-
-	}
-
-
-	private function query_database()
-	{
-		$db = new DB_sql;
-
-		$db->query("SELECT
-					t.kenmerken AS kenmerken_type,
-					a.kenmerken AS kenmerken_accommodatie,
-					p.kenmerken AS kenmerken_plaats,
-					s.kenmerken AS kenmerken_skigebied,
-					a.toonper
-					FROM type t
-					INNER JOIN accommodatie a USING (accommodatie_id)
-					INNER JOIN plaats p USING (plaats_id)
-					INNER JOIN skigebied s USING (skigebied_id)
-
-					WHERE t.type_id='".intval($this->type_id)."'
-		;");
-		if( $db->next_record() ) {
-			$kenmerken_array["type"] = $db->f( "kenmerken_type" );
-			$kenmerken_array["accommodatie"] = $db->f( "kenmerken_accommodatie" );
-			$kenmerken_array["plaats"] = $db->f( "kenmerken_plaats" );
-			$kenmerken_array["skigebied"] = $db->f( "kenmerken_skigebied" );
-			$kenmerken_array["toonper"] = $db->f( "toonper" );
-		}
-
-		return $kenmerken_array;
 
 	}
 }

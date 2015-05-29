@@ -59,7 +59,8 @@ class vertrekdagaanpassing
 	 *
 	 * @return array (naam, toelichting, id)
 	 */
-	public function get_info() {
+	public function get_info()
+	{
 		return $this->info;
 	}
 
@@ -68,17 +69,32 @@ class vertrekdagaanpassing
 	 *
 	 * @return array
 	 */
-	public function get_dates() {
+	public function get_dates()
+	{
 		return $this->dates;
 	}
 
-	public function get_arrival_unixtime( $type_id, $week ) {
+	/**
+	 * convert a Saturday unixtime to the actual arrival date
+	 *
+	 * @param integer type_id of the accommodation
+	 * @param integer unixtime of the wanted week
+	 * @return integer
+	 */
+	public function get_arrival_unixtime( $type_id, $week )
+	{
 		return $week;
 	}
 
-	public function get_number_of_nights( $type_id, $week ) {
+	/**
+	 * get the number of nights of a specific arrival date
+	 *
+	 * @param integer type_id of the accommodation
+	 * @param integer unixtime of the wanted week
+	 * @return integer
+	 */
+	public function get_number_of_nights( $type_id, $week )
+	{
 		return 7;
 	}
-
 }
-
