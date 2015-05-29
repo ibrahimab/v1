@@ -1347,7 +1347,7 @@ class tarieventabel {
 
 			// Controle op vertrekdagaanpassing?
 			$vertrekdag_object = new vertrekdagaanpassing($this->type_id);
-			$vertrekdag = $vertrekdag_object->get_dates();
+			$vertrekdag = $vertrekdag_object->get_dates()[$this->type_id];
 
 			// aflopen_allotment uit calculatiesjabloon halen
 			$db2->query("SELECT week, aflopen_allotment FROM calculatiesjabloon_week WHERE seizoen_id IN (".$this->seizoen_id.") AND leverancier_id='".intval($this->accinfo["leverancierid"])."';");

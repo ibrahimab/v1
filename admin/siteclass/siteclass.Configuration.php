@@ -35,6 +35,9 @@ class Configuration
 		$this->configdata["chalettour_aanpassing_commissie"] = $vars["chalettour_aanpassing_commissie"];
 		$this->configdata["ttv"]                             = $vars["ttv"];
 		$this->configdata["unixdir"]                         = $vars["unixdir"];
+		$this->configdata["soortaccommodatie"]               = $vars["soortaccommodatie"];
+		$this->configdata["wt_htmlentities_cp1252"]          = $vars["wt_htmlentities_cp1252"];
+		$this->configdata["basehref"]                        = $vars["basehref"];
 
 		$this->configdata["isMobile"]                        = $isMobile;
 		$this->configdata["voorkant_cms"]                    = $voorkant_cms;
