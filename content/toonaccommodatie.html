@@ -577,96 +577,106 @@ if($db->next_record()) {
 		echo "</div>";
 	}
 
-	$kenmerken_type = preg_split("@,@", $db->f("kenmerken_type"));
-	$kenmerken_accommodatie = preg_split("@,@", $db->f("kenmerken_accommodatie"));
-	$kenmerken_plaats = preg_split("@,@", $db->f("kenmerken_plaats"));
-	$kenmerken_skigebied = preg_split("@,@", $db->f("kenmerken_skigebied"));
+	// $kenmerken_type = preg_split("@,@", $db->f("kenmerken_type"));
+	// $kenmerken_accommodatie = preg_split("@,@", $db->f("kenmerken_accommodatie"));
+	// $kenmerken_plaats = preg_split("@,@", $db->f("kenmerken_plaats"));
+	// $kenmerken_skigebied = preg_split("@,@", $db->f("kenmerken_skigebied"));
 
-	if($vars["seizoentype"]==1 and $vars["taal"]=="nl") {
-		//
-		// winter
-		//
+	// if($vars["seizoentype"]==1 and $vars["taal"]=="nl") {
+	// 	//
+	// 	// winter
+	// 	//
 
-		if(@in_array("23", $kenmerken_type) or @in_array("24", $kenmerken_accommodatie)) $toon_kenmerken["jacuzzi / bubbelbad"] = true;
-		if(@in_array("2", $kenmerken_type) or @in_array("2", $kenmerken_accommodatie)) $toon_kenmerken["aan de piste"] = true;
-		if(@in_array("1", $kenmerken_type) or @in_array("1", $kenmerken_accommodatie)) $toon_kenmerken["catering mogelijk"] = true;
-		if(@in_array("11", $kenmerken_type) or @in_array("13", $kenmerken_accommodatie)) $toon_kenmerken["huisdieren toegestaan"] = true;
-		if(@in_array("22", $kenmerken_type) or @in_array("23", $kenmerken_accommodatie)) {
-			$toon_kenmerken["internet via Wi-Fi"] = true;
-		} elseif(@in_array("20", $kenmerken_type) or @in_array("21", $kenmerken_accommodatie)) {
-			$toon_kenmerken["internetverbinding"] = true;
-		}
-		if(@in_array("10", $kenmerken_type) or @in_array("12", $kenmerken_accommodatie)) $toon_kenmerken["open haard / houtkachel"] = true;
-		if(@in_array("3", $kenmerken_type) or @in_array("3", $kenmerken_accommodatie)) {
-			$toon_kenmerken["sauna (privé)"] = true;
-		} elseif(@in_array("10", $kenmerken_accommodatie)) {
-			$toon_kenmerken["sauna (gemeenschappelijk)"] = true;
-		}
-		// if(@in_array("13", $kenmerken_type) or @in_array("15", $kenmerken_accommodatie)) $toon_kenmerken["verhuur zondag t/m zondag"] = true;
-		if(@in_array("16", $kenmerken_type) or @in_array("17", $kenmerken_accommodatie)) $toon_kenmerken["wasmachine"] = true;
-		if(@in_array("4", $kenmerken_type) or @in_array("4", $kenmerken_accommodatie)) {
-			$toon_kenmerken["zwembad (privé)"] = true;
-		} elseif(@in_array("11", $kenmerken_accommodatie)) {
-			$toon_kenmerken["zwembad"] = true;
-		}
+	// 	if(@in_array("23", $kenmerken_type) or @in_array("24", $kenmerken_accommodatie)) $toon_kenmerken["jacuzzi / bubbelbad"] = true;
+	// 	if(@in_array("2", $kenmerken_type) or @in_array("2", $kenmerken_accommodatie)) $toon_kenmerken["aan de piste"] = true;
+	// 	if(@in_array("1", $kenmerken_type) or @in_array("1", $kenmerken_accommodatie)) $toon_kenmerken["catering mogelijk"] = true;
+	// 	if(@in_array("11", $kenmerken_type) or @in_array("13", $kenmerken_accommodatie)) $toon_kenmerken["huisdieren toegestaan"] = true;
+	// 	if(@in_array("22", $kenmerken_type) or @in_array("23", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["internet via Wi-Fi"] = true;
+	// 	} elseif(@in_array("20", $kenmerken_type) or @in_array("21", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["internetverbinding"] = true;
+	// 	}
+	// 	if(@in_array("10", $kenmerken_type) or @in_array("12", $kenmerken_accommodatie)) $toon_kenmerken["open haard / houtkachel"] = true;
+	// 	if(@in_array("3", $kenmerken_type) or @in_array("3", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["sauna (privé)"] = true;
+	// 	} elseif(@in_array("10", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["sauna (gemeenschappelijk)"] = true;
+	// 	}
+	// 	// if(@in_array("13", $kenmerken_type) or @in_array("15", $kenmerken_accommodatie)) $toon_kenmerken["verhuur zondag t/m zondag"] = true;
+	// 	if(@in_array("16", $kenmerken_type) or @in_array("17", $kenmerken_accommodatie)) $toon_kenmerken["wasmachine"] = true;
+	// 	if(@in_array("4", $kenmerken_type) or @in_array("4", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["zwembad (privé)"] = true;
+	// 	} elseif(@in_array("11", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["zwembad"] = true;
+	// 	}
 
-		if($accinfo["toonper"]==1 and !$vars["wederverkoop"]) {
-			$toon_kenmerken["inclusief skipas"] = true;
-		}
+	// 	if($accinfo["toonper"]==1 and !$vars["wederverkoop"]) {
+	// 		$toon_kenmerken["inclusief skipas"] = true;
+	// 	}
 
-	} elseif($vars["websitetype"]==7 and $vars["taal"]=="nl") {
-		//
-		// Italissima
-		//
-		// if(@in_array("53", $kenmerken_accommodatie)) $toon_kenmerken["1-10 appartementen"] = true;
-		// if(@in_array("54", $kenmerken_accommodatie)) $toon_kenmerken["11-20 appartementen"] = true;
-		// if(@in_array("55", $kenmerken_accommodatie)) $toon_kenmerken["meer dan 20 appartementen"] = true;
-		if(@in_array("27", $kenmerken_type) or @in_array("45", $kenmerken_accommodatie)) $toon_kenmerken["airconditioning"] = true;
-		if(@in_array("19", $kenmerken_type) or @in_array("33", $kenmerken_accommodatie)) $toon_kenmerken["balkon (privé)"] = true;
-		if(@in_array("28", $kenmerken_type) or @in_array("29", $kenmerken_type) or @in_array("46", $kenmerken_accommodatie) or @in_array("47", $kenmerken_accommodatie)) $toon_kenmerken["barbecue"] = true;
-		// if(@in_array("57", $kenmerken_accommodatie)) $toon_kenmerken["boerderijdieren"] = true;
-		if(@in_array("39", $kenmerken_accommodatie)) $toon_kenmerken["centrum op loopafstand"] = true;
-		if(@in_array("11", $kenmerken_type) or @in_array("13", $kenmerken_accommodatie)) $toon_kenmerken["huisdieren toegestaan"] = true;
-		if(@in_array("24", $kenmerken_type) or @in_array("42", $kenmerken_accommodatie)) {
-			$toon_kenmerken["internet via Wi-Fi"] = true;
-		} elseif(@in_array("22", $kenmerken_type) or @in_array("36", $kenmerken_accommodatie)) {
-			$toon_kenmerken["internetverbinding"] = true;
-		}
+	// } elseif($vars["websitetype"]==7 and $vars["taal"]=="nl") {
+	// 	//
+	// 	// Italissima
+	// 	//
+	// 	// if(@in_array("53", $kenmerken_accommodatie)) $toon_kenmerken["1-10 appartementen"] = true;
+	// 	// if(@in_array("54", $kenmerken_accommodatie)) $toon_kenmerken["11-20 appartementen"] = true;
+	// 	// if(@in_array("55", $kenmerken_accommodatie)) $toon_kenmerken["meer dan 20 appartementen"] = true;
+	// 	if(@in_array("27", $kenmerken_type) or @in_array("45", $kenmerken_accommodatie)) $toon_kenmerken["airconditioning"] = true;
+	// 	if(@in_array("19", $kenmerken_type) or @in_array("33", $kenmerken_accommodatie)) $toon_kenmerken["balkon (privé)"] = true;
+	// 	if(@in_array("28", $kenmerken_type) or @in_array("29", $kenmerken_type) or @in_array("46", $kenmerken_accommodatie) or @in_array("47", $kenmerken_accommodatie)) $toon_kenmerken["barbecue"] = true;
+	// 	// if(@in_array("57", $kenmerken_accommodatie)) $toon_kenmerken["boerderijdieren"] = true;
+	// 	if(@in_array("39", $kenmerken_accommodatie)) $toon_kenmerken["centrum op loopafstand"] = true;
+	// 	if(@in_array("11", $kenmerken_type) or @in_array("13", $kenmerken_accommodatie)) $toon_kenmerken["huisdieren toegestaan"] = true;
+	// 	if(@in_array("24", $kenmerken_type) or @in_array("42", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["internet via Wi-Fi"] = true;
+	// 	} elseif(@in_array("22", $kenmerken_type) or @in_array("36", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["internetverbinding"] = true;
+	// 	}
 
-		//
-		// temporarily: no "kindvriendelijk zwembad"
-		//
+	// 	//
+	// 	// temporarily: no "kindvriendelijk zwembad"
+	// 	//
 
-		if(@in_array("4", $kenmerken_type) or @in_array("4", $kenmerken_accommodatie)) {
-			$toon_kenmerken["zwembad (privé)"] = true;
-		} else {
+	// 	if(@in_array("4", $kenmerken_type) or @in_array("4", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["zwembad (privé)"] = true;
+	// 	} else {
 
-			// if(@in_array("59", $kenmerken_accommodatie)) {
-				// $toon_kenmerken["kindvriendelijk zwembad"] = true;
-			// } elseif(@in_array("11", $kenmerken_accommodatie)) {
-				// $toon_kenmerken["zwembad"] = true;
-			// }
-			if(@in_array("11", $kenmerken_accommodatie)) {
-				$toon_kenmerken["zwembad"] = true;
-			}
-		}
+	// 		// if(@in_array("59", $kenmerken_accommodatie)) {
+	// 			// $toon_kenmerken["kindvriendelijk zwembad"] = true;
+	// 		// } elseif(@in_array("11", $kenmerken_accommodatie)) {
+	// 			// $toon_kenmerken["zwembad"] = true;
+	// 		// }
+	// 		if(@in_array("11", $kenmerken_accommodatie)) {
+	// 			$toon_kenmerken["zwembad"] = true;
+	// 		}
+	// 	}
 
 
-		if(@in_array("23", $kenmerken_type) or @in_array("38", $kenmerken_accommodatie)) $toon_kenmerken["omheinde tuin"] = true;
-		// if(@in_array("60", $kenmerken_accommodatie)) $toon_kenmerken["ontbijt mogelijk"] = true;
-		if(@in_array("40", $kenmerken_accommodatie)) $toon_kenmerken["restaurant op domein"] = true;
-		if(@in_array("26", $kenmerken_accommodatie)) $toon_kenmerken["speeltoestellen"] = true;
-		if(@in_array("19", $kenmerken_accommodatie)) $toon_kenmerken["tennisbaan"] = true;
+	// 	if(@in_array("23", $kenmerken_type) or @in_array("38", $kenmerken_accommodatie)) $toon_kenmerken["omheinde tuin"] = true;
+	// 	// if(@in_array("60", $kenmerken_accommodatie)) $toon_kenmerken["ontbijt mogelijk"] = true;
+	// 	if(@in_array("40", $kenmerken_accommodatie)) $toon_kenmerken["restaurant op domein"] = true;
+	// 	if(@in_array("26", $kenmerken_accommodatie)) $toon_kenmerken["speeltoestellen"] = true;
+	// 	if(@in_array("19", $kenmerken_accommodatie)) $toon_kenmerken["tennisbaan"] = true;
 
-		if(@in_array("17", $kenmerken_type) or @in_array("30", $kenmerken_accommodatie)) {
-			$toon_kenmerken["tuin/terras (privé)"] = true;
-		} elseif(@in_array("20", $kenmerken_type) or @in_array("34", $kenmerken_accommodatie)) {
-			$toon_kenmerken["tuin/terras of balkon"] = true;
-		}
+	// 	if(@in_array("17", $kenmerken_type) or @in_array("30", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["tuin/terras (privé)"] = true;
+	// 	} elseif(@in_array("20", $kenmerken_type) or @in_array("34", $kenmerken_accommodatie)) {
+	// 		$toon_kenmerken["tuin/terras of balkon"] = true;
+	// 	}
 
-		if(@in_array("9", $kenmerken_accommodatie)) $toon_kenmerken["wellness-faciliteiten"] = true;
-		if(@in_array("18", $kenmerken_type) or @in_array("32", $kenmerken_accommodatie)) $toon_kenmerken["wasmachine"] = true;
-	}
+	// 	if(@in_array("9", $kenmerken_accommodatie)) $toon_kenmerken["wellness-faciliteiten"] = true;
+	// 	if(@in_array("18", $kenmerken_type) or @in_array("32", $kenmerken_accommodatie)) $toon_kenmerken["wasmachine"] = true;
+	// }
+
+	$kenmerken = new kenmerken();
+	$toon_kenmerken = $kenmerken->get_kenmerken($typeid,
+			array(
+				"type"=>$db->f( "kenmerken_type" ),
+				"accommodatie"=>$db->f( "kenmerken_accommodatie" ),
+				"plaats"=>$db->f( "kenmerken_plaats" ),
+				"skigebied"=>$db->f( "kenmerken_skigebied" ),
+				"toonper"=>$db->f( "toonper" ),
+			));
 
 	if(is_array($toon_kenmerken)) {
 
@@ -683,21 +693,23 @@ if($db->next_record()) {
 		echo "<ul class=\"kenmerken\">";
 		$kenmerken_kolomteller = 1;
 		foreach ($toon_kenmerken as $key => $value) {
-			$kenmerken_teller ++;
-			echo "<li>".wt_he($key)."</li>";
+			if( $txt[$vars["taal"]]["kenmerken"][$key] ) {
+				$kenmerken_teller ++;
+				echo "<li>".html($key, "kenmerken")."</li>";
 
-			if($kenmerken_kolomteller==1) {
-				$check_aantal_kenmerken = $aantal_kenmerken_per_kolom_eerste_kolom;
-			} else {
-				$check_aantal_kenmerken = $aantal_kenmerken_per_kolom;
-			}
+				if($kenmerken_kolomteller==1) {
+					$check_aantal_kenmerken = $aantal_kenmerken_per_kolom_eerste_kolom;
+				} else {
+					$check_aantal_kenmerken = $aantal_kenmerken_per_kolom;
+				}
 
-			if(fmod($kenmerken_teller, $check_aantal_kenmerken)==0 and $kenmerken_teller<count($toon_kenmerken)) {
-				echo "</ul>";
-				echo "<div class=\"kenmerken_divider\"></div>";
-				echo "<ul class=\"kenmerken\">";
+				if(fmod($kenmerken_teller, $check_aantal_kenmerken)==0 and $kenmerken_teller<count($toon_kenmerken)) {
+					echo "</ul>";
+					echo "<div class=\"kenmerken_divider\"></div>";
+					echo "<ul class=\"kenmerken\">";
 
-				$kenmerken_kolomteller++;
+					$kenmerken_kolomteller++;
+				}
 			}
 		}
 		echo "</ul>"; // close #kenmerken
