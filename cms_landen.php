@@ -41,6 +41,7 @@ if($_GET["add"]==6) {
 } else {
 	$cms->db_field(6,"noedit","begincode");
 }
+$cms->db_field(6,"text","isocode");
 $cms->db_field(6,"yesno","tonen");
 $cms->db_field(6,"yesno","zomertonen");
 $cms->db_field(6,"text","titel");
@@ -104,6 +105,7 @@ if($vars["cmstaal"]) {
 
 $cms->edit_field(6,0,"altnaam","Alternatieve spelling");
 $cms->edit_field(6,1,"begincode","Begincode voor accommodaties");
+$cms->edit_field(6,1,"isocode","ISO-code van dit land");
 $cms->edit_field(6,0,"htmlrow","<hr><b>Google</b><br><br><i>Gebruik geen sitenamen in Google-teksten (dit wordt automatisch door het systeem gedaan).</i>");
 if($_GET["wzt"]==2) $temp_zomer="zomer"; else $temp_zomer="";
 if($vars["cmstaal"]) {
@@ -238,12 +240,23 @@ if($cms_form[6]->filled) {
 			$cms_form[6]->error("begincode",wt_he($db->f("naam"))." heeft deze code al");
 		}
 	}
+
+	// check begincode
 	if(!ereg("^[A-Z]+$",$cms_form[6]->input["begincode"])) {
 		$cms_form[6]->error("begincode","alleen hoofdletters toegestaan");
 	}
 	if(strlen($cms_form[6]->input["begincode"])>2) {
 		$cms_form[6]->error("begincode","maximaal 2 letters mogelijk");
 	}
+
+	// check isocode
+	if(!ereg("^[A-Z]+$",$cms_form[6]->input["isocode"])) {
+		$cms_form[6]->error("isocode","alleen hoofdletters toegestaan");
+	}
+	if(strlen($cms_form[6]->input["isocode"])<>2) {
+		$cms_form[6]->error("isocode","moet 2 letters lang zijn");
+	}
+
 	if($_GET["wzt"]==2 and $cms_form[6]->input["accommodatiecodes"]) {
 		if(!ereg("^[A-Z]{1,2}[0-9]+,[A-Z]{1,2}[0-9]+,[A-Z]{1,2}[0-9]+$",$cms_form[6]->input["accommodatiecodes"])) {
 			$cms_form[6]->error("accommodatiecodes","gebruik deze vorm: F100,F101,F102");
