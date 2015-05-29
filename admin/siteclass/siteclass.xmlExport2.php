@@ -7,7 +7,7 @@
 * @since: 2015-05-29 11:00
 */
 
-class xmlExport extends chaletDefault
+class xmlExport2 extends chaletDefault
 {
 
 	/**  general data of accommodation-types  */

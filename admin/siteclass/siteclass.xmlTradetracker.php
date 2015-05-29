@@ -7,7 +7,7 @@
 * @since: 2015-05-29 22:00
 */
 
-class xmlTradetracker extends xmlExport
+class xmlTradetracker extends xmlExport2
 {
 
 	/**  name of the export (used in the filename for caching)  */
