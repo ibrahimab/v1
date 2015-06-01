@@ -33,7 +33,8 @@ class tarieventabel {
 	 *
 	 * @return void
 	 */
-	function __construct( $settings = array() ) {
+	function __construct( $settings = array() )
+	{
 
 		$this->config = new Configuration;
 
@@ -94,7 +95,8 @@ class tarieventabel {
 	 *
 	 * @return string $return
 	 */
-	public function toontabel() {
+	public function toontabel()
+	{
 
 		$db = new DB_sql;
 
@@ -193,7 +195,8 @@ class tarieventabel {
 	 * @param integer arrival date in unixtime
 	 * @return string $return
 	 */
-	public function info_totaalprijs($aantalpersonen, $aankomstdatum) {
+	public function info_totaalprijs($aantalpersonen, $aankomstdatum)
+	{
 
 		$this->tarieven_uit_database();
 
@@ -312,7 +315,8 @@ class tarieventabel {
 	 * @param integer arrival date in unixtime
 	 * @return string $return
 	 */
-	public function specificatie_totaalprijs($aantalpersonen, $aankomstdatum) {
+	public function specificatie_totaalprijs($aantalpersonen, $aankomstdatum)
+	{
 		//
 		// get specification total amount
 		//
@@ -389,8 +393,6 @@ class tarieventabel {
 		$return .= "</table>";
 
 		return $return;
-
-
 	}
 
 	/**
@@ -398,7 +400,8 @@ class tarieventabel {
 	 *
 	 * @return string $return
 	 */
-	private function tabel_top() {
+	private function tabel_top()
+	{
 
 		$return .= "<div class=\"tarieventabel_top\">";
 		$return .= "<div class=\"tarieventabel_top_left\">";
@@ -501,7 +504,8 @@ class tarieventabel {
 	 *
 	 * @return string $return
 	 */
-	private function tabel_content() {
+	private function tabel_content()
+	{
 
 		if($this->tarief) {
 
@@ -753,9 +757,11 @@ class tarieventabel {
 	 *
 	 * @return string $return
 	 */
-	private function tabel_bottom() {
-		// $return .= "</td></tr></table>";
+	private function tabel_bottom()
+	{
+
 		return $return;
+
 	}
 
 
@@ -764,7 +770,8 @@ class tarieventabel {
 	 *
 	 * @return boolean
 	 */
-	private function seizoenswissel($week, $begin=true) {
+	private function seizoenswissel($week, $begin=true)
+	{
 		// kijk of een week aan het begin of eind van een seizoen ligt
 		if($begin) {
 			$checkweek=mktime(0,0,0,date("m",$week),date("d",$week)-7,date("Y",$week));
@@ -785,7 +792,8 @@ class tarieventabel {
 	 * @param integer counter (is this the 1st or 2nd time the date row is shown?)
 	 * @return string $return
 	 */
-	private function datum_headers($data_counter=0) {
+	private function datum_headers($data_counter=0)
+	{
 
 		// regel met maanden
 		$return.="<tr class=\"tarieventabel_maanden\">";
@@ -915,7 +923,8 @@ class tarieventabel {
 	 *
 	 * @return string $return
 	 */
-	private function tabel_tarieven() {
+	private function tabel_tarieven()
+	{
 
 		$return.="<div class=\"tarieventabel_wrapper_rechts\"><table cellspacing=\"0\" class=\"tarieventabel_border tarieventabel_content\">";
 
@@ -1215,7 +1224,8 @@ class tarieventabel {
 	 * @param float
 	 * @return string $return
 	 */
-	private function toonbedrag($bedrag) {
+	private function toonbedrag($bedrag)
+	{
 		$return = number_format($bedrag, 2, ",", ".");
 		$return = preg_replace("@,00$@", ",-", $return);
 		return $return;
@@ -1227,7 +1237,8 @@ class tarieventabel {
 	 *
 	 * @return string $return
 	 */
-	public function show_bijkomendekosten() {
+	public function show_bijkomendekosten()
+	{
 
 		if(!$this->first_seizoen_id) {
 			// trigger_error("missing first_season_id",E_USER_NOTICE);
@@ -1308,7 +1319,8 @@ class tarieventabel {
 	 *
 	 * @return void
 	 */
-	private function tarieven_uit_database() {
+	private function tarieven_uit_database()
+	{
 
 		if(!$this->tarieven_uit_database_done) {
 
@@ -1347,7 +1359,7 @@ class tarieventabel {
 
 			// Controle op vertrekdagaanpassing?
 			$vertrekdag_object = new vertrekdagaanpassing($this->type_id);
-			$vertrekdag = $vertrekdag_object->get_dates();
+			$vertrekdag = $vertrekdag_object->get_dates()[$this->type_id];
 
 			// aflopen_allotment uit calculatiesjabloon halen
 			$db2->query("SELECT week, aflopen_allotment FROM calculatiesjabloon_week WHERE seizoen_id IN (".$this->seizoen_id.") AND leverancier_id='".intval($this->accinfo["leverancierid"])."';");
@@ -1652,7 +1664,6 @@ class tarieventabel {
 						}
 
 
-
 						// Voorraad bepalen t.b.v. ingelogde reisbureaus
 						// 1 = beschikbaar (groen), 2 = op aanvraag (licht oranje), 3 = niet beschikbaar (grijs)
 						if($db->f("voorraad_garantie")+$db->f("voorraad_allotment")+$db->f("voorraad_optie_leverancier")+$db->f("voorraad_xml")-$db->f("voorraad_optie_klant")>=1) {
@@ -1804,7 +1815,8 @@ class tarieventabel {
 	 * @param integer type_id of connected summer/winter accommodation
 	 * @return string $return
 	 */
-	private function button_to_other_website($zomerwinterkoppeling_accommodatie_id) {
+	private function button_to_other_website($zomerwinterkoppeling_accommodatie_id)
+	{
 
 		$db = new DB_sql;
 
