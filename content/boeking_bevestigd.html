@@ -64,7 +64,7 @@ if($_GET["aanvraagnr"]) {
 	if($_SESSION["boeking_tracking"]) {
 
 		// affiliate tracking
-		affiliate_tracking(true,true,true,array("ordernummer"=>$_GET["aanvraagnr"],"bedrag"=>$totalereissom));
+		affiliate_tracking(true,true,array("ordernummer"=>$_GET["aanvraagnr"],"bedrag"=>$totalereissom));
 
 		// Google Tag Manager
 		$google_tagmanager = new google_tagmanager;

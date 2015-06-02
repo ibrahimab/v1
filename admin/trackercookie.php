@@ -17,14 +17,6 @@ if($_COOKIE["flc"]) {
 	}
 }
 
-#unset($_COOKIE,$mustlogin);
-
-# Controle op Cleafs-referer
-if($_GET["network"]=="cleafs") {
-	$_GET["chad"]=30;
-	@setcookie("cleafs",time(),(time()+4320000),"/");
-	$vars["bezoek_altijd_opslaan"]=true;
-}
 # Controle op tradetracker-referer
 if(!$_GET["chad"] and $_GET["network"]=="tradetracker") {
 	$_GET["chad"]=20;
@@ -148,15 +140,6 @@ if($_GET["chad"] and ereg("^[A-Z0-9]+$",$_GET["chad"]) and ereg("chad=[A-Z0-9]+"
 	exit;
 }
 
-# Pagina reloaden (maar dan zonder network=X)
-if($_GET["network"]=="cleafs") {
-	$url=$_SERVER["REQUEST_URI"];
-	$url=ereg_replace("\?network=cleafs&","?",$url);
-	$url=ereg_replace("\?network=cleafs","",$url);
-	$url=ereg_replace("&network=cleafs","",$url);
-	header("Location: ".$url);
-	exit;
-}
 if($_GET["network"]=="tradetracker") {
 	$url=$_SERVER["REQUEST_URI"];
 	$url=ereg_replace("\?network=tradetracker&","?",$url);

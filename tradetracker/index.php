@@ -25,7 +25,7 @@ $_GET["chad"]=20;
 $vars["bezoek_altijd_opslaan"]=true;
 include("../admin/trackercookie.php");
 
-# Cookie plaatsen voor controle (networkontdubbeling) Cleafs vs TradeTracker
+# Cookie plaatsen voor controle (networkontdubbeling)
 @setcookie("tradetracker", time(), (time() + 3456000), "/");
 
 if($_SERVER["HTTP_HOST"]=="www.superski.nl") {

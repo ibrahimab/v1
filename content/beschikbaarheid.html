@@ -7,7 +7,7 @@ if($_GET["fo"]=="frm") {
 
 	$extrainfo_tradetracker="Formulier ingevuld: ".date("d-m-Y").", ".date("H:i")."u.";
 	if(!$vars["rebook"]) {
-		affiliate_tracking(false,true,true,array("ordernummer"=>"beschikbaarheidsaanvraag"));
+		affiliate_tracking(false,true,array("ordernummer"=>"beschikbaarheidsaanvraag"));
 	}
 } else {
 	if($vars["rebook"] and $accinfo["optiedagen_klanten_vorig_seizoen"]>3) {

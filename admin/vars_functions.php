@@ -3894,7 +3894,7 @@ function facebook_opengraph($info="") {
 	return $return;
 }
 
-function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=true,$data) {
+function affiliate_tracking($sale=false, $toon_tradetracker=true, $data) {
 
 	global $vars,$voorkant_cms,$gegevens;
 
@@ -3906,7 +3906,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		#	- boeking door chalet-medewerker
 		#	- boeking met kortingscode
 		#	- boeking door testsysteem
-		unset($toon_tradetracker,$toon_cleafs);
+		unset($toon_tradetracker);
 	}
 
 	// check for higher payout TradeTracker
@@ -3928,26 +3928,6 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 			}
 		}
 	}
-
-
-	// # Bepalen wie voorrang krijgt: TradeTracker of Cleafs
-	// if($toon_tradetracker and $toon_cleafs) {
-	// 	if($_COOKIE["cleafs"] and $_COOKIE["tradetracker"]) {
-	// 		if(intval($_COOKIE["cleafs"])>intval($_COOKIE["tradetracker"])) {
-	// 			unset($toon_tradetracker);
-	// 		} else {
-	// 			unset($toon_cleafs);
-	// 		}
-	// 	} else {
-	// 		if($_COOKIE["cleafs"]) {
-	// 			unset($toon_tradetracker);
-	// 		}
-	// 		if($_COOKIE["tradetracker"]) {
-	// 			unset($toon_cleafs);
-	// 		}
-	// 	}
-	// }
-
 
 	if($vars["website"]=="W") {
 		#

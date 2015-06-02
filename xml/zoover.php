@@ -32,7 +32,6 @@ if($_GET["campaign"]=="zooverbe") {
 	}
 }
 
-#echo "<accommodations xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://www.cleafs.com/tracker/productsfeed.xsd\">\n";
 echo "<accommodations>\n";
 
 unset($andquery);

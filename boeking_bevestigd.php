@@ -5,7 +5,7 @@ $vars["verberg_lastacc"]=true;
 include("admin/vars.php");
 wt_session_start();
 
-# Totale reissom opvragen voor TradeTracker, Cleafs en Google Analytics
+# Totale reissom opvragen voor TradeTracker en Google Analytics
 if($_GET["aanvraagnr"]) {
 	$_GET["aanvraagnr"]=intval($_GET["aanvraagnr"]);
 	$gegevens=get_boekinginfo($_GET["aanvraagnr"]);

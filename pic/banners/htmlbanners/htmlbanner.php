@@ -22,9 +22,6 @@ $netwerken[3]="Snowplaza";
 if($_GET["n"]==1) {
 	# TradeTracker
 	$extra_qs="network=tradetracker&";
-} elseif($_GET["n"]==2) {
-	# Cleafs
-	$extra_qs="network=sneeuwhoogte&";
 } elseif($_GET["n"]==3) {
 	# Snowplaza
 	$extra_qs="chad=KWX12&";
@@ -208,9 +205,6 @@ echo "<title></title>\n";
 echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js\" ></script>\n";
 if($_GET["themadatum"]==2) {
 	echo "<script type=\"text/javascript\" src=\"".$siteurl."pic/banners/htmlbanners/datums.php\" ></script>\n";
-}
-if($_GET["n"]==2) {
-	#echo "<script type=\"text/javascript\" src=\"http://www.cleafs.nl/js/htmlbanner.js\" ></script>\n";
 }
 
 echo "<script type=\"text/javascript\">\n";

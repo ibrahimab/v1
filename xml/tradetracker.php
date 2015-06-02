@@ -37,7 +37,6 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	echo ">\n";
 }
 
-#echo "<productFeed xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://www.cleafs.com/tracker/productsfeed.xsd\">\n";
 echo "<productFeed version=\"1.0\" timestamp=\"".date("Ymd:H:i:s")."\">\n";
 
 
