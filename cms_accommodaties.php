@@ -513,13 +513,13 @@ if($_GET["wzt"]==2) {
 // }
 // $cms->edit_field(1,0,"telefoonnummer","Telefoonnummer");
 
-// disable "vouchertekst" (requested by Wouter; 15-04-2015)
-// if($vars["cmstaal"]) {
-// 	$cms->edit_field(1,0,"voucherinfo","Vouchertekst","",array("noedit"=>true));
-// 	$cms->edit_field(1,0,"voucherinfo_".$vars["cmstaal"],"Vouchertekst ".strtoupper($vars["cmstaal"]));
-// } else {
-// 	$cms->edit_field(1,0,"voucherinfo","Vouchertekst");
-// }
+
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"voucherinfo","Vouchertekst","",array("noedit"=>true));
+	$cms->edit_field(1,0,"voucherinfo_".$vars["cmstaal"],"Vouchertekst ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,0,"voucherinfo","Vouchertekst");
+}
 
 $cms->edit_field(1,0,"mailtekst_id","Mailtekst (8 weken voor vertrek)");
 $cms->edit_field(1,1,"optiedagen_klanten_vorig_seizoen","Aantal optiedagen voor klant die het volgende seizoen de accommodatie opnieuw boekt");
