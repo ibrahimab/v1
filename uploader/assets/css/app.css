@@ -1,0 +1,112 @@
+div.container {
+    
+    margin: 10px;
+    padding: 0;
+}
+
+div.previewer {
+    
+    width: 52%;
+    border: 1px solid #000;
+}
+
+div.previewer ul {
+    
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+div.previewer ul:after {
+    
+    content: '.';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+div.previewer ul li {
+    
+    list-style-type: none;
+    width: 29.5%;
+    padding: 5px;
+    margin: 5px;
+    float: left;
+    position: relative;
+    border: 1px dashed #000000;
+}
+
+div.previewer ul li span.done {
+    
+    position: absolute;
+    right: 9px;
+    background-color: green;
+    width: 10px;
+    height: 10px;
+    z-index: 9999;
+}
+
+div.previewer ul li img {
+    width: 95%;
+}
+
+div.progress {
+    
+    position: relative;
+    border: 1px inset #446;
+    border-radius: 5px;
+    margin: 0;
+    padding: 0;
+    height: 25px;
+    text-align: center;
+}
+
+div.progress div.progress-bar {
+    
+    position: absolute;
+    z-index: 1;
+    background-color: #0c0;
+    padding: 0;
+    margin: 0;
+    width: 0;
+    transition: width 0.3s;
+}
+
+div.progress span {
+    
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    color: #000;
+    width: 94%;
+    padding: 2px;
+    text-align: center;
+    display: block;
+    overflow: hidden;
+    height: 22px;
+}
+
+div.progress div.progress-bar.success {
+    background: #0c0 none 0 0 no-repeat;
+}
+
+div.progress div.progress-bar.error {
+    background: #c00 0 0 no-repeat;
+}
+
+select {
+    
+    margin-bottom: 5px;
+    padding: 3px;
+    width: 100%;
+}
+
+input {
+    
+    margin-bottom: 5px;
+    padding: 3px;
+    width: 95%;
+}
