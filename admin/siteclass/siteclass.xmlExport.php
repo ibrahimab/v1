@@ -7,7 +7,7 @@
 * @since: 2015-05-29 11:00
 */
 
-class xmlExport2 extends chaletDefault
+class xmlExport extends chaletDefault
 {
 
 	/**  general data of accommodation-types  */
@@ -68,6 +68,29 @@ class xmlExport2 extends chaletDefault
 
 		$db = new DB_sql;
 
+		// Distances
+		if($this->config->seizoentype==1) {
+			// Winter
+			$doorloop_afstanden=array(
+				"afstandwinkel"=>"distance_shop",
+				"afstandrestaurant"=>"distance_restaurant",
+				"afstandpiste"=>"distance_piste",
+				"afstandskilift"=>"distance_skilift",
+				"afstandloipe"=>"distance_crosscountry",
+				"afstandskibushalte"=>"distance_skibusstop"
+			);
+		} elseif($this->config->seizoentype==2) {
+			// Summer
+			$doorloop_afstanden=array(
+				"afstandwinkel"=>"distance_shop",
+				"afstandrestaurant"=>"distance_restaurant",
+				"afstandstrand"=>"distance_beach",
+				"afstandzwembad"=>"distance_pool",
+				"afstandzwemwater"=>"distance_swimmingwater",
+				"afstandgolfbaan"=>"distance_golfcourse"
+			);
+		}
+
 		if( $this->aanbieding ) {
 			$this->name .= "_aanbieding";
 
@@ -75,7 +98,7 @@ class xmlExport2 extends chaletDefault
 			// aanbiedingen uit kortingensysteem ophalen
 			$db->query("SELECT DISTINCT type_id FROM tarief WHERE 1=1 AND (c_bruto>0 OR bruto>0) AND beschikbaar=1 AND week>'".time()."' AND aanbiedingskleur_korting=1 AND (aanbieding_acc_percentage>0 OR aanbieding_acc_euro>0) AND kortingactief=1;");
 			while($db->next_record()) {
-				$aanbieding_inquery.=",".$db->f("type_id");
+				$aanbieding_inquery.=",".$db->f( "type_id" );
 			}
 		}
 
@@ -85,7 +108,7 @@ class xmlExport2 extends chaletDefault
 		$type_id_inquery_acc = "0";
 		$type_id_inquery_arr = "0";
 
-		$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS kenmerken_accommodatie, a.aankomst_plusmin, a.vertrek_plusmin, a.skipas_id, t.naam".$this->config->ttv." AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving".$this->config->ttv." AS omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra".$this->config->ttv." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$this->config->ttv." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$this->config->ttv." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$this->config->ttv." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$this->config->ttv." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$this->config->ttv." AS afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra".$this->config->ttv." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$this->config->ttv." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$this->config->ttv." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$this->config->ttv." AS afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving".$this->config->ttv." AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS kenmerken_type, s.skigebied_id, s.naam".$this->config->ttv." AS skigebied, s.kenmerken AS kenmerken_skigebied, l.naam".$this->config->ttv." AS land, l.begincode, l.isocode, p.naam AS plaats, p.plaats_id, p.kenmerken AS kenmerken_plaats FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$this->website."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($this->type_ids ? " AND t.type_id IN (".$this->type_ids.")" : "")." ORDER BY type_id".($this->config->lokale_testserver ? " LIMIT 0,30" : " LIMIT 0,50").";");
+		$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS kenmerken_accommodatie, a.aankomst_plusmin, a.vertrek_plusmin, a.skipas_id, t.naam".$this->config->ttv." AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving".$this->config->ttv." AS omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra".$this->config->ttv." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$this->config->ttv." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$this->config->ttv." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$this->config->ttv." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$this->config->ttv." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$this->config->ttv." AS afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra".$this->config->ttv." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$this->config->ttv." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$this->config->ttv." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$this->config->ttv." AS afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving".$this->config->ttv." AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS kenmerken_type, s.skigebied_id, s.naam".$this->config->ttv." AS skigebied, s.kenmerken AS kenmerken_skigebied, l.naam".$this->config->ttv." AS land, l.begincode, l.isocode, p.naam AS plaats, p.plaats_id, p.kenmerken AS kenmerken_plaats FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$this->website."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($this->type_ids ? " AND t.type_id IN (".$this->type_ids.")" : "")." ORDER BY type_id".($this->config->lokale_testserver ? " LIMIT 0,100" : " LIMIT 0,100").";");
 		while($db->next_record()) {
 
 			$type_id = $db->f( "type_id" );
@@ -118,6 +141,52 @@ class xmlExport2 extends chaletDefault
 				}
 			}
 
+			// ANVR-codes
+			switch ($type_data[$type_id]['soortaccommodatie']) {
+				case 1:
+					$type_data[$type_id]["accommodationType"] = 'CHA';
+					break;
+				case 2:
+					$type_data[$type_id]["accommodationType"] = 'APP';
+					break;
+				case 3:
+					$type_data[$type_id]["accommodationType"] = 'HOT';
+					break;
+				case 4:
+					$type_data[$type_id]["accommodationType"] = 'APP';
+					break;
+				case 6:
+					$type_data[$type_id]["accommodationType"] = 'HUI';
+					break;
+				case 7:
+					$type_data[$type_id]["accommodationType"] = 'VIL';
+					break;
+				case 8:
+					$type_data[$type_id]["accommodationType"] = 'KAS';
+					break;
+				case 9:
+					$type_data[$type_id]["accommodationType"] = 'VAK';
+					break;
+				case 10:
+					$type_data[$type_id]["accommodationType"] = 'HUI';
+					break;
+				case 11:
+					$type_data[$type_id]["accommodationType"] = 'HUI';
+					break;
+				case 12:
+					$type_data[$type_id]["accommodationType"] = 'PEN';
+					break;
+			}
+			$type_data[$type_id]["unitType"] = $type_data[$type_id]['maxaantalpersonen'].'PK';
+			if( preg_match("@catering@", $type_data[$type_id]["tnaam"] ) ) {
+				$type_data[$type_id]["serviceType"] = 'AI';
+			} else {
+				$type_data[$type_id]["serviceType"] = 'LG';
+			}
+
+
+
+
 			// fullname
 			$aantalpersonen=$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? txt("persoon") : txt("personen"));
 			$accnaam=ucfirst($this->config->soortaccommodatie[$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".$aantalpersonen;
@@ -136,13 +205,13 @@ class xmlExport2 extends chaletDefault
 			}
 
 			// url
-			$url=$this->config->basehref.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
+			$url=$this->config->basehref.txt("menu_accommodatie")."/".$db->f("begincode").$db->f( "type_id" )."/";
 			$type_data[$type_id]["url"] = $url;
 
 			// main-image
 			$imgurl="";
-			if(file_exists( $this->config->unixdir."pic/cms/types_specifiek/".$db->f("type_id").".jpg") ) {
-				$imgurl = $this->config->basehref."pic/cms/types_specifiek/".$db->f("type_id").".jpg";
+			if(file_exists( $this->config->unixdir."pic/cms/types_specifiek/".$db->f( "type_id" ).".jpg") ) {
+				$imgurl = $this->config->basehref."pic/cms/types_specifiek/".$db->f( "type_id" ).".jpg";
 			} elseif( file_exists($this->config->unixdir."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg") ) {
 				$imgurl = $this->config->basehref."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg";
 			}
@@ -151,7 +220,7 @@ class xmlExport2 extends chaletDefault
 			}
 
 			// additional images
-			$foto = imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")),"../");
+			$foto = imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f( "type_id" ),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f( "type_id" )),"../");
 			if( is_array($foto["pic"]) ) {
 				$fototeller=0;
 				while(list($key,$value)=each($foto["pic"])) {
@@ -181,6 +250,13 @@ class xmlExport2 extends chaletDefault
 						"toonper"=>$db->f( "toonper" ),
 			));
 
+
+			// Distances
+			foreach ($doorloop_afstanden as $key => $value) {
+				if($db->f($key)) {
+					$type_data[$type_id]["distance"][$value] = $this->showDistance($db->f($key), $db->f($key."extra"), txt("meter","toonaccommodatie"));
+				}
+			}
 		}
 
 
@@ -238,7 +314,7 @@ class xmlExport2 extends chaletDefault
 
 		while($db->next_record()) {
 
-			unset($prijs, $korting_euro, $korting_percentage);
+			unset($prijs);
 
 			if (!$seizoen_gehad[$db->f( "seizoen_id" )]) {
 				$seizoen_id_inquery .= ",".$db->f( "seizoen_id" );
@@ -251,26 +327,25 @@ class xmlExport2 extends chaletDefault
 			$prijs = $db->f("prijs") + $bk_add_to_price;
 
 			if( $prijs>0 and $bk_add_to_price>0 ) {
-				$this->type_price[$db->f( "type_id" )][$db->f( "week" )] = number_format($prijs, 2);
+				$this->type_price[$db->f( "type_id" )][$db->f( "week" )] = round($prijs, 2);
+
+				// Maximale korting bepalen
+				if($db->f("kortingactief") and $db->f("aanbiedingskleur_korting") and $db->f("toonexactekorting")) {
+					if($db->f("aanbieding_acc_percentage")>0) {
+						if($korting_percentage[$db->f( "type_id" )]<$db->f("aanbieding_acc_percentage")) $korting_percentage[$db->f( "type_id" )]=$db->f("aanbieding_acc_percentage");
+					}
+					if($db->f("aanbieding_acc_euro")>0) {
+						if($korting_euro[$db->f( "type_id" )]<$db->f("aanbieding_acc_euro")) $korting_euro[$db->f( "type_id" )]=$db->f("aanbieding_acc_euro");
+					}
+				}
 			}
-
-			// // Maximale korting bepalen
-			// if($db->f("kortingactief") and $db->f("aanbiedingskleur_korting") and $db->f("toonexactekorting")) {
-			// 	if($db->f("aanbieding_acc_percentage")>0) {
-			// 		if($korting_percentage<$db->f("aanbieding_acc_percentage")) $korting_percentage=$db->f("aanbieding_acc_percentage");
-			// 	}
-			// 	if($db->f("aanbieding_acc_euro")>0) {
-			// 		if($korting_euro<$db->f("aanbieding_acc_euro")) $korting_euro=$db->f("aanbieding_acc_euro");
-			// 	}
-			// }
-
 		}
 
 		// arrangementen
 		$db->query("SELECT t.type_id, t.maxaantalpersonen, tp.prijs AS prijs, ta.week, ta.seizoen_id, ta.aanbiedingskleur_korting, ta.aanbieding_acc_percentage, ta.aanbieding_acc_euro, ta.kortingactief, ta.toonexactekorting FROM tarief ta, tarief_personen tp, type t WHERE t.type_id IN (".$type_id_inquery_arr.") AND tp.week>'".(time()+604800)."' AND tp.prijs>0 AND tp.personen=t.maxaantalpersonen AND ta.beschikbaar=1 AND ta.type_id=tp.type_id AND ta.type_id=t.type_id AND ta.week=tp.week AND ta.seizoen_id=tp.seizoen_id;");
 		while($db->next_record()) {
 
-			unset($prijs, $korting_euro, $korting_percentage);
+			unset($prijs);
 
 			if (!$seizoen_gehad[$db->f( "seizoen_id" )]) {
 				$seizoen_id_inquery .= ",".$db->f( "seizoen_id" );
@@ -283,15 +358,15 @@ class xmlExport2 extends chaletDefault
 			$prijs = $db->f("prijs") + $bk_add_to_price;
 
 			if( $prijs>0 and $bk_add_to_price>0 ) {
-				$this->type_price[$db->f( "type_id" )][$db->f( "week" )] = number_format($prijs, 2);
-			}
+				$this->type_price[$db->f( "type_id" )][$db->f( "week" )] = round($prijs, 2);
 
-			// // Maximale korting bepalen
-			// if($db->f("kortingactief") and $db->f("aanbiedingskleur_korting") and $db->f("toonexactekorting")) {
-			// 	if($db->f("aanbieding_acc_percentage")>0) {
-			// 		if($korting_percentage<$db->f("aanbieding_acc_percentage")) $korting_percentage=$db->f("aanbieding_acc_percentage");
-			// 	}
-			// }
+				// Maximale korting bepalen
+				if($db->f("kortingactief") and $db->f("aanbiedingskleur_korting") and $db->f("toonexactekorting")) {
+					if($db->f("aanbieding_acc_percentage")>0) {
+						if($korting_percentage[$db->f( "type_id" )]<$db->f("aanbieding_acc_percentage")) $korting_percentage[$db->f( "type_id" )]=$db->f("aanbieding_acc_percentage");
+					}
+				}
+			}
 		}
 
 		if (is_array($this->type_price) ) {
@@ -311,12 +386,27 @@ class xmlExport2 extends chaletDefault
 				unset( $aantalnachten_afwijking );
 				foreach ($value as $week => $prijs) {
 
-					$this->type_arrival[$type_id][$week] = $vertrekdag->get_arrival_unixtime($type_id, $week);
-					$this->type_number_of_nights[$type_id][$week] = $vertrekdag->get_number_of_nights($type_id, $week);
+					$this->type_arrival[$type_id][$week] = $vertrekdag->get_arrival_unixtime($type_id, $week_seizoen_id[$week], $week);
+					$this->type_number_of_nights[$type_id][$week] = $vertrekdag->get_number_of_nights($type_id, $week_seizoen_id[$week], $week );
 
 					$this->type_departure[$type_id][$week] = mktime(0, 0, 0, date("m", $this->type_arrival[$type_id][$week]), date("d", $this->type_arrival[$type_id][$week]) + $this->type_number_of_nights[$type_id][$week], date("Y", $this->type_arrival[$type_id][$week]));
 
 				}
+			}
+		}
+
+
+		// Discounts
+		foreach ($type_data as $type_id => $value) {
+			if($korting_percentage[$type_id]) {
+				$this->type_data[$type_id]["special_offer"]["percentage"] = floor($korting_percentage[$type_id]);
+				$this->type_data[$type_id]["special_offer"]["description"] = txt("boek-nu-met-korting-tot", "xml", array("v_korting"=>floor($korting_percentage[$type_id])."%"));
+			} elseif($korting_euro[$type_id]) {
+
+				$this->type_data[$type_id]["special_offer"]["euro"] = floor($korting_euro[$type_id]);
+				$this->type_data[$type_id]["special_offer"]["description"] = txt("boek-nu-met-korting-tot", "xml", array("v_korting"=>$korting_euro[$type_id]." ".txt("euro", "xml")));
+			} elseif($this->aanbieding) {
+				$this->type_data[$type_id]["special_offer"]["description"] = txt("boek-nu-met-korting", "xml");
 			}
 		}
 
@@ -400,6 +490,30 @@ class xmlExport2 extends chaletDefault
 			exit;
 		}
 	}
+
+
+	/**
+	 * show distance text (combine distance with additional text and a unit)
+	 *
+	 * @param string the actual distance
+	 * @param string additional text (optional)
+	 * @param string unit (e.g. meters)
+	 * @return void
+	 */
+	protected function showDistance($afstand, $extra, $maat) {
+		$return=$afstand;
+		if($extra) {
+			if(ereg("^[0-9]+$",$extra)) {
+				$return.=" - ".$extra." ".$maat;
+			} else {
+				$return.=" ".$maat." (".$extra.")";
+			}
+		} else {
+			$return.=" ".$maat;
+		}
+		return $return;
+	}
+
 
 	/**
 	 * check input, query database, invoke XMLWriter object

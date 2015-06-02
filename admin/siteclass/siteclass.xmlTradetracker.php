@@ -7,7 +7,7 @@
 * @since: 2015-05-29 22:00
 */
 
-class xmlTradetracker extends xmlExport2
+class xmlTradetracker extends xmlExport
 {
 
 	/**  name of the export (used in the filename for caching)  */
@@ -69,9 +69,9 @@ class xmlTradetracker extends xmlExport2
 				$this->x->writeElement('latitude', $type_data['gps_lat']);
 				$this->x->writeElement('longitude', $type_data['gps_long']);
 
-				$this->x->writeElement('accommodationType', '');
-				$this->x->writeElement('unitType', '');
-				$this->x->writeElement('serviceType', '');
+				$this->x->writeElement('accommodationType', $type_data['accommodationType']);
+				$this->x->writeElement('unitType', $type_data['unitType']);
+				$this->x->writeElement('serviceType', $type_data['serviceType']);
 				$this->x->writeElement('transportType', 'ev');
 				$this->x->writeElement('categoryPath', '');
 				$this->x->writeElement('categories', '');
@@ -127,11 +127,34 @@ class xmlTradetracker extends xmlExport2
 				$this->x->writeElement('maxPersons', $type_data['maxaantalpersonen']);
 
 
-				// zelf toegevoegd
-				// $this->x->writeElement('fromPrice', $type_data['vanaf']);
+				// additional
+				$this->x->startElement('additional');
+				$this->x->writeElement("persons_from", $type_data["optimaalaantalpersonen"]);
+				$this->x->writeElement("persons_to", $type_data["maxaantalpersonen"]);
+				$this->x->writeElement("accommodationtype", $this->config->soortaccommodatie[$type_data["soortaccommodatie"]]);
+				$this->x->writeElement("region_id", $type_data["skigebied_id"]);
+				$this->x->writeElement("city_id", $type_data["plaats_id"]);
+				$this->x->writeElement('fromPrice', $type_data['vanaf']);
+				if( $type_data['special_offer']['description'] ) {
+					$this->x->writeElement('special_offer_description', $type_data['special_offer']['description']);
+				}
+				if( $type_data['special_offer']['percentage'] ) {
+					$this->x->writeElement('special_offer_percentage', $type_data['special_offer']['percentage']);
+				}
+				if( $type_data['special_offer']['euro'] ) {
+					$this->x->writeElement('special_offer_euro', $type_data['special_offer']['euro']);
+				}
+
+				if( is_array( $type_data["distance"]) ) {
+
+					foreach ($type_data["distance"] as $key => $value) {
+						$this->x->writeElement($key, $value);
+					}
+				}
+				$this->x->endElement(); // close additional
+
 
 				$this->x->writeElement('priceType', $type_data['price_text']);
-
 				if( is_array($this->type_bkk[$type_id])) {
 
 					$last_seizoen_id = max( array_keys( $this->type_bkk[$type_id] ) );
@@ -162,7 +185,7 @@ class xmlTradetracker extends xmlExport2
 					$this->x->writeElement('duration', $this->type_number_of_nights[$type_id][$key]);
 					$this->x->writeElement('durationType', txt("nachten", "xml"));
 
-					$this->x->writeElement('price', $this->type_price[$type_id][$key]);
+					$this->x->writeElement('price', number_format($this->type_price[$type_id][$key], 2, ".", ""));
 
 					$this->x->endElement(); // close variation
 
