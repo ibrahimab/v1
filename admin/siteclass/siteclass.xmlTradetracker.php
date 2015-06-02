@@ -131,10 +131,10 @@ class xmlTradetracker extends xmlExport
 				$this->x->startElement('additional');
 				$this->x->writeElement("persons_from", $type_data["optimaalaantalpersonen"]);
 				$this->x->writeElement("persons_to", $type_data["maxaantalpersonen"]);
-				$this->x->writeElement("accommodationtype", $this->config->soortaccommodatie[$type_data["soortaccommodatie"]]);
+				$this->x->writeElement("accommodationType_full", $this->config->soortaccommodatie[$type_data["soortaccommodatie"]]);
 				$this->x->writeElement("region_id", $type_data["skigebied_id"]);
 				$this->x->writeElement("city_id", $type_data["plaats_id"]);
-				$this->x->writeElement('fromPrice', $type_data['vanaf']);
+				$this->x->writeElement('FromPrice_description', $type_data['vanaf']);
 				if( $type_data['special_offer']['description'] ) {
 					$this->x->writeElement('special_offer_description', $type_data['special_offer']['description']);
 				}
