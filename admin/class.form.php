@@ -1502,11 +1502,11 @@ class form2 {
 								   <img src="{location}" /> <br />
 								   wissen: <input type="checkbox" name="imagemetadatadelete[{id}][{_id}]" /> <br />
 								   volgorde: <input type="text" name="imagemetadatarank[{id}][{_id}]" value="{rank}" style="width: 40px;" /> <br />
-								   label: <input type="text" name="imagemetadatalabel[{id}][{_id}]" value="{label}" style="width: 170px;" /> <br />';
+								   <input type="text" name="imagemetadatalabel[{id}][{_id}]" value="{label}" placeholder="tekst toevoegen" style="width: 170px;" /> <br />';
 
 				    if (isset($options['kinds'])) {
 
-						$template .= 'soort: <select name="imagemetadatakind[{id}][{_id}]">';
+						$template .= '<select name="imagemetadatakind[{id}][{_id}]">';
 				   		foreach ($this->fields['options'][$id]['kinds'] as $identifier => $title) {
 							$template .= '<option value="' . $identifier . '"{' . $identifier . 'KindSelected}>' . $title . '</option>';
 						}

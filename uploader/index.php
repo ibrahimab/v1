@@ -22,6 +22,7 @@ include '../admin/vars.php';
 	<script type="text/javascript" src="<?php echo $vars['path']; ?>uploader/js/image_uploader/views.js"></script>
 	<script type="text/javascript" src="<?php echo $vars['path']; ?>uploader/js/image_uploader/validators.js"></script>
 	<script type="text/javascript" src="<?php echo $vars['path']; ?>uploader/js/image_uploader/upload.js"></script>
+	<script type="text/javascript" src="<?php echo $vars['path']; ?>uploader/js/image_sorter/main.js"></script>
 	<script type="text/javascript" src="<?php echo $vars['path']; ?>uploader/js/app.js"></script>
 </body>
 </html>

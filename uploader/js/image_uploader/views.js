@@ -3,8 +3,13 @@ var ImageUploader = (function(ns, jq, _, undefined) {
     
     ns.views = {
         
-        hr: function () {
-            return document.createElement('hr');
+        anchor: function () {
+            
+            var anchor = document.createElement('div');
+            anchor.className = 'anchor';
+            anchor.setAttribute('data-sortable-anchor', true);
+            
+            return anchor;
         },
         
         image: function(file, dimensions) {
@@ -105,9 +110,11 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             
             var li = document.createElement('li');
             li.setAttribute('data-role', 'preview-box');
+            li.setAttribute('data-sortable', true);
             li.setAttribute('data-id', id);
+            li.setAttribute('draggable', true);
             li.appendChild(image);
-            li.appendChild(ns.views.hr());
+            li.appendChild(ns.views.anchor());
             li.appendChild(ns.views.kinds(file));
             li.appendChild(ns.views.label(file));
             li.appendChild(ns.views.progressBar(file));

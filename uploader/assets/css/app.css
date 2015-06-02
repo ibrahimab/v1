@@ -37,6 +37,11 @@ div.previewer ul li {
     float: left;
     position: relative;
     border: 1px dashed #000000;
+    cursor: move;
+}
+
+div.previewer ul li.over {
+    border: 2px dashed green;
 }
 
 div.previewer ul li span.done {
@@ -109,4 +114,24 @@ input {
     margin-bottom: 5px;
     padding: 3px;
     width: 95%;
+}
+
+/* Prevent the text contents of draggable elements from being selectable. */
+[draggable] {
+    
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+div.anchor {
+    
+    width: 30px;
+    height: 30px;
+    background: url(../images/drag-icon.png);
+    margin: 0 auto;
 }
