@@ -8080,6 +8080,14 @@ $txt["nl"]["xml"]["reserveringskosten"]="Reserveringskosten";
 $txt["de"]["xml"]["reserveringskosten"]="Reservierungskosten";
 $txt["en"]["xml"]["reserveringskosten"]="Booking costs";
 
+$txt["nl"]["xml"]["winter"]="winter";
+$txt["de"]["xml"]["winter"]="Winter";
+$txt["en"]["xml"]["winter"]="Winter";
+
+$txt["nl"]["xml"]["zomer"]="zomer";
+$txt["de"]["xml"]["zomer"]="Sommer";
+$txt["en"]["xml"]["zomer"]="Summer";
+
 // kenmerken
 $txt["nl"]["kenmerken"]["jacuzzi-bubbelbad"]="jacuzzi / bubbelbad";
 $txt["de"]["kenmerken"]["jacuzzi-bubbelbad"]="";

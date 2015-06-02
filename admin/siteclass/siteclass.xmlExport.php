@@ -31,8 +31,14 @@ class xmlExport extends chaletDefault
 	/**  facilities (kenmerken) of accommodation-types  */
 	protected $type_kenmerken;
 
+	/**  availability of accommodation-types  */
+	protected $type_availability;
+
 	/**  which facilities to use  */
 	protected $facilites_show_array;
+
+	/**  search only for available weeks  */
+	protected $must_be_available = true;
 
 	/**  XMLWriter-object  */
 	protected $x;
@@ -45,6 +51,12 @@ class xmlExport extends chaletDefault
 
 	/**  Only use special offers (aanbiedingen)?  */
 	public $aanbieding;
+
+	/**  Use only these type_id's with provider-codes as id's  */
+	public $type_codes;
+
+	/**  Use wederverkoop-prices  */
+	public $use_wederverkoop_prices = false;
 
 	/**
 	 * call the parent constructor
@@ -102,6 +114,19 @@ class xmlExport extends chaletDefault
 			}
 		}
 
+
+		if( is_array($this->type_codes) ) {
+
+			foreach ($this->type_codes as $key => $value) {
+				$this->type_ids .= ",".$key;
+			}
+
+			if( $this->type_ids ) {
+				$this->type_ids = substr($this->type_ids, 1);
+			}
+
+		}
+
 		$seizoen_id_inquery = "0";
 		$skipas_id_inquery = "0";
 		$type_id_inquery = "0";
@@ -128,17 +153,16 @@ class xmlExport extends chaletDefault
 				$skipas_gehad[$db->f( "skipas_id" )] = true;
 			}
 
-
-			if ( $db->f("toonper")==3 ) {
+			if ( $db->f("toonper")==3 or $this->use_wederverkoop_prices ) {
 				// losse accommodatie
 				$type_id_inquery_acc .= ",".$db->f( "type_id" );
 			} else {
 				// arrangement
 				$type_id_inquery_arr .= ",".$db->f( "type_id" );
+			}
 
-				if ( $this->config->wederverkoop ) {
-					unset( $type_data[$type_id]["skipas_id"] );
-				}
+			if ( $this->config->wederverkoop ) {
+				unset( $type_data[$type_id]["skipas_id"] );
 			}
 
 			// ANVR-codes
@@ -201,7 +225,6 @@ class xmlExport extends chaletDefault
 				}
 				$description.=$db->f("tomschrijving");
 				$type_data[$type_id]["description"] = $description;
-
 			}
 
 			// url
@@ -309,9 +332,26 @@ class xmlExport extends chaletDefault
 		$vertrekdag = new vertrekdagaanpassing($type_id_inquery);
 
 
-		// losse accommodaties
-		$db->query("SELECT type_id, c_verkoop_site AS prijs, week, seizoen_id, aanbiedingskleur_korting, aanbieding_acc_percentage, aanbieding_acc_euro, kortingactief, toonexactekorting FROM tarief WHERE type_id IN (".$type_id_inquery_acc.") AND week>'".(time()+604800)."' AND c_verkoop_site>0 AND beschikbaar=1;");
 
+		//
+		// losse accommodaties
+		//
+		if ( $this->use_wederverkoop_prices ) {
+			$price_field = "wederverkoop_verkoopprijs";
+		} else {
+			$price_field = "c_verkoop_site";
+		}
+
+		$query = "SELECT type_id, ".$price_field." AS prijs, week, seizoen_id, aanbiedingskleur_korting, aanbieding_acc_percentage, aanbieding_acc_euro, kortingactief, toonexactekorting, voorraad_garantie, voorraad_allotment, voorraad_vervallen_allotment, voorraad_optie_leverancier, voorraad_xml, voorraad_request, voorraad_optie_klant FROM tarief WHERE type_id IN (".$type_id_inquery_acc.") AND week>'".(time()+604800)."' AND ".$price_field.">0";
+
+		if ( $this->must_be_available ) {
+			$query .= " AND beschikbaar=1";
+		}
+		if ( $this->use_wederverkoop_prices ) {
+			$query .= " AND blokkeren_wederverkoop=0";
+		}
+
+		$db->query($query.";");
 		while($db->next_record()) {
 
 			unset($prijs);
@@ -323,8 +363,10 @@ class xmlExport extends chaletDefault
 
 			$week_seizoen_id[$db->f( "week" )] = $db->f( "seizoen_id" );
 
+			$prijs = $db->f("prijs");
+
 			$bk_add_to_price = $bk[$db->f( "type_id" )][$db->f( "seizoen_id" )][1];
-			$prijs = $db->f("prijs") + $bk_add_to_price;
+			$prijs += $bk_add_to_price;
 
 			if( $prijs>0 and $bk_add_to_price>0 ) {
 				$this->type_price[$db->f( "type_id" )][$db->f( "week" )] = round($prijs, 2);
@@ -338,11 +380,25 @@ class xmlExport extends chaletDefault
 						if($korting_euro[$db->f( "type_id" )]<$db->f("aanbieding_acc_euro")) $korting_euro[$db->f( "type_id" )]=$db->f("aanbieding_acc_euro");
 					}
 				}
+
+				// availability
+				$stock = array(
+				   "voorraad_garantie" => $db->f( "voorraad_garantie" ),
+				   "voorraad_allotment" => $db->f( "voorraad_allotment" ),
+				   "voorraad_vervallen_allotment" => $db->f( "voorraad_vervallen_allotment" ),
+				   "voorraad_optie_leverancier" => $db->f( "voorraad_optie_leverancier" ),
+				   "voorraad_xml" => $db->f( "voorraad_xml" ),
+				   "voorraad_request" => $db->f( "voorraad_request" ),
+				   "voorraad_optie_klant" => $db->f( "voorraad_optie_klant" ),
+				);
+				$this->type_availability[$db->f( "type_id" )][$db->f( "week" )] = $this->get_availability( $stock );
 			}
 		}
 
+		//
 		// arrangementen
-		$db->query("SELECT t.type_id, t.maxaantalpersonen, tp.prijs AS prijs, ta.week, ta.seizoen_id, ta.aanbiedingskleur_korting, ta.aanbieding_acc_percentage, ta.aanbieding_acc_euro, ta.kortingactief, ta.toonexactekorting FROM tarief ta, tarief_personen tp, type t WHERE t.type_id IN (".$type_id_inquery_arr.") AND tp.week>'".(time()+604800)."' AND tp.prijs>0 AND tp.personen=t.maxaantalpersonen AND ta.beschikbaar=1 AND ta.type_id=tp.type_id AND ta.type_id=t.type_id AND ta.week=tp.week AND ta.seizoen_id=tp.seizoen_id;");
+		//
+		$db->query("SELECT t.type_id, t.maxaantalpersonen, tp.prijs AS prijs, ta.week, ta.seizoen_id, ta.aanbiedingskleur_korting, ta.aanbieding_acc_percentage, ta.aanbieding_acc_euro, ta.kortingactief, ta.toonexactekorting, ta.voorraad_garantie, ta.voorraad_allotment, ta.voorraad_vervallen_allotment, ta.voorraad_optie_leverancier, ta.voorraad_xml, ta.voorraad_request, ta.voorraad_optie_klant FROM tarief ta, tarief_personen tp, type t WHERE t.type_id IN (".$type_id_inquery_arr.") AND tp.week>'".(time()+604800)."' AND tp.prijs>0 AND tp.personen=t.maxaantalpersonen AND ta.beschikbaar=1 AND ta.type_id=tp.type_id AND ta.type_id=t.type_id AND ta.week=tp.week AND ta.seizoen_id=tp.seizoen_id ORDER BY type_id;");
 		while($db->next_record()) {
 
 			unset($prijs);
@@ -354,8 +410,10 @@ class xmlExport extends chaletDefault
 
 			$week_seizoen_id[$db->f( "week" )] = $db->f( "seizoen_id" );
 
+			$prijs = $db->f("prijs");
+
 			$bk_add_to_price = $bk[$db->f( "type_id" )][$db->f( "seizoen_id" )][$db->f( "maxaantalpersonen" )] / $db->f( "maxaantalpersonen" );
-			$prijs = $db->f("prijs") + $bk_add_to_price;
+			$prijs += $bk_add_to_price;
 
 			if( $prijs>0 and $bk_add_to_price>0 ) {
 				$this->type_price[$db->f( "type_id" )][$db->f( "week" )] = round($prijs, 2);
@@ -374,7 +432,7 @@ class xmlExport extends chaletDefault
 
 				$vanafprijs = min($value);
 
-				if ( $type_data[$type_id]["toonper"]==3 ) {
+				if ( $type_data[$type_id]["toonper"]==3 or $this->config->wederverkoop ) {
 					$type_data[$type_id]["vanaf"] = txt("vanafeuroperaccommodatie", "xml", array("v_bedrag"=>number_format($vanafprijs,2,",",".")));
 					$type_data[$type_id]["price_text"] = txt("peraccommodatie", "xml");
 				} else {
@@ -467,6 +525,7 @@ class xmlExport extends chaletDefault
 				}
 			}
 		}
+
 	}
 
 	/**
@@ -512,6 +571,29 @@ class xmlExport extends chaletDefault
 			$return.=" ".$maat;
 		}
 		return $return;
+	}
+
+	/**
+	 * calculate the availability
+	 *
+	 * @param array with stock
+	 * @return string (directly or request)
+	 */
+	private function get_availability( $stock )
+	{
+
+		if($stock["voorraad_garantie"]+$stock["voorraad_allotment"]+$stock["voorraad_vervallen_allotment"]+$stock["voorraad_optie_leverancier"]+$stock["voorraad_xml"]-$stock["voorraad_optie_klant"]>=1) {
+			$availability = "directly";
+		} elseif($stock["voorraad_request"]>=1 or $stock["voorraad_optie_klant"]>=1) {
+			$availability = "request";
+		}
+
+		if( $availability ) {
+			return $availability;
+		} else {
+			return false;
+		}
+
 	}
 
 

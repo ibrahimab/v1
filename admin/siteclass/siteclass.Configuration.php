@@ -40,6 +40,7 @@ class Configuration
 		$this->configdata["soortaccommodatie"]               = $vars["soortaccommodatie"];
 		$this->configdata["wt_htmlentities_cp1252"]          = $vars["wt_htmlentities_cp1252"];
 		$this->configdata["basehref"]                        = $vars["basehref"];
+		$this->configdata["seizoentype_namen"]               = $vars["seizoentype_namen"];
 
 		$this->configdata["isMobile"]                        = $isMobile;
 		$this->configdata["voorkant_cms"]                    = $voorkant_cms;
