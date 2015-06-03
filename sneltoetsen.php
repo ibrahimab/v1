@@ -150,7 +150,7 @@ $(document).ready(function() {
 	</tr>
 	<tr>
 		<td>Ctrl + L</td>
-		<td>Cursor naar adresbalk (url invoeren)</td>
+		<td>Cursor naar adresbalk (url invoeren).</td>
 	</tr>
 	<tr>
 		<td>Ctrl + D</td>
@@ -160,6 +160,54 @@ $(document).ready(function() {
 		<td>Ctrl + Shift + B</td>
 		<td>Favorietenbalk uitklappen.</td>
 	</tr>
+
+</table>
+
+<br>
+
+<table style="width:100%">
+	<caption><h3>Sneltoetsen voor Outlook</h3></caption>
+	<tr>
+		<th>Combinatie</th>
+		<th>Omschrijving</th>
+	</tr>
+	<tr>
+		<td>Ctrl + N</td>
+		<td>Nieuwe e-mail.</td>
+	</tr>
+	<tr>
+		<td>Ctrl + O</td>
+		<td>E-mail openen.</td>
+	</tr>
+	<tr>
+		<td>Ctrl + R</td>
+		<td>E-mail beantwoorden.</td>
+	</tr>
+	<tr>
+		<td>Ctrl + Shift + R</td>
+		<td>Allen beantwoorden.</td>
+	</tr>
+	<tr>
+		<td>Ctrl + F</td>
+		<td>E-mail doorsturen.</td>
+	</tr>
+	<tr>
+		<td>Shift + F3</td>
+		<td>Hoofdletters (van selectie) wijzigen.</td>
+	</tr>
+	<tr>
+		<td>Ctrl + Spatie</td>
+		<td>Opmaak (van selectie) wissen.</td>
+	</tr>
+	<tr>
+		<td>Ctrl + Enter</td>
+		<td>Opgestelde e-mail verzenden.</td>
+	</tr>
+	<tr>
+		<td>Ctrl + D</td>
+		<td>E-mail verwijderen.</td>
+	</tr>
+
 
 </table>
 
