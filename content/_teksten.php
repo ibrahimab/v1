@@ -8090,99 +8090,99 @@ $txt["en"]["xml"]["zomer"]="Summer";
 
 // kenmerken
 $txt["nl"]["kenmerken"]["jacuzzi-bubbelbad"]="jacuzzi / bubbelbad";
-$txt["de"]["kenmerken"]["jacuzzi-bubbelbad"]="";
+$txt["de"]["kenmerken"]["jacuzzi-bubbelbad"]="Whirlpool / Whirlpool-Bad";
 $txt["en"]["kenmerken"]["jacuzzi-bubbelbad"]="whirlpool tub";
 
 $txt["nl"]["kenmerken"]["aan-de-piste"]="aan de piste";
-$txt["de"]["kenmerken"]["aan-de-piste"]="";
+$txt["de"]["kenmerken"]["aan-de-piste"]="an der Piste";
 $txt["en"]["kenmerken"]["aan-de-piste"]="at the slopes";
 
 $txt["nl"]["kenmerken"]["catering-mogelijk"]="catering mogelijk";
-$txt["de"]["kenmerken"]["catering-mogelijk"]="";
+$txt["de"]["kenmerken"]["catering-mogelijk"]="Catering-Service möglich";
 $txt["en"]["kenmerken"]["catering-mogelijk"]="catering possible";
 
 $txt["nl"]["kenmerken"]["huisdieren-toegestaan"]="huisdieren toegestaan";
-$txt["de"]["kenmerken"]["huisdieren-toegestaan"]="";
+$txt["de"]["kenmerken"]["huisdieren-toegestaan"]="Haustiere erlaubt";
 $txt["en"]["kenmerken"]["huisdieren-toegestaan"]="pets allowed";
 
 $txt["nl"]["kenmerken"]["internet-via-wifi"]="internet via Wi-Fi";
-$txt["de"]["kenmerken"]["internet-via-wifi"]="";
+$txt["de"]["kenmerken"]["internet-via-wifi"]="WLAN-Internetzugang";
 $txt["en"]["kenmerken"]["internet-via-wifi"]="internet via Wi-Fi";
 
 $txt["nl"]["kenmerken"]["internetverbinding"]="internetverbinding";
-$txt["de"]["kenmerken"]["internetverbinding"]="";
+$txt["de"]["kenmerken"]["internetverbinding"]="Internetzugang";
 $txt["en"]["kenmerken"]["internetverbinding"]="internet connection";
 
 $txt["nl"]["kenmerken"]["open-haard-houtkachel"]="open haard / houtkachel";
-$txt["de"]["kenmerken"]["open-haard-houtkachel"]="";
+$txt["de"]["kenmerken"]["open-haard-houtkachel"]="offener Kamin / Holzofen";
 $txt["en"]["kenmerken"]["open-haard-houtkachel"]="fireplace / wood stove";
 
 $txt["nl"]["kenmerken"]["sauna-prive"]="sauna (privé)";
-$txt["de"]["kenmerken"]["sauna-prive"]="";
+$txt["de"]["kenmerken"]["sauna-prive"]="Sauna (privat)";
 $txt["en"]["kenmerken"]["sauna-prive"]="sauna (private)";
 
 $txt["nl"]["kenmerken"]["sauna-gemeenschappelijk"]="sauna (gemeenschappelijk)";
-$txt["de"]["kenmerken"]["sauna-gemeenschappelijk"]="";
+$txt["de"]["kenmerken"]["sauna-gemeenschappelijk"]="Sauna (gemeinschaftlich)";
 $txt["en"]["kenmerken"]["sauna-gemeenschappelijk"]="sauna (shared)";
 
 $txt["nl"]["kenmerken"]["wasmachine"]="wasmachine";
-$txt["de"]["kenmerken"]["wasmachine"]="";
+$txt["de"]["kenmerken"]["wasmachine"]="Waschmaschine";
 $txt["en"]["kenmerken"]["wasmachine"]="washing machine";
 
 $txt["nl"]["kenmerken"]["zwembad-prive"]="zwembad (privé)";
-$txt["de"]["kenmerken"]["zwembad-prive"]="";
+$txt["de"]["kenmerken"]["zwembad-prive"]="Schwimmbad (privat)";
 $txt["en"]["kenmerken"]["zwembad-prive"]="swimming pool (private)";
 
 $txt["nl"]["kenmerken"]["zwembad"]="zwembad";
-$txt["de"]["kenmerken"]["zwembad"]="";
+$txt["de"]["kenmerken"]["zwembad"]="Schwimmbad";
 $txt["en"]["kenmerken"]["zwembad"]="swimming pool";
 
 $txt["nl"]["kenmerken"]["inclusief-skipas"]="inclusief skipas";
-$txt["de"]["kenmerken"]["inclusief-skipas"]="";
+$txt["de"]["kenmerken"]["inclusief-skipas"]="Skipass inklusive";
 $txt["en"]["kenmerken"]["inclusief-skipas"]="includes lift pass";
 
 $txt["nl"]["kenmerken"]["airconditioning"]="airconditioning";
-$txt["de"]["kenmerken"]["airconditioning"]="";
+$txt["de"]["kenmerken"]["airconditioning"]="Klimaanlage";
 $txt["en"]["kenmerken"]["airconditioning"]="air conditioning";
 
 $txt["nl"]["kenmerken"]["balkon-prive"]="balkon (privé)";
-$txt["de"]["kenmerken"]["balkon-prive"]="";
+$txt["de"]["kenmerken"]["balkon-prive"]="Balkon (privat)";
 $txt["en"]["kenmerken"]["balkon-prive"]="balcony (private)";
 
 $txt["nl"]["kenmerken"]["barbecue"]="barbecue";
-$txt["de"]["kenmerken"]["barbecue"]="";
+$txt["de"]["kenmerken"]["barbecue"]="Grill";
 $txt["en"]["kenmerken"]["barbecue"]="barbecue";
 
 $txt["nl"]["kenmerken"]["centrum-op-loopafstand"]="centrum op loopafstand";
-$txt["de"]["kenmerken"]["centrum-op-loopafstand"]="";
+$txt["de"]["kenmerken"]["centrum-op-loopafstand"]="Ortszentrum zu Fuß erreichbar";
 $txt["en"]["kenmerken"]["centrum-op-loopafstand"]="walk downtown";
 
 $txt["nl"]["kenmerken"]["omheinde-tuin"]="omheinde tuin";
-$txt["de"]["kenmerken"]["omheinde-tuin"]="";
+$txt["de"]["kenmerken"]["omheinde-tuin"]="umzäunter Garten";
 $txt["en"]["kenmerken"]["omheinde-tuin"]="enclosed garden";
 
 $txt["nl"]["kenmerken"]["restaurant-op-domein"]="restaurant op domein";
-$txt["de"]["kenmerken"]["restaurant-op-domein"]="";
+$txt["de"]["kenmerken"]["restaurant-op-domein"]="Restaurant auf dem Grundstück";
 $txt["en"]["kenmerken"]["restaurant-op-domein"]="restaurant on property";
 
 $txt["nl"]["kenmerken"]["speeltoestellen"]="speeltoestellen";
-$txt["de"]["kenmerken"]["speeltoestellen"]="";
+$txt["de"]["kenmerken"]["speeltoestellen"]="Spielgeräte";
 $txt["en"]["kenmerken"]["speeltoestellen"]="equipped playground";
 
 $txt["nl"]["kenmerken"]["tennisbaan"]="tennisbaan";
-$txt["de"]["kenmerken"]["tennisbaan"]="";
+$txt["de"]["kenmerken"]["tennisbaan"]="Tennisplatz";
 $txt["en"]["kenmerken"]["tennisbaan"]="tennis court";
 
 $txt["nl"]["kenmerken"]["tuin-terras-prive"]="tuin/terras (privé)";
-$txt["de"]["kenmerken"]["tuin-terras-prive"]="";
+$txt["de"]["kenmerken"]["tuin-terras-prive"]="Garten/Terrasse (privat)";
 $txt["en"]["kenmerken"]["tuin-terras-prive"]="garden/terrace (private)";
 
 $txt["nl"]["kenmerken"]["tuin-terras-of-balkon"]="tuin/terras of balkon";
-$txt["de"]["kenmerken"]["tuin-terras-of-balkon"]="";
+$txt["de"]["kenmerken"]["tuin-terras-of-balkon"]="Garten/Terrasse oder Balkon";
 $txt["en"]["kenmerken"]["tuin-terras-of-balkon"]="garden/terrace or balcony";
 
 $txt["nl"]["kenmerken"]["wellness-faciliteiten"]="wellness-faciliteiten";
-$txt["de"]["kenmerken"]["wellness-faciliteiten"]="";
+$txt["de"]["kenmerken"]["wellness-faciliteiten"]="Wellness-Einrichtungen";
 $txt["en"]["kenmerken"]["wellness-faciliteiten"]="wellness facilities";
 
 
