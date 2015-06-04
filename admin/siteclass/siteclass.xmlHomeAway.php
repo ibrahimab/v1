@@ -46,8 +46,8 @@ class xmlHomeAway extends xmlExport
 		} else {
 			$this->x->startElement('reservationBatch');
 		}
-		$this->x->writeElement('documentVersion', '1.0');
 		$this->x->writeAttribute('created', date("c"));
+		$this->x->writeElement('documentVersion', '1.0');
 
 
 		$this->x->startElement('advertisers');

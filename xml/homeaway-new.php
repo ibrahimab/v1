@@ -5,11 +5,11 @@
 // XML-export HomeAway
 //
 //
-// https://www.chalet.eu/xml/homeaway.php?feedtype=rates
-// https://www.chalet.eu/xml/homeaway.php?feedtype=reservations
+// https://www.chalet.eu/xml/homeaway-new.php?feedtype=rates
+// https://www.chalet.eu/xml/homeaway-new.php?feedtype=reservations
 //
-// https://www.italyhomes.eu/xml/homeaway.php?feedtype=rates
-// https://www.italyhomes.eu/xml/homeaway.php?feedtype=reservations
+// https://www.italyhomes.eu/xml/homeaway-new.php?feedtype=rates
+// https://www.italyhomes.eu/xml/homeaway-new.php?feedtype=reservations
 //
 //
 
