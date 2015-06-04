@@ -28,24 +28,14 @@ while(list($afwijkingkey,$afwijkingvalue)=each($doorloop_array)) {
 		if(!$txta[$vertaal_taal.$afwijking][$key] and $value) {
 
 			$vertaal_array["site_breed"][$key] = $value;
-
-			// $form->field_htmlrow("","<b>Site-brede tekst &quot;".$key."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div style=\"border:1px solid #000000;;padding:5px;\">".nl2br(wt_he($value))."</div></div>");
-			// $form->field_textarea(0,ereg_replace("-","_",$key)."_1","<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txta[".$key."])</i>","","","",array("newline"=>true,"title_html"=>true));
-			// $form->field_htmlrow("","<hr>");
 			$vars["onvertaald"]=true;
 		}
 	}
 
 	while(list($key,$value)=each($txt["nl".$afwijking])) {
 		while(list($key2,$value2)=each($value)) {
-			// echo $key."=".$key2."===".$value2."<br/>";
 			if(!$txt[$vertaal_taal.$afwijking][$key][$key2] and $value2) {
-
 				$vertaal_array[$key][$key2] = $value2;
-
-				// $form->field_htmlrow("","<b>Pagina &quot;".($key=="vars" ? "algemeen" : ($key=="index" ? "hoofdpagina" : $key))."&quot; - onderdeel &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div style=\"border:1px solid #000000;padding:5px;\">".nl2br(wt_he($value2))."</div></div>");
-				// $form->field_textarea(0,ereg_replace("-","_",$key).ereg_replace("-","_",$key2).$afwijkingvalue."_2","<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txt[".$key."][".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
-				// $form->field_htmlrow("","<hr>");
 				$vars["onvertaald"]=true;
 			}
 		}
@@ -56,12 +46,7 @@ if(is_array($nieuwe_vertaling[$vertaal_taal])) {
 	while(list($key,$value)=each($nieuwe_vertaling[$vertaal_taal])) {
 		while(list($key2,$value2)=each($value)) {
 			if($value2) {
-
 				$vertaal_array[$key][$key2] = $value2;
-
-				// $form->field_htmlrow("","<b>Pagina &quot;".($key=="vars" ? "algemeen" : ($key=="index" ? "hoofdpagina" : $key))."&quot; - onderdeel &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div style=\"border:1px solid #000000;padding:5px;\">".nl2br(wt_he($txt["nl"][$key][$key2]))."</div></div>");
-				// $form->field_textarea(0,ereg_replace("-","_",$key).ereg_replace("-","_",$key2)."_3","<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txt[".$key."][".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
-				// $form->field_htmlrow("","<hr>");
 				$vars["onvertaald"]=true;
 			}
 		}
@@ -98,9 +83,6 @@ if(is_array($vertaal_array)) {
 				$objPHPExcel->getActiveSheet()->SetCellValue("A".$row, wt_utf8_encode($key));
 				$objPHPExcel->getActiveSheet()->SetCellValue("B".$row, wt_utf8_encode($key2));
 				$objPHPExcel->getActiveSheet()->SetCellValue("C".$row, wt_utf8_encode($value2));
-
-				// ->getStyle("D$row")->getAlignment()->setWrapText(true);
-
 			}
 		}
 
@@ -127,12 +109,10 @@ if(is_array($vertaal_array)) {
 			foreach ($value as $key2 => $value2) {
 
 				if($key=="site_breed") {
-					// $titel_html = "Site-brede tekst &quot;".$key."&quot;";
-					$form->field_htmlrow("","<b>Site-brede tekst &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div style=\"border:1px solid #000000;;padding:5px;\">".nl2br(wt_he($value2))."</div></div>");
+					$form->field_htmlrow("","<b>Site-brede tekst &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div class=\"vertaal_nederlands\">".nl2br(wt_he($value2))."</div></div>");
 					$form->field_textarea(0,ereg_replace("-","_",$key2)."_1","<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txta[".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
 				} else {
-					// $titel_html = "Pagina &quot;".($key=="vars" ? "algemeen" : ($key=="index" ? "hoofdpagina" : $key))."&quot; - onderdeel &quot;".$key2."&quot;";
-					$form->field_htmlrow("","<b>Pagina &quot;".($key=="vars" ? "algemeen" : ($key=="index" ? "hoofdpagina" : $key))."&quot; - onderdeel &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div style=\"border:1px solid #000000;padding:5px;\">".nl2br(wt_he($txt["nl"][$key][$key2]))."</div></div>");
+					$form->field_htmlrow("","<b>Pagina &quot;".($key=="vars" ? "algemeen" : ($key=="index" ? "hoofdpagina" : $key))."&quot; - onderdeel &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div  class=\"vertaal_nederlands\">".nl2br(wt_he($txt["nl"][$key][$key2]))."</div></div>");
 					$form->field_textarea(0,ereg_replace("-","_",$key).ereg_replace("-","_",$key2)."_3","<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txt[".$key."][".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
 				}
 				$form->field_htmlrow("","<hr>");
