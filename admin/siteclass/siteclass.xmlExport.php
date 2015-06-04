@@ -547,7 +547,6 @@ class xmlExport extends chaletDefault
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -683,6 +682,8 @@ class xmlExport extends chaletDefault
 					unlink( $this->cacheFilename() );
 				}
 				rename ($this->cacheFilename()."_tmp", $this->cacheFilename() );
+
+				filesync::add_to_filesync_table($this->cacheFilename());
 
 				return "cachefile ".$this->cacheFilename()." created";
 
