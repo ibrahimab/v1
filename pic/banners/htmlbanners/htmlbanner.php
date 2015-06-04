@@ -241,11 +241,11 @@ if($_GET["n"]==2) {
 	} elseif($_GET["t"]==35) {
 		$utm.="_970x250";
 	}
-}elseif($_GET["n"]==4){
-    $utm8 = "utm_source=wintersporters.nl&utm_medium=wintersporters.nl&utm_campaign=wintersporters.nl-zillertal-banner";
+} elseif($_GET["n"]==4) {
+    $utm8 = "utm_source=wintersporters.nl&utm_medium=wintersporters.nl&utm_campaign=wintersporters.nl-banner";
     $utm9 = "utm_source=wintersporters.nl&utm_medium=wintersporters.nl&utm_campaign=wintersporters.nl-lesmenuires-banner";
     $utm = ($_GET["t"] == 8) ? $utm8 : $utm9;
-}elseif($_GET["n"]==5){
+} elseif($_GET["n"]==5) {
 
     $region_url["zellamsell"]   = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-zellamsee-banner";
     $region_url["Kaprun"]       = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-kaprun-banner";

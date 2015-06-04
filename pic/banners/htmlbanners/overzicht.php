@@ -93,7 +93,7 @@ $keuzes[6][5][2]="Italissima.be htmlbanner regio-personen-datum 120x600";
 $keuzes[6][6][2]="Italissima.be htmlbanner regio-personen-datum 300x250";
 
 // wintersporters.nl
-$keuzes[7][8][2]="Chalet.nl htmlbanner Zillertal land-datum-aantal personen 336x280";
+$keuzes[7][8][2]="Chalet.nl htmlbanner algemeen land-datum-aantal personen 336x280";
 $keuzes[7][9][2]="Chalet.nl htmlbanner Les Menuires land-datum-aantal personen 336x280";
 
 // Zoover.nl
