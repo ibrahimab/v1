@@ -25,8 +25,6 @@ if($_GET["aanbiedingen"]) {
 
 $xmlTradetracker->website = $vars["website"];
 
-$xmlTradetracker->limit = 50;
-
 if($_GET["save_cache"]) {
 	$xmlTradetracker->save_cache = true;
 }
