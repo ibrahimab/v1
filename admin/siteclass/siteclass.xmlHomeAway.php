@@ -47,6 +47,7 @@ class xmlHomeAway extends xmlExport
 			$this->x->startElement('reservationBatch');
 		}
 		$this->x->writeElement('documentVersion', '1.0');
+		$this->x->writeAttribute('created', date("c"));
 
 
 		$this->x->startElement('advertisers');
@@ -165,8 +166,6 @@ class xmlHomeAway extends xmlExport
 						$show_enddate = mktime(0, 0, 0, date("m",$time), date("d",$time)-1, date("Y",$time));
 
 						$this->x->writeElement('endDate', date("Y-m-d",$show_enddate));
-
-						// echo "<endDate>".date("Y-m-d",$show_enddate)."</endDate>\n";
 
 						$this->x->endElement(); // close reservationDates
 						$this->x->endElement(); // close reservation

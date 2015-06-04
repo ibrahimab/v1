@@ -58,6 +58,12 @@ class xmlExport extends chaletDefault
 	/**  Use wederverkoop-prices  */
 	public $use_wederverkoop_prices = false;
 
+	/**  Save the created XML as a cache-file  */
+	public $save_cache = false;
+
+	/**  Limit the number of results (for testing purposes)  */
+	public $limit;
+
 	/**
 	 * call the parent constructor
 	 *
@@ -104,8 +110,6 @@ class xmlExport extends chaletDefault
 		}
 
 		if( $this->aanbieding ) {
-			$this->name .= "_aanbieding";
-
 
 			// aanbiedingen uit kortingensysteem ophalen
 			$db->query("SELECT DISTINCT type_id FROM tarief WHERE 1=1 AND (c_bruto>0 OR bruto>0) AND beschikbaar=1 AND week>'".time()."' AND aanbiedingskleur_korting=1 AND (aanbieding_acc_percentage>0 OR aanbieding_acc_euro>0) AND kortingactief=1;");
@@ -133,7 +137,13 @@ class xmlExport extends chaletDefault
 		$type_id_inquery_acc = "0";
 		$type_id_inquery_arr = "0";
 
-		$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS kenmerken_accommodatie, a.aankomst_plusmin, a.vertrek_plusmin, a.skipas_id, t.naam".$this->config->ttv." AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving".$this->config->ttv." AS omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra".$this->config->ttv." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$this->config->ttv." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$this->config->ttv." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$this->config->ttv." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$this->config->ttv." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$this->config->ttv." AS afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra".$this->config->ttv." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$this->config->ttv." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$this->config->ttv." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$this->config->ttv." AS afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving".$this->config->ttv." AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS kenmerken_type, s.skigebied_id, s.naam".$this->config->ttv." AS skigebied, s.kenmerken AS kenmerken_skigebied, l.naam".$this->config->ttv." AS land, l.begincode, l.isocode, p.naam AS plaats, p.plaats_id, p.kenmerken AS kenmerken_plaats FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$this->website."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($this->type_ids ? " AND t.type_id IN (".$this->type_ids.")" : "")." ORDER BY type_id".($this->config->lokale_testserver ? " LIMIT 0,100" : " LIMIT 0,100").";");
+		if ( $this->limit > 0 ) {
+			$limit = $this->limit;
+		} elseif ( $this->config->lokale_testserver ) {
+			$limit = 650;
+		}
+
+		$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS kenmerken_accommodatie, a.aankomst_plusmin, a.vertrek_plusmin, a.skipas_id, t.naam".$this->config->ttv." AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving".$this->config->ttv." AS omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra".$this->config->ttv." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$this->config->ttv." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$this->config->ttv." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$this->config->ttv." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$this->config->ttv." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$this->config->ttv." AS afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra".$this->config->ttv." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$this->config->ttv." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$this->config->ttv." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$this->config->ttv." AS afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving".$this->config->ttv." AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS kenmerken_type, s.skigebied_id, s.naam".$this->config->ttv." AS skigebied, s.kenmerken AS kenmerken_skigebied, l.naam".$this->config->ttv." AS land, l.begincode, l.isocode, p.naam AS plaats, p.plaats_id, p.kenmerken AS kenmerken_plaats FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$this->website."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($this->type_ids ? " AND t.type_id IN (".$this->type_ids.")" : "")." ORDER BY type_id".($limit ? " LIMIT 0,".$limit : "").";");
 		while($db->next_record()) {
 
 			$type_id = $db->f( "type_id" );
@@ -351,6 +361,8 @@ class xmlExport extends chaletDefault
 			$query .= " AND blokkeren_wederverkoop=0";
 		}
 
+		$query .= " ORDER BY type_id, week;";
+
 		$db->query($query.";");
 		while($db->next_record()) {
 
@@ -398,7 +410,7 @@ class xmlExport extends chaletDefault
 		//
 		// arrangementen
 		//
-		$db->query("SELECT t.type_id, t.maxaantalpersonen, tp.prijs AS prijs, ta.week, ta.seizoen_id, ta.aanbiedingskleur_korting, ta.aanbieding_acc_percentage, ta.aanbieding_acc_euro, ta.kortingactief, ta.toonexactekorting, ta.voorraad_garantie, ta.voorraad_allotment, ta.voorraad_vervallen_allotment, ta.voorraad_optie_leverancier, ta.voorraad_xml, ta.voorraad_request, ta.voorraad_optie_klant FROM tarief ta, tarief_personen tp, type t WHERE t.type_id IN (".$type_id_inquery_arr.") AND tp.week>'".(time()+604800)."' AND tp.prijs>0 AND tp.personen=t.maxaantalpersonen AND ta.beschikbaar=1 AND ta.type_id=tp.type_id AND ta.type_id=t.type_id AND ta.week=tp.week AND ta.seizoen_id=tp.seizoen_id ORDER BY type_id;");
+		$db->query("SELECT t.type_id, t.maxaantalpersonen, tp.prijs AS prijs, ta.week, ta.seizoen_id, ta.aanbiedingskleur_korting, ta.aanbieding_acc_percentage, ta.aanbieding_acc_euro, ta.kortingactief, ta.toonexactekorting, ta.voorraad_garantie, ta.voorraad_allotment, ta.voorraad_vervallen_allotment, ta.voorraad_optie_leverancier, ta.voorraad_xml, ta.voorraad_request, ta.voorraad_optie_klant FROM tarief ta, tarief_personen tp, type t WHERE t.type_id IN (".$type_id_inquery_arr.") AND tp.week>'".(time()+604800)."' AND tp.prijs>0 AND tp.personen=t.maxaantalpersonen AND ta.beschikbaar=1 AND ta.type_id=tp.type_id AND ta.type_id=t.type_id AND ta.week=tp.week AND ta.seizoen_id=tp.seizoen_id ORDER BY type_id, ta.week;");
 		while($db->next_record()) {
 
 			unset($prijs);
@@ -472,7 +484,8 @@ class xmlExport extends chaletDefault
 		//
 		// additional costs (bijkomende kosten)
 		//
-		$db->query("SELECT bt.type_id, bt.seizoen_id, bs.bk_soort_id, bs.naam".$this->config->ttv." AS naam
+		$db->query("SELECT bt.type_id, bt.seizoen_id, bs.bk_soort_id, bs.naam".$this->config->ttv." AS naam,
+			bt.bedrag, bt.verplicht, bt.ter_plaatse
 			FROM bk_type bt
 			INNER JOIN bk_soort bs USING (bk_soort_id)
 			WHERE
@@ -484,7 +497,12 @@ class xmlExport extends chaletDefault
 			ORDER BY bt.type_id, bs.volgorde;");
 
 		while( $db->next_record() ) {
-			$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )][$db->f( "bk_soort_id" )] = $db->f( "naam" );
+			if ( $db->f( "verplicht" )==1 and $db->f( "ter_plaatse" )==1 and $db->f( "bedrag" )==0) {
+				// verplicht ter plaatse, no amount know: don't add to "included"-list
+				$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )]["excluded"][$db->f( "bk_soort_id" )] = $db->f( "naam" );
+			} else {
+				$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )]["included"][$db->f( "bk_soort_id" )] = $db->f( "naam" );
+			}
 		}
 
 		//
@@ -514,14 +532,18 @@ class xmlExport extends chaletDefault
 				foreach ($type_bkk[$type_id] as $key => $value2) {
 
 					// skipas
-					$this->type_bkk[$type_id][$key]["skipas"] = iconv("Windows-1252", "UTF-8", $skipas[ $type_data[$type_id]["skipas_id"] ]);
+					if( $skipas[ $type_data[$type_id]["skipas_id"] ] ) {
+						$this->type_bkk[$type_id][$key]["included"]["skipas"] = iconv("Windows-1252", "UTF-8", $skipas[ $type_data[$type_id]["skipas_id"] ]);
+					}
 
 					foreach ($value2 as $key2 => $value3) {
-						$this->type_bkk[$type_id][$key][$key2] = iconv("Windows-1252", "UTF-8", $value3);
+						foreach ($value3 as $key3 => $value4) {
+							$this->type_bkk[$type_id][$key][$key2][$key3] = iconv("Windows-1252", "UTF-8", $value4);
+						}
 					}
 
 					// reserveringskosten
-					$this->type_bkk[$type_id][$key]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+					$this->type_bkk[$type_id][$key]["included"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
 				}
 			}
 		}
@@ -598,6 +620,29 @@ class xmlExport extends chaletDefault
 
 
 	/**
+	 * get the name of the cachefile
+	 * include:
+	 * - aanbieding yes/no
+	 * - website-letter
+	 *
+	 * @return string full path of the cachefile
+	 */
+	private function cacheFilename() {
+
+		$name = $this->name;
+
+		if( $this->aanbieding ) {
+			$name .= "-aanbieding";
+		}
+
+		$filename = $this->config->unixdir."cache/feed-new-".$name."-".$this->config->website.".xml";
+
+		return $filename;
+
+	}
+
+
+	/**
 	 * check input, query database, invoke XMLWriter object
 	 * and call child-function createSpecificXML()
 	 *
@@ -610,12 +655,44 @@ class xmlExport extends chaletDefault
 		$this->query_database();
 
 		$this->x = new XMLWriter;
-		$this->x->openMemory();
+
+		if( $this->save_cache ) {
+			$this->x->openURI( $this->cacheFilename()."_tmp" );
+		} else {
+			$this->x->openMemory();
+		}
+
 		$this->x->setIndent(true);
 		$this->x->startDocument('1.0','UTF-8');
 
 		$xml = $this->createSpecificXML();
 
+
+		if( !$this->save_cache ) {
+			return $this->x->outputMemory();
+		}
+
+		$this->x->endDocument();
+		$this->x->flush();
+
+		if( $this->save_cache ) {
+
+			if( file_exists( $this->cacheFilename()."_tmp" )) {
+
+				if( file_exists( $this->cacheFilename() )) {
+					unlink( $this->cacheFilename() );
+				}
+				rename ($this->cacheFilename()."_tmp", $this->cacheFilename() );
+
+				return "cachefile ".$this->cacheFilename()." created";
+
+			} else {
+
+				$msg = "ERROR in creating ".$this->cacheFilename();
+				trigger_error( $msg,E_USER_NOTICE );
+				return $msg;
+			}
+		}
 	}
 
 	/**
@@ -626,29 +703,24 @@ class xmlExport extends chaletDefault
 	public function showXML()
 	{
 
-		$this->createXML();
-
-		if( $this->config->lokale_testserver ) {
-			// header("Content-Type: text/plain; charset=utf-8");
-			header("Content-Type: text/xml; charset=utf-8");
+		if( ! $this->save_cache and file_exists($this->cacheFilename() ) ) {
+			$xml = file_get_contents( $this->cacheFilename() );
 		} else {
-			header("Content-Type: text/xml; charset=utf-8");
+			$xml = $this->createXML();
 		}
 
-		echo $this->x->outputMemory();
-	}
+		if( ! $this->save_cache ) {
+			if( $this->config->lokale_testserver ) {
+				// header("Content-Type: text/plain; charset=utf-8");
+				header("Content-Type: text/xml; charset=utf-8");
+			} else {
+				header("Content-Type: text/xml; charset=utf-8");
+			}
+		}
 
-	/**
-	 * call createXML and save the created XML to a file
-	 * TODO: save file
-	 *
-	 * @return void
-	 */
-	public function saveXML()
-	{
-
-		$this->createXML();
+		echo $xml;
 
 	}
+
 }
 

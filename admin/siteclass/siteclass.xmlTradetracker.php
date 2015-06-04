@@ -35,6 +35,7 @@ class xmlTradetracker extends xmlExport
 	{
 
 		$this->x->startElement('productFeed');
+		$this->x->writeAttribute('created', date("c"));
 
 		foreach ($this->type_data as $type_id => $type_data) {
 
@@ -159,18 +160,32 @@ class xmlTradetracker extends xmlExport
 
 					$last_seizoen_id = max( array_keys( $this->type_bkk[$type_id] ) );
 
-					$this->x->startElement('includedInPrice');
-
-					foreach ($this->type_bkk[$type_id][$last_seizoen_id] as $key => $value) {
-						$this->x->writeElement('value', $value);
+					// included in price
+					if( is_array( $this->type_bkk[$type_id][$last_seizoen_id]["included"] )) {
+						$this->x->startElement('includedInPrice');
+						foreach ($this->type_bkk[$type_id][$last_seizoen_id]["included"] as $key => $value) {
+							$this->x->writeElement('value', $value);
+						}
+						$this->x->endElement(); // close includedInPrice
+					} else {
+						$this->x->writeElement('includedInPrice', '');
 					}
 
-					$this->x->endElement(); // close includedInPrice
+					// excluded from price
+					if( is_array( $this->type_bkk[$type_id][$last_seizoen_id]["excluded"] )) {
+						$this->x->startElement('excludedFromPrice');
+						foreach ($this->type_bkk[$type_id][$last_seizoen_id]["excluded"] as $key => $value) {
+							$this->x->writeElement('value', $value);
+						}
+						$this->x->endElement(); // close excludedFromPrice
+					} else {
+						$this->x->writeElement('excludedFromPrice', '');
+					}
 
 				} else {
 					$this->x->writeElement('includedInPrice', '');
+					$this->x->writeElement('excludedFromPrice', '');
 				}
-				$this->x->writeElement('excludedFromPrice', '');
 
 
 				$this->x->startElement('variations');

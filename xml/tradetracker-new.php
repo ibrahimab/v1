@@ -24,8 +24,11 @@ if($_GET["aanbiedingen"]) {
 }
 
 $xmlTradetracker->website = $vars["website"];
-// $xmlTradetracker->type_ids = "253";
+
+$xmlTradetracker->limit = 50;
+
+if($_GET["save_cache"]) {
+	$xmlTradetracker->save_cache = true;
+}
 
 $xmlTradetracker->showXML();
-
-
