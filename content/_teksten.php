@@ -3315,13 +3315,13 @@ $txt["nl"]["beoordelingen"]["original_review_shown"]="De oorspronkelijke beoorde
 $txt["de"]["beoordelingen"]["original_review_shown"]="Die ursprüngliche Beurteilung wird gezeigt";
 $txt["en"]["beoordelingen"]["original_review_shown"]="The original review is shown";
 
-$txt["nl"]["beoordelingen"]["show_original"]="Geautomatiseerde vertaling uitschakelen";
-$txt["de"]["beoordelingen"]["show_original"]="Automatische Übersetzung ausschalten";
-$txt["en"]["beoordelingen"]["show_original"]="Disable automatic translation";
+$txt["nl"]["beoordelingen"]["show_original"]="Toon origineel";
+$txt["de"]["beoordelingen"]["show_original"]="";
+$txt["en"]["beoordelingen"]["show_original"]="Show original";
 
-$txt["nl"]["beoordelingen"]["show_translated"]="Geautomatiseerde vertaling inschakelen";
-$txt["de"]["beoordelingen"]["show_translated"]="Automatische Übersetzung einschalten";
-$txt["en"]["beoordelingen"]["show_translated"]="Enable automatic translation";
+$txt["nl"]["beoordelingen"]["show_translated"]="Toon vertaling";
+$txt["de"]["beoordelingen"]["show_translated"]="";
+$txt["en"]["beoordelingen"]["show_translated"]="Show translation";
 
 $txt["nl"]["beoordelingen"]["english"]="Engels";
 $txt["de"]["beoordelingen"]["english"]="Englisch";
