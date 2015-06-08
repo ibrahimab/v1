@@ -3316,11 +3316,11 @@ $txt["de"]["beoordelingen"]["original_review_shown"]="Die ursprüngliche Beurteil
 $txt["en"]["beoordelingen"]["original_review_shown"]="The original review is shown";
 
 $txt["nl"]["beoordelingen"]["show_original"]="Toon origineel";
-$txt["de"]["beoordelingen"]["show_original"]="";
+$txt["de"]["beoordelingen"]["show_original"]="Original zeigen";
 $txt["en"]["beoordelingen"]["show_original"]="Show original";
 
 $txt["nl"]["beoordelingen"]["show_translated"]="Toon vertaling";
-$txt["de"]["beoordelingen"]["show_translated"]="";
+$txt["de"]["beoordelingen"]["show_translated"]="Übersetzung zeigen";
 $txt["en"]["beoordelingen"]["show_translated"]="Show translation";
 
 $txt["nl"]["beoordelingen"]["english"]="Engels";
