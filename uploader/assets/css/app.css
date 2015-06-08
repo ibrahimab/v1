@@ -1,17 +1,17 @@
 div.container {
-    
+
     margin: 10px;
     padding: 0;
 }
 
 div.previewer {
-    
+
     width: 52%;
     border: 1px solid #000;
 }
 
 div.previewer ul {
-    
+
     width: 100%;
     padding: 0;
     margin: 0;
@@ -19,7 +19,7 @@ div.previewer ul {
 }
 
 div.previewer ul:after {
-    
+
     content: '.';
     display: block;
     clear: both;
@@ -29,7 +29,7 @@ div.previewer ul:after {
 }
 
 div.previewer ul li {
-    
+
     list-style-type: none;
     width: 29.5%;
     padding: 5px;
@@ -45,7 +45,7 @@ div.previewer ul li.over {
 }
 
 div.previewer ul li span.done {
-    
+
     position: absolute;
     right: 9px;
     background-color: green;
@@ -59,7 +59,7 @@ div.previewer ul li img {
 }
 
 div.progress {
-    
+
     position: relative;
     border: 1px inset #446;
     border-radius: 5px;
@@ -70,7 +70,7 @@ div.progress {
 }
 
 div.progress div.progress-bar {
-    
+
     position: absolute;
     z-index: 1;
     background-color: #0c0;
@@ -81,7 +81,7 @@ div.progress div.progress-bar {
 }
 
 div.progress span {
-    
+
     position: absolute;
     top: 0;
     z-index: 2;
@@ -103,14 +103,14 @@ div.progress div.progress-bar.error {
 }
 
 select {
-    
+
     margin-bottom: 5px;
     padding: 3px;
     width: 100%;
 }
 
 input {
-    
+
     margin-bottom: 5px;
     padding: 3px;
     width: 95%;
@@ -118,7 +118,7 @@ input {
 
 /* Prevent the text contents of draggable elements from being selectable. */
 [draggable] {
-    
+
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
@@ -129,9 +129,13 @@ input {
 }
 
 div.anchor {
-    
+
     width: 30px;
     height: 30px;
     background: url(../images/drag-icon.png);
     margin: 0 auto;
+}
+
+ul.images {
+    list-style-type: none;
 }
