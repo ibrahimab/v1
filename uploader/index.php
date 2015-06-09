@@ -43,7 +43,7 @@ $id         = intval($_GET['id']);
                 <?php
                 $mongodb = $vars['mongodb']['wrapper'];
                 $images  = $mongodb->getFiles($collection, $id);
-                $maxRank = $mongodb->maxRank($collection, $id) + 1;
+                $maxRank = $mongodb->maxRank($collection, $id) + 1);
                 $i       = 1;
                 ?>
                 <input type="hidden" name="collection" value="<?php echo $collection; ?>" />
