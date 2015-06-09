@@ -82,21 +82,23 @@ if(!$login->logged_in) {
 		}
 	}
 
-	if($login->userlevel==10) {
-		echo "<hr>Testaccommodaties:<ul>";
-		echo "<li>Les Flocons du Soleil (arr): <a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=163\">CMS acc</a> - <a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=163&2k0=502\">CMS type</a> - <a href=\"accommodatie/F502/\" target=\"_blank\">website</a></li>";
-		echo "<li>Bauernhaus (acc): <a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=417\">CMS acc</a> - <a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=417&2k0=1038\">CMS type</a> - <a href=\"accommodatie/O1038/\" target=\"_blank\">website</a> - <a href=\"javascript:popwindowXY(900,527,'".$vars["path"]."popup.php?id=tarieventabel&typeid=1038&sid=17',true);\">tarieven</a></li>";
-		// echo "<li>De Vallandry verzameltype (arr): <a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=48\">CMS acc</a> - <a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=48&2k0=247\">CMS type</a> - <a href=\"accommodatie/F247/\" target=\"_blank\">website</a> - <a href=\"javascript:popwindowXY(900,527,'".$vars["path"]."popup.php?id=tarieventabel&typeid=247&sid=17',true);\">tarieven</a></li>";
-		echo "<li>Le Clos du Pr&eacute verzameltype (arr): <a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=47\">CMS acc</a> - <a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=47&2k0=240\">CMS type</a> - <a href=\"accommodatie/F240/\" target=\"_blank\">website</a> - <a href=\"javascript:popwindowXY(900,627,'".$vars["path"]."popup.php?id=tarieventabel&typeid=240&sid=17',true);\">tarieven</a></li>";
-		echo "<li>R&eacute;sidence Le Hameau (arr, voorraad-houder): <a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=2\">CMS acc</a> - <a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=1&2k0=2\">CMS type</a> - <a href=\"accommodatie/F2/\" target=\"_blank\">website</a></li>";
-		echo "<li>D&eacute;sir&eacute;e (acc / met eigenaar-blokkering): <a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=98\">CMS acc</a> - <a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=98&2k0=376\">CMS type</a> - <a href=\"accommodatie/O376/\" target=\"_blank\">website</a> - <a href=\"javascript:popwindowXY(900,527,'".$vars["path"]."popup.php?id=tarieventabel&typeid=376&sid=22',true);\">tarieven</a></li>";
+	if($login->userlevel==10 or $vars["lokale_testserver"]) {
+		echo "<hr>Testaccommodaties:<br />&nbsp;";
+		echo "<table class=\"tbl\" cellspacing=\"0\" style=\"width:800px;\">";
+		echo "<tr style=\"font-size:1.0em !important;\"><th>Soort</th><th>Naam</th><th>CMS-acc</th><th>CMS-type</th><th>Website</th></tr>";
+		echo "<tr><td>Arrangement</td><td>Les Flocons du Soleil</td><td><a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=163\">CMS acc</a></td><td><a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=163&2k0=502\">CMS type</a></td><td><a href=\"cms.php?testsite=C&gotourl=".urlencode("accommodatie/F502/#prijsinformatie")."\" target=\"_blank\">website</a></td></tr>";
+		echo "<tr><td>Losse accommodatie</td><td>Bauernhaus</td><td><a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=417\">CMS acc</a></td><td><a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=417&2k0=1038\">CMS type</a></td><td><a href=\"cms.php?testsite=C&gotourl=".urlencode("accommodatie/O1038/#prijsinformatie")."\" target=\"_blank\">website</a></td></tr>";
+		echo "<tr><td>Verzameltype arrangement</td><td>Le Clos du Pr&eacute</td><td><a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=47\">CMS acc</a></td><td><a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=47&2k0=240\">CMS type</a></td><td><a href=\"cms.php?testsite=C&gotourl=".urlencode("accommodatie/F240/#prijsinformatie")."\" target=\"_blank\">website</a></td></tr>";
+		echo "<tr><td>Arrangement met andere voorraadhouder</td><td>R&eacute;sidence Le Hameau</td><td><a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=2\">CMS acc</a></td><td><a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=2&2k0=2\">CMS type</a></td><td><a href=\"cms.php?testsite=C&gotourl=".urlencode("accommodatie/F2/#prijsinformatie")."\" target=\"_blank\">website</a></td></tr>";
+		echo "<tr><td>Losse accommodatie met toeslag extra personen + catering</td><td>Alber</td><td><a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=3906\">CMS acc</a></td><td><a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=3906&2k0=9001\">CMS type</a></td><td><a href=\"cms.php?testsite=C&gotourl=".urlencode("accommodatie/O9001/#prijsinformatie")."\" target=\"_blank\">website</a></td></tr>";
+		echo "<tr><td>Losse accommodatie met bkk excl. verplicht vooraf</td><td>Villaggio Olimpico</td><td><a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=3408\">CMS acc</a></td><td><a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=3408&2k0=7707\">CMS type</a></td><td><a href=\"cms.php?testsite=C&gotourl=".urlencode("accommodatie/I7707/#prijsinformatie")."\" target=\"_blank\">website</a></td></tr>";
+		echo "</table>";
 
-		echo "<li>San Romolo 1 (acc, zomer): <a href=\"cms_accommodaties.php?show=1&1k0=1694\">CMS acc</a> - <a href=\"cms_types.php?wzt=2&show=2&1k0=1694&2k0=4139\">CMS type</a> - <a href=\"cms.php?testsite=zomerhuisjenl&gotourl=".urlencode("accommodatie/I4139/")."\" target=\"_blank\">website</a> - <a href=\"javascript:popwindowXY(900,527,'".$vars["path"]."popup.php?id=tarieventabel&typeid=4139&sid=18',true);\">tarieven</a></li>";
-		echo "</ul>";
-
-		echo "Snelkoppelingen:<ul>";
-		echo "<li><a href=\"cms_leveranciers.php?beheerder=0\">leveranciers</a></li>";
-		echo "</ul>";
+		echo "<p>Snelkoppelingen:<ul>";
+		echo "<li><a href=\"cms_boekingen.php?bt=1&archief=0\">Overzicht aanvragen</a></li>";
+		echo "<li><a href=\"cms_leveranciers.php?beheerder=0\">Leveranciers</a></li>";
+		echo "<li><a href=\"cms_diversen.php?t=3\">Diverse instellingen</a></li>";
+		echo "</ul></p>";
 
 	}
 
