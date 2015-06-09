@@ -52,8 +52,6 @@ var ImageSorter = (function(ns, jq, _, undefined) {
         var a_id   = a.data('id');
         var b_id   = event.originalEvent.dataTransfer.getData('id');
         var b      = jq(ns.get('item') + '[data-id="' + b_id + '"]');
-        var a_html = a.html();
-        var b_html = b.html();
 
         if (a_id === b_id) {
             return false;

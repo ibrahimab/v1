@@ -30,7 +30,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
 			}(thumbnail));
 
-			var data	= reader.readAsDataURL(file);
+			reader.readAsDataURL(file);
 			var canvas	= document.createElement('canvas');
 			var context = canvas.getContext('2d');
 
@@ -53,7 +53,6 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
 		preview: function() {
 
-			var image		  = null;
 			var images		  = [];
 			var dimensions	  = ns.get('thumbnail');
 			var allowed_types = ns.get('allowed_types');
@@ -184,7 +183,6 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 		markAsDone: function(files) {
 
 			var li;
-			var done;
 			var selector;
 			var img;
 			var total = files.length;
