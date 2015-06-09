@@ -15,7 +15,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                 xhr.setRequestHeader('X_LABEL', jq('[data-role="label"][data-id="' + file.id + '"]').val());
                 xhr.setRequestHeader('X_FILE_ID', ns.get('file_id'));
                 xhr.setRequestHeader('X_COLLECTION', ns.get('collection'));
-                xhr.setRequestHeader('X_RANK');
+                xhr.setRequestHeader('X_RANK', file.rank);
                 xhr.upload.addEventListener('progress', function(event) {
 
                     ns.events.upload.progress(event, file, ns.views.progress);

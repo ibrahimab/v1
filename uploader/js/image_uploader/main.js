@@ -62,6 +62,12 @@ var ImageUploader = (function(ns, cp, so, jq, _, undefined) {
         return (undefined === ns.options[option] ? def : ns.options[option]);
     };
 
+    ns.set = function(option, newValue) {
+
+        ns.options[option] = newValue;
+        return newValue;
+    };
+
     ns.id = function() {
         return ns._id += 1;
     };

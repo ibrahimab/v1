@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($labels as $_id => $label) {
 
 		$bulk->add(['q' => ['_id'  => new MongoId($_id)],
-					'u' => ['$set' => ['label' => $label, 'rank' => $ranks[$_id]]]]);
+					'u' => ['$set' => ['label' => $label, 'rank' => intval($ranks[$_id])]]]);
     }
 
     $bulk->execute();

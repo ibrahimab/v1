@@ -60,6 +60,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
                 var files = event.target.files;
                 var total = files.length;
+                var rank  = ns.get('maxRank') + 1;
                 var id;
 
                 for (var i = 0; i < total; i++) {
@@ -67,8 +68,10 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                     id                = ns.id();
                     ns.files[id]      = files[i];
                     ns.files[id].id   = id;
+                    ns.files[id].rank = rank++;
                 }
 
+                ns.set('maxRank', rank);
                 ns.views.preview();
             });
         },

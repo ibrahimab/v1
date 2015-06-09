@@ -1,5 +1,5 @@
 <?php
-include 'admin/vars.php';
+include '../admin/vars.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		'file_id'   => intval($headers['X_FILE_ID']),
 		'rank'	    => $rank,
+        'label'     => $headers['X_LABEL'],
 		'filename'  => $filename,
 		'directory' => $directory,
 		'width'     => $cropData['width'],
