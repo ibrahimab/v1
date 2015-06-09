@@ -18,6 +18,7 @@ var ImageUploader = (function(ns, cp, so, jq, _, undefined) {
     ns.approved = {};
     ns.options  = {
 
+        maxRank:        1,
         multiple:       false,
         allowed_types:  ['image/jpg', 'image/jpeg', 'image/png'],
         max_size:       2000 * 1024, // kb
@@ -56,7 +57,7 @@ var ImageUploader = (function(ns, cp, so, jq, _, undefined) {
     ns.get = function(option, def) {
 
         if (undefined === ns.options[option] && undefined === def) {
-            throw new Error('Undefined option used: ' + option);
+            throw new Exception('Undefined option used!');
         }
 
         return (undefined === ns.options[option] ? def : ns.options[option]);
