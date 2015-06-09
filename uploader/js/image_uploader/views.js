@@ -6,7 +6,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 		image: function(file, dimensions) {
 
 			if (false === (file instanceof File)) {
-				throw new Exception('Cannot create thumbnail from this object (' + file.toString() + ')');
+				throw new Error('Cannot create thumbnail from this object (' + file.toString() + ')');
 			}
 
 			var thumbnail  = document.createElement('img');
