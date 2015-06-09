@@ -44,7 +44,6 @@ $id         = intval($_GET['id']);
                 $mongodb = $vars['mongodb']['wrapper'];
                 $images  = $mongodb->getFiles($collection, $id);
                 $i       = 1;
-                $maxRank = $mongodb->maxRank($collection, $id);
                 ?>
                 <input type="hidden" name="collection" value="<?php echo $collection; ?>" />
                 <ul data-role="sortable-list">
@@ -52,7 +51,7 @@ $id         = intval($_GET['id']);
                     <li data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
                         <img class="preview-image" src="https://www.chalet.nl/pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
                         <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen" value="<?php echo $image['label']; ?>" />
-                        <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php echo $i++; ?>" />
+                        <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php $i++; ?>" />
                         <a draggable="true" data-role="sortable-anchor" data-id="<?php echo $image['_id']; ?>" class="anchor"><img src="<?php echo $vars['path']; ?>uploader/assets/images/drag-icon.png" /></a>
                     </li>
                     <?php endforeach; ?>
@@ -78,9 +77,9 @@ $id         = intval($_GET['id']);
 
         ImageUploader.initialize('[data-role="image-uploader"]', '[data-role="image-uploader-previewer"]', '[data-role="image-upload"]', '[data-role="cropper"]', {
 
+            url_path: '<?php echo $vars['path']; ?>',
             collection: '<?php echo $collection; ?>',
-            file_id:     <?php echo $id; ?>,
-            maxRank:    <?php echo $maxRank; ?>
+            file_id:     <?php echo $id; ?>
         });
 
         jq('body').on('click', '[data-role="save-current"]', function(event) {
