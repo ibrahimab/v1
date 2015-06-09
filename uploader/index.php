@@ -50,7 +50,7 @@ $id         = intval($_GET['id']);
                 <ul data-role="sortable-list">
                     <?php foreach ($images as $image) : ?>
                     <li data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
-                        <img class="preview-image" src="https://www.chalet.nl/pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
+                        <img class="preview-image" src="<?php exho $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
                         <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen" value="<?php echo $image['label']; ?>" />
                         <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php echo $i++; ?>" />
                         <a draggable="true" data-role="sortable-anchor" data-id="<?php echo $image['_id']; ?>" class="anchor"><img src="<?php echo $vars['path']; ?>uploader/assets/images/drag-icon.png" /></a>
