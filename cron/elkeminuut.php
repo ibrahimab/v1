@@ -30,19 +30,31 @@ include($unixdir."admin/vars.php");
 
 $huidig_uur = date("H");
 
-// pre calculate additional costs for all types
+//
+// pre calculate additional costs for all types  (limit 100)
+//
 if($huidig_uur>=2 and $huidig_uur<=3) {
 	$bijkomendekosten = new bijkomendekosten;
 	$bijkomendekosten->pre_calculate_all_types(100);
 }
 
+//
 // Types without bijkomendekosten in Redis: calculate
+//
 $bijkomendekosten = new bijkomendekosten;
 $bijkomendekosten->pre_calculate_missing_types();
 
-#
-# Controle op onjuiste wederverkoop-tarieven (elke 15 minuten)
-#
+
+//
+// Calculate cache for changed types (limit 50)
+//
+$vanafprijs = new vanafprijs;
+$vanafprijs->calculate_all_open_types(50);
+
+
+//
+// Controle op onjuiste wederverkoop-tarieven (elke 15 minuten)
+//
 if($temptest or (date("i")==15 or date("i")==30 or date("i")==45 or date("i")==00)) {
 	$db->query("SELECT DISTINCT ta.type_id, ta.seizoen_id FROM tarief ta, type t, accommodatie a WHERE t.tonen=1 AND a.tonen=1 AND t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND ta.c_bruto>0 AND ta.c_verkoop_site>0 AND ta.wederverkoop_verkoopprijs>0 AND (ta.wederverkoop_verkoopprijs<(ta.c_verkoop_site-10));");
 	if($db->num_rows()) {

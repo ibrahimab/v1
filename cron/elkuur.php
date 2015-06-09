@@ -112,6 +112,11 @@ if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv
 		$voorraad_gekoppeld->vanaf_prijzen_berekenen($db->f("type_id"));
 	}
 	$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
+
+	// use new vanafprijs-class
+	$vanafprijs = new vanafprijs;
+	$vanafprijs->set_all_types_to_calculate();
+
 }
 
 #
