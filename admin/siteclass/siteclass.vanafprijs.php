@@ -127,7 +127,7 @@ class vanafprijs extends chaletDefault
 
 		$db->query( $query );
 		while( $db->next_record() ) {
-			$return [ $db->f( "type_id" )] = $db->f( "prijs" );
+			$return [ $db->f( "type_id" )] = floatval($db->f( "prijs" ));
 		}
 
 		return $return;
