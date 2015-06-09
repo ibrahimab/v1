@@ -8,6 +8,15 @@ if($pre_query_content) {
 	echo $pre_query_content;
 }
 
+
+// temporarily: which table to use for caching?
+if( $vars["lokale_testserver"] or $_GET["test"]==1 ) {
+	$table_name_cache_vanafprijs = "cache_vanafprijs_incl_bkk_type";
+} else {
+	$table_name_cache_vanafprijs = "cache_vanafprijs_type";
+}
+
+
 # tekstzoeken: zoekopdracht "opschonen" (voor zoekopdrachten die binnenkomen via andere pagina dan zoek-en-boek.php - want in zoek-en-boek.php wordt dit opschonen ook al gedaan)
 if($_GET["fzt"]==txt("tekstzoeken","zoek-en-boek")) {
 	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
@@ -1165,7 +1174,8 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				} else {
 					$prijs_field="prijs";
 				}
-				$db->query("SELECT t.type_id, a.toonper, c.".$prijs_field." AS prijs FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
+				$tarief_from_cache = true;
+				$db->query("SELECT t.type_id, a.toonper, c.".$prijs_field." AS prijs FROM accommodatie a, type t, ".$table_name_cache_vanafprijs." c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
 
 				while($db->next_record()) {
 					if($db->f("toonper")==1) {
@@ -1235,7 +1245,8 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					}
 				}
 
-				$db->query("SELECT a.wzt, t.type_id, a.toonper, c.".$prijs_field." AS prijs".$prijs_field_vallandry." FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
+				$tarief_from_cache = true;
+				$db->query("SELECT a.wzt, t.type_id, a.toonper, c.".$prijs_field." AS prijs".$prijs_field_vallandry." FROM accommodatie a, type t, ".$table_name_cache_vanafprijs." c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
 
 				while($db->next_record()) {
 					if($temp_seizoentype=="1,2") {
@@ -1302,7 +1313,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				} else {
 					$prijs_field="prijs";
 				}
-				$db->query("SELECT t.type_id, a.toonper, c.".$prijs_field." AS prijs FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
+
+				$tarief_from_cache = true;
+				$db->query("SELECT t.type_id, a.toonper, c.".$prijs_field." AS prijs FROM accommodatie a, type t, ".$table_name_cache_vanafprijs." c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
 				while($db->next_record()) {
 					$vanafprijs_3[$db->f("type_id")]=$db->f("prijs");
 				}
@@ -1540,6 +1553,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 				# Sorteer=ZZZ, zodat toonper3 (prijs per acc) onderaan wordt getoond
 				$toonper3++;
+
 			} else {
 				$tarief=0;
 			}
@@ -1641,7 +1655,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 
 				if($bk_add_to_price>0) {
-					$tarief = $tarief + $bk_add_to_price;
+					if( $tarief_from_cache and $table_name_cache_vanafprijs == "cache_vanafprijs_incl_bkk_type" ) {
+
+					} else {
+						$tarief = $tarief + $bk_add_to_price;
+					}
 					$tarief = ceil($tarief);
 				}
 
