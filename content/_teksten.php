@@ -3307,8 +3307,8 @@ $txt["nl"]["beoordelingen"]["type"]="type";
 $txt["de"]["beoordelingen"]["type"]="Typ";
 $txt["en"]["beoordelingen"]["type"]="type";
 
-$txt["nl"]["beoordelingen"]["review_is_translated"]="Dit is een geautomatiseerde vertaling vanuit het Engels.";
-$txt["de"]["beoordelingen"]["review_is_translated"]="Dies ist eine automatische Übersetzung aus dem Englischen.";
+$txt["nl"]["beoordelingen"]["review_is_translated"]="Dit is een geautomatiseerde vertaling.";
+$txt["de"]["beoordelingen"]["review_is_translated"]="Dies ist eine automatische Übersetzung.";
 $txt["en"]["beoordelingen"]["review_is_translated"]="This review has been automatically translated.";
 
 $txt["nl"]["beoordelingen"]["original_review_shown"]="De oorspronkelijke beoordeling wordt getoond";

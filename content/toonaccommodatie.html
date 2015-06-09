@@ -350,7 +350,7 @@ if($db->next_record()) {
 	}
 
 	// beoordeling tonen
-	if(($vars["taal"]=="nl" or $vars["taal"]=="en") and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6  or $vars["websitetype"]==7 or $vars["websitetype"]==8)) {
+	if($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6 or $vars["websitetype"]==7 or $vars["websitetype"]==8) {
 
 
 		if($vars["websitetype"]==7) {
