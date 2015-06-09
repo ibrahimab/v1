@@ -31,13 +31,12 @@ div.previewer ul:after {
 div.previewer ul li {
 
     list-style-type: none;
-    width: 29.5%;
+    width: 28.9%;
     padding: 5px;
     margin: 5px;
     float: left;
     position: relative;
-    border: 1px dashed #000000;
-    cursor: move;
+    border: 1px solid #cccccc;
 }
 
 div.previewer ul li.over {
@@ -126,14 +125,6 @@ input {
   /* Required to make elements draggable in old WebKit */
   -khtml-user-drag: element;
   -webkit-user-drag: element;
-}
-
-div.anchor {
-
-    width: 30px;
-    height: 30px;
-    background: url(../images/drag-icon.png);
-    margin: 0 auto;
 }
 
 div.preview img {

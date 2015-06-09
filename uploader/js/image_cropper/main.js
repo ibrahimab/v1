@@ -26,7 +26,7 @@ var ImageCropper = (function(ns, jq, undefined) {
         },
 
         destroy: function() {
-            return ns.element.cropper('destroy');
+            return ns.element.cropper('destroy').removeAttr('src');
         },
 
         save: function() {

@@ -11,6 +11,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                 xhr.open('POST', ns.get('url_path') + ns.get('upload_url'), true);
                 xhr.setRequestHeader('X_FILENAME', file.name);
                 xhr.setRequestHeader('X_CROP_DATA', JSON.stringify(file.crop));
+                xhr.setRequestHeader('X_LABEL', file.label);
                 xhr.upload.addEventListener('progress', function(event) {
 
                     ns.events.upload.progress(event, file, ns.views.progress);
@@ -41,7 +42,6 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
                     ns.views.markAsDone(files);
                     ns.views.clearInput();
-                    ns.views.clearPreviews();
                     ns.cropper.events.destroy();
                 })
                 .catch(function(error) {});

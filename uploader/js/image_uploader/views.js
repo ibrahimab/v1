@@ -1,249 +1,212 @@
 var ImageUploader = (function(ns, jq, _, undefined) {
-    'use strict';
+	'use strict';
 
-    ns.views = {
+	ns.views = {
 
-        anchor: function () {
+		image: function(file, dimensions) {
 
-            var anchor = document.createElement('div');
-            anchor.className = 'anchor';
-            anchor.setAttribute('data-sortable-anchor', true);
+			if (false === (file instanceof File)) {
+				throw new Exception('Cannot create thumbnail from this object (' + file.toString() + ')');
+			}
 
-            return anchor;
-        },
+			var thumbnail  = document.createElement('img');
+			thumbnail.file = file;
+			thumbnail.setAttribute('data-id', file.id);
 
-        image: function(file, dimensions) {
+			var reader	  = new FileReader();
+			reader.onload = (function(thumb) {
 
-            if (false === (file instanceof File)) {
-                throw new Exception('Cannot create thumbnail from this object (' + file.toString() + ')');
-            }
+				return function(event) {
 
-            var thumbnail  = document.createElement('img');
-            thumbnail.file = file;
-            thumbnail.setAttribute('data-id', file.id);
+					var image = new Image();
+					image.onload = function() {
+						file.crop = {x: 0, y: 0, width: this.width, height: this.height};
+					};
 
-            var reader    = new FileReader();
-            reader.onload = (function(thumb) {
+					image.src = event.target.result;
+					thumb.src = event.target.result;
+				};
 
-                return function(event) {
+			}(thumbnail));
 
-                    var image = new Image();
-                    image.onload = function() {
-                        file.crop = {x: 0, y: 0, width: this.width, height: this.height};
-                    };
+			var data	= reader.readAsDataURL(file);
+			var canvas	= document.createElement('canvas');
+			var context = canvas.getContext('2d');
 
-                    image.src = event.target.result;
-                    thumb.src = event.target.result;
-                };
+			thumbnail.onload = function() {
+				context.drawImage(thumbnail, dimensions.width, dimensions.height);
+			};
 
-            }(thumbnail));
+			return thumbnail;
+		},
 
-            var data    = reader.readAsDataURL(file);
-            var canvas  = document.createElement('canvas');
-            var context = canvas.getContext('2d');
+		notAllowed: function(file, dimensions) {
 
-            thumbnail.onload = function() {
-                context.drawImage(thumbnail, dimensions.width, dimensions.height);
-            };
+			var thumbnail	 = document.createElement('img');
+			thumbnail.src	 = ns.get('url_path') + ns.get('not_allowed');
+			thumbnail.width	 = dimensions.width;
+			thumbnail.height = dimensions.height;
 
-            return thumbnail;
-        },
+			return thumbnail;
+		},
 
-        notAllowed: function(file, dimensions) {
+		preview: function() {
 
-            var thumbnail    = document.createElement('img');
-            thumbnail.src    = ns.get('url_path') + ns.get('not_allowed');
-            thumbnail.width  = dimensions.width;
-            thumbnail.height = dimensions.height;
+			var image		  = null;
+			var images		  = [];
+			var dimensions	  = ns.get('thumbnail');
+			var allowed_types = ns.get('allowed_types');
+			var max_size	  = ns.get('max_size') * 1024;
+			var file;
 
-            return thumbnail;
-        },
+			for (var id in ns.files) {
 
-        preview: function() {
+				if (ns.files.hasOwnProperty(id)) {
 
-            var image         = null;
-            var images        = [];
-            var dimensions    = ns.get('thumbnail');
-            var allowed_types = ns.get('allowed_types');
-            var max_size      = ns.get('max_size') * 1024;
-            var file;
+					file = ns.files[id];
 
-            for (var id in ns.files) {
+					if (true === _.contains(ns.previews, file.name)) {
+						continue;
+					}
 
-                if (ns.files.hasOwnProperty(id)) {
+					switch (false) {
 
-                    file = ns.files[id];
+						case ns.validators.mime(file.type, allowed_types):
+						case ns.validators.size(file.size, max_size):
+							images.push({img: ns.views.notAllowed(file, dimensions), file: file});
+						break;
 
-                    if (true === _.contains(ns.previews, file.name)) {
-                        continue;
-                    }
+						default:
+							images.push({img: ns.views.image(file, dimensions), file: file});
+							ns.approved[id] = file;
+					}
 
-                    switch (false) {
+					ns.previews[id] = file.name;
+				}
+			}
 
-                        case ns.validators.mime(file.type, allowed_types):
-                        case ns.validators.size(file.size, max_size):
-                            images.push({img: ns.views.notAllowed(file, dimensions), file: file});
-                        break;
+			ns.views.renderList(images);
+		},
 
-                        default:
-                            images.push({img: ns.views.image(file, dimensions), file: file});
-                            ns.approved[id] = file;
-                    }
+		renderList: function(list) {
 
-                    ns.previews[id] = file.name;
-                }
-            }
+			var prev  = ns.preview.find('ul');
+			var ul	  = prev.length > 0 ? prev.get(0) : document.createElement('ul');
 
-            ns.views.renderList(images);
-        },
+			for (var i in list) {
 
-        renderList: function(list) {
+				if (list.hasOwnProperty(i)) {
+					ul.appendChild(ns.views.render(list[i].img, list[i].file.id, list[i].file));
+				}
+			}
 
-            var prev  = ns.preview.find('ul');
-            var ul    = prev.length > 0 ? prev.get(0) : document.createElement('ul');
+			ns.preview.append(ul);
+		},
 
-            for (var i in list) {
+		render: function(image, id, file) {
 
-                if (list.hasOwnProperty(i)) {
-                    ul.appendChild(ns.views.render(list[i].img, list[i].file.id, list[i].file));
-                }
-            }
+			var li = document.createElement('li');
+			li.setAttribute('data-role', 'preview-box');
+			li.setAttribute('data-id', id);
+			li.appendChild(image);
+			li.appendChild(ns.views.label(file));
+			li.appendChild(ns.views.progressBar(file));
 
-            ns.preview.append(ul);
-        },
+			return li;
+		},
 
-        render: function(image, id, file) {
+		filename: function(file) {
 
-            var li = document.createElement('li');
-            li.setAttribute('data-role', 'preview-box');
-            li.setAttribute('data-sortable', true);
-            li.setAttribute('data-id', id);
-            li.setAttribute('draggable', true);
-            li.appendChild(image);
-            li.appendChild(ns.views.anchor());
-            li.appendChild(ns.views.kinds(file));
-            li.appendChild(ns.views.label(file));
-            li.appendChild(ns.views.progressBar(file));
+			var span		 = document.createElement('span');
+			span.textContent = file.name;
 
-            return li;
-        },
+			return span;
+		},
 
-        filename: function(file) {
+		progressBar: function(file) {
 
-            var span         = document.createElement('span');
-            span.textContent = file.name;
+			var settings	   = ns.get('progress');
+			var progress	   = document.createElement('div');
+			progress.className = settings.class_name;
 
-            return span;
-        },
+			var bar = document.createElement('div');
+			bar.className = settings.bar_class_name;
+			bar.setAttribute('data-role', 'progress-bar');
+			bar.setAttribute('data-id', file.id);
 
-        progressBar: function(file) {
+			progress.appendChild(bar);
+			progress.appendChild(ns.views.filename(file));
 
-            var settings       = ns.get('progress');
-            var progress       = document.createElement('div');
-            progress.className = settings.class_name;
+			return progress;
+		},
 
-            var bar = document.createElement('div');
-            bar.className = settings.bar_class_name;
-            bar.setAttribute('data-role', 'progress-bar');
-            bar.setAttribute('data-id', file.id);
+		progress: function(file, percentage) {
 
-            progress.appendChild(bar);
-            progress.appendChild(ns.views.filename(file));
+			var bar = document.querySelector('[data-role="progress-bar"][data-id="' + file.id + '"]');
+			if (null !== bar) {
+				bar.style.width = percentage + '%';
+			}
+		},
 
-            return progress;
-        },
+		removePreview: function(id) {
 
-        progress: function(file, percentage) {
+			var li = document.querySelector('[data-role="preview-box"][data-id="' + id + '"]');
+			if (null !== li) {
+				li.remove();
+			}
+		},
 
-            var bar = document.querySelector('[data-role="progress-bar"][data-id="' + file.id + '"]');
-            if (null !== bar) {
-                bar.style.width = percentage + '%';
-            }
-        },
+		clearPreviews: function() {
 
-        removePreview: function(id) {
+			ns.files	= {};
+			ns.approved = {};
+			ns.previews = {};
 
-            var li = document.querySelector('[data-role="preview-box"][data-id="' + id + '"]');
-            if (null !== li) {
-                li.remove();
-            }
-        },
+			ns.preview.empty();
+		},
 
-        clearPreviews: function() {
+		clearInput: function() {
+			ns.input.val('');
+		},
 
-            ns.files    = {};
-            ns.approved = {};
-            ns.previews = {};
+		label: function(file) {
 
-            ns.preview.empty();
-        },
+			var input		  = document.createElement('input');
+			input.type		  = 'text';
+			input.placeholder = 'Tekst toevoegen';
 
-        clearInput: function() {
-            ns.input.val('');
-        },
+			return input;
+		},
 
-        kinds: function(file) {
+		markAsDone: function(files) {
 
-            var select  = document.createElement('select');
-            select.name = 'kind[]'
+			var li;
+			var done;
+			var selector;
+			var img;
+			var total = files.length;
 
-            var kinds  = ns.get('kinds');
-            var total  = kinds.length;
+			for (var i = 0; i < total; i++) {
 
-            for (var i = 0; i < total; i++) {
-                select.appendChild(ns.views.kind(kinds[i]));
-            }
+				selector = '[data-role="preview-box"][data-id="' + files[i].id + '"]';
+				li		 = jq(selector).get(0);
+				img		 = jq(selector + ' img').get(0);
 
-            return select;
-        },
+				if (null !== li && null !== img) {
+					ns.views.done(li, img);
+				}
+			}
+		},
 
-        kind: function(kind) {
+		done: function(li, img) {
 
-            var option   = document.createElement('option');
-            option.value = kind['value'];
-            option.text  = kind['text'];
-
-            return option;
-        },
-
-        label: function(file) {
-
-            var input         = document.createElement('input');
-            input.type        = 'text';
-            input.placeholder = 'Tekst toevoegen';
-
-            return input;
-        },
-
-        markAsDone: function(files) {
-
-            var li;
-            var done;
-            var selector;
-            var img;
-            var total = files.length;
-
-            for (var i = 0; i < total; i++) {
-
-                selector = '[data-role="preview-box"][data-id="' + files[i].id + '"]';
-                li       = document.querySelector(selector);
-                img      = document.querySelector(selector + ' img');
-
-                if (null !== li && null !== img) {
-                    ns.views.done(li, img);
-                }
-            }
-        },
-
-        done: function(li, img) {
-
-            done = document.createElement('span');
-            done.className = 'done';
+			var done = document.createElement('span');
+			done.className = 'done';
 
             li.insertBefore(done, img);
-        }
-    };
+		}
+	};
 
-    return ns;
+	return ns;
 
 }(ImageUploader || {}, jQuery, _));
