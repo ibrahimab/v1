@@ -4,6 +4,7 @@ var ImageSorter = (function(ns, jq, _, undefined) {
     ns.options = {
 
         anchor: '[data-role="sortable-anchor"]',
+        list:   '[data-role="sortable-list"]',
         item:   '[data-role="sortable-item"]'
     };
 
@@ -62,6 +63,15 @@ var ImageSorter = (function(ns, jq, _, undefined) {
         } else {
             b.insertBefore(a);
         }
+
+        var i = 1;
+        jq(ns.get('item')).each(function() {
+
+            var element = jq(this);
+            console.log(element);
+            console.log(element.find('[data-role="rank"]'));
+            element.find('[data-role="rank"]').val(i++);
+        });
 
         return false;
     };

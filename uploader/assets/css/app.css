@@ -133,3 +133,21 @@ input {
 a.anchor {
     cursor: move;
 }
+
+div.main div.col {
+    float: left;
+}
+
+div.main div {
+
+    margin: 0;
+    padding: 0;
+}
+
+div.main div.row img {
+    width: 50%;
+}
+
+div.clear {
+    clear: both;
+}
