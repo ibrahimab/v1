@@ -6,7 +6,7 @@
  * @version 0.0.2
  * @since   0.0.2
  */
-var ImageUploader = (function(ns, cp, jq, _, undefined) {
+var ImageUploader = (function(ns, cp, so, jq, _, undefined) {
     'use strict';
 
     ns._id      = Math.floor(1 + Math.random() * 9999);
@@ -24,6 +24,8 @@ var ImageUploader = (function(ns, cp, jq, _, undefined) {
         upload_url:     'uploader/upload.php',
         url_path:       '/chalet/',
         not_allowed:    'uploader/assets/images/not_allowed.png',
+        collection:     null,
+        file_id:        null,
         progress:       {
 
             class_name:     'progress',
@@ -33,24 +35,17 @@ var ImageUploader = (function(ns, cp, jq, _, undefined) {
 
             width:  100,
             height: 100
-        },
-        kinds: [
-
-            {text: 'Hoofdafbeelding',           value: 'hoofdfoto_accommodatie'},
-            {text: 'Hoofdafbeelding (overig)',  value: 'accommodaties'},
-            {text: 'Afbeelding (4:3)',          value: 'accommodaties_aanvullend'},
-            {text: 'Afbeelding onderaan (8:3)', value: 'accommodaties_aanvullend_breed'},
-            {text: 'Afbeelding onderaan (4:3)', value: 'accommodaties_aanvullend_onderaan'}
-        ]
+        }
     };
 
     ns.initialize = function(input, preview, submit, cropper, options) {
 
-        ns.input   = jq(input);
-        ns.preview = jq(preview);
-        ns.submit  = jq(submit);
-        ns.options = jq.extend(ns.options, options);
-        ns.cropper = cp.initialize(cropper.selector || cropper, cropper.options || {});
+        ns.input    = jq(input);
+        ns.preview  = jq(preview);
+        ns.submit   = jq(submit);
+        ns.options  = jq.extend(ns.options, options);
+        ns.cropper  = cp.initialize(cropper.selector || cropper, cropper.options || {});
+        ns.sortable = so.initialize();
 
         // binding events
         ns.events.initialize();
@@ -77,4 +72,4 @@ var ImageUploader = (function(ns, cp, jq, _, undefined) {
 
     return ns;
 
-}(ImageUploader || {}, ImageCropper, jQuery, _));
+}(ImageUploader || {}, ImageCropper, ImageSorter, jQuery, _));

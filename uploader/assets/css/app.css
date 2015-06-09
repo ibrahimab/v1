@@ -40,7 +40,10 @@ div.previewer ul li {
 }
 
 div.previewer ul li.over {
+
     border: 2px dashed green;
+    opacity: 0.5;
+    margin: 4px;
 }
 
 div.previewer ul li span.done {
@@ -53,7 +56,7 @@ div.previewer ul li span.done {
     z-index: 9999;
 }
 
-div.previewer ul li img {
+div.previewer ul li img.preview-image {
     width: 95%;
 }
 
@@ -127,6 +130,6 @@ input {
   -webkit-user-drag: element;
 }
 
-div.preview img {
-    width: 400px;
+a.anchor {
+    cursor: move;
 }

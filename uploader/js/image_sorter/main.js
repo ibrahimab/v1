@@ -1,106 +1,82 @@
 var ImageSorter = (function(ns, jq, _, undefined) {
     'use strict';
-    
+
     ns.options = {
-        
-        opacity:  0.5,
-        selector: '[data-sortable="true"]',
-        anchor:   '[data-sortable-anchor="true"]'
+
+        anchor: '[data-role="sortable-anchor"]',
+        item:   '[data-role="sortable-item"]'
     };
-    
-    ns.initialize = function(options) {
-        
-        ns.options = jq.extend(ns.options, options);
-        ns.bind();
+
+    ns.initialize = function() {
+
+        jq('body').on('dragstart', ns.get('anchor'), ns.start);
+        jq('body').on('dragend',   ns.get('anchor'), ns.end);
+        jq('body').on('dragover',  ns.get('item'),   ns.over);
+        jq('body').on('dragleave', ns.get('item'),   ns.leave);
+        jq('body').on('drop',      ns.get('item'),   ns.drop);
     };
-    
-    ns.bind = function() {
-        
-        jq(ns.get('selector')).each(function() {
-            
-            this.addEventListener('dragstart', ns.start, false);
-            this.addEventListener('dragenter', ns.enter, false);
-            this.addEventListener('dragover',  ns.over,  false);
-            this.addEventListener('dragleave', ns.leave, false);
-            this.addEventListener('drop',      ns.drop,  false);
-            this.addEventListener('dragend',   ns.end,   false);
-        });
-    };
-    
+
     ns.start = function(event) {
-        
+
         var element = jq(this);
-        
-        event.dataTransfer.effectAllowed = 'move';
-        
-        event.dataTransfer.setData('text/html', element.html());
-        event.dataTransfer.setData('id',        element.data('id'));
-        event.dataTransfer.setData('select',    element.find('select').val());
-        event.dataTransfer.setData('label',     element.find('input').val());
+        event.originalEvent.dataTransfer.effectAllowed = 'move';
+        event.originalEvent.dataTransfer.setData('id', element.data('id'));
     };
-    
+
     ns.end = function(event) {
-        jq(ns.get('selector')).css('opacity', 1).removeClass('over');
+        jq(ns.get('item')).removeClass('over');
     };
-    
+
     ns.over = function(event) {
-        
+
         if (event.preventDefault) {
             event.preventDefault();
         }
-        
-        event.dataTransfer.dropEffect = 'move';
+
+        event.originalEvent.dataTransfer.dropEffect = 'move';
+        jq(this).addClass('over');
         return false;
     };
-    
-    ns.enter = function(event) {
-        jq(this).parent().addClass('over');
-    };
-    
+
     ns.leave = function(event) {
-        jq(this).parent().removeClass('over');
+        jq(this).removeClass('over');
     };
-    
+
     ns.drop = function(event) {
-        
+
         if (event.stopPropagation) {
             event.stopPropagation();
         }
-        
-        var element   = jq(this);
-        var currentId = element.data('id');
-        var prevId    = event.dataTransfer.getData('id');
 
-        if (currentId !== prevId) {
-            
-            var prevElement = jq(ns.get('selector') + '[data-id="' + prevId + '"]');
-            if (undefined !== prevElement.get(0)) {
-                
-                var select = element.find('select').val();
-                var label  = element.find('input').val();
-                
-                prevElement.html(element.html());
-                prevElement.find('select').val(select);
-                prevElement.find('input').val(label);
-            
-                element.html(event.dataTransfer.getData('text/html'));
-                element.find('select').val(event.dataTransfer.getData('select'));
-                element.find('input').val(event.dataTransfer.getData('label'));
-            }
+        var a      = jq(this);
+        var a_id   = a.data('id');
+        var b_id   = event.originalEvent.dataTransfer.getData('id');
+        var b      = jq(ns.get('item') + '[data-id="' + b_id + '"]');
+        var a_html = a.html();
+        var b_html = b.html();
+
+        if (a_id === b_id) {
+            return false;
         }
-        
+
+        if (b.isBefore(a)) {
+            b.insertAfter(a);
+        } else {
+            b.insertBefore(a);
+        }
+
         return false;
     };
-    
+
     ns.get = function(option, def) {
-        
+
         if (undefined === ns.options[option] && undefined === def) {
             throw new Exception('Undefined option used!');
         }
-        
+
         return (undefined === ns.options[option] ? def : ns.options[option]);
     };
-    
+
     return ns;
 
 }(ImageSorter || {}, jQuery, _));

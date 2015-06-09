@@ -12,6 +12,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 			var thumbnail  = document.createElement('img');
 			thumbnail.file = file;
 			thumbnail.setAttribute('data-id', file.id);
+            thumbnail.classList.add('preview-image');
 
 			var reader	  = new FileReader();
 			reader.onload = (function(thumb) {
@@ -174,6 +175,8 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 			var input		  = document.createElement('input');
 			input.type		  = 'text';
 			input.placeholder = 'Tekst toevoegen';
+            input.setAttribute('data-role', 'label');
+            input.setAttribute('data-id', file.id);
 
 			return input;
 		},
@@ -193,17 +196,13 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 				img		 = jq(selector + ' img').get(0);
 
 				if (null !== li && null !== img) {
-					ns.views.done(li, img);
+					ns.views.done(li);
 				}
 			}
 		},
 
 		done: function(li, img) {
-
-			var done = document.createElement('span');
-			done.className = 'done';
-
-            li.insertBefore(done, img);
+            li.remove();
 		}
 	};
 

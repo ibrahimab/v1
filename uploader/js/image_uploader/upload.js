@@ -7,11 +7,15 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
             return new Promise(function(resolve, reject) {
 
+                try {
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', ns.get('url_path') + ns.get('upload_url'), true);
                 xhr.setRequestHeader('X_FILENAME', file.name);
                 xhr.setRequestHeader('X_CROP_DATA', JSON.stringify(file.crop));
-                xhr.setRequestHeader('X_LABEL', file.label);
+                xhr.setRequestHeader('X_LABEL', jq('[data-role="label"][data-id="' + file.id + '"]').val());
+                xhr.setRequestHeader('X_FILE_ID', ns.get('file_id'));
+                xhr.setRequestHeader('X_COLLECTION', ns.get('collection'));
+                xhr.setRequestHeader('X_RANK');
                 xhr.upload.addEventListener('progress', function(event) {
 
                     ns.events.upload.progress(event, file, ns.views.progress);
@@ -23,6 +27,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                 });
 
                 xhr.send(file);
+                } catch (err) { console.log(err); }
             });
         },
 
