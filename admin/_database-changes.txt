@@ -3,6 +3,24 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+09-jun-2015 10:58
+ALTER TABLE `type` ADD `vanafprijs_bereken_opnieuw` DATETIME NULL DEFAULT NULL AFTER `tmp_teksten_omgezet`, ADD `vanafprijs_berekend` DATETIME NULL DEFAULT NULL AFTER `vanafprijs_bereken_opnieuw`;
+
+CREATE TABLE IF NOT EXISTS `cache_vanafprijs_incl_bkk_type` (
+  `type_id` int(11) NOT NULL,
+  `wis` tinyint(1) NOT NULL,
+  `prijs` decimal(10,2) DEFAULT NULL,
+  `prijs_intern` decimal(10,2) DEFAULT NULL,
+  `prijs_wederverkoop` decimal(10,2) DEFAULT NULL,
+  `prijs_wederverkoop_intern` decimal(10,2) DEFAULT NULL,
+  `prijs_nieuw_seizoen` decimal(10,2) DEFAULT NULL,
+  `adddatetime` datetime NOT NULL,
+  `editdatetime` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+ALTER TABLE `cache_vanafprijs_incl_bkk_type`
+ ADD PRIMARY KEY (`type_id`);
+
 29-may-2015 14:50
 ALTER TABLE `land` ADD `isocode` CHAR(2) NOT NULL AFTER `begincode`;
 
