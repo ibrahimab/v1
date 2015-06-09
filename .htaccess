@@ -666,7 +666,7 @@ php_value memory_limit 256M
 php_value memory_limit 512M
 </Files>
 
-<Files wtphp.php>
+<Files localtest.php>
 php_value memory_limit 512M
 </Files>
 
