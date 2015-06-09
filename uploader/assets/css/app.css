@@ -136,6 +136,6 @@ div.anchor {
     margin: 0 auto;
 }
 
-ul.images {
-    list-style-type: none;
+div.preview img {
+    width: 400px;
 }

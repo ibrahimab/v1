@@ -19,8 +19,8 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             }
 
             var thumbnail  = document.createElement('img');
-            thumbnail.id   = Math.round(Math.random() * 100 + 1);
             thumbnail.file = file;
+            thumbnail.setAttribute('data-id', file.id);
 
             var reader    = new FileReader();
             reader.onload = (function(thumb) {

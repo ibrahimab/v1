@@ -8,19 +8,50 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             ns.events.change();
             ns.events.dropzone();
             ns.events.upload.click();
-            ns.events.croppers();
+            ns.events.cropper.bind();
         },
 
-        croppers: function() {
+        cropper: {
 
-            jq('body').on('click', '[data-role="preview-box"]', function(event) {
+            bind: function() {
 
-                event.preventDefault();
-                jq('[data-role="cropper"]').attr('src', event.target.src).cropper({
-                    zoomable: false,
-                    aspectRatio: 4 / 3
+                ns.events.cropper.create();
+                ns.events.cropper.changed();
+            },
+
+            create: function() {
+
+                jq('body').on('click', '[data-role="preview-box"]', function(event) {
+
+                    event.preventDefault();
+
+                    var element = jq(event.target);
+                    var file    = ns.files[element.data('id')] || {};
+
+                    ns.cropper.events.destroy();
+                    ns.cropper.events.create(element, file['crop'] || {});
                 });
-            });
+            },
+
+            save: function() {
+
+                var data = ns.cropper.events.save();
+                var id   = data['id'];
+                var crop = data['crop'];
+
+                ns.files[id]['crop'] = crop;
+            },
+
+            changed: function() {
+
+                ns.cropper.element.on('dragend.cropper', function(event) {
+                    ns.events.cropper.save();
+                });
+
+                ns.cropper.element.on('all.cropper', function(event) {
+                    ns.events.cropper.save();
+                });
+            }
         },
 
         change: function() {
