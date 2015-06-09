@@ -56,7 +56,7 @@ var ImageUploader = (function(ns, cp, so, jq, _, undefined) {
     ns.get = function(option, def) {
 
         if (undefined === ns.options[option] && undefined === def) {
-            throw new Exception('Undefined option used!');
+            throw new Error('Undefined option used: ' + option);
         }
 
         return (undefined === ns.options[option] ? def : ns.options[option]);
