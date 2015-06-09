@@ -183,7 +183,12 @@ class voorraad_gekoppeld {
 	}
 
 	public function vanaf_prijzen_berekenen($type_id) {
-		$GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"][intval($type_id)]=true;
+		$type_id = intval($type_id);
+		$GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"][$type_id]=true;
+
+		// use new vanafprijs-class
+		vanafprijs::set_type_to_calculate($type_id);
+
 	}
 
 	public function koppeling_uitvoeren_na_einde_script() {
