@@ -29,9 +29,15 @@ if($mustlogin) {
 		require_once 'Horde/Autoloader/ClassPathMapper/Default.php';
 
 		$autoloader = new Horde_Autoloader();
-		$autoloader->addClassPathMapper(new Horde_Autoloader_ClassPathMapper_Default('/usr/share/php'));
-		$autoloader->registerAutoloader();
 
+		if(defined("wt_test") and wt_test===true) {
+			$pear_path = substr(get_include_path(), 2);
+		} else {
+			$pear_path = '/usr/share/php';
+		}
+
+		$autoloader->addClassPathMapper(new Horde_Autoloader_ClassPathMapper_Default($pear_path));
+		$autoloader->registerAutoloader();
 	}
 
 	# wzt bepalen
