@@ -27,9 +27,13 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
                 return function(event) {
 
-                    thumb.src    = event.target.result;
-                    thumb.width  = dimensions.width;
-                    thumb.height = dimensions.height;
+                    var image = new Image();
+                    image.onload = function() {
+                        file.crop = {x: 0, y: 0, width: this.width, height: this.height};
+                    };
+
+                    image.src = event.target.result;
+                    thumb.src = event.target.result;
                 };
 
             }(thumbnail));
@@ -175,7 +179,6 @@ var ImageUploader = (function(ns, jq, _, undefined) {
         },
 
         clearInput: function() {
-            console.log('test');
             ns.input.val('');
         },
 
@@ -238,10 +241,6 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             done.className = 'done';
 
             li.insertBefore(done, img);
-        },
-
-        crop: function(fileId) {
-            console.log(fileId);
         }
     };
 

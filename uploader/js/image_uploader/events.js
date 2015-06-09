@@ -64,9 +64,9 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
                 for (var i = 0; i < total; i++) {
 
-                    id              = ns.id();
-                    ns.files[id]    = files[i];
-                    ns.files[id].id = id;
+                    id                = ns.id();
+                    ns.files[id]      = files[i];
+                    ns.files[id].id   = id;
                 }
 
                 ns.views.preview();
