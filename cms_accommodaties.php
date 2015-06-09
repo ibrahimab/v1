@@ -311,9 +311,6 @@ $cms->db_field(1,"picture","picaanvullend","",array("savelocation"=>"pic/cms/acc
 $cms->db_field(1,"picture","picaanvullendonderaan","",array("savelocation"=>"pic/cms/accommodaties_aanvullend_onderaan/","filetype"=>"jpg","multiple"=>true));
 $cms->db_field(1,"picture","picaanvullend_breed","",array("savelocation"=>"pic/cms/accommodaties_aanvullend_breed/","filetype"=>"jpg","multiple"=>true));
 
-# teksten goedkeuren
-$cms->db_field(1,"checkbox","teksten_seizoengoedgekeurd","",array("selection"=>$vars["seizoengoedgekeurd"]));
-
 # vertrekinfo in NL en EN
 $cms->db_field(1,"upload","route","",array("savelocation"=>"pdf/route_nl/","filetype"=>"pdf"));
 $cms->db_field(1,"checkbox","vertrekinfo_seizoengoedgekeurd","",array("selection"=>$vars["seizoengoedgekeurd"]));
@@ -616,9 +613,6 @@ $cms->edit_field(1,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)",""
 $cms->edit_field(1,0,"htmlrow","<hr><b>Video</b>");
 $cms->edit_field(1,0,"video_url","URL van Vimeo");
 $cms->edit_field(1,0,"video","Toon deze video op de accommodatiepagina");
-
-$cms->edit_field(1,0,"htmlrow","<hr><b>Goedkeuren bovenstaande teksten/gegevens</b>");
-$cms->edit_field(1,0,"teksten_seizoengoedgekeurd","Teksten zijn goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 
 
 # Nieuw vertrekinfo-systeem
