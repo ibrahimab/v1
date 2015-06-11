@@ -405,12 +405,12 @@ if($vars["verberg_linkerkolom"]) {
 			echo "</div>\n";
 		}
 
-		if($vars["website"]=="C" and $id<>"alpedhuzes" and $id=="index") {
-			# Alpe d'HuZes
-			echo "<div id=\"alpedhuzes\">";
-			echo "<a href=\"".$vars["path"]."alpe-d-huzes\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6-2015/alpedhuzes.gif\" width=\"168\" height=\"83\" border=\"0\"></a>";
-			echo "</div>";
-		}
+		// if($vars["website"]=="C" and $id<>"alpedhuzes" and $id=="index") {
+		// 	// Alpe d'HuZes
+		// 	echo "<div id=\"alpedhuzes\">";
+		// 	echo "<a href=\"".$vars["path"]."alpe-d-huzes\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6-2015/alpedhuzes.gif\" width=\"168\" height=\"83\" border=\"0\"></a>";
+		// 	echo "</div>";
+		// }
 
 	}
 

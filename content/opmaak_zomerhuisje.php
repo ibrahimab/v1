@@ -504,17 +504,6 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<li>Lid SGR-Garantiefonds</li>";
 		echo "</ul></div>";
 		echo "</div>\n";
-
-		// # Tijdelijk aan de linkerkant van de homepage (vanwege Alpe d'HuZes-button)
-		// echo "<div id=\"hoofdpagina_sociallinks\">";
-		// echo "<div style=\"float:left;padding-left:10px;\">";
-		// echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-		// echo "<a href=\"https://www.facebook.com/Zomerhuisje.nl\" title=\"Volg Zomerhuisje.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
-		// echo "<a href=\"https://twitter.com/@Zomerhuisje\" title=\"Volg Zomerhuisje.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
-		// echo "<a href=\"https://plus.google.com/113644542072220125279?prsrc=3\" title=\"Volg Zomerhuisje.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
-		// echo "</div>\n";
-		// echo "</div>\n";  # afsluiten hoofdpagina_sociallinks
-
 	}
 
 	echo "</div>\n";
