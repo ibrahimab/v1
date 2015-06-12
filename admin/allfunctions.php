@@ -617,7 +617,7 @@ class wt_mail {
 					$this->to=$GLOBALS["vars"]["lokale_testserver_mailadres"];
 				} elseif($_SERVER["HTTP_HOST"]=="bl.postvak.net" or $_SERVER["HOSTNAME"]=="bl.postvak.net" or ($_SERVER["SERVER_ADDR"]=="172.16.6.1" and $_SERVER["REMOTE_ADDR"]=="172.16.6.40")) {
 					$this->to="testform_bl@webtastic.nl";
-				} elseif($_SERVER["HTTP_HOST"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="ss.postvak.net" or (defined("wt_test_name") and constant("wt_test_name") === "macbook") or (defined("wt_test_name") and constant("wt_test_name") === "ss")) {
+				} elseif($_SERVER["HTTP_HOST"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="ss.postvak.net" or (defined("wt_test_name") and constant("wt_test_name") === "macbook") or (defined("wt_test_name") and constant("wt_test_name") === "imacpro")  or (defined("wt_test_name") and constant("wt_test_name") === "ss") ) {
 					// $this->to="testform_ss@webtastic.nl";
 					$this->to="webtasticnl+jeroentestform@gmail.com";
 				} else {
