@@ -612,52 +612,6 @@ if($_GET["t"]==1) {
 		echo "<i>Er zijn geen openstaande vouchers binnen de gekozen periode.</i>";
 	}
 
-} elseif($_GET["t"]==6 or $_GET["t"]==7) {
-	#
-	# Na te kijken accommodaties
-	#
-	if($_GET["t"]==6) {
-		$wzt=1;
-	} else {
-		$wzt=2;
-	}
-
-	# Actuele seizoenen bepalen
-	unset($inquery,$regexp);
-	$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind, type FROM seizoen WHERE type='".addslashes($wzt)."' AND UNIX_TIMESTAMP(eind)>'".(time()-(86400*60))."' ORDER BY type, begin, eind;");
-	while($db->next_record()) {
-		$vars["seizoengoedgekeurd"][$db->f("seizoen_id")]=$db->f("naam");
-		$vars["seizoengoedgekeurd_eind"][$db->f("seizoen_id")]=$db->f("eind");
-		$inquery.=",".$db->f("seizoen_id");
-		$regexp.=" OR (ta.seizoen_id='".addslashes($db->f("seizoen_id"))."' AND a.teksten_seizoengoedgekeurd NOT REGEXP '[[:<:]]".addslashes($db->f("seizoen_id"))."[[:>:]]')";
-	}
-	if($inquery) $inquery=substr($inquery,1); else $inquery="0";
-	if($regexp) $regexp=substr($regexp,4); else $regexp="1=1";
-
-	$db->query("SELECT DISTINCT a.accommodatie_id, a.naam, a.wzt, a.teksten_seizoengoedgekeurd, p.naam AS plaats FROM accommodatie a, type t, tarief ta, plaats p WHERE t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND a.plaats_id=p.plaats_id AND a.archief=0 AND a.tonen=1 AND t.tonen=1 AND ta.seizoen_id IN (".$inquery.") AND (".$regexp.") ORDER BY p.naam, a.naam;");
-	if($db->num_rows()) {
-		echo "<p>Bij de volgende accommodaties zijn tarieven bekend, maar moeten de teksten nog worden nagekeken:</p><table cellspacing=\"0\" class=\"tbl\" style=\"width:650px;\"><tr><th>Accommodatie</th><th nowrap>Goedgekeurd t/m</th></tr>";
-		while($db->next_record()) {
-
-			# Goedgekeurd t/m bepalen
-			unset($seizoengoedgekeurd_eind,$seizoengoedgekeurd);
-			$seizoengoedgekeurd_array=split(",",$db->f("teksten_seizoengoedgekeurd"));
-			while(list($key,$value)=@each($seizoengoedgekeurd_array)) {
-				if($vars["seizoengoedgekeurd_eind"][$value]>$seizoengoedgekeurd_eind) {
-					$seizoengoedgekeurd_eind=$vars["seizoengoedgekeurd_eind"][$value];
-					if($vars["seizoengoedgekeurd"][$value]) {
-						$seizoengoedgekeurd=$vars["seizoengoedgekeurd"][$value];
-					}
-				}
-			}
-			if($seizoengoedgekeurd) $seizoengoedgekeurd=wt_he($seizoengoedgekeurd); else $seizoengoedgekeurd="&nbsp;";
-			echo "<tr><td><a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("naam"))."</a></td><td>".$seizoengoedgekeurd."</td></tr>\n";
-		}
-		echo "</table>";
-	}
-#	echo $db->lastquery;
-
-
 } elseif($_GET["t"]==10) {
 	#
 	# Nieuwsbrief-leden

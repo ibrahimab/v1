@@ -216,10 +216,8 @@ if($mustlogin) {
 	} elseif($_GET["t"]==5) {
 		$title["cms_overzichten_overig"]="Overzicht vouchers";
 	} elseif($_GET["t"]==6) {
-		$title["cms_overzichten_overig"]="Overzicht na te kijken winteraccommodaties";
 		$title["cms_diversen"]="Diverse statistieken";
 	} elseif($_GET["t"]==7) {
-		$title["cms_overzichten_overig"]="Overzicht na te kijken zomeraccommodaties";
 	} elseif($_GET["t"]==10) {
 		$title["cms_overzichten_overig"]="Overzicht nieuwsbrief-leden";
 	} elseif($_GET["t"]==11) {
@@ -490,8 +488,6 @@ if($mustlogin) {
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Te vertalen zomerteksten",array("t"=>"3", "wzt"=>"2", "vertaalsysteem"=>"1"),true);
 	$layout->submenu_item("cms_overzichten","","cms_meldingen","Indeling CMS-hoofdpagina",array("t"=>"4"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Vouchers",array("t"=>"5"),true);
-	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken winteracc.",array("t"=>"6"),true);
-	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken zomeracc.",array("t"=>"7"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken beoordelingen",array("t"=>"11"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Nieuwsbrief-leden",array("t"=>"10"),true);
     $layout->submenu_item('cms_overzichten','','cms_refund_requests','Incomplete retouraanvragen',null,true);
