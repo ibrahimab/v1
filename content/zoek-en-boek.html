@@ -1690,6 +1690,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				}
 			}
 
+			// bij aanbiedingenzoekopdracht: resultaat overslaan indien geen aanbieding
+			if( $_GET["faab"] and !$soort_aanbieding and ($_GET["fad"]>0 or $flex_aankomstdatum) ) {
+				$accommodatie_opnemen_in_resultaten = false;
+			}
+
 			if($accommodatie_opnemen_in_resultaten) {
 
 				#
@@ -2394,12 +2399,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				#
 				# Daadwerkelijke zoekresultaten-html samenstellen
 				#
-
-				# bij aanbiedingenzoekopdracht: resultaat overslaan indien geen aanbieding
-				if($_GET["faab"] and !$soort_aanbieding and ($_GET["fad"]>0 or $flex_aankomstdatum)) {
-					continue;
-				}
-
 
 				if($db->f("apart_tonen_in_zoekresultaten")) {
 					$accid=$db->f("accommodatie_id")."_".$db->f("type_id");
