@@ -1325,12 +1325,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					}
 					unset($annverz_array);
 
-
-					if(!$mustlogin and !$boeking_wijzigen) {
-
-						# Europeesche Garantie: is niet meer beschikbaar
-						unset($vars["annverz_soorten"][2]);
-					}
+					# Europeesche Garantie: is niet meer beschikbaar
+					unset($vars["annverz_soorten"][2]);
 
 					# Europeesche Garantie waarneming: is niet meer beschikbaar
 					unset($vars["annverz_soorten"][4]);
