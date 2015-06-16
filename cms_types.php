@@ -421,6 +421,17 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(2,0,"indeling","Type-indeling","","",array("rows"=>25));
 }
 
+$cms->edit_field(2,1,"htmlrow","<hr>");
+if($vars["cmstaal"]) {
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo"]))."</span>"));
+	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst NL","",array("noedit"=>true));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo_".$vars["cmstaal"]]))."</span>"));
+	$cms->edit_field(2,0,"voucherinfo_".$vars["cmstaal"],"Type-vouchertekst ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo"]))."</span>"));
+	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst");
+}
+
 $cms->edit_field(2,0,"htmlrow","<hr><b id=\"images\">Afbeeldingen</b><br><i>Afbeeldingen kunnen in groot formaat worden ge&uuml;pload; het systeem zet ze om naar de juiste afmetingen. De verhouding moet wel altijd 4:3 zijn.</i>");
 $cms->edit_field(2,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));
 $cms->edit_field(2,0,"hoofdfoto_type","Hoofdafbeelding (groot formaat; wordt nu nog niet gebruikt)","",array("img_minwidth"=>"600","img_minheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3"),array("info"=>"Upload de foto in een zo groot mogelijk formaat. Deze foto wordt nu nog niet gebruikt. Pas zodra veel hoofdfoto's in groot formaat beschikbaar zijn, wordt er naar deze versie overgestapt."));
