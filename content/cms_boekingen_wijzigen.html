@@ -20,6 +20,23 @@ if($_GET["stap"]==1) {
 } elseif($_GET["stap"]==2) {
 	$form->display_all();
 } elseif($_GET["stap"]==3) {
+
+	// copy personal data from other booking
+	echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
+	echo "<div class=\"cms_personal_data_kopieer\">";
+	echo "<input type=\"hidden\" name=\"copy_personal_data_filled\" value=\"1\">";
+	echo "Kopieer persoonlijke gegevens persoon 2 t/m ".$gegevens["stap1"]["aantalpersonen"]." van andere boeking: <input type=\"text\" name=\"copy_personal_data\" autocomplete=\"off\" required=\"required\" pattern=\"^[A-Za-z]\d{8,}$\" placeholder=\"reserveringsnummer\">";
+	echo "<button>kopieer gegevens &raquo;</button>";
+	echo "</div>";
+	echo "</form>";
+
+	if( $_SESSION["copy_personal_data_error"] ) {
+		echo "<div class=\"opvalblok error\">";
+		echo $_SESSION["copy_personal_data_error"];
+		echo "</div>";
+		unset ( $_SESSION["copy_personal_data_error"] );
+	}
+
 	$form->display_all();
 } elseif($_GET["stap"]==4) {
 	$form->display_all();

@@ -1043,6 +1043,29 @@ a.opm {
 }
 
 
+.cms_personal_data_kopieer {
+	border: 1px solid #003366;
+	padding: 7px;
+	width: 678px;
+	background-color: #ebebeb;
+	margin: 20px 0 15px 0;
+}
+
+.cms_personal_data_kopieer input {
+	width: 120px;
+}
+
+.cms_personal_data_kopieer button {
+	margin-left: 5px;
+}
+
+.cms_personal_data_kopieer img {
+	margin-left: 5px;
+	margin-bottom: -3px;
+	display: none;
+}
+
+
 /*bijkomende kosten*/
 
 .cms_bk_seizoen {
