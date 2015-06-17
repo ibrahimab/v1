@@ -24,6 +24,7 @@
 //
 //
 
+$geen_tracker_cookie = true;
 
 include("admin/vars.php");
 header("Content-Type: text/plain");
