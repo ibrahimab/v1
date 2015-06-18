@@ -71,16 +71,15 @@ class kenmerken extends chaletDefault
 
 		$this->type_id = $type_id;
 
-		if( is_array($kenmerken_array) ) {
-
-		} else {
+		if(!is_array($kenmerken_array) ) {
 			$kenmerken_array = $this->query_database();
 		}
 
-		$kenmerken_type = preg_split("@,@", $kenmerken_array["type"]);
-		$kenmerken_accommodatie = preg_split("@,@", $kenmerken_array["accommodatie"]);
-		$kenmerken_plaats = preg_split("@,@", $kenmerken_array["plaats"]);
-		$kenmerken_skigebied = preg_split("@,@", $kenmerken_array["skigebied"]);
+		$kenmerken_type 		= explode(',', $kenmerken_array['type']);
+		$kenmerken_accommodatie = explode(',', $kenmerken_array['accommodatie']);
+		$kenmerken_plaats	    = explode(',', $kenmerken_array['plaats']);
+		$kenmerken_skigebied	= explode(',', $kenmerken_array['skigebied']);
+		$toon_kenmerken			= [];
 
 		if( $this->config->seizoentype==1 ) {
 			//

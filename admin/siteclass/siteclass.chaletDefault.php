@@ -23,7 +23,17 @@ class chaletDefault
 	 */
 	function __construct()
 	{
-		$this->config = new Configuration;
+		$this->setConfiguration(new Configuration());
+	}
+	
+	/**
+	 * Inject Configuration class
+	 *
+	 * @param Configuration $configuration
+	 */
+	public function setConfiguration($configuration)
+	{
+		$this->config = $configuration;
 	}
 
 	/**
