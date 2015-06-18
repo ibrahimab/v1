@@ -44,3 +44,6 @@ csv/
 
 # besides localtest.php
 localtest.php
+
+# textmate properties
+.tm_properties
