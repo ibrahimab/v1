@@ -13,7 +13,7 @@ class MongoWrapper
 	public function __construct($server, $env)
 	{
 		$this->mongodb = new MongoClient($server);
-		$this->db      = $this->mongodb->{$env . '_files'};
+		$this->db      = $this->mongodb->{$env . 'files'};
 	}
 
 	public function getFiles($collectionName, $fileId)
