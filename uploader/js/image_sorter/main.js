@@ -15,6 +15,22 @@ var ImageSorter = (function(ns, jq, _, undefined) {
         jq('body').on('dragover',  ns.get('item'),   ns.over);
         jq('body').on('dragleave', ns.get('item'),   ns.leave);
         jq('body').on('drop',      ns.get('item'),   ns.drop);
+
+        jq('body').on('dragenter', '[data-role="main-images"]', function(event) {
+            event.preventDefault();
+        });
+
+        jq('body').on('dragover', '[data-role="main-images"]', function(event) {
+            event.preventDefault();
+        });
+
+        jq('body').on('drop', '[data-role="main-images"]', function() {
+
+            var id = event.dataTransfer.getData('id');
+            var element = jq(this);
+            element.find('img').attr('src', jq(ns.get('item') + '[data-id="' + id + '"]').find('img').attr('src'));
+            element.find('input').val(id);
+        });
     };
 
     ns.start = function(event) {
@@ -45,6 +61,7 @@ var ImageSorter = (function(ns, jq, _, undefined) {
 
     ns.drop = function(event) {
 
+        console.log('test');
         if (event.stopPropagation) {
             event.stopPropagation();
         }
@@ -68,8 +85,6 @@ var ImageSorter = (function(ns, jq, _, undefined) {
         jq(ns.get('item')).each(function() {
 
             var element = jq(this);
-            console.log(element);
-            console.log(element.find('[data-role="rank"]'));
             element.find('[data-role="rank"]').val(i++);
         });
 

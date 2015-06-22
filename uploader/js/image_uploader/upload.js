@@ -45,9 +45,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                 .all(promises)
                 .then(function(files) {
 
-                    ns.views.markAsDone(files);
-                    ns.views.clearInput();
-                    ns.cropper.events.destroy();
+                    window.location.reload();
                 })
                 .catch(function(error) {});
         }

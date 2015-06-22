@@ -7,6 +7,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
             ns.events.change();
             ns.events.dropzone();
+            ns.events.remove();
             ns.events.upload.click();
             ns.events.cropper.bind();
         },
@@ -113,6 +114,22 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                 ns.views.preview();
             });
         },
+
+        remove: function() {
+
+            jq('body').on('click', '[data-role="delete-preview"]', function(event) {
+
+                event.preventDefault();
+
+                var id = jq(this).data('id');
+                delete ns.files[id];
+
+    			ns.approved = {};
+    			ns.previews = {};
+                ns.preview.empty();
+                ns.views.preview();
+            });
+        }
     };
 
     return ns;

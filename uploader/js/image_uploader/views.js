@@ -118,7 +118,14 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 		filename: function(file) {
 
 			var span		 = document.createElement('span');
-			span.textContent = file.name;
+			var a            = document.createElement('a');
+            span.textContent = file.name;
+            a.textContent    = '(x)';
+
+            a.setAttribute('href', '#');
+            a.setAttribute('data-role', 'delete-preview');
+            a.setAttribute('data-id', file.id);
+            span.appendChild(a);
 
 			return span;
 		},
