@@ -8,16 +8,17 @@
 class MongoWrapper
 {
 	protected $mongodb;
+	protected $db;
 
-	public function __construct($server)
+	public function __construct($server, $env)
 	{
 		$this->mongodb = new MongoClient($server);
+		$this->db      = $this->mongodb->{$env . '_files'};
 	}
 
 	public function getFiles($collectionName, $fileId)
 	{
-		$db     	= $this->mongodb->files;
-		$collection = $db->{$collectionName};
+		$collection = $this->db->{$collectionName};
 
 		return $collection->find(['file_id' => intval($fileId)])
 						  ->sort(['rank'    => 1]);
@@ -25,16 +26,14 @@ class MongoWrapper
 
 	public function getFile($collectionName, $_id)
 	{
-		$db 	= $this->mongodb->files;
-		$gridfs = $db->{$collectionName};
+		$collection = $this->db->{$collectionName};
 
-		return $gridfs->findOne(['_id' => new MongoId($_id)]);
+		return $collection->findOne(['_id' => new MongoId($_id)]);
 	}
 
 	public function maxRank($collectionName, $fileId)
 	{
-		$db 	    = $this->mongodb->files;
-		$collection = $db->{$collectionName};
+		$collection = $this->db->{$collectionName};
 		$results    = $collection->aggregate([
 
 			[
@@ -62,30 +61,27 @@ class MongoWrapper
 
 	public function updateFileId($collectionName, $_id, $fileId)
 	{
-		$db 	    = $this->mongodb->files;
-		$collection = $db->{$collectionName};
+		$collection = $this->db->{$collectionName};
 
 		return $collection->update(['_id' => new MongoId($_id)], ['$set' => ['file_id' => $fileId]]);
 	}
 
 	public function removeMetadata($collectionName, $_id)
 	{
-		$db 	    = $this->mongodb->files;
-		$collection = $db->{$collectionName};
+		$collection = $this->db->{$collectionName};
 
 		return $collection->remove(['_id' => new MongoId($_id)]);
 	}
 
 	public function getBulkUpdater($collectionName)
 	{
-		$db 		= $this->mongodb->files;
-		$collection = $db->{$collectionName};
+		$collection = $this->db->{$collectionName};
 
 		return new MongoUpdateBatch($collection);
 	}
 
 	public function getCollection($collectionName)
 	{
-		return $this->mongodb->files->{$collectionName};
+		return $this->db->{$collectionName};
 	}
 }
