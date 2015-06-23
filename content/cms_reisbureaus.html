@@ -154,15 +154,25 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 							xmlurlstable("Chalets in Vallandry Engelstalig (winter+zomer)","https://www.chaletsinvallandry.com/",$db->f("xmlfeed_toegangscode"));
 						}
 					} else {
-						# overige reisbureaus
-						if($key==1) {
-							$url="https://www.chalettour.nl/";
-						} elseif($key==2) {
-							$url="https://www.zomerhuisje.nl/";
-						}
-						xmlurlstable("Nederlandstalig",$url,$db->f("xmlfeed_toegangscode"));
-						if($key==1) {
-							xmlurlstable("Engelstalig","https://www.chalet.eu/",$db->f("xmlfeed_toegangscode"));
+						if($_GET["27k0"]=="38") {
+							# xml-links voor Ski Amis (die wijken af van de standaard-feed)
+							echo "<p><b>Let op: voor Ski Amis zijn speciale XML-links ontwikkeld:</b></p>";
+							echo "<ul>";
+							echo "<li>property list: <a href=\"https://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=lotst_list@top_id='AMIS',@st='0'\" target=\"_blank\">".wt_he("https://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=lotst_list@top_id='AMIS',@st='0'")."</a> (alle accommodaties)</li>";
+							echo "<li>property prices: <a href=\"https://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=tarif_lotref@top_id='AMIS',@lot_ref='F249'\" target=\"_blank\">".wt_he("https://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=tarif_lotref@top_id='AMIS',@lot_ref='F249'")."</a> (voor F249)</li>";
+							echo "<li>property availability: <a href=\"https://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=extr_plng@top_id='AMIS'\" target=\"_blank\">".wt_he("https://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=extr_plng@top_id='AMIS'")."</a> (alle accommodaties)</li>";
+							echo "</ul>";
+						} else {
+							# overige reisbureaus
+							if($key==1) {
+								$url="https://www.chalettour.nl/";
+							} elseif($key==2) {
+								$url="https://www.zomerhuisje.nl/";
+							}
+							xmlurlstable("Nederlandstalig",$url,$db->f("xmlfeed_toegangscode"));
+							if($key==1) {
+								xmlurlstable("Engelstalig","https://www.chalet.eu/",$db->f("xmlfeed_toegangscode"));
+							}
 						}
 					}
 
