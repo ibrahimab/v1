@@ -12,7 +12,7 @@ if($gegevens["stap1"]["boekingid"]) {
 	if($_POST["copy_personal_data_filled"] and $_POST["copy_personal_data"]) {
 
 		// copy personal data from other booking
-		$db->query("SELECT boeking_id FROM boeking WHERE boekingsnummer<>'' AND boekingsnummer='".wt_as($_POST["copy_personal_data"])."';");
+		$db->query("SELECT boeking_id FROM boeking WHERE boekingsnummer<>'' AND (boekingsnummer='".wt_as($_POST["copy_personal_data"])."' OR boekingsnummer LIKE '".wt_as($_POST["copy_personal_data"])." %');");
 		if( $db->next_record() ) {
 
 			$bron_boeking_id = $db->f( "boeking_id" );

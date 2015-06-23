@@ -25,7 +25,7 @@ if($_GET["stap"]==1) {
 	echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
 	echo "<div class=\"cms_personal_data_kopieer\">";
 	echo "<input type=\"hidden\" name=\"copy_personal_data_filled\" value=\"1\">";
-	echo "Kopieer persoonlijke gegevens persoon 2 t/m ".$gegevens["stap1"]["aantalpersonen"]." van andere boeking: <input type=\"text\" name=\"copy_personal_data\" autocomplete=\"off\" required=\"required\" pattern=\"^[A-Za-z]\d{8,}$\" placeholder=\"reserveringsnummer\">";
+	echo "Kopieer persoonlijke gegevens persoon 2 t/m ".$gegevens["stap1"]["aantalpersonen"]." van andere boeking: <input type=\"text\" name=\"copy_personal_data\" autocomplete=\"off\" required=\"required\" pattern=\"^[A-Za-z]\d{6,}$\" placeholder=\"reserveringsnummer\">";
 	echo "<button>kopieer gegevens &raquo;</button>";
 	echo "</div>";
 	echo "</form>";
