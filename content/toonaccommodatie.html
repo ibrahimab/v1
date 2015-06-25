@@ -885,7 +885,7 @@ if($db->next_record()) {
 		foreach ($seizoen_tarieven as $key => $value) {
 			unset($gratis_optie,$tarieven_ingevuld,$niet_hetzelfde,$toon_optie_pulldown,$optiesoort_beschikbaar);
 			$seizoenid=$key;
-			$db2->query("SELECT s.optie_soort_id, s.naam".$vars["ttv"]." AS naam, s.omschrijving".$vars["ttv"]." AS omschrijving FROM optie_soort s, optie_accommodatie a WHERE ".($vars["wederverkoop"] ? "s.beschikbaar_wederverkoop=1 AND " : "s.beschikbaar_directeklanten=1 AND ")."a.accommodatie_id='".addslashes($accid)."' AND a.optie_soort_id=s.optie_soort_id AND s.naam".$vars["ttv"]."<>'' ORDER BY s.volgorde, s.naam".$vars["ttv"].";");
+			$db2->query("SELECT s.optie_soort_id, s.naam".$vars["ttv"]." AS naam, s.omschrijving".$vars["ttv"]." AS omschrijving FROM optie_soort s, optie_accommodatie a WHERE ".($vars["reisverzekering_mogelijk"] ? "" : "s.reisverzekering=0 AND ").($vars["wederverkoop"] ? "s.beschikbaar_wederverkoop=1 AND " : "s.beschikbaar_directeklanten=1 AND ")."a.accommodatie_id='".addslashes($accid)."' AND a.optie_soort_id=s.optie_soort_id AND s.naam".$vars["ttv"]."<>'' ORDER BY s.volgorde, s.naam".$vars["ttv"].";");
 			if($db2->num_rows()) {
 				unset($optie_tabel_html,$toon_optie_pulldown);
 				while($db2->next_record()) {
