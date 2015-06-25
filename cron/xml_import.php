@@ -352,12 +352,12 @@ if($testsysteem) {
 	// $xml_urls[4][]=$test_tmpdir."results.xml";
 	// $csv_urls[5]=$test_tmpdir."dispo.csv";
 	// $xml_urls[6][1]=$test_tmpdir."Vakanzen.xml";
-	// $xml_urls[6][2]=$test_tmpdir."Preise.xml";
+	$xml_urls[6][2]=$test_tmpdir."Preise.xml";
 	// $xml_urls[7][1]=$test_tmpdir."bel.xml";
 	// $xml_urls[7][2]=$test_tmpdir."belt.xml";
-	$xml_urls[8][1]=$test_tmpdir."availability.xml";
-	$xml_urls[8][2]=$test_tmpdir."unitrates.xml";
-	$xml_urls[8][3]=$test_tmpdir."unit.xml";
+	// $xml_urls[8][1]=$test_tmpdir."availability.xml";
+	// $xml_urls[8][2]=$test_tmpdir."unitrates.xml";
+	// $xml_urls[8][3]=$test_tmpdir."unit.xml";
 	// $xml_urls[9][2]=$test_tmpdir."nl";
 	// $xml_urls[10][1]=$test_tmpdir."1.xml";
 	// $xml_urls[11][1]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
@@ -549,8 +549,8 @@ while(list($key,$value)=@each($xml_urls)) {
 							# Doorlopen van begin tot eind
 							$week=$datum_begin;
 							while($week<$datum_eind) {
-								if($value3->ZPersPreis==0) {
-									$xml_brutoprijs[$key][trim($value3->ObjektId)][$week]=trim($value3->Preis);
+								if($value3->FFHVKPreis>0) {
+									$xml_brutoprijs[$key][trim($value3->ObjektId)][$week]=trim($value3->FFHVKPreis);
 								}
 								$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 								$xml_laatsteimport_leverancier[$key]=true;
