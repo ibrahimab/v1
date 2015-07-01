@@ -56,7 +56,7 @@ class grootboekrekeningnummers {
 		$this->grootboekrekeningnummers_wederverkoop_buitenland["H"]=	array(-1=>"1911",0=>"8840",1=>"1949");
 
 
-		$this->grootboekrekeningnummers["X"]=							array(-1=>"1911",0=>"8200",1=>"1932");
+		$this->grootboekrekeningnummers["X"]=							array(-1=>"1911",0=>"8450",1=>"1932");
 
 		$this->grootboekrekeningnummers["Y"]=							array(-1=>"1911",0=>"8400",1=>"1971");
 		$this->grootboekrekeningnummers_wederverkoop["Y"]=				array(-1=>"1911",0=>"8410",1=>"1975");
