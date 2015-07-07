@@ -64,7 +64,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["schadeverzekering_mogelijk"]=1;
 	$vars["nieuwsbrief_aanbieden"]=true;
-	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=false;
+	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
 	$vars["livechat_code"]="2-PTFmcHUgtM";
 	$vars["trustpilot_code"]="bd82d1c7@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
@@ -215,7 +215,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["reisverzekering_mogelijk"]=0;
 	$vars["schadeverzekering_mogelijk"]=1;
 	$vars["nieuwsbrief_aanbieden"]=true;
-	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=false;
+	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
 	$vars["livechat_code"]="3-eex4-wCgtM";
 	$vars["trustpilot_code"]="959caf69@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
