@@ -137,7 +137,7 @@ if($vars["wederverkoop"] and $vars["chalettour_logged_in"]) {
 	 * If employee is logged in, do not show e-mail confirmation field
 	 */
 	if (true !== $werknemer_optieaanvraag) {
-		$form->field_text($obl,"email_confirmatie",txt("email_confirmatie","beschikbaarheid"),"",array("text"=>$temp_naw["email"]), array('data_field' => array('disable-paste' => 'true', 'disable-drop' => 'true')));
+		$form->field_email($obl,"email_confirmatie",txt("email_confirmatie","beschikbaarheid"),"",array("text"=>$temp_naw["email"]), array('data_field' => array('disable-paste' => 'true', 'disable-drop' => 'true')));
 	}
 }
 if(!$_GET["o"]) {
@@ -184,7 +184,7 @@ if($form->filled) {
 	}
 
 	/**
-	 * If employee is logged in, prevent validating the email confirmation, 
+	 * If employee is logged in, prevent validating the email confirmation,
 	 * otherwise validate when an e-mail has been entered
 	 */
 	if (true !== $werknemer_optieaanvraag) {

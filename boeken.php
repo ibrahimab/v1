@@ -893,7 +893,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			 * If employee is logged in, do not show email confirmation field
 			 */
 			if (true !== $voorkant_cms) {
-				$form->field_text(1,"email_confirmatie",txt("email_confirmatie","boeken"),"",array("text"=>$gegevens["stap2"]["email"]), array('data_field' => array('disable-paste' => 'true', 'disable-drop' => 'true')));
+				$form->field_email(1,"email_confirmatie",txt("email_confirmatie","boeken"),"",array("text"=>$gegevens["stap2"]["email"]), array('data_field' => array('disable-paste' => 'true', 'disable-drop' => 'true')));
 			}
 
 			$form->field_date(($voorkant_cms ? 0 : 1),"geboortedatum",txt("geboortedatum","boeken"),"",array("time"=>$gegevens["stap2"]["geboortedatum"]),array("startyear"=>date("Y"),"endyear"=>1900));
