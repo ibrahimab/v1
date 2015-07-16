@@ -21,7 +21,7 @@ if($_GET["stap"]==1) {
 	$form->display_all();
 } elseif($_GET["stap"]==3) {
 
-	// copy personal data from other booking
+	// copy personal data from other booking (import Persoonlijke gegevens overige deelnemers)
 	echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
 	echo "<div class=\"cms_personal_data_kopieer\">";
 	echo "<input type=\"hidden\" name=\"copy_personal_data_filled\" value=\"1\">";

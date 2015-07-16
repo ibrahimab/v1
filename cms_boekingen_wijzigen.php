@@ -12,10 +12,11 @@ if($gegevens["stap1"]["boekingid"]) {
 	if($_POST["copy_personal_data_filled"] and $_POST["copy_personal_data"]) {
 
 		// copy personal data from other booking
-		$db->query("SELECT boeking_id FROM boeking WHERE boekingsnummer<>'' AND (boekingsnummer='".wt_as($_POST["copy_personal_data"])."' OR boekingsnummer LIKE '".wt_as($_POST["copy_personal_data"])." %');");
+		$db->query("SELECT boeking_id, boekingsnummer FROM boeking WHERE boekingsnummer<>'' AND (boekingsnummer='".wt_as($_POST["copy_personal_data"])."' OR boekingsnummer LIKE '".wt_as($_POST["copy_personal_data"])." %');");
 		if( $db->next_record() ) {
 
 			$bron_boeking_id = $db->f( "boeking_id" );
+			$bron_boekingsnummer = $db->f( "boekingsnummer" );
 
 			$db->query("SELECT land FROM boeking_persoon WHERE persoonnummer=1 AND status=2 AND boeking_id='".intval($bron_boeking_id)."';");
 			if( $db->next_record() ) {
@@ -47,9 +48,14 @@ if($gegevens["stap1"]["boekingid"]) {
 				$db2->query("UPDATE boeking_persoon SET ".$setquery." WHERE boeking_id='".intval($_GET["bid"])."' AND persoonnummer='".$db->f( "persoonnummer" )."';");
 			}
 
+			// show message to user
 			$_SESSION["wt_popupmsg"]="Persoonsgegevens gekopieerd en opgeslagen.";
 
+			// log import
+			boeking_log($_GET["bid"], "Persoonlijke gegevens overige deelnemers geïmporteerd uit ".$bron_boekingsnummer);
+
 		} else {
+			// show error message to user
 			$_SESSION["copy_personal_data_error"]="Boeking ".wt_he($_POST["copy_personal_data"])." niet gevonden.";
 		}
 
