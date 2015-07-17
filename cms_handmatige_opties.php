@@ -171,7 +171,7 @@ if($geen_deelnemers[$_GET["23k0"]]) {
 } else {
 	$cms->edit_field(23,1,"persoonnummer","Gekoppeld aan","",array("noedit"=>($bijkomendekosten_surcharge||$bijkomendekosten ? true : false)));
 }
-if($bijkomendekosten_persoonnummer_pers) {
+if($bijkomendekosten_surcharge) {
 	$cms->edit_field(23,1,"htmlcol","Deelnemers", array("html"=>nl2br(wt_he(trim($deelnemers)))));
 } elseif(!$bijkomendekosten_surcharge and !$bijkomendekosten) {
 	$cms->edit_field(23, 0, "deelnemers", "Deelnemers", "", "", array("one_per_line"=>true));
