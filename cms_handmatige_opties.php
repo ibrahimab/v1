@@ -54,7 +54,7 @@ if($_GET["edit"]==23 and $_GET["23k0"]) {
 			$bijkomendekosten = true;
 		}
 		if($db->f("persoonnummer")=="pers") {
-			$bijkomendekosten_persoonnummer_pers = true;
+			$persoonnummer_pers = true;
 
 			$deelnemers_array = preg_split("@,@", $db->f("deelnemers"));
 			foreach ($vars["personen"] as $key => $value) {
@@ -171,15 +171,15 @@ if($geen_deelnemers[$_GET["23k0"]]) {
 } else {
 	$cms->edit_field(23,1,"persoonnummer","Gekoppeld aan","",array("noedit"=>($bijkomendekosten_surcharge||$bijkomendekosten ? true : false)));
 }
-if($bijkomendekosten_surcharge) {
-	$cms->edit_field(23,1,"htmlcol","Deelnemers", array("html"=>nl2br(wt_he(trim($deelnemers)))));
-} elseif(!$bijkomendekosten_surcharge and !$bijkomendekosten) {
+if(!$bijkomendekosten_surcharge and !$bijkomendekosten) {
 	$cms->edit_field(23, 0, "deelnemers", "Deelnemers", "", "", array("one_per_line"=>true));
+} elseif( $deelnemers ) {
+	$cms->edit_field(23,1,"htmlcol","Deelnemers", array("html"=>nl2br(wt_he(trim($deelnemers)))));
 }
 $cms->edit_field(23,1,"verkoop","Verkoopprijs","",array("negative"=>true));
 $cms->edit_field(23,1,"inkoop","Inkoopprijs","",array("negative"=>true));
 $cms->edit_field(23,0,"korting","Kortingspercentage");
-if(!$bijkomendekosten_persoonnummer_pers) {
+if(!$persoonnummer_pers) {
 	$cms->edit_field(23,0,"alg_aantal","Aantal keer (alleen voor algemene optie)","",array("noedit"=>($bijkomendekosten_surcharge||$bijkomendekosten ? true : false)));
 }
 if(!$bijkomendekosten) {
@@ -211,11 +211,13 @@ $cms->edit_field(23,1,"optiecategorie","Optie-categorie");
 $cms->set_edit_form_init(23);
 if($cms_form[23]->filled) {
 
-	if($cms_form[23]->input["persoonnummer"]=="alg" and $cms_form[23]->input["alg_aantal"]=="") {
-		$cms_form[23]->error("alg_aantal","verplicht bij een algemene optie");
-	}
-	if($cms_form[23]->input["persoonnummer"]<>"alg" and $cms_form[23]->input["alg_aantal"]<>"") {
-		$cms_form[23]->error("alg_aantal","alleen bij een algemene optie invullen");
+	if(!$persoonnummer_pers and !$bijkomendekosten_surcharge and !$bijkomendekosten) {
+		if($cms_form[23]->input["persoonnummer"]=="alg" and $cms_form[23]->input["alg_aantal"]=="") {
+			$cms_form[23]->error("alg_aantal","verplicht bij een algemene optie");
+		}
+		if($cms_form[23]->input["persoonnummer"]<>"alg" and $cms_form[23]->input["alg_aantal"]<>"") {
+			$cms_form[23]->error("alg_aantal","alleen bij een algemene optie invullen");
+		}
 	}
 
 	if($cms_form[23]->input["persoonnummer"]=="alg" and $cms_form[23]->input["voucher"]) {
