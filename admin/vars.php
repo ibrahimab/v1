@@ -1584,7 +1584,7 @@ $vars["google_translation_api_key"]=getenv('GOOGLE_TRANSLATE_API_KEY');
  */
 $vars['mongodb'] = [
 
-	'wrapper' => new MongoWrapper(CH_MONGODB_MASTER, ($vars['lokale_testserver'] || $vars['acceptatie_testserver'] ? 'test_' : '')),
+	'wrapper' => new MongoWrapper(CH_MONGODB_MASTER, CH_MONGODB_FILES_DB, CH_MONGODB_FILES_REPLICASET),
 
 	'collections' => [
 		'al' => 'accommodations.large',

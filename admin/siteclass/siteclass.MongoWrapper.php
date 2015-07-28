@@ -10,10 +10,12 @@ class MongoWrapper
 	protected $mongodb;
 	protected $db;
 
-	public function __construct($server, $env)
+	public function __construct($server, $database, $replicaSet = false)
 	{
-		$this->mongodb = new MongoClient($server);
-		$this->db      = $this->mongodb->{$env . 'files'};
+        $defaultOptions    = ['connect' => true];
+        $replicaSetOptions = ['connect' => true, 'replicaSet' => $replicaSet];
+		$this->mongodb     = new MongoClient($server, (false === $replicaSet ? $defaultOptions : $replicaSetOptions));
+		$this->db          = $this->mongodb->{$database};
 	}
 
 	public function getFiles($collectionName, $fileId)
