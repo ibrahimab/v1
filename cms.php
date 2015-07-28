@@ -36,6 +36,13 @@ if($_GET["delflc"]==1) {
 $mustlogin=true;
 include("admin/vars.php");
 
+if($_SERVER["REQUEST_URI"]==$vars["path"]."cms.php/") {
+	// prevent use of incorrect request_uri with trailing slash (https://www.chalet.nl/cms.php/)
+	header("Location: ".$vars["path"]."cms.php");
+	exit;
+}
+
+
 if($_GET["turn_backup_off"]) {
 	unlink("/home/chaletnl/backup-status/active");
 	header("Location: ".$vars["path"]."cms.php");
