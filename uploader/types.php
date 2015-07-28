@@ -1,12 +1,13 @@
 <?php
-$id          = $uploaderData['id'];
-$collection  = $uploaderData['collection'];
-$mongodb     = $vars['mongodb']['wrapper'];
-$images      = $mongodb->getFiles($collection, $id);
-$maxRank     = $mongodb->maxRank($collection, $id) + 1;
-$i           = 1;
-$mainImages  = [];
-$placeholder = 'uploader/assets/images/placeholder.png';
+$id              = intval($uploaderData['id']);
+$accommodationId = intval($uploaderData['accommodationId']);
+$collection      = $uploaderData['collection'];
+$mongodb         = $vars['mongodb']['wrapper'];
+$images          = $mongodb->getFiles($collection, $id);
+$maxRank         = $mongodb->maxRank($collection, $id) + 1;
+$i               = 1;
+$mainImages      = [];
+$placeholder     = 'uploader/assets/images/placeholder.png';
 
 foreach ($images as $image) {
 
@@ -15,7 +16,8 @@ foreach ($images as $image) {
     }
 }
 
-
+$accommodations      = $mongodb->getCollection('accommodations');
+$accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'under' => true]);
 ?>
 <link rel="stylesheet" href="<?php echo $vars['path'];?>uploader/assets/css/app.css" />
 <link rel="stylesheet" href="<?php echo $vars['path'];?>uploader/assets/css/vendor/jquery/jquery.cropper.min.css" />
@@ -53,22 +55,27 @@ foreach ($images as $image) {
             </div>
         </div>
         <div class="clear">&nbsp;</div>
-        <?php if (count($images) > 0) : ?>
+        <?php if (count($images) > 0 || count($accommodationImages) > 0) : ?>
         <a href="#" data-role="remove-all">Alle afbeeldingen verwijderen</a>
         <div class="previewer">
             <input type="hidden" name="collection" value="<?php echo $collection; ?>" />
             <ul data-role="sortable-list">
                 <?php foreach ($images as $image) : ?>
-                <li data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
+                <li class="type-image" data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
                     <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
                     <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen" value="<?php echo $image['label']; ?>" />
-                    <div><input type="checkbox" id="under_<?php echo $image['_id']; ?>" name="under[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['under']) && true === $image['under'] ? ' checked="checked"' : ''); ?> /> <label for="under_<?php echo $image['_id']; ?>">Onderaan plaatsen?</label></div>
                     <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php echo $i++; ?>" />
                     <a draggable="true" data-role="sortable-anchor" data-id="<?php echo $image['_id']; ?>" class="anchor"><img src="<?php echo $vars['path']; ?>uploader/assets/images/drag-icon.png" /></a>
                     <a href="#" data-role="remove-image" data-id="<?php echo $image['_id']; ?>" style="vertical-align: top; float: right; display:block;">
                         <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" />
                     </a>
                 </li>
+                <?php endforeach; ?>
+                <?php foreach ($accommodationImages as $accommodationImage) : ?>
+                    <li>
+                        <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $accommodationImage['directory'] . '/' . $accommodationImage['filename']; ?>" />
+                        <input type="text" value="<?php echo $accommodationImage['label']; ?>" disabled="disabled" />
+                    </li>
                 <?php endforeach; ?>
             </ul>
         </div>
@@ -154,7 +161,7 @@ foreach ($images as $image) {
             data: {id: <?php echo $id; ?>, collection: '<?php echo $collection; ?>'},
             success: function(data) {
 
-                jq('[data-role="sortable-list"]').empty();
+                jq('[data-role="sortable-list"] li.type-image').remove();
                 jq('[data-role="main-images"] img').attr('src', '<?php echo $placeholder; ?>');
             }
         });
