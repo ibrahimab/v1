@@ -2,6 +2,7 @@
 include '../admin/vars.php';
 $collection = 'accommodations';
 $id         = intval($_GET['id']);
+
 if ($id > 0) {
 
     $mongodb = $vars['mongodb']['wrapper'];
@@ -36,7 +37,7 @@ if ($id > 0) {
     <div class="preview">
         <img data-role="cropper" />
     </div>
-    <form data-role="update-form">
+    <div data-role="update-form">
         <div class="container">
             <h2>Huidige afbeeldingen <a href="#" data-role="save-current">Opslaan</a></h2>
             <div class="main">
@@ -56,6 +57,7 @@ if ($id > 0) {
                 </div>
             </div>
             <div class="clear">&nbsp;</div>
+            <a href="#" data-role="remove-all">Alle afbeeldingen verwijderen</a>
             <div class="previewer">
             <?php if ($id > 0) : ?>
                 <input type="hidden" name="collection" value="<?php echo $collection; ?>" />
@@ -73,7 +75,7 @@ if ($id > 0) {
             <?php endif; ?>
             </div>
         </div>
-    </form>
+    </div>
     <script type="text/javascript" src="<?php echo $vars['path'];?>uploader/js/vendor/jquery/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="<?php echo $vars['path'];?>uploader/js/vendor/jquery/jquery.cropper.min.js"></script>
 	<script type="text/javascript" src="<?php echo $vars['path'];?>uploader/js/vendor/jquery/jquery.beforeafter.min.js"></script>
@@ -100,13 +102,13 @@ if ($id > 0) {
         jq('body').on('click', '[data-role="save-current"]', function(event) {
 
             event.preventDefault();
-            jq.ajax({
-
-                url: '<?php echo $vars['path']; ?>uploader/update.php',
-                type: 'post',
-                data: jq('[data-role="update-form"]').serialize(),
-                success: function(data) {}
-            });
+            // jq.ajax({
+            //
+            //     url: '<?php echo $vars['path']; ?>uploader/update.php',
+            //     type: 'post',
+            //     data: jq('[data-role="update-form"]').serialize(),
+            //     success: function(data) {}
+            // });
         });
 
         jq('body').on('click', '[data-role="remove-image"]', function(event) {
@@ -121,11 +123,11 @@ if ($id > 0) {
                 type: 'post',
                 data: {id: id, collection: '<?php echo $collection; ?>'},
                 success: function(data) {
-
                     jq('[data-role="sortable-item"][data-id="' + id + '"]').remove();
                 }
             });
         });
+
     }(jQuery));
     </script>
 </body>

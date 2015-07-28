@@ -7,13 +7,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $collection = $_POST['collection'];
     $labels     = $_POST['label'];
     $ranks      = $_POST['rank'];
+    $under      = $_POST['under'];
     $bulk       = $mongodb->getBulkUpdater($collection);
     $mainImages = $_POST['main_images'];
 
     foreach ($labels as $_id => $label) {
 
 		$bulk->add(['q' => ['_id'  => new MongoId($_id)],
-					'u' => ['$set' => ['label' => $label, 'rank' => intval($ranks[$_id])]]]);
+					'u' => ['$set' => ['label' => $label, 'under' => (isset($under[$_id])), 'rank' => intval($ranks[$_id])]]]);
     }
 
     foreach ($mainImages as $type => $_id) {

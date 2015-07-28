@@ -22,7 +22,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
             create: function() {
 
-                jq('body').on('click', '[data-role="preview-box"]', function(event) {
+                jq('body').on('click', '[data-role="preview-image"]', function(event) {
 
                     event.preventDefault();
 
@@ -82,7 +82,10 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             click: function() {
 
                 jq('body').on('click', ns.submit.selector, function(event) {
-                    ns.upload.all();
+
+                    if (window.confirm('Weet je zeker dat je wil uploaden? Scherm zal hierdoor opnieuw laden')) {
+                        ns.upload.all();
+                    }
                 });
             },
 
@@ -120,6 +123,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             jq('body').on('click', '[data-role="delete-preview"]', function(event) {
 
                 event.preventDefault();
+                event.stopPropagation();
 
                 var id = jq(this).data('id');
                 delete ns.files[id];
@@ -128,6 +132,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
     			ns.previews = {};
                 ns.preview.empty();
                 ns.views.preview();
+                ns.cropper.events.destroy();
             });
         }
     };

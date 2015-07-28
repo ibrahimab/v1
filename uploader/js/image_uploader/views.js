@@ -12,6 +12,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 			var thumbnail  = document.createElement('img');
 			thumbnail.file = file;
 			thumbnail.setAttribute('data-id', file.id);
+            thumbnail.setAttribute('data-role', 'preview-image');
             thumbnail.classList.add('preview-image');
 
 			var reader	  = new FileReader();
@@ -119,12 +120,14 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
 			var span		 = document.createElement('span');
 			var a            = document.createElement('a');
+            var img          = document.createElement('img');
+            img.src          = ns.get('url_path') + 'pic/class.cms_delete.gif';
             span.textContent = file.name;
-            a.textContent    = '(x)';
 
             a.setAttribute('href', '#');
             a.setAttribute('data-role', 'delete-preview');
             a.setAttribute('data-id', file.id);
+            a.appendChild(img);
             span.appendChild(a);
 
 			return span;

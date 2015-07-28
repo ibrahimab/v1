@@ -44,7 +44,6 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             Promise
                 .all(promises)
                 .then(function(files) {
-
                     window.location.reload();
                 })
                 .catch(function(error) {});

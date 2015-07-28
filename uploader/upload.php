@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		'height'    => $cropData['height'],
 	];
 
+    $_SESSION["wt_popupmsg"] = 'Afbeeldingen zijn succesvol geupload';
+
     $mongodb->getCollection($headers['X_COLLECTION'])->insert($data);
 
 	header('Content-Type: application/json');

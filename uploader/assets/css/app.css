@@ -6,7 +6,7 @@ div.container {
 
 div.previewer {
 
-    width: 52%;
+    width: 71%;
     border: 1px solid #000;
 }
 
@@ -150,4 +150,8 @@ div.main div.row img {
 
 div.clear {
     clear: both;
+}
+
+div.preview .hide-container {
+    display: none;
 }
