@@ -6,7 +6,7 @@ div.uploader-container div.container {
 
 div.uploader-container div.previewer {
 
-    width: 71%;
+    width: 100%;
     border: 1px solid #000;
 }
 
@@ -31,12 +31,15 @@ div.uploader-container div.previewer ul:after {
 div.uploader-container div.previewer ul li {
 
     list-style-type: none;
-    width: 28.9%;
+    width: 22.6%;
     padding: 5px;
     margin: 5px;
     float: left;
     position: relative;
     border: 1px solid #cccccc;
+    min-height: 240px;
+    max-height: 240px;
+    overflow: hidden;
 }
 
 div.uploader-container div.previewer ul li.over {
@@ -65,8 +68,8 @@ div.uploader-container div.previewer ul li span.done {
 
 div.uploader-container div.previewer ul li img.preview-image {
     
-    width: 195px;
-    height: 146px;
+    width: 213px;
+    height: 164px;
 }
 
 div.uploader-container div.progress {

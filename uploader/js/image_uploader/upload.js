@@ -5,6 +5,8 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
         send: function(file) {
 
+            jq('[data-role="delete-preview"][data-id="' + file.id +'"] img').attr('src', ns.get('url_path') + 'pic/ajax-loader.gif');
+
             return new Promise(function(resolve, reject) {
 
                 try {
@@ -28,23 +30,22 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                             
                             var response = JSON.parse(xhr.responseText);
                             
-                            file.new = {
-                                
-                                id: response.image.id,
-                                path: response.image.path
-                            };
-                            
                             if (response.type === 'error') {
                                 reject(file);
                             } else {
+                                
+                                file.new = {
+                                
+                                    id: response.image.id,
+                                    path: response.image.path
+                                };
+                                
                                 resolve(file);
                             }
                             
                             jq('[data-role="delete-preview"][data-id="' + file.id + '"] img').attr('src', ns.get('url_path') + 'pic/class.cms_delete.gif');
                         }
                     }
-                    
-                    jq('[data-role="delete-preview"][data-id="' + file.id +'"] img').attr('src', ns.get('url_path') + 'pic/ajax-loader.gif');
                     
                     xhr.send(file);
                     
