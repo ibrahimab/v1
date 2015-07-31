@@ -110,6 +110,32 @@ EOT;
 	}
 
 	/**
+	 * Render array to json-datalayer, without the use of encode/decode
+	 *
+	 * @param array $array with datalayer-content
+	 * @param string $extraScript extra JavaScript to show above the datalayer-push
+	 * @return string
+	 */
+	protected function datalayer_push_clean($array, $extraScript='') {
+		if(is_array($array)) {
+			$return .= "<script>
+			try {
+				".$extraScript."
+				dataLayer.push (".json_encode($array).");
+			}
+			catch(err) {
+
+			}
+			</script>";
+		}
+
+		// make the use of JavaScript-arrays possible (strip quotes)
+		$return = preg_replace("@\"([a-z0-9_]+)_javascript_array\"@", "\\1", $return);
+
+		return $return;
+	}
+
+	/**
 	 * Retrieves the login details for the user login
 	 *
 	 * @global array $vars

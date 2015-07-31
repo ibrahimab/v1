@@ -206,5 +206,8 @@ echo "<div style=\"clear: both;\"></div>\n";
 #echo "<img src=\"".$vars["path"]."pic/hoofdpagina_fotobalk.jpg\" width=\"735\" height=\"60\">";
 #echo "</div>\n";
 
-
-?>
+// Criteo retargeting datalayer tags
+if($vars["website"]=="C") {
+	$criteo = new CriteoTags;
+	echo $criteo->homePage();
+}

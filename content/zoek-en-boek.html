@@ -4112,9 +4112,17 @@ if($vars["verfijnen_aanbieden"]) {
 	}
 }
 
+// Criteo retargeting datalayer tags
+if($vars["website"]=="C" and $_GET["filled"]) {
+	$criteo = new CriteoTags;
+	echo $criteo->searchAndBook($product_impressions);
+}
+
+
 // pageload-time bepalen
 if($vars["page_starttime"]) {
 	echo "<div class=\"data-div\" id=\"page_load_time\" data-time=\"".number_format(microtime(true)-$vars["page_starttime"],2,",",".")."\" data-zonder-variabelen=\"".($_SERVER["REQUEST_URI"]==$vars["path"].txt("menu_zoek-en-boek").".php" ? "1" : "0")."\"></div>";
 }
+
 
 ?>

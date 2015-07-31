@@ -1987,6 +1987,12 @@ if(!defined("wt_test") and !$voorkant_cms) {
 	echo $google_tagmanager->product_detail_impressions($product_details_impressions, $ie);
 }
 
+// Criteo retargeting datalayer tags
+if($vars["website"]=="C") {
+	$criteo = new CriteoTags;
+	echo $criteo->productPage($typeid);
+}
+
 if(is_object($opmaak)) {
 	// tarieventabel_totaalprijs_specificatie_popup (hide by default)
 	$opmaak->html_at_the_bottom("<div class=\"tarieventabel_totaalprijs_specificatie_popup tarieventabel_totaalprijs_specificatie_empty\"><img src=\"".$vars["path"]."pic/close_icon.png\" class=\"close\" /><div></div></div>");
