@@ -75,7 +75,7 @@ for($i=1; $i<=60; $i++) {
 
 		mail("chaletmailbackup+systemlog@gmail.com","git-deploy Chalet.nl","Deployed ".date("r")."\n\n\n".$hipchat_msg."\n\n\n".$git_output."\n\n\n".$sitecopy_output1."\n\n\n".$sitecopy_output2."\n\n\n".$sitecopy_output3);
 
-		$auth = new OAuth2('WuSNBiog1IjRoijaag5BUaM04r3alQTrjgnlV8O4');
+		$auth = new OAuth2('XIqOmoqjbWaVeGl31aQf8ahExgeug8opaZ4w4Swv');
 		$client = new Client($auth);
 		$roomAPI = new RoomAPI($client);
 		$msg = new Message();
