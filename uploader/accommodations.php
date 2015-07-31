@@ -1,5 +1,5 @@
 <?php
-$id          = $uploaderData['id'];
+$id          = intval($uploaderData['id']);
 $collection  = $uploaderData['collection'];
 $mongodb     = $vars['mongodb']['wrapper'];
 $images      = $mongodb->getFiles($collection, $id);
