@@ -63,12 +63,14 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             
             Promise.all(promises)
                    .then(function() {
-                       console.log('test');
+                       
                        wt_popupmsg('Afbeeldingen zijn succesvol ge&uuml;pload');
+                       ns.cropper.events.destroy();
                    })
                    .catch(function() {
-                       console.log('test2');
+                       
                        wt_popupmsg('Sommige afbeeldingen zijn niet succesvol ge&uuml;pload');
+                       ns.cropper.events.destroy();
                    });
         }
     };

@@ -17,9 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$headers       = getallheaders();
     $image         = imagecreatefromstring(file_get_contents('php://input'));
 	$cropData      = json_decode($headers['X_CROP_DATA'], true);
+	$cropData	   = array_map('ceil', $cropData);
+	$cropData	   = array_map('intval', $cropData);
     $new           = imagecrop($image, $cropData);
 	
-	$size		   = ['width' => imagesx($image), 'height' => imagesy($image)];
+	$size		   = ['width' => imagesx($new), 'height' => imagesy($new)];
 	$size['ratio'] = ratio($size['width'], $size['height']);
 	$allowedRatio  = 4 / 3;
 
@@ -29,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			
 			'type'    => 'error',
 			'message' => 'ratio is not allowed',
+			'ratio'   => $size['ratio'],
+			'crop'	  => $cropData,
 		]);
 	}
 

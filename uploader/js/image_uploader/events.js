@@ -66,10 +66,11 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 
                 for (var i = 0; i < total; i++) {
 
-                    id                = ns.id();
-                    ns.files[id]      = files[i];
-                    ns.files[id].id   = id;
-                    ns.files[id].rank = rank++;
+                    id                 = ns.id();
+                    ns.files[id]       = files[i];
+                    ns.files[id].id    = id;
+                    ns.files[id].rank  = rank++;
+                    ns.files[id].error = '';
                 }
 
                 ns.set('maxRank', rank);

@@ -5,7 +5,7 @@ var ImageCropper = (function(ns, jq, undefined) {
     ns.options = {
 
         zoomable: false,
-        aspectRatio: 4 / 3,
+        aspectRatio: (4 / 3),
         movable: false,
         rotatable: false,
         zoomable: false,
