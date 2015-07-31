@@ -146,6 +146,8 @@ class xmlTradetracker extends xmlExport
 					$this->x->writeElement('special_offer_euro', $type_data['special_offer']['euro']);
 				}
 
+				$this->x->writeElement('GroupID', $type_data['accommodatie_id']);
+
 				if( is_array( $type_data["distance"]) ) {
 
 					foreach ($type_data["distance"] as $key => $value) {
