@@ -70,16 +70,16 @@ if($_GET["aanvraagnr"]) {
 		$google_tagmanager = new google_tagmanager;
 		echo $google_tagmanager->boeking_bevestigd($gegevens);
 
-		$_SESSION["boeking_tracking"] = false;
+		// Criteo retargeting datalayer tags
+		if($vars["website"]=="C") {
+			$criteo = new CriteoTags;
+			echo $criteo->transactionPage($gegevens);
+		}
 
 		if($vars["lokale_testserver"]) {
 			echo "<div style=\"background-color:yellow;padding:10px;border:1px solid #000000;\">TRACKING VERSTUURD</div>";
+		} else {
+			$_SESSION["boeking_tracking"] = false;
 		}
-
 	}
 }
-
-
-
-
-?>

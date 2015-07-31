@@ -23,6 +23,13 @@ if($accinfo["tonen"] and $accinfo["correct_website"] and !$niet_beschikbaar) {
 	echo "<h3>".html("stap","boeken")." ".$_GET["stap"]." - ".wt_he($vars["boeken"][$_GET["stap"]])."</h3><p>";
 	if($_GET["stap"]==1) {
 		$form->display_all();
+
+		// Criteo retargeting datalayer tags
+		if($vars["website"]=="C") {
+			$criteo = new CriteoTags;
+			echo $criteo->basketPage($gegevens);
+		}
+
 	} elseif($_GET["stap"]==2) {
 		$form->display_all();
 	} elseif($_GET["stap"]==3) {
