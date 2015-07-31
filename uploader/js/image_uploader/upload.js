@@ -54,7 +54,9 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                                            ns.views.removePreview(file.id);
                                        })
                                        .catch(function(file) {
+                                           
                                            jq('[data-role="success-message"][data-id="' + file.id + '"]').text('verhouding is niet 4:3 ');
+                                           throw new Error(file);
                                        });
                                        
                     promises.push(promise);
@@ -69,7 +71,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                    })
                    .catch(function() {
                        
-                       wt_popupmsg('Sommige afbeeldingen zijn niet succesvol ge&uuml;pload');
+                       wt_popupmsg('Sommige afbeeldingen zijn <strong><u>niet</u></strong> succesvol ge&uuml;pload');
                        ns.cropper.events.destroy();
                    });
         }

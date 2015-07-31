@@ -4,7 +4,7 @@ include '../admin/vars.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	function ratio($width, $height) {
-		return ($width > $height ? ($width / $height) : ($height / $width));
+		return $width / $height;
 	}
 	
 	function jsonResponse($data = []) {

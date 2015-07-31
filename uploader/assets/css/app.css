@@ -64,7 +64,9 @@ div.uploader-container div.previewer ul li span.done {
 }
 
 div.uploader-container div.previewer ul li img.preview-image {
-    width: 95%;
+    
+    width: 195px;
+    height: 146px;
 }
 
 div.uploader-container div.progress {
