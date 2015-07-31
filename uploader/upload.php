@@ -27,9 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	
 	$size		   = ['width' => imagesx($new), 'height' => imagesy($new)];
 	$size['ratio'] = rounddown(ratio($size['width'], $size['height']), 2);
-	$allowedRatio  = rounddown((4 / 3), 2);
+	$minRatio	   = 1.3300;
+	$maxRatio	   = 1.3399;
 
-	if ($size['ratio'] !== $allowedRatio) {
+	if (false === ($size['ratio'] >= $allowedRatio && $size['ratio'] <= $maxRatio)) {
 		
 		jsonResponse([
 			
