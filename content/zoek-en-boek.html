@@ -4113,7 +4113,7 @@ if($vars["verfijnen_aanbieden"]) {
 }
 
 // Criteo retargeting datalayer tags
-if($vars["website"]=="C" and $_GET["filled"]) {
+if($vars["website"]=="C" and is_array($product_impressions) and $_GET["filled"]) {
 	$criteo = new CriteoTags;
 	echo $criteo->searchAndBook($product_impressions);
 }
