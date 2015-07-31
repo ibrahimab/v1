@@ -20,63 +20,65 @@ foreach ($images as $image) {
 <link rel="stylesheet" href="<?php echo $vars['path'];?>uploader/assets/css/app.css" />
 <link rel="stylesheet" href="<?php echo $vars['path'];?>uploader/assets/css/vendor/jquery/jquery.cropper.min.css" />
 
-<div class="container">
-	<div class="previewer" data-role="image-uploader-previewer"></div>
-	<input type="file" name="images" class="upload-field" data-role="image-uploader" multiple="multiple" /> <br />
-	<input type="submit" name="upload" class="wtform_submitbutton" data-role="image-upload" value="Upload" />
-</div>
-<div class="preview">
-    <div class="hide-container">
-        <hr />
-        <a href="#" data-role="close-cropper">Verberg cropper</a>
-    </div>
-    <img data-role="cropper" style="height: 500px; display: none;" />
-</div>
-<hr />
-<b>Huidige afbeeldingen</b>
-<div data-role="update-form">
-    <div class="container">
-        <div class="main">
-            <div class="col" style="margin-right: 5px;" data-role="main-images" data-type="big">
-                <img style="width: 434px; height: 326px;" src="<?php echo $vars['path'] . (isset($mainImages['big']) ? ('pic/cms/' . $mainImages['big']['directory'] . '/' . $mainImages['big']['filename']) : ($placeholder)); ?>" />
-                <input type="hidden" name="main_images[big]"<?php echo (isset($mainImages['big']) ? ' value="' . $mainImages['big']['_id'] . '"' : ''); ?> />
-            </div>
-            <div class="col">
-                <div class="row" data-role="main-images" data-type="small-above">
-                    <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
-                    <input type="hidden" name="main_images[small_above]"<?php echo (isset($mainImages['small_above']) ? ' value="' . $mainImages['small_above']['_id'] . '"' : ''); ?> />
-                </div>
-                <div class="row" data-role="main-images" data-type="small-below">
-                    <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
-                    <input type="hidden" name="main_images[small_below]"<?php echo (isset($mainImages['small_below']) ? ' value="' . $mainImages['small_below']['_id'] . '"' : ''); ?> />
-                </div>
-            </div>
-        </div>
-        <div class="clear">&nbsp;</div>
-        <?php if (count($images) > 0) : ?>
-        <a href="#" data-role="remove-all">Alle afbeeldingen verwijderen</a>
-        <div class="previewer">
-            <input type="hidden" name="collection" value="<?php echo $collection; ?>" />
-            <ul data-role="sortable-list">
-                <?php foreach ($images as $image) : ?>
-                <li data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
-                    <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
-                    <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen" value="<?php echo $image['label']; ?>" />
-                    <div><input type="checkbox" id="under_<?php echo $image['_id']; ?>" name="under[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['under']) && true === $image['under'] ? ' checked="checked"' : ''); ?> /> <label for="under_<?php echo $image['_id']; ?>">Onderaan plaatsen?</label></div>
-                    <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php echo $i++; ?>" />
-                    <a draggable="true" data-role="sortable-anchor" data-id="<?php echo $image['_id']; ?>" class="anchor"><img src="<?php echo $vars['path']; ?>uploader/assets/images/drag-icon.png" /></a>
-                    <a href="#" data-role="remove-image" data-id="<?php echo $image['_id']; ?>" style="vertical-align: top; float: right; display:block;">
-                        <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" />
-                    </a>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        <?php endif; ?>
-        <div class="clear">&nbsp;</div>
-        <input type="submit" name="opslaan" class="wtform_submitbutton" data-role="save-current" value="Opslaan" /> <br />
-        <span style="display: none; color: green;" data-role="current-saved">Data is succesvol opgeslagen!</span>
-    </div>
+<div class="uploader-container">
+	<div class="container">
+		<div class="previewer" data-role="image-uploader-previewer"></div>
+		<input type="file" name="images" class="upload-field" data-role="image-uploader" multiple="multiple" /> <br />
+		<input type="submit" name="upload" class="wtform_submitbutton submit" data-role="image-upload" value="Upload" />
+	</div>
+	<div class="preview">
+	    <div class="hide-container">
+	        <hr />
+	        <a href="#" data-role="close-cropper"><img src="<?php echo $vars['path']; ?>pic/icon_okay.png" /></a>
+	    </div>
+	    <img data-role="cropper" style="height: 500px; display: none;" />
+	</div>
+	<hr />
+	<b>Huidige afbeeldingen</b>
+	<div data-role="update-form">
+	    <div class="container">
+	        <div class="main">
+	            <div class="col" style="margin-right: 5px;" data-role="main-images" data-type="big">
+	                <img style="width: 434px; height: 326px;" src="<?php echo $vars['path'] . (isset($mainImages['big']) ? ('pic/cms/' . $mainImages['big']['directory'] . '/' . $mainImages['big']['filename']) : ($placeholder)); ?>" />
+	                <input type="hidden" name="main_images[big]"<?php echo (isset($mainImages['big']) ? ' value="' . $mainImages['big']['_id'] . '"' : ''); ?> />
+	            </div>
+	            <div class="col">
+	                <div class="row" data-role="main-images" data-type="small-above">
+	                    <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
+	                    <input type="hidden" name="main_images[small_above]"<?php echo (isset($mainImages['small_above']) ? ' value="' . $mainImages['small_above']['_id'] . '"' : ''); ?> />
+	                </div>
+	                <div class="row" data-role="main-images" data-type="small-below">
+	                    <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
+	                    <input type="hidden" name="main_images[small_below]"<?php echo (isset($mainImages['small_below']) ? ' value="' . $mainImages['small_below']['_id'] . '"' : ''); ?> />
+	                </div>
+	            </div>
+	        </div>
+	        <div class="clear">&nbsp;</div>
+	        <?php if (count($images) > 0) : ?>
+	        <a href="#" data-role="remove-all">Alle afbeeldingen verwijderen</a>
+	        <div class="previewer">
+	            <input type="hidden" name="collection" value="<?php echo $collection; ?>" />
+	            <ul data-role="sortable-list">
+	                <?php foreach ($images as $image) : ?>
+	                <li data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
+	                    <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
+	                    <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen" value="<?php echo $image['label']; ?>" />
+	                    <div><input type="checkbox" id="under_<?php echo $image['_id']; ?>" name="under[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['under']) && true === $image['under'] ? ' checked="checked"' : ''); ?> /> <label for="under_<?php echo $image['_id']; ?>">Altijd onderaan</label></div>
+	                    <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php echo $i++; ?>" />
+	                    <a draggable="true" data-role="sortable-anchor" data-id="<?php echo $image['_id']; ?>" class="anchor"><img src="<?php echo $vars['path']; ?>uploader/assets/images/drag-icon.png" /></a>
+	                    <a href="#" data-role="remove-image" data-id="<?php echo $image['_id']; ?>" style="vertical-align: top; float: right; display:block;">
+	                        <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" />
+	                    </a>
+	                </li>
+	                <?php endforeach; ?>
+	            </ul>
+	        </div>
+	        <?php endif; ?>
+	        <div class="clear">&nbsp;</div>
+	        <input type="submit" name="opslaan" class="wtform_submitbutton submit" data-role="save-current" value="Opslaan" />
+			<span style="display: none; color: green;" data-role="current-saved">Succesvol opgeslagen.</span>
+	    </div>
+	</div>
 </div>
 
 <script type="text/javascript" src="<?php echo $vars['path'];?>uploader/js/vendor/jquery/jquery.cropper.min.js"></script>
@@ -129,35 +131,41 @@ foreach ($images as $image) {
 
         event.preventDefault();
 
-        var id = jq(this).data('id');
+		if (window.confirm('Afbeelding verwijderen?')) {
 
-        jq.ajax({
+	        var id = jq(this).data('id');
 
-            url: '<?php echo $vars['path']; ?>uploader/delete.php',
-            type: 'post',
-            data: {id: id, collection: '<?php echo $collection; ?>'},
-            success: function(data) {
+	        jq.ajax({
 
-                jq('[data-role="sortable-item"][data-id="' + id + '"]').remove();
-            }
-        });
+	            url: '<?php echo $vars['path']; ?>uploader/delete.php',
+	            type: 'post',
+	            data: {id: id, collection: '<?php echo $collection; ?>'},
+	            success: function(data) {
+
+	                jq('[data-role="sortable-item"][data-id="' + id + '"]').remove();
+	            }
+	        });
+		}
     });
 
     jq('body').on('click', '[data-role="remove-all"]', function(event) {
 
         event.preventDefault();
 
-        jq.ajax({
+		if (window.confirm('Alle afbeeldingen verwijderen?')) {
 
-            url: '<?php echo $vars['path']; ?>uploader/delete_all.php',
-            type: 'post',
-            data: {id: <?php echo $id; ?>, collection: '<?php echo $collection; ?>'},
-            success: function(data) {
+	        jq.ajax({
 
-                jq('[data-role="sortable-list"]').empty();
-                jq('[data-role="main-images"] img').attr('src', '<?php echo $placeholder; ?>');
-            }
-        });
+	            url: '<?php echo $vars['path']; ?>uploader/delete_all.php',
+	            type: 'post',
+	            data: {id: <?php echo $id; ?>, collection: '<?php echo $collection; ?>'},
+	            success: function(data) {
+
+	                jq('[data-role="sortable-list"]').empty();
+	                jq('[data-role="main-images"] img').attr('src', '<?php echo $placeholder; ?>');
+	            }
+	        });
+		}
     });
 
 }(jQuery));

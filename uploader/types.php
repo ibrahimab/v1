@@ -30,7 +30,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
 <div class="preview">
     <div class="hide-container">
         <hr />
-        <a href="#" data-role="close-cropper">Verberg cropper</a>
+        <a href="#" data-role="close-cropper"><img src="<?php echo $vars['path']; ?>pic/icon_okay.png" /></a>
     </div>
     <img data-role="cropper" style="height: 500px; display: none;" />
 </div>

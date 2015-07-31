@@ -82,10 +82,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             click: function() {
 
                 jq('body').on('click', ns.submit.selector, function(event) {
-
-                    if (window.confirm('Weet je zeker dat je wil uploaden? Scherm zal hierdoor opnieuw laden')) {
-                        ns.upload.all();
-                    }
+                    ns.upload.all();
                 });
             },
 

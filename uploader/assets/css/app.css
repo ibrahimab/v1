@@ -1,16 +1,16 @@
-div.container {
+div.uploader-container div.container {
 
     margin: 10px;
     padding: 0;
 }
 
-div.previewer {
+div.uploader-container div.previewer {
 
     width: 71%;
     border: 1px solid #000;
 }
 
-div.previewer ul {
+div.uploader-container div.previewer ul {
 
     width: 100%;
     padding: 0;
@@ -18,7 +18,7 @@ div.previewer ul {
     display: inline-block;
 }
 
-div.previewer ul:after {
+div.uploader-container div.previewer ul:after {
 
     content: '.';
     display: block;
@@ -28,7 +28,7 @@ div.previewer ul:after {
     height: 0;
 }
 
-div.previewer ul li {
+div.uploader-container div.previewer ul li {
 
     list-style-type: none;
     width: 28.9%;
@@ -39,14 +39,14 @@ div.previewer ul li {
     border: 1px solid #cccccc;
 }
 
-div.previewer ul li.over {
+div.uploader-container div.previewer ul li.over {
 
     border: 2px dashed green;
     opacity: 0.5;
     margin: 4px;
 }
 
-div.previewer ul li span.done {
+div.uploader-container div.previewer ul li span.done {
 
     position: absolute;
     right: 9px;
@@ -56,11 +56,11 @@ div.previewer ul li span.done {
     z-index: 9999;
 }
 
-div.previewer ul li img.preview-image {
+div.uploader-container div.previewer ul li img.preview-image {
     width: 95%;
 }
 
-div.progress {
+div.uploader-container div.progress {
 
     position: relative;
     border: 1px inset #446;
@@ -71,7 +71,7 @@ div.progress {
     text-align: center;
 }
 
-div.progress div.progress-bar {
+div.uploader-container div.progress div.progress-bar {
 
     position: absolute;
     z-index: 1;
@@ -82,7 +82,7 @@ div.progress div.progress-bar {
     transition: width 0.3s;
 }
 
-div.progress span {
+div.uploader-container div.progress span {
 
     position: absolute;
     top: 0;
@@ -90,32 +90,40 @@ div.progress span {
     color: #000;
     width: 94%;
     padding: 2px;
-    text-align: center;
+    text-align: left;
     display: block;
     overflow: hidden;
     height: 22px;
 }
 
-div.progress div.progress-bar.success {
+div.uploader-container div.progress span a {
+    float: right;
+}
+
+div.uploader-container div.progress div.progress-bar.success {
     background: #0c0 none 0 0 no-repeat;
 }
 
-div.progress div.progress-bar.error {
+div.uploader-container div.progress div.progress-bar.error {
     background: #c00 0 0 no-repeat;
 }
 
-select {
+div.uploader-container select {
 
     margin-bottom: 5px;
     padding: 3px;
     width: 100%;
 }
 
-input {
+div.uploader-container input {
 
     margin-bottom: 5px;
     padding: 3px;
     width: 95%;
+}
+
+div.uploader-container input.submit {
+    width: auto;
 }
 
 /* Prevent the text contents of draggable elements from being selectable. */
@@ -130,28 +138,28 @@ input {
   -webkit-user-drag: element;
 }
 
-a.anchor {
+div.uploader-container a.anchor {
     cursor: move;
 }
 
-div.main div.col {
+div.uploader-container div.main div.col {
     float: left;
 }
 
-div.main div {
+div.uploader-container div.main div {
 
     margin: 0;
     padding: 0;
 }
 
-div.main div.row img {
+div.uploader-container div.main div.row img {
     width: 50%;
 }
 
-div.clear {
+div.uploader-container div.clear {
     clear: both;
 }
 
-div.preview .hide-container {
+div.uploader-container div.preview .hide-container {
     display: none;
 }
