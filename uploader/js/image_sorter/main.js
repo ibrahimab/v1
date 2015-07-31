@@ -61,7 +61,6 @@ var ImageSorter = (function(ns, jq, _, undefined) {
 
     ns.drop = function(event) {
 
-        console.log('test');
         if (event.stopPropagation) {
             event.stopPropagation();
         }

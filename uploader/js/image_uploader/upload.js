@@ -12,10 +12,12 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                     var xhr = new XMLHttpRequest();
                     var img;
                     
+                    file.label = jq('[data-role="label"][data-id="' + file.id + '"]').val();
+                    
                     xhr.open('POST', ns.get('url_path') + ns.get('upload_url'), true);
                     xhr.setRequestHeader('X_FILENAME', file.name);
                     xhr.setRequestHeader('X_CROP_DATA', JSON.stringify(file.crop));
-                    xhr.setRequestHeader('X_LABEL', jq('[data-role="label"][data-id="' + file.id + '"]').val());
+                    xhr.setRequestHeader('X_LABEL', file.label);
                     xhr.setRequestHeader('X_FILE_ID', ns.get('file_id'));
                     xhr.setRequestHeader('X_COLLECTION', ns.get('collection'));
                     xhr.setRequestHeader('X_RANK', file.rank);
@@ -25,6 +27,12 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                         if (xhr.readyState === 4) {
                             
                             var response = JSON.parse(xhr.responseText);
+                            
+                            file.new = {
+                                
+                                id: response.image.id,
+                                path: response.image.path
+                            };
                             
                             if (response.type === 'error') {
                                 reject(file);
@@ -40,7 +48,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                     
                     xhr.send(file);
                     
-                } catch (err) { console.log(err); }
+                } catch (err) {}
             });
         },
 
@@ -58,6 +66,8 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                                            
                                            ns.events.removeFile(file.id);
                                            ns.views.removePreview(file.id);
+                                           ns.events.removeApproved(file.id);
+                                           ns.views.addExisting(file);
                                        })
                                        .catch(function(file) {
                                            
@@ -74,11 +84,13 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                        
                        wt_popupmsg('Afbeeldingen zijn succesvol ge&uuml;pload');
                        ns.cropper.events.destroy();
+                       ns.views.resetRanks();
                    })
                    .catch(function() {
                        
                        wt_popupmsg('Sommige afbeeldingen zijn <strong><u>niet</u></strong> succesvol ge&uuml;pload');
                        ns.cropper.events.destroy();
+                       ns.views.resetRanks();
                    });
         }
     };

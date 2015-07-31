@@ -66,8 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	jsonResponse([
 
-		'type'    => 'success',
-		'message' => 'Uploading file',
+		'type'     => 'success',
+		'message'  => 'Uploading file',
+		'image'    => [
+			
+			'id'   => (string)$data['_id'],
+			'path' => $directory . '/' . $filename,
+		],
 	]);
 	
 	exit;

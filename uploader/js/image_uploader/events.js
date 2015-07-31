@@ -137,6 +137,10 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             delete ns.files[id];
         },
         
+        removeApproved: function(id) {
+            delete ns.approved[id];
+        },
+        
         clear: function() {
             
 			ns.approved = {};
