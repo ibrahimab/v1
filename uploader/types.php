@@ -82,8 +82,8 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
 	        </div>
 	        <?php endif; ?>
 	        <div class="clear">&nbsp;</div>
-	        <span style="display: none; color: green;" data-role="current-saved">Data is succesvol opgeslagen!</span> <br />
 	        <input type="submit" name="opslaan" class="wtform_submitbutton submit" data-role="save-current" value="Opslaan" />
+			<span style="display: none; color: green;" data-role="current-saved">Succesvol opgeslagen.</span>
 	    </div>
 	</div>
 </div>
@@ -138,35 +138,41 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
 
         event.preventDefault();
 
-        var id = jq(this).data('id');
+		if (window.confirm('Afbeelding verwijderen?')) {
 
-        jq.ajax({
+	        var id = jq(this).data('id');
 
-            url: '<?php echo $vars['path']; ?>uploader/delete.php',
-            type: 'post',
-            data: {id: id, collection: '<?php echo $collection; ?>'},
-            success: function(data) {
+	        jq.ajax({
 
-                jq('[data-role="sortable-item"][data-id="' + id + '"]').remove();
-            }
-        });
+	            url: '<?php echo $vars['path']; ?>uploader/delete.php',
+	            type: 'post',
+	            data: {id: id, collection: '<?php echo $collection; ?>'},
+	            success: function(data) {
+
+	                jq('[data-role="sortable-item"][data-id="' + id + '"]').remove();
+	            }
+	        });
+		}
     });
 
     jq('body').on('click', '[data-role="remove-all"]', function(event) {
 
         event.preventDefault();
 
-        jq.ajax({
+		if (window.confirm('Alle afbeeldingen verwijderen?')) {
 
-            url: '<?php echo $vars['path']; ?>uploader/delete_all.php',
-            type: 'post',
-            data: {id: <?php echo $id; ?>, collection: '<?php echo $collection; ?>'},
-            success: function(data) {
+	        jq.ajax({
 
-                jq('[data-role="sortable-list"] li.type-image').remove();
-                jq('[data-role="main-images"] img').attr('src', '<?php echo $placeholder; ?>');
-            }
-        });
+	            url: '<?php echo $vars['path']; ?>uploader/delete_all.php',
+	            type: 'post',
+	            data: {id: <?php echo $id; ?>, collection: '<?php echo $collection; ?>'},
+	            success: function(data) {
+
+	                jq('[data-role="sortable-list"] li.type-image').remove();
+	                jq('[data-role="main-images"] img').attr('src', '<?php echo $placeholder; ?>');
+	            }
+	        });
+		}
     });
 
 }(jQuery));
