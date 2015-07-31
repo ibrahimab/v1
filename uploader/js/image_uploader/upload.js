@@ -10,6 +10,8 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                 try {
                     
                     var xhr = new XMLHttpRequest();
+                    var img;
+                    
                     xhr.open('POST', ns.get('url_path') + ns.get('upload_url'), true);
                     xhr.setRequestHeader('X_FILENAME', file.name);
                     xhr.setRequestHeader('X_CROP_DATA', JSON.stringify(file.crop));
@@ -29,9 +31,13 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                             } else {
                                 resolve(file);
                             }
+                            
+                            jq('[data-role="delete-preview"][data-id="' + file.id + '"] img').attr('src', ns.get('url_path') + 'pic/class.cms_delete.gif');
                         }
                     }
-
+                    
+                    jq('[data-role="delete-preview"][data-id="' + file.id +'"] img').attr('src', ns.get('url_path') + 'pic/ajax-loader.gif');
+                    
                     xhr.send(file);
                     
                 } catch (err) { console.log(err); }

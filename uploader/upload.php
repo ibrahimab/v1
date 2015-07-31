@@ -7,6 +7,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		return $width / $height;
 	}
 	
+	function rounddown($f, $precision) {
+		return floor($f * pow(10, $precision)) / pow(10, 2);
+	}
+	
 	function jsonResponse($data = []) {
 		
 		header('Content-Type: application/json');
@@ -22,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new           = imagecrop($image, $cropData);
 	
 	$size		   = ['width' => imagesx($new), 'height' => imagesy($new)];
-	$size['ratio'] = ratio($size['width'], $size['height']);
-	$allowedRatio  = 4 / 3;
+	$size['ratio'] = rounddown(ratio($size['width'], $size['height']), 2);
+	$allowedRatio  = rounddown((4 / 3), 2);
 
 	if ($size['ratio'] !== $allowedRatio) {
 		
