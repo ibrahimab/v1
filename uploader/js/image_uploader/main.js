@@ -18,21 +18,22 @@ var ImageUploader = (function(ns, cp, so, jq, _, undefined) {
     ns.approved = {};
     ns.options  = {
 
-        maxRank:        1,
-        multiple:       false,
-        allowed_types:  ['image/jpg', 'image/jpeg', 'image/png'],
-        max_size:       2000 * 1024, // kb
-        upload_url:     'uploader/upload.php',
-        url_path:       '/chalet/',
-        not_allowed:    'uploader/assets/images/not_allowed.png',
-        collection:     null,
-        file_id:        null,
-        progress:       {
+        maxRank: 1,
+        multiple: false,
+        allowed_types: ['image/jpg', 'image/jpeg', 'image/png'],
+        max_size: 2000 * 1024, // kb
+        upload_url: 'uploader/upload.php',
+        url_path: '/chalet/',
+        not_allowed: 'uploader/assets/images/not_allowed.png',
+        collection: null,
+        file_id: null,
+        template: '',
+        progress: {
 
             class_name:     'progress',
             bar_class_name: 'progress-bar',
         },
-        thumbnail:      {
+        thumbnail: {
 
             width:  100,
             height: 100

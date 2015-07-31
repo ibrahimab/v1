@@ -102,13 +102,24 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
 <script type="text/javascript">
 (function(jq, undefined) {
     'use strict';
+	
+	var template = '<li class="type-image" data-role="sortable-item" data-id="{{ id }}">' +
+                       '<img class="preview-image" src="{{ url_path }}pic/cms/{{ image }}" />' +
+                       '<input type="text" name="label[{{ id }}]" placeholder="Tekst toevoegen" value="{{ label }}" />' +
+                       '<input type="hidden" name="rank[{{ id }}]" data-role="rank" value="" />' +
+                       '<a draggable="true" data-role="sortable-anchor" data-id="{{ id }}" class="anchor"><img src="{{ url_path }}uploader/assets/images/drag-icon.png" /></a>' +
+                       '<a href="#" data-role="remove-image" data-id="{{ id }}" style="vertical-align: top; float: right; display:block;">' +
+                           '<img src="{{ url_path }}pic/class.cms_delete.gif" />' +
+                       '</a>' +
+				   '</li>';
 
     ImageUploader.initialize('[data-role="image-uploader"]', '[data-role="image-uploader-previewer"]', '[data-role="image-upload"]', '[data-role="cropper"]', {
 
-        url_path:   '<?php echo $vars['path']; ?>',
+        url_path: '<?php echo $vars['path']; ?>',
         collection: '<?php echo $collection; ?>',
-        file_id:     <?php echo $id; ?>,
-        maxRank:     <?php echo $maxRank; ?>
+        file_id: <?php echo $id; ?>,
+        maxRank: <?php echo $maxRank; ?>,
+		template: template
     });
 
     jq('body').on('click', '[data-role="save-current"]', function(event) {

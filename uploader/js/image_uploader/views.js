@@ -224,16 +224,7 @@ var ImageUploader = (function(ns, jq, _, undefined) {
         
         addExisting: function(file) {
             
-            var template = '<li data-role="sortable-item" data-id="{{ id }}">' +
-                               '<img class="preview-image" src="{{ url_path }}pic/cms/{{ image }}" />' +
-                               '<input type="text" name="label[{{ id }}]" placeholder="Tekst toevoegen" value="{{ label }}" />' +
-                               '<div><input type="checkbox" id="under_{{ id }}" name="under[{{ id }}]" style="width: auto;" value="1" /> <label for="under_{{ id }}">Altijd onderaan</label></div>' +
-                               '<input type="hidden" name="rank[{{ id }}]" data-role="rank" value="" />' +
-                               '<a draggable="true" data-role="sortable-anchor" data-id="{{ id }}" class="anchor"><img src="{{ url_path }}uploader/assets/images/drag-icon.png" /></a>' +
-                               '<a href="#" data-role="remove-image" data-id="{{ id }}" style="vertical-align: top; float: right; display:block;">' +
-                                   '<img src="{{ url_path }}pic/class.cms_delete.gif" />' +
-                               '</a>' +
-                           '</li>';
+            var template = ns.get('template');
             
             var data = {
                 
