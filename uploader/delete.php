@@ -10,9 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id          = new MongoId($_POST['id']);
         $file        = $collection->findOne(['_id' => $id]);
         $destination = dirname(dirname(__FILE__)) . '/pic/cms/' . $file['directory'];
+		$location	 = $destination . '/' . $file['filename'];
 
-        unlink($destination . '/' . $file['filename']);
-        $collection->remove(['_id' => $id]);
+		if (file_exists($location) && is_file($location)) {
+			unlink($location);
+		}
+		
+		$collection->remove(['_id' => $id]);
     }
 
     header('Content-type: application/json');

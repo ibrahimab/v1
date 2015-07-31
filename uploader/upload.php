@@ -3,15 +3,40 @@ include '../admin/vars.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-	$headers     = getallheaders();
-    $image       = imagecreatefromstring(file_get_contents('php://input'));
-    $cropData    = json_decode($headers['X_CROP_DATA'], true);
-    $new         = imagecrop($image, $cropData);
-    $fileinfo    = pathinfo($headers['X_FILENAME']);
-    $rank        = intval($headers['X_RANK']);
-    $filename    = time() . '-' . $rank . '.' . $fileinfo['extension'];
-    $directory   = 'accommodations';
-    $destination = dirname(dirname(__FILE__)) . '/pic/cms/' . $directory;
+	function ratio($width, $height) {
+		return ($width > $height ? ($width / $height) : ($height / $width));
+	}
+	
+	function jsonResponse($data = []) {
+		
+		header('Content-Type: application/json');
+		echo json_encode($data);
+		exit;
+	}
+
+	$headers       = getallheaders();
+    $image         = imagecreatefromstring(file_get_contents('php://input'));
+	$cropData      = json_decode($headers['X_CROP_DATA'], true);
+    $new           = imagecrop($image, $cropData);
+	
+	$size		   = ['width' => imagesx($image), 'height' => imagesy($image)];
+	$size['ratio'] = ratio($size['width'], $size['height']);
+	$allowedRatio  = 4 / 3;
+
+	if ($size['ratio'] !== $allowedRatio) {
+		
+		jsonResponse([
+			
+			'type'    => 'error',
+			'message' => 'ratio is not allowed',
+		]);
+	}
+
+    $fileinfo      = pathinfo($headers['X_FILENAME']);
+    $rank          = intval($headers['X_RANK']);
+    $filename      = time() . '-' . $rank . '.' . $fileinfo['extension'];
+    $directory     = 'accommodations';
+    $destination   = dirname(dirname(__FILE__)) . '/pic/cms/' . $directory;
 
 	imagejpeg($new, $destination . '/' . $filename, 100);
     imagedestroy($new);
@@ -28,16 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		'height'    => $cropData['height'],
 	];
 
-    $_SESSION["wt_popupmsg"] = 'Afbeeldingen zijn succesvol geupload';
-
     $mongodb->getCollection($headers['X_COLLECTION'])->insert($data);
 
-	header('Content-Type: application/json');
-	echo json_encode([
+	jsonResponse([
 
 		'type'    => 'success',
 		'message' => 'Uploading file',
 	]);
-
+	
 	exit;
 }

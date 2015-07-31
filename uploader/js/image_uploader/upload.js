@@ -8,25 +8,32 @@ var ImageUploader = (function(ns, jq, _, undefined) {
             return new Promise(function(resolve, reject) {
 
                 try {
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', ns.get('url_path') + ns.get('upload_url'), true);
-                xhr.setRequestHeader('X_FILENAME', file.name);
-                xhr.setRequestHeader('X_CROP_DATA', JSON.stringify(file.crop));
-                xhr.setRequestHeader('X_LABEL', jq('[data-role="label"][data-id="' + file.id + '"]').val());
-                xhr.setRequestHeader('X_FILE_ID', ns.get('file_id'));
-                xhr.setRequestHeader('X_COLLECTION', ns.get('collection'));
-                xhr.setRequestHeader('X_RANK', file.rank);
-                xhr.upload.addEventListener('progress', function(event) {
-
-                    ns.events.upload.progress(event, file, ns.views.progress);
-
-                    var percentage = Math.round(event.loaded / event.total * 100);
-                    if (percentage === 100) {
-                        resolve(file);
+                    
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', ns.get('url_path') + ns.get('upload_url'), true);
+                    xhr.setRequestHeader('X_FILENAME', file.name);
+                    xhr.setRequestHeader('X_CROP_DATA', JSON.stringify(file.crop));
+                    xhr.setRequestHeader('X_LABEL', jq('[data-role="label"][data-id="' + file.id + '"]').val());
+                    xhr.setRequestHeader('X_FILE_ID', ns.get('file_id'));
+                    xhr.setRequestHeader('X_COLLECTION', ns.get('collection'));
+                    xhr.setRequestHeader('X_RANK', file.rank);
+                    
+                    xhr.onreadystatechange = function() {
+                        
+                        if (xhr.readyState === 4) {
+                            
+                            var response = JSON.parse(xhr.responseText);
+                            
+                            if (response.type === 'error') {
+                                reject(file);
+                            } else {
+                                resolve(file);
+                            }
+                        }
                     }
-                });
 
-                xhr.send(file);
+                    xhr.send(file);
+                    
                 } catch (err) { console.log(err); }
             });
         },
@@ -34,19 +41,35 @@ var ImageUploader = (function(ns, jq, _, undefined) {
         all: function() {
 
             var promises = [];
+            var promise;
+            
             for (var id in ns.approved) {
 
                 if (ns.approved.hasOwnProperty(id)) {
-                    promises.push(ns.upload.send(ns.approved[id]));
+                    
+                    promise = ns.upload.send(ns.approved[id])
+                                       .then(function(file) {
+                                           
+                                           ns.events.removeFile(file.id);
+                                           ns.views.removePreview(file.id);
+                                       })
+                                       .catch(function(file) {
+                                           jq('[data-role="success-message"][data-id="' + file.id + '"]').text('verhouding is niet 4:3 ');
+                                       });
+                                       
+                    promises.push(promise);
                 }
             }
-
-            Promise
-                .all(promises)
-                .then(function(files) {
-                    window.location.reload();
-                })
-                .catch(function(error) {});
+            
+            Promise.all(promises)
+                   .then(function() {
+                       console.log('test');
+                       wt_popupmsg('Afbeeldingen zijn succesvol ge&uuml;pload');
+                   })
+                   .catch(function() {
+                       console.log('test2');
+                       wt_popupmsg('Sommige afbeeldingen zijn niet succesvol ge&uuml;pload');
+                   });
         }
     };
 

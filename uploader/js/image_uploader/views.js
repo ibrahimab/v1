@@ -107,8 +107,17 @@ var ImageUploader = (function(ns, jq, _, undefined) {
 		render: function(image, id, file) {
 
 			var li = document.createElement('li');
+            var message = document.createElement('span');
+            
 			li.setAttribute('data-role', 'preview-box');
 			li.setAttribute('data-id', id);
+            
+            message.setAttribute('data-role', 'success-message');
+            message.setAttribute('data-id', id);
+            message.classList.add('error');
+            message.textContent = file.error;
+            
+            li.appendChild(message);
 			li.appendChild(image);
 			li.appendChild(ns.views.label(file));
 			li.appendChild(ns.views.progressBar(file));

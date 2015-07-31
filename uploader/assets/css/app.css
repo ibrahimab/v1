@@ -46,6 +46,13 @@ div.uploader-container div.previewer ul li.over {
     margin: 4px;
 }
 
+div.uploader-container div.previewer ul li span.error {
+    
+    display: block;
+    background-color: red;
+    color: white;
+}
+
 div.uploader-container div.previewer ul li span.done {
 
     position: absolute;

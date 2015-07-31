@@ -76,13 +76,16 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                 ns.views.preview();
             });
         },
-
+        
         upload: {
 
             click: function() {
 
                 jq('body').on('click', ns.submit.selector, function(event) {
+                    
+                    event.preventDefault();
                     ns.upload.all();
+                    ns.input.val('');
                 });
             },
 
@@ -123,14 +126,23 @@ var ImageUploader = (function(ns, jq, _, undefined) {
                 event.stopPropagation();
 
                 var id = jq(this).data('id');
-                delete ns.files[id];
-
-    			ns.approved = {};
-    			ns.previews = {};
-                ns.preview.empty();
-                ns.views.preview();
-                ns.cropper.events.destroy();
+                
+                ns.events.removeFile(id);
+    			ns.events.clear();
             });
+        },
+        
+        removeFile: function(id) {
+            delete ns.files[id];
+        },
+        
+        clear: function() {
+            
+			ns.approved = {};
+			ns.previews = {};
+            ns.preview.empty();
+            ns.views.preview();
+            ns.cropper.events.destroy();
         }
     };
 
