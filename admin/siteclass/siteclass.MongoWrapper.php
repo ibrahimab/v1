@@ -26,12 +26,12 @@ class MongoWrapper
 						  ->sort(['rank'    => 1]);
 	}
 
-    public function getFilesByKind($collectionName, $fileIds, $kind)
+    public function getFilesByKind($collectionName, $fileIds, $kinds)
     {
         $collection = $this->db->{$collectionName};
 
         return $collection->find(['file_id' => ['$in' => $fileIds],
-                                  'kind'    => $kind,
+                                  'kind'    => ['$in' => $kinds],
                                   'rank'    => 1]);
     }
 

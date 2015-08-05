@@ -259,14 +259,30 @@ if($db->next_record()) {
 		}
 	}
 	echo "<div style=\"clear: both;\"></div>\n";
-	if(file_exists("pic/cms/types_specifiek/".$typeid.".jpg")) {
-		$afbeelding="types_specifiek/".$typeid;
-	} elseif(file_exists("pic/cms/accommodaties/".$accid.".jpg")) {
-		$afbeelding="accommodaties/".$accid;
-	} else {
-		$afbeelding="accommodaties/0";
-	}
-	echo "<img src=\"".imageurl($afbeelding.".jpg",170,127)."\" itemprop=\"image\" alt=\"".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
+
+    $mongodb      = $vars['mongodb']['wrapper'];
+    $cursors      = [];
+    $files        = ['a' => [], 't' => []];
+    $cursors['a'] = $mongodb->getFilesByKind('accommodations', [(int)$accid], ['accommodaties']);
+    $cursors['t'] = $mongodb->getFilesByKind('types', [(int)$typeid], ['types_specifiek']);
+
+    foreach ($cursors['a'] as $file) {
+        $files['a'][$file['kind']] = $file;
+    }
+
+    foreach ($cursors['t'] as $file) {
+        $files['t'][$file['kind']] = $file;
+    }
+
+    if (isset($files['t']['types_specifiek'])) {
+        $afbeelding = $files['t']['types_specifiek']['directory'] . '/' . $files['t']['types_specifiek']['filename'];
+    } elseif (isset($files['a']['accommodaties'])) {
+        $afbeelding = $files['a']['accommodaties']['directory'] . '/' . $files['a']['accommodaties']['filename'];
+    } else {
+        $afbeelding = 'accommodaties/0.jpg';
+    }
+
+	echo "<img src=\"".imageurl($afbeelding,170,127)."\" itemprop=\"image\" alt=\"".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
 	echo "</div>";
 	echo "<div id=\"toonaccommodatie_kopteksten\">";
 	if( $aanbieding_actief ) {
