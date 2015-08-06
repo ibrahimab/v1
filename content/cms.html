@@ -102,7 +102,7 @@ if(!$login->logged_in) {
 
 	}
 
-	if(($vars["lokale_testserver"] or $login->user_id==1) and !$_GET["meldingen"]) {
+	if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $login->user_id==1) and !$_GET["meldingen"]) {
 		echo "<hr><p><b>Meldingen zijn uitgeschakeld.</b></p>";
 		echo "<a href=\"cms.php?meldingen=1\">meldingen tonen &gt;</a>";
 	} else {
