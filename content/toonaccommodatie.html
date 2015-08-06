@@ -576,7 +576,7 @@ if($db->next_record()) {
 	}
 
     $fototeller = 0;
-	if(count($files['all']) > 0) {
+	if(count($files['all']['pic']) > 0) {
 
 		echo "<div id=\"toonaccommodatie_overzicht_fotos\" class=\"noprint\">";
 		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr>";
@@ -740,6 +740,10 @@ if($db->next_record()) {
 
                 $value = $file['directory'] . '/' . $file['filename'];
 
+                if ($value === $afbeelding) {
+                    continue;
+                }
+
 				if($trcounter==3) {
 
 					$foto_table.="</tr><tr>";
@@ -795,6 +799,10 @@ if($db->next_record()) {
             foreach ($files['all']['picbreed'] as $key => $file) {
 
                 $value = $file['directory'] . '/' . $file['filename'];
+
+                if ($value === $afbeelding) {
+                    continue;
+                }
 
 				$counter++;
 
