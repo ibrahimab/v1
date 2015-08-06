@@ -263,10 +263,9 @@ if($db->next_record()) {
 
     $mongodb      = $vars['mongodb']['wrapper'];
     $cursors      = [];
-    $files        = ['a' => null, 't' => null, 'all' => [], 'pic' => [], 'picbreed' => [], 'piconderaan' => []];
+    $files        = ['a' => null, 't' => null, 'all' => ['pic' => [], 'picbreed' => [], 'piconderaan' => []]];
     $cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid]);
     $cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid]);
-    $done         = false;
 
     foreach ($cursors['a'] as $file) {
 
@@ -275,22 +274,12 @@ if($db->next_record()) {
         }
 
         if (preg_match('/_breed/', $file['kind'])) {
-
-            $done = true;
             $files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
-        }
-
-        if (isset($file['under']) && true === $file['under']) {
-
-            $done = true;
+        } elseif (preg_match('/_onderaan/', $file['kind'])) {
             $files['all']['onderaan'][] = $file['directory'] . '/' . $file['filename'];
-        }
-
-        if (false === $done) {
+        } else {
             $files['all']['pic'][] = $file['directory'] . '/' . $file['filename'];
         }
-
-        $done = false;
     }
 
     foreach ($cursors['t'] as $file) {
