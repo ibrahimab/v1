@@ -17,11 +17,13 @@ class accommodatielijst {
 	private $aanbieding_ooit_per_accommodatie;
 
 	public $sorteer_accommodaties;
+    public $images;
 
 	function __construct () {
 		$this->settings["sorteer_accommodaties"] = false;
 		$this->settings["groepeer_per_accommodatie"] = true;
 		$this->settings["vanaf_prijzen_tonen"] = false;
+        $this->images = ['a' => [], 't' => []];
 	}
 
 	public function type_toevoegen($input) {
@@ -225,6 +227,16 @@ class accommodatielijst {
 		return $return;
 	}
 
+    public function setTypeImages($images)
+    {
+        $this->images['t'] = $images;
+    }
+
+    public function setAccommodationImages($images)
+    {
+        $this->images['a'] = $images;
+    }
+
 	private function accommodatie_deel($alle_types,$acc_id,$multiple_types) {
 
 		global $vars;
@@ -252,17 +264,20 @@ class accommodatielijst {
 				# afbeelding bepalen
 				$img="accommodaties/0.jpg";
 				if($multiple_types) {
-					if(file_exists("pic/cms/accommodaties/".$input["accommodatie_id"].".jpg")) {
-						$img="accommodaties/".$input["accommodatie_id"].".jpg";
-					} elseif(file_exists("pic/cms/types_specifiek/".$input["type_id"].".jpg")) {
-						$img="types_specifiek/".$input["type_id"].".jpg";
-					}
+
+                    if (isset($this->images['a'][$input['accommodatie_id']]) && file_exists('pic/cms/' . $this->images['a'][$input['accommodatie_id']])) {
+                        $img = $this->images['a'][$input['accommodatie_id']];
+                    } elseif (isset($this->images['t'][$input['type_id']]) && file_exists('pic/cms/' . $this->images['t'][$input['type_id']])) {
+                        $img = $this->images['t'][$input['type_id']];
+                    }
+
 				} else {
-					if(file_exists("pic/cms/types_specifiek/".$input["type_id"].".jpg")) {
-						$img="types_specifiek/".$input["type_id"].".jpg";
-					} elseif(file_exists("pic/cms/accommodaties/".$input["accommodatie_id"].".jpg")) {
-						$img="accommodaties/".$input["accommodatie_id"].".jpg";
-					}
+
+                    if (isset($this->images['t'][$input['type_id']]) && file_exists('pic/cms/' . $this->images['t'][$input['type_id']])) {
+                        $img = $this->images['t'][$input['type_id']];
+                    } elseif (isset($this->images['a'][$input['accommodatie_id']]) && file_exists('pic/cms/' . $this->images['a'][$input['accommodatie_id']])) {
+                        $img = $this->images['a'][$input['accommodatie_id']];
+                    }
 				}
 				$return.="<div class=\"zoekresultaat_img\"><img src=\"".wt_he($vars["path"]."pic/cms/".$img)."\"></div>";
 
