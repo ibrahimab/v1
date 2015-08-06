@@ -283,7 +283,7 @@ if($db->next_record()) {
         if (isset($file['under']) && true === $file['under']) {
 
             $done = true;
-            $files['all']['onderaan'][] = $file['directory'] . '/' . $file['filename'];
+            $files['all']['piconderaan'][] = $file['directory'] . '/' . $file['filename'];
         }
 
         if (false === $done) {
@@ -296,6 +296,7 @@ if($db->next_record()) {
     foreach ($cursors['t'] as $file) {
 
         if (isset($file['type']) && $file['type'] === 'big') {
+
             $files['t'] = $file['directory'] . '/' . $file['filename'];
         }
 
@@ -306,7 +307,7 @@ if($db->next_record()) {
         }
     }
 
-    $files['all']['pic'] = array_merge($files['all']['pic'], $files['all']['onderaan']);
+    $files['all']['pic'] = array_merge($files['all']['pic'], $files['all']['piconderaan']);
 
     if (null !== $files['t']) {
         $afbeelding = $files['t'];
