@@ -52,6 +52,15 @@ class MongoWrapper
                           ->sort(['rank' => 1]);
     }
 
+    public function getAllMainFiles($collectionName, $fileIds)
+    {
+        $collection = $this->db->{$collectionName};
+
+        return $collection->find(['file_id' => ['$in' => $fileIds],
+                                  'type'    => ['$exists' => true]])
+                          ->sort(['rank'    => 1]);
+    }
+
 	public function getFile($collectionName, $_id)
 	{
 		$collection = $this->db->{$collectionName};

@@ -2512,8 +2512,8 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
     $mongodb      = $vars['mongodb']['wrapper'];
     $cursors      = [];
-    $cursors['a'] = $mongodb->getAllFiles('accommodations', array_keys($imageIds['a']));
-    $cursors['t'] = $mongodb->getAllFiles('types', array_keys($imageIds['t']));
+    $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($imageIds['a']));
+    $cursors['t'] = $mongodb->getAllMainFiles('types', array_keys($imageIds['t']));
     $files        = ['a' => [], 't' => []];
 
     foreach ($cursors['a'] as $file) {
