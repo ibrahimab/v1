@@ -263,7 +263,7 @@ if($db->next_record()) {
 
     $mongodb      = $vars['mongodb']['wrapper'];
     $cursors      = [];
-    $files        = ['a' => [], 't' => [], 'all' => ['pic' => [], 'picbreed' => [], 'piconderaan']];
+    $files        = ['a' => [], 't' => [], 'all' => [], 'pic' => [], 'picbreed' => [], 'piconderaan' => []];
     $cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid], ['hoofdfoto_accommodatie', 'accommodaties', 'accommodaties_aanvullend', 'accommodaties_aanvullend_breed', 'accommodaties_aanvullend_onderaan']);
     $cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid], ['hoofdfoto_type', 'types_specifiek', 'types', 'types_breed']);
 
