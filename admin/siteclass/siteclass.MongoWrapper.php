@@ -44,6 +44,14 @@ class MongoWrapper
                           ->sort(['rank' => 1]);
     }
 
+    public function getAllFiles($collectionName, $fileIds)
+    {
+        $collection = $this->db->{$collectionName};
+
+        return $collection->find(['file_id' => ['$in' => $fileIds]])
+                          ->sort(['rank' => 1]);
+    }
+
 	public function getFile($collectionName, $_id)
 	{
 		$collection = $this->db->{$collectionName};

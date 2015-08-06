@@ -263,9 +263,9 @@ if($db->next_record()) {
 
     $mongodb      = $vars['mongodb']['wrapper'];
     $cursors      = [];
-    $files        = ['a' => [], 't' => [], 'all' => ['pic' => [], 'picbreed' => []]];
-    $cursors['a'] = $mongodb->getAllFilesByKind('accommodations', [(int)$accid], ['accommodaties', 'accommodaties_aanvullend', 'accommodaties_aanvullend_onderaan', 'accommodaties_aanvullend_breed']);
-    $cursors['t'] = $mongodb->getAllFilesByKind('types', [(int)$typeid], ['types_specifiek', 'types', 'types_breed']);
+    $files        = ['a' => [], 't' => [], 'all' => ['pic' => [], 'picbreed' => [], 'piconderaan']];
+    $cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid], ['hoofdfoto_accommodatie', 'accommodaties', 'accommodaties_aanvullend', 'accommodaties_aanvullend_breed', 'accommodaties_aanvullend_onderaan']);
+    $cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid], ['hoofdfoto_type', 'types_specifiek', 'types', 'types_breed']);
 
     foreach ($cursors['a'] as $file) {
 
@@ -277,6 +277,8 @@ if($db->next_record()) {
 
         if (preg_match('/_breed/', $file['kind'])) {
             $files['all']['picbreed'][] = $file;
+        } elseif (preg_match('/_onderaan/', $file['kind'])) {
+            $files['all']['onderaan'][] = $file;
         } else {
             $files['all']['pic'][] = $file;
         }
@@ -296,6 +298,8 @@ if($db->next_record()) {
             $files['all']['pic'][] = $file;
         }
     }
+
+    $files['all']['pic'] = array_merge($files['all']['pic'], $files['all']['onderaan']);
 
     if (isset($files['t']['types_specifiek'])) {
         $afbeelding = $files['t']['types_specifiek'][0]['directory'] . '/' . $files['t']['types_specifiek'][0]['filename'];
@@ -732,7 +736,7 @@ if($db->next_record()) {
 		$trcounter++;
 	}
 
-	if (count($files['all']['pic']) > 0 || count($files['all']['picbreed']) > 0) {
+	if (count($files['all']['pic']) > 0 || count($files['all']['picbreed']) > 0 || count($files['all']['onderaan']) > 0) {
 
 		if (count($files['all']['pic']) > 0) {
 
