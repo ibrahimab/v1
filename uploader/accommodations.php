@@ -62,7 +62,7 @@ foreach ($images as $image) {
 	                <?php foreach ($images as $image) : ?>
 	                <li data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
 	                    <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
-	                    <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen" value="<?php echo $image['label']; ?>" />
+	                    <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen voor nieuwe site" value="<?php echo $image['label']; ?>" />
 	                    <div><input type="checkbox" id="under_<?php echo $image['_id']; ?>" name="under[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['under']) && true === $image['under'] ? ' checked="checked"' : ''); ?> /> <label for="under_<?php echo $image['_id']; ?>">Altijd onderaan</label></div>
 	                    <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php echo $i++; ?>" />
 	                    <a draggable="true" data-role="sortable-anchor" data-id="<?php echo $image['_id']; ?>" class="anchor"><img src="<?php echo $vars['path']; ?>uploader/assets/images/drag-icon.png" /></a>
@@ -95,10 +95,10 @@ foreach ($images as $image) {
 <script type="text/javascript">
 (function(jq, undefined) {
     'use strict';
-	
+
 	var template = '<li data-role="sortable-item" data-id="{{ id }}">' +
                         '<img class="preview-image" src="{{ url_path }}pic/cms/{{ image }}" />' +
-                        '<input type="text" name="label[{{ id }}]" placeholder="Tekst toevoegen" value="{{ label }}" />' +
+                        '<input type="text" name="label[{{ id }}]" placeholder="Tekst toevoegen voor nieuwe site" value="{{ label }}" />' +
                         '<div><input type="checkbox" id="under_{{ id }}" name="under[{{ id }}]" style="width: auto;" value="1" /> <label for="under_{{ id }}">Altijd onderaan</label></div>' +
                         '<input type="hidden" name="rank[{{ id }}]" data-role="rank" value="" />' +
                         '<a draggable="true" data-role="sortable-anchor" data-id="{{ id }}" class="anchor"><img src="{{ url_path }}uploader/assets/images/drag-icon.png" /></a>' +

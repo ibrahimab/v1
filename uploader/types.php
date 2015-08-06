@@ -64,7 +64,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
 	                <?php foreach ($images as $image) : ?>
 	                <li class="type-image" data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
 	                    <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
-	                    <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen" value="<?php echo $image['label']; ?>" />
+	                    <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen voor nieuwe site" value="<?php echo $image['label']; ?>" />
 	                    <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php echo $i++; ?>" />
 	                    <a draggable="true" data-role="sortable-anchor" data-id="<?php echo $image['_id']; ?>" class="anchor"><img src="<?php echo $vars['path']; ?>uploader/assets/images/drag-icon.png" /></a>
 	                    <a href="#" data-role="remove-image" data-id="<?php echo $image['_id']; ?>" style="vertical-align: top; float: right; display:block;">
@@ -102,10 +102,10 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
 <script type="text/javascript">
 (function(jq, undefined) {
     'use strict';
-	
+
 	var template = '<li class="type-image" data-role="sortable-item" data-id="{{ id }}">' +
                        '<img class="preview-image" src="{{ url_path }}pic/cms/{{ image }}" />' +
-                       '<input type="text" name="label[{{ id }}]" placeholder="Tekst toevoegen" value="{{ label }}" />' +
+                       '<input type="text" name="label[{{ id }}]" placeholder="Tekst toevoegen voor nieuwe site" value="{{ label }}" />' +
                        '<input type="hidden" name="rank[{{ id }}]" data-role="rank" value="" />' +
                        '<a draggable="true" data-role="sortable-anchor" data-id="{{ id }}" class="anchor"><img src="{{ url_path }}uploader/assets/images/drag-icon.png" /></a>' +
                        '<a href="#" data-role="remove-image" data-id="{{ id }}" style="vertical-align: top; float: right; display:block;">' +
