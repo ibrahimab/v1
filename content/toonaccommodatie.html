@@ -263,17 +263,15 @@ if($db->next_record()) {
 
     $mongodb      = $vars['mongodb']['wrapper'];
     $cursors      = [];
-    $files        = ['a' => [], 't' => [], 'all' => [], 'pic' => [], 'picbreed' => [], 'piconderaan' => []];
-    $cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid], ['hoofdfoto_accommodatie', 'accommodaties', 'accommodaties_aanvullend', 'accommodaties_aanvullend_breed', 'accommodaties_aanvullend_onderaan']);
-    $cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid], ['hoofdfoto_type', 'types_specifiek', 'types', 'types_breed']);
+    $files        = ['a' => null, 't' => null, 'all' => [], 'pic' => [], 'picbreed' => [], 'piconderaan' => []];
+    $cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid]);
+    $cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid]);
 
     foreach ($cursors['a'] as $file) {
 
-        if (!isset($files['a'][$file['kind']])) {
-            $files['a'][$file['kind']] = [];
+        if (isset($file['type']) && $file['type'] === 'big') {
+            $files['a'] = $file['directory'] . '/' . $file['filename'];
         }
-
-        $files['a'][$file['kind']][] = $file['directory'] . '/' . $file['filename'];
 
         if (preg_match('/_breed/', $file['kind'])) {
             $files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
@@ -286,11 +284,9 @@ if($db->next_record()) {
 
     foreach ($cursors['t'] as $file) {
 
-        if (!isset($files['t'][$file['kind']])) {
-            $files['t'][$file['kind']] = [];
+        if (isset($file['type']) && $file['type'] === 'big') {
+            $files['t'] = $file['directory'] . '/' . $file['filename'];
         }
-
-        $files['t'][$file['kind']][] = $file['directory'] . '/' . $file['filename'];
 
         if (preg_match('/_breed/', $file['kind'])) {
             $files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
@@ -301,10 +297,10 @@ if($db->next_record()) {
 
     $files['all']['pic'] = array_merge($files['all']['pic'], $files['all']['onderaan']);
 
-    if (isset($files['t']['hoofdfoto_type'])) {
-        $afbeelding = $files['t']['hoofdfoto_type'][0];
-    } elseif (isset($files['a']['hoofdfoto_accommodatie'])) {
-        $afbeelding = $files['a']['hoofdfoto_accommodatie'][0];
+    if (null !== $files['t']) {
+        $afbeelding = $files['t'];
+    } elseif (null !== $files['a']) {
+        $afbeelding = $files['a'];
     } else {
         $afbeelding = 'accommodaties/0.jpg';
     }

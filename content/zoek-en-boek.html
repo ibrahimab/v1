@@ -2512,16 +2512,22 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
     $mongodb      = $vars['mongodb']['wrapper'];
     $cursors      = [];
-    $cursors['a'] = $mongodb->getFirstFilesByKind('accommodations', array_keys($imageIds['a']), ['accommodaties']);
-    $cursors['t'] = $mongodb->getFirstFilesByKind('types', array_keys($imageIds['t']), ['types_specifiek']);
+    $cursors['a'] = $mongodb->getAllFiles('accommodations', array_keys($imageIds['a']));
+    $cursors['t'] = $mongodb->getAllFiles('types', array_keys($imageIds['t']));
     $files        = ['a' => [], 't' => []];
 
     foreach ($cursors['a'] as $file) {
-        $files['a'][$file['file_id']] = $file;
+
+        if (isset($file['type']) && $file['type'] === 'big') {
+            $files['a'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+        }
     }
 
     foreach ($cursors['t'] as $file) {
-        $files['t'][$file['file_id']] = $file;
+
+        if (isset($file['type']) && $file['type'] === 'big') {
+            $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+        }
     }
 
 	if($vars["webtastic"]) {
@@ -2619,17 +2625,17 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
                         if ($newresults_multiple) {
 
                             if (isset($files['a'][$accommodationId])) {
-                                $img = $files['a'][$accommodationId]['directory'] . '/' . $files['a'][$accommodationId]['filename'];
+                                $img = $files['a'][$accommodationId];
                             } elseif (isset($files['t'][$typeId])) {
-                                $img = $files['t'][$typeId]['directory'] . '/' . $files['t'][$typeId]['filename'];
+                                $img = $files['t'][$typeId];
                             }
 
                         } else {
 
                             if (isset($files['t'][$typeId])) {
-                                $img = $files['t'][$typeId]['directory'] . '/' . $files['t'][$typeId]['filename'];
+                                $img = $files['t'][$typeId];
                             } elseif (isset($files['a'][$accommodationId])) {
-                                $img = $files['a'][$accommodationId]['directory'] . '/' . $files['a'][$accommodationId]['filename'];
+                                $img = $files['a'][$accommodationId];
                             }
                         }
 
