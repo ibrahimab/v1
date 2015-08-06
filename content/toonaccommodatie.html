@@ -1,4 +1,3 @@
-
 <?php
 
 #
@@ -264,7 +263,7 @@ if($db->next_record()) {
 
     $mongodb      = $vars['mongodb']['wrapper'];
     $cursors      = [];
-    $files        = ['a' => [], 't' => [], 'all' => ['pic' => [], 'picbreed' => [], 'piconderaan' => []]];
+    $files        = ['a' => [], 't' => [], 'all' => [], 'pic' => [], 'picbreed' => [], 'piconderaan' => []];
     $cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid], ['hoofdfoto_accommodatie', 'accommodaties', 'accommodaties_aanvullend', 'accommodaties_aanvullend_breed', 'accommodaties_aanvullend_onderaan']);
     $cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid], ['hoofdfoto_type', 'types_specifiek', 'types', 'types_breed']);
 
@@ -274,14 +273,14 @@ if($db->next_record()) {
             $files['a'][$file['kind']] = [];
         }
 
-        $files['a'][$file['kind']][] = $file;
+        $files['a'][$file['kind']][] = $file['directory'] . '/' . $file['filename'];
 
         if (preg_match('/_breed/', $file['kind'])) {
-            $files['all']['picbreed'][] = $file;
+            $files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
         } elseif (preg_match('/_onderaan/', $file['kind'])) {
-            $files['all']['piconderaan'][] = $file;
+            $files['all']['onderaan'][] = $file['directory'] . '/' . $file['filename'];
         } else {
-            $files['all']['pic'][] = $file;
+            $files['all']['pic'][] = $file['directory'] . '/' . $file['filename'];
         }
     }
 
@@ -291,21 +290,21 @@ if($db->next_record()) {
             $files['t'][$file['kind']] = [];
         }
 
-        $files['t'][$file['kind']][] = $file;
+        $files['t'][$file['kind']][] = $file['directory'] . '/' . $file['filename'];
 
         if (preg_match('/_breed/', $file['kind'])) {
-            $files['all']['picbreed'][] = $file;
+            $files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
         } else {
-            $files['all']['pic'][] = $file;
+            $files['all']['pic'][] = $file['directory'] . '/' . $file['filename'];
         }
     }
 
-    $files['all']['pic'] = array_merge($files['all']['pic'], $files['all']['piconderaan']);
+    $files['all']['pic'] = array_merge($files['all']['pic'], $files['all']['onderaan']);
 
-    if (isset($files['t']['types_specifiek'])) {
-        $afbeelding = $files['t']['types_specifiek'][0]['directory'] . '/' . $files['t']['types_specifiek'][0]['filename'];
-    } elseif (isset($files['a']['accommodaties'])) {
-        $afbeelding = $files['a']['accommodaties'][0]['directory'] . '/' . $files['a']['accommodaties'][0]['filename'];
+    if (isset($files['t']['hoofdfoto_type'])) {
+        $afbeelding = $files['t']['hoofdfoto_type'][0];
+    } elseif (isset($files['a']['hoofdfoto_accommodatie'])) {
+        $afbeelding = $files['a']['hoofdfoto_accommodatie'][0];
     } else {
         $afbeelding = 'accommodaties/0.jpg';
     }
@@ -597,7 +596,7 @@ if($db->next_record()) {
 
 		foreach ($files['all']['pic'] as $file) {
 
-            $currentImage = $file['directory'] . '/' . $file['filename'];
+            $currentImage = $file;
 
             if ($currentImage === $afbeelding) {
                 continue;
@@ -743,7 +742,7 @@ if($db->next_record()) {
 
             foreach ($files['all']['pic'] as $key => $file) {
 
-                $value = $file['directory'] . '/' . $file['filename'];
+                $value = $file;
 
                 if ($value === $afbeelding) {
                     continue;
@@ -803,7 +802,7 @@ if($db->next_record()) {
 
             foreach ($files['all']['picbreed'] as $key => $file) {
 
-                $value = $file['directory'] . '/' . $file['filename'];
+                $value = $file;
 
                 if ($value === $afbeelding) {
                     continue;
