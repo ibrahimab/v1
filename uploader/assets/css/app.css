@@ -37,8 +37,8 @@ div.uploader-container div.previewer ul li {
     float: left;
     position: relative;
     border: 1px solid #cccccc;
-    min-height: 240px;
-    max-height: 240px;
+    min-height: 265px;
+    max-height: 265px;
     overflow: hidden;
 }
 
