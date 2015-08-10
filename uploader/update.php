@@ -3,6 +3,17 @@ include '../admin/vars.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+	function JsonResponse($data = []) {
+		
+	    header('Content-Type: application/json');
+	    echo json_encode($data);
+	    exit;
+	}
+
+	if (!isset($_POST['label'])) {
+		JsonResponse(['type' => 'error', 'could not update']);
+	}
+
     $mongodb    = $vars['mongodb']['wrapper'];
     $collection = $_POST['collection'];
     $labels     = $_POST['label'];
@@ -33,7 +44,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $bulk->execute();
 
-    header('Content-Type: application/json');
-    echo json_encode(['type' => 'success', 'message' => 'Successfully updated!', 'main_images' => $_POST['main_images']]);
-    exit;
+    JsonResponse(['type' => 'success', 'message' => 'Successfully updated!', 'main_images' => $_POST['main_images']]);
 }

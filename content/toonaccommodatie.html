@@ -759,6 +759,10 @@ if($db->next_record()) {
                 if ($value === $afbeelding && false === $files['always']) {
                     continue;
                 }
+				
+				if (!file_exists('pic/cms/' . $value)) {
+					continue;
+				}
 
 				if($trcounter==3) {
 
@@ -819,6 +823,10 @@ if($db->next_record()) {
                 if ($value === $afbeelding && false === $files['always']) {
                     continue;
                 }
+				
+				if (!file_exists('pic/cms/' . $value)) {
+					continue;
+				}
 
 				$counter++;
 
