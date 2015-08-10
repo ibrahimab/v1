@@ -139,6 +139,7 @@ if($db->num_rows()) {
 	echo "<div id=\"errorLabel\" style=\"height:20px;padding:5px;margin-bottom:10px;margin-bottom:10px;display:none;\">&nbsp;</div>";
 
 	$list = '';
+	$ids  = ['a' => [], 't' => []];
 
 	# alle accommodaties tonen
 	while($db->next_record()) {
@@ -206,7 +207,7 @@ if($db->num_rows()) {
 
 		$list .= "</div>"; # afsluiten #fav_table_
 		
-		$ids['a'][(int)$db->f('accommodatie_id')] = ['t' => $db->f('type_id')];
+		$ids['a'][(int)$db->f('accommodatie_id')] = true;
 		$ids['t'][(int)$db->f('type_id')]		  = ['a' => $db->f('accommodatie_id'), 'b' => $db->f('begincode')];
 	}
 	
