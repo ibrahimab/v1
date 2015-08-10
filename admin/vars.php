@@ -1442,8 +1442,8 @@ if($_COOKIE["sch"] and !$geen_tracker_cookie) {
                 $mongodb      = $vars['mongodb']['wrapper'];
                 $files        = ['a' => [], 't' => []];
                 $cursors      = [];
-                $cursors['a'] = $mongodb->getFirstFilesByKind('accommodations', array_keys($last_acc_ids['a']), ['accommodaties']);
-                $cursors['t'] = $mongodb->getFirstFilesByKind('types', array_keys($last_acc_ids['t']), ['types_specifiek']);
+                $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($last_acc_ids['a']), ['accommodaties']);
+                $cursors['t'] = $mongodb->getAllMainFiles('types', array_keys($last_acc_ids['t']), ['types_specifiek']);
 
                 foreach ($cursors['a'] as $file) {
                     $files['a'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
