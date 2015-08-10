@@ -1,6 +1,6 @@
 <?php
 
-echo "Test git-6";
+echo "Test git-7";
 phpinfo();
 exit;
 
