@@ -210,6 +210,7 @@ if($nieuwe_tarieventabel) {
 $db->query("SELECT DISTINCT a.wzt, a.accommodatie_id, a.naam, a.altnaam_zichtbaar, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, a.kenmerken_gecontroleerd, a.url_leverancier AS aurl_leverancier, t.zomerwinterkoppeling_accommodatie_id, t.code, t.altnaam_zichtbaar AS taltnaam_zichtbaar, t.naam".$vars["ttv"]." AS tnaam, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.url_leverancier AS turl_leverancier, t.verzameltype, a.soortaccommodatie, a.omschrijving".$vars["ttv"]." AS omschrijving, t.omschrijving".$vars["ttv"]." AS tomschrijving, a.kwaliteit AS akwaliteit, a.kenmerken AS kenmerken_accommodatie, t.type_id, t.kwaliteit, t.optimaalaantalpersonen, a.toonper, a.aantekeningen, t.aantekeningen AS taantekeningen, t.kenmerken AS kenmerken_type, t.maxaantalpersonen, t.oppervlakte, t.oppervlakteextra".$vars["ttv"]." AS oppervlakteextra, t.slaapkamers, t.slaapkamersextra".$vars["ttv"]." AS slaapkamersextra, t.badkamers, t.badkamersextra".$vars["ttv"]." AS badkamersextra, a.indeling".$vars["ttv"]." AS indeling, t.indeling".$vars["ttv"]." AS tindeling, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, p.afstandtotutrecht, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra, a.inclusief".$vars["ttv"]." AS inclusief, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, t.inclusief".$vars["ttv"]." AS tinclusief, a.exclusief".$vars["ttv"]." AS exclusief, a.extraopties".$vars["ttv"]." AS extraopties, t.exclusief".$vars["ttv"]." AS texclusief, t.url_virtuele_rondgang, a.video AS avideo, a.video_url AS avideo_url, t.video AS tvideo, t.video_url AS tvideo_url, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam".$vars["ttv"]." AS plaats, p.omschrijving".$vars["ttv"]." AS plaatsomschrijving, p.plaats_id, p.kenmerken AS kenmerken_plaats, s.naam".$vars["ttv"]." AS skigebied, s.omschrijving".$vars["ttv"]." AS skigebiedomschrijving, s.kenmerken AS kenmerken_skigebied, lev.leverancier_id, lev.naam AS leverancier, lev.opmerkingen_intern AS lopmerkingen_intern, lev.url AS url_leverancier FROM accommodatie a, plaats p, skigebied s, land l, type t, leverancier lev WHERE a.accommodatie_id=t.accommodatie_id AND p.land_id=l.land_id AND t.type_id='".addslashes($typeid)."' AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.leverancier_id=lev.leverancier_id AND t.tonen=1;");
 if($db->next_record()) {
 	$accid=$db->f("accommodatie_id");
+
 	echo "<div id=\"toonaccommodatie_content\" itemscope=\"itemscope\" itemtype=\"http://schema.org/LodgingBusiness\">";
 	echo "<div id=\"toonaccommodatie_bovenbalk\">";
 	echo "<div id=\"toonaccommodatie_foto\">";
@@ -259,14 +260,64 @@ if($db->next_record()) {
 		}
 	}
 	echo "<div style=\"clear: both;\"></div>\n";
-	if(file_exists("pic/cms/types_specifiek/".$typeid.".jpg")) {
-		$afbeelding="types_specifiek/".$typeid;
-	} elseif(file_exists("pic/cms/accommodaties/".$accid.".jpg")) {
-		$afbeelding="accommodaties/".$accid;
-	} else {
-		$afbeelding="accommodaties/0";
-	}
-	echo "<img src=\"".imageurl($afbeelding.".jpg",170,127)."\" itemprop=\"image\" alt=\"".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
+
+    $mongodb      = $vars['mongodb']['wrapper'];
+    $cursors      = [];
+    $files        = ['a' => null, 't' => null, 'all' => ['pic' => [], 'picbreed' => [], 'piconderaan' => []]];
+    $cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid]);
+    $cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid]);
+    $done         = false;
+
+    foreach ($cursors['a'] as $file) {
+
+        if (isset($file['type']) && $file['type'] === 'big') {
+            $files['a'] = $file['directory'] . '/' . $file['filename'];
+        }
+
+        if (preg_match('/_breed/', $file['kind'])) {
+
+            $done = true;
+            $files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
+        }
+
+        if (isset($file['under']) && true === $file['under']) {
+
+            $done = true;
+            $files['all']['piconderaan'][] = $file['directory'] . '/' . $file['filename'];
+        }
+
+        if (false === $done) {
+            $files['all']['pic'][] = $file['directory'] . '/' . $file['filename'];
+        }
+
+        $done = false;
+    }
+
+    foreach ($cursors['t'] as $file) {
+
+        if (isset($file['type']) && $file['type'] === 'big') {
+
+            $files['t'] = $file['directory'] . '/' . $file['filename'];
+        }
+
+        if (preg_match('/_breed/', $file['kind'])) {
+            $files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
+        } else {
+            $files['all']['pic'][] = $file['directory'] . '/' . $file['filename'];
+        }
+    }
+
+    $files['all']['pic'] = array_merge($files['all']['pic'], $files['all']['piconderaan']);
+
+    if (null !== $files['t']) {
+        $afbeelding = $files['t'];
+    } elseif (null !== $files['a']) {
+        $afbeelding = $files['a'];
+    } else {
+        $afbeelding = 'accommodaties/0.jpg';
+    }
+
+	echo "<img src=\"".imageurl($afbeelding,170,127)."\" itemprop=\"image\" alt=\"".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
 	echo "</div>";
 	echo "<div id=\"toonaccommodatie_kopteksten\">";
 	if( $aanbieding_actief ) {
@@ -418,9 +469,6 @@ if($db->next_record()) {
 	}
 
 
-	# Foto's
-	$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
-
 	# Tabs
 	echo "<div id=\"tabs\">";
 	echo "<ul class=\"noprint\">";
@@ -538,26 +586,40 @@ if($db->next_record()) {
 			$interneinfo=$temp_intern;
 #		}
 	}
-	if(is_array($foto["pic"])) {
+
+    $fototeller = 0;
+	if(count($files['all']['pic']) > 0) {
+
 		echo "<div id=\"toonaccommodatie_overzicht_fotos\" class=\"noprint\">";
 		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr>";
+
 		if($video_url) {
+
 			$fototeller++;
 			echo "<td rowspan=\"2\">";
 			echo "<a href=\"".wt_he($video_url)."\" class=\"vimeo_fancybox\">";
 			echo "<img src=\"".$vars['path']."pic/video-preview_".$vars["seizoentype"].".jpg\" width=\"175\" height=\"127\" border=\"0\">";
 			echo "</a></td>";
 		}
-		while(list($key,$value)=each($foto["pic"])) {
+
+		foreach ($files['all']['pic'] as $file) {
+
+            $currentImage = $file;
+
+            if ($currentImage === $afbeelding) {
+                continue;
+            }
+
 			$fototeller++;
-			if($fototeller<=3) {
-#				echo "<img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($value)."&w=170&h=127\" width=\"170\" height=\"127\" alt=\"".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".txt("foto","vars")." ".$fototeller)."\">&nbsp;";
-				echo "<td rowspan=\"2\">";
-				echo "<a href=\"#\" class=\"fotopopup_tab_overzicht\" data-teller=\"".$fototeller."\">";
-				echo "<img src=\"".imageurl($value,170,127)."\" width=\"170\" height=\"127\" alt=\"".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".txt("foto","vars")." ".$fototeller)."\" border=\"0\">";
-				echo "</a>";
-				echo "</td>";
-			}
+			if($fototeller > 3) {
+                break;
+            }
+
+			echo "<td rowspan=\"2\">";
+			echo "<a href=\"#\" class=\"fotopopup_tab_overzicht\" data-teller=\"".$fototeller."\">";
+			echo "<img src=\"".imageurl($currentImage, 170, 127)."\" width=\"170\" height=\"127\" alt=\"".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".txt("foto","vars")." ".$fototeller)."\" border=\"0\">";
+			echo "</a>";
+			echo "</td>";
 		}
 		# Afbeelding "bekijk ligging" plaatsen
 		if(($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
@@ -568,7 +630,7 @@ if($db->next_record()) {
 			echo "<td>&nbsp;</td></tr>";
 		}
 		echo "<tr><td valign=\"bottom\">";
-		if($fototeller>3 or $foto["picbreed"]) {
+		if (count($files['all']['pic']) > 3) {
 			echo "<a href=\"#fotos\" class=\"noprint\">".html("meerfotos","toonaccommodatie")." &gt;</a>";
 		} else {
 			echo "&nbsp;";
@@ -681,19 +743,29 @@ if($db->next_record()) {
 		$foto_table.="</a><br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div></div></td>";
 		$trcounter++;
 	}
-	if(is_array($foto["pic"]) or is_array($foto["picbreed"])) {
-		@reset($foto["pic"]);
-		@reset($foto["picbreed"]);
-		unset($counter);
-		if(is_array($foto["pic"])) {
-			while(list($key,$value)=@each($foto["pic"])) {
+
+	if (count($files['all']['pic']) > 0 || count($files['all']['picbreed']) > 0 || count($files['all']['onderaan']) > 0) {
+
+		if (count($files['all']['pic']) > 0) {
+
+            foreach ($files['all']['pic'] as $key => $file) {
+
+                $value = $file;
+
+                if ($value === $afbeelding) {
+                    continue;
+                }
+
 				if($trcounter==3) {
+
 					$foto_table.="</tr><tr>";
 					unset($trcounter);
 				}
+
 				$trcounter++;
 				$counter++;
 				$foto_table.="<td align=\"center\">";
+
 				if(preg_match("/accommodaties_aanvullend\/(.*.jpg)/",$value,$regs)) {
 					$thumbnail="pic/cms/accommodaties_aanvullend_tn/".$regs[1];
 					if(!file_exists($thumbnail) or filemtime($thumbnail)<>filemtime("pic/cms/".$value)) {
@@ -733,10 +805,20 @@ if($db->next_record()) {
 				$foto_table.="</TD>";
 			}
 		}
-		if(is_array($foto["picbreed"])) {
-			while(list($key,$value)=@each($foto["picbreed"])) {
+
+		if (count($files['all']['picbreed']) > 0) {
+
+            foreach ($files['all']['picbreed'] as $key => $file) {
+
+                $value = $file;
+
+                if ($value === $afbeelding) {
+                    continue;
+                }
+
 				$counter++;
-				if($trcounter==1) {
+
+                if($trcounter==1) {
 					$foto_table.="<td colspan=\"2\" align=\"center\">";
 				} else {
 					$foto_table.="</tr>";

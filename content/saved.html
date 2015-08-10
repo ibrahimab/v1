@@ -14,6 +14,8 @@ if($last_acc) {
 		$accommodatielijst->settings["groepeer_per_accommodatie"] = false;
 		$accommodatielijst->settings["vanaf_prijzen_tonen"] = true;
 
+        $ids = ['a' => [], 't' => []];
+
 		while($db->next_record()) {
 			// $results[$db->f("type_id")].="<TR><TD width=\"1%\">";
 			// if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
@@ -55,7 +57,32 @@ if($last_acc) {
 				"apart_tonen_in_zoekresultaten"=>$db->f("apart_tonen_in_zoekresultaten"),
 			));
 
+            $ids['a'][$db->f('accommodatie_id')] = true;
+            $ids['t'][$db->f('type_id')]         = true;
 		}
+
+        $mongodb      = $vars['mongodb']['wrapper'];
+        $files        = ['a' => [], 't' => []];
+        $cursors      = [];
+        $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($ids['a']));
+        $cursors['t'] = $mongodb->getAllMainFiles('types', array_keys($ids['t']));
+
+        foreach ($cursors['a'] as $file) {
+
+            if (isset($file['type']) && $file['type'] === 'big') {
+                $files['a'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+            }
+        }
+
+        foreach ($cursors['t'] as $file) {
+
+            if (isset($file['type']) && $file['type'] === 'big') {
+                $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+            }
+        }
+
+        $accommodatielijst->setTypeImages($files['t']);
+        $accommodatielijst->setAccommodationImages($files['a']);
 
 		echo "<br/>";
 		echo $accommodatielijst->lijst();

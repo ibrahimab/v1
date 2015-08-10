@@ -16,5 +16,6 @@ define("wt_redis_host", "87.250.157.203");
 // define("wt_mail_proxy_microsoftmail_always", true);
 // define("wt_mail_proxy_microsoftmail_copy", "testchalet@outlook.com");
 
-define('CH_MONGODB_MASTER', 'mongodb://87.250.157.214:27017');
-define('CH_MONGODB_SLAVE', 'mongodb://87.250.157.201:27017');
+define('CH_MONGODB_MASTER', 'mongodb://87.250.157.214:27017,87.250.157.200:27017,87.250.157.201:27017');
+define('CH_MONGODB_FILES_DB', 'files');
+define('CH_MONGODB_FILES_REPLICASET', 'rs1');

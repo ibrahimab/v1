@@ -432,11 +432,22 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst");
 }
 
-$cms->edit_field(2,0,"htmlrow","<hr><b id=\"images\">Afbeeldingen</b><br><i>Afbeeldingen kunnen in groot formaat worden ge&uuml;pload; het systeem zet ze om naar de juiste afmetingen. De verhouding moet wel altijd 4:3 zijn.</i>");
-$cms->edit_field(2,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));
-$cms->edit_field(2,0,"hoofdfoto_type","Hoofdafbeelding (groot formaat; wordt nu nog niet gebruikt)","",array("img_minwidth"=>"600","img_minheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3"),array("info"=>"Upload de foto in een zo groot mogelijk formaat. Deze foto wordt nu nog niet gebruikt. Pas zodra veel hoofdfoto's in groot formaat beschikbaar zijn, wordt er naar deze versie overgestapt."));
-$cms->edit_field(2,0,"picaanvullend","Aanvullende afbeelding(en)","",array("autoresize"=>false,"img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>8));
-$cms->edit_field(2,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("autoresize"=>false,"img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
+/**
+ * Nieuw afbeelding systeem
+ */
+if (isset($_GET['2k0'])) {
+
+    ob_start();
+
+    $uploaderData = ['id' => $_GET['2k0'], 'accommodationId' => $_GET['1k0'], 'collection' => 'types'];
+    include $vars['unixdir'] . '/uploader/types.php';
+    $types = ob_get_contents();
+
+    ob_end_clean();
+
+    $cms->edit_field(2, 0, 'htmlrow', "<hr><b id=\"images\">Nieuwe afbeeldingen</b>");
+    $cms->edit_field(2, 0, 'htmlrow', $types);
+}
 
 $cms->edit_field(2,0,"htmlrow","<hr><b>Video</b>");
 $cms->edit_field(2,0,"video_url","URL van Vimeo");

@@ -1301,6 +1301,23 @@ a.opm {
 	border: 1px solid #000000;
 	padding: 5px;
 }
+.image-grid {
+
+    width: 100%;
+    clear: both;
+}
+
+.image-grid-3 {
+
+    width: 33.333%;
+    float: left;
+}
+
+.image-grid-3 img {
+
+    width: 98%;
+    margin-bottom: 3px;
+}
 
 @media print {
 

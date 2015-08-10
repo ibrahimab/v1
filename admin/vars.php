@@ -1173,6 +1173,18 @@ if(defined("wt_test")) {
 	$vars["jqueryui_url"]=$vars["path"]."scripts/jquery-ui-1.8.24.min.js";
 }
 
+/**
+ * The new mongodb global var for easy use of the MongoDB wrapper
+ * and MongoDB collection names and settings.
+ */
+$vars['mongodb'] = [
+
+	'wrapper' => new MongoWrapper(CH_MONGODB_MASTER, CH_MONGODB_FILES_DB, CH_MONGODB_FILES_REPLICASET),
+
+	'collections' => [
+		'al' => 'accommodations',
+	],
+];
 
 if($boeking_wijzigen) {
 	# Login-class klanten
@@ -1410,22 +1422,49 @@ if($_COOKIE["sch"] and !$geen_tracker_cookie) {
 				}
 			}
 			if($last_acc_inquery) {
+
+                $last_acc_ids = ['a' => [], 't' => []];
 				$db->query("SELECT begincode, type_id, accommodatie_id, naam, tnaam".$vars["ttv"]." AS tnaam, optimaalaantalpersonen, maxaantalpersonen, plaats".$vars["ttv"]." AS plaats, skigebied, land".$vars["ttv"]." AS land FROM view_accommodatie WHERE type_id IN (".$last_acc_inquery.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(type_id,'".$last_acc_inquery."') DESC;");
+
 				while($db->next_record()) {
+
 					$last_acc[$db->f("type_id")]["begincode"]=$db->f("begincode");
 					$last_acc[$db->f("type_id")]["naam"]=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".txt("pers").")";
 					$last_acc[$db->f("type_id")]["plaats"]=$db->f("plaats");
 					$last_acc[$db->f("type_id")]["skigebied"]=$db->f("skigebied");
 					$last_acc[$db->f("type_id")]["land"]=$db->f("land");
-					if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
-						$last_acc[$db->f("type_id")]["afbeelding"]="types_specifiek/".$db->f("type_id").".jpg";
-					} elseif(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-						$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/".$db->f("accommodatie_id").".jpg";
-					} else {
-						$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/0.jpg";
-					}
+                    $last_acc[$db->f('type_id')]['accommodatie_id'] = $db->f('accommodatie_id');
+
+                    $last_acc_ids['a'][$db->f('accommodatie_id')] = true;
+                    $last_acc_ids['t'][$db->f('type_id')]         = true;
 				}
+
+                $mongodb      = $vars['mongodb']['wrapper'];
+                $files        = ['a' => [], 't' => []];
+                $cursors      = [];
+                $cursors['a'] = $mongodb->getFirstFilesByKind('accommodations', array_keys($last_acc_ids['a']), ['accommodaties']);
+                $cursors['t'] = $mongodb->getFirstFilesByKind('types', array_keys($last_acc_ids['t']), ['types_specifiek']);
+
+                foreach ($cursors['a'] as $file) {
+                    $files['a'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+                }
+
+                foreach ($cursors['t'] as $file) {
+                    $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+                }
+
+                foreach ($last_acc as $type_id => $data) {
+
+                    if (isset($files['t'][$type_id]) && file_exists('pic/cms/' . $files['t'][$type_id])) {
+                        $last_acc[$type_id]['afbeelding'] = $files['t'][$type_id];
+                    } elseif (isset($files['a'][$data['accommodatie_id']]) && file_exists('pic/cms/' . $files['a'][$data['accommodatie_id']])) {
+                        $last_acc[$type_id]['afbeelding'] = $files['a'][$data['accommodatie_id']];
+                    } else {
+                        $last_acc[$type_id]['afbeelding'] = 'accommodaties/0.jpg';
+                    }
+                }
 			}
+
 			if(is_array($last_acc)) {
 				$last_acc_html.="<div id=\"laatstbekeken\" class=\"noprint\">";
 				$last_acc_html.="<div id=\"laatstbekeken_acc_wrapper\">";
@@ -1577,4 +1616,6 @@ define("lang_nl","nl");
 define("lang_de","de");
 $vars["supported_languages"] = array(lang_en, lang_nl, lang_de);
 $vars["google_translation_api_key"]=getenv('GOOGLE_TRANSLATE_API_KEY');
+
+
 ?>

@@ -383,7 +383,7 @@ class cms2 {
 		}
 		$columninfo=$this->get_columninfo($this->db[$counter]["maintable"]);
 		while(list($key,$value)=each($this->db[$counter]["field"])) {
-			if($this->db[$counter]["type"][$key]<>"picture" and $this->db[$counter]["type"][$key]<>"upload" and !$this->db[$counter]["options"][$key]["notdb"]) {
+			if($this->db[$counter]["type"][$key]<>"picture" and $this->db[$counter]["type"][$key]<>"upload" and $this->db[$counter]['type'][$key] <> 'mongodb_picture' and !$this->db[$counter]["options"][$key]["notdb"]) {
 				if(!$primkey) {
 					$primkey=$this->get_primarykey($this->db[$counter]["maintable"],$counter);
 #					if($select) $select.=", ".$primkey["all"].", ".$primkey["concat"]; else $select=$primkey["all"].", ".$primkey["concat"];
@@ -958,6 +958,11 @@ class cms2 {
 		 				$options["rename_file_to"]="";
 		 			}
 					$cms_form[$counter]->field_upload($this->edit[$counter]["obl"][$key],$key,$this->edit[$counter]["title"][$key],"",$prevalue,$options,$layout);
+
+				} elseif ($this->db[$counter]['type'][$key] === 'mongodb_picture') {
+
+					$cms_form[$counter]->field_mongodb_upload($this->edit[$counter]['obl'][$key], $key, $this->edit[$counter]['title'][$key], $options);
+
 				} elseif($this->db[$counter]["type"][$key]=="radio") {
 					$cms_form[$counter]->field_radio($this->edit[$counter]["obl"][$key],$key,$this->edit[$counter]["title"][$key],$formdb,$prevalue,$options,$layout);
 				} elseif($this->db[$counter]["type"][$key]=="select") {
@@ -1374,6 +1379,10 @@ class cms2 {
 						}
 						$this->show_rightcell[$key]="<a href=\"".wt_he($temp["upload"]["file"])."?c=".@filemtime($temp["upload"]["file"])."\" target=\"_blank\"><img src=\"pic/".$temp["upload"]["icon"]."\" width=\"20\" height=\"20\" alt=\"".wt_he($temp["upload"]["file"])."\" border=\"0\"></a>";
 					}
+				} else if($this->db[$counter]['type'][$key] === 'mongodb_picture') {
+
+					// @TODO: don't know what to do here
+
 				} elseif($this->db[$counter]["type"][$key]=="url") {
 					if($db->f($recordname)) $this->show_rightcell[$key]="<a href=\"".$db->f($recordname)."\" target=\"_blank\">".wt_he($db->f($recordname))."</a>";
 				} elseif($this->db[$counter]["type"][$key]=="yesno") {
