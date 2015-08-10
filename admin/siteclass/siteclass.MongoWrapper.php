@@ -9,17 +9,28 @@ class MongoWrapper
 {
 	protected $mongodb;
 	protected $db;
+	protected $error;
 
 	public function __construct($server, $database, $replicaSet = false)
 	{
-        $defaultOptions    = ['connect' => true];
-        $replicaSetOptions = ['connect' => true, 'replicaSet' => $replicaSet];
-		$this->mongodb     = new MongoClient($server, (false === $replicaSet ? $defaultOptions : $replicaSetOptions));
-		$this->db          = $this->mongodb->{$database};
+		try {
+			
+			$defaultOptions    = ['connect' => true];
+			$replicaSetOptions = ['connect' => true, 'replicaSet' => $replicaSet];
+			$this->mongodb     = new MongoClient($server, (false === $replicaSet ? $defaultOptions : $replicaSetOptions));
+			$this->db          = $this->mongodb->{$database};
+			
+		} catch (\Exception $e) {
+			$this->error = true;
+		}
 	}
 
 	public function getFiles($collectionName, $fileId)
 	{
+		if (true === $this->error) {
+			return [];
+		}
+		
 		$collection = $this->db->{$collectionName};
 
 		return $collection->find(['file_id' => intval($fileId)])
@@ -28,6 +39,10 @@ class MongoWrapper
 
     public function getFirstFilesByKind($collectionName, $fileIds, $kinds)
     {
+		if (true === $this->error) {
+			return [];
+		}
+		
         $collection = $this->db->{$collectionName};
 
         return $collection->find(['file_id' => ['$in' => $fileIds],
@@ -37,6 +52,10 @@ class MongoWrapper
 
     public function getAllFilesByKind($collectionName, $fileIds, $kinds)
     {
+		if (true === $this->error) {
+			return [];
+		}
+		
         $collection = $this->db->{$collectionName};
 
         return $collection->find(['file_id' => ['$in' => $fileIds],
@@ -46,6 +65,10 @@ class MongoWrapper
 
     public function getAllFiles($collectionName, $fileIds)
     {
+		if (true === $this->error) {
+			return [];
+		}
+		
         $collection = $this->db->{$collectionName};
 
         return $collection->find(['file_id' => ['$in' => $fileIds]])
@@ -54,6 +77,10 @@ class MongoWrapper
 
     public function getAllMainFiles($collectionName, $fileIds)
     {
+		if (true === $this->error) {
+			return [];
+		}
+		
         $collection = $this->db->{$collectionName};
 
         return $collection->find(['file_id' => ['$in' => $fileIds],
@@ -63,6 +90,10 @@ class MongoWrapper
 
 	public function getFile($collectionName, $_id)
 	{
+		if (true === $this->error) {
+			return [];
+		}
+		
 		$collection = $this->db->{$collectionName};
 
 		return $collection->findOne(['_id' => new MongoId($_id)]);
@@ -70,6 +101,10 @@ class MongoWrapper
 
 	public function maxRank($collectionName, $fileId)
 	{
+		if (true === $this->error) {
+			return 0;
+		}
+		
 		$collection = $this->db->{$collectionName};
 		$results    = $collection->aggregate([
 
