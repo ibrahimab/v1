@@ -416,16 +416,14 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 
 		$db->query("SELECT b.type_id, a.accommodatie_id, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS akorteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.optimaalaantalpersonen, t.maxaantalpersonen, t.slaapkamers,t.badkamers, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied FROM bezoeker_favoriet b, type t, accommodatie a, plaats p, skigebied s, land l WHERE t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND b.bezoeker_id='".addslashes($_COOKIE["sch"])."';");
 
+		$ids = [];
+
 		while($db->next_record()) {
 
 			$accid=$db->f("accommodatie_id");
-			if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
-				$afbeelding="types_specifiek/".$db->f("type_id");
-			} elseif(file_exists("pic/cms/accommodaties/".$accid.".jpg")) {
-				$afbeelding="accommodaties/".$accid;
-			} else {
-				$afbeelding="accommodaties/0";
-			}
+			
+			$ids['a'][(int)$db->f('accommodatie_id')] = true;
+			$ids['t'][(int)$db->f('type_id')]	      = ['a' => (int)$db->f('accommodatie_id'), 'b' => $db->f('begincode')];
 
 			$acc_naam = ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "");
 			$acc_naam_converted = $db->f("begincode").$db->f("type_id")."_".preg_replace("@[^A-Za-z0-9]@", "_", wt_stripaccents($acc_naam));
@@ -443,7 +441,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 
 
 			$mail_content.="<table style=\"display:inline-table;\" font-family:Verdana, Arial, Helvetica, sans-serif;\" text-align=\"left\" border=\"0\" width=\"100%\">";
-			$mail_content.="<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
+			$mail_content.="<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/{{ AFBEELDING_" . $db->f('begincode') . $db->f('type_id') . " }}\" width=\"200\" height=\"150\" border=\"0\"></td>";
 			$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px;\">".$db->f("land")."</td></tr><tr>";
 			$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("plaats")."</td></tr><tr>";
 			$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("skigebied")."</td></tr><tr>";
@@ -488,6 +486,43 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 			$mail_content.="</table>";
 			$mail_content.="<br />";
 		}
+	
+	    $mongodb      = $vars['mongodb']['wrapper'];
+	    $files        = ['a' => [], 't' => []];
+	    $cursors      = [];
+	    $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($ids['a']));
+	    $cursors['t'] = $mongodb->getAllMainFiles('types', array_keys($ids['t']));
+
+	    foreach ($cursors['a'] as $file) {
+
+	        if (isset($file['type']) && $file['type'] === 'big') {
+	            $files['a'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+	        }
+	    }
+
+	    foreach ($cursors['t'] as $file) {
+
+	        if (isset($file['type']) && $file['type'] === 'big') {
+	            $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+	        }
+	    }
+	
+		$replacements = [];
+	
+		foreach ($ids['t'] as $typeId => $data) {
+		
+			$afbeelding = 'accommodaties/0.jpg';
+		
+			if (isset($files['t'][$typeId])) {
+				$afbeelding = $files['t'][$typeId];
+			} elseif (isset($files['a'][$data['a']])) {
+				$afbeelding = $files['a'][$data['a']];
+			}
+		
+			$replacements['{{ AFBEELDING_' . $data['b'] . $typeId . ' }}'] = $afbeelding;
+		}
+	
+		$mail_content = str_replace(array_keys($replacements), array_values($replacements), $mail_content);
 
 		$mail_content.="</div>";
 		$mail_content.="</body>";
