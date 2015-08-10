@@ -64,6 +64,9 @@ foreach ($images as $image) {
 	                    <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
 	                    <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen voor nieuwe site" value="<?php echo $image['label']; ?>" />
 	                    <div><input type="checkbox" id="under_<?php echo $image['_id']; ?>" name="under[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['under']) && true === $image['under'] ? ' checked="checked"' : ''); ?> /> <label for="under_<?php echo $image['_id']; ?>">Altijd onderaan</label></div>
+						<?php if (isset($image['type']) && in_array($image['type'], ['big', 'small'])) : ?>
+							<div><input type="checkbox" id="always_<?php echo $image['_id']; ?>" name="always[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['always']) && true === $image['always'] ? ' checked="checked"' : ''); ?> /> <label for="always_<?php echo $image['_id']; ?>">ook gewoon tonen</label></div>
+						<?php endif; ?>
 	                    <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php echo $i++; ?>" />
 	                    <a draggable="true" data-role="sortable-anchor" data-id="<?php echo $image['_id']; ?>" class="anchor"><img src="<?php echo $vars['path']; ?>uploader/assets/images/drag-icon.png" /></a>
 	                    <a href="#" data-role="remove-image" data-id="<?php echo $image['_id']; ?>" style="vertical-align: top; float: right; display:block;">

@@ -1,3 +1,4 @@
+
 <?php
 
 #
@@ -263,7 +264,7 @@ if($db->next_record()) {
 
     $mongodb      = $vars['mongodb']['wrapper'];
     $cursors      = [];
-    $files        = ['a' => null, 't' => null, 'all' => ['pic' => [], 'picbreed' => [], 'piconderaan' => []]];
+    $files        = ['a' => null, 't' => null, 'always' => false, 'all' => ['pic' => [], 'picbreed' => [], 'piconderaan' => []]];
     $cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid]);
     $cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid]);
     $done         = false;
@@ -271,7 +272,9 @@ if($db->next_record()) {
     foreach ($cursors['a'] as $file) {
 
         if (isset($file['type']) && $file['type'] === 'big') {
-            $files['a'] = $file['directory'] . '/' . $file['filename'];
+			
+            $files['a']		 = $file['directory'] . '/' . $file['filename'];
+			$files['always'] = isset($file['always']) && true === boolval($file['always']);
         }
 
         if (preg_match('/_breed/', $file['kind'])) {
@@ -297,7 +300,8 @@ if($db->next_record()) {
 
         if (isset($file['type']) && $file['type'] === 'big') {
 
-            $files['t'] = $file['directory'] . '/' . $file['filename'];
+            $files['t']		 = $file['directory'] . '/' . $file['filename'];
+			$files['always'] = isset($file['always']) && true === boolval($file['always']);
         }
 
         if (preg_match('/_breed/', $file['kind'])) {
@@ -606,7 +610,7 @@ if($db->next_record()) {
 
             $currentImage = $file;
 
-            if ($currentImage === $afbeelding) {
+            if ($currentImage === $afbeelding && false === $files['always']) {
                 continue;
             }
 
@@ -752,7 +756,7 @@ if($db->next_record()) {
 
                 $value = $file;
 
-                if ($value === $afbeelding) {
+                if ($value === $afbeelding && false === $files['always']) {
                     continue;
                 }
 
@@ -812,7 +816,7 @@ if($db->next_record()) {
 
                 $value = $file;
 
-                if ($value === $afbeelding) {
+                if ($value === $afbeelding && false === $files['always']) {
                     continue;
                 }
 
