@@ -66,7 +66,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
 	                    <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>" />
 	                    <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen voor nieuwe site" value="<?php echo $image['label']; ?>" />
 						<?php if (isset($image['type']) && in_array($image['type'], ['big', 'small'])) : ?>
-							<div><input type="checkbox" id="always_<?php echo $image['_id']; ?>" name="always[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['always']) && true === $image['always'] ? ' checked="checked"' : ''); ?> /> <label for="always_<?php echo $image['_id']; ?>">ook gewoon tonen (=topfoto)</label></div>
+							<div><input type="checkbox" id="always_<?php echo $image['_id']; ?>" name="always[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['always']) && true === $image['always'] ? ' checked="checked"' : ''); ?> /> <label for="always_<?php echo $image['_id']; ?>">Ook gewoon tonen (=topfoto)</label></div>
 						<?php endif; ?>
 	                    <input type="hidden" name="rank[<?php echo $image['_id']; ?>]" data-role="rank" value="<?php echo $i++; ?>" />
 	                    <a draggable="true" data-role="sortable-anchor" data-id="<?php echo $image['_id']; ?>" class="anchor"><img src="<?php echo $vars['path']; ?>uploader/assets/images/drag-icon.png" /></a>
