@@ -2510,25 +2510,29 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 		}
 	}
 
-    $mongodb      = $vars['mongodb']['wrapper'];
-    $cursors      = [];
-    $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($imageIds['a']));
-    $cursors['t'] = $mongodb->getAllMainFiles('types', array_keys($imageIds['t']));
-    $files        = ['a' => [], 't' => []];
+	$files = ['a' => [], 't' => []];
 
-    foreach ($cursors['a'] as $file) {
+	if (isset($imageIds)) {
+		
+	    $mongodb      = $vars['mongodb']['wrapper'];
+	    $cursors      = [];
+	    $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($imageIds['a']));
+	    $cursors['t'] = $mongodb->getAllMainFiles('types', array_keys($imageIds['t']));
 
-        if (isset($file['type']) && $file['type'] === 'big') {
-            $files['a'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
-        }
-    }
+	    foreach ($cursors['a'] as $file) {
 
-    foreach ($cursors['t'] as $file) {
+	        if (isset($file['type']) && $file['type'] === 'big') {
+	            $files['a'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+	        }
+	    }
 
-        if (isset($file['type']) && $file['type'] === 'big') {
-            $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
-        }
-    }
+	    foreach ($cursors['t'] as $file) {
+
+	        if (isset($file['type']) && $file['type'] === 'big') {
+	            $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+	        }
+	    }
+	}
 
 	if($vars["webtastic"]) {
 		$endtime_query=microtime(true);
