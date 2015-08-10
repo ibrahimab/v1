@@ -138,49 +138,45 @@ if($db->num_rows()) {
 
 	echo "<div id=\"errorLabel\" style=\"height:20px;padding:5px;margin-bottom:10px;margin-bottom:10px;display:none;\">&nbsp;</div>";
 
+	$list = '';
+
 	# alle accommodaties tonen
 	while($db->next_record()) {
 
-		if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
-			$afbeelding="types_specifiek/".$db->f("type_id");
-		} elseif(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-			$afbeelding="accommodaties/".$db->f("accommodatie_id");
-		} else {
-			$afbeelding="accommodaties/0";
-		}
+		// $data = [];
 
-		echo "<div id=\"fav_table_".$db->f("type_id")."\">";
+		$list .= "<div id=\"fav_table_".$db->f("type_id")."\">";
 
-		echo "<div class=\"zoekresultaat_block boxshadow\">";
+		$list .= "<div class=\"zoekresultaat_block boxshadow\">";
 
-		echo "<div class=\"zoekresultaat\" onclick=\"document.location.href='".$vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/';\">";
+		$list .= "<div class=\"zoekresultaat\" onclick=\"document.location.href='".$vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/';\">";
 
-		echo "<div class=\"zoekresultaat_top\">";
-		echo "<div class=\"zoekresultaat_titel\">";
-		echo wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
-		echo "</div>"; # afsluiten .zoekresultaat_top
-		echo "</div>"; # afsluiten .zoekresultaat_titel
+		$list .= "<div class=\"zoekresultaat_top\">";
+		$list .= "<div class=\"zoekresultaat_titel\">";
+		$list .= wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
+		$list .= "</div>"; # afsluiten .zoekresultaat_top
+		$list .= "</div>"; # afsluiten .zoekresultaat_titel
 
-		echo "<table style=\"display:inline-table;\" font-family:Verdana, Arial, Helvetica, sans-serif;\" text-align=\"left\" border=\"0\" width=\"100%\">";
-		echo "<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
-		echo "<td colspan=\"2\" style=\"font-size:14px;\">".$db->f("land")."</td></tr><tr>";
-		echo "<td colspan=\"2\">".$db->f("plaats")."</td></tr><tr>";
-		echo "<td colspan=\"2\">".$db->f("skigebied")."</td></tr><tr>";
+		$list .= "<table style=\"display:inline-table;\" font-family:Verdana, Arial, Helvetica, sans-serif;\" text-align=\"left\" border=\"0\" width=\"100%\">";
+		$list .= "<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/{{ AFBEELDING_" . $db->f('begincode') . $db->f('type_id') . " }}\" width=\"200\" height=\"150\" border=\"0\"></td>";
+		$list .= "<td colspan=\"2\" style=\"font-size:14px;\">".$db->f("land")."</td></tr><tr>";
+		$list .= "<td colspan=\"2\">".$db->f("plaats")."</td></tr><tr>";
+		$list .= "<td colspan=\"2\">".$db->f("skigebied")."</td></tr><tr>";
 		if($db->f("akwaliteit") or $db->f("tkwaliteit")) {
 			if($db->f("tkwaliteit")) {
 				$kwaliteit=$db->f("tkwaliteit");
 			} else {
 				$kwaliteit=$db->f("akwaliteit");
 			}
-			echo "<td colspan=\"2\">";
+			$list .= "<td colspan=\"2\">";
 			for($i=0; $i<$kwaliteit;$i++) {
 				echo "<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\" border=\"0\">";
 			}
 		} else {
-			echo "<td colspan=\"2\" height=\"5\"></td>";
+			$list .= "<td colspan=\"2\" height=\"5\"></td>";
 		}
 
-		echo "</td></tr>";
+		$list .= "</td></tr>";
 		unset($korteomschrijving);
 		if($db->f("akorteomschrijving") or $db->f("tkorteomschrijving")) {
 			if($db->f("tkorteomschrijving")) {
@@ -189,27 +185,69 @@ if($db->num_rows()) {
 				$korteomschrijving=$db->f("akorteomschrijving");
 			}
 		}
-		echo "<td valign=\"top\" width=\"100%\" colspan=\"2\" style=\"color:".$vars["korte_omschrijving_kleur"].";\"><i>".wt_he($korteomschrijving)."</i></td></tr><tr>";
+		$list .= "<td valign=\"top\" width=\"100%\" colspan=\"2\" style=\"color:".$vars["korte_omschrijving_kleur"].";\"><i>".wt_he($korteomschrijving)."</i></td></tr><tr>";
 		if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")) {
 			$rev=$db->f("optimaalaantalpersonen");
 		} else {
 			$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
 		}
-		echo "<td valign=\"top\" colspan=\"2\">".$rev." ".html("personen")."</td></tr><tr>";
-		echo "<td valign=\"top\">".$db->f("slaapkamers")." ".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"></td></tr>";
-		echo "<td>".$db->f("badkamers")." ".($db->f("badkamers")==1 ? html("badkamer") : html("badkamers"))."</td></tr>";
-		echo "</table>";
+		$list .= "<td valign=\"top\" colspan=\"2\">".$rev." ".html("personen")."</td></tr><tr>";
+		$list .= "<td valign=\"top\">".$db->f("slaapkamers")." ".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"></td></tr>";
+		$list .= "<td>".$db->f("badkamers")." ".($db->f("badkamers")==1 ? html("badkamer") : html("badkamers"))."</td></tr>";
+		$list .= "</table>";
 
-		echo "</div>"; # afsluiten .zoekresultaat
-		echo "<div id=\"removeFromfavs\" style=\"padding-left:5px;padding-top:1px;padding-bottom:3px;z-index:10;\">";
-		echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=\"".$vars["path"]."pic/icon_notokay.png\"> ";
-		echo "<a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen('".$db->f("begincode")."','".$db->f("type_id")."', 'delete');\">".html("uitmijnfavorietenhalen","favorieten")."</a>";
-		echo "</div>"; # afsluiten #removeFromfavs
+		$list .= "</div>"; # afsluiten .zoekresultaat
+		$list .= "<div id=\"removeFromfavs\" style=\"padding-left:5px;padding-top:1px;padding-bottom:3px;z-index:10;\">";
+		$list .= "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=\"".$vars["path"]."pic/icon_notokay.png\"> ";
+		$list .= "<a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen('".$db->f("begincode")."','".$db->f("type_id")."', 'delete');\">".html("uitmijnfavorietenhalen","favorieten")."</a>";
+		$list .= "</div>"; # afsluiten #removeFromfavs
 
-		echo "</div>"; # afsluiten .zoekresultaat_block
+		$list .= "</div>"; # afsluiten .zoekresultaat_block
 
-		echo "</div>"; # afsluiten #fav_table_
+		$list .= "</div>"; # afsluiten #fav_table_
+		
+		$ids['a'][(int)$db->f('accommodatie_id')] = ['t' => $db->f('type_id')];
+		$ids['t'][(int)$db->f('type_id')]		  = ['a' => $db->f('accommodatie_id'), 'b' => $db->f('begincode')];
 	}
+	
+    $mongodb      = $vars['mongodb']['wrapper'];
+    $files        = ['a' => [], 't' => []];
+    $cursors      = [];
+    $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($ids['a']));
+    $cursors['t'] = $mongodb->getAllMainFiles('types', array_keys($ids['t']));
+
+    foreach ($cursors['a'] as $file) {
+
+        if (isset($file['type']) && $file['type'] === 'big') {
+            $files['a'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+        }
+    }
+
+    foreach ($cursors['t'] as $file) {
+
+        if (isset($file['type']) && $file['type'] === 'big') {
+            $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+        }
+    }
+	
+	$replacements = [];
+	
+	foreach ($ids['t'] as $typeId => $data) {
+		
+		$afbeelding = 'accommodaties/0.jpg';
+		
+		if (isset($files['t'][$typeId])) {
+			$afbeelding = $files['t'][$typeId];
+		} elseif (isset($files['a'][$data['a']])) {
+			$afbeelding = $files['a'][$data['a']];
+		}
+		
+		$replacements['{{ AFBEELDING_' . $data['b'] . $typeId . ' }}'] = $afbeelding;
+	}
+	
+	$list = str_replace(array_keys($replacements), array_values($replacements), $list);
+	
+	echo $list;
 
 	echo "</div>";
 
