@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	imagejpeg($new, $destination . '/' . $filename, 100);
     imagedestroy($new);
 	
-	filesync::add_to_filesync_table($destination . '/' . $filename);
+	filesync::add_to_filesync_table('pic/cms/' . $directory . '/' . $filename);
 
     $mongodb = $vars['mongodb']['wrapper'];
     $data    = [
