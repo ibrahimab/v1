@@ -13,7 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		$location	 = $destination . '/' . $file['filename'];
 
 		if (file_exists($location) && is_file($location)) {
+			
 			unlink($location);
+			filesync::add_to_filesync_table('pic/cms/' . $file['directory'] . '/' . $file['filename'], true);
 		}
 		
 		$collection->remove(['_id' => $id]);
