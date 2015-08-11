@@ -14,7 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $delete = $path . '/pic/cms/' . $file['directory'] . '/' . $file['filename'];
 
         if (file_exists($delete)) {
+			
             unlink($delete);
+			filesync::add_to_filesync_table('pic/cms/' . $file['directory'] . '/' . $file['filename'], true);
         }
     }
 
