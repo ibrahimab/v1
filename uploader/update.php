@@ -29,8 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					'u' => ['$set' => ['label'  => $label, 
 									   'under'  => (isset($under[$_id])), 
 									   'always' => (isset($always[$_id])),
+									   'type'	=> 'normal',
 									   'rank'   => intval($ranks[$_id])]]]);
     }
+
+	$bulk->execute();
+	
+	$bulk = $mongodb->getBulkUpdater($collection);
 
     foreach ($mainImages as $type => $_id) {
 
