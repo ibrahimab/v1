@@ -49,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 	imagejpeg($new, $destination . '/' . $filename, 100);
     imagedestroy($new);
+	
+	filesync::add_to_filesync_table($destination . '/' . $filename);
 
     $mongodb = $vars['mongodb']['wrapper'];
     $data    = [
