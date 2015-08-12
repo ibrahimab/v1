@@ -998,7 +998,7 @@ class form2 {
 			for($i=1;$i<=12;$i++) {
 				$return.="<option value=\"".$i."\"";
 				if($this->value[$id]["month"]==$i) $return.=" selected";
-				$return.=">".strftime("%B",mktime(0,0,0,$i,1,2004))."&nbsp;</option>\n";
+				$return.=">".datum("MAAND",mktime(0,0,0,$i,1,2004),$this->settings["language"])."&nbsp;</option>\n";
 			}
 			$return.="</select>&nbsp;";
 
