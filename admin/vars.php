@@ -1453,14 +1453,16 @@ if($_COOKIE["sch"] and !$geen_tracker_cookie) {
                     $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
                 }
 
-                foreach ($last_acc as $type_id => $data) {
+                if (is_array($last_acc)) {
+                    foreach ($last_acc as $type_id => $data) {
 
-                    if (isset($files['t'][$type_id]) && file_exists('pic/cms/' . $files['t'][$type_id])) {
-                        $last_acc[$type_id]['afbeelding'] = $files['t'][$type_id];
-                    } elseif (isset($files['a'][$data['accommodatie_id']]) && file_exists('pic/cms/' . $files['a'][$data['accommodatie_id']])) {
-                        $last_acc[$type_id]['afbeelding'] = $files['a'][$data['accommodatie_id']];
-                    } else {
-                        $last_acc[$type_id]['afbeelding'] = 'accommodaties/0.jpg';
+                        if (isset($files['t'][$type_id]) && file_exists('pic/cms/' . $files['t'][$type_id])) {
+                            $last_acc[$type_id]['afbeelding'] = $files['t'][$type_id];
+                        } elseif (isset($files['a'][$data['accommodatie_id']]) && file_exists('pic/cms/' . $files['a'][$data['accommodatie_id']])) {
+                            $last_acc[$type_id]['afbeelding'] = $files['a'][$data['accommodatie_id']];
+                        } else {
+                            $last_acc[$type_id]['afbeelding'] = 'accommodaties/0.jpg';
+                        }
                     }
                 }
 			}
