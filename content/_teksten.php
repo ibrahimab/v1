@@ -257,9 +257,10 @@ $txt["nl"]["vars"]["mobilenotification"] = "Je bekijkt nu de mobiele website. [[
 $txt["de"]["vars"]["mobilenotification"]="Sie sehen jetzt unsere mobile Webseite. [[h_1]]Ich möchte zur Desktop-Webseite[[h_2]].";
 $txt["en"]["vars"]["mobilenotification"] = "You are browsing the mobile website. [[h_1]]Take me to the desktop site[[h_2]].";
 
-$txt["nl"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: 088 - 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
+$txt["nl"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk telefonisch slecht bereikbaar.\nJe kunt ons uiteraard wel per mail bereiken via [[h_1]][[v_email]][[h_2]] of via de chat.";
+// @TODO: nog te vertalen
 $txt["de"]["vars"]["opvalmelding"]="Wegen eines Umzugs sind wir vorübergehend unter einer anderen Telefonnummer erreichbar: 088 - 66 44 200. Sie können uns natürlich auch eine E-Mail schicken über [[h_1]][[v_email]][[h_2]].";
-$txt["en"]["vars"]["opvalmelding"]="We are temporarily reachable on telephone number +31 88 66 44 200.\nYou can also reach us by email on [[h_1]][[v_email]][[h_2]].";
+$txt["en"]["vars"]["opvalmelding"]="Due to a telephone malfunction we are currently difficult to reach by phone.\nYou can of course reach us by email on [[h_1]][[v_email]][[h_2]] or via the chat.";
 
 $txt["nl_b"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: +31 88 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
 $txt["en_b"]["vars"]["opvalmelding"]="-";
