@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	$minRatio	   = 1.3300;
 	$maxRatio	   = 1.3399;
 
-	if (false === ($size['ratio'] >= $allowedRatio && $size['ratio'] <= $maxRatio)) {
+	if (false === ($size['ratio'] >= $minRatio && $size['ratio'] <= $maxRatio)) {
 		
 		jsonResponse([
 			
