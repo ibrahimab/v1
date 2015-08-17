@@ -38,17 +38,32 @@ foreach ($images as $image) {
 	<div data-role="update-form">
 	    <div class="container">
 	        <div class="main">
-	            <div class="col" style="margin-right: 5px;" data-role="main-images" data-type="big">
-	                <img style="width: 434px; height: 326px;" src="<?php echo $vars['path'] . (isset($mainImages['big']) ? ('pic/cms/' . $mainImages['big']['directory'] . '/' . $mainImages['big']['filename']) : ($placeholder)); ?>" />
+	            <div class="col" style="margin-right: 5px; position: relative;" data-role="main-images" data-type="big">
+                    <span class="clear-main-image"<?php echo (isset($mainImages['big']) ? '' : ' style="display:none;"') ?>>
+                        <a href="#" data-role="clear-main-image" data-id="<?php echo $mainImages['big']['_id']; ?>">
+                            <img src="/chalet/pic/class.cms_delete.gif" class="clear-main-image-icon" />
+                        </a>
+                    </span>
+	                <img data-role="main-image" style="width: 434px; height: 326px;" src="<?php echo $vars['path'] . (isset($mainImages['big']) ? ('pic/cms/' . $mainImages['big']['directory'] . '/' . $mainImages['big']['filename']) : ($placeholder)); ?>" />
 	                <input type="hidden" name="main_images[big]"<?php echo (isset($mainImages['big']) ? ' value="' . $mainImages['big']['_id'] . '"' : ''); ?> />
 	            </div>
 	            <div class="col">
-	                <div class="row" data-role="main-images" data-type="small-above">
-	                    <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
+	                <div style="position: relative;" class="row" data-role="main-images" data-type="small-above">
+                        <span class="clear-main-image"<?php echo (isset($mainImages['small_above']) ? '' : ' style="display:none;"') ?>>
+                            <a href="#" data-role="clear-main-image" data-id="<?php echo $mainImages['small_above']['_id']; ?>">
+                                <img src="/chalet/pic/class.cms_delete.gif" />
+                            </a>
+                        </span>
+	                    <img data-role="main-image" style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
 	                    <input type="hidden" name="main_images[small_above]"<?php echo (isset($mainImages['small_above']) ? ' value="' . $mainImages['small_above']['_id'] . '"' : ''); ?> />
 	                </div>
-	                <div class="row" data-role="main-images" data-type="small-below">
-	                    <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
+	                <div style="position: relative;" class="row" data-role="main-images" data-type="small-below">
+                        <span class="clear-main-image"<?php echo (isset($mainImages['small_below']) ? '' : ' style="display:none;"') ?>>
+                            <a href="#" data-role="clear-main-image" data-id="<?php echo $mainImages['small_below']['_id']; ?>">
+                                <img src="/chalet/pic/class.cms_delete.gif" />
+                            </a>
+                        </span>
+	                    <img data-role="main-image" style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
 	                    <input type="hidden" name="main_images[small_below]"<?php echo (isset($mainImages['small_below']) ? ' value="' . $mainImages['small_below']['_id'] . '"' : ''); ?> />
 	                </div>
 	            </div>
@@ -135,6 +150,16 @@ foreach ($images as $image) {
                 var saved = jq('[data-role="current-saved"]');
                 saved.show();
 
+                jq('[data-role="main-images"]').each(function() {
+
+                    var element = jq(this);
+                    var input   = element.find('input');
+
+                    if (input.val() != '') {
+                        element.find('span').show().find('a').data('id', input.val());
+                    }
+                });
+
                 setTimeout(function() {
                     saved.fadeOut();
                 }, 3000);
@@ -178,9 +203,34 @@ foreach ($images as $image) {
 
 	                jq('[data-role="sortable-list"]').empty();
 	                jq('[data-role="main-images"] img').attr('src', '<?php echo $placeholder; ?>');
+                    jq('[data-role="main-images"] span').hide();
 	            }
 	        });
 		}
+    });
+
+    jq('body').on('click', '[data-role="clear-main-image"]', function(event) {
+
+        event.preventDefault();
+
+        if (window.confirm('Afbeelding niet langer hoofdafbeelding?')) {
+
+            var el   = jq(this);
+            var id   = el.data('id');
+            var type = el.parents('[data-role="main-images"]').data('type');
+
+            jq.ajax({
+
+                url: '<?php echo $vars['path']; ?>uploader/clear.php',
+                type: 'post',
+                data: {id: id, type: type, collection: '<?php echo $collection; ?>'},
+                success: function(data) {
+
+                    jq('[data-role="main-images"][data-type="' + type + '"] img[data-role="main-image"]').attr('src', '<?php echo $placeholder; ?>');
+                    jq('[data-role="main-images"][data-type="' + type + '"] span').hide();
+                }
+            });
+        }
     });
 
 }(jQuery));

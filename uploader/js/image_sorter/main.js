@@ -26,10 +26,12 @@ var ImageSorter = (function(ns, jq, _, undefined) {
 
         jq('body').on('drop', '[data-role="main-images"]', function() {
 
-            var id = event.dataTransfer.getData('id');
+            var id      = event.dataTransfer.getData('id');
             var element = jq(this);
-            element.find('img').attr('src', jq(ns.get('item') + '[data-id="' + id + '"]').find('img').attr('src'));
+            
+            element.find('img[data-role="main-image"]').attr('src', jq(ns.get('item') + '[data-id="' + id + '"]').find('img').attr('src'));
             element.find('input').val(id);
+            
         });
     };
 

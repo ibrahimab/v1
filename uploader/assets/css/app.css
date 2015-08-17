@@ -175,3 +175,13 @@ div.uploader-container div.clear {
 div.uploader-container div.preview .hide-container {
     display: none;
 }
+
+span.clear-main-image {
+    position: absolute;
+    right: 0;
+    background-color: white;
+    width: 50px;
+    height: 25px;
+    padding-top: 5px;
+    text-align: center;
+}
