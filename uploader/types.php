@@ -43,7 +43,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                 <div class="col" style="margin-right: 5px; position: relative;" data-role="main-images" data-type="big">
                     <span class="clear-main-image"<?php echo (isset($mainImages['big']) ? '' : ' style="display:none;"') ?>>
                         <a href="#" data-role="clear-main-image" data-id="<?php echo $mainImages['big']['_id']; ?>">
-                            <img src="/chalet/pic/class.cms_delete.gif" class="clear-main-image-icon" />
+                            <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" class="clear-main-image-icon" />
                         </a>
                     </span>
                     <img data-role="main-image" style="width: 434px; height: 326px;" src="<?php echo $vars['path'] . (isset($mainImages['big']) ? ('pic/cms/' . $mainImages['big']['directory'] . '/' . $mainImages['big']['filename']) : ($placeholder)); ?>" />
@@ -53,7 +53,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                     <div style="position: relative;" class="row" data-role="main-images" data-type="small-above">
                         <span class="clear-main-image"<?php echo (isset($mainImages['small_above']) ? '' : ' style="display:none;"') ?>>
                             <a href="#" data-role="clear-main-image" data-id="<?php echo $mainImages['small_above']['_id']; ?>">
-                                <img src="/chalet/pic/class.cms_delete.gif" />
+                                <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" />
                             </a>
                         </span>
                         <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
@@ -62,7 +62,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                     <div style="position: relative;" class="row" data-role="main-images" data-type="small-below">
                         <span class="clear-main-image"<?php echo (isset($mainImages['small_below']) ? '' : ' style="display:none;"') ?>>
                             <a href="#" data-role="clear-main-image" data-id="<?php echo $mainImages['small_below']['_id']; ?>">
-                                <img src="/chalet/pic/class.cms_delete.gif" />
+                                <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" />
                             </a>
                         </span>
                         <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
