@@ -2255,6 +2255,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 #opval_bottombar_text {
 	float: left;
 	text-align: center;
+	width: 900px;
 }
 
 #opval_bottombar_close {

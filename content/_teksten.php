@@ -260,10 +260,16 @@ $txt["en"]["vars"]["mobilenotification"] = "You are browsing the mobile website.
 $txt["nl"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk telefonisch slecht bereikbaar.\nJe kunt ons uiteraard wel per mail bereiken via [[h_1]][[v_email]][[h_2]] of via de chat.";
 // @TODO: nog te vertalen
 $txt["de"]["vars"]["opvalmelding"]="Wegen eines Umzugs sind wir vorübergehend unter einer anderen Telefonnummer erreichbar: 088 - 66 44 200. Sie können uns natürlich auch eine E-Mail schicken über [[h_1]][[v_email]][[h_2]].";
-$txt["en"]["vars"]["opvalmelding"]="Due to a telephone malfunction we are currently difficult to reach by phone.\nYou can of course reach us by email on [[h_1]][[v_email]][[h_2]] or via the chat.";
+$txt["en"]["vars"]["opvalmelding"]="Due to a telephone malfunction we are currently difficult to reach by phone.\nYou can of course reach us by email on [[h_1]][[v_email]][[h_2]].";
 
-$txt["nl_b"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk telefonisch slecht bereikbaar.\nJe kunt ons uiteraard wel per mail bereiken via [[h_1]][[v_email]][[h_2]] of via de chat.";
-$txt["en_b"]["vars"]["opvalmelding"]="-";
+$txt["nl_t"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk telefonisch slecht bereikbaar.\nJe kunt ons uiteraard wel per mail bereiken via [[h_1]][[v_email]][[h_2]].";
+$txt["en_t"]["vars"]["opvalmelding"]="-";
+
+$txt["nl_z"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk telefonisch slecht bereikbaar.\nJe kunt ons uiteraard wel per mail bereiken via [[h_1]][[v_email]][[h_2]].";
+$txt["en_z"]["vars"]["opvalmelding"]="-";
+
+$txt["nl_v"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk telefonisch slecht bereikbaar.\nJe kunt ons uiteraard wel per mail bereiken via [[h_1]][[v_email]][[h_2]].";
+$txt["en_v"]["vars"]["opvalmelding"]="Due to a telephone malfunction we are currently difficult to reach by phone.\nYou can of course reach us by email on [[h_1]][[v_email]][[h_2]].";
 
 $txt["nl"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
 $txt["de"]["vars"]["mailopties_wzt1_vakantie"]="Wintersporturlaub";
