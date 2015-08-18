@@ -259,7 +259,7 @@ if(defined("wt_test") and $vars["livechat_code"]) {
 $vars["cookiemelding_tonen"]=true;
 
 # Opvalmelding tonen
-$vars["opvalmelding_tonen"]=true;
+$vars["opvalmelding_tonen"]=false;
 
 #
 # Land-instellingen
