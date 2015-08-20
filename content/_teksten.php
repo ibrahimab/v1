@@ -730,20 +730,19 @@ $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]=
 
 Ga jij komend seizoen ook weer op wintersport via [WEBSITE]?
 
-Na je vorige wintersportvakantie heb je aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2015/2016. Daarom nodigen we je hierbij uit om onze accommodaties te bekijken. We hebben weer een mooi aanbod kunnen samenstellen met onder meer veel extra mogelijkheden voor cateringservice.
+Na je vorige wintersportvakantie heb je aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2015/2016. Daarom nodigen we je hierbij uit om onze accommodaties te bekijken. We hebben weer een mooi aanbod kunnen samenstellen met onder meer veel mogelijkheden voor [link=[LINK_CATERING]]cateringservice[/link].
 
-[b]Klantvoordeel[/b]
 Om je de kans te geven rustig met je reisgenoten te overleggen, geven we je als klant nu een [b]extra lange optie[/b] in plaats van de gebruikelijke 3-daagse optie. De lengte van de optie is afhankelijk van de accommodatie en de verblijfsperiode. Via onderstaande link kun je gebruik maken van dit voordeel:
 
 [link=[LINK_ALGEMEEN]]Een accommodatie zoeken voor winter 2015/2016 en profiteren van de extra lange optie.[/link]
 
-Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
+Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies. Ieder jaar merken we dat vooral de grote accommodaties erg populair zijn, met name voor de kerst- en krokusvakantie. We raden je dan ook aan om niet te lang te wachten met oriënteren.
 
 Alvast veel vakantie-voorpret toegewenst!
 
 [ondertekening]";
 
-# winter EN
+# winter DE
 $txt["de"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 fahren Sie nächste Saison auch wieder in den Wintersporturlaub mit [WEBSITE]?
@@ -764,7 +763,6 @@ $txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]=
 
 This past winter you went on a winter holiday via [WEBSITE]. You let us know that you wanted to be informed about our winter accommodations for the 2015/2016 winter season. That's why we want you to be among the first to know that a big part of our accommodations can now be booked.
 
-[b]Your advantage[/b]
 Every year we notice that the big accommodations are very popular and are booked early. This is especially true for the Christmas and spring holidays, which are already in high demand. So we recommend you don't wait too long to start your search.
 
 We can now give you an [b]extra long option[/b] instead of the normal 3-day option, to give you the chance to discuss with fellow travelers. The length of the option depends on the accommodation and the period of stay. Through the link below you can make use of this advantage:

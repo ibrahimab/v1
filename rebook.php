@@ -24,6 +24,8 @@ if($_GET["bid"] and $_GET["c"]==substr(sha1($_GET["bid"]."_WT_488439fk3"),0,8)) 
 			$goto=$vars["path"].txt("menu_contact").".php";
 		} elseif($_GET["goto"]=="zoekenboek") {
 			$goto=$vars["path"].txt("menu_zoek-en-boek").".php";
+		} elseif($_GET["goto"]=="zoekenboekcatering") {
+			$goto=$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fzt=&vf_kenm2=1";
 		}
 	}
 
