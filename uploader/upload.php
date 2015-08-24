@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fileinfo      = pathinfo($headers['X_FILENAME']);
     $rank          = intval($headers['X_RANK']);
     $filename      = time() . '-' . $rank . '.' . $fileinfo['extension'];
-    $directory     = 'accommodations';
+    $directory     = $headers['X_COLLECTION'];
     $destination   = dirname(dirname(__FILE__)) . '/pic/cms/' . $directory;
 
 	imagejpeg($new, $destination . '/' . $filename, 100);
