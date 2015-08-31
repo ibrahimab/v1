@@ -7,7 +7,7 @@
 
 # Menu-vertalingen / bestandsnamen
 $txta["nl"]["menu_accommodaties"]="accommodaties";
-$txta["de"]["menu_accommodaties"]="Unterkünfte";
+$txta["de"]["menu_accommodaties"]="Unterkï¿½nfte";
 $txta["en"]["menu_accommodaties"]="accommodations";
 
 $txta["nl"]["menu_accommodatie"]="accommodatie";
@@ -113,7 +113,7 @@ $txta["de"]["menu_verzekeringen"]="Versicherungen";
 $txta["en"]["menu_verzekeringen"]="insurance";
 
 $txta["nl"]["menu_sitemap"]="sitemap";
-$txta["de"]["menu_sitemap"]="Übersichtsseite";
+$txta["de"]["menu_sitemap"]="ï¿½bersichtsseite";
 $txta["en"]["menu_sitemap"]="sitemap";
 
 $txta["nl"]["menu_werkwijze"]="werkwijze";
@@ -280,11 +280,11 @@ $txta["de"]["submenutitle_favorieten"]="Favoriten";
 $txta["en"]["submenutitle_favorieten"]="favourites";
 
 $txta["nl"]["submenutitle_algemenevoorwaarden"]="algemene voorwaarden";
-$txta["de"]["submenutitle_algemenevoorwaarden"]="Allgemeine Geschäftsbedingungen";
+$txta["de"]["submenutitle_algemenevoorwaarden"]="Allgemeine Geschï¿½ftsbedingungen";
 $txta["en"]["submenutitle_algemenevoorwaarden"]="conditions";
 
 $txta["nl"]["submenutitle_voorwaarden"]="voorwaarden";
-$txta["de"]["submenutitle_voorwaarden"]="Geschäftsbedingungen";
+$txta["de"]["submenutitle_voorwaarden"]="Geschï¿½ftsbedingungen";
 $txta["en"]["submenutitle_voorwaarden"]="conditions";
 
 $txta["nl"]["submenutitle_verzekeringen"]="verzekeringen";
@@ -295,7 +295,7 @@ $txta["nl_z"]["submenutitle_verzekeringen"]="verzekeringen en autohuur";
 $txta["en_z"]["submenutitle_verzekeringen"]="insurances";
 
 $txta["nl"]["submenutitle_sitemap"]="sitemap";
-$txta["de"]["submenutitle_sitemap"]="Übersichtsseite";
+$txta["de"]["submenutitle_sitemap"]="ï¿½bersichtsseite";
 $txta["en"]["submenutitle_sitemap"]="sitemap";
 
 $txta["nl"]["submenutitle_werkwijze"]="werkwijze ".$vars["websitenaam"];
@@ -318,15 +318,15 @@ $txta["de"]["submenutitle_reisagenten"]="Reiseagenturen";
 $txta["en"]["submenutitle_reisagenten"]="travel agents";
 
 $txta["nl"]["submenutitle_huiseigenaren"]="huiseigenaren";
-$txta["de"]["submenutitle_huiseigenaren"]="Hauseigentümer";
+$txta["de"]["submenutitle_huiseigenaren"]="Hauseigentï¿½mer";
 $txta["en"]["submenutitle_huiseigenaren"]="chalet owners";
 
 $txta["nl"]["submenutitle_veelgesteldevragen"]="veelgestelde vragen";
-$txta["de"]["submenutitle_veelgesteldevragen"]="häufig gestellte Fragen";
+$txta["de"]["submenutitle_veelgesteldevragen"]="hï¿½ufig gestellte Fragen";
 $txta["en"]["submenutitle_veelgesteldevragen"]="faq";
 
 $txta["nl"]["submenutitle_wiezijnwij"]="wie zijn wij?";
-$txta["de"]["submenutitle_wiezijnwij"]="wir über uns";
+$txta["de"]["submenutitle_wiezijnwij"]="wir ï¿½ber uns";
 $txta["en"]["submenutitle_wiezijnwij"]="about us";
 
 $txta["nl"]["submenutitle_werkenbij"]="werken bij ons";
@@ -420,7 +420,7 @@ $txta["en"]["subtitel"]="Wintersports - Chalets - Accommodations";
 $txta["nl_z"]["subtitel"]="Vakantie in zomer, voorjaar en najaar - Vakantiehuizen en luxe appartementen in Europa";
 $txta["en_z"]["subtitel"]="Summer Holidays - Chalets - Accommodations - Holiday Homes";
 
-$txta["nl_i"]["subtitel"]="Agriturismi en overige vakantiehuizen in Italië";
+$txta["nl_i"]["subtitel"]="Agriturismi en overige vakantiehuizen in Italiï¿½";
 $txta["en_i"]["subtitel"]="Agriturismi and other holiday homes in Italy";
 
 $txta["nl_w"]["subtitel"]="Wintersport - Superdeals voor skivakanties";
@@ -439,7 +439,7 @@ $txta["en_z"]["sitetitel"]="-";
 $txta["nl_v"]["sitetitel"]="Puur genieten in Vallandry";
 $txta["en_v"]["sitetitel"]="Take a break in Vallandry";
 
-$txta["nl_i"]["sitetitel"]="Agriturismi en overige vakantiehuizen in Italië";
+$txta["nl_i"]["sitetitel"]="Agriturismi en overige vakantiehuizen in Italiï¿½";
 $txta["en_i"]["sitetitel"]="Agriturismi and other holiday homes in Italy";
 
 
@@ -448,16 +448,16 @@ $txta["en_i"]["sitetitel"]="Agriturismi and other holiday homes in Italy";
 # meta-description
 #
 $txta["nl"]["description"]="Wintersportspecialist: Chalets en appartementen voor 2 tot 50 personen, desgewenst inclusief catering, skipassen, materiaalhuur en skilessen.";
-$txta["de"]["description"]="Wintersport-Spezialist: Chalets und Appartements für 2 bis 50 Personen, nach Wunsch inklusive Catering, Skipässe, Skiverleih und Skistunden.";
+$txta["de"]["description"]="Wintersport-Spezialist: Chalets und Appartements fï¿½r 2 bis 50 Personen, nach Wunsch inklusive Catering, Skipï¿½sse, Skiverleih und Skistunden.";
 $txta["en"]["description"]="Wintersports - Chalets - Accommodations";
 
-$txta["nl_z"]["description"]="Vakantie in de bergen. Vakantiehuizen in de bergen van Oostenrijk, Frankrijk, Zwitserland, Italië en Duitsland. Uniek aanbod en lid van SGR.";
+$txta["nl_z"]["description"]="Vakantie in de bergen. Vakantiehuizen in de bergen van Oostenrijk, Frankrijk, Zwitserland, Italiï¿½ en Duitsland. Uniek aanbod en lid van SGR.";
 $txta["en_z"]["description"]="-";
 
-$txta["nl_i"]["description"]="Agriturismi en overige vakantiehuizen in Italië -  Zo'n 1.000 karakteristieke vakantiehuizen, vakantievilla's  en agriturismi verdeeld over heel Italië.";
+$txta["nl_i"]["description"]="Agriturismi en overige vakantiehuizen in Italiï¿½ -  Zo'n 1.000 karakteristieke vakantiehuizen, vakantievilla's  en agriturismi verdeeld over heel Italiï¿½.";
 $txta["en_i"]["description"]="-";
 
-$txta["nl_w"]["description"]="SuperSki biedt je interessante deals voor een wintersportvakantie in Frankrijk, Oostenrijk, Zwitserland, Duitsland en Italië.";
+$txta["nl_w"]["description"]="SuperSki biedt je interessante deals voor een wintersportvakantie in Frankrijk, Oostenrijk, Zwitserland, Duitsland en Italiï¿½.";
 $txta["en_w"]["description"]="-";
 
 $txta["nl_y"]["description"]="Specialist in luxe chalets en appartementen voor een wintersportvakantie in Frankrijk";
@@ -474,11 +474,11 @@ if($vars["websitetype"]==3 or $vars["websitetype"]==5 or $vars["websitetype"]==7
 } else {
 	$txta["nl"]["title_skigebieden"]="Overzicht skigebieden";
 }
-$txta["de"]["title_skigebieden"]="Übersicht Skigebiete";
+$txta["de"]["title_skigebieden"]="ï¿½bersicht Skigebiete";
 $txta["en"]["title_skigebieden"]="Regions";
 
 $txta["nl"]["title_accommodaties"]="Accommodaties";
-$txta["de"]["title_accommodaties"]="Unterkünfte";
+$txta["de"]["title_accommodaties"]="Unterkï¿½nfte";
 $txta["en"]["title_accommodaties"]="Accommodations";
 
 $txta["nl"]["title_zoekenboek"]="Zoek en boek";
@@ -529,7 +529,7 @@ $txta["de"]["title_anderesite"]="Winter";
 $txta["en"]["title_anderesite"]="Winter";
 
 $txta["nl"]["title_overigeinfo"]="Overige informatie";
-$txta["de"]["title_overigeinfo"]="Übrige Informationen";
+$txta["de"]["title_overigeinfo"]="ï¿½brige Informationen";
 $txta["en"]["title_overigeinfo"]="Other info";
 
 $txta["nl"]["title_top10"]="Top 10 per week";
@@ -545,7 +545,7 @@ $txta["de"]["title_uitschrijvennieuwsbrief"]="Newsletter abmelden";
 $txta["en"]["title_uitschrijvennieuwsbrief"]="Mailing";;
 
 $txta["nl"]["title_beschikbaarheid"]="Beschikbaarheid controleren";
-$txta["de"]["title_beschikbaarheid"]="Verfügbarkeit kontrollieren";
+$txta["de"]["title_beschikbaarheid"]="Verfï¿½gbarkeit kontrollieren";
 $txta["en"]["title_beschikbaarheid"]="Check availability";
 
 $txta["nl"]["title_optieaanvragen"]="Optie aanvragen";
@@ -565,7 +565,7 @@ $txta["de"]["title_bsys"]="Meine Buchung";
 $txta["en"]["title_bsys"]="My booking";
 
 $txta["nl"]["title_selecteren"]="Gewenste boeking selecteren";
-$txta["de"]["title_selecteren"]="Gewünschte Buchung wählen";
+$txta["de"]["title_selecteren"]="Gewï¿½nschte Buchung wï¿½hlen";
 $txta["en"]["title_selecteren"]="Select booking";
 
 $txta["nl"]["title_wachtwoord"]="Inloggegevens opvragen";
@@ -577,7 +577,7 @@ $txta["de"]["title_inloggen"]="Anmelden bei \"Meine Buchung\"";
 $txta["en"]["title_inloggen"]="Login to \"My booking\"";
 
 $txta["nl"]["title_inloggen_geblokkeerd"]="Account tijdelijk geblokkeerd";
-$txta["de"]["title_inloggen_geblokkeerd"]="Konto vorübergehend gesperrt";
+$txta["de"]["title_inloggen_geblokkeerd"]="Konto vorï¿½bergehend gesperrt";
 $txta["en"]["title_inloggen_geblokkeerd"]="Account temporarily blocked";
 
 $txta["nl"]["title_verzekeringen"]="Verzekeringen";
@@ -592,11 +592,11 @@ $txta["de"]["title_reisagent"]="Anmelden Reiseagentur";
 $txta["en"]["title_reisagent"]="Log in travel agents";
 
 $txta["nl"]["title_reisagent_nieuws"]="Laatste nieuws voor reisagenten";
-$txta["de"]["title_reisagent_nieuws"]="Letzte Neuigkeiten für Reiseagenturen";
+$txta["de"]["title_reisagent_nieuws"]="Letzte Neuigkeiten fï¿½r Reiseagenturen";
 $txta["en"]["title_reisagent_nieuws"]="News for travel agents";
 
 $txta["nl"]["title_reisagent_ingelogd"]="Hoofdmenu reisagent";
-$txta["de"]["title_reisagent_ingelogd"]="Hauptmenü Reiseagentur";
+$txta["de"]["title_reisagent_ingelogd"]="Hauptmenï¿½ Reiseagentur";
 $txta["en"]["title_reisagent_ingelogd"]="Main menu travel agent";
 
 $txta["nl"]["title_reisagent_aanmelden"]="Aanmelden reisagent";
@@ -604,15 +604,15 @@ $txta["de"]["title_reisagent_aanmelden"]="Anmelden Reiseagentur";
 $txta["en"]["title_reisagent_aanmelden"]="Register travel agent";
 
 $txta["nl"]["title_reisagent_overzicht"]="Overzicht actuele boekingen";
-$txta["de"]["title_reisagent_overzicht"]="Übersicht aktuelle Buchungen";
+$txta["de"]["title_reisagent_overzicht"]="ï¿½bersicht aktuelle Buchungen";
 $txta["en"]["title_reisagent_overzicht"]="Overview current bookings";
 
 $txta["nl"]["title_reisagent_overzicht_calc"]="Overzicht prijsberekeningen";
-$txta["de"]["title_reisagent_overzicht_calc"]="Übersicht Preisberechnungen";
+$txta["de"]["title_reisagent_overzicht_calc"]="ï¿½bersicht Preisberechnungen";
 $txta["en"]["title_reisagent_overzicht_calc"]="Overview calculations";
 
 $txta["nl"]["title_reisagent_financieel"]="Financieel overzicht boekingen";
-$txta["de"]["title_reisagent_financieel"]="Finanzielle Übersicht Buchungen";
+$txta["de"]["title_reisagent_financieel"]="Finanzielle ï¿½bersicht Buchungen";
 $txta["en"]["title_reisagent_financieel"]="Financial Overview bookings";
 
 $txta["nl"]["title_reisagent_overzicht_mijngeg"]="Mijn gegevens";
@@ -620,7 +620,7 @@ $txta["de"]["title_reisagent_overzicht_mijngeg"]="Meine Daten";
 $txta["en"]["title_reisagent_overzicht_mijngeg"]="Personal data";
 
 $txta["nl"]["title_rebook"]="Aanbod voor bestaande klanten";
-$txta["de"]["title_rebook"]="Angebot für Stammkunden";
+$txta["de"]["title_rebook"]="Angebot fï¿½r Stammkunden";
 $txta["en"]["title_rebook"]="Offer for returning customers";
 
 $txta["nl"]["title_themas"]="Thema's";
@@ -628,7 +628,7 @@ $txta["de"]["title_themas"]="Themen";
 $txta["en"]["title_themas"]="Themes";
 
 $txta["nl"]["title_veelgesteldevragen"]="Veelgestelde vragen";
-$txta["de"]["title_veelgesteldevragen"]="Häufig gestellte Fragen";
+$txta["de"]["title_veelgesteldevragen"]="Hï¿½ufig gestellte Fragen";
 $txta["en"]["title_veelgesteldevragen"]="Frequently Asked Questions";
 
 $txta["nl"]["title_404"]="Pagina niet gevonden";
@@ -649,7 +649,7 @@ $txta["de"]["title_calc"]="Gesamtsumme Ihrer Reise berechnen";
 $txta["en"]["title_calc"]="Calculate total sum of your holiday";
 
 $txta["nl"]["title_wiezijnwij"]="Wie zijn wij?";
-$txta["de"]["title_wiezijnwij"]="Wir über uns";
+$txta["de"]["title_wiezijnwij"]="Wir ï¿½ber uns";
 $txta["en"]["title_wiezijnwij"]="About us";
 
 $txta["nl"]["title_persberichten"]="Persberichten";
@@ -665,19 +665,19 @@ $txta["de"]["title_bestemmingen"]="Reiseziele";
 $txta["en"]["title_bestemmingen"]="Destinations";
 
 $txta["nl"]["title_saved"]="Laatst bekeken accommodaties";
-$txta["de"]["title_saved"]="Zuletzt angesehene Unterkünfte";
+$txta["de"]["title_saved"]="Zuletzt angesehene Unterkï¿½nfte";
 $txta["en"]["title_saved"]="Last viewed accommodations";
 
 $txta["nl"]["title_jubileum"]="Chalet.nl is jarig, wil je ook een stukje taart? - Actie verlengd";
-$txta["de"]["title_jubileum"]="Chalet.nl hat Geburtstag, möchten Sie auch ein Stück Kuchen? - Aktion verlängert";
+$txta["de"]["title_jubileum"]="Chalet.nl hat Geburtstag, mï¿½chten Sie auch ein Stï¿½ck Kuchen? - Aktion verlï¿½ngert";
 $txta["en"]["title_jubileum"]="Chalet.nl turns 10, do you want a piece of cake?";
 
-$txta["nl"]["title_enquete"]="Enquête";
+$txta["nl"]["title_enquete"]="Enquï¿½te";
 $txta["de"]["title_enquete"]="Fragebogen";
 $txta["en"]["title_enquete"]="Survey";
 
 $txta["nl"]["title_sitemap"]="Sitemap";
-$txta["de"]["title_sitemap"]="Übersichtsseite";
+$txta["de"]["title_sitemap"]="ï¿½bersichtsseite";
 $txta["en"]["title_sitemap"]="Sitemap";
 
 $txta["nl"]["title_vraagonsadvies"]="Vraag ons advies";
@@ -685,7 +685,7 @@ $txta["de"]["title_vraagonsadvies"]="Fragen Sie unseren Rat";
 $txta["en"]["title_vraagonsadvies"]="Ask our advice";
 
 $txta["nl"]["title_lev_login"]="Beheersysteem accommodatie-eigenaren";
-$txta["de"]["title_lev_login"]="Verwaltungssystem Unterkunftseigentümer";
+$txta["de"]["title_lev_login"]="Verwaltungssystem Unterkunftseigentï¿½mer";
 $txta["en"]["title_lev_login"]="Management system accommodation owners";
 
 # Vallandry
@@ -702,7 +702,7 @@ $txta["de"]["title_kort-verblijf"]="Kurzer Aufenthalt";
 $txta["en"]["title_kort-verblijf"]="Short Stay";
 
 $txta["nl"]["title_huiseigenaren"]="Huiseigenaren";
-$txta["de"]["title_huiseigenaren"]="Hauseigentümer";
+$txta["de"]["title_huiseigenaren"]="Hauseigentï¿½mer";
 $txta["en"]["title_huiseigenaren"]="Chalet owners";
 
 $txta["nl"]["title_blog"]="Blog ".$vars["websitenaam"];
@@ -710,11 +710,11 @@ $txta["de"]["title_blog"]="-";
 $txta["en"]["title_blog"]="-";
 
 $txta["nl"]["title_privacy-statement"]="Privacy-statement";
-$txta["de"]["title_privacy-statement"]="Datenschutzerklärung";
+$txta["de"]["title_privacy-statement"]="Datenschutzerklï¿½rung";
 $txta["en"]["title_privacy-statement"]="Privacy statement";
 
 $txta["nl"]["title_disclaimer"]="Disclaimer voor [[v_websitenaam]]";
-$txta["de"]["title_disclaimer"]="Haftungsausschluss für [[v_websitenaam]]";
+$txta["de"]["title_disclaimer"]="Haftungsausschluss fï¿½r [[v_websitenaam]]";
 $txta["en"]["title_disclaimer"]="Disclaimer for [[v_websitenaam]]";
 
 $txta["nl"]["title_favorieten"]="Favorieten";
@@ -724,7 +724,7 @@ $txta["en"]["title_favorieten"]="Favourites";
 
 # Pop-up-titels
 $txta["nl"]["popuptitle_soort"]="Uitleg soort accommodaties";
-$txta["de"]["popuptitle_soort"]="Erklärung Unterkunftstypen";
+$txta["de"]["popuptitle_soort"]="Erklï¿½rung Unterkunftstypen";
 $txta["en"]["popuptitle_soort"]="Explanation accommodations";
 
 $txta["nl"]["popuptitle_algemenevoorwaarden"]="Algemene reis- en verkoopvoorwaarden [[v_websitenaam]]";
@@ -752,7 +752,7 @@ $txta["de"]["popuptitle_materiaalhuur2"]="Preisliste Leihmaterial";
 $txta["en"]["popuptitle_materiaalhuur2"]="Prices";
 
 $txta["nl"]["popuptitle_kwaliteit"]="Uitleg kwaliteit";
-$txta["de"]["popuptitle_kwaliteit"]="Erklärung Qualität";
+$txta["de"]["popuptitle_kwaliteit"]="Erklï¿½rung Qualitï¿½t";
 $txta["en"]["popuptitle_kwaliteit"]="Quality";
 
 $txta["nl"]["popuptitle_opties"]="Opties";
@@ -760,11 +760,11 @@ $txta["de"]["popuptitle_opties"]="Optionen";
 $txta["en"]["popuptitle_opties"]="Options";
 
 $txta["nl"]["popuptitle_zoektekst"]="Uitleg \"Zoeken m.b.v. tekst\"";
-$txta["de"]["popuptitle_zoektekst"]="Erklärung \"Suchen nach Text\"";
+$txta["de"]["popuptitle_zoektekst"]="Erklï¿½rung \"Suchen nach Text\"";
 $txta["en"]["popuptitle_zoektekst"]="Explanation text search";
 
 $txta["nl"]["popuptitle_annuleringsverzekering"]="Annuleringsverzekering";
-$txta["de"]["popuptitle_annuleringsverzekering"]="Reiserücktrittsversicherung";
+$txta["de"]["popuptitle_annuleringsverzekering"]="Reiserï¿½cktrittsversicherung";
 $txta["en"]["popuptitle_annuleringsverzekering"]="Cancellation insurance";
 
 $txta["nl"]["popuptitle_stuurdoor"]="Stuur deze accommodatie door naar een vriend(in)";
@@ -785,7 +785,7 @@ $txta["de"]["mijngegevens_reisagent"]="Meine Daten";
 $txta["en"]["mijngegevens_reisagent"]="Personal data";
 
 $txta["nl"]["hoofdmenu_reisagent"]="hoofdmenu reisagent";
-$txta["de"]["hoofdmenu_reisagent"]="Hauptmenü Reiseagentur";
+$txta["de"]["hoofdmenu_reisagent"]="Hauptmenï¿½ Reiseagentur";
 $txta["en"]["hoofdmenu_reisagent"]="main menu travel agent";
 
 $txta["nl"]["laatstbekeken"]="laatst bekeken";
@@ -815,7 +815,7 @@ $txta["de"]["accommodatie"]="Unterkunft";
 $txta["en"]["accommodatie"]="accommodation";
 
 $txta["nl"]["accommodaties"]="accommodaties";
-$txta["de"]["accommodaties"]="Unterkünfte";
+$txta["de"]["accommodaties"]="Unterkï¿½nfte";
 $txta["en"]["accommodaties"]="accommodations";
 
 $txta["nl"]["chalets"]="chalets";
@@ -846,7 +846,7 @@ $txta["en"]["top10perweek"]="top 10 per week";
 #$txta["en"]["groepsreizen"]="group travel";
 
 $txta["nl"]["geenafbeelding"]="Geen afbeelding beschikbaar";
-$txta["de"]["geenafbeelding"]="Kein Bild verfügbar";
+$txta["de"]["geenafbeelding"]="Kein Bild verfï¿½gbar";
 $txta["en"]["geenafbeelding"]="No illustration available";
 
 $txta["nl"]["met"]="met";
@@ -918,11 +918,11 @@ $txta["de"]["vanaf"]="ab";
 $txta["en"]["vanaf"]="from";
 
 $txta["nl"]["terugnaarboven"]="Terug naar boven";
-$txta["de"]["terugnaarboven"]="Zurück nach oben";
+$txta["de"]["terugnaarboven"]="Zurï¿½ck nach oben";
 $txta["en"]["terugnaarboven"]="Top of page";
 
 $txta["nl"]["venstersluiten"]="Venster sluiten";
-$txta["de"]["venstersluiten"]="Fenster schließen";
+$txta["de"]["venstersluiten"]="Fenster schlieï¿½en";
 $txta["en"]["venstersluiten"]="Close";
 
 $txta["nl"]["ontwikkelddoor"]="ontwikkeld door";
@@ -1014,7 +1014,7 @@ $txta["de"]["en"]="und";
 $txta["en"]["en"]="and";
 
 $txta["nl"]["aantalnachten"]="Aantal nachten";
-$txta["de"]["aantalnachten"]="Anzahl Nächte";
+$txta["de"]["aantalnachten"]="Anzahl Nï¿½chte";
 $txta["en"]["aantalnachten"]="Number of nights";
 
 $txta["nl"]["aantalweken"]="Aantal weken";
