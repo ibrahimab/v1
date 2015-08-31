@@ -807,7 +807,7 @@ $vars["fotofabriek_code_na_enquete"]=false;
 $vars["referentiekeuze"]=array(1=>txt("referentie_1","vars"),2=>txt("referentie_2","vars"),3=>txt("referentie_3","vars"),4=>txt("referentie_4","vars"),9=>txt("referentie_9","vars"),10=>txt("referentie_10","vars"),5=>txt("referentie_5","vars"),6=>txt("referentie_6","vars"),8=>txt("referentie_8","vars"),7=>txt("referentie_7","vars"));
 $vars["referentiekeuze_mobile"]=array(1=>txt("referentie_1","vars"),11=>txt("referentie_11","vars"),12=>txt("referentie_12","vars"),13=>txt("referentie_13","vars"),4=>txt("referentie_4","vars"),3=>txt("referentie_3","vars"),5=>txt("referentie_5","vars"),6=>txt("referentie_6","vars"),8=>txt("referentie_8","vars"),7=>txt("referentie_7","vars"));
 
-$vars["reserveringskosten"]=20;
+$vars["reserveringskosten"]=22.50;
 
 $vars["boeken"]=array(1=>txt("accommodatiegegevensopgeven","vars"),2=>txt("gegevenshoofdboekeropgeven","vars"),3=>txt("gegevensoverigepersonenopgeven","vars"),4=>txt("optiesselecteren","vars"),5=>txt("boekingbevestigen","vars"));
 $vars["boeken_cms"]=array(1=>"Accommodatie, aantal personen of aankomstdatum wijzigen",2=>"Gegevens hoofdboeker wijzigen",3=>"Gegevens overige personen wijzigen",4=>"Opties wijzigen");
