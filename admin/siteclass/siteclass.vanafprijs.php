@@ -180,6 +180,8 @@ class vanafprijs extends chaletDefault
 	 */
 	private function calculate_types( $type_ids ) {
 
+		global $vars;
+
 		$db = new DB_sql;
 
 		$db2 = new DB_sql;
@@ -213,6 +215,11 @@ class vanafprijs extends chaletDefault
 		$db->query("UPDATE cache_vanafprijs_incl_bkk_type SET wis=1 WHERE type_id IN (".$type_ids.");");
 		$db->query("SELECT type_id, toonper, wzt, maxaantalpersonen FROM view_accommodatie WHERE type_id IN (".$type_ids.") ORDER BY type_id;");
 		while($db->next_record()) {
+
+			if ($vars["tmp_info_tonen"]) {
+				echo "berekenen vanafprijs type_id ".$db->f("type_id")."\n";
+			}
+
 			unset($prijs, $update);
 			if($db->f("toonper")==1) {
 				//

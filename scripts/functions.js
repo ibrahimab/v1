@@ -1758,7 +1758,7 @@ $(document).ready(function() {
 					$("div.zoekresultaat_prijs_info_bijkomendekosten").data("active", "0");
 
 
-					$.getJSON(absolute_path+"rpc_json.php", {"t": "get_content_zoekresultaat_prijs_info_bijkomendekosten_popup","type_id":icon.data("type_id"),"seizoen_id":icon.data("seizoen_id"),"arrangement":icon.data("arrangement")}, function(data) {
+					$.getJSON(absolute_path+"rpc_json.php", {"t": "get_content_zoekresultaat_prijs_info_bijkomendekosten_popup","type_id":icon.data("type_id"),"seizoen_id":icon.data("seizoen_id"),"arrangement":icon.data("arrangement"),"ap":icon.data("ap"),"ad":icon.data("ad")}, function(data) {
 						if(data.ok) {
 							if(data.html) {
 
@@ -2425,7 +2425,6 @@ $(document).ready(function() {
 					});
 
 				} else {
-
 					$.when(
 							$("div.tarieventabel_totaalprijs_wrapper").animate({ opacity: 0 })
 						,

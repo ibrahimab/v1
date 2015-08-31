@@ -396,6 +396,171 @@ class tarieventabel {
 	}
 
 	/**
+	 * show the specification of the total price to be shown below the pricetable
+	 *
+	 * @param integer number of persons
+	 * @param integer arrival date in unixtime
+	 * @return string $return
+	 */
+	public function specificatie_totaalprijs_below_pricetable($aantalpersonen, $aankomstdatum)
+	{
+		//
+		// get specification total amount
+		//
+
+		global $isMobile;
+
+		$this->tarieven_uit_database();
+
+		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+
+		$seizoen_id = $this->seizoen_id;
+		$seizoen_id = preg_replace("@0,@", "", $seizoen_id);
+		$seizoen_id = preg_replace("@^,?([0-9]{1,}).*$@", "\\1", $seizoen_id);
+
+		$bijkomendekosten->seizoen_id = $seizoen_id;
+		$bijkomendekosten->pre_boeken = true;
+		$bijkomendekosten->aantalpersonen = $aantalpersonen;
+		$bijkomendekosten->accinfo = $this->accinfo;
+		$bijkomendekosten->aankomstdatum = $aankomstdatum;
+
+		$bk = $bijkomendekosten->get_booking_data($gegevens);
+
+		$return .= "<div class=\"tarieventabel_totaalprijs tarieventabel_totaalprijs_exclude_bkk\">";
+
+		$return .= "<table>";
+		$return .= "<tr class=\"\"><td colspan=\"5\">".ucfirst(datum("DAG D MAAND JJJJ", $this->unixtime_week[$aankomstdatum], $this->config->taal))." ";
+		if ($aantalpersonen==1) {
+			$return .= html("met-1-persoon", "tarieventabel");
+		} else {
+			$return .= html("met-x-personen", "tarieventabel", array("v_aantal"=>$aantalpersonen));
+		}
+		$return .= ":</td></tr>";
+		$return .= "<tr><td colspan=\"5\">&nbsp;</td></tr>";
+
+		if($this->arrangement) {
+			$totaalbedrag_chalet_nl = $this->tarief_zonder_bk[$aantalpersonen][$aankomstdatum] * $aantalpersonen;
+			$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">".$aantalpersonen."</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".html("accommodatieplusskipas", "bijkomendekosten")." (&euro;&nbsp;".$this->toonbedrag($this->tarief_zonder_bk[$aantalpersonen][$aankomstdatum])." ".html("pp", "bijkomendekosten").")</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_chalet_nl, 2, ",", ".")."</td></tr>";
+		} else {
+			$totaalbedrag_chalet_nl = $this->tarief_zonder_bk[$aankomstdatum];
+
+			$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">1</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".html("accommodatie", "bijkomendekosten")."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_chalet_nl, 2, ",", ".")."</td></tr>";
+		}
+
+		$totaalbedrag_aleen_acc = $totaalbedrag_chalet_nl;
+
+		foreach ($bk["aan_chalet_nl"] as $key => $value) {
+			if(!$value["bedragonbekend"] and $value["totaalbedrag"]>0) {
+				$return .= "<tr><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">".$value["aantal"]."</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".wt_he($value["naam"]);
+				if($value["toonbedrag"]) {
+					$return .= " (".wt_he($value["toonbedrag"]).")";
+				}
+				$return .= "</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($value["totaalbedrag"], 2, ",", ".")."</td></tr>";
+				$totaalbedrag_chalet_nl += $value["totaalbedrag"];
+			}
+		}
+
+
+		$totaalbedrag += $totaalbedrag_chalet_nl;
+
+		$return .= "<tr><td colspan=\"5\">&nbsp;</td></tr>";
+		$return .= "<tr class=\"tarieventabel_totaalprijs_specificatie_popup_bold\"><td colspan=\"2\">&nbsp;</td><td>".html("totaal-aan-chalet-nl", "bijkomendekosten", array("v_websitenaam"=>$this->config->websitenaam));
+
+
+		if( $this->config->voorkant_cms ) {
+
+			$email_text .= date("d/m/Y", $this->unixtime_week[$aankomstdatum]);
+			$email_text .= " ";
+			$email_text .= $this->accinfo["plaats"]." / ".$this->accinfo["accnaam"]." (".txt("mailcopy-max", "tarieventabel")." ".$this->accinfo["maxaantalpersonen"]." ".($this->accinfo["maxaantalpersonen"]==1 ? txt("persoon", "tarieventabel") : txt("personen", "tarieventabel")).")";
+			$email_text .= "\n";
+			$email_text .= txt("mailcopy-voor-omschrijving", "tarieventabel").": ".$this->accinfo["url"];
+			$email_text .= "\n";
+			if($this->arrangement) {
+				if($aantalpersonen==1) {
+					$email_text .= txt("mailcopy-bezetting-1-persoon","tarieventabel");
+				} else {
+					$email_text .= txt("mailcopy-bezetting-x-personen","tarieventabel", array("v_aantal"=>$aantalpersonen));
+				}
+				$email_text .= ": € ".number_format($this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")." ".txt("perpersoon", "tarieventabel");
+				$email_text .= ", ";
+				$email_text .= txt("mailcopy-inclusief-x-daagse-skipas", "tarieventabel", array("v_skipasaantaldagen"=>$this->accinfo["skipas_aantaldagen"], "v_skipasnaam"=>$this->accinfo["skipas_naam"]));
+			} else {
+				$email_text .= txt("mailcopy-huurprijs-acc", "tarieventabel", array("v_bedrag"=>number_format($totaalbedrag_aleen_acc, 2, ",", ".")));
+			}
+			$return .= "<span class=\"copy-to-clipboard-icon\" title=\"kopieer mailtekst naar klembord\"></span>";
+			$return .= "<textarea class=\"copy-to-clipboard-text\">".wt_he($email_text)."</textarea>";
+		}
+
+		$return .= "</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_chalet_nl, 2, ",", ".")."</td></tr>";
+
+		// book-button
+		$return .= "<tr><td colspan=\"3\">&nbsp;</td><td colspan=\"2\"><button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\">".html("boeknu", "toonaccommodatie")." &raquo;</button></td></tr>";
+
+		if(!$isMobile) {
+			$return .= "<tr><td colspan=\"5\" class=\"tarieventabel_totaalprijs_opmerking2\">".html("klik-op-datum-personen", "tarieventabel")."</td></tr>";
+		}
+
+		$terPlaatseNumerOfItems = 0;
+		if(is_array($bk["ter_plaatse"])) {
+			foreach ($bk["ter_plaatse"] as $key => $value) {
+
+				if(!$value["bedragonbekend"] and $value["totaalbedrag"]>0) {
+
+					if (!$isTerPlaatseHeaderShown) {
+						$return .= "<tr><td colspan=\"5\">&nbsp;</td></tr>";
+						$return .= "<tr class=\"tarieventabel_totaalprijs_exclude_bkk_show_bkk\"><td colspan=\"5\">".html("verplichttevoldoen", "tarieventabel").":</td></tr>";
+						$return .= "<tr style=\"height:6px;\"><td colspan=\"5\"></td></tr>";
+
+						$isTerPlaatseHeaderShown = true;
+					}
+
+					$return .= "<tr class=\"tarieventabel_totaalprijs_exclude_bkk_show_bkk\"><td class=\"tarieventabel_totaalprijs_specificatie_aantal\">".$value["aantal"]."</td><td>x</td><td class=\"tarieventabel_totaalprijs_specificatie_naam\">".wt_he($value["naam"]." (".$value["toonbedrag"].")")."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($value["totaalbedrag"], 2, ",", ".")."</td></tr>";
+					$totaalbedrag_ter_plaatse += $value["totaalbedrag"];
+
+					$terPlaatseNumerOfItems ++;
+				}
+			}
+			if($totaalbedrag_ter_plaatse>0 and $terPlaatseNumerOfItems>1) {
+				$return .= "<tr style=\"height:6px;\"><td colspan=\"5\"></td></tr>";
+				$return .= "<tr class=\"tarieventabel_totaalprijs_exclude_bkk_show_bkk\"><td colspan=\"2\">&nbsp;</td><td>".html("totaal-ter-plaatse", "bijkomendekosten")."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_ter_plaatse, 2, ",", ".")."</td></tr>";
+
+				$totaalbedrag += $totaalbedrag_ter_plaatse;
+
+			}
+		}
+
+		$return .= "</table>";
+
+
+		if($this->toon_commissie and $this->commissie[$aankomstdatum]>0) {
+
+			// calculate commission
+			$commissie_bedrag = round(($this->commissie[$aankomstdatum]/100) * $totaalbedrag_aleen_acc, 2);
+
+			// show commission
+			$return .= "<br />";
+			$return .= "<div class=\"tarieventabel_totaalprijs_commissie\">";
+			$return .= "<div class=\"tarieventabel_totaalprijs_left\">";
+			$return .= html("wederverkoop_commissie","tarieventabel");
+			$return .= " (".number_format($this->commissie[$aankomstdatum],0,",","")."% x &euro;&nbsp;".number_format($totaalbedrag_aleen_acc, 2, ",", ".").")";
+
+			$return .= ":</div>";
+			$return .= "<span class=\"tarieventabel_totaalprijs_right\">&euro;&nbsp;".number_format($commissie_bedrag, 2, ",", ".")."</span>";
+			$return .= "</div>"; // close .tarieventabel_totaalprijs_commissie
+
+			// link to show/hide commission
+			$return .= "<a href=\"#\" data-default=\"".html("wederverkoop_tooncommissie1","tarieventabel")."\" data-hide=\"".html("wederverkoop_tooncommissie2","tarieventabel")."\" class=\"tarieventabel_totaalprijs_toggle_commissie\">".html("wederverkoop_tooncommissie1","tarieventabel")."</a>";
+
+		}
+
+
+
+		$return .= "</div>"; // close .tarieventabel_totaalprijs
+
+		return $return;
+	}
+
+	/**
 	 * create html for the top of the price table
 	 *
 	 * @return string $return
@@ -641,11 +806,11 @@ class tarieventabel {
 				//
 				// redis down? Show error message
 				//
-				$return .= "<div class=\"tarieventabel_redis_error_message\">";
-				$return .= html("melding-redis-down", "tarieventabel");
-				$return .= "</div>";
+				// $return .= "<div class=\"tarieventabel_redis_error_message\">";
+				// $return .= html("melding-redis-down", "tarieventabel");
+				// $return .= "</div>";
 
-				trigger_error( "no redis bijkomendekosten available",E_USER_NOTICE );
+				// trigger_error( "no redis bijkomendekosten available",E_USER_NOTICE );
 			}
 
 
@@ -1298,8 +1463,33 @@ class tarieventabel {
 
 			// info totaalprijs
 			$return .= "<div class=\"tarieventabel_totaalprijs_wrapper\">";
-			if( $this->aantalpersonen and $this->aantalpersonen<=$this->accinfo["maxaantalpersonen"] and $this->aankomstdatum and $this->tarief[$this->aantalpersonen][$this->aankomstdatum]>0 ) {
-				$return .= $this->info_totaalprijs($this->aantalpersonen, $this->aankomstdatum);
+			if(constant("include_bkk")===true) {
+				// include bkk in price
+				if( $this->aantalpersonen and $this->aantalpersonen<=$this->accinfo["maxaantalpersonen"] and $this->aankomstdatum and $this->tarief[$this->aantalpersonen][$this->aankomstdatum]>0 ) {
+					$return .= $this->info_totaalprijs($this->aantalpersonen, $this->aankomstdatum);
+				}
+			} else {
+				// exclude bkk from price
+				if ($this->aantalpersonen and $this->aantalpersonen<=$this->accinfo["maxaantalpersonen"]) {
+					$specificatie_totaalprijs_aantalpersonen = $this->aantalpersonen;
+				} else {
+					$specificatie_totaalprijs_aantalpersonen = $this->accinfo["maxaantalpersonen"];
+				}
+
+
+				if ($this->aankomstdatum) {
+					$specificatie_totaalprijs_aankomstdatum = $this->aankomstdatum;
+				} else {
+					if (is_array($this->tarief[$specificatie_totaalprijs_aantalpersonen])) {
+						$cheapest_week = min(array_keys($this->tarief[$specificatie_totaalprijs_aantalpersonen], min($this->tarief[$specificatie_totaalprijs_aantalpersonen])));
+						if ($cheapest_week>0) {
+							$specificatie_totaalprijs_aankomstdatum = $cheapest_week;
+						}
+					}
+				}
+				if( $specificatie_totaalprijs_aantalpersonen and $specificatie_totaalprijs_aantalpersonen<=$this->accinfo["maxaantalpersonen"] and $specificatie_totaalprijs_aankomstdatum and $this->tarief[$specificatie_totaalprijs_aantalpersonen][$specificatie_totaalprijs_aankomstdatum]>0 ) {
+					$return .= $this->specificatie_totaalprijs_below_pricetable($specificatie_totaalprijs_aantalpersonen, $specificatie_totaalprijs_aankomstdatum);
+				}
 			}
 			$return .= "</div>";
 

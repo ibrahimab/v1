@@ -25,6 +25,8 @@ class bijkomendekosten {
 
 	private $combine_all_rows_for_log_first_item = true;
 	public $arrangement = false;
+	public $zoek_en_boek_popup = false;
+	public $pre_calculate = false;
 
 	function __construct($id=0, $soort="type") {
 		$this->id = $id;
@@ -135,8 +137,12 @@ class bijkomendekosten {
 
 				if($bijkomendekosten_id_inquery) {
 
-					$db->query("SELECT b.bijkomendekosten_id, b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.min_leeftijd, b.max_leeftijd, b.zonderleeftijd
-zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_personen FROM bijkomendekosten_tarief bt INNER JOIN bijkomendekosten b USING (bijkomendekosten_id) WHERE b.bijkomendekosten_id IN (".substr($bijkomendekosten_id_inquery, 1).") AND bt.seizoen_id IN (".substr($this->seizoen_inquery,1).") AND b.min_personen IS NOT NULL AND (b.min_leeftijd IS NULL OR b.zonderleeftijd=1) AND (b.max_leeftijd IS NULL OR b.zonderleeftijd=1) ORDER BY b.bijkomendekosten_id, bt.week;");
+					if(constant("include_bkk")===true or $this->pre_calculate) {
+						$only_zonderleeftijd = " AND (b.min_leeftijd IS NULL OR b.zonderleeftijd=1) AND (b.max_leeftijd IS NULL OR b.zonderleeftijd=1)";
+					}
+
+					// $db->query("SELECT b.bijkomendekosten_id, b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.min_leeftijd, b.max_leeftijd, b.zonderleeftijd zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_personen FROM bijkomendekosten_tarief bt INNER JOIN bijkomendekosten b USING (bijkomendekosten_id) WHERE b.bijkomendekosten_id IN (".substr($bijkomendekosten_id_inquery, 1).") AND bt.seizoen_id IN (".substr($this->seizoen_inquery,1).") AND b.min_personen IS NOT NULL AND (b.min_leeftijd IS NULL OR b.zonderleeftijd=1) AND (b.max_leeftijd IS NULL OR b.zonderleeftijd=1) ORDER BY b.bijkomendekosten_id, bt.week;");
+					$db->query("SELECT b.bijkomendekosten_id, b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.min_leeftijd, b.max_leeftijd, b.zonderleeftijd zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_personen FROM bijkomendekosten_tarief bt INNER JOIN bijkomendekosten b USING (bijkomendekosten_id) WHERE b.bijkomendekosten_id IN (".substr($bijkomendekosten_id_inquery, 1).") AND bt.seizoen_id IN (".substr($this->seizoen_inquery,1).") AND b.min_personen IS NOT NULL".$only_zonderleeftijd." ORDER BY b.bijkomendekosten_id, bt.week;");
 					while($db->next_record()) {
 
 						$seizoen_id = $db->f("seizoen_id");
@@ -822,7 +828,10 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 
 		global $vars;
 
+		// delete all vars of this class
 		$this->clear();
+
+		$this->pre_calculate = true;
 
 		$this->id = $type_id;
 		$this->soort = "type";
@@ -836,7 +845,7 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 
 		$this->wt_redis->del("bk:".$this->wzt.":".$type_id);
 
-		if(is_array($this->data)) {
+		if(is_array($this->data) and constant("include_bkk")===true) {
 			foreach ($this->data as $seizoen_id => $data) {
 
 				unset($per_person, $per_accommodation);
@@ -920,6 +929,9 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 			register_shutdown_function(array($this, "store_complete_cache"), $this->wzt);
 			$GLOBALS["class_bijkomendekosten_register_shutdown_".$this->wzt]=true;
 		}
+
+		$this->pre_calculate = false;
+
 	}
 
 	public function pre_calculate_variable_costs($bijkomendekosten_id) {
@@ -947,7 +959,7 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 			$aantalpersonen = 1;
 		}
 		$return = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$aantalpersonen);
-		if(!$return) {
+		if(constant("include_bkk")===true and !$return) {
 			$this->pre_calculate_type($type_id);
 
 			$return = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$aantalpersonen);
@@ -966,7 +978,8 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 
 		for($i=1;$i<=$maxaantalpersonen;$i++) {
 			$bedrag = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$i);
-			if(!$bedrag) {
+
+			if(constant("include_bkk")===true and !$bedrag) {
 				$this->pre_calculate_type($type_id);
 
 				$bedrag = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$i);
@@ -1028,10 +1041,12 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 			}
 		}
 
-		if(is_array($bk)) {
-			$this->wt_redis->store_array("bk:".$wzt, "all", $bk);
-			unset($bk);
+		if(!is_array($bk)) {
+			$bk = array();
 		}
+
+		$this->wt_redis->store_array("bk:".$wzt, "all", $bk);
+		unset($bk);
 
 		//
 		// surcharge extra persons
@@ -1184,8 +1199,16 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 						}
 						$html .= ")";
 
-						if( $_GET["ap"] and $value["min_personen"] and $_GET["ap"]>=$value["min_personen"]) {
-							$cat = "inclusief";
+						if ($this->zoek_en_boek_popup) {
+							if ($_GET["ap"]) {
+								if((!$value["min_leeftijd"] or $value["zonderleeftijd"]) and (!$value["max_leeftijd"] or $value["zonderleeftijd"])) {
+									$cat = "inclusief";
+								} else {
+									$cat = "diversen";
+								}
+							} else {
+								$cat = "inclusief";
+							}
 						} else {
 							$cat = "diversen";
 						}
@@ -2018,12 +2041,20 @@ zonderleeftijd, bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_person
 		$variabele_kosten = $this->get_variable_costs();
 
 
-
 		if(is_array($kosten["inclusief"])) {
-			$return .= "<h1>".html("getoonde-prijs-inclusief","tarieventabel").":</h1>";
+			$return .= "<h1>";
+			if(constant("include_bkk")===true) {
+				$return .= html("getoonde-prijs-inclusief","tarieventabel");
+			} else {
+				$return .= html("inclusief","tarieventabel");
+			}
+			$return .= ":</h1>";
 			$return .= "<ul>";
 			foreach ($kosten["inclusief"] as $key => $value) {
-				$return .= "<li>".$value."</li>";
+				// hide items with prices (based on euro-sign) when include_bkk=false
+				if(constant("include_bkk")===true or strpos($value, "&euro;")===false) {
+					$return .= "<li>".$value."</li>";
+				}
 			}
 			$return .= "</ul>";
 		}

@@ -3708,6 +3708,14 @@ $txt["nl"]["tarieventabel"]["getoonde-prijs-inclusief"]="Getoonde prijs is inclu
 $txt["de"]["tarieventabel"]["getoonde-prijs-inclusief"]="Angezeigter Preis ist inklusive";
 $txt["en"]["tarieventabel"]["getoonde-prijs-inclusief"]="Shown price includes";
 
+$txt["nl"]["tarieventabel"]["bijkomendekosten"]="Bijkomende kosten";
+$txt["de"]["tarieventabel"]["bijkomendekosten"]="Nebenkosten";
+$txt["en"]["tarieventabel"]["bijkomendekosten"]="Additional costs";
+
+$txt["nl"]["tarieventabel"]["inclusief"]="Inclusief";
+$txt["de"]["tarieventabel"]["inclusief"]="Inklusive";
+$txt["en"]["tarieventabel"]["inclusief"]="Including";
+
 $txt["nl"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Uitbreidingsmogelijkheden";
 $txt["de"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Erweiterungsmöglichkeiten";
 $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
@@ -3911,6 +3919,10 @@ $txt["nl"]["tarieventabel"]["mailcopy-bezetting-x-personen"]="Bezetting [[v_aant
 $txt["de"]["tarieventabel"]["mailcopy-bezetting-x-personen"]="Belegung [[v_aantal]] Personen";
 $txt["en"]["tarieventabel"]["mailcopy-bezetting-x-personen"]="Price with [[v_aantal]] persons";
 
+$txt["nl"]["tarieventabel"]["mailcopy-huurprijs-acc"]="Huurprijs accommodatie: € [[v_bedrag]] per week, excl. skipassen";
+$txt["de"]["tarieventabel"]["mailcopy-huurprijs-acc"]="Preis Unterkunft: € [[v_bedrag]] pro Woche, exkl. Skipässe";
+$txt["en"]["tarieventabel"]["mailcopy-huurprijs-acc"]="Rental price accommodation: € [[v_bedrag]] per week, excl. lift passes";
+
 $txt["nl"]["tarieventabel"]["mailcopy-inclusief-x-daagse-skipas"]="inclusief [[v_skipasaantaldagen]]-daagse skipas [[v_skipasnaam]]";
 $txt["de"]["tarieventabel"]["mailcopy-inclusief-x-daagse-skipas"]="inklusive [[v_skipasaantaldagen]]-Tagesskipass [[v_skipasnaam]]";
 $txt["en"]["tarieventabel"]["mailcopy-inclusief-x-daagse-skipas"]="-";
@@ -3931,9 +3943,21 @@ $txt["nl"]["tarieventabel"]["klik-op-datum-personen"]="Klik in bovenstaande prij
 $txt["de"]["tarieventabel"]["klik-op-datum-personen"]="Bitte klicken sie auf oben stehende Preisliste um Ankunftsdatum/Personenzahl zu ändern.";
 $txt["en"]["tarieventabel"]["klik-op-datum-personen"]="Click in the above pricing table to change the date of arrival / number of people.";
 
+$txt["nl"]["tarieventabel"]["verplichttevoldoen"]="Verplicht ter plaatse te voldoen";
+$txt["de"]["tarieventabel"]["verplichttevoldoen"]="Obligatorisch vor Ort zu bezahlen";
+$txt["en"]["tarieventabel"]["verplichttevoldoen"]="Mandatory to be paid locally";
+
 $txt["nl"]["tarieventabel"]["melding-redis-down"]="Vanwege een (tijdelijke) technische storing zijn de getoonde bedragen in de prijstabel zonder bijkomende kosten. Klik in de prijstabel op een prijs en vervolgens op het i-icoontje om de specificatie inclusief bijkomende kosten te zien. Onze excuses voor het ongemak.";
 $txt["de"]["tarieventabel"]["melding-redis-down"]="Es tut uns leid, aber wegen einer (vorübergehenden) technischen Störung sind die gezeigten Beträge in der Preistabelle ohne Nebenkosten. Klicken Sie in der Preistabelle auf einen Preis und danach auf das i-Symbol um die Spezifikation inklusive Nebenkosten anzuschauen.";
 $txt["en"]["tarieventabel"]["melding-redis-down"]="The pricing table does currently not include all mandatory costs, due to a (temporary) technical issue. To see the price with all mandatory costs, please select a price in the pricing table and use the blue information icon for the detailed total. Our apologies for the inconvenience.";
+
+$txt["nl"]["tarieventabel"]["met-1-persoon"]="met 1 persoon";
+$txt["de"]["tarieventabel"]["met-1-persoon"]="für 1 Person";
+$txt["en"]["tarieventabel"]["met-1-persoon"]="with 1 person";
+
+$txt["nl"]["tarieventabel"]["met-x-personen"]="met [[v_aantal]] personen";
+$txt["de"]["tarieventabel"]["met-x-personen"]="für [[v_aantal]] Personen";
+$txt["en"]["tarieventabel"]["met-x-personen"]="with [[v_aantal]] persons";
 
 
 // tarieventabel bijkomende kosten
