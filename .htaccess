@@ -535,8 +535,6 @@ RewriteRule ^facebook-actie$ / [L,R=301]
 RewriteRule ^agentenactie$ / [L,R=301]
 RewriteRule ^nieuwsbriefactie$ / [L,R=301]
 
-
-
 #
 # Speciale file-instellingen
 #

@@ -283,6 +283,10 @@ $txta["nl"]["submenutitle_algemenevoorwaarden"]="algemene voorwaarden";
 $txta["de"]["submenutitle_algemenevoorwaarden"]="Allgemeine Geschäftsbedingungen";
 $txta["en"]["submenutitle_algemenevoorwaarden"]="conditions";
 
+$txta["nl"]["submenutitle_voorwaarden"]="voorwaarden";
+$txta["de"]["submenutitle_voorwaarden"]="Geschäftsbedingungen";
+$txta["en"]["submenutitle_voorwaarden"]="conditions";
+
 $txta["nl"]["submenutitle_verzekeringen"]="verzekeringen";
 $txta["de"]["submenutitle_verzekeringen"]="Versicherungen";
 $txta["en"]["submenutitle_verzekeringen"]="insurances";
