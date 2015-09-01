@@ -89,4 +89,10 @@ $(document).ready(function() {
 			},100);
 		});
 	}
+	
+	$('body').on('click', '[data-action="print-page"]', function(event) {
+		
+		event.preventDefault();
+		window.print();
+	});
 });
