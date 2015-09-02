@@ -3192,8 +3192,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			// $mail->html=$html;
 			// $mail->send();
 
+			$klantemailsettings = [];
+			if ($vars['website'] === 'D') {
+				$klantemailsettings['attachment']['pdf/Sicherungsschein.pdf'] = 'Sicherungsschein.pdf';
+			}
+
 			// opmaakmail sturen
-			verstuur_opmaakmail($vars["website"],$to,"",html("boeking","boeken")." ".$vars["websitenaam"],$html,array(""));
+			verstuur_opmaakmail($vars["website"],$to,"",html("boeking","boeken")." ".$vars["websitenaam"],$html,$klantemailsettings);
 
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
