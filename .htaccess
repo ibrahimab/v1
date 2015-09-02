@@ -327,7 +327,7 @@ RewriteRule ^Buchung_bestaetigt\.php$ boeking_bevestigd.php [L,QSA]
 RewriteRule ^Verfuegbarkeit\.php$ beschikbaarheid.php [L,QSA]
 RewriteRule ^berechnen\.php$ calc.php [L,QSA]
 RewriteRule ^anmelden_gesperrt\.php$ inloggen_geblokkeerd.php [L,QSA]
-
+RewriteRule ^AGB\.php$ algemenevoorwaarden.php [L,QSA]
 
 
 
