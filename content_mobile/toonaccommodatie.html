@@ -195,7 +195,44 @@ if($db->next_record()) {
 		*/
 
 		# Foto's
-		$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
+		$mongodb	  = $vars['mongodb']['wrapper'];
+		$cursors	  = [];
+		$files		  = ['all' => ['pic' => [], 'picbreed' => [], 'piconderaan' => []]];
+		$cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid]);
+		$cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid]);
+		$done		  = false;
+
+		foreach ($cursors['a'] as $file) {
+
+			if (preg_match('/_breed/', $file['kind'])) {
+
+				$done = true;
+				$files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
+			}
+
+			if (isset($file['under']) && true === $file['under']) {
+
+				$done = true;
+				$files['all']['piconderaan'][] = $file['directory'] . '/' . $file['filename'];
+			}
+
+			if (false === $done) {
+				$files['all']['pic'][] = $file['directory'] . '/' . $file['filename'];
+			}
+
+			$done = false;
+		}
+
+		foreach ($cursors['t'] as $file) {
+
+			if (preg_match('/_breed/', $file['kind'])) {
+				$files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
+			} else {
+				$files['all']['pic'][] = $file['directory'] . '/' . $file['filename'];
+			}
+		}
+
+		$files['all']['pic'] = array_merge($files['all']['pic'], $files['all']['piconderaan']);
 
 		echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("fotos","vars")."</h3></div>";
 		if($db->f("url_virtuele_rondgang")) {
@@ -231,12 +268,19 @@ if($db->next_record()) {
 			$foto_table.="</li>";
 			$trcounter++;
 		}
-		if(is_array($foto["pic"]) or is_array($foto["picbreed"])) {
+		if (count($files['all']['pic']) > 0 || count($files['all']['picbreed']) > 0 || count($files['all']['onderaan']) > 0) {
 			@reset($foto["pic"]);
 			@reset($foto["picbreed"]);
 			unset($counter);
-			if(is_array($foto["pic"])) {
-				while(list($key,$value)=@each($foto["pic"])) {
+			if (count($files['all']['pic']) > 0) {
+				foreach ($files['all']['pic'] as $key => $file) {
+
+					$value = $file;
+
+					if (!file_exists('pic/cms/' . $value)) {
+						continue;
+					}
+
 					if($trcounter==3) {
 						//$foto_table.="</li><li>";
 						unset($trcounter);
@@ -394,7 +438,7 @@ if($db->next_record()) {
 	}
 
 	// beoordeling tonen
-	if(($vars["taal"]=="nl" or $vars["taal"]=="en") and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6  or $vars["websitetype"]==7 or $vars["websitetype"]==8)) {
+	if(($vars["taal"]=="nl" or $vars["taal"]=="en") and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6	or $vars["websitetype"]==7 or $vars["websitetype"]==8)) {
 
 		$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND vraag1_7>0 AND beoordeeld=1 GROUP BY type_id;");
 		if($db2->next_record()) {
@@ -482,7 +526,7 @@ if($db->next_record()) {
 	# Tabs
 	echo "<div id=\"accordion\" class=\"ui-accordion ui-widget ui-helper-reset ui-accordion-icons\">";
 
-        echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".lcfirst(html("tab_overzicht","toonaccommodatie"))."</h3>";
+		echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".lcfirst(html("tab_overzicht","toonaccommodatie"))."</h3>";
 
 	# Tab "overzicht"
 	echo "<div id=\"overzicht\" class=\"ui-accordion-content\" style=\"display:none;\">";
@@ -616,21 +660,21 @@ if($db->next_record()) {
 
 	# Reviews
 	// if($vars["taal"]=="nl" and $vars["websitetype"]==7) {
-	// 	$db2->query("SELECT UNIX_TIMESTAMP(datum) AS datum, naam, tekst, afbreken FROM accommodatie_review WHERE actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
-	// 	if($db2->num_rows()) {
-	// 		echo "<div id=\"reviews\">";
-	// 		echo "<h2>Beoordeling".($db2->num_rows()>1 ? "en" : "")."</h2>";
-	// 		while($db2->next_record()) {
-	// 			echo "<div class=\"reviewblok\">";
-	// 			if($db2->f("afbreken")) {
-	// 				echo "<div class=\"reviewblok_afbreken\"><div class=\"reviewblok_afbreken_content\">";
-	// 			} else {
-	// 				echo "<div><div>";
-	// 			}
-	// 			echo "<div class=\"reviewblok_datum\">".($db2->f("naam") ? wt_he($db2->f("naam")).", " : "").DATUM("D MAAND JJJJ",$db2->f("datum"))."</div>".nl2br(wt_he($db2->f("tekst")))."</div></div><div class=\"reviewblok_afbreken_openklap\"><a href=\"#\" onclick=\"return false;\">Lees verder</a></div></div>";
-	// 		}
-	// 		echo "</div>";
-	// 	}
+	//	$db2->query("SELECT UNIX_TIMESTAMP(datum) AS datum, naam, tekst, afbreken FROM accommodatie_review WHERE actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
+	//	if($db2->num_rows()) {
+	//		echo "<div id=\"reviews\">";
+	//		echo "<h2>Beoordeling".($db2->num_rows()>1 ? "en" : "")."</h2>";
+	//		while($db2->next_record()) {
+	//			echo "<div class=\"reviewblok\">";
+	//			if($db2->f("afbreken")) {
+	//				echo "<div class=\"reviewblok_afbreken\"><div class=\"reviewblok_afbreken_content\">";
+	//			} else {
+	//				echo "<div><div>";
+	//			}
+	//			echo "<div class=\"reviewblok_datum\">".($db2->f("naam") ? wt_he($db2->f("naam")).", " : "").DATUM("D MAAND JJJJ",$db2->f("datum"))."</div>".nl2br(wt_he($db2->f("tekst")))."</div></div><div class=\"reviewblok_afbreken_openklap\"><a href=\"#\" onclick=\"return false;\">Lees verder</a></div></div>";
+	//		}
+	//		echo "</div>";
+	//	}
 	// }
 
 	echo "</div>";
@@ -1124,10 +1168,10 @@ if($db->next_record()) {
 		echo "<div><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></div>";
 
 		echo "<div style='margin-bottom:10px;'>".html("aankomstdatum","accommodaties")."</div>";
-        echo "<div>";
+		echo "<div>";
 
 		# Kalender
-        echo "<div style='margin-top:5px; margin-right:5px; float:left;'><input type='hidden' id='toonaccommodatiedate' /></div>";
+		echo "<div style='margin-top:5px; margin-right:5px; float:left;'><input type='hidden' id='toonaccommodatiedate' /></div>";
 
 		if($_GET["flad"]) {
 			$temp_actievedatum["fadf_d"]=date("d",$_GET["flad"]);
@@ -1170,7 +1214,7 @@ if($db->next_record()) {
 		echo "</select>";
 		echo "</div>";
 		echo "<div style='margin-bottom:10px; margin-top:10px;'>".html("verblijfsduur","accommodaties")."</div>";
-        echo "<div>";
+		echo "<div>";
 		# Verblijfsduur
 		unset($vars["verblijfsduur"]);
 		$vars["verblijfsduur"]["1"]="1 ".txt("week","vars");
@@ -1204,7 +1248,7 @@ if($db->next_record()) {
 		}
 		echo "</optgroup></select>";
 
-        echo "</div>";
+		echo "</div>";
 
 		echo "</form>";
 
@@ -1487,7 +1531,7 @@ if($db->next_record()) {
 						$bijkomendekosten_table.="<td width=\"495\">".wt_he($db2->f("naam"));
 						if($db2->f("omschrijving")) {
 							$bijkomendekosten_table.="&nbsp;<a class=\"popwindow\" href=\"".$vars["path"]."popup.php?id=bijkomendekosten&bkid=".$db2->f("bijkomendekosten_id")." \">&#187;</a>";
-                                                }
+												}
 						$bijkomendekosten_table.="</td><td align=\"right\">";
 						if($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"]==$bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"] or $bijkomendekosten[$db2->f("bijkomendekosten_id")]["exact"]<>0) {
 
@@ -1607,27 +1651,27 @@ if($db->next_record()) {
 	# Social media-links
 	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="W") {
 
-                #
-                # Blok met social media-buttons + print/mail-buttons
-                #
-                echo "<div id=\"hoofdpagina_sociallinks\">";
+				#
+				# Blok met social media-buttons + print/mail-buttons
+				#
+				echo "<div id=\"hoofdpagina_sociallinks\">";
 
-                echo "<p>".html("deel", "toonaccommodatie")."</p>";
-                # Printbutton
-                #echo "<a href=\"#\" class=\"print\" onclick=\"window.print();return false;\"></a>";
+				echo "<p>".html("deel", "toonaccommodatie")."</p>";
+				# Printbutton
+				#echo "<a href=\"#\" class=\"print\" onclick=\"window.print();return false;\"></a>";
 
-                # Doormailfunctie
-                //echo "<a class=\"mail popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=accommodatiemail&accid=".$typeid."\" title=\"".html("popuptitle_stuurdoor")."\"></a>";
+				# Doormailfunctie
+				//echo "<a class=\"mail popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=accommodatiemail&accid=".$typeid."\" title=\"".html("popuptitle_stuurdoor")."\"></a>";
 
 		$share_url=$vars["canonical"];
 		$share_text="Bekijk deze accommodatie bij ".$vars["websitenaam"];
 		echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze accommodatie met je Facebook-vrienden\" class=\"facebook_share_window facebook\"></a>";
 		echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze accommodatie met je Twitter-volgers\" class=\"twitter_share_window twitter\"></a>";
 		echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze accommodatie met je Google+-circles\" class=\"googleplus_share_window googleplus\"></a>";
-                echo "<div style=\"clear:both;\"></div>";
+				echo "<div style=\"clear:both;\"></div>";
 
-                echo "</div>"; # afsluiten #socialmedia
-    }
+				echo "</div>"; # afsluiten #socialmedia
+	}
 
 
 

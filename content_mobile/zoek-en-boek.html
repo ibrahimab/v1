@@ -2248,6 +2248,13 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				$newresults[$accid][$acc_sorteer]["skigebied_id"]=$db->f("skigebied_id");
 				$newresults[$accid][$acc_sorteer]["tarief"]=$tarief_float;
 
+                if (!isset($imageIds)) {
+                    $imageIds = ['a' => [], 't' => []];
+                }
+
+                $imageIds['a'][(int)$db->f('accommodatie_id')] = true;
+                $imageIds['t'][(int)$db->f('type_id')]         = true;
+
 				if($tarief) {
 					$tarieven_tonen=true;
 				}
@@ -2304,6 +2311,30 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				}
 			}
 		}
+	}
+
+	$files = ['a' => [], 't' => []];
+
+	if (isset($imageIds)) {
+		
+	    $mongodb      = $vars['mongodb']['wrapper'];
+	    $cursors      = [];
+	    $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($imageIds['a']));
+	    $cursors['t'] = $mongodb->getAllMainFiles('types', array_keys($imageIds['t']));
+
+	    foreach ($cursors['a'] as $file) {
+
+	        if (isset($file['type']) && $file['type'] === 'big') {
+	            $files['a'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+	        }
+	    }
+
+	    foreach ($cursors['t'] as $file) {
+
+	        if (isset($file['type']) && $file['type'] === 'big') {
+	            $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
+	        }
+	    }
 	}
 
 	if($vars["webtastic"]) {
@@ -2392,21 +2423,29 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$results[$results_teller].="<div class=\"zoekresultaat_titel\">".wt_he(ucfirst($vars["soortaccommodatie"][$value2["soortaccommodatie"]])." ".$value2["naam"].(!$newresults_multiple&&$value2["tnaam"] ? " ".$value2["tnaam"] : ""))."</div>";
 					$results[$results_teller].="</div>";
 					$results[$results_teller].="<div>";
+
 						# afbeelding bepalen
-						$img="accommodaties/0.jpg";
-						if($newresults_multiple) {
-							if(file_exists("pic/cms/accommodaties/".$value2["accommodatie_id"].".jpg")) {
-								$img="accommodaties/".$value2["accommodatie_id"].".jpg";
-							} elseif(file_exists("pic/cms/types_specifiek/".$value2["type_id"].".jpg")) {
-								$img="types_specifiek/".$value2["type_id"].".jpg";
-							}
-						} else {
-							if(file_exists("pic/cms/types_specifiek/".$value2["type_id"].".jpg")) {
-								$img="types_specifiek/".$value2["type_id"].".jpg";
-							} elseif(file_exists("pic/cms/accommodaties/".$value2["accommodatie_id"].".jpg")) {
-								$img="accommodaties/".$value2["accommodatie_id"].".jpg";
-							}
-						}
+						$img             = 'accommodaties/0.jpg';
+	                    $accommodationId = (int)$value2['accommodatie_id'];
+	                    $typeId          = (int)$value2['type_id'];
+
+	                    if ($newresults_multiple) {
+
+	                        if (isset($files['a'][$accommodationId])) {
+	                            $img = $files['a'][$accommodationId];
+	                        } elseif (isset($files['t'][$typeId])) {
+	                            $img = $files['t'][$typeId];
+	                        }
+
+	                    } else {
+
+	                        if (isset($files['t'][$typeId])) {
+	                            $img = $files['t'][$typeId];
+	                        } elseif (isset($files['a'][$accommodationId])) {
+	                            $img = $files['a'][$accommodationId];
+	                        }
+	                    }
+                        
 						$results[$results_teller].="<div class=\"zoekresultaat_img\"><img src=\"".wt_he($vars["path"]."pic/cms/".$img)."\" alt=\"\"></div>";
 
 
