@@ -197,12 +197,16 @@ if($db->next_record()) {
 		# Foto's
 		$mongodb	  = $vars['mongodb']['wrapper'];
 		$cursors	  = [];
-		$files		  = ['all' => ['pic' => [], 'picbreed' => [], 'piconderaan' => []]];
+		$files		  = ['a' => null, 't' => null, 'all' => ['pic' => [], 'picbreed' => [], 'piconderaan' => []]];
 		$cursors['a'] = $mongodb->getAllFiles('accommodations', [(int)$accid]);
 		$cursors['t'] = $mongodb->getAllFiles('types', [(int)$typeid]);
 		$done		  = false;
 
 		foreach ($cursors['a'] as $file) {
+
+	        if (isset($file['type']) && $file['type'] === 'big') {
+	            $files['a'] = $file['directory'] . '/' . $file['filename'];
+	        }
 
 			if (preg_match('/_breed/', $file['kind'])) {
 
@@ -225,6 +229,10 @@ if($db->next_record()) {
 
 		foreach ($cursors['t'] as $file) {
 
+	        if (isset($file['type']) && $file['type'] === 'big') {
+	            $files['t'] = $file['directory'] . '/' . $file['filename'];
+	        }
+
 			if (preg_match('/_breed/', $file['kind'])) {
 				$files['all']['picbreed'][] = $file['directory'] . '/' . $file['filename'];
 			} else {
@@ -232,7 +240,15 @@ if($db->next_record()) {
 			}
 		}
 
-		$files['all']['pic'] = array_merge($files['all']['pic'], $files['all']['piconderaan']);
+	    if (null !== $files['t']) {
+	        $afbeelding = [$files['t']];
+	    } elseif (null !== $files['a']) {
+	        $afbeelding = [$files['a']];
+	    } else {
+	        $afbeelding = ['accommodaties/0.jpg'];
+	    }
+		
+		$files['all']['pic'] = array_merge($afbeelding, $files['all']['pic'], $files['all']['piconderaan']);
 
 		echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("fotos","vars")."</h3></div>";
 		if($db->f("url_virtuele_rondgang")) {
