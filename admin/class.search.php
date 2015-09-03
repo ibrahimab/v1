@@ -210,23 +210,36 @@ class search {
 		}
 	}
 
+
+	function correct_char_encoding($string) {
+		global $vars;
+
+		if ($vars["wt_htmlentities_utf8"]) {
+			$return = iconv("CP1252", "UTF-8", $string);
+		} else {
+			$return = $string;
+		}
+
+		return $return;
+	}
+
 	function addaccents($value,$mysql=false) {
 		if($mysql) {
-			$value=eregi_replace("a","(a|ä|å|à|á|â|ã)",$value);
-			$value=eregi_replace("e","(e|ë|è|é|ê)",$value);
-			$value=eregi_replace("i","(i|ï|ì|í|î)",$value);
-			$value=eregi_replace("o","(o|ö|ó|ò|ô|õ|ø)",$value);
-			$value=eregi_replace("u","(u|ü|ù|ú|û)",$value);
-			$value=eregi_replace("n","(n|ñ)",$value);
-			$value=eregi_replace("c","(c|ç)",$value);
+			$value=eregi_replace("a",$this->correct_char_encoding("(a|ä|å|à|á|â|ã)"),$value);
+			$value=eregi_replace("e",$this->correct_char_encoding("(e|ë|è|é|ê)"),$value);
+			$value=eregi_replace("i",$this->correct_char_encoding("(i|ï|ì|í|î)"),$value);
+			$value=eregi_replace("o",$this->correct_char_encoding("(o|ö|ó|ò|ô|õ|ø)"),$value);
+			$value=eregi_replace("u",$this->correct_char_encoding("(u|ü|ù|ú|û)"),$value);
+			$value=eregi_replace("n",$this->correct_char_encoding("(n|ñ)"),$value);
+			$value=eregi_replace("c",$this->correct_char_encoding("(c|ç)"),$value);
 		} else {
-			$value=eregi_replace("a","[a|ä|å|à|á|â|ã]",$value);
-			$value=eregi_replace("e","[e|ë|è|é|ê]",$value);
-			$value=eregi_replace("i","[i|ï|ì|í|î]",$value);
-			$value=eregi_replace("o","[o|ö|ó|ò|ô|õ|ø]",$value);
-			$value=eregi_replace("u","[u|ü|ù|ú|û]",$value);
-			$value=eregi_replace("n","[n|ñ]",$value);
-			$value=eregi_replace("c","[c|ç]",$value);
+			$value=eregi_replace("a",$this->correct_char_encoding("[a|ä|å|à|á|â|ã]"),$value);
+			$value=eregi_replace("e",$this->correct_char_encoding("[e|ë|è|é|ê]"),$value);
+			$value=eregi_replace("i",$this->correct_char_encoding("[i|ï|ì|í|î]"),$value);
+			$value=eregi_replace("o",$this->correct_char_encoding("[o|ö|ó|ò|ô|õ|ø]"),$value);
+			$value=eregi_replace("u",$this->correct_char_encoding("[u|ü|ù|ú|û]"),$value);
+			$value=eregi_replace("n",$this->correct_char_encoding("[n|ñ]"),$value);
+			$value=eregi_replace("c",$this->correct_char_encoding("[c|ç]"),$value);
 		}
 		return $value;
 	}
