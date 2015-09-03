@@ -819,6 +819,12 @@ if($form->okay) {
 			$pdf->Cell(10,4,"",0,0,'L',0);
 
 			$pdf->MultiCell(179,4,txt("sgr","factuur"));
+			
+			$pdf->Image('pic/factuur_calamiteitenfonds.png', 10, $img_y + 18, 9);
+			$pdf->MultiCell(40, 4, '');
+			
+			$pdf->Cell(10, 4, '', 0, 0, 'L', 0);
+			$pdf->MultiCell(179, 4, txt('calamiteitenfonds', 'factuur'));
 		}
 
 		$pdf->Ln();

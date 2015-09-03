@@ -3200,8 +3200,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			}
 
 			// opmaakmail sturen
-			verstuur_opmaakmail($vars["website"],$to,"",html("boeking","boeken")." ".$vars["websitenaam"],$html,$klantemailsettings);
-			unlink($klantemailsettings[$generated]);
+			verstuur_opmaakmail($vars["website"],$to,"",html("boeking","boeken")." ".$vars["websitenaam"],$html,array(''));
 
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {

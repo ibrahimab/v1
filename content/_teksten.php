@@ -6635,6 +6635,9 @@ $txt["nl"]["factuur"]["sgr"]="Op deze overeenkomst zijn de voorwaarden van de ga
 $txt["de"]["factuur"]["sgr"]="Für diesen Reisevertrag gelten die Bedingungen der Stichting Garantiefonds Reisgelden (SGR), Admiraliteitskade 40, 3063 ED Rotterdam. Dieser Fonds ist mit dem in Deutschland bekannten Sicherungsschein zu vergleichen. Die SGR Bürgschaftsfazilität ermöglicht, dass der Reisende über eine Gewährleistung verfügt, die die Rückzahlung der Anzahlung an den Reiseveranstalter auch dann garantiert, wenn der Reiseveranstalter finanziell nicht in der Lage ist, die vereinbarte Dienstleistung auszuführen. Siehe www.sgr.nl";
 $txt["en"]["factuur"]["sgr"]="-";
 
+$txt["nl"]["factuur"]["calamiteitenfonds"]="Op deze overeenkomst zijn de voorwaarden van de garantieregeling van de Stichting Calamiteitenfonds Reizen, gevestigd te Rotterdam, mede van toepassing. Deze voorwaarden liggen bij het Calamiteitenfonds ter inzage, zijn gedeponeerd ter Griffie van de rechtbank te Rotterdam, alsmede bij de Kamer van Koophandel te Rotterdam, worden op verzoek aan het Calamiteitenfonds onverwijld kosteloos toegezonden en zijn te vinden op www.calamiteitenfonds.nl.";
+$txt["de"]["factuur"]["calamiteitenfonds"]="-";
+$txt["en"]["factuur"]["calamiteitenfonds"]="-";
 
 #
 # Mailtje met factuur aan klant
