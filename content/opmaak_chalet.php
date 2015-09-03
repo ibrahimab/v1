@@ -531,6 +531,10 @@ echo " - <a href=\"mailto:".wt_he($vars["websiteinfo"]["email"][$vars["website"]
 echo "</div><!-- END #colofon -->\n";
 echo "</div><!-- END #colofon_wrapper -->\n";
 
+$voorwaarden_footer = in_array($vars['website'], ['C', 'T', 'V', 'X', 'Z', 'I']) ?
+                      '<li><a href="' . $vars['path'] . 'voorwaarden.php" rel="nofollow">Voorwaarden</a></li>' :
+                      '<li><a href="' . $vars['path'] . 'algemenevoorwaarden.php" rel="nofollow">Algemene voorwaarden</a></li>';
+
 if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 	if($id!="index") {
 		echo"<div id=\"footerWrap\">";
@@ -539,7 +543,8 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<br><b>&copy; ".wt_he($vars["websitenaam"])."</b><br><br>";
 		echo "<ul>";
 		echo "<li><a href=\"".$vars["path"]."veelgestelde-vragen\">Veelgestelde vragen</a></li>";
-		echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
+		echo $voorwaarden_footer;
+		echo "<li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
 		echo "</ul>";
 		echo "</div>";
 		echo "</div>";
@@ -583,7 +588,8 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<br><b>&copy; ".wt_he($vars["websitenaam"])."</b><br><br>";
 		echo "<ul>";
 		echo "<li><a href=\"".$vars["path"]."veelgestelde-vragen\">Veelgestelde vragen</a></li>";
-		echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy-statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
+		echo $voorwaarden_footer;
+		echo "<li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy-statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
 		echo "</ul>";
 		echo "</div>";
 		echo "<div class=\"wrap\">";
