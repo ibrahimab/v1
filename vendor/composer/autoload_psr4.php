@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Predis\\' => array($vendorDir . '/predis/predis/src'),
+    'PhpOffice\\PhpWord\\' => array($vendorDir . '/phpoffice/phpword/src/PhpWord'),
 );
