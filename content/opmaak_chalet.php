@@ -166,6 +166,16 @@ if($vars["website"]=="C") {
 	echo "<link href=\"https://plus.google.com/+ChaletNlWintersport\" rel=\"publisher\" />\n";
 }
 
+// hreflang (MAR-66)
+if($vars["website"]=="C") {
+	echo "<link href=\"https://www.chalet.nl".wt_he($_SERVER["REQUEST_URI"])."\" hreflang=\"nl-NL\" rel=\"alternate\" />\n";
+	echo "<link href=\"https://www.chalet.be".wt_he($_SERVER["REQUEST_URI"])."\" hreflang=\"nl-BE\" rel=\"alternate\" />\n";
+}
+if($vars["website"]=="B") {
+	echo "<link href=\"https://www.chalet.be".wt_he($_SERVER["REQUEST_URI"])."\" hreflang=\"nl-BE\" rel=\"alternate\" />\n";
+	echo "<link href=\"https://www.chalet.nl".wt_he($_SERVER["REQUEST_URI"])."\" hreflang=\"nl-NL\" rel=\"alternate\" />\n";
+}
+
 echo $opmaak->header_end();
 
 echo "</head>\n";
