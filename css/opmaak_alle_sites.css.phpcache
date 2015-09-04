@@ -1866,6 +1866,19 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	opacity: 0.6;
 }
 
+.zoekresultaat_prijs_info_bijkomendekosten_exclude_bkk {
+	background:url("../pic/information_icon.png") top left no-repeat;
+	position: static;
+	top: 0;
+	right: 0;
+	display:inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: -8px;
+	margin-left: 4px;
+	margin-bottom: -2px;
+}
+
 .zoekresultaat_prijs_info_bijkomendekosten_popup {
 	position: absolute;
 	z-index: 5000;
@@ -1894,7 +1907,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	margin:0;
 	padding: 0;
 	margin-left: 15px;
-	margin-top: 10px;
+	margin-top: 6px;
 }
 
 .zoekresultaat_prijs_info_bijkomendekosten_popup h2 {
@@ -3024,6 +3037,14 @@ nieuwe tarieventabel
 	color: #003366;
 }
 
+.tarieventabel_totaalprijs_exclude_bkk {
+	font-weight: normal;
+}
+
+.tarieventabel_totaalprijs_exclude_bkk_show_bkk {
+	color: #777777;
+}
+
 .tarieventabel_totaalprijs_white {
 	background-color: #ffffff !important;
 }
@@ -3071,6 +3092,18 @@ nieuwe tarieventabel
 
 .tarieventabel_totaalprijs button:hover {
 	border: 1px solid #003366;
+}
+
+.tarieventabel_totaalprijs_exclude_bkk button {
+	display: block;
+	margin-left: 3px;
+	width: 100%;
+	white-space: nowrap;
+	overflow-x: hidden;
+}
+
+.tarieventabel_totaalprijs_exclude_bkk table td {
+	vertical-align: top;
 }
 
 .tarieventabel_totaalprijs_commissie {

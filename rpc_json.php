@@ -421,7 +421,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 		while($db->next_record()) {
 
 			$accid=$db->f("accommodatie_id");
-			
+
 			$ids['a'][(int)$db->f('accommodatie_id')] = true;
 			$ids['t'][(int)$db->f('type_id')]	      = ['a' => (int)$db->f('accommodatie_id'), 'b' => $db->f('begincode')];
 
@@ -486,7 +486,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 			$mail_content.="</table>";
 			$mail_content.="<br />";
 		}
-	
+
 	    $mongodb      = $vars['mongodb']['wrapper'];
 	    $files        = ['a' => [], 't' => []];
 	    $cursors      = [];
@@ -506,22 +506,22 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	            $files['t'][$file['file_id']] = $file['directory'] . '/' . $file['filename'];
 	        }
 	    }
-	
+
 		$replacements = [];
-	
+
 		foreach ($ids['t'] as $typeId => $data) {
-		
+
 			$afbeelding = 'accommodaties/0.jpg';
-		
+
 			if (isset($files['t'][$typeId])) {
 				$afbeelding = $files['t'][$typeId];
 			} elseif (isset($files['a'][$data['a']])) {
 				$afbeelding = $files['a'][$data['a']];
 			}
-		
+
 			$replacements['{{ AFBEELDING_' . $data['b'] . $typeId . ' }}'] = $afbeelding;
 		}
-	
+
 		$mail_content = str_replace(array_keys($replacements), array_values($replacements), $mail_content);
 
 		$mail_content.="</div>";
@@ -739,18 +739,47 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	if($_GET["arrangement"]) {
 		$bijkomendekosten->arrangement = true;
 	}
+	$bijkomendekosten->zoek_en_boek_popup = true;
 
 	$kosten = $bijkomendekosten->get_costs()["html"];
 
 	if(is_array($kosten["inclusief"])) {
 
-		$return["html"] .= "<h2>".html("getoonde-prijs-inclusief","tarieventabel").":</h2>";
-
-		$return["html"] .= "<ul>";
 		foreach ($kosten["inclusief"] as $key => $value) {
-			$return["html"] .= "<li>".$value."</li>";
+			if(constant("include_bkk")===true or strpos($value, "&euro;")===false) {
+				$html_incl .= "<li>".$value."</li>";
+			} elseif(preg_match("@^var_@", $key)) {
+				// surcharge
+				if ($_GET["ap"]) {
+					// number of persons known: show at "inclusief"
+					$html_incl .= "<li>".$value."</li>";
+				} else {
+					// unknown number of persons: show at "bijkomende kosten"
+					$html_excl .= "<li>".$value."</li>";
+				}
+			} else {
+				$html_excl .= "<li>".$value."</li>";
+			}
 		}
-		$return["html"] .= "</ul>";
+
+		if ($html_incl) {
+			$return["html"] .= "<h2>".html("getoonde-prijs-inclusief","tarieventabel").":</h2>";
+			$return["html"] .= "<ul>";
+			$return["html"] .= $html_incl;
+			$return["html"] .= "</ul>";
+
+			if ($html_excl) {
+				$return["html"] .= "<br />";
+			}
+		}
+
+		if ($html_excl) {
+			$return["html"] .= "<h2>".html("bijkomendekosten","tarieventabel").":</h2>";
+			$return["html"] .= "<ul>";
+			$return["html"] .= $html_excl;
+			$return["html"] .= "</ul>";
+
+		}
 	}
 } elseif($_GET["t"]=="tarieventabel_totaalprijs") {
 	//
@@ -758,6 +787,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	//
 	$tarieventabel_object = new tarieventabel;
 	$tarieventabel_object->type_id=$_GET["type_id"];
+
 	$tarieventabel_object->seizoen_id=$_GET["seizoen_id_inquery"];
 
 	// commissie tonen aan reisagenten?
@@ -765,7 +795,11 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 		$tarieventabel_object->toon_commissie = true;
 	}
 
-	$return["html"]=$tarieventabel_object->info_totaalprijs($_GET["ap"], $_GET["d"]);
+	if(constant("include_bkk")===true) {
+		$return["html"]=$tarieventabel_object->info_totaalprijs($_GET["ap"], $_GET["d"]);
+	} else {
+		$return["html"]=$tarieventabel_object->specificatie_totaalprijs_below_pricetable($_GET["ap"], $_GET["d"]);
+	}
 
 } elseif($_GET["t"]=="get_content_tarieventabel_totaalprijs_specificatie_popup") {
 	//

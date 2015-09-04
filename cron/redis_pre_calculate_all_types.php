@@ -25,9 +25,19 @@ $geen_tracker_cookie=true;
 $boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
 
+if ($vars["acceptatie_testserver"]) {
+	echo "Acceptatie-testserver\n\n";
+	sleep(1);
+}
+
 $vars["tmp_info_tonen"] = true;
 
 $bijkomendekosten = new bijkomendekosten;
 $bijkomendekosten->pre_calculate_all_types(0, true);
+$bijkomendekosten->store_complete_cache(1);
+$bijkomendekosten->store_complete_cache(2);
 
-?>
+// calculate vanafprijs
+$vanafprijs = new vanafprijs;
+$vanafprijs->set_all_types_to_calculate();
+$vanafprijs->calculate_all_open_types();

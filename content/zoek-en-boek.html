@@ -2513,7 +2513,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 	$files = ['a' => [], 't' => []];
 
 	if (isset($imageIds)) {
-		
+
 	    $mongodb      = $vars['mongodb']['wrapper'];
 	    $cursors      = [];
 	    $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($imageIds['a']));
@@ -2688,7 +2688,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$results[$results_teller].="<div class=\"zoekresultaat_prijs\">";
 							if($value2["tarief"]) {
 
-								$results[$results_teller].="<div class=\"zoekresultaat_prijs_info_bijkomendekosten\" data-type_id=\"".($newresults_cheapest[$value] ? $newresults_cheapest[$value] : $value2["type_id"])."\" data-seizoen_id=\"".intval($bk_used_seizoen_id[$value2["type_id"]])."\" data-arrangement=\"".($value2["toonper"]==3 || $vars["wederverkoop"] ? "0" : "1")."\"></div>";
+								$results[$results_teller].="<div class=\"zoekresultaat_prijs_info_bijkomendekosten\" data-type_id=\"".($newresults_cheapest[$value] ? $newresults_cheapest[$value] : $value2["type_id"])."\" data-seizoen_id=\"".intval($bk_used_seizoen_id[$value2["type_id"]])."\" data-arrangement=\"".($value2["toonper"]==3 || $vars["wederverkoop"] ? "0" : "1")."\" data-ap=\"".intval($_GET["fap"])."\" data-ad=\"".intval($_GET["fad"])."\"></div>";
 
 								unset($zoekresultaat_prijs_periode);
 								$zoekresultaat_prijs_periode.="<div class=\"zoekresultaat_prijs_periode\">";
@@ -2801,6 +2801,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						} else {
 							$results[$results_teller].=" ".html("pp");
 						}
+
+						if(constant("include_bkk")===false) {
+							$results[$results_teller].="<div class=\"zoekresultaat_prijs_info_bijkomendekosten zoekresultaat_prijs_info_bijkomendekosten_exclude_bkk\" data-type_id=\"".intval($value2["type_id"])."\" data-seizoen_id=\"".intval($bk_used_seizoen_id[$value2["type_id"]])."\" data-arrangement=\"".($value2["toonper"]==3 || $vars["wederverkoop"] ? "0" : "1")."\" data-ap=\"".intval($_GET["fap"])."\" data-ad=\"".intval($_GET["fad"])."\"></div>";
+						}
+
+
 					} else {
 						$results[$results_teller].="&nbsp;";
 					}

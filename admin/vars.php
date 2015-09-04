@@ -11,6 +11,9 @@ define("wt_mail_fromname","Chalet.nl");
 define("wt_mail_from","info@chalet.nl");
 define("sunnycars_partner_link", "https://partner.sunnycars.nl/ak/743147/");
 
+// include bkk (bijkomende kosten) in total price?
+define("include_bkk", false);
+
 // Netrom?
 if($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
 	define("netrom_testserver",true);
@@ -112,7 +115,7 @@ require($unixdir."admin/vars_functions.php");
 
 
 // is this the acceptation-testserver?
-if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
+if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$unixdir)) {
 	$vars["acceptatie_testserver"]=true;
 
 	if($_COOKIE["acceptance_email"]) {
