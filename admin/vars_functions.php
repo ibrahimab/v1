@@ -80,7 +80,7 @@ function txt($id,$page="",$settings=array(""),$html=false) {
 		}
 	}
 	if($return=="") {
-		if($taal=="nl")	trigger_error("txt[nl][".$page."][".$id."] is leeg",E_USER_NOTICE);
+		if($taal=="nl") trigger_error("txt[nl][".$page."][".$id."] is leeg",E_USER_NOTICE);
 #		$return="[[MISSING: ".$id."_".$taal."]]";
 		if($vars["lokale_testserver"]) {
 			$return="-".preg_replace("@_@", " ", $id)."-";
@@ -1999,14 +1999,15 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 		# Reserveringskosten
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
+		$reserveringskosten_calamiteiten = (in_array($vars["website"], ['C', 'T', 'V', 'X', 'Z', 'I']));
 
 		if(!$isMobile) {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("reserveringskosten","vars");
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html('reserveringskosten' . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''),"vars");
 			$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["reserveringskosten"],2,',','.')."</td>";
 			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
 			$return.="</tr>";
 		} else {
-			$return.="<tr class=\"mobile_row\" ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>".html("reserveringskosten","vars").":";
+			$return.="<tr class=\"mobile_row\" ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>".html("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''),"vars").":";
 			$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["reserveringskosten"],2,',','.');
 			$return.="</div></td>";
 			$return.="</tr>";
@@ -2247,9 +2248,9 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 		// $kleurteller++;
 		// if($kleurteller>1) unset($kleurteller);
 		// if(!$isMobile) {
-		// 	$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
+		//	$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
 		// } else {
-		// 	$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
+		//	$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
 		// }
 
 		# Totaal ter plaatse
@@ -4196,9 +4197,9 @@ function nieuwsbrief_inschrijven($wzt,$nieuwsbrief_waardes) {
 	# Opslaan in database niet meer nodig (inschrijven loopt nu rechtstreeks via Blinker - 04-12-2012)
 	// $db->query("SELECT nieuwsbrieflid_id FROM nieuwsbrieflid WHERE email='".addslashes($nieuwsbrief_waardes["email"])."';");
 	// if($db->next_record()) {
-	// 	$db->query("UPDATE nieuwsbrieflid SET bezoeker_id='".addslashes($_COOKIE["tch"])."', editdatetime=NOW() WHERE nieuwsbrieflid_id='".addslashes($db->f("nieuwsbrieflid_id"))."'");
+	//	$db->query("UPDATE nieuwsbrieflid SET bezoeker_id='".addslashes($_COOKIE["tch"])."', editdatetime=NOW() WHERE nieuwsbrieflid_id='".addslashes($db->f("nieuwsbrieflid_id"))."'");
 	// } else {
-	// 	$db->query("INSERT INTO nieuwsbrieflid SET email='".addslashes($nieuwsbrief_waardes["email"])."', voornaam='".addslashes($nieuwsbrief_waardes["voornaam"])."', tussenvoegsel='".addslashes($nieuwsbrief_waardes["tussenvoegsel"])."', achternaam='".addslashes($nieuwsbrief_waardes["achternaam"])."', bezoeker_id='".addslashes($_COOKIE["tch"])."', adddatetime=NOW(), editdatetime=NOW();");
+	//	$db->query("INSERT INTO nieuwsbrieflid SET email='".addslashes($nieuwsbrief_waardes["email"])."', voornaam='".addslashes($nieuwsbrief_waardes["voornaam"])."', tussenvoegsel='".addslashes($nieuwsbrief_waardes["tussenvoegsel"])."', achternaam='".addslashes($nieuwsbrief_waardes["achternaam"])."', bezoeker_id='".addslashes($_COOKIE["tch"])."', adddatetime=NOW(), editdatetime=NOW();");
 	// }
 
 	if($vars["website"]=="C") {
@@ -4757,9 +4758,9 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	}
 
 	// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
-	// 	$mail=new wt_mail2;
+	//	$mail=new wt_mail2;
 	// } else {
-	// 	$mail=new wt_mail;
+	//	$mail=new wt_mail;
 	// }
 	$mail=new wt_mail;
 
@@ -4808,9 +4809,9 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 
 	// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	// 	$mail->to="jeroen@webtastic.nl";
-	// 	$mail->to="mmtest@postvak.net";
-	// 	$mail->test=false;
+	//	$mail->to="jeroen@webtastic.nl";
+	//	$mail->to="mmtest@postvak.net";
+	//	$mail->test=false;
 	// }
 
 	# toname
@@ -4849,4 +4850,20 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 }
 
+<<<<<<< HEAD
 ?>
+=======
+function toonreserveringskosten($costs = null) {
+
+	// backwards compatible
+	if (null === $costs) {
+
+		global $vars;
+		$costs = $vars['reserveringskosten'];
+	}
+
+	return (floor($costs) != $costs ? number_format($costs, 2, ',', '.') : ($costs . ',-'));
+}
+
+?>
+>>>>>>> 38b0c7a... [CMS-196] changed display reservation costs

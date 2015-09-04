@@ -817,7 +817,10 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 
 					# Reserveringskosten
 					if($gegevens["fin"]["reserveringskosten"]>0) {
-						echo "<tr><td valign=\"top\">".html("reserveringskosten","bsys")."</td><td valign=\"top\">&nbsp;</td>";
+
+						$reserveringskosten_calamiteiten = (in_array($vars["website"], ['C', 'T', 'V', 'X', 'Z', 'I']));
+
+						echo "<tr><td valign=\"top\">".html("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''),"bsys")."</td><td valign=\"top\">&nbsp;</td>";
 						echo "<td nowrap width=\"".$celbreedte."\" valign=\"top\">";
 						$temp_bedrag=round($gegevens["fin"]["reserveringskosten"]/$gegevens["stap1"]["aantalpersonen"],2);
 						echo "<span style=\"float:left;\">&euro;&nbsp;</span><span style=\"float:right;\">".number_format($temp_bedrag,2,',','.')."</span>";

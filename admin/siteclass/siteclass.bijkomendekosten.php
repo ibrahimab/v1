@@ -1357,8 +1357,8 @@ class bijkomendekosten {
 			}
 		}
 
-		$kosten["html"]["inclusief"]["reserveringskosten"] = wt_he(txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").")");
-
+		$reserveringskosten_calamiteiten = (in_array($this->config->website, ['C', 'T', 'V', 'X', 'Z', 'I']));
+		$kosten["html"]["inclusief"]["reserveringskosten"] = html("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''), "vars")." (&euro; " . toonreserveringskosten($this->config->reserveringskosten)." ".html("perboeking", "vars").")";
 
 		$kosten["html"]["uitbreiding"]["extraopties"] = html("bekijk-ook-extra-opties","tarieventabel",array("h_1"=>"<a href=\"#extraopties\">","h_2"=>" &raquo;</a>"));
 

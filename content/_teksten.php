@@ -1032,6 +1032,10 @@ $txt["nl"]["vars"]["reserveringskosten"]="Reserveringskosten";
 $txt["de"]["vars"]["reserveringskosten"]="Reservierungskosten";
 $txt["en"]["vars"]["reserveringskosten"]="Booking costs";
 
+$txt["nl"]["vars"]["reserveringskosten_calamiteiten"]="Reserveringskosten & bijdrage calamiteitenfonds";
+$txt["de"]["vars"]["reserveringskosten_calamiteiten"]="-";
+$txt["en"]["vars"]["reserveringskosten_calamiteiten"]="-";
+
 $txt["nl"]["vars"]["perboeking"]="per boeking";
 $txt["de"]["vars"]["perboeking"]="Pro Buchung";
 $txt["en"]["vars"]["perboeking"]="per booking";
@@ -6087,6 +6091,10 @@ $txt["en"]["bsys"]["poliskostenverzekeringen"]="Policy costs";
 $txt["nl"]["bsys"]["reserveringskosten"]="Reserveringskosten";
 $txt["de"]["bsys"]["reserveringskosten"]="Reservierungskosten";
 $txt["en"]["bsys"]["reserveringskosten"]="Booking costs";
+
+$txt["nl"]["bsys"]["reserveringskosten_calamiteiten"]="Reserveringskosten & bijdrage calamiteitenfonds";
+$txt["de"]["bsys"]["reserveringskosten_calamiteiten"]="-";
+$txt["en"]["bsys"]["reserveringskosten_calamiteiten"]="-";
 
 $txt["nl"]["bsys"]["totaal"]="Totaal";
 $txt["de"]["bsys"]["totaal"]="Gesamtsumme";
