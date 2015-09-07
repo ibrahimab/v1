@@ -1016,6 +1016,19 @@ if($form->okay) {
 					}
 					chalet_log("factuur aangemaakt",true,true);
 				}
+				
+				if ($gegevens['stap1']['websiteland'] === 'nl' && $form->input["voorwaardenmeesturen"]) {
+				
+					$generated = TermsGenerator::generate($vars['websitenaam']);
+				
+					$settings['attachment']['pdf/ANVR_voorwaarden.pdf'] = 'ANVR_voorwaarden.pdf';
+					$settings['attachment'][$generated] 		        = 'Aanvullende_Voorwaarden.pdf';
+				}
+				
+				if ($gegevens['stap1']['website'] === 'D') {
+					$settings['attachment']['pdf/Sicherungsschein.pdf'] = 'Sicherungsschein.pdf';
+				}
+				
 				verstuur_opmaakmail($gegevens["stap1"]["website"],$to,"",$subject,$html,$settings);
 				// $mail->send();
 			}
