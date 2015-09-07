@@ -928,15 +928,15 @@ if($db->next_record()) {
 		echo "<script>\n
 			var mapOptions = {};
 		";
-		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" || $_SERVER['HTTP_HOST'] === 'local.chalet.nl') {
 			echo "mapOptions.googlemaps_base='/chalet/';\n";
 		}
 		$db0->query("SELECT MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE accommodatie_id='".$db->f("accommodatie_id")."' AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id;");
 		if($db0->next_record()) {
 			echo "mapOptions.googlemaps_aantalpersonen='".$db0->f("optimaalaantalpersonen").($db0->f("maxaantalpersonen")>$db0->f("optimaalaantalpersonen") ? " - ".$db0->f("maxaantalpersonen") : "")." ".html("personen")."';\n";
 		}
-		if(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-			echo "mapOptions.googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
+		if(file_exists('pic/cms/' . $afbeelding) && $afbeelding != 'accommodaties/0.jpg') {
+			echo "mapOptions.googlemaps_afbeelding='".imageurl($afbeelding,170,127)."';\n";
 		}
 		echo "mapOptions.googlemaps_accid=".$db->f("accommodatie_id").";\n mapOptions.googlemaps_typeid=".$db->f("type_id").";\n mapOptions.googlemaps_selected_icon=".$vars["websitetype"].";\n mapOptions.googlemaps_lat=".$gps_lat.";\n mapOptions.googlemaps_long=".$gps_long.";\n mapOptions.gps_coordinaten_bekend=1;\n mapOptions.googlemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\n mapOptions.googlemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("skigebied")))."';\n mapOptions.zoomlevel=".($vars["seizoentype"]==2 ? "9" : "14").";\n";
 		echo "mapOptions.googlemaps_kwaliteit='".$kwaliteit."';\n mapOptions.googlemaps_omschrijving='".addslashes($omschrijving)."';\n";
