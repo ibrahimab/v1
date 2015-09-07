@@ -1030,6 +1030,10 @@ if($form->okay) {
 				}
 				
 				verstuur_opmaakmail($gegevens["stap1"]["website"],$to,"",$subject,$html,$settings);
+				
+				if (file_exists($generated)) {
+					unlink($generated);
+				}
 				// $mail->send();
 			}
 
