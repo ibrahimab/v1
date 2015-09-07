@@ -4,6 +4,15 @@
 # Zoekformulier
 #
 
+// temporarily: which table to use for caching?
+// 07-09-2015: door ibrahim toegevoegd om prijs bug te verhelpen op mobiele site
+// @TODO: na laten checken door jeroen
+if( $vars["lokale_testserver"] or $_GET["test"]==1 ) {
+	$table_name_cache_vanafprijs = "cache_vanafprijs_incl_bkk_type";
+} else {
+	$table_name_cache_vanafprijs = "cache_vanafprijs_type";
+}
+
 # tekstzoeken: zoekopdracht "opschonen" (voor zoekopdrachten die binnenkomen via andere pagina dan zoek-en-boek.php - want in zoek-en-boek.php wordt dit opschonen ook al gedaan)
 if($_GET["fzt"]==txt("tekstzoeken","zoek-en-boek")) {
 	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
