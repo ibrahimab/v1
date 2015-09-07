@@ -312,6 +312,10 @@ if($vars["websiteland"]=="nl") {
 	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
 }
 
+if ($vars['website'] === 'D') {
+	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#a7.9\" class=\"reisegarantlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/reise_garant_hoofdmenu.png\" height=\"27\" alt=\"Reisegarant\" /></a>";
+}
+
 if($vars["docdata_payments"]) {
 	if(count($vars["docdata_payments"]) > 0) {
 		foreach($vars["docdata_payments"] as $key => $value) {
