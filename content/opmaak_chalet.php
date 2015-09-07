@@ -85,6 +85,9 @@ if(file_exists("css/".$id."_chalet_extra.css")) {
 if($vars["website"]=="E") {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_chalet_eu.css?cache=".@filemtime("css/opmaak_chalet_eu.css")."\" />\n";
 }
+if($vars["website"]=="D") {
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_chaletonline_de.css?cache=".@filemtime("css/opmaak_chaletonline_de.css")."\" />\n";
+}
 if($voorkant_cms and !$_GET["cmsuit"]) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/voorkantcms.css?cache=".@filemtime("css/voorkantcms.css")."\" />\n";
 }
