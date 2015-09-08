@@ -947,6 +947,10 @@ if($form->okay) {
 				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"),md5($db0->f("password_uc")));
 			}
 			$html.="<p>".html("tot6wekeninloggen","factuur",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>","h_3"=>"<i>","h_4"=>"</i>","v_wachtwoord"=>$db0->f("password_uc"),"v_mailadres"=>$gegevens["stap2"]["email"]))."</p>";
+			
+			if ($gegevens['stap1']['website'] === 'D') {
+				$html.="<p>".html("ingeslotenverzekeringsbewijs", "factuur", ['h_1' => '<a href="' . $gegevens['stap1']['website_specifiek']['basehref'] . html('menu_algemenevoorwaarden') . '.php#a7.9">', 'h_2' => '</a>']) . '</p>';
+			}
 
 			if(!$gegevens["stap1"]["annuleringsverzekering"]) {
 				$link=$gegevens["stap1"]["website_specifiek"]["basehref"].html("menu_verzekeringen").".php#annuleringsverzekering";
@@ -1016,7 +1020,24 @@ if($form->okay) {
 					}
 					chalet_log("factuur aangemaakt",true,true);
 				}
+				
+				if ($gegevens['stap1']['websiteland'] === 'nl' && $form->input["voorwaardenmeesturen"]) {
+				
+					$generated = TermsGenerator::generate($vars['websitenaam']);
+				
+					$settings['attachment']['pdf/ANVR_voorwaarden.pdf'] = 'ANVR_voorwaarden.pdf';
+					$settings['attachment'][$generated] 		        = 'Aanvullende_Voorwaarden.pdf';
+				}
+				
+				if ($gegevens['stap1']['website'] === 'D') {
+					$settings['attachment']['pdf/Sicherungsschein.pdf'] = 'Sicherungsschein.pdf';
+				}
+				
 				verstuur_opmaakmail($gegevens["stap1"]["website"],$to,"",$subject,$html,$settings);
+				
+				if (file_exists($generated)) {
+					unlink($generated);
+				}
 				// $mail->send();
 			}
 

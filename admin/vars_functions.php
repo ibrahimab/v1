@@ -4477,6 +4477,7 @@ function googleanalytics() {
 			".($id=="zoek-en-boek" ? "\ncanonical_link = undefined;\n" : "").($vars["page_with_tabs"] ? "page_with_tabs=true;\n" : "")."
 
 			ga('create', '".$vars["googleanalytics"]."', 'auto');
+			" . ($vars['website'] === 'D' ? "ga('set', 'anonymizeIp', true);" : '') ."
 			ga('require', 'displayfeatures');".$vars["googleanalytics_extra"].$extra."
 
 			if(page_with_tabs) {

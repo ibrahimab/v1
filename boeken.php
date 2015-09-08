@@ -974,6 +974,12 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		}
 		if($opties_nietbeschikbaar_geboortedatum) $form->field_yesno("wisopties_nietbeschikbaar",txt("wisnietbeschikbareopties","boeken"));
 
+		if ($vars['website'] === 'D') {
+			
+			// chaletonline privacy melding
+			$form->field_htmlrow("", txt('privacymelding', 'boeken', ['h_1' => '<a href="' . $vars['path'] . 'Datenschutz.php' . '">', 'h_2' => '</a>']));
+		}
+
 	} elseif($_GET["stap"]==3) {
 		if($gegevens["stap1"]["aantalpersonen"]>1) {
 			if(!$mustlogin and !$boeking_wijzigen) {
@@ -1051,6 +1057,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		} else {
 			$form->field_htmlrow("","<b>".html("aangezien1persoon","boeken",array("l1"=>"javascript:document.frm.submit();"))."</b><hr>");
 		}
+		
+		if ($vars['website'] === 'D') {
+			
+			// chaletonline privacy melding
+			$form->field_htmlrow("", txt('privacymelding', 'boeken', ['h_1' => '<a href="' . $vars['path'] . 'Datenschutz.php' . '">', 'h_2' => '</a>']));
+		}
+		
 	} elseif($_GET["stap"]==4) {
 
 		$dagen_na_bevestigdatum=round(mktime(0,0,0,date("m"),date("d"),date("Y"))-mktime(0,0,0,date("m",$gegevens["stap1"]["bevestigdatum"]),date("d",$gegevens["stap1"]["bevestigdatum"]),date("Y",$gegevens["stap1"]["bevestigdatum"]))/(60*60*24));
@@ -3179,8 +3192,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			// $mail->html=$html;
 			// $mail->send();
 
+			$klantemailsettings = [];
+			if ($vars['website'] === 'D') {
+				$klantemailsettings['attachment']['pdf/Sicherungsschein.pdf'] = 'Sicherungsschein.pdf';
+			}
+
 			// opmaakmail sturen
-			verstuur_opmaakmail($vars["website"],$to,"",html("boeking","boeken")." ".$vars["websitenaam"],$html,array(""));
+			verstuur_opmaakmail($vars["website"],$to,"",html("boeking","boeken")." ".$vars["websitenaam"],$html,$klantemailsettings);
 
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {

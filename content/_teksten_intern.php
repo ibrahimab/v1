@@ -97,7 +97,7 @@ $txta["de"]["menu_skigebied"]="Skigebiet";
 $txta["en"]["menu_skigebied"]="region";
 
 $txta["nl"]["menu_algemenevoorwaarden"]="algemenevoorwaarden";
-$txta["de"]["menu_algemenevoorwaarden"]="AllgemeineGeschäftsBedingungen";
+$txta["de"]["menu_algemenevoorwaarden"]="AGB";
 $txta["en"]["menu_algemenevoorwaarden"]="conditions";
 
 $txta["nl"]["menu_verzekeringen"]="verzekeringen";

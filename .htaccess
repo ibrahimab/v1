@@ -231,6 +231,8 @@ RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
 RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
 # Chalet-IP
 RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
+# Ibrahim
+RewriteCond %{REMOTE_ADDR} !^62\.194\.208\.250
 RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=302]
 
 
@@ -325,7 +327,7 @@ RewriteRule ^Buchung_bestaetigt\.php$ boeking_bevestigd.php [L,QSA]
 RewriteRule ^Verfuegbarkeit\.php$ beschikbaarheid.php [L,QSA]
 RewriteRule ^berechnen\.php$ calc.php [L,QSA]
 RewriteRule ^anmelden_gesperrt\.php$ inloggen_geblokkeerd.php [L,QSA]
-
+RewriteRule ^AGB\.php$ algemenevoorwaarden.php [L,QSA]
 
 
 

@@ -85,6 +85,9 @@ if(file_exists("css/".$id."_chalet_extra.css")) {
 if($vars["website"]=="E") {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_chalet_eu.css?cache=".@filemtime("css/opmaak_chalet_eu.css")."\" />\n";
 }
+if($vars["website"]=="D") {
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_chaletonline_de.css?cache=".@filemtime("css/opmaak_chaletonline_de.css")."\" />\n";
+}
 if($voorkant_cms and !$_GET["cmsuit"]) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/voorkantcms.css?cache=".@filemtime("css/voorkantcms.css")."\" />\n";
 }
@@ -307,6 +310,10 @@ echo "</div><!--END #hoofdmenu-->\n";
 echo "<div class=\"paymenticons\" id=\"kleinelogos\">";
 if($vars["websiteland"]=="nl") {
 	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+}
+
+if ($vars['website'] === 'D') {
+	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#a7.9\" class=\"reisegarantlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/reise_garant_hoofdmenu.png\" height=\"27\" alt=\"Reisegarant\" /></a>";
 }
 
 if($vars["docdata_payments"]) {
