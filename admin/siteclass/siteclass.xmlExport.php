@@ -380,7 +380,7 @@ class xmlExport extends chaletDefault
 			$bk_add_to_price = $bk[$db->f( "type_id" )][$db->f( "seizoen_id" )][1];
 			$prijs += $bk_add_to_price;
 
-			if( $prijs>0 and $bk_add_to_price>0 ) {
+			if( $prijs>0 ) {
 				$this->type_price[$db->f( "type_id" )][$db->f( "week" )] = round($prijs, 2);
 
 				// Maximale korting bepalen
@@ -427,7 +427,7 @@ class xmlExport extends chaletDefault
 			$bk_add_to_price = $bk[$db->f( "type_id" )][$db->f( "seizoen_id" )][$db->f( "maxaantalpersonen" )] / $db->f( "maxaantalpersonen" );
 			$prijs += $bk_add_to_price;
 
-			if( $prijs>0 and $bk_add_to_price>0 ) {
+			if( $prijs>0 ) {
 				$this->type_price[$db->f( "type_id" )][$db->f( "week" )] = round($prijs, 2);
 
 				// Maximale korting bepalen
