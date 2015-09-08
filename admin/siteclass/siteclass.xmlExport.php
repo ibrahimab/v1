@@ -499,9 +499,14 @@ class xmlExport extends chaletDefault
 		while( $db->next_record() ) {
 			if ( $db->f( "verplicht" )==1 and $db->f( "ter_plaatse" )==1 and $db->f( "bedrag" )==0) {
 				// verplicht ter plaatse, no amount know: don't add to "included"-list
-				$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )]["excluded"][$db->f( "bk_soort_id" )] = $db->f( "naam" );
+				$in_ex_type = 'excluded';
+			} elseif($db->f( "bedrag" )>0 and constant("include_bkk")===false) {
+				$in_ex_type = 'excluded';
 			} else {
-				$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )]["included"][$db->f( "bk_soort_id" )] = $db->f( "naam" );
+				$in_ex_type = 'included';
+			}
+			if ($in_ex_type) {
+				$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )][$in_ex_type][$db->f( "bk_soort_id" )] = $db->f( "naam" );
 			}
 		}
 
@@ -543,7 +548,11 @@ class xmlExport extends chaletDefault
 					}
 
 					// reserveringskosten
-					$this->type_bkk[$type_id][$key]["included"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+					if($db->f( "bedrag" )>0 and constant("include_bkk")===true) {
+						$this->type_bkk[$type_id][$key]["included"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+					} else {
+						$this->type_bkk[$type_id][$key]["excluded"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+					}
 				}
 			}
 		}
