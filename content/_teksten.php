@@ -6659,9 +6659,9 @@ $txt["nl"]["factuur"]["attachmentbevest"]="Als attachment bij dit mailtje zit ee
 $txt["de"]["factuur"]["attachmentbevest"]="Im Anhang dieser E-Mail finden Sie eine PDF-Datei mit Ihrer Buchungsbestätigung. ";
 $txt["en"]["factuur"]["attachmentbevest"]="The attachment to this e-mail contains a PDF file with the confirmation of your booking.";
 
-$txt["nl"]["factuur"]["pdfdownloaden"]="PDF-bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via [[h_1]]http://get.adobe.com/reader/[[h_2]].";
+$txt["nl"]["factuur"]["pdfdownloaden"]="PDF-bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via [[h_1]]http://get.adobe.com/reader[[h_2]].";
 $txt["de"]["factuur"]["pdfdownloaden"]="PDF-Dateien können Sie öffnen mit dem Adobe Reader-Programm, das kostenlos als Download verfügbar ist über [[h_1]]http://get.adobe.com/reader[[h_2]].";
-$txt["en"]["factuur"]["pdfdownloaden"]="PDF files can be opened with Adobe Reader, which can be downloaded for free from [[h_1]]http://get.adobe.com/reader/[[h_2]].";
+$txt["en"]["factuur"]["pdfdownloaden"]="PDF files can be opened with Adobe Reader, which can be downloaded for free from [[h_1]]http://get.adobe.com/reader[[h_2]].";
 
 $txt["nl"]["factuur"]["bedanktvoorjeboeking"]="Bedankt voor je boeking.";
 $txt["de"]["factuur"]["bedanktvoorjeboeking"]="Vielen Dank für Ihre Buchung.";
@@ -6863,7 +6863,7 @@ Anbei erhalten Sie Ihre Reiseunterlagen für Ihren [[v_vakantiesoort]].
 
 Wir bitten Sie, diese Unterlagen direkt zu drucken und sorgfältig zu kontrollieren. Bitte melden Sie uns etwaige Fehler umgehend, damit wir diese vor Ihrer Abreise korrigieren können.
 
-PDF-Dateien können Sie öffnen mit dem Adobe Reader-Programm, das kostenlos als Download verfügbar ist über [[h_1]]http://get.adobe.com/reader/[[h_2]].
+PDF-Dateien können Sie öffnen mit dem Adobe Reader-Programm, das kostenlos als Download verfügbar ist über [[h_1]]http://get.adobe.com/reader[[h_2]].
 
 Bei Fragen stehen wir Ihnen gerne jederzeit zur Verfügung.
 
