@@ -533,7 +533,7 @@ class tarieventabel {
 				
 					$totaal_vakantie = number_format($totaalbedrag  + $totaalbedrag_ter_plaatse, 2, ',', '.');
 					$return .= '<tr><td colspan="5">&nbsp;</td></tr>';
-					$return .= '<tr class="tarieventabel_totaalprijs_exclude_bkk_show_bkk"><td colspan="2">&nbsp;</td><td>' . html('totaal-vakantie', 'bijkomendekosten') . ' (&euro;' . number_format($totaalbedrag, 2, ',', '.') . ' + &euro;' . number_format($totaalbedrag_ter_plaatse, 2, ',', '.') . ') </td><td>&nbsp;&euro;&nbsp;</td>';
+					$return .= '<tr class="tarieventabel_totaalprijs_exclude_bkk_show_bkk"><td colspan="2">&nbsp;</td><td>' . html('totaal-vakantie', 'bijkomendekosten') . ' (&euro; ' . number_format($totaalbedrag, 2, ',', '.') . ' + &euro; ' . number_format($totaalbedrag_ter_plaatse, 2, ',', '.') . ') </td><td>&nbsp;&euro;&nbsp;</td>';
 					$return .= '<td class="tarieventabel_totaalprijs_specificatie_popup_bedrag">' . $totaal_vakantie . '</td></tr>';
 				}
 
