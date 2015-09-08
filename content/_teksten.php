@@ -6660,7 +6660,7 @@ $txt["de"]["factuur"]["attachmentbevest"]="Im Anhang dieser E-Mail finden Sie ei
 $txt["en"]["factuur"]["attachmentbevest"]="The attachment to this e-mail contains a PDF file with the confirmation of your booking.";
 
 $txt["nl"]["factuur"]["pdfdownloaden"]="PDF-bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via [[h_1]]http://get.adobe.com/reader/[[h_2]].";
-$txt["de"]["factuur"]["pdfdownloaden"]="PDF-Dateien können Sie öffnen mit dem Adobe Reader-Programm, das kostenlos als Download verfügbar ist über [[h_1]]http://get.adobe.com/reader/[[h_2]].";
+$txt["de"]["factuur"]["pdfdownloaden"]="PDF-Dateien können Sie öffnen mit dem Adobe Reader-Programm, das kostenlos als Download verfügbar ist über [[h_1]]http://get.adobe.com/reader[[h_2]].";
 $txt["en"]["factuur"]["pdfdownloaden"]="PDF files can be opened with Adobe Reader, which can be downloaded for free from [[h_1]]http://get.adobe.com/reader/[[h_2]].";
 
 $txt["nl"]["factuur"]["bedanktvoorjeboeking"]="Bedankt voor je boeking.";
@@ -6698,8 +6698,12 @@ $txt["nl"]["factuur"]["tot6wekeninloggen"]="Tot 4 weken voor vertrek kun je via 
 $txt["de"]["factuur"]["tot6wekeninloggen"]="Bis zu 4 Wochen vor Abreise können Sie über \"[[h_1]]Meine Buchung[[h_2]]\" die Daten der Mitreisenden selber eingeben oder ändern und Optionen zubuchen. Sie können sich anmelden über einen [[h_1]]direkten Link[[h_2]] oder über Ihre E-Mail-Adresse ([[h_3]][[v_mailadres]][[h_4]]) und das Passwort [[h_3]][[v_wachtwoord]][[h_4]]. Sie können Änderungen natürlich auch per E-Mail oder telefonisch an uns weiterleiten, wonach wir diese für Sie verarbeiten werden.";
 $txt["en"]["factuur"]["tot6wekeninloggen"]="Up to 4 weeks before your departure, you can use \"[[h_1]]My booking[[h_2]]\" to change the data of the participants and add any options. You can login using a [[h_1]]direct link[[h_2]] or your email address ([[h_3]][[v_mailadres]][[h_4]]) and the password [[h_3]][[v_wachtwoord]][[h_4]]. You can of course also provide us with these changes by email or telephone.";
 
+$txt["nl"]["factuur"]["ingeslotenverzekeringsbewijs"]="-";
+$txt["de"]["factuur"]["ingeslotenverzekeringsbewijs"]="Anbei finden Sie den [[h_1]]Sicherungsschein[[h_2]] zur Kundengeldabsicherung gemäß § 651k Abs. 5 BGB.";
+$txt["en"]["factuur"]["ingeslotenverzekeringsbewijs"]="-";
+
 $txt["nl"]["factuur"]["weadviserenannuleringsverzekering"]="We adviseren je om een annuleringsverzekering af te sluiten. Dit kan zowel individueel als per groep. Let op: dit kan tot 7 dagen na boeking! [[h_1]]Voorwaarden annuleringsverzekering[[h_2]]";
-$txt["de"]["factuur"]["weadviserenannuleringsverzekering"]="Wir raten Ihnen, eine Reiserücktrittsversicherung abzuschließen. Dies ist sowohl individuell wie als Gruppe möglich. Achtung bitte: dies ist bis 7 Tage nach der Buchung möglich! [[h_1]]Bedingungen Reiserücktrittsversicherung[[h_2]]";
+$txt["de"]["factuur"]["weadviserenannuleringsverzekering"]="Wir raten Ihnen, eine Reiserücktrittsversicherung abzuschließen. Dies ist sowohl individuell wie als Gruppe möglich. Achtung bitte: dies ist bis 7 Tage nach der Buchung möglich ([[h_1]]Bedingungen Reiserücktrittsversicherung[[h_2]]).";
 $txt["en"]["factuur"]["weadviserenannuleringsverzekering"]="We advise you to take out a cancellation insurance, either per individual or per group. Attention: you can do so up to 7 days after you have made your booking! [[h_1]]Terms and conditions cancellation insurance[[h_2]]";
 
 $txt["nl"]["factuur"]["mailmetvriendelijkegroet"]="Met vriendelijke groet,";
