@@ -4125,6 +4125,10 @@ $txt["nl"]["bijkomendekosten"]["totaal-ter-plaatse"]="Totaal ter plaatse te beta
 $txt["de"]["bijkomendekosten"]["totaal-ter-plaatse"]="Insgesamt vor Ort zu bezahlen";
 $txt["en"]["bijkomendekosten"]["totaal-ter-plaatse"]="To be paid locally";
 
+$txt["nl"]["bijkomendekosten"]["totaal-vakantie"]="-";
+$txt["de"]["bijkomendekosten"]["totaal-vakantie"]="Gesamtreisesumme";
+$txt["en"]["bijkomendekosten"]["totaal-vakantie"]="-";
+
 $txt["nl"]["bijkomendekosten"]["totaalprijs-op-basis-1-persoon"]="Totaalprijs op basis van 1 persoon";
 $txt["de"]["bijkomendekosten"]["totaalprijs-op-basis-1-persoon"]="Gesamtpreis für 1 Person";
 $txt["en"]["bijkomendekosten"]["totaalprijs-op-basis-1-persoon"]="Total price based on 1 person";

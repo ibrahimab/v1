@@ -521,11 +521,23 @@ class tarieventabel {
 				}
 			}
 			if($totaalbedrag_ter_plaatse>0 and $terPlaatseNumerOfItems>1) {
+				
 				$return .= "<tr style=\"height:6px;\"><td colspan=\"5\"></td></tr>";
-				$return .= "<tr class=\"tarieventabel_totaalprijs_exclude_bkk_show_bkk\"><td colspan=\"2\">&nbsp;</td><td>".html("totaal-ter-plaatse", "bijkomendekosten")."</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_ter_plaatse, 2, ",", ".")."</td></tr>";
+				
+				$totaal_ter_plaatse = "<tr class=\"tarieventabel_totaalprijs_exclude_bkk_show_bkk\"><td colspan=\"2\">&nbsp;</td><td>[b]".html("totaal-ter-plaatse", "bijkomendekosten")."[/b]</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">[b]".number_format($totaalbedrag_ter_plaatse, 2, ",", ".")."[/b]</td></tr>";
+				
+				$tags    = ['f' => ['[b]', '[/b]'], 'r' => ['<b>', '</b>']];
+				$return .= ($this->config->website === 'D' ? str_replace($tags['f'], $tags['r'], $totaal_ter_plaatse) : str_replace($tags['f'], '', $totaal_ter_plaatse));
+				
+				if ($this->config->website === 'D') {
+				
+					$totaal_vakantie = number_format($totaalbedrag  + $totaalbedrag_ter_plaatse, 2, ',', '.');
+					$return .= '<tr><td colspan="5">&nbsp;</td></tr>';
+					$return .= '<tr class="tarieventabel_totaalprijs_exclude_bkk_show_bkk"><td colspan="2">&nbsp;</td><td>' . html('totaal-vakantie', 'bijkomendekosten') . ' (&euro;' . number_format($totaalbedrag, 2, ',', '.') . ' + &euro;' . number_format($totaalbedrag_ter_plaatse, 2, ',', '.') . ') </td><td>&nbsp;&euro;&nbsp;</td>';
+					$return .= '<td class="tarieventabel_totaalprijs_specificatie_popup_bedrag">' . $totaal_vakantie . '</td></tr>';
+				}
 
 				$totaalbedrag += $totaalbedrag_ter_plaatse;
-
 			}
 		}
 
