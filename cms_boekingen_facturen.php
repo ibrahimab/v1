@@ -580,7 +580,8 @@ if($form->okay) {
 
 		if($gegevens["fin"]["reserveringskosten"]>0) {
 			# Reserveringskosten
-			factuur_opties(1,txt("reserveringskosten","factuur"),$gegevens["fin"]["reserveringskosten"]);
+			$reserveringskosten_calamiteiten = (in_array($gegevens['stap1']['website'], ['C', 'T', 'V', 'X', 'Z', 'I']));
+			factuur_opties(1,txt("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''),"factuur"),$gegevens["fin"]["reserveringskosten"]);
 		}
 
 		factuur_opties("","","","optellen");

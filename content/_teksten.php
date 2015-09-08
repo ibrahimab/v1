@@ -6575,6 +6575,10 @@ $txt["nl"]["factuur"]["reserveringskosten"]="Reserveringskosten";
 $txt["de"]["factuur"]["reserveringskosten"]="Reservierungskosten";
 $txt["en"]["factuur"]["reserveringskosten"]="Booking costs";
 
+$txt["nl"]["factuur"]["reserveringskosten_calamiteiten"]="Reserveringskosten & bijdrage calamiteitenfonds";
+$txt["de"]["factuur"]["reserveringskosten_calamiteiten"]="-";
+$txt["en"]["factuur"]["reserveringskosten_calamiteiten"]="-";
+
 $txt["nl"]["factuur"]["eindtotaal"]="Eindtotaal";
 $txt["de"]["factuur"]["eindtotaal"]="Gesamtsumme";
 $txt["en"]["factuur"]["eindtotaal"]="Sum total";
