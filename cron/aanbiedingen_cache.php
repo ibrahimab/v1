@@ -1,6 +1,6 @@
 <?php
 
-# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/aanbiedingen_cache.php
+# /usr/bin/php /var/www/chalet.nl/html/cron/aanbiedingen_cache.php
 
 #
 # Script wordt elk uur om 15 minuten over het hele uur gerund
