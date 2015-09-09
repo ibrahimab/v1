@@ -220,22 +220,6 @@ RewriteCond %{HTTP_HOST} ^web[0-9]{2}\.chalet\.nl [NC]
 RewriteCond %{REQUEST_URI} !monitor-services\.php
 RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
 
-
-#
-# TIJDELIJK italyhomes nog niet toegankelijk (want in ontwikkeling)
-#
-RewriteCond %{HTTP_HOST} chaletonline\.de [NC]
-# WebTastic-IP 1
-RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
-# WebTastic-IP 2
-RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
-# Chalet-IP
-RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
-# Ibrahim
-RewriteCond %{REMOTE_ADDR} !^62\.194\.208\.250
-RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=302]
-
-
 #
 # Test-server alleen beschikbaar voor bepaalde IP-adressen
 #
