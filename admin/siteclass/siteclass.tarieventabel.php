@@ -542,7 +542,7 @@ class tarieventabel {
 			
 			if ($totaalbedrag_ter_plaatse > 0) {
 				
-				if ($this->config->website === 'D') {
+				if ($this->config->website === 'D' && !isset($totaal_vakantie)) {
 				
 					$totaal_vakantie = number_format($totaalbedrag  + $totaalbedrag_ter_plaatse, 2, ',', '.');
 					$return .= '<tr><td colspan="5">&nbsp;</td></tr>';
