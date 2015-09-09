@@ -309,7 +309,7 @@ echo "</div><!--END #hoofdmenu-->\n";
 
 echo "<div class=\"paymenticons\" id=\"kleinelogos\">";
 if($vars["websiteland"]=="nl") {
-	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.gif\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
 }
 
 if ($vars['website'] === 'D') {

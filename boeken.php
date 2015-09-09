@@ -1456,9 +1456,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		// }
 
 		if(!$isMobile) {
-			$form->field_yesno("akkoord",html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"javascript:popwindow(600,0,'popup.php?id=algemenevoorwaarden');","v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
+			$form->field_yesno("akkoord",html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"javascript:popwindow(600,0,'popup.php?id=" . ($vars['websiteland'] === 'nl' ? 'voorwaarden' : 'algemenevoorwaarden') ."');","v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
 		} else {
-						$confirmTextFromHtml = html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"popup_mobile?id=algemenevoorwaarden","v_websitenaam"=>$vars["websitenaam"]));
+						$confirmTextFromHtml = html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"popup_mobile?id=" . ($vars['websiteland'] === 'nl' ? 'voorwaarden' : 'algemenevoorwaarden'),"v_websitenaam"=>$vars["websitenaam"]));
 
 						$confirmationText = str_replace("<a ", "<a class='popwindow' ", $confirmTextFromHtml);
 
