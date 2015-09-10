@@ -58,8 +58,8 @@ if($_POST["factuurakkoord"] and $_POST["goedkeur1"] and $_POST["goedkeur2"]) {
 	# goedkeuring in logbestand plaatsen
 	chalet_log("factuur door de klant goedgekeurd via \"Mijn boeking\"",true,true);
 
-	if($vars["trustpilot_code"] and !$gegevens["stap1"]["reisbureau_user_id"]) {
-
+	if($vars["trustpilot_code"] and !$gegevens["stap1"]["reisbureau_user_id"] && $gegevens["stap1"]["niet_sturen_trustpilot"] == 0) {
+		
 		$mail=new wt_mail;
 		$mail->from=$vars["email"];
 		$mail->fromname=$vars["websitenaam"];

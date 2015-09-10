@@ -101,6 +101,7 @@ $form->field_yesno("aanmaning_mailblokkeren","Stuur deze klant geen aanmaningen"
 $form->field_yesno("mailblokkeren_klanten_vorig_seizoen","Stuur deze klant geen mailtje met uitnodiging m.b.t. volgend seizoen","",array("selection"=>$gegevens["stap1"]["mailblokkeren_klanten_vorig_seizoen"]));
 $form->field_yesno("mailblokkeren_enquete","Stuur deze klant geen mailtje met enquête-verzoek (na terugkomst)","",array("selection"=>$gegevens["stap1"]["mailblokkeren_enquete"]));
 $form->field_yesno("pdfplattegrond_nietnodig","Plattegrond-PDF niet meesturen bij de reisdocumenten","",array("selection"=>$gegevens["stap1"]["pdfplattegrond_nietnodig"]));
+$form->field_yesno("niet_sturen_trustpilot","Geen uitnodiging sturen trustpilot","",array("selection"=>$gegevens["stap1"]["niet_sturen_trustpilot"]));
 $form->field_htmlrow("","<hr>");
 
 $form->field_textarea(0,"opmerkingen_intern","Opmerkingen (intern)","",array("text"=>$gegevens["stap1"]["opmerkingen_intern"]),array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
@@ -168,7 +169,7 @@ if($form->okay) {
 			$setquery.=", aanbetaling1='".addslashes($gegevens["fin"]["aanbetaling_ongewijzigd"])."'";
 		}
 
-		$setquery.=", factuur_bedrag_wijkt_af=0, totale_reissom='".addslashes($gegevens["fin"]["totale_reissom"])."', mailblokkeren_opties='".addslashes($form->input["mailblokkeren_opties"])."', mailblokkeren_persoonsgegevens='".addslashes($form->input["mailblokkeren_persoonsgegevens"])."', aanmaning_mailblokkeren='".addslashes($form->input["aanmaning_mailblokkeren"])."', mailblokkeren_ontvangenbetaling='".addslashes($form->input["mailblokkeren_ontvangenbetaling"])."', mailblokkeren_klanten_vorig_seizoen='".addslashes($form->input["mailblokkeren_klanten_vorig_seizoen"])."', mailblokkeren_enquete='".addslashes($form->input["mailblokkeren_enquete"])."', pdfplattegrond_nietnodig='".addslashes($form->input["pdfplattegrond_nietnodig"])."'";
+		$setquery.=", factuur_bedrag_wijkt_af=0, totale_reissom='".addslashes($gegevens["fin"]["totale_reissom"])."', mailblokkeren_opties='".addslashes($form->input["mailblokkeren_opties"])."', mailblokkeren_persoonsgegevens='".addslashes($form->input["mailblokkeren_persoonsgegevens"])."', aanmaning_mailblokkeren='".addslashes($form->input["aanmaning_mailblokkeren"])."', mailblokkeren_ontvangenbetaling='".addslashes($form->input["mailblokkeren_ontvangenbetaling"])."', mailblokkeren_klanten_vorig_seizoen='".addslashes($form->input["mailblokkeren_klanten_vorig_seizoen"])."', mailblokkeren_enquete='".addslashes($form->input["mailblokkeren_enquete"])."', pdfplattegrond_nietnodig='".addslashes($form->input["pdfplattegrond_nietnodig"])."', niet_sturen_trustpilot='" . addslashes($form->input['niet_sturen_trustpilot']) . "'";
 
 		# inkoop bepalen en opslaan in totale_reissom_inkoop
 #		$reissom_tabel=reissom_tabel($gegevens,$gegevens["stap1"]["accinfo"],"",true);
@@ -235,6 +236,13 @@ if($form->okay) {
 		}
 		if(!$form->input["pdfplattegrond_nietnodig"] and $gegevens["stap1"]["pdfplattegrond_nietnodig"]) {
 			chalet_log("Uitgezet: Plattegrond-PDF is niet nodig bij de reisdocumenten",true,true);
+		}
+		
+		if($form->input["niet_sturen_trustpilot"] and !$gegevens["stap1"]["niet_sturen_trustpilot"]) {
+			chalet_log("Aangezet: Uitnodiging naar trustpilot wordt niet verstuurd",true,true);
+		}
+		if(!$form->input["niet_sturen_trustpilot"] and $gegevens["stap1"]["niet_sturen_trustpilot"]) {
+			chalet_log("Uitgezet: Uitnodiging naar trustpilot wordt verstuurd na goedkeuring door klant",true,true);
 		}
 	}
 
