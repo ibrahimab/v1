@@ -821,11 +821,14 @@ if($form->okay) {
 
 			$pdf->MultiCell(179,4,txt("sgr","factuur"));
 			
-			$pdf->Image('pic/factuur_calamiteitenfonds.png', 10, $img_y + 18, 9);
-			$pdf->MultiCell(40, 4, '');
+			if(in_array($gegevens["stap1"]["website"], $vars['sgr_c'])) {
+				
+				$pdf->Image('pic/factuur_calamiteitenfonds.png', 10, $img_y + 18, 9);
+				$pdf->MultiCell(40, 4, '');
 			
-			$pdf->Cell(10, 4, '', 0, 0, 'L', 0);
-			$pdf->MultiCell(179, 4, txt('calamiteitenfonds', 'factuur'));
+				$pdf->Cell(10, 4, '', 0, 0, 'L', 0);
+				$pdf->MultiCell(179, 4, txt('calamiteitenfonds', 'factuur'));
+			}
 		}
 
 		$pdf->Ln();
@@ -984,7 +987,7 @@ if($form->okay) {
 					$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasolvacances.pdf";
 				} elseif($gegevens["stap1"]["website"]=="X") {
 					$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasol.pdf";
-				} else {
+				} elseif(!in_array($gegevens['stap1']['website'], $vars['anvr'])) {
 					$pdffile="pdf/".txt("pdf_algemene_voorwaarden").".pdf";
 				}
 				if(file_exists($pdffile)) {
@@ -1036,7 +1039,7 @@ if($form->okay) {
 					chalet_log("factuur aangemaakt",true,true);
 				}
 				
-				if ($gegevens['stap1']['websiteland'] === 'nl' && $form->input["voorwaardenmeesturen"]) {
+				if (in_array($gegevens['stap1']['website'], $vars['anvr'])) {
 				
 					$generated = TermsGenerator::generate($vars['websitenaam']);
 				

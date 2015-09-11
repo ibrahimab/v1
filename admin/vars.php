@@ -1203,8 +1203,8 @@ $vars['mongodb'] = [
  * + SGR & C. | + | - | + | - | - | + | - | + | - | + | - | - +
  * + -------------------------------------------------------- +
  */
-$vars['anvr']  = (in_array($vars['wwebsite'], ['C', 'T', 'B', 'V', 'X', 'Z', 'K']));
-$vars['sgr_c'] = (in_array($vars['website'],  ['C', 'T', 'V', 'X', 'Z']));
+$vars['anvr']  = ['C', 'T', 'B', 'V', 'X', 'Z', 'K'];
+$vars['sgr_c'] = ['C', 'T', 'V', 'X', 'Z'];
 
 if($boeking_wijzigen) {
 	# Login-class klanten
