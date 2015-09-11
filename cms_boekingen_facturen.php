@@ -1039,7 +1039,7 @@ if($form->okay) {
 					chalet_log("factuur aangemaakt",true,true);
 				}
 				
-				if (in_array($gegevens['stap1']['website'], $vars['anvr'])) {
+				if (in_array($gegevens['stap1']['website'], $vars['anvr']) && $form->input["voorwaardenmeesturen"]) {
 				
 					$generated = TermsGenerator::generate($vars['websitenaam']);
 				
