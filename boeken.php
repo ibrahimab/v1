@@ -2977,7 +2977,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("reisbureau","boeken")."</td><td style=\"border:solid ".$table." 1px\">".$gegevens["stap1"]["reisbureau_naam"]." - ".$gegevens["stap1"]["reisbureau_usernaam"]."</td></tr>";
 			}
 
-			$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("aanvraagnummer","boeken")."</td><td style=\"border:solid ".$table." 1px\">".$gegevens["stap1"]["boekingid"]."</td></tr>";
+			$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("aanvraagnummer","boeken")."</td><td style=\"border:solid ".$table." 1px\">[[aanvraagnummer_link_open]]".$gegevens["stap1"]["boekingid"]."[[aanvraagnummer_link_sluit]]</td></tr>";
 			$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("accommodatie","boeken")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["url"]."\">".ucfirst($accinfo["soortaccommodatie"])." ".wt_he($accinfo["naam_ap"])."</a></td></tr>";
 			$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("plaats","boeken")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["plaats_url"]."\">".wt_he($accinfo["plaats"].", ".$accinfo["land"])."</a></td></tr>";
 			$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("aantalpersonen","boeken")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($gegevens["stap1"]["aantalpersonen"])."</td></tr>";
@@ -3095,13 +3095,15 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 			if(ereg("@webtastic\.nl",$gegevens["stap2"]["email"])) {
 				$mail->to="chalet_test@webtastic.nl";
+			} elseif (defined('wt_test') && wt_test === true && isset($GLOBALS['vars']['lokale_testserver_mailadres'])) {
+				$mail->to = $GLOBALS['lokale_testserver_mailadres'];
 			} else {
 				$mail->to="info@chalet.nl";
 			}
 
 			$html="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style type=\"text/css\"><!--\na:visited:hover,a:hover {\ncolor:".$hover.";\n}\n--></style>\n</head>\n<body style=\"background-color: #F3F3F3;font-family: ".$font."font-size: 0.8em;\">\n";
 			$html.="<div style=\"width:630px\">";
-			$html.="&nbsp;<br>De volgende gegevens zijn zojuist via de website ingevoerd:<p>".$tabellen;
+			$html.="&nbsp;<br>De volgende gegevens zijn zojuist via de website ingevoerd:<p>".str_replace(['[[aanvraagnummer_link_open]]', '[[aanvraagnummer_link_sluit]]'], ['<a href="' . $vars['basehref'] . 'cms_boekingen.php?show=21&bt=1&21k0=' . $gegevens["stap1"]["boekingid"] . '">', '</a>'], $tabellen);
 
 			if($referer["opsomming"] or $form->input["referentiekeuze"]) {
 				$html.="<p><table cellspacing=\"0\" cellpadding=\"3\" style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\">";
@@ -3184,7 +3186,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			if(!$gegevens["stap1"]["reisbureau_user_id"]) {
 				$html.="<p>".$inlogtext."</p>";
 			}
-			$html.="<br>".$tabellen."<br/>";
+			$html.="<br>".str_replace(['[[aanvraagnummer_link_open]]', '[[aanvraagnummer_link_sluit]]'], '', $tabellen)."<br/>";
 			$html.="<p>".html("metvriendelijkegroet","boeken")."<br>".html("medewerkerssitenaam","boeken",array("v_websitenaam"=>$vars["websitenaam"]))."<P>".$vars["langewebsitenaam"]."<br>Wipmolenlaan 3<br>3447 GJ Woerden<br>".($vars["websiteland"]<>"nl" ? html("nederland","contact")."<br>" : "").html("telefoonnummer_chalet","contact")."<br>".html("fax_chalet","contact")."<br>".html("email_kort","contact").": <a href=\"mailto:".$vars["email"]."\">".$vars["email"]."</a></p><br>&nbsp;";
 
 #			$html.="</div></body></html>";
