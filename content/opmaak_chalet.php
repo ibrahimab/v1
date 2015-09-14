@@ -308,8 +308,10 @@ echo "</div><!--END #hoofdmenu-->\n";
 
 
 echo "<div class=\"paymenticons\" id=\"kleinelogos\">";
-if($vars["websiteland"]=="nl") {
+if (in_array($vars['website'], $vars['anvr']) && in_array($vars['website'], $vars['sgr_c'])) {
 	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+} elseif (in_array($vars['website'], $vars['anvr']) && !in_array($vars['website'], $vars['sgr_c'])) {
+	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/anvr_hoofdmenu.png\" height=\"27\" alt=\"ANVR\" /></a>";
 }
 
 if ($vars['website'] === 'D') {
@@ -531,7 +533,7 @@ echo " - <a href=\"mailto:".wt_he($vars["websiteinfo"]["email"][$vars["website"]
 echo "</div><!-- END #colofon -->\n";
 echo "</div><!-- END #colofon_wrapper -->\n";
 
-$voorwaarden_footer = in_array($vars['website'], ['C', 'T', 'V', 'X', 'Z', 'I']) ?
+$voorwaarden_footer = in_array($vars['website'], $vars['anvr']) ?
                       '<li><a href="' . $vars['path'] . 'voorwaarden.php" rel="nofollow">Voorwaarden</a></li>' :
                       '<li><a href="' . $vars['path'] . 'algemenevoorwaarden.php" rel="nofollow">Algemene voorwaarden</a></li>';
 

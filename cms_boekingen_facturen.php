@@ -780,12 +780,15 @@ if($form->okay) {
 
 
 		$pdf->Ln();
-		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
+		if (in_array($gegevens['stap1']['website_specifiek']['website'], $vars['anvr']) && in_array($gegevens['stap1']['website_specifiek']['website'], $vars['sgr_c'])) {
+			
 			# Wel een SGR-tekst: pagina is daardoor langer
 			if($pdf->GetY()>225) {
 				$pdf->AddPage();
 			}
+			
 		} else {
+			
 			# Geen SGR-tekst
 			if($pdf->GetY()>240) {
 				$pdf->AddPage();
@@ -810,7 +813,8 @@ if($form->okay) {
 		$pdf->SetFont('Arial','I',7);
 		$pdf->MultiCell(190,4,txt("opdezeovereenkomstalgvoorwaarden","factuur"));
 
-		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
+		if (in_array($gegevens['stap1']['website_specifiek']['website'], $vars['anvr']) && in_array($gegevens['stap1']['website_specifiek']['website'], $vars['sgr_c'])) {
+			
 			# SGR-tekst
 			$pdf->Ln();
 
@@ -821,14 +825,11 @@ if($form->okay) {
 
 			$pdf->MultiCell(179,4,txt("sgr","factuur"));
 			
-			if(in_array($gegevens["stap1"]["website"], $vars['sgr_c'])) {
-				
-				$pdf->Image('pic/factuur_calamiteitenfonds.png', 10, $img_y + 18, 9);
-				$pdf->MultiCell(40, 4, '');
+			$pdf->Image('pic/factuur_calamiteitenfonds.png', 10, $img_y + 18, 9);
+			$pdf->MultiCell(40, 4, '');
 			
-				$pdf->Cell(10, 4, '', 0, 0, 'L', 0);
-				$pdf->MultiCell(179, 4, txt('calamiteitenfonds', 'factuur'));
-			}
+			$pdf->Cell(10, 4, '', 0, 0, 'L', 0);
+			$pdf->MultiCell(179, 4, txt('calamiteitenfonds', 'factuur'));
 		}
 
 		$pdf->Ln();
@@ -985,9 +986,7 @@ if($form->okay) {
 
 				if($gegevens["stap1"]["website"]=="Y") {
 					$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasolvacances.pdf";
-				} elseif($gegevens["stap1"]["website"]=="X") {
-					$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasol.pdf";
-				} elseif(!in_array($gegevens['stap1']['website'], $vars['anvr'])) {
+				} elseif (!in_array($gegevens['stap1']['website'], $vars['anvr'])) {
 					$pdffile="pdf/".txt("pdf_algemene_voorwaarden").".pdf";
 				}
 				if(file_exists($pdffile)) {
@@ -1041,7 +1040,7 @@ if($form->okay) {
 				
 				if (in_array($gegevens['stap1']['website'], $vars['anvr']) && $form->input["voorwaardenmeesturen"]) {
 				
-					$generated = TermsGenerator::generate($vars['websitenaam']);
+					$generated = TermsGenerator::generate($gegevens['stap1']['websitenaam']);
 				
 					$settings['attachment']['pdf/ANVR_voorwaarden.pdf'] = 'ANVR_voorwaarden.pdf';
 					$settings['attachment'][$generated] 		        = 'Aanvullende_Voorwaarden.pdf';
