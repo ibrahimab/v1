@@ -285,6 +285,21 @@ require($unixdir."content/_teksten.php");
 $vars["path"]=$path;
 $vars["unixdir"]=$unixdir;
 
+/**
+ * ANVR/SGR & Calamiteitenfonds
+ *
+ *
+ * + ------------------------------------------------------------ +
+ * +	   	  | C | E | T | B | D | V | Q | X | Y | Z | I | K | H +
+ * + ------------------------------------------------------------ +
+ * + ANVR	  | + | - | + | + | - | + | - | + | - | + | + | + | - +
+ * + ------------------------------------------------------------ +
+ * + SGR & C. | + | - | + | - | - | + | - | + | - | + | + | - | - +
+ * + ------------------------------------------------------------ +
+ */
+$vars['anvr']  = ['C', 'T', 'B', 'V', 'X', 'Z', 'I', 'K'];
+$vars['sgr_c'] = ['C', 'T', 'V', 'X', 'Z', 'I'];
+
 #
 # Interne info (voor testsysteem)
 #
@@ -582,7 +597,7 @@ if($vars["websitetype"]==7) {
 	}
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
-	$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+	$submenu["voorwaarden"]=txt("submenutitle_voorwaarden");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 	$submenu["chaletwinter"]=txt("submenutitle_chaletwinter");
 } elseif($vars["websitetype"]==6) {
@@ -601,8 +616,15 @@ if($vars["websitetype"]==7) {
 	$submenu["reisagent"]=txt("submenutitle_reisagenten");
 	$submenu["huiseigenaren"]=txt("submenutitle_huiseigenaren");
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-	$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+	
+	if (in_array($vars['website'], $vars['anvr'])) {
+		$submenu["voorwaarden"]=txt("submenutitle_voorwaarden");
+	} else {
+		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+	}
+	
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+	
 } elseif($vars["websitetype"]==8) {
 	#
 	# SuperSki
@@ -640,7 +662,13 @@ if($vars["websitetype"]==7) {
 	// $submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-	$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+	
+	if (in_array($vars['website'], $vars['anvr'])) {
+		$submenu["voorwaarden"]=txt("submenutitle_voorwaarden");
+	} else {
+		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+	}
+	
 } else {
 	#
 	# Winter
@@ -1190,21 +1218,6 @@ $vars['mongodb'] = [
 		'al' => 'accommodations',
 	],
 ];
-
-/**
- * ANVR/SGR & Calamiteitenfonds
- *
- *
- * + -------------------------------------------------------- +
- * +	   	  | C | E | T | B | D | V | Q | X | Y | Z | K | H +
- * + -------------------------------------------------------- +
- * + ANVR	  | + | - | + | + | - | + | - | + | - | + | + | - +
- * + -------------------------------------------------------- +
- * + SGR & C. | + | - | + | - | - | + | - | + | - | + | - | - +
- * + -------------------------------------------------------- +
- */
-$vars['anvr']  = ['C', 'T', 'B', 'V', 'X', 'Z', 'K'];
-$vars['sgr_c'] = ['C', 'T', 'V', 'X', 'Z'];
 
 if($boeking_wijzigen) {
 	# Login-class klanten

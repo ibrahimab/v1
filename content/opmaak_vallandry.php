@@ -199,7 +199,7 @@ if($last_acc and $id<>"saved") {
 
 echo "<div class=\"paymenticons\" id=\"sgr_logo\">";
 if($vars["website"]=="V") {
-    echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" height=\"27\" style=\"border:0;\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+    echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
 }
 
 # Docdata payment logos

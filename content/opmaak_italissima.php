@@ -265,10 +265,19 @@ echo "</div>\n"; # afsluiten top
 # Balk boven content
 echo "<div id=\"balkbovencontent\" class=\"noprint\">";
 echo "<div class=\"paymenticons\" id=\"sgr_logo\">";
-if($vars["website"]=="I") {
-	# SGR-logo
-	echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+
+if (in_array($vars['website'], $vars['anvr']) && in_array($vars['website'], $vars['sgr_c'])) {
+	
+	// anvr + sgr + calamiteitenfonds logo
+	echo "<a href=\"".$vars["path"]."voorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+	
+} elseif (in_array($vars['website'], $vars['anvr']) && !in_array($vars['website'], $vars['sgr_c'])) {
+	
+	// anvr logo
+	echo "<a href=\"".$vars["path"]."voorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/anvr_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"ANVR\" /></a>";
 }
+
+
 if($vars["docdata_payments"]) {
 	# Docdata payment logos
 	if(count($vars["docdata_payments"]) > 0) {
@@ -480,7 +489,7 @@ if($id<>"index") $rel_no_follow=" rel=\"nofollow\"";
 echo "<ul>";
 if($vars["taal"]=="nl") {
 	echo "<li><a href=\"".$vars["path"]."veelgestelde-vragen\">Veelgestelde vragen</a></li>";
-	echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\"".$rel_no_follow.">Algemene voorwaarden</a></li>";
+	echo "<li><a href=\"".$vars["path"]."voorwaarden.php\"".$rel_no_follow.">Voorwaarden</a></li>";
 } elseif($vars["taal"]=="en") {
 	echo "<li><a href=\"".$vars["path"]."conditions.php\"".$rel_no_follow.">Conditions</a></li>";
 }

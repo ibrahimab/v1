@@ -81,9 +81,11 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 				"title" =>	"MrCash",
 				"icon"	=>	"pic/payment_icons/mrcash.png",
 				"by"	=>	"mrc",
-				"country" => array("BE")
+				"country" => array("BE"),
 			)
 		);
+		
+		$vars['docdata_payments_hide_logos'] = ['docdata_mrc'];
 	// }
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or $_SERVER["HTTP_HOST"]=="test.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="E")) {
 	# Winter Chalet.eu Engelstalig

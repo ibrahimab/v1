@@ -321,7 +321,9 @@ if ($vars['website'] === 'D') {
 if($vars["docdata_payments"]) {
 	if(count($vars["docdata_payments"]) > 0) {
 		foreach($vars["docdata_payments"] as $key => $value) {
-			echo "<span class=\"". $value["by"] ."\" title=\"". $value["title"] ."\"></span>";
+			if (!isset($vars['docdata_payments_hide_logos']) || !in_array($key, $vars['docdata_payments_hide_logos'])) {
+				echo "<span class=\"". $value["by"] ."\" title=\"". $value["title"] ."\"></span>";
+			}
 		}
 	}
 }

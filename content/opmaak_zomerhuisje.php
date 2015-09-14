@@ -209,7 +209,7 @@ if($id<>"index") {
 }
 if($vars["websiteland"]=="nl") {
 	echo "<div style=\"position:absolute;bottom:8px;right:4px;\" class=\"noprint paymenticons\">";
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" style=\"border:0;\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" style=\"border:0;\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
 
 	# Docdata payment logos
 	if($vars["docdata_payments"]) {

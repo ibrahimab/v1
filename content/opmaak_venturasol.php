@@ -158,8 +158,16 @@ echo "<a href=\"".$vars["path"]."\" id=\"logo\" class=\"".($vars["website"]=="Y"
 echo "<div id=\"tagline\" class=\"noprint\"><h1><b>Chalets en<br/>appartementen</b><br/>in Frankrijk</h1></div>";
 echo "<div style=\"clear: both;\"></div>\n";
 echo "<div class=\"paymenticons\" id=\"kleinelogos\">";
-if($vars["website"]=="X") {
-	echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" style=\"border:0;\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+
+if (in_array($vars['website'], $vars['anvr']) && in_array($vars['website'], $vars['sgr_c'])) {
+	
+	// anvr + sgr + calamiteitenfonds logo
+	echo "<a href=\"".$vars["path"]."voorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+	
+} elseif (in_array($vars['website'], $vars['anvr']) && !in_array($vars['website'], $vars['sgr_c'])) {
+	
+	// anvr logo
+	echo "<a href=\"".$vars["path"]."voorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/anvr_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"ANVR\" /></a>";
 }
 
 # Docdata payment logos
