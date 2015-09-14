@@ -10,8 +10,8 @@ if($vars["website"]<>"T") {
 }
 echo "Chalet.nl is eveneens eigenaar van de websites: <a href=\"https://www.chalet.be/\" target=\"_blank\">Chalet.be</a>, <a href=\"https://www.chalet.eu/\" target=\"_blank\">Chalet.eu</a>, <a href=\"https://www.chaletonline.de/\" target=\"_blank\">Chaletonline.de</a>, <a href=\"https://www.chalettour.nl/\" target=\"_blank\">Chalettour.nl</a>, <a href=\"https://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a> en <a href=\"https://www.italissima.nl/\" target=\"_blank\">Italissima</a>.<p>";
 
-if ($vars['website'] === 'C') {
-	echo '<b>Recent gepubliceerd:</b> <a href="' . $vars['path'] . 'pdf/Interview-Ondernamen-Woerden-September-2015.pdf" target="_blank">Interview met Bert van Duuren</a>';
+if (in_array($vars['website'], ['C', 'B', 'T'])) {
+	echo '<b>Recent gepubliceerd:</b> <a href="' . $vars['path'] . 'pdf/Interview-Ondernamen-Woerden-September-2015.pdf" target="_blank">Interview met Bert van Duuren</a> - Ondernamen Woerden';
 }
 
 echo "<h2>Specialisme is het sleutelwoord</h2>";
