@@ -984,17 +984,22 @@ if($form->okay) {
 			//
 			if($form->input["voorwaardenmeesturen"]) {
 
+				$pdffile = false;
 				if($gegevens["stap1"]["website"]=="Y") {
 					$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasolvacances.pdf";
 				} elseif (!in_array($gegevens['stap1']['website'], $vars['anvr'])) {
 					$pdffile="pdf/".txt("pdf_algemene_voorwaarden").".pdf";
 				}
-				if(file_exists($pdffile)) {
-					// $mail->attachment("pdf/".txt("pdf_algemene_voorwaarden").".pdf");
-					$settings["attachment"][$pdffile]=txt("pdf_algemene_voorwaarden").".pdf";
-				} else {
-					trigger_error("bestand ".$pdffile." niet beschikbaar",E_USER_NOTICE);
+				
+				if (false !== $pdffile) {
+					if(file_exists($pdffile)) {
+						// $mail->attachment("pdf/".txt("pdf_algemene_voorwaarden").".pdf");
+						$settings["attachment"][$pdffile]=txt("pdf_algemene_voorwaarden").".pdf";
+					} else {
+						trigger_error("bestand ".$pdffile." niet beschikbaar",E_USER_NOTICE);
+					}
 				}
+				
 				if($gegevens["stap1"]["website_specifiek"]["verzekering_mogelijk"] or $gegevens["stap1"]["annverz_aantalpersonen"]) {
 					if(file_exists("pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf")) {
 						// $mail->attachment("pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf");
