@@ -818,7 +818,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 					# Reserveringskosten
 					if($gegevens["fin"]["reserveringskosten"]>0) {
 
-						$reserveringskosten_calamiteiten = (in_array($vars["website"], ['C', 'T', 'V', 'X', 'Z', 'I']));
+						$reserveringskosten_calamiteiten = (in_array($vars["website"], $vars['sgr_c']));
 
 						echo "<tr><td valign=\"top\">".html("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''),"bsys")."</td><td valign=\"top\">&nbsp;</td>";
 						echo "<td nowrap width=\"".$celbreedte."\" valign=\"top\">";

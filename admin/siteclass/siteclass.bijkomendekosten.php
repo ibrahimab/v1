@@ -1357,8 +1357,8 @@ class bijkomendekosten {
 			}
 		}
 
-		$reserveringskosten_calamiteiten = (in_array($this->config->website, ['C', 'T', 'V', 'X', 'Z', 'I']));
-		$kosten["html"]["inclusief"]["reserveringskosten"] = html("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''), "vars")." (&euro; " . toonreserveringskosten($this->config->reserveringskosten)." ".html("perboeking", "vars").")";
+		$reserveringskosten_calamiteiten = (in_array($vars['website'], $vars['sgr_c']));
+		$kosten["html"]["inclusief"]["reserveringskosten"] = html("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''), "vars")." (&euro; " . toonreserveringskosten($vars['reserveringskosten'])." ".html("perboeking", "vars").")";
 
 		$kosten["html"]["uitbreiding"]["extraopties"] = html("bekijk-ook-extra-opties","tarieventabel",array("h_1"=>"<a href=\"#extraopties\">","h_2"=>" &raquo;</a>"));
 
@@ -2000,8 +2000,8 @@ class bijkomendekosten {
 		if($this->pre_boeken) {
 
 			// always reserveringskosten
-
-			$return["aan_chalet_nl"]["reserveringskosten"]["naam"] = txt("reserveringskosten", "bijkomendekosten");
+			$reserveringskosten_calamiteiten = (in_array($vars['website'], $vars['sgr_c']));
+			$return["aan_chalet_nl"]["reserveringskosten"]["naam"] = txt("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''), "vars");
 			$return["aan_chalet_nl"]["reserveringskosten"]["aantal"] = 1;
 			$return["aan_chalet_nl"]["reserveringskosten"]["totaalbedrag"] = $vars["reserveringskosten"];
 

@@ -580,7 +580,7 @@ if($form->okay) {
 
 		if($gegevens["fin"]["reserveringskosten"]>0) {
 			# Reserveringskosten
-			$reserveringskosten_calamiteiten = (in_array($gegevens['stap1']['website'], ['C', 'T', 'V', 'X', 'Z', 'I']));
+			$reserveringskosten_calamiteiten = (in_array($gegevens['stap1']['website'], $vars['sgr_c']));
 			factuur_opties(1,txt("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''),"factuur"),$gegevens["fin"]["reserveringskosten"]);
 		}
 
