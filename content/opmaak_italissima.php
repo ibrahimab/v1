@@ -269,12 +269,12 @@ echo "<div class=\"paymenticons\" id=\"sgr_logo\">";
 if (in_array($vars['website'], $vars['anvr']) && in_array($vars['website'], $vars['sgr_c'])) {
 	
 	// anvr + sgr + calamiteitenfonds logo
-	echo "<a href=\"".$vars["path"]."voorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+	echo "<a href=\"".$vars["path"]."voorwaarden.php\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
 	
 } elseif (in_array($vars['website'], $vars['anvr']) && !in_array($vars['website'], $vars['sgr_c'])) {
 	
 	// anvr logo
-	echo "<a href=\"".$vars["path"]."voorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/anvr_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"ANVR\" /></a>";
+	echo "<a href=\"".$vars["path"]."voorwaarden.php\"><img src=\"".$vars["path"]."pic/anvr_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"ANVR\" /></a>";
 }
 
 
