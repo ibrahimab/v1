@@ -4150,22 +4150,30 @@ function affiliate_tracking($sale=false, $toon_tradetracker=true, $data) {
 	}
 
 	// Google AdWords / Analytics code
+	if (true === $vars['adwords_conversion_tracking']) {
+		
+		if ($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+			
+			# Optie-aanvraag
+			$google_conversion_label = "GsSQCP_TmwQQ94jL_gM";
+			
+		} elseif ($data["ordernummer"]=="contactaanvraag") {
+			
+			# Contactaanvraag
+			$google_conversion_label = "3DAzCPfUmwQQ94jL_gM";
+			
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
+			
+			# Vraag ons advies
+			$google_conversion_label = "Qj9RCO_VmwQQ94jL_gM";
+			
+		} else {
+			
+			# Boeking
+			$google_conversion_label = "RSUICI_SmwQQ94jL_gM";
+		}
 
-	if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
-		# Optie-aanvraag
-		$google_conversion_label = "GsSQCP_TmwQQ94jL_gM";
-	} elseif($data["ordernummer"]=="contactaanvraag") {
-		# Contactaanvraag
-		$google_conversion_label = "3DAzCPfUmwQQ94jL_gM";
-	} elseif($data["ordernummer"]=="vraagonsadvies") {
-		# Vraag ons advies
-		$google_conversion_label = "Qj9RCO_VmwQQ94jL_gM";
-	} else {
-		# Boeking
-		$google_conversion_label = "RSUICI_SmwQQ94jL_gM";
-	}
-
-	echo '<!-- Google Code for Conversion Page -->
+		echo '<!-- Google Code for Conversion Page -->
 <script type="text/javascript">
 /* <![CDATA[ */
 var google_conversion_id = 1070777463;
@@ -4184,6 +4192,7 @@ var google_conversion_value = '.($data["bedrag"] ? number_format($data["bedrag"]
 </div>
 </noscript>';
 
+	}
 }
 
 function nieuwsbrief_inschrijven($wzt,$nieuwsbrief_waardes) {

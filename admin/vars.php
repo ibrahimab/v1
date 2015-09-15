@@ -285,6 +285,14 @@ require($unixdir."content/_teksten.php");
 $vars["path"]=$path;
 $vars["unixdir"]=$unixdir;
 
+/**
+ * Enable this to track conversion again
+ *
+ * Log:
+ * - 2015-09-15 15:26 - disabled because of Google Tag Manager (MAR-67)
+ */
+$vars['adwords_conversion_tracking'] = false;
+
 #
 # Interne info (voor testsysteem)
 #
