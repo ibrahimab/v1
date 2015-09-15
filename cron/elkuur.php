@@ -463,7 +463,7 @@ if($huidig_uur==3) {
 # Cache Tradetracker
 #
 #
-# handmatig starten: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php xmlopnieuw
+# handmatig starten: /usr/bin/php /var/www/chalet.nl/html/cron/elkuur.php xmlopnieuw
 #
 if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 	if($argv[1]=="xmlopnieuw") {
@@ -516,7 +516,7 @@ if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 }
 
 # Cache Traffic4U (2 uur 's nachts elke maandag)
-# handmatig starten: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php traffic4u
+# handmatig starten: /usr/bin/php /var/www/chalet.nl/html/cron/elkuur.php traffic4u
 if(($huidig_uur==2 and date("w")==1) or $argv[1]=="traffic4u") {
 	$doorloop_array=array(
 		"feed_traffic4u_bestemmingen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",

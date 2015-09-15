@@ -8,7 +8,7 @@
 #
 # Elke dag om 03:00 uur wordt de nieuwe cache aangemaakt (via cron/elkuur.php)
 #
-# handmatig starten aanmaken cache: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php traffic4u
+# handmatig starten aanmaken cache: /usr/bin/php /var/www/chalet.nl/html/cron/elkuur.php traffic4u
 #
 #
 #

@@ -100,6 +100,14 @@ $txta["nl"]["menu_algemenevoorwaarden"]="algemenevoorwaarden";
 $txta["de"]["menu_algemenevoorwaarden"]="AGB";
 $txta["en"]["menu_algemenevoorwaarden"]="conditions";
 
+$txta["nl"]["menu_voorwaarden"]="voorwaarden";
+$txta["de"]["menu_voorwaarden"]="-";
+$txta["en"]["menu_voorwaarden"]="-";
+
+$txta["nl"]["menu_aanvullendevoorwaarden"]="aanvullendevoorwaarden";
+$txta["de"]["menu_aanvullendevoorwaarden"]="-";
+$txta["en"]["menu_aanvullendevoorwaarden"]="-";
+
 $txta["nl"]["menu_verzekeringen"]="verzekeringen";
 $txta["de"]["menu_verzekeringen"]="Versicherungen";
 $txta["en"]["menu_verzekeringen"]="insurance";
@@ -476,6 +484,14 @@ $txta["en"]["title_zoekenboek"]="Search and book";
 $txta["nl"]["title_algemenevoorwaarden"]="Algemene reis- en verkoopvoorwaarden ".$vars["websitenaam"];
 $txta["de"]["title_algemenevoorwaarden"]="Allgemeine Reise- und Vertragsbedingungen ".$vars["websitenaam"];
 $txta["en"]["title_algemenevoorwaarden"]="General Terms and Conditions of Travel and Sale ".$vars["websitenaam"];
+
+$txta["nl"]["title_voorwaarden"]="Reis- en verkoopvoorwaarden ".$vars["websitenaam"];
+$txta["de"]["title_voorwaarden"]="Reise- und Vertragsbedingungen ".$vars["websitenaam"];
+$txta["en"]["title_voorwaarden"]="Terms and Conditions of Travel and Sale ".$vars["websitenaam"];
+
+$txta["nl"]["title_aanvullendevoorwaarden"]="Aanvullende voorwaarden ".$vars["websitenaam"];
+$txta["de"]["title_aanvullendevoorwaarden"]="-";
+$txta["en"]["title_aanvullendevoorwaarden"]="-";
 
 $txta["nl"]["title_favorieten"]="Mijn favorieten";
 $txta["de"]["title_favorieten"]="Favoriten";

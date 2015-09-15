@@ -2,6 +2,9 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+10-sep-2015 14:37
+ALTER TABLE `boeking` ADD `niet_sturen_trustpilot` TINYINT(1) NOT NULL DEFAULT '0' ;
+
 11-aug-2015 17:18
 ALTER VIEW view_optie AS SELECT s.optie_soort_id, s.naam AS snaam, s.naam_de AS snaam_de, s.naam_en AS snaam_en, s.naam_fr AS snaam_fr, s.volgorde AS svolgorde, g.optie_groep_id, g.naam AS gnaam, g.skipas_id, o.optie_onderdeel_id, o.naam AS onaam, o.naam_de AS onaam_de, o.naam_en AS onaam_en, o.naam_fr AS onaam_fr, o.volgorde AS ovolgorde FROM optie_groep g, optie_soort s, optie_onderdeel o WHERE g.optie_soort_id=s.optie_soort_id AND o.optie_groep_id=g.optie_groep_id ORDER BY s.naam, g.naam, o.naam;
 

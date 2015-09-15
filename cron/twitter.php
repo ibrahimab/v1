@@ -7,7 +7,7 @@
 #
 # Wordt elke 5 minuten aangemaakt via een cronjob.
 #
-# zelf runnen: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/twitter.php
+# zelf runnen: /usr/bin/php /var/www/chalet.nl/html/cron/twitter.php
 #
 #
 

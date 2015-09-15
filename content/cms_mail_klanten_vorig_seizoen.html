@@ -242,13 +242,51 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["delete_newpricesma
 	//
 	// bookings
 	//
+	$sortKey = function($kind, $record) use ($mapper) {
+		
+		$key = '';
+		
+		switch ($kind) {
+			
+			case 1:
+				$key = 'b' . $record->f('boekingsnummer');
+			break;
+			
+			case 2:
+				$key = $record->f('voornaam') . '_' . $record->f('tussenvoegsel') . '_' . $record->f('achternaam') . '_b' . $record->f('boeking_id');
+			break;
+			
+			case 3:
+				
+				$key = ($record->f('mailverstuurd_klanten_vorig_seizoen')  > 0 ? $record->f('mailverstuurd_klanten_vorig_seizoen') : '') . '_' . 
+					   ($record->f('mailverstuurd2_klanten_vorig_seizoen') > 0 ? $record->f('mailverstuurd2_klanten_vorig_seizoen') : '');
+					   
+			break;
+			
+			default:
+				$key = $record->f('plaats') . '_' . $record->f('naam') . '_' . $record->f('type_id') . '_b' . $record->f('boeking_id');
+			break;
+		}
+		
+		return $key;
+	};
+	
+	$sortLink = function($kind, $label, $current, $order) use ($vars) {
+		
+		$down  = '<img src="pic/class.tablelist_down_white.gif" />';
+		$up    = '<img src="pic/class.tablelist_up_white.gif" />';
+		$link  = 'cms_mail_klanten_vorig_seizoen.php?status=3&sort=' . $kind . '&order=' . ($order == 1 ? 0 : 1);
+		
+		return '<a href="' . $link . '">' . $label . '&nbsp;' . ($kind == $current ? ($order == 1 ? $up : $down) : '') . '</a>';
+	};
+	
 	$db->query("SELECT DISTINCT b.boekingsnummer, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_klanten_vorig_seizoen, b.mailblokkeren_klanten_vorig_seizoen, b.opmerkingen_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd_klanten_vorig_seizoen) AS mailverstuurd_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd2_klanten_vorig_seizoen) AS mailverstuurd2_klanten_vorig_seizoen, b.status_klanten_vorig_seizoen, bp.voornaam, bp.tussenvoegsel, bp.achternaam, a.naam, p.naam AS plaats, l.begincode, a.accommodatie_id, a.tonen AS atonen, t.type_id, t.tonen AS ttonen, t.websites, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.reisbureau_user_id IS NULL AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.seizoen_id IN (".$vorigeseizoen.")".($_GET["accid"] ? " AND a.accommodatie_id='".addslashes($_GET["accid"])."'" : "")." AND b.mailverbergen_klanten_vorig_seizoen=0".$wherequery." ORDER BY ".($_GET["status"]==4 ? "b.boekingsnummer DESC, " : "")."a.wzt, p.naam, a.naam, t.optimaalaantalpersonen, a.accommodatie_id, b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
 
 	if($db->num_rows()) {
 		while($db->next_record()) {
 
 
-			$use_key = $db->f("plaats")."_".$db->f("naam")."_".$db->f("type_id")."_b".$db->f("boeking_id");
+			$use_key = $sortKey((isset($_GET['sort']) ? $_GET['sort'] : false), $db);
 
 			# Niet geblokkeerde mailtjes altijd tonen, geblokkeerde mailtjes alleen tonen tot 6 weken voor vertrek
 			if(!$db->f("mailblokkeren_opties") or ($db->f("mailblokkeren_opties") and $db->f("aankomstdatum")>=$vars["zaterdag_over_6_weken"])) {
@@ -332,11 +370,18 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["delete_newpricesma
 			}
 			echo "<th>Hoofdboeker</th><th>Aankomst</th><th>Tekst</th><th>Bewerkt</th><th>Versturen<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"checkbox\" class=\"checbox_check_all\" data-only-class=\"checkbox_versturen\"></th></tr>";
 		} else {
-			echo "<tr><th title=\"Verwijder de boeking uit deze lijst\" style=\"width:10px;\">Wis</th><th>Boeking</th>";
-			echo "<th>Hoofdboeker</th><th>Opmerkingen</th><th>Verstuurd</th><th style=\"width:200px;\">Status</th></tr>";
+			echo "<tr><th title=\"Verwijder de boeking uit deze lijst\" style=\"width:10px;\">Wis</th><th>" . $sortLink(1, 'Boeking', $_GET['sort'], $_GET['order']) . "</th>";
+			echo "<th>" . $sortLink(2, 'Hoofdboeker', $_GET['sort'], $_GET['order']) . "</th><th>Opmerkingen</th><th>" . $sortLink(3, 'Verstuurd', $_GET['sort'], $_GET['order']) . "</th><th style=\"width:200px;\">Status</th></tr>";
 		}
 
-		ksort($select_table);
+		if (isset($_GET['order']) && $_GET['order'] == 1) {
+			
+			// desc
+			krsort($select_table);
+			
+		} else {
+			ksort($select_table);
+		}
 
 		foreach ($select_table as $key => $value) {
 			$klanten_teller++;

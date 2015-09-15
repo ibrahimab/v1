@@ -285,6 +285,14 @@ require($unixdir."content/_teksten.php");
 $vars["path"]=$path;
 $vars["unixdir"]=$unixdir;
 
+/**
+ * Enable this to track conversion again
+ *
+ * Log:
+ * - 2015-09-15 15:26 - disabled because of Google Tag Manager (MAR-67)
+ */
+$vars['adwords_conversion_tracking'] = false;
+
 #
 # Interne info (voor testsysteem)
 #
@@ -476,9 +484,10 @@ if($vars["leverancier_mustlogin"]) {
 # 127.0.0.1	      = t.b.v. testserver (Miguel)
 # 62.195.99.8     = Selma thuis (i.v.m. beenbreuk - 6 juni 2013)
 # 62.194.208.250  = Ibrahim
+# 77.161.240.196  = Ibrahim #2
 #
 
-$vars["vertrouwde_ips"]=array("213.125.152.154","213.125.152.155","213.125.152.156","213.125.152.157","213.125.152.158","83.163.123.209","31.223.173.113","37.34.56.191","62.195.99.8","172.16.1.10","172.16.1.35","62.194.208.250","127.0.0.1");
+$vars["vertrouwde_ips"]=array("213.125.152.154","213.125.152.155","213.125.152.156","213.125.152.157","213.125.152.158","83.163.123.209","31.223.173.113","37.34.56.191","62.195.99.8","172.16.1.10","172.16.1.35","62.194.208.250","77.161.240.196","127.0.0.1");
 
 
 // backup-server only available for vertrouwde_ips

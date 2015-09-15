@@ -5353,9 +5353,9 @@ $txt["nl"]["boeken"]["annverz_garantie_waarneming_kort"]="Annuleringsverz. Garan
 $txt["de"]["boeken"]["annverz_garantie_waarneming_kort"]="Reiserücktrittsvers. Garantie + Wahrnemung 1 Pers.";
 $txt["en"]["boeken"]["annverz_garantie_waarneming_kort"]="Guarantee Cancell. insurance + 1 solicitor";
 
-$txt["nl"]["boeken"]["privacymelding"]="";
+$txt["nl"]["boeken"]["privacymelding"]="-";
 $txt["de"]["boeken"]["privacymelding"]="Wir speichern Ihre Angaben. Sie haben jederzeit das Recht auf kostenlose Auskunft, Berichtigung, Sperrung oder L&ouml;schung dieser Daten, siehe [[h_1]]Datenschutzerkl&auml;rung.[[h_2]]";
-$txt["en"]["boeken"]["privacymelding"]="";
+$txt["en"]["boeken"]["privacymelding"]="-";
 
 #
 # Mailtje aan klant na afronden boeking (na stap 5)

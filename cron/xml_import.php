@@ -1,6 +1,6 @@
 <?php
 
-# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 26...)
+# /usr/bin/php /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 26...)
 
 #
 # Script wordt elke minuut gerund, maar alleen volledig afgelopen om:

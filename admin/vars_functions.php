@@ -602,7 +602,7 @@ function boekinginfo($boekingid) {
 	global $vars;
 	$db=new DB_sql;
 	# Algemene boekingsgegevens ophalen
-	$db->query("SELECT boeking_id, boekingsnummer, bezoeker_id, leverancierscode, leverancierscode_oud, leverancier_id, beheerder_id, eigenaar_id, type_id, aankomstdatum, aankomstdatum_exact, vertrekdatum_exact, seizoen_id, aantalpersonen, stap_voltooid, annuleringsverzekering, toonper, flexibel, verblijfsduur, verkoop, verkoop_gewijzigd, commissie, btw_over_commissie, btw_over_commissie_percentage, wederverkoop, reserveringskosten, annuleringsverzekering_poliskosten, annuleringsverzekering_percentage_1, annuleringsverzekering_percentage_2, annuleringsverzekering_percentage_3, annuleringsverzekering_percentage_4, schadeverzekering, schadeverzekering_percentage, accprijs, reisverzekering_poliskosten, verzekeringen_poliskosten, annuleringsverzekering_korting, opmerkingen_boeker, opmerkingen_opties, opmerkingen_intern, opmerkingen_voucher, opmerkingen_vertreklijst, opmerkingen_klant, factuur_tekstvak1, factuur_tekstvak2, factuur_tekstvak3, factuur_tekstvak4, factuur_tekstvak5, debiteurnummer, landcode, factuur_versturen, factuur_tewijzigen, factuur_bedrag_wijkt_af, UNIX_TIMESTAMP(factuurdatum) AS factuurdatum, UNIX_TIMESTAMP(factuurdatum_eerste_factuur) AS factuurdatum_eerste_factuur, vraag_ondertekening, UNIX_TIMESTAMP(factuur_ondertekendatum) AS factuur_ondertekendatum, UNIX_TIMESTAMP(aanbetaling_betaaldatum) AS aanbetaling_betaaldatum, aanbetaling_bedrag, UNIX_TIMESTAMP(restbetaling_betaaldatum) AS restbetaling_betaaldatum, restbetaling_bedrag, gezien, goedgekeurd, geannuleerd, geannuleerd_op, wijzigen_dagen, website, taal, UNIX_TIMESTAMP(zit_in_beheersysteem) AS zit_in_beheersysteem, gewijzigd, log, UNIX_TIMESTAMP(invuldatum) AS invuldatum, UNIX_TIMESTAMP(bevestigdatum) AS bevestigdatum, UNIX_TIMESTAMP(bewerkdatetime) AS bewerkdatetime, referentiekeuze, lasteditor, reisbureau_user_id, aanbetaling1, aanbetaling1_vastgezet, aanbetaling1_gewijzigd, aanbetaling1_dagennaboeken, aanbetaling2, UNIX_TIMESTAMP(aanbetaling2_datum) AS aanbetaling2_datum, totale_reissom, totale_reissom_inkoop, totale_reissom_inkoop_actueel, totale_reissom_dagenvooraankomst, kortingscode_id, mailtekst_opties, mailtekst_klanten_vorig_seizoen, mailverstuurd_klanten_vorig_seizoen, aanmaning_tekst, aanmaning_mailblokkeren, mailblokkeren_ontvangenbetaling, UNIX_TIMESTAMP(mailverstuurd_opties) AS mailverstuurd_opties, mailblokkeren_opties, mailverstuurd_persoonsgegevens_dagenvoorvertrek, UNIX_TIMESTAMP(mailverstuurd_persoonsgegevens) AS mailverstuurd_persoonsgegevens, mailblokkeren_persoonsgegevens, mailblokkeren_klanten_vorig_seizoen, mailblokkeren_enquete, mailverstuurd_enquete, pdfplattegrond_nietnodig, status_klanten_vorig_seizoen, UNIX_TIMESTAMP(status_vanaf_klanten_vorig_seizoen) AS status_vanaf_klanten_vorig_seizoen, mailverstuurd_klanten_vorig_seizoen, mailverstuurd2_klanten_vorig_seizoen, opmerkingen_klanten_vorig_seizoen, voucherstatus, accommodatievoucher_sturen, verzendmethode_reisdocumenten, optieaanvraag_id, verzameltype, verzameltype_gekozentype_id, calc, calc_bewaren, goedgekeurde_betaling, bestelstatus, UNIX_TIMESTAMP(besteldatum) AS besteldatum, besteluser_id, UNIX_TIMESTAMP(inkoopfactuurdatum) AS inkoopfactuurdatum, bestelstatus_schriftelijk_later, bestelstatus_schriftelijk_later_aanvinkmoment, inkoopnetto, inkoopbruto, inkoopcommissie, inkooptoeslag, inkoopkorting, inkoopkorting_euro, inkoopkorting_percentage, inkoopaanbetaling_gewijzigd, totaalfactuurbedrag, totaal_volgens_ontvangen_factuur, betalingsverschil, factuurnummer_leverancier, factuur_opmerkingen, factuurbedrag_gecontroleerd, eenmaliggecontroleerd, aan_leverancier_doorgegeven_naam, tonen_in_mijn_boeking, vervallen_aanvraag, voorraad_afboeken FROM boeking WHERE boeking_id='".addslashes($boekingid)."';");
+	$db->query("SELECT boeking_id, boekingsnummer, bezoeker_id, leverancierscode, leverancierscode_oud, leverancier_id, beheerder_id, eigenaar_id, type_id, aankomstdatum, aankomstdatum_exact, vertrekdatum_exact, seizoen_id, aantalpersonen, stap_voltooid, annuleringsverzekering, toonper, flexibel, verblijfsduur, verkoop, verkoop_gewijzigd, commissie, btw_over_commissie, btw_over_commissie_percentage, wederverkoop, reserveringskosten, annuleringsverzekering_poliskosten, annuleringsverzekering_percentage_1, annuleringsverzekering_percentage_2, annuleringsverzekering_percentage_3, annuleringsverzekering_percentage_4, schadeverzekering, schadeverzekering_percentage, accprijs, reisverzekering_poliskosten, verzekeringen_poliskosten, annuleringsverzekering_korting, opmerkingen_boeker, opmerkingen_opties, opmerkingen_intern, opmerkingen_voucher, opmerkingen_vertreklijst, opmerkingen_klant, factuur_tekstvak1, factuur_tekstvak2, factuur_tekstvak3, factuur_tekstvak4, factuur_tekstvak5, debiteurnummer, landcode, factuur_versturen, factuur_tewijzigen, factuur_bedrag_wijkt_af, UNIX_TIMESTAMP(factuurdatum) AS factuurdatum, UNIX_TIMESTAMP(factuurdatum_eerste_factuur) AS factuurdatum_eerste_factuur, vraag_ondertekening, UNIX_TIMESTAMP(factuur_ondertekendatum) AS factuur_ondertekendatum, UNIX_TIMESTAMP(aanbetaling_betaaldatum) AS aanbetaling_betaaldatum, aanbetaling_bedrag, UNIX_TIMESTAMP(restbetaling_betaaldatum) AS restbetaling_betaaldatum, restbetaling_bedrag, gezien, goedgekeurd, geannuleerd, geannuleerd_op, wijzigen_dagen, website, taal, UNIX_TIMESTAMP(zit_in_beheersysteem) AS zit_in_beheersysteem, gewijzigd, log, UNIX_TIMESTAMP(invuldatum) AS invuldatum, UNIX_TIMESTAMP(bevestigdatum) AS bevestigdatum, UNIX_TIMESTAMP(bewerkdatetime) AS bewerkdatetime, referentiekeuze, lasteditor, reisbureau_user_id, aanbetaling1, aanbetaling1_vastgezet, aanbetaling1_gewijzigd, aanbetaling1_dagennaboeken, aanbetaling2, UNIX_TIMESTAMP(aanbetaling2_datum) AS aanbetaling2_datum, totale_reissom, totale_reissom_inkoop, totale_reissom_inkoop_actueel, totale_reissom_dagenvooraankomst, kortingscode_id, mailtekst_opties, mailtekst_klanten_vorig_seizoen, mailverstuurd_klanten_vorig_seizoen, aanmaning_tekst, aanmaning_mailblokkeren, mailblokkeren_ontvangenbetaling, UNIX_TIMESTAMP(mailverstuurd_opties) AS mailverstuurd_opties, mailblokkeren_opties, mailverstuurd_persoonsgegevens_dagenvoorvertrek, UNIX_TIMESTAMP(mailverstuurd_persoonsgegevens) AS mailverstuurd_persoonsgegevens, mailblokkeren_persoonsgegevens, mailblokkeren_klanten_vorig_seizoen, mailblokkeren_enquete, mailverstuurd_enquete, pdfplattegrond_nietnodig, niet_sturen_trustpilot, status_klanten_vorig_seizoen, UNIX_TIMESTAMP(status_vanaf_klanten_vorig_seizoen) AS status_vanaf_klanten_vorig_seizoen, mailverstuurd_klanten_vorig_seizoen, mailverstuurd2_klanten_vorig_seizoen, opmerkingen_klanten_vorig_seizoen, voucherstatus, accommodatievoucher_sturen, verzendmethode_reisdocumenten, optieaanvraag_id, verzameltype, verzameltype_gekozentype_id, calc, calc_bewaren, goedgekeurde_betaling, bestelstatus, UNIX_TIMESTAMP(besteldatum) AS besteldatum, besteluser_id, UNIX_TIMESTAMP(inkoopfactuurdatum) AS inkoopfactuurdatum, bestelstatus_schriftelijk_later, bestelstatus_schriftelijk_later_aanvinkmoment, inkoopnetto, inkoopbruto, inkoopcommissie, inkooptoeslag, inkoopkorting, inkoopkorting_euro, inkoopkorting_percentage, inkoopaanbetaling_gewijzigd, totaalfactuurbedrag, totaal_volgens_ontvangen_factuur, betalingsverschil, factuurnummer_leverancier, factuur_opmerkingen, factuurbedrag_gecontroleerd, eenmaliggecontroleerd, aan_leverancier_doorgegeven_naam, tonen_in_mijn_boeking, vervallen_aanvraag, voorraad_afboeken FROM boeking WHERE boeking_id='".addslashes($boekingid)."';");
 	if($db->next_record()) {
 		$accinfo=accinfo($db->f("type_id"),$db->f("aankomstdatum"),$db->f("aantalpersonen"),array("gebruik_gegevensvar_niet"=>true));
 		$return["stap1"]["accinfo"]=$accinfo;
@@ -754,6 +754,7 @@ function boekinginfo($boekingid) {
 		$return["stap1"]["mailblokkeren_enquete"]=$db->f("mailblokkeren_enquete");
 		$return["stap1"]["mailverstuurd_enquete"]=$db->f("mailverstuurd_enquete");
 		$return["stap1"]["pdfplattegrond_nietnodig"]=$db->f("pdfplattegrond_nietnodig");
+		$return["stap1"]["niet_sturen_trustpilot"]=$db->f('niet_sturen_trustpilot');
 		$return["stap1"]["status_klanten_vorig_seizoen"]=$db->f("status_klanten_vorig_seizoen");
 		$return["stap1"]["status_vanaf_klanten_vorig_seizoen"]=$db->f("status_vanaf_klanten_vorig_seizoen");
 		$return["stap1"]["mailverstuurd_klanten_vorig_seizoen"]=$db->f("mailverstuurd_klanten_vorig_seizoen");
@@ -4149,22 +4150,30 @@ function affiliate_tracking($sale=false, $toon_tradetracker=true, $data) {
 	}
 
 	// Google AdWords / Analytics code
+	if (true === $vars['adwords_conversion_tracking']) {
+		
+		if ($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+			
+			# Optie-aanvraag
+			$google_conversion_label = "GsSQCP_TmwQQ94jL_gM";
+			
+		} elseif ($data["ordernummer"]=="contactaanvraag") {
+			
+			# Contactaanvraag
+			$google_conversion_label = "3DAzCPfUmwQQ94jL_gM";
+			
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
+			
+			# Vraag ons advies
+			$google_conversion_label = "Qj9RCO_VmwQQ94jL_gM";
+			
+		} else {
+			
+			# Boeking
+			$google_conversion_label = "RSUICI_SmwQQ94jL_gM";
+		}
 
-	if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
-		# Optie-aanvraag
-		$google_conversion_label = "GsSQCP_TmwQQ94jL_gM";
-	} elseif($data["ordernummer"]=="contactaanvraag") {
-		# Contactaanvraag
-		$google_conversion_label = "3DAzCPfUmwQQ94jL_gM";
-	} elseif($data["ordernummer"]=="vraagonsadvies") {
-		# Vraag ons advies
-		$google_conversion_label = "Qj9RCO_VmwQQ94jL_gM";
-	} else {
-		# Boeking
-		$google_conversion_label = "RSUICI_SmwQQ94jL_gM";
-	}
-
-	echo '<!-- Google Code for Conversion Page -->
+		echo '<!-- Google Code for Conversion Page -->
 <script type="text/javascript">
 /* <![CDATA[ */
 var google_conversion_id = 1070777463;
@@ -4183,6 +4192,7 @@ var google_conversion_value = '.($data["bedrag"] ? number_format($data["bedrag"]
 </div>
 </noscript>';
 
+	}
 }
 
 function nieuwsbrief_inschrijven($wzt,$nieuwsbrief_waardes) {
