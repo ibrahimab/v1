@@ -780,7 +780,7 @@ if($form->okay) {
 
 
 		$pdf->Ln();
-		if (in_array($gegevens['stap1']['website_specifiek']['website'], $vars['anvr']) && in_array($gegevens['stap1']['website_specifiek']['website'], $vars['sgr_c'])) {
+		if (in_array($gegevens['stap1']['website'], $vars['anvr']) && in_array($gegevens['stap1']['website'], $vars['sgr_c'])) {
 			
 			# Wel een SGR-tekst: pagina is daardoor langer
 			if($pdf->GetY()>225) {
@@ -813,7 +813,7 @@ if($form->okay) {
 		$pdf->SetFont('Arial','I',7);
 		$pdf->MultiCell(190,4,txt("opdezeovereenkomstalgvoorwaarden","factuur"));
 
-		if (in_array($gegevens['stap1']['website_specifiek']['website'], $vars['anvr']) && in_array($gegevens['stap1']['website_specifiek']['website'], $vars['sgr_c'])) {
+		if (in_array($gegevens['stap1']['website'], $vars['anvr']) && in_array($gegevens['stap1']['website'], $vars['sgr_c'])) {
 			
 			# SGR-tekst
 			$pdf->Ln();
