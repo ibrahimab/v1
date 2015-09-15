@@ -3112,7 +3112,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 			$html="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style type=\"text/css\"><!--\na:visited:hover,a:hover {\ncolor:".$hover.";\n}\n--></style>\n</head>\n<body style=\"background-color: #F3F3F3;font-family: ".$font."font-size: 0.8em;\">\n";
 			$html.="<div style=\"width:630px\">";
-			$html.="&nbsp;<br>De volgende gegevens zijn zojuist via de website ingevoerd:<p>".str_replace(['[[aanvraagnummer_link_open]]', '[[aanvraagnummer_link_sluit]]'], ['<a href="' . $vars['basehref'] . 'cms_boekingen.php?show=21&bt=1&21k0=' . $gegevens["stap1"]["boekingid"] . '">', '</a>'], $tabellen);
+			$html.="&nbsp;<br>De volgende gegevens zijn zojuist via de website ingevoerd:<p>".str_replace(['[[aanvraagnummer_link_open]]', '[[aanvraagnummer_link_sluit]]'], ['<a href="' . $vars['websiteinfo']['basehref']['C'] . 'cms_boekingen.php?show=21&bt=1&21k0=' . $gegevens["stap1"]["boekingid"] . '">', '</a>'], $tabellen);
 
 			if($referer["opsomming"] or $form->input["referentiekeuze"]) {
 				$html.="<p><table cellspacing=\"0\" cellpadding=\"3\" style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\">";
