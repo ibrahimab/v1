@@ -19,6 +19,7 @@ class google_tagmanager {
 		$tag_manager_id["B"] = "GTM-TP46GZ"; // Chalet.be
 		$tag_manager_id["C"] = "GTM-5CPQNN"; // Chalet.nl
 		$tag_manager_id["E"] = "GTM-WGNXQC"; // Chalet.eu
+		$tag_manager_id["D"] = "GTM-TTHBWJ"; // Chaletonline.de
 		$tag_manager_id["H"] = "GTM-PN3GFW"; // Italyhomes.eu
 		$tag_manager_id["I"] = "GTM-K4P98X"; // Italissima.nl
 		$tag_manager_id["K"] = "GTM-N5B5FQ"; // Italissima.be
