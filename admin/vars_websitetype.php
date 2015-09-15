@@ -133,6 +133,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 				"country" => array("BE")
 			)
 		);
+		$vars['docdata_payments_hide_logos'] = ['docdata_idl', 'docdata_mrc'];
 	// }
 } elseif($_SERVER["HTTP_HOST"]=="www.chaletonline.de" or $_SERVER["HTTP_HOST"]=="test.chaletonline.de" or ($vars["lokale_testserver"] and $vars["testsite"]=="D")) {
 	# Chaletonline.de (Duitstalig)
