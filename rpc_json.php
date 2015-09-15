@@ -840,8 +840,6 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 }
 
 $return["ok"]=true;
-$return['html'] = iconv("Windows-1252","UTF-8//IGNORE",$return['html']);
-
 echo json_encode( $return );
 
 function handle_google_translation() {
