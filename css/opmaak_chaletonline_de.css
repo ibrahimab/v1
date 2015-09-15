@@ -1,1 +1,5 @@
+/** CMS-69 - comply with german law to have footer text be at least 10 points */
 #ondercolofon { font-size: 10pt; }
+
+/** CMS-69 - skipass and sale icon were mashed together, this resolves it */
+.toonaccommodatie_skipas.toonaccommodatie_skipas_en_aanbieding { margin-right: 0; }
