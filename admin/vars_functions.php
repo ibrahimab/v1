@@ -4859,9 +4859,6 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 }
 
-<<<<<<< HEAD
-?>
-=======
 function toonreserveringskosten($costs = null) {
 
 	// backwards compatible
@@ -4875,4 +4872,3 @@ function toonreserveringskosten($costs = null) {
 }
 
 ?>
->>>>>>> 38b0c7a... [CMS-196] changed display reservation costs
