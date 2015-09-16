@@ -327,7 +327,7 @@ class vertrekinfo {
 				$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/>The Netherlands<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>Email: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
 			} elseif($gegevens["stap1"]["taal"]=="de") {
 				# Adres voor Duitstalige buitenlanders
-				$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/>Niederlande<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>Email: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+				$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/>Niederlande<br/><br/><b>Tel.:  030-767598210</b><br/><b>Fax: +31 348 690752</b><br/><b>Email: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
 			} else {
 				# Adres voor Nederlandstalige buitenlanders
 				$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/>Nederland<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
