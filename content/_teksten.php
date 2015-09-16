@@ -280,7 +280,7 @@ $txt["de"]["vars"]["mailopties_wzt2_vakantie"]="Urlaub";
 $txt["en"]["vars"]["mailopties_wzt2_vakantie"]="Holiday";
 
 $txt["nl"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)348 - 43 46 49";
-$txt["de"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)348 - 43 46 49";
+$txt["de"]["vars"]["mailopties_wzt_telefoonnummer"]="030-767598210";
 $txt["en"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)348 - 43 46 49";
 
 $txt["nl_y"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)541 - 53 27 98";
@@ -346,7 +346,7 @@ Sie können bis [UITERLIJKE_DATUM] Ihre Wahl treffen.
 Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["vars"]["mailverzendmethode_reisdocumenten_wzt1"]="Dear [NAAM],\n\nOn [DATUM] you will depart for [PLAATS]. Around 10 days before your departure you will receive the travel documents which contain information about the route, your stay there, where you can get your keys, vouchers for additional options you may have booked, etc.\n\nPlease let us know how you would like to receive the travel documents (per regular mail or per e-mail). You can visit the following URL to let us now your preference:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nYou have until [UITERLIJKE_DATUM] to let us know what you prefer.\n\nKind regards,\nTeam [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailverzendmethode_reisdocumenten_wzt2"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS]. Ongeveer 10 dagen voor vertrek ontvang je de reisdocumenten met daarin extra informatie over jullie route, verblijf, sleuteladres, vouchers voor eventueel bijgeboekte opties enz.\n\nGraag vernemen wij hoe je deze reisdocumenten wilt ontvangen (per post of per e-mail). Bezoek daarvoor de volgende link:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nJe hebt tot en met [UITERLIJKE_DATUM] de tijd om je voorkeur door te geven.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
@@ -363,7 +363,7 @@ Sie können bis [UITERLIJKE_DATUM] Ihre Wahl treffen.
 Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["vars"]["mailverzendmethode_reisdocumenten_wzt2"]="Dear [NAAM],\n\nOn [DATUM] you are leaving for [PLAATS]. Approximately 10 days prior to your departure you will receive the travel documents containing additional information about the route, your stay, the key holder, vouchers for any additions options booked, etcetera.\n\nPlease let us know how you would like to receive these travel documents (through the post of via e-mail). Please use the following link to let us know:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nYou have until [UITERLIJKE_DATUM] to let us know your preference.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailverzendmethode_reisdocumenten_subject_wzt1"]="Gewenste verzendmethode reisdocumenten";
@@ -390,7 +390,7 @@ Nach Empfang des Restbetrags versenden wir die Reiseunterlagen mit extra Informa
 Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["vars"]["mailpersoonsgegevens_wzt1"]="Dear [NAAM],\n\nThe departure date for your ski holiday is rapidly closing in. To make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_wzt2"]="Beste [NAAM],\n\nDe vertrekdatum van jullie vakantie komt snel dichterbij. Om jullie reisdocumenten op de juiste wijze te kunnen maken hebben wij de persoonlijke gegevens van de deelnemers nodig. Wij willen jullie daarom vragen om deze per omgaande in te vullen zodat wij alles tijdig naar jullie kunnen versturen.\n\nMet je emailadres in combinatie met je reeds ontvangen wachtwoord kun je via [LINK] de gegevens van de deelnemers invullen. Als je het wachtwoord vergeten bent kun je hier ook een nieuw wachtwoord opvragen.\n\nDe volgende gegevens moeten worden ingevuld:\n\n[GEGEVENS]\n\nNa ontvangst van de eindbetaling sturen wij de reisdocumenten met daarin extra informatie over jullie verblijf, sleuteladres, eventueel bijgeboekte opties, zo spoedig mogelijk naar je toe.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
@@ -409,7 +409,7 @@ Nach Empfang des Restbetrags versenden wir die Reiseunterlagen mit extra Informa
 Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["vars"]["mailpersoonsgegevens_wzt2"]="Dear [NAAM],\n\nThe departure date for your vacation is rapidly closing in. To make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_subject_wzt1"]="Invullen persoonsgegevens wintersport";
@@ -438,7 +438,7 @@ Nach Empfang des Restbetrags versenden wir die Reiseunterlagen mit extra Informa
 Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt1"]="Dear [NAAM],\n\nA few days ago we sent you an e-mail asking for the personal information of the participants of your winter sport. According to our administration this information has not been entered yet.\n\nTo make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Beste [NAAM],\n\nEen aantal dagen geleden hebben wij je per mail gevraagd om de persoonlijke gegevens van de deelnemers van jullie vakantie. Volgens onze administratie zijn deze gegevens nog niet doorgegeven.\n\nOm jullie reisdocumenten op de juiste wijze te kunnen maken hebben wij deze gegevens nodig. Wij willen jullie daarom vragen om deze per omgaande alsnog in te vullen zodat wij alles tijdig naar jullie kunnen versturen.\n\nMet je emailadres in combinatie met je reeds ontvangen wachtwoord kun je via [LINK] de gegevens van de deelnemers invullen. Als je het wachtwoord vergeten bent kun je hier ook een nieuw wachtwoord opvragen.\n\nDe volgende gegevens moeten worden ingevuld:\n\n[GEGEVENS]\n\nNa ontvangst van de eindbetaling sturen wij de reisdocumenten met daarin extra informatie over jullie verblijf, sleuteladres, eventueel bijgeboekte opties, zo spoedig mogelijk naar je toe.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
@@ -459,7 +459,7 @@ Nach Empfang des Restbetrags versenden wir die Reiseunterlagen mit extra Informa
 Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Dear [NAAM],\n\nA few days ago we sent you an e-mail asking for the personal information of the participants of your vacation. According to our administration this information has not been entered yet.\n\nTo make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nBij controle van onze administratie is gebleken dat er een achterstand is in de betaling van jullie [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nWij willen je daarom vragen om het openstaande bedrag per omgaande te betalen. Ga voor alle betaalinformatie en de mogelijkheid om online te betalen naar de volgende website:\n\n[BETAALLINK]\n\nMocht de betaling reeds voldaan zijn dan ontvangen wij graag de volgende gegevens zodat wij onze administratie kunnen controleren:\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
@@ -482,7 +482,7 @@ Nach Eingang der gesamten Zahlung bekommen Sie ca. 10 Tage vor Abfahrt Ihre Reis
 Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["vars"]["mailaanmaning"]="Dear [NAAM],\n\nWhile checking our administration we found out that you are a bit behind on your payment for [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nTherefore we would like to ask you to send the money that you are still due. Visit the website below for all payment information and the possibility to pay online:\n\n[BETAALLINK]\n\nIf you have already made the payment, please send us the following information so we can check our administration:\n- Sum of money sent\n- Date of payment\n- Way of payment\n\nAfter we have received the money you are still due we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl_t"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nBij controle van onze administratie is gebleken dat er een achterstand is in de betaling van jullie [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nWij willen je daarom vragen om het openstaande bedrag per omgaande te betalen. Ga voor alle betaalinformatie naar de volgende website:\n\n[BETAALLINK]\n\nMocht de betaling reeds voldaan zijn dan ontvangen wij graag de volgende gegevens zodat wij onze administratie kunnen controleren:\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
@@ -544,7 +544,7 @@ Nach Eingang der gesamten Zahlung bekommen Sie ca. 10 Tage vor Abfahrt Ihre Reis
 Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["vars"]["mailbetaling"]="Dear [NAAM],\n\nOn [DATUM] we received a payment of € [BEDRAG] on our bank account which is related to your [SOORTVAKANTIE]. Thank you for that.\n\nAfter we have processed this payment the new sum of money you are due will be:\n\n[BETALINGSINFO]\nTherefore we would like to ask you to send the money that you are still due.Visit the website below for all payment information and the possibility to pay online:\n\n[BETAALLINK]\n\nAfter we have received the money you are still due we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl_t"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nNa verwerking van deze betaling wordt het nieuwe openstaande saldo:\n\n[BETALINGSINFO]\nWij willen je vragen om het resterende bedrag voor de uiterste betaaldatum naar ons over te maken. Ga voor alle betaalinformatie naar de volgende website:\n\n[BETAALLINK]\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
@@ -563,7 +563,7 @@ Infolgedessen ist die Gesamtsumme Ihres Reises bezahlt und werden Ihnen ca. 10 T
 Mit freundlichen Grüßen,
 Mitarbeiter [WEBSITE]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["vars"]["mailbetaling_voldaan"]="Dear [NAAM],\n\nOn [DATUM] we received a payment of € [BEDRAG] on our bank account which is related to your [SOORTVAKANTIE]. Thank you for that.\n\nThis makes your vacation fully paid for and we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailbetalingsinfo_ontvangenbedrag"]="€ [BEDRAG] reeds voldaan";
@@ -2322,7 +2322,7 @@ $txt["de"]["contact"]["tijdsat"]="Von 10.00 - 17.30 Uhr";
 $txt["en"]["contact"]["tijdsat"]="From 10 am to 5:30 pm";
 
 $txt["nl"]["contact"]["telefoonNummerGetal"]="0348 - 43 46 49";
-$txt["de"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
+$txt["de"]["contact"]["telefoonNummerGetal"]="030-767598210";
 $txt["en"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 
 $txt["nl_y"]["contact"]["telefoonNummerGetal"]="0541 - 53 27 98";
@@ -2477,7 +2477,7 @@ $txt["de"]["contact"]["chat"]="Chat";
 $txt["en"]["contact"]["chat"]="Chat";
 
 $txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0348 - 43 46 49";
-$txt["de"]["contact"]["telefoonnummer_chalet"]="Telefon: +31 348 43 46 49";
+$txt["de"]["contact"]["telefoonnummer_chalet"]="Telefon: 030-767598210";
 $txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
 
 $txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon: +31 348 43 46 49";
@@ -3482,7 +3482,7 @@ $txt["de"]["calc"]["mail_inleiding"]="Unten finden Sie eine Preisberechnung wie 
 Mit freundlichen Grüßen,
 Mitarbeiter [[v_websitenaam]]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["calc"]["mail_inleiding"]="Here you will find a price calculations like you composed via our website. Please click on the link at the bottom of this e-mail to book this accommodation.\n\nKind regards,\nEmployees [[v_websitenaam]]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["weekendski"]["alinea1"]="Wil je er even helemaal tussenuit of ben je een fanatieke wintersporter die er maar geen genoeg van kan krijgen? Denk dan eens aan weekendski, een paar dagen winters genieten zonder dat het je teveel vrije dagen kost!";
@@ -6730,7 +6730,7 @@ $txt["nl"]["factuur"]["mailmedewerkerswebsitenaam"]="Medewerkers [[v_websitenaam
 Tel: +31 (0)348 - 43 46 49";
 $txt["de"]["factuur"]["mailmedewerkerswebsitenaam"]="Mitarbeiter [[v_websitenaam]]
 
-Tel: +31 (0)348 - 43 46 49";
+Tel: 030-767598210";
 $txt["en"]["factuur"]["mailmedewerkerswebsitenaam"]="Staff [[v_websitenaam]]
 
 Phone: +31 (0)348 - 43 46 49";
@@ -6808,11 +6808,11 @@ $txt["de"]["voucher"]["alleenvoornoodgevallen"]="Nur in Notfällen die Sie nicht 
 $txt["en"]["voucher"]["alleenvoornoodgevallen"]="Only in the event of incidents that cannot be handled locally, can you contact us on";
 
 $txt["nl"]["voucher"]["ofbuitenkantooruren"]="+31 (0)348 - 43 46 49 of buiten kantooruren op +31 (0)6 - 16 45 73 34.";
-$txt["de"]["voucher"]["ofbuitenkantooruren"]="+31 (0)348 - 43 46 49 oder außerhalb Geschäftszeiten unter +31 (0)6 - 16 45 73 34";
+$txt["de"]["voucher"]["ofbuitenkantooruren"]="030-767598210 oder außerhalb Geschäftszeiten unter +31 (0)6 - 16 45 73 34";
 $txt["en"]["voucher"]["ofbuitenkantooruren"]="+31 (0)348 - 43 46 49 or outside office hours on +31 (0)6 - 16 45 73 34.";
 
 $txt["nl"]["voucher"]["thuisblijvers_tekst"]="In noodgevallen, waarbij het niet mogelijk is contact te leggen met de receptie of met de reizigers zelf, kun je ons bereiken op +31 (0)348 - 43 46 49 of buiten kantooruren op +31 (0)6 - 16 45 73 34.";
-$txt["de"]["voucher"]["thuisblijvers_tekst"]="Im Notfall, wenn es unmöglich ist die Rezeption oder die Reisenden zu erreichen, sind wir erreichbar unter +31 (0)348 - 43 46 49 oder außerhalb Geschäftszeiten unter +31 (0)6 - 16 45 73 34.";
+$txt["de"]["voucher"]["thuisblijvers_tekst"]="Im Notfall, wenn es unmöglich ist die Rezeption oder die Reisenden zu erreichen, sind wir erreichbar unter 030-767598210 oder außerhalb Geschäftszeiten unter +31 (0)6 - 16 45 73 34.";
 $txt["en"]["voucher"]["thuisblijvers_tekst"]="In case of emergency, where it is not possible to reach the reception or the travelers themselves, you can reach us at +31 (0)348 - 43 46 49 or after office hours on +31 (0)6 - 16 45 73 34.";
 
 $txt["nl"]["voucher"]["omschrijving"]="Omschrijving";
@@ -6885,7 +6885,7 @@ Bei Fragen stehen wir Ihnen gerne jederzeit zur Verfügung.
 Wir wünschen Ihnen eine gute Reise und einen schönen Urlaub!
 
 Mitarbeiter [[v_websitenaam]]
-+31 (0)348 - 43 46 49";
+030-767598210";
 $txt["en"]["voucher"]["mailtje"]="Dear [[v_voornaam]],
 
 These are your travel documents for your [[v_vakantiesoort]].
@@ -6986,7 +6986,7 @@ Für alle unsere Angebote gelten unsere Reise- und Vertragsbedingungen, unter dem
 Wipmolenlaan 3
 NL-3447 GJ WOERDEN
 KvK: 30209634
-Tel: +31 (0)348 - 43 46 49
+Tel: 030-767598210
 Fax: +31 (0)348 - 69 07 52
 E-Mail: [EMAIL_MEDEWERKER]";
 $txt["en"]["optieaanvraag"]["mail_goed_body"]="Dear [VOORNAAMKLANT],\n\nThank you for your interest in our accommodations! Regarding your option request, the accommodation you requested for the specified week is still available and we can confirm the option to you. Please let us know on [LOOPT_AF] before 3:00 p.m. if we can turn this option in to a definitive booking, or if you prefer a different accommodation.\n\n[AANKOMSTDATUM] [ACCOMMODATIE] with [AANTALPERSONEN] persons\n\nDescription: [ACCOMMODATIE_URL]\nOccupancy [AANTALPERSONEN] persons : EURO [BEDRAG]\n\nAbove prices are excluding a EURO 20,00 booking fee. On the page of the accommodation you can see what other things are included or excluded with the price.\n\nPlease let us know if we can turn this option in to a definitive booking.\n\n[NAAM_MEDEWERKER]\n\nAll our offers are subject to our terms and conditions and are subject to price changes and availability.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nNetherlands\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
@@ -7012,7 +7012,7 @@ Für alle unsere Angebote gelten unsere Reise- und Vertragsbedingungen, unter dem
 Wipmolenlaan 3
 NL-3447 GJ WOERDEN
 KvK: 30209634
-Tel: +31 (0)348 - 43 46 49
+Tel: 030-767598210
 Fax: +31 (0)348 - 69 07 52
 E-Mail: [EMAIL_MEDEWERKER]";
 $txt["en"]["optieaanvraag"]["mail_af_body"]="Dear [VOORNAAMKLANT],\n\nThank you for your interest in our accommodations! Regarding your availability request, the accommodation you requested is sadly no longer available for the specified week. Below you will find some alternatives that are directly available:\n\n\n\n\nAbove prices are excluding a EURO 20,00 booking fee. On the page of the accommodation you can see what other things are included or excluded in the price.\n\nPlease let us know if we can turn our offer in to a definitive reservation.\n\n[NAAM_MEDEWERKER]\n\nAll our offers are subject to our terms and conditions and are are subject to price changes and availability.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nNetherlands\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
@@ -7717,7 +7717,7 @@ $txt["de"]["vraagonsadvies"]["alinea2"]="Um Ihnen am Besten helfen zu können hab
 $txt["en"]["vraagonsadvies"]["alinea2"]="To help you as good as possible, we have set up the form below. The more information you can give us, the easier it is for us to send you some fitting suggestions. The field at the bottom makes it possible to furthermore explain your wishes.";
 
 $txt["nl"]["vraagonsadvies"]["alinea3"]="Uiteraard kun je ons ook telefonisch bereiken voor advies: 0348-434649";
-$txt["de"]["vraagonsadvies"]["alinea3"]="Wir beraten Sie selbstverständlich auch gerne telefonisch: +31 (0)438-434649 ";
+$txt["de"]["vraagonsadvies"]["alinea3"]="Wir beraten Sie selbstverständlich auch gerne telefonisch: 030-767598210 ";
 $txt["en"]["vraagonsadvies"]["alinea3"]="Of course you can also reach us by phone for advice: +31348-434649";
 
 $txt["nl"]["vraagonsadvies"]["alinea3_chat"]="Uiteraard kun je ons ook [[h_1]]telefonisch bereiken[[h_2]] of [[h_1]]met ons chatten[[h_2]] voor advies.";

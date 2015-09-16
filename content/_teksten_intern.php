@@ -954,7 +954,7 @@ $txta["de"]["chaletsinvallandry"]="Chalets in Vallandry";
 $txta["en"]["chaletsinvallandry"]="Chalets in Vallandry";
 
 $txta["nl"]["telefoonnummer"]="Tel: 0348 - 43 46 49";
-$txta["de"]["telefoonnummer"]="Tel: +31 348 43 46 49";
+$txta["de"]["telefoonnummer"]="Tel: 030-767598210";
 $txta["en"]["telefoonnummer"]="Phone: +31 348 43 46 49";
 
 $txta["nl_b"]["telefoonnummer"]="Tel: +31 348 43 46 49";
@@ -964,7 +964,7 @@ $txta["nl_y"]["telefoonnummer"]="Tel: 0541 - 53 27 98";
 $txta["en_y"]["telefoonnummer"]="Phone: +31 541 532798";
 
 $txta["nl"]["telefoonnummer_colofon"]="tel: 0348 - 43 46 49";
-$txta["de"]["telefoonnummer_colofon"]="tel: +31 348 43 46 49";
+$txta["de"]["telefoonnummer_colofon"]="tel: 030-767598210";
 $txta["en"]["telefoonnummer_colofon"]="phone: +31 348 43 46 49";
 
 $txta["nl_b"]["telefoonnummer_colofon"]="tel: +31 348 43 46 49";
@@ -974,7 +974,7 @@ $txta["nl_y"]["telefoonnummer_colofon"]="tel: 0541 - 53 27 98";
 $txta["en_y"]["telefoonnummer_colofon"]="phone: +31 541 532798";
 
 $txta["nl"]["telefoonnummer_alleen"]="0348 - 43 46 49";
-$txta["de"]["telefoonnummer_alleen"]="+31 348 43 46 49";
+$txta["de"]["telefoonnummer_alleen"]="030-767598210";
 $txta["en"]["telefoonnummer_alleen"]="+31 348 43 46 49";
 
 $txta["nl_b"]["telefoonnummer_alleen"]="+31 348 43 46 49";
@@ -984,7 +984,7 @@ $txta["nl_y"]["telefoonnummer_alleen"]="0541 - 53 27 98";
 $txta["en_y"]["telefoonnummer_alleen"]="+31 541 532798";
 
 $txta["nl"]["telefoonnummer_telefoonblok"]="0348 - 43 46 49";
-$txta["de"]["telefoonnummer_telefoonblok"]="+31 348 434649";
+$txta["de"]["telefoonnummer_telefoonblok"]="030-767598210";
 $txta["en"]["telefoonnummer_telefoonblok"]="+31 348 434649";
 
 $txta["nl_b"]["telefoonnummer_telefoonblok"]="+31 348 434649";
