@@ -5,6 +5,18 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
+# wzt opvragen indien niet meegegeven met query_string
+if(!$_GET["wzt"]) {
+	if($_GET["1k0"]) {
+		$db->query("SELECT wzt FROM accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
+		if($db->next_record()) {
+			$_GET["wzt"]=$db->f("wzt");
+		}
+	} else {
+		$_GET["wzt"]=1;
+	}
+}
+
 if($_GET["1k0"]) {
 	$db->query("SELECT a.toonper, a.plaats_id FROM accommodatie a WHERE a.accommodatie_id='".addslashes($_GET["1k0"])."';");
 	if($db->next_record()) {
@@ -18,10 +30,33 @@ if($_GET["1k0"]) {
 		$accommodatie_heeft_boekingen=true;
 	}
 } else {
-	# Actuele boekingen voor in totaaloverzicht uit database halen
-	$db->query("SELECT t.accommodatie_id, COUNT(b.boeking_id) AS aantal FROM boeking b, type t, seizoen s WHERE b.seizoen_id=s.seizoen_id AND b.type_id=t.type_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND s.tonen>1 GROUP BY t.accommodatie_id;");
-	while($db->next_record()) {
-		$aantal_actuele_boekingen[$db->f("accommodatie_id")]=$db->f("aantal");
+	
+	$db->query("SELECT s.seizoen_id, s.naam AS seizoen, t.accommodatie_id, COUNT(b.boeking_id) AS aantal 
+				FROM boeking b, type t, seizoen s 
+				WHERE b.seizoen_id = s.seizoen_id 
+				AND b.type_id = t.type_id 
+				AND b.geannuleerd = 0 
+				AND b.stap_voltooid = 5 
+				AND b.goedgekeurd = 1 
+				AND s.tonen >= 1
+				AND s.type = " . intval($_GET['wzt']) . "
+				" . ($_GET['wzt'] == 2 ? ' AND YEAR(s.begin) >= 2009' : '') . "
+				GROUP BY t.accommodatie_id, b.seizoen_id;");
+				
+	$boekingen = [];
+	$seizoenen = [];
+	while ($db->next_record()) {
+		
+		if (!isset($boekingen[$db->f('seizoen_id')])) {
+			$boekingen[$db->f('seizoen_id')] = [];
+		}
+		
+		if (!isset($boekingen[$db->f('seizoen_id')][$db->f('accommodatie_id')])) {
+			$boekingen[$db->f('seizoen_id')][$db->f('accommodatie_id')] = 0;
+		}
+		
+		$boekingen[$db->f('seizoen_id')][$db->f('accommodatie_id')] += $db->f('aantal');
+		$seizoenen[$db->f('seizoen_id')] = $db->f('seizoen');
 	}
 }
 
@@ -71,18 +106,6 @@ if($_GET["copy_accommodation"] and $_GET["confirmed"]) {
 	$url=ereg_replace("&1k0=([0-9]+)","&1k0=".$copydatabaserecord->new_accommodatie_id,$url);
 	header("Location: ".$url);
 	exit;
-}
-
-# wzt opvragen indien niet meegegeven met query_string
-if(!$_GET["wzt"]) {
-	if($_GET["1k0"]) {
-		$db->query("SELECT wzt FROM accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
-		if($db->next_record()) {
-			$_GET["wzt"]=$db->f("wzt");
-		}
-	} else {
-		$_GET["wzt"]=1;
-	}
 }
 
 # Kijken of er actieve boekingen aan deze accommodaties hangen
@@ -196,7 +219,7 @@ $cms->settings[1]["edit"]["top_submit_button"]=true;
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(1,"noedit","accommodatie_id");
-$cms->db_field(1,"select","aantal_actuele_boekingen","accommodatie_id",array("selection"=>$aantal_actuele_boekingen));
+$cms->db_field(1,"date","adddatetime");
 $cms->db_field(1,"text","naam");
 $cms->db_field(1,"text","internenaam");
 $cms->db_field(1,"text","bestelnaam");
@@ -360,7 +383,13 @@ if(!$_GET["archief"]) {
 }
 
 $cms->list_field(1,"websites","Sites");
-$cms->list_field(1,"aantal_actuele_boekingen","Boekingen");
+$cms->list_field(1,"adddatetime","Aangemaakt",array("date_format"=>"DD-MM-JJJJ"));
+arsort($seizoenen);
+foreach ($seizoenen as $seizoen_id => $seizoen_naam) {
+	
+	$cms->list_field(1,"seizoen_" . $seizoen_id, $seizoen_naam);
+	$cms->db_field(1, 'select', 'seizoen_' . $seizoen_id, 'accommodatie_id', ['selection' => $boekingen[$seizoen_id]]);
+}
 
 
 # Sommige velden zijn niet verplicht bij inactieve accommodaties
