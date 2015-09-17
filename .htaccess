@@ -514,7 +514,7 @@ RewriteRule ^kixx$ actie-kixx.php?%{QUERY_STRING}
 
 # Interview Bert met Ondernamen Woerden
 RewriteRule ^interview/$ /interview [L,R=301]
-RewriteRule ^interview$ pdf/Interview-Ondernamen-Woerden-September-2015.pdf
+RewriteRule ^interview$ interview.php
 
 RewriteRule ^zoover/?$ /zooverawards2015 [L,R=301]
 RewriteRule ^zooverawards2015/$ /zooverawards2015 [L,R=301]
