@@ -384,19 +384,22 @@ if(!$_GET["archief"]) {
 
 $cms->list_field(1,"websites","Sites");
 $cms->list_field(1,"adddatetime","Aangemaakt",array("date_format"=>"DD-MM-JJJJ"));
-arsort($seizoenen);
-foreach ($seizoenen as $seizoen_id => $seizoen_naam) {
-	
-	if (false !== strpos($seizoen_naam, '/')) {
-		
-		list($previous,$next) = explode('/', $seizoen_naam);
-		$seizoen_naam		  = substr($previous, -2) . '/' . substr($next, -2);
-	}
-	
-	$cms->list_field(1,"seizoen_" . $seizoen_id, trim(str_replace(['zomer', 'winter'], '', $seizoen_naam)));
-	$cms->db_field(1, 'select', 'seizoen_' . $seizoen_id, 'accommodatie_id', ['selection' => $boekingen[$seizoen_id]]);
-}
 
+if (isset($seizoenen)) {
+
+	arsort($seizoenen);
+	foreach ($seizoenen as $seizoen_id => $seizoen_naam) {
+		
+		if (false !== strpos($seizoen_naam, '/')) {
+			
+			list($previous,$next) = explode('/', $seizoen_naam);
+			$seizoen_naam		  = substr($previous, -2) . '/' . substr($next, -2);
+		}
+		
+		$cms->list_field(1,"seizoen_" . $seizoen_id, trim(str_replace(['zomer', 'winter'], '', $seizoen_naam)));
+		$cms->db_field(1, 'select', 'seizoen_' . $seizoen_id, 'accommodatie_id', ['selection' => $boekingen[$seizoen_id]]);
+	}
+}
 
 # Sommige velden zijn niet verplicht bij inactieve accommodaties
 $actief_obl=1;
