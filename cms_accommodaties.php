@@ -387,7 +387,7 @@ $cms->list_field(1,"adddatetime","Aangemaakt",array("date_format"=>"DD-MM-JJJJ")
 arsort($seizoenen);
 foreach ($seizoenen as $seizoen_id => $seizoen_naam) {
 	
-	$cms->list_field(1,"seizoen_" . $seizoen_id, $seizoen_naam);
+	$cms->list_field(1,"seizoen_" . $seizoen_id, trim(str_replace(['zomer', 'winter'], '', $seizoen_naam)));
 	$cms->db_field(1, 'select', 'seizoen_' . $seizoen_id, 'accommodatie_id', ['selection' => $boekingen[$seizoen_id]]);
 }
 
