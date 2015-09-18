@@ -7733,7 +7733,7 @@ $txt["de"]["vraagonsadvies"]["bestemming"]="Reiseziel";
 $txt["en"]["vraagonsadvies"]["bestemming"]="Destination";
 
 $txt["nl"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Val Thorens, Zillertal, omgeving Alpe d'Huez, Dolomieten";
-$txt["de"]["vraagonsadvies"]["bestemming_uitleg"]="Bitten geben Sie hier ein oder mehrere Gebiet(e) und/oder Ortsname(n) ein. Zum Beispiel: Val Thorens, Zillertal,
+$txt["de"]["vraagonsadvies"]["bestemming_uitleg"]="Bitte geben Sie hier ein oder mehrere Gebiet(e) und/oder Ortsname(n) ein. Zum Beispiel: Val Thorens, Zillertal,
 Umgebung Alpe d'Huez, Dolomiten
 ";
 $txt["en"]["vraagonsadvies"]["bestemming_uitleg"]="Fill in one or more areas and/or places. For example: Val Thorens, Zillertal, Near Alpe d'Huez.";
