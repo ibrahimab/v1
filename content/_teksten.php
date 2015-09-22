@@ -3490,17 +3490,11 @@ $txt["de"]["weekendski"]["alinea1"]="Möchten sie mal ganz kurz raus aus dem Allt
 ";
 $txt["en"]["weekendski"]["alinea1"]="Want to escape your regular environment, or are you a winter sports fanatic that can't get enough? Consider weekendski, enjoying a few days of winter holiday without costing too much of your free time!";
 
-$txt["nl"]["weekendski"]["alinea2"]="[[v_website]] biedt diverse mogelijkheden voor korte wintersportvakanties.  In principe is zaterdag de aankomstdag. Ook andere aankomstdagen zijn mogelijk. Neem hiervoor contact met ons op. De meeste mogelijkheden voor weekendski vind je in de maand januari en vanaf half maart.";
-$txt["de"]["weekendski"]["alinea2"]="[[v_website]] bietet unterschiedliche Möglichkeiten für kurze Wintersporturlaube. Im Prinzip ist Samstag
-der Anreisetag, aber andere Anreisetage sind möglich. Nehmen Sie in diesem Fall bitte Kontakt zu uns auf. Die meisten Möglichkeiten für Weekendski finden Sie im Monat Januar und ab Mitte Mai.
-";
-$txt["en"]["weekendski"]["alinea2"]="[[v_website]] offers several possibilities for short winter holidays. The arrival will usually be on Saturday, but other days are possibilities too. You can contact us for details. You will find that you have the most possibilities for weekendski in the month January and from mid-March.";
-
-$txt["nl"]["weekendski"]["alinea3"]="Als suggestie vind je hieronder enkele accommodaties waarbij een kort verblijf geboekt kan worden. Voor meer informatie en mogelijkheden staan we je graag telefonisch te woord of je kunt je vragen en wensen per email aan ons doorgeven.";
-$txt["de"]["weekendski"]["alinea3"]="Als Vorschlag finden Sie unten einige Unterkünfte die Sie für einen Kurzurlaub buchen können. Für
+$txt["nl"]["weekendski"]["alinea2"]="Als suggestie vind je hieronder enkele accommodaties waarbij een kort verblijf geboekt kan worden. Voor meer informatie en mogelijkheden staan we je graag telefonisch te woord of je kunt je vragen en wensen per email aan ons doorgeven.";
+$txt["de"]["weekendski"]["alinea2"]="Als Vorschlag finden Sie unten einige Unterkünfte die Sie für einen Kurzurlaub buchen können. Für
 mehr Informationen und Möglichkeiten stehen wir Ihnen gerne telefonisch zur Verfügung, oder schicken Sie uns eine Mail mit Ihren Fragen und Wünschen.
 ";
-$txt["en"]["weekendski"]["alinea3"]="As a suggestion, you can find here below several accommodations that can be booked for a short stay. For more information and possibilities you can always give us a call or send your request by email.";
+$txt["en"]["weekendski"]["alinea2"]="As a suggestion, you can find here below several accommodations that can be booked for a short stay. For more information and possibilities you can always give us a call or send your request by email.";
 
 
 #
