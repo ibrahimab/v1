@@ -995,11 +995,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							if($kolom["boeking_leverancier"]) {
 								$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("leverancier"))."</td>";
 							}
-							if($kolom["boeking_plaats"]) {
-								$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("plaats"))."</td>";
-							}
 							if($kolom["boeking_land"]) {
 								$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("isocode"))."</td>";
+							}
+							if($kolom["boeking_plaats"]) {
+								$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("plaats"))."</td>";
 							}
 							if($kolom["boeking_accommodatie"]) {
 								$accnaam=$db->f("abestelnaam")." ".($db->f("tbestelnaam") ? $db->f("tbestelnaam")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)";
@@ -1242,11 +1242,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["boeking_leverancier"]) {
 				$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("leverancier"))."</td>";
 			}
-			if($kolom["boeking_plaats"]) {
-				$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("plaats"))."</td>";
-			}
 			if($kolom["boeking_land"]) {
 				$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("isocode"))."</td>";
+			}
+			if($kolom["boeking_plaats"]) {
+				$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("plaats"))."</td>";
 			}
 			if($kolom["boeking_accommodatie"]) {
 				$accnaam=$db->f("abestelnaam")." ".($db->f("tbestelnaam") ? $db->f("tbestelnaam")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)";
@@ -1406,11 +1406,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		if($kolom["boeking_leverancier"]) {
 			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_plaats"])."\">B: Leverancier</th>";
 		}
-		if($kolom["boeking_plaats"]) {
-			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_plaats"])."\">B: Plaats</th>";
-		}
 		if($kolom["boeking_land"]) {
 			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_land"])."\">B: Land</th>";
+		}
+		if($kolom["boeking_plaats"]) {
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_plaats"])."\">B: Plaats</th>";
 		}
 		if($kolom["boeking_accommodatie"]) {
 			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_accommodatie"])."\">B: Acc</th>";
@@ -1542,10 +1542,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["boeking_leverancier"]) {
 				echo "<td>&nbsp;</td>";
 			}
-			if($kolom["boeking_plaats"]) {
+			if($kolom["boeking_land"]) {
 				echo "<td>&nbsp;</td>";
 			}
-			if($kolom["boeking_land"]) {
+			if($kolom["boeking_plaats"]) {
 				echo "<td>&nbsp;</td>";
 			}
 			if($kolom["boeking_accommodatie"]) {
@@ -1665,10 +1665,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				if($kolom["boeking_leverancier"]) {
 					echo "<td>&nbsp;</td>";
 				}
-				if($kolom["boeking_plaats"]) {
+				if($kolom["boeking_land"]) {
 					echo "<td>&nbsp;</td>";
 				}
-				if($kolom["boeking_land"]) {
+				if($kolom["boeking_plaats"]) {
 					echo "<td>&nbsp;</td>";
 				}
 				if($kolom["boeking_accommodatie"]) {
