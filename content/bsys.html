@@ -448,24 +448,10 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						echo "<tr><td width=\"165\" valign=\"top\">Afgerond tot en met</td><td>Stap ".$gegevens["stap1"]["stap_voltooid"]."</td></tr>";
 					} else {
 						echo "<tr><td width=\"165\" valign=\"top\">Geboekt op</td><td>".DATUM("DAG D MAAND JJJJ, UU:ZZ",$gegevens["stap1"]["bevestigdatum"])."u.</td></tr>";
-						echo "<tr><td width=\"165\" valign=\"top\">Via website</td><td>".wt_he($vars["websites"][$gegevens["stap1"]["website"]])."</td></tr>";
 					}
 				}
 				echo "<tr><td width=\"165\" valign=\"top\">".html("accommodatie","bsys")."</td><td><a href=\"".$gegevens["stap1"]["website_specifiek"]["basehref"].$accinfo["url_zonderpad"]."\" target=\"_blank\">".wt_he($accinfo["begincode"].$accinfo["type_id"]." - ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</a>".($mustlogin ? " - <a href=\"cms_types.php?wzt=".$accinfo["wzt"]."&show=2&2k0=".$accinfo["type_id"]."\">CMS</a>" : "")."</td></tr>";
 				echo "<tr><td width=\"165\" valign=\"top\">".html("plaats","bsys")."</td><td><a href=\"".$gegevens["stap1"]["website_specifiek"]["basehref"].$accinfo["plaats_url_zonderpad"]."\" target=\"_blank\">".wt_he($accinfo["plaats"].", ".$accinfo["land"])."</a>".($mustlogin ? " - <a href=\"cms_plaatsen.php?wzt=".$accinfo["wzt"]."&show=4&4k0=".$accinfo["plaats_id"]."\">CMS</a>" : "")."</td></tr>";
-				if($mustlogin) {
-					echo "<tr><td width=\"165\" valign=\"top\">Tarievenoptie</td><td>".wt_he(($gegevens["stap1"]["wederverkoop"] ? "Wederverkoop" : $vars["toonper"][$accinfo["toonper"]]))."</td></tr>";
-					$db2->query("SELECT leverancier_id, naam FROM leverancier WHERE leverancier_id='".addslashes($gegevens["stap1"]["leverancierid"])."';");
-					if($db2->next_record()) {
-						echo "<tr><td width=\"165\" valign=\"top\">Leverancier</td><td><a href=\"".$path."cms_leveranciers.php?show=8&bc=".$_GET["bc"]."&8k0=".$db2->f("leverancier_id")."\">".wt_he($db2->f("naam"))."</a> (".$db2->f("leverancier_id").")</td></tr>";
-					}
-					if($gegevens["stap1"]["accinfo"]["skipasid"]) {
-						$db2->query("SELECT skipas_id, naam FROM skipas WHERE skipas_id='".addslashes($gegevens["stap1"]["accinfo"]["skipasid"])."';");
-						if($db2->next_record()) {
-							echo "<tr><td width=\"165\" valign=\"top\">Skipasleverancier</td><td><a href=\"".$path."cms_skipassen.php?show=10&bc=".$_GET["bc"]."&10k0=".$db2->f("skipas_id")."\">".wt_he($db2->f("naam"))."</a></td></tr>";
-						}
-					}
-				}
 				echo "<tr><td valign=\"top\">".html("aantalpersonen","bsys")."</td><td>".wt_he($gegevens["stap1"]["aantalpersonen"])."</td></tr>";
 #				echo "<tr><td valign=\"top\">Verblijfsperiode</td><td>".wt_he($accinfo["aankomstdatum"][$gegevens["stap1"]["aankomstdatum"]]." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum"]))."</td></tr>";
 				echo "<tr><td valign=\"top\">".html("verblijfsperiode","bsys")."</td><td>".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"])." (".$gegevens["stap1"]["aantalnachten"]." ".html("nachten","bsys").")</td></tr>";
@@ -490,7 +476,25 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						echo "</td></tr>";
 					}
 				}
-				echo "</table>";
+				echo "</table><br />";
+                if ($mustlogin) {
+                    
+                    $db2->query("SELECT leverancier_id, naam, contactpersoon_reserveringen AS contactpersoon, email_reserveringen AS email, telefoonnummer_reserveringen AS telefoonnummer 
+                                 FROM leverancier 
+                                 WHERE leverancier_id='".addslashes($gegevens["stap1"]["leverancierid"])."';");
+                                 
+                    if ($db2->next_record()) {
+                        
+                        $table  = '<table cellspacing="0" class="toonacctabel">';
+                        $table .=     '<tr><th colspan="2">' . html('leveranciersgegevens', 'bsys') . '</th></tr>';
+                        $table .=     '<tr><td>' . html('leverancier', 'bsys') . '</td><td>' . $db2->f('naam') . '</td></tr>';
+                        $table .=     '<tr><td>' . html('contactpersoonleverancier', 'bsys') . '</td><td>' . $db2->f('contactpersoon') . ' (<a href="mailto:' . $db2->f('email') . '">' . $db2->f('email') . '</a>)</td></tr>';
+                        $table .=     '<tr><td>' . html('telefoonnummerleverancier', 'bsys') . '</td><td>' . $db2->f('telefoonnummer') . '</td></tr>';
+                        $table .= '</table>';
+                        
+                        echo $table;
+                    }
+                }
 			}
 
 			if($_GET["menu"]==1) {
