@@ -6175,7 +6175,7 @@ $txt["de"]["bsys"]["akkoordfactuur"]="Ja, ich bestätige die [[h_1]]empfangenen R
 $txt["en"]["bsys"]["akkoordfactuur"]="Yes, I agree with the [[h_1]]received invoice[[h_2]] of reservation number [[v_boekingsnummer]]";
 
 $txt["nl"]["bsys"]["akkoordvoorwaarden"]="Ja, ik ga akkoord met de [[h_1]]algemene voorwaarden van [[v_websitenaam]][[h_2]] [[h_3]](altijd van toepassing)[[h_4]] +[[h_5]] als ik via [[v_websitenaam]] een verzekering afsluit ga ik ook akkoord met onderstaande voorwaarden";
-$txt["de"]["bsys"]["akkoordvoorwaarden"]="Ja, ich stimme den [[h_1]]Allgemeinen Geschäftsbedingungen von [[v_websitenaam]][[h_2]] zu [[h_3]](altijd van toepassing)[[h_4]] +[[h_5]] falls ich über [[v_websitenaam]] eine Versicherung abschließe stimme ich auch den unten stehenden Vertragsbedingungen zu";
+$txt["de"]["bsys"]["akkoordvoorwaarden"]="Ja, ich stimme den [[h_1]]Allgemeinen Geschäftsbedingungen von [[v_websitenaam]][[h_2]] zu [[h_3]](immer anwendbar)[[h_4]] +[[h_5]] falls ich über [[v_websitenaam]] eine Versicherung abschließe stimme ich auch den unten stehenden Vertragsbedingungen zu";
 $txt["en"]["bsys"]["akkoordvoorwaarden"]="Yes, I have read and agree with the [[h_1]]terms and conditions of [[v_websitenaam]][[h_2]] [[h_3]](always apply)[[h_4]] +[[h_5]] if I take out insurance through Chalet.eu I also agree with the following terms and conditions";
 
 $txt["nl"]["bsys"]["voorwaarden_annuleringsverzekering"]="Voorwaarden Europeesche Verzekeringen Annuleringsverzekering";
