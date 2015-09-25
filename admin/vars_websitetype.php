@@ -156,30 +156,18 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	// $vars["trustpilot_code"]="5aa723efa5@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
-	// $vars["docdata_payments"] = array(
-	// 	"docdata_vi" => array(
-	// 		"title"	=> 	"Visa",
-	// 		"icon"	=>	"pic/payment_icons/visa.png",
-	// 		"by"	=> 	"vi"
-	// 	),
-	// 	"docdata_mc" => array(
-	// 		"title"	=> 	"MasterCard",
-	// 		"icon"	=>	"pic/payment_icons/mastercard.png",
-	// 		"by"	=> 	"mc"
-	// 	),
-	// 	"docdata_idl" => array(
-	// 		"title"	=> 	"iDEAL",
-	// 		"icon"	=>	"pic/payment_icons/ideal.png",
-	// 		"by"	=> 	"idl",
-	// 		"country" => array("NL")
-	// 	),
-	// 	"docdata_mrc" => array(
-	// 		"title" =>	"Mister Cash",
-	// 		"icon"	=>	"pic/payment_icons/mrcash.png",
-	// 		"by"	=>	"mrc",
-	// 		"country" => array("BE")
-	// 	)
-	// );
+	$vars["docdata_payments"] = array(
+		"docdata_vi" => array(
+			"title"	=> 	"Visa",
+			"icon"	=>	"pic/payment_icons/visa.png",
+			"by"	=> 	"vi"
+		),
+		"docdata_mc" => array(
+			"title"	=> 	"MasterCard",
+			"icon"	=>	"pic/payment_icons/mastercard.png",
+			"by"	=> 	"mc"
+		),
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.chalettour.nl" or $_SERVER["HTTP_HOST"]=="test.chalettour.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="T")) {
 	# Chalettour Winter
 	$vars["websitetype"]=4;

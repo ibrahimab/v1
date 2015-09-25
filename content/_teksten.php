@@ -6171,7 +6171,7 @@ $txt["de"]["bsys"]["boekingisalgoedgekeurd"]="Die Rechnung der Reservierungsnumm
 $txt["en"]["bsys"]["boekingisalgoedgekeurd"]="The invoice of reservation number [[v_boekingsnummer]] is already approved.";
 
 $txt["nl"]["bsys"]["akkoordfactuur"]="Ja, ik ga akkoord met de [[h_1]]ontvangen factuur[[h_2]] van reserveringsnummer [[v_boekingsnummer]]";
-$txt["de"]["bsys"]["akkoordfactuur"]="Ja, ich stimme der  [[h_1]empfangenen Rechnung[[h_2]] der Reservierungsnummer [[v_boekingsnummer]] zu";
+$txt["de"]["bsys"]["akkoordfactuur"]="Ja, ich stimme der  [[h_1]]empfangenen Rechnung[[h_2]] der Reservierungsnummer [[v_boekingsnummer]] zu";
 $txt["en"]["bsys"]["akkoordfactuur"]="Yes, I agree with the [[h_1]]received invoice[[h_2]] of reservation number [[v_boekingsnummer]]";
 
 $txt["nl"]["bsys"]["akkoordvoorwaarden"]="Ja, ik ga akkoord met de [[h_1]]algemene voorwaarden van [[v_websitenaam]][[h_2]] [[h_3]](altijd van toepassing)[[h_4]] +[[h_5]] als ik via [[v_websitenaam]] een verzekering afsluit ga ik ook akkoord met onderstaande voorwaarden";
