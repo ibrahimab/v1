@@ -5970,6 +5970,10 @@ $txt["nl"]["bsys"]["telefoonnummerleverancier"]="Telefoonnummer";
 $txt["de"]["bsys"]["telefoonnummerleverancier"]="";
 $txt["en"]["bsys"]["telefoonnummerleverancier"]="";
 
+$txt["nl"]["bsys"]["emailleverancier"]="E-mail";
+$txt["de"]["bsys"]["emailleverancier"]="";
+$txt["en"]["bsys"]["emailleverancier"]="";
+
 $txt["nl"]["bsys"]["status"]="Status";
 $txt["de"]["bsys"]["status"]="Status";
 $txt["en"]["bsys"]["status"]="Status";

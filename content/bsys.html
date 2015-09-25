@@ -487,9 +487,10 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
                         
                         $table  = '<table cellspacing="0" class="toonacctabel">';
                         $table .=     '<tr><th colspan="2">' . html('leveranciersgegevens', 'bsys') . '</th></tr>';
-                        $table .=     '<tr><td>' . html('leverancier', 'bsys') . '</td><td>' . $db2->f('naam') . '</td></tr>';
-                        $table .=     '<tr><td>' . html('contactpersoonleverancier', 'bsys') . '</td><td>' . $db2->f('contactpersoon') . ' (<a href="mailto:' . $db2->f('email') . '">' . $db2->f('email') . '</a>)</td></tr>';
-                        $table .=     '<tr><td>' . html('telefoonnummerleverancier', 'bsys') . '</td><td>' . $db2->f('telefoonnummer') . '</td></tr>';
+                        $table .=     '<tr><td width="100">' . html('leverancier', 'bsys') . '</td><td>' . $db2->f('naam') . '</td></tr>';
+                        $table .=     '<tr><td>' . html('contactpersoonleverancier', 'bsys') . '</td><td>' . $db2->f('contactpersoon') . '</td></tr>';
+						$table .=     '<tr><td>' . html('telefoonnummerleverancier', 'bsys') . '</td><td>' . $db2->f('telefoonnummer') . '</td></tr>';
+                        $table .=     '<tr><td>' . html('emailleverancier', 'bsys') . '</td><td>' . $db2->f('email') . '</td></tr>';
                         $table .= '</table>';
                         
                         echo $table;
