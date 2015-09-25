@@ -5955,24 +5955,24 @@ $txt["de"]["bsys"]["algemenegegevens"]="Allgemeine Daten";
 $txt["en"]["bsys"]["algemenegegevens"]="General details";
 
 $txt["nl"]["bsys"]["leveranciersgegevens"]="Leveranciersgegevens";
-$txt["de"]["bsys"]["leveranciersgegevens"]="";
-$txt["en"]["bsys"]["leveranciersgegevens"]="";
+$txt["de"]["bsys"]["leveranciersgegevens"]="-";
+$txt["en"]["bsys"]["leveranciersgegevens"]="-";
 
 $txt["nl"]["bsys"]["leverancier"]="Leverancier";
-$txt["de"]["bsys"]["leverancier"]="";
-$txt["en"]["bsys"]["leverancier"]="";
+$txt["de"]["bsys"]["leverancier"]="-";
+$txt["en"]["bsys"]["leverancier"]="-";
 
 $txt["nl"]["bsys"]["contactpersoonleverancier"]="Contactpersoon";
-$txt["de"]["bsys"]["contactpersoonleverancier"]="";
-$txt["en"]["bsys"]["contactpersoonleverancier"]="";
+$txt["de"]["bsys"]["contactpersoonleverancier"]="-";
+$txt["en"]["bsys"]["contactpersoonleverancier"]="-";
 
 $txt["nl"]["bsys"]["telefoonnummerleverancier"]="Telefoonnummer";
-$txt["de"]["bsys"]["telefoonnummerleverancier"]="";
-$txt["en"]["bsys"]["telefoonnummerleverancier"]="";
+$txt["de"]["bsys"]["telefoonnummerleverancier"]="-";
+$txt["en"]["bsys"]["telefoonnummerleverancier"]="-";
 
 $txt["nl"]["bsys"]["emailleverancier"]="E-mail";
-$txt["de"]["bsys"]["emailleverancier"]="";
-$txt["en"]["bsys"]["emailleverancier"]="";
+$txt["de"]["bsys"]["emailleverancier"]="-";
+$txt["en"]["bsys"]["emailleverancier"]="-";
 
 $txt["nl"]["bsys"]["status"]="Status";
 $txt["de"]["bsys"]["status"]="Status";
