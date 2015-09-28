@@ -99,6 +99,7 @@ class Config {
 			array('value' => 'capture', 'label' => __('Capture')),
 		);
 
+		// refers to docdata payments backoffice (Menu: Settings > Edit look and feel)
         $css_arr_desktop = array(
 				"C" => "1",  // Chalet.nl
 				"E" => "2",  // Chalet.eu
@@ -109,18 +110,18 @@ class Config {
 				"X" => "7",  // venturasol.nl
 				"V" => "8",  // chaletsinvallandry.nl
 				"Q" => "9",  // chaletsinvallandry.com
-				"D" => "10", // chaletonline.de
+				"D" => "15", // chaletonline.de
 
 		);
 
           $css_arr_mobile = array();
           if (IS_MOBILE)
             $css_arr_mobile = array(
-				"C" => "11", // Chalet.nl
-				"E" => "12", // Chalet.eu
-				"B" => "13", // Chalet.be
-		        "I" => "14", // Italissima.nl
-		        "K" => "15", // Italissima.be
+				"C" => "10", // Chalet.nl
+				"E" => "11", // Chalet.eu
+				"B" => "12", // Chalet.be
+		        "I" => "13", // Italissima.nl
+		        "K" => "14", // Italissima.be
 				"D" => "16", // Chaletonline.de
             );
 
