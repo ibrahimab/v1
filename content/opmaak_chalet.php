@@ -314,10 +314,6 @@ if (in_array($vars['website'], $vars['anvr']) && in_array($vars['website'], $var
 	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/anvr_hoofdmenu.png\" height=\"27\" alt=\"ANVR\" /></a>";
 }
 
-if ($vars['website'] === 'D') {
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#a7.9\" class=\"reisegarantlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/reise_garant_hoofdmenu.png\" height=\"27\" alt=\"Reisegarant\" /></a>";
-}
-
 if($vars["docdata_payments"]) {
 	if(count($vars["docdata_payments"]) > 0) {
 		foreach($vars["docdata_payments"] as $key => $value) {
@@ -327,6 +323,11 @@ if($vars["docdata_payments"]) {
 		}
 	}
 }
+
+if ($vars['website'] === 'D') {
+	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#a7.9\" class=\"reisegarantlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/reise_garant_hoofdmenu.png\" height=\"27\" alt=\"Reisegarant\" /></a>";
+}
+
 echo "</div><!-- END #kleinelogos -->\n";
 echo "</div><!--END #hoofdmenubalk-->\n";
 echo "</div>\n";
