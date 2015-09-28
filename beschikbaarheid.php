@@ -364,7 +364,7 @@ if($form->okay) {
 			if($accinfo["flexibel"]) {
 
 				$aankomstdatumweergave = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"], 'en');
-				$verblijfsduurweergave = (substr($form->input['verblijfsduur'], -1) === 'n' ? ($form->input['verblijfsduur'] . ' nights') : ($form->input['verblijfsduur'] . ' weeks'));
+				$verblijfsduurweergave = (substr($form->input['verblijfsduur'], -1) === 'n' ? (substr($form->input['verblijfsduur'], 0, -1) . ' nights') : ($form->input['verblijfsduur'] . ' weeks'));
 				$aankomstdatumhtml	   = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"])."</td></tr>";
 
 			} else {
@@ -409,12 +409,7 @@ if($form->okay) {
 			$leverancieremailbody .= 'Accommodation: ' . $accinfo['plaats'] . ', ' . ucfirst($accinfo['soortaccommodatie']). ' ' . wt_he($accinfo['naam']) . ' - ' . $accinfo['begincode'] . $accinfo['type_id'] . $break;
 			$leverancieremailbody .= 'Name guest: ' . $naam . $break;
 			$leverancieremailbody .= 'Arrival date: ' . $aankomstdatumweergave . $break;
-
-			if (isset($$verblijfsduurweergave)) {
-				$leverancieremailbody .= 'Duration: ' . $verblijfsduurweergave . $break;
-			}
-
-			$leverancieremailbody .= $break;
+			$leverancieremailbody .= 'Duration: ' . $verblijfsduurweergave . $break . $break;
 			$leverancieremailbody .= 'Can you please let me know if we can have this option and until when we can have this?' . $break . $break;
 			$leverancieremailbody .= 'Thanks in advance for your early reply.';
 
