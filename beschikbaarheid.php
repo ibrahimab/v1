@@ -357,25 +357,29 @@ if($form->okay) {
 		$html.="<tr><td class=\"wtform_cell_left\">Formulier</td><td class=\"wtform_cell_right\">".($_GET["o"] ? "Optie-aanvraag" : "Beschikbaarheid controleren")."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Ingevuld op</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ")." ".date("H:i")."u.</td></tr>";
 
+		$verblijfsduurweergave = $form->input['verblijfsduur'] . ' weeks';
+
 		if($accinfo["wzt"]==2) {
 
 			if($accinfo["flexibel"]) {
 
-				$aankomstdatumweergave = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"]);
-				$aankomstdatumhtml	   = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".$aankomstdatumweergave."</td></tr>";
+				$aankomstdatumweergave = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"], 'en');
+				$verblijfsduurweergave = (substr($form->input['verblijfsduur'], -1) === 'n' ? ($form->input['verblijfsduur'] . ' nights') : ($form->input['verblijfsduur'] . ' weeks'));
+				$aankomstdatumhtml	   = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"])."</td></tr>";
 
 			} else {
 
-				$aankomstdatumweergave = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"]);
-				$aankomstdatumhtml	   = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".$aankomstdatumweergave."</td></tr>";
+				$aankomstdatumweergave = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"], 'en');
+				$aankomstdatumhtml	   = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"]) . "</td></tr>";
 			}
 
 			$aankomstdatumhtml .= "<tr><td class=\"wtform_cell_left\">Verblijfsduur</td><td class=\"wtform_cell_right\">".wt_he($vars["verblijfsduur"][$form->input["verblijfsduur"]])."</td></tr>";
 
+
 		} else {
 
-			$aankomstdatumweergave = wt_he($accinfo["aankomstdatum"][$form->input["aankomstdatum"]]);
-			$aankomstdatumhtml	   = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".$aankomstdatumweergave."</td></tr>";
+			$aankomstdatumweergave = datum('DAG D MAAND JJJJ', $form->input['aankomstdatum'], 'en');
+			$aankomstdatumhtml	   = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . wt_he($accinfo["aankomstdatum"][$form->input["aankomstdatum"]]) . "</td></tr>";
 		}
 
 		$db3->query('SELECT naam, contactpersoon_reserveringen AS contactpersoon, email_reserveringen AS email, telefoonnummer_reserveringen AS telefoonnummer
@@ -393,15 +397,30 @@ if($form->okay) {
 			if($db4->f("voorraad_request")>0) $voorraadweergave[] = $db4->f("voorraad_request") . 'x request';
 		}
 
+		$naam = wt_naam($form->input['voornaam'], $form->input['tussenvoegsel'], $form->input['achternaam']);
+
 		if (($leverancierdata = $db3->next_record())) {
 
-			$break = '%0D%0A';
-			$leverancieremail  = 'Accommodatie: ' . ucfirst($accinfo['soortaccommodatie']). ' ' . wt_he($accinfo['naam']) . $break;
-			$leverancieremail .= 'Plaats: ' . wt_he($accinfo['plaats'] . ', ' . $accinfo['land']) . $break;
-			$leverancieremail .= 'Aantal personen: ' . wt_he($form->input['aantalpersonen']) . $break;
-			$leverancieremail .= 'Aankomstdatum: ' . $aankomstdatumweergave . $break;
+			$leverancieremailsubject = 'Option request ' . $aankomstdatumweergave . ' ' . ucfirst($accinfo['soortaccommodatie']) . ' ' . wt_he($accinfo['naam']) . ' - ' . $accinfo['begincode'] . $accinfo['type_id'];
+			$break 			   	     = '%0D%0A';
 
-			$html.='<tr><td class="wtform_cell_left" colspan="2">Leverancier mailen: <a href="mailto:' . $db3->f('email') . '?body=' . $leverancieremail . '">optie aanvragen</a></td></tr>';
+			$leverancieremailbody  = 'Dear ' . $db3->f('contactpersoon') . ',' . $break . $break;
+			$leverancieremailbody .= 'We would like to have an option on the  apartment noted below:' . $break . $break;
+			$leverancieremailbody .= 'Accommodation: ' . $accinfo['plaats'] . ', ' . ucfirst($accinfo['soortaccommodatie']). ' ' . wt_he($accinfo['naam']) . ' - ' . $accinfo['begincode'] . $accinfo['type_id'] . $break;
+			$leverancieremailbody .= 'Name guest: ' . $naam . $break;
+			$leverancieremailbody .= 'Arrival date: ' . $aankomstdatumweergave . $break;
+
+			if (isset($$verblijfsduurweergave)) {
+				$leverancieremailbody .= 'Duration: ' . $verblijfsduurweergave . $break;
+			}
+
+			$leverancieremailbody .= $break;
+			$leverancieremailbody .= 'Can you please let me know if we can have this option and until when we can have this?' . $break . $break;
+			$leverancieremailbody .= 'Thanks in advance for your early reply.';
+
+			$html .= '</table>';
+			$html .= '<p>Leverancier mailen: <a href="mailto:' . $db3->f('email') . '?body=' . $leverancieremailbody . '&subject=' . $leverancieremailsubject . '">optie aanvragen</a></p>';
+			$html .= '<table class="wtform_table" cellspacing="0">';
 		}
 
 		if($vars["rebook"] and $vars["oud_boekingsnummer"]) {
@@ -421,7 +440,7 @@ if($form->okay) {
 		$html .= $aankomstdatumhtml;
 
 		if (count($voorraadweergave) > 0) {
-			$html.= '<tr><td class="wtform_cell_left">Voorraad: </td><td class="wtform_cell_right">' . implode(',', $voorraadweergave) . '</td></tr>';
+			$html.= '<tr><td class="wtform_cell_left">Voorraad: </td><td class="wtform_cell_right">' . implode(', ', $voorraadweergave) . '</td></tr>';
 		}
 
 		if ($leverancierdata) {
@@ -431,9 +450,10 @@ if($form->okay) {
 			$html.= '<tr><td class="wtform_cell_left">E-mailadres</td><td class="wtform_cell_right">' . $db3->f('email') . '</td></tr>';
 		}
 
-		$naam  = wt_naam($form->input['voornaam'], $form->input['tussenvoegsel'], $form->input['achternaam']);
+		$html .= '</table>';
+		$html .= '<p><a href="mailto:' . $form->input['email'] . ereg_replace(' ', '%20', '?subject=' . $subject . '&body=' . $body) . '">Klant mailen</a></p>';
+		$html .= '<table class="wtform_table" cellspacing="0">';
 
-		$html .= '<tr><td class="wtform_cell_left" colspan="2"><a href="mailto:' . $form->input['email'] . ereg_replace(' ', '%20', '?subject=' . $subject . '&body=' . $body) . '">Klant mailen</a></td></tr>';
 		$html .= '<tr><td class="wtform_cell_left">Naam</td><td class="wtform_cell_right">' . $naam . '</td></tr>';
 		if($form->input["adres"]) $html.="<tr><td class=\"wtform_cell_left\">Adres</td><td class=\"wtform_cell_right\">".wt_he($form->input["adres"])."</td></tr>";
 		if($form->input["postcode"]) $html.="<tr><td class=\"wtform_cell_left\">Postcode</td><td class=\"wtform_cell_right\">".wt_he($form->input["postcode"])."</td></tr>";
