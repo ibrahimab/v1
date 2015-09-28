@@ -357,7 +357,9 @@ if($form->okay) {
 		$html.="<tr><td class=\"wtform_cell_left\">Formulier</td><td class=\"wtform_cell_right\">".($_GET["o"] ? "Optie-aanvraag" : "Beschikbaarheid controleren")."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Ingevuld op</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ")." ".date("H:i")."u.</td></tr>";
 
-		$verblijfsduurweergave = $form->input['verblijfsduur'] . ' weeks';
+		if ($form->input['verblijfsduur']) {
+			$verblijfsduurweergave = $form->input['verblijfsduur'] . ' weeks';
+		}
 
 		if($accinfo["wzt"]==2) {
 
@@ -401,20 +403,25 @@ if($form->okay) {
 
 		if (($leverancierdata = $db3->next_record())) {
 
-			$leverancieremailsubject = 'Option request ' . $aankomstdatumweergave . ' ' . ucfirst($accinfo['soortaccommodatie']) . ' ' . wt_he($accinfo['naam']) . ' - ' . $accinfo['begincode'] . $accinfo['type_id'];
+			$leverancieremailsubject = 'Option request ' . $aankomstdatumweergave . ' ' . ucfirst($accinfo['soortaccommodatie']) . ' ' . wt_he($accinfo['naam']) . ($accinfo['code'] ? (' - ' . $accinfo['code']) : '');
 			$break 			   	     = '%0D%0A';
 
 			$leverancieremailbody  = 'Dear ' . $db3->f('contactpersoon') . ',' . $break . $break;
 			$leverancieremailbody .= 'We would like to have an option on the  apartment noted below:' . $break . $break;
-			$leverancieremailbody .= 'Accommodation: ' . $accinfo['plaats'] . ', ' . ucfirst($accinfo['soortaccommodatie']). ' ' . wt_he($accinfo['naam']) . ' - ' . $accinfo['begincode'] . $accinfo['type_id'] . $break;
-			$leverancieremailbody .= 'Name guest: ' . $naam . $break;
-			$leverancieremailbody .= 'Arrival date: ' . $aankomstdatumweergave . $break;
-			$leverancieremailbody .= 'Duration: ' . $verblijfsduurweergave . $break . $break;
+			$leverancieremailbody .= 'Accommodation ' . $accinfo['plaats'] . ', ' . ' ' . wt_he($accinfo['naam']) . ' - ' . $accinfo['begincode'] . $accinfo['type_id'] . $break;
+			$leverancieremailbody .= 'Name guest ' . $naam . $break;
+			$leverancieremailbody .= 'Arrival date ' . $aankomstdatumweergave . $break;
+
+			if (isset($verblijfsduurweergave)) {
+				$leverancieremailbody .= 'Duration: ' . $verblijfsduurweergave . $break;
+			}
+
+			$leverancieremailbody .= $break;
 			$leverancieremailbody .= 'Can you please let me know if we can have this option and until when we can have this?' . $break . $break;
-			$leverancieremailbody .= 'Thanks in advance for your early reply.';
+			$leverancieremailbody .= 'Thanks in advance for your early reply.' . $break . $break;
 
 			$html .= '</table>';
-			$html .= '<p>Leverancier mailen: <a href="mailto:' . $db3->f('email') . '?body=' . $leverancieremailbody . '&subject=' . $leverancieremailsubject . '">optie aanvragen</a></p>';
+			$html .= '<br />Leverancier mailen: <a href="mailto:' . $db3->f('email') . '?body=' . $leverancieremailbody . '&subject=' . $leverancieremailsubject . '">optie aanvragen</a>';
 			$html .= '<table class="wtform_table" cellspacing="0">';
 		}
 
@@ -446,7 +453,7 @@ if($form->okay) {
 		}
 
 		$html .= '</table>';
-		$html .= '<p><a href="mailto:' . $form->input['email'] . ereg_replace(' ', '%20', '?subject=' . $subject . '&body=' . $body) . '">Klant mailen</a></p>';
+		$html .= '<br /><a href="mailto:' . $form->input['email'] . ereg_replace(' ', '%20', '?subject=' . $subject . '&body=' . $body) . '">Klant mailen</a>';
 		$html .= '<table class="wtform_table" cellspacing="0">';
 
 		$html .= '<tr><td class="wtform_cell_left">Naam</td><td class="wtform_cell_right">' . $naam . '</td></tr>';
