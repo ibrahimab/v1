@@ -1176,7 +1176,7 @@ $txt["de"]["index"]["snelzoeken"]="Schnellsuche";
 $txt["en"]["index"]["snelzoeken"]="Quick Search";
 
 $txt["nl"]["index"]["zoekoptekst"]="zoek op tekst...";
-$txt["de"]["index"]["zoekoptekst"]="suchen nach Text...";
+$txt["de"]["index"]["zoekoptekst"]="Suchen nach Text...";
 $txt["en"]["index"]["zoekoptekst"]="text search...";
 
 $txt["nl"]["index"]["trefwoord"]="trefwoord";
@@ -1407,7 +1407,7 @@ $txt["de"]["accommodaties"]["inleiding"]="Bitte geben Sie einen Suchbegriff in u
 $txt["en"]["accommodaties"]["inleiding"]="Please fill in the fields in the form below. Also look at our [[l1]]special offers[[/l1]].";
 
 $txt["nl"]["accommodaties"]["zoekenmbvtekst"]="Zoeken m.b.v. tekst";
-$txt["de"]["accommodaties"]["zoekenmbvtekst"]="suchen nach Text";
+$txt["de"]["accommodaties"]["zoekenmbvtekst"]="Suchen nach Text";
 $txt["en"]["accommodaties"]["zoekenmbvtekst"]="Search text";
 
 $txt["nl"]["accommodaties"]["opnaam"]="op naam, plaats, accommodatiecode of andere tekst";
@@ -3261,7 +3261,7 @@ $txt["de"]["toonaccommodatie"]["tab_ligging"]="Lage";
 $txt["en"]["toonaccommodatie"]["tab_ligging"]="location";
 
 $txt["nl"]["toonaccommodatie"]["tab_opties"]="extra opties";
-$txt["de"]["toonaccommodatie"]["tab_opties"]="extra Optionen";
+$txt["de"]["toonaccommodatie"]["tab_opties"]="Extra Optionen";
 $txt["en"]["toonaccommodatie"]["tab_opties"]="extra options";
 
 $txt["nl"]["toonaccommodatie"]["tab_tarieven"]="prijs & beschikbaarheid";

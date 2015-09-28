@@ -306,11 +306,11 @@ $txta["nl_t"]["submenutitle_werkwijze"]="werkwijze";
 $txta["en_t"]["submenutitle_werkwijze"]="how we work";
 
 $txta["nl"]["submenutitle_inloggen"]="mijn boeking";
-$txta["de"]["submenutitle_inloggen"]="meine Buchung";
+$txta["de"]["submenutitle_inloggen"]="Meine Buchung";
 $txta["en"]["submenutitle_inloggen"]="my booking";
 
 $txta["nl"]["submenutitle_reisagent"]="inloggen reisagent";
-$txta["de"]["submenutitle_reisagent"]="anmelden Reiseagentur";
+$txta["de"]["submenutitle_reisagent"]="Anmelden Reiseagentur";
 $txta["en"]["submenutitle_reisagent"]="log in travel agents";
 
 $txta["nl"]["submenutitle_reisagenten"]="reisagenten";
@@ -322,15 +322,15 @@ $txta["de"]["submenutitle_huiseigenaren"]="Hauseigentümer";
 $txta["en"]["submenutitle_huiseigenaren"]="chalet owners";
 
 $txta["nl"]["submenutitle_veelgesteldevragen"]="veelgestelde vragen";
-$txta["de"]["submenutitle_veelgesteldevragen"]="häufig gestellte Fragen";
+$txta["de"]["submenutitle_veelgesteldevragen"]="Häufig gestellte Fragen";
 $txta["en"]["submenutitle_veelgesteldevragen"]="faq";
 
 $txta["nl"]["submenutitle_wiezijnwij"]="wie zijn wij?";
-$txta["de"]["submenutitle_wiezijnwij"]="wir über uns";
+$txta["de"]["submenutitle_wiezijnwij"]="Wir über uns";
 $txta["en"]["submenutitle_wiezijnwij"]="about us";
 
 $txta["nl"]["submenutitle_werkenbij"]="werken bij ons";
-$txta["de"]["submenutitle_werkenbij"]="arbeiten bei uns";
+$txta["de"]["submenutitle_werkenbij"]="Arbeiten bei uns";
 $txta["en"]["submenutitle_werkenbij"]="-";
 
 $txta["nl"]["submenutitle_zomerhuisje"]="Zomerhuisje.nl";
@@ -348,7 +348,7 @@ $txta["de"]["menutitle_index"]="Home";
 $txta["en"]["menutitle_index"]="home";
 
 $txta["nl"]["menutitle_zoek-en-boek"]="zoek en boek";
-$txta["de"]["menutitle_zoek-en-boek"]="suchen und buchen";
+$txta["de"]["menutitle_zoek-en-boek"]="Suchen und buchen";
 $txta["en"]["menutitle_zoek-en-boek"]="search and book";
 
 $txta["nl"]["menutitle_skigebieden"]="skigebieden";

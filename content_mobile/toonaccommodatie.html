@@ -542,7 +542,7 @@ if($db->next_record()) {
 	# Tabs
 	echo "<div id=\"accordion\" class=\"ui-accordion ui-widget ui-helper-reset ui-accordion-icons\">";
 
-		echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".lcfirst(html("tab_overzicht","toonaccommodatie"))."</h3>";
+		echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".(html("tab_overzicht","toonaccommodatie"))."</h3>";
 
 	# Tab "overzicht"
 	echo "<div id=\"overzicht\" class=\"ui-accordion-content\" style=\"display:none;\">";
@@ -695,7 +695,7 @@ if($db->next_record()) {
 
 	echo "</div>";
 
-	echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".lcfirst(html("tab_indeling","toonaccommodatie"))."</h3>";
+	echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".(html("tab_indeling","toonaccommodatie"))."</h3>";
 
 	#
 	# Tab "indeling"
@@ -714,7 +714,7 @@ if($db->next_record()) {
 	}
 	echo "</div><!-- afsluiten_tabs_indeling -->";
 
-	echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".lcfirst(html("tab_ligging","toonaccommodatie"))."</h3>";
+	echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".(html("tab_ligging","toonaccommodatie"))."</h3>";
 
 	# Tab ligging
 	echo "<div id=\"ligging\" style=\"display:none;\">";
@@ -799,7 +799,7 @@ if($db->next_record()) {
 	echo "</div><!-- afsluiten_tabs_ligging -->";
 
 
-	echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".lcfirst(html("tab_opties","toonaccommodatie"))."</h3>";
+	echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".(html("tab_opties","toonaccommodatie"))."</h3>";
 
 	# Tab "Extra opties"
 	echo "<div id=\"extraopties\" style=\"display:none;\">";
@@ -1001,7 +1001,7 @@ if($db->next_record()) {
 		if($alletypestonen) {
 
 
-			echo "<h3 id=\"alletypes\" class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".lcfirst(html("alletypes","toonaccommodatie"))."</h3>";
+			echo "<h3 id=\"alletypes\" class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".(html("alletypes","toonaccommodatie"))."</h3>";
 
 			# Tab "overigetypes"
 			echo "<div id=\"overigetypes\" class=\"ui-accordion-content\" style=\"display:none;\">";
@@ -1130,7 +1130,7 @@ if($db->next_record()) {
 
 
 
-	echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".lcfirst(html("tab_tarieven","toonaccommodatie"))."</h3>";
+	echo "<h3 class=\"ui-accordion-header ui-helper-reset ui-state-default ui-corner-all\">".(html("tab_tarieven","toonaccommodatie"))."</h3>";
 
 	# Tab "prijsinformatie"
 	echo "<div id=\"prijsinformatie\" style=\"display:none;\">";
@@ -1652,7 +1652,7 @@ if($db->next_record()) {
 		}
 
 		echo "<div id=\"favadd\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "" : "display:none;")."\" onclick=\"return favorieten_opslaan_verwijderen('".$db->f("begincode")."','".$typeid."','insert');\">";
-		echo lcfirst(html("plaatsinfavorieten","toonaccommodatie",array("h_1"=>"<b>","h_2"=>"</b>")));
+		echo (html("plaatsinfavorieten","toonaccommodatie",array("h_1"=>"<b>","h_2"=>"</b>")));
 		echo "</div>";
 
 		echo "<div id=\"favremove\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "display:none;" : "")."\" onclick=\"return favorieten_opslaan_verwijderen('".$db->f("begincode")."','".$typeid."','delete');\">";
