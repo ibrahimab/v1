@@ -4850,10 +4850,10 @@ $txt["en"]["beschikbaarheid"]["medewerkerssitenaam"]="Staff [[v_websitenaam]]";
 # E-mail aan leverancier
 #
 $txt["nl"]["beschikbaarheid"]["leverancieremailonderwerp"]="Optie-aanvraag [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
-$txt["de"]["beschikbaarheid"]["leverancieremailonderwerp"]="Option request [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
-$txt["en"]["beschikbaarheid"]["leverancieremailonderwerp"]="Optionsanfrage [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
+$txt["de"]["beschikbaarheid"]["leverancieremailonderwerp"]="Optionsanfrage [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
+$txt["en"]["beschikbaarheid"]["leverancieremailonderwerp"]="Option request [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
 
-$txt["nl"]["beschikbaarheid"]["leverancieremailbody"]="Hallo [[v_contactpersoon]],
+$txt["nl"]["beschikbaarheid"]["leverancieremailbody"]="Beste [[v_contactpersoon]],
 
 Graag zouden wij een optie op de onderstaande accommodatie nemen:
 
@@ -4878,6 +4878,7 @@ Ankunftsdatum: [[v_aankomstdatum]]
 Aufenthaltsdauer: [[v_verblijfsduur]]
 
 Können Sie uns mitteilen ob wir diese Option erhalten können und bis wann diese Option gilt?
+
 Herzlichen Dank im Voraus für Ihre Antwort.
 
 ";
@@ -4895,6 +4896,10 @@ Can you please let me know if we can have this option and until when we can have
 Thank you for your quick response.
 
 ";
+
+$txt["nl"]["beschikbaarheid"]["aankomstdatumformaat"]="DD/MM/JJJJ";
+$txt["de"]["beschikbaarheid"]["aankomstdatumformaat"]="DD.MM.JJJJ";
+$txt["en"]["beschikbaarheid"]["aankomstdatumformaat"]="DD/MM/JJJJ";
 
 #
 # Bedankt-pagina na invullen beschikbaarheidaanvraag

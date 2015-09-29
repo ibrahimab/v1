@@ -371,15 +371,15 @@ if($form->okay) {
 
 			if($accinfo["flexibel"]) {
 
-				$aankomstdatumweergave     = DATUM("DD/MM/JJJJ",$form->input["aankomstdatum_flex"]["unixtime"], 'en');
-				$aankomstdatumweergavelang = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"], 'en');
+				$aankomstdatumweergave     = DATUM(txt('aankomstdatumformaat', 'beschikbaarheid', ['taal' => $leveranciertaal]), $form->input["aankomstdatum_flex"]["unixtime"], $leveranciertaal);
+				$aankomstdatumweergavelang = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"], $leveranciertaal);
 				$verblijfsduurweergave     = (substr($form->input['verblijfsduur'], -1) === 'n' ? (substr($form->input['verblijfsduur'], 0, -1) . ' ' . txt('nachten', 'vars', ['taal' => $leveranciertaal])) : ($form->input['verblijfsduur'] . ' ' . txt('weken', 'vars', ['taal' => $leveranciertaal])));
 				$aankomstdatumhtml         = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"])."</td></tr>";
 
 			} else {
 
-				$aankomstdatumweergave     = DATUM("DD/MM/JJJJ",$form->input["aankomstdatum"], 'en');
-				$aankomstdatumweergavelang = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"], 'en');
+				$aankomstdatumweergave     = DATUM(txt('aankomstdatumformaat', 'beschikbaarheid', ['taal' => $leveranciertaal]), $form->input["aankomstdatum"], $leveranciertaal);
+				$aankomstdatumweergavelang = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"], $leveranciertaal);
 				$aankomstdatumhtml         = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"]) . "</td></tr>";
 			}
 
@@ -388,8 +388,8 @@ if($form->okay) {
 
 		} else {
 
-			$aankomstdatumweergave     = datum('DD/MM/JJJJ', $form->input['aankomstdatum'], 'en');
-			$aankomstdatumweergavelang = datum('DAG D MAAND JJJJ', $form->input['aankomstdatum'], 'en');
+			$aankomstdatumweergave     = DATUM(txt('aankomstdatumformaat', 'beschikbaarheid', ['taal' => $leveranciertaal]), $form->input['aankomstdatum'], $leveranciertaal);
+			$aankomstdatumweergavelang = DATUM("DAG D MAAND JJJJ", $form->input['aankomstdatum'], $leveranciertaal);
 			$aankomstdatumhtml         = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . wt_he($accinfo["aankomstdatum"][$form->input["aankomstdatum"]]) . "</td></tr>";
 		}
 
