@@ -13,6 +13,9 @@ function txt($id,$page="",$settings=array(""),$html=false) {
 		$websiteland=$vars["websiteland"];
 		$website=$vars["website"];
 	}
+	if (isset($settings['taal'])) {
+		$taal = $settings['taal'];
+	}
 	if(!$id) {
 		trigger_error("op page ".$page." wordt een lege \$id aangeroepen",E_USER_NOTICE);
 	}
