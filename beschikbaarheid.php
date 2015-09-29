@@ -357,14 +357,23 @@ if($form->okay) {
 		$html.="<tr><td class=\"wtform_cell_left\">Formulier</td><td class=\"wtform_cell_right\">".($_GET["o"] ? "Optie-aanvraag" : "Beschikbaarheid controleren")."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Ingevuld op</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ")." ".date("H:i")."u.</td></tr>";
 
-		$verblijfsduurweergave = '7 nights';
+		$db3->query('SELECT naam, contactpersoon_reserveringen AS contactpersoon, email_reserveringen AS email, telefoonnummer_reserveringen AS telefoonnummer, bestelmailfax_taal AS taal
+					 FROM leverancier
+					 WHERE leverancier_id = ' . intval($accinfo['leverancierid']));
+
+		$leveranciertaal = 'en';
+		if (($leverancierdata = $db3->next_record())) {
+			$leveranciertaal = (isset($vars['landcodes'][$db3->f('taal')]) ? $vars['landcodes'][$db3->f('taal')] : $leveranciertaal);
+		}
+		
+		$verblijfsduurweergave = '7 ' . txt('nachten', 'vars', ['taal' => $leveranciertaal]);
 		if($accinfo["wzt"]==2) {
 
 			if($accinfo["flexibel"]) {
 
 				$aankomstdatumweergave     = DATUM("DD/MM/JJJJ",$form->input["aankomstdatum_flex"]["unixtime"], 'en');
 				$aankomstdatumweergavelang = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"], 'en');
-				$verblijfsduurweergave     = (substr($form->input['verblijfsduur'], -1) === 'n' ? (substr($form->input['verblijfsduur'], 0, -1) . ' nights') : ($form->input['verblijfsduur'] . ' weeks'));
+				$verblijfsduurweergave     = (substr($form->input['verblijfsduur'], -1) === 'n' ? (substr($form->input['verblijfsduur'], 0, -1) . ' ' . txt('nachten', 'vars', ['taal' => $leveranciertaal])) : ($form->input['verblijfsduur'] . ' ' . txt('weken', 'vars', ['taal' => $leveranciertaal])));
 				$aankomstdatumhtml         = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"])."</td></tr>";
 
 			} else {
@@ -384,10 +393,6 @@ if($form->okay) {
 			$aankomstdatumhtml         = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . wt_he($accinfo["aankomstdatum"][$form->input["aankomstdatum"]]) . "</td></tr>";
 		}
 
-		$db3->query('SELECT naam, contactpersoon_reserveringen AS contactpersoon, email_reserveringen AS email, telefoonnummer_reserveringen AS telefoonnummer
-					 FROM leverancier
-					 WHERE leverancier_id = ' . intval($accinfo['leverancierid']));
-
 		# Voorraad text
 		$db4->query("SELECT voorraad_garantie, voorraad_allotment, voorraad_vervallen_allotment, voorraad_xml, voorraad_request FROM tarief WHERE type_id='".addslashes($accinfo["type_id"])."' AND week='".addslashes($form->input["aankomstdatum"])."';");
 		$voorraadweergave = [];
@@ -401,22 +406,31 @@ if($form->okay) {
 
 		$naam = wt_naam($form->input['voornaam'], $form->input['tussenvoegsel'], $form->input['achternaam']);
 
-		if (($leverancierdata = $db3->next_record())) {
+		if ($leverancierdata) {
 
-			$leverancieremailsubject = 'Option request ' . $aankomstdatumweergave . ' ' . wt_he($accinfo['naam']) . ($accinfo['code'] ? (' - ' . $accinfo['code']) : '');
-			$break 			   	     = '%0D%0A';
-
-			$leverancieremailbody  = 'Dear ' . $db3->f('contactpersoon') . ',' . $break . $break;
-			$leverancieremailbody .= 'We would like to have an option on the  apartment noted below:' . $break . $break;
-			$leverancieremailbody .= 'Accommodation: ' . $accinfo['plaats'] . ', ' . ' ' . wt_he($accinfo['naam']) . ($accinfo['code'] ? (' - ' . $accinfo['code']) : '') . $break;
-			$leverancieremailbody .= 'Name guest: ' . $naam . $break;
-			$leverancieremailbody .= 'Arrival date: ' . $aankomstdatumweergavelang . $break;
-			$leverancieremailbody .= 'Duration: ' . $verblijfsduurweergave . $break . $break;
-			$leverancieremailbody .= 'Can you please let me know if we can have this option and until when we can have this?' . $break . $break;
-			$leverancieremailbody .= 'Thanks in advance for your early reply.' . $break . $break;
-
+			$leverancieremailsubject = txt('leverancieremailonderwerp', 'beschikbaarheid', [
+				
+				'taal'            => $leveranciertaal,
+				'v_aankomstdatum' => $aankomstdatumweergave,
+				'v_accommodatie'  => wt_he($accinfo['naam']),
+				'v_code'          => ($accinfo['code'] ? (' - ' . $accinfo['code']) : ''),
+			]);
+			
+			$leverancieremailbody = txt('leverancieremailbody', 'beschikbaarheid', [
+				
+				'taal'             => $leveranciertaal,
+				'v_contactpersoon' => $db3->f('contactpersoon'),
+				'v_plaats'         => $accinfo['plaats'],
+				'v_accommodatie'   => wt_he($accinfo['naam']),
+				'v_code'           => ($accinfo['code'] ? (' - ' . $accinfo['code']) : ''),
+				'v_naam'           => $naam,
+				'v_aankomstdatum'  => $aankomstdatumweergavelang,
+				'v_verblijfsduur'  => $verblijfsduurweergave,
+			]);
+			
+			$break = '%0D%0A';
 			$html .= '</table>';
-			$html .= '<br />Leverancier mailen: <a href="mailto:' . $db3->f('email') . '?body=' . $leverancieremailbody . '&subject=' . $leverancieremailsubject . '">optie aanvragen</a>';
+			$html .= '<br />Leverancier mailen: <a href="mailto:' . $db3->f('email') . '?body=' . str_replace("\n", $break, $leverancieremailbody) . '&subject=' . $leverancieremailsubject . '">optie aanvragen</a>';
 			$html .= '<table class="wtform_table" cellspacing="0">';
 		}
 

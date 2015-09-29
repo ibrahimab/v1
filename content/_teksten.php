@@ -4847,6 +4847,56 @@ $txt["en"]["beschikbaarheid"]["medewerkerssitenaam"]="Staff [[v_websitenaam]]";
 
 
 #
+# E-mail aan leverancier
+#
+$txt["nl"]["beschikbaarheid"]["leverancieremailonderwerp"]="Optie-aanvraag [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
+$txt["de"]["beschikbaarheid"]["leverancieremailonderwerp"]="Option request [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
+$txt["en"]["beschikbaarheid"]["leverancieremailonderwerp"]="Optionsanfrage [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
+
+$txt["nl"]["beschikbaarheid"]["leverancieremailbody"]="Hallo [[v_contactpersoon]],
+
+Graag zouden wij een optie op de onderstaande accommodatie nemen:
+
+Accommodatie: [[v_plaats]], [[v_accommodatie]][[v_code]]
+Klantnaam: [[v_naam]]
+Aankomstdatum: [[v_aankomstdatum]]
+Duur verblijf: [[v_verblijfsduur]]
+
+Kan je me laten weten of de optie mogelijk is, en tot wanneer wij deze kunnen krijgen?
+
+Alvast bedankt voor de reactie.
+
+
+";
+$txt["de"]["beschikbaarheid"]["leverancieremailbody"]="Hallo [[v_contactpersoon]],
+
+Wir würden gerne eine Option erhalten für folgende Unterkunft:
+
+Unterkunft: [[v_plaats]], [[v_accommodatie]][[v_code]]
+Name Hauptmieter: [[v_naam]]
+Ankunftsdatum: [[v_aankomstdatum]]
+Aufenthaltsdauer: [[v_verblijfsduur]]
+
+Können Sie uns mitteilen ob wir diese Option erhalten können und bis wann diese Option gilt?
+Herzlichen Dank im Voraus für Ihre Antwort.
+
+";
+$txt["en"]["beschikbaarheid"]["leverancieremailbody"]="Dear [[v_contactpersoon]],
+
+We would like to have an option on the apartment noted below:
+
+Accommodation: [[v_plaats]], [[v_accommodatie]][[v_code]]
+Name guest: [[v_naam]]
+Arrival date: [[v_aankomstdatum]]
+Duration: [[v_verblijfsduur]]
+
+Can you please let me know if we can have this option and until when we can have this?
+
+Thank you for your quick response.
+
+";
+
+#
 # Bedankt-pagina na invullen beschikbaarheidaanvraag
 #
 $txt["nl"]["beschikbaarheid"]["uwbeschikbaarheidaanvraagisverzonden"]="Je beschikbaarheidaanvraag is verzonden.";
