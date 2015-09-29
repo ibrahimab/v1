@@ -412,6 +412,7 @@ if($form->okay) {
 				
 				'taal'            => $leveranciertaal,
 				'v_aankomstdatum' => $aankomstdatumweergave,
+				'v_plaats'		  => $accinfo['plaats'],
 				'v_accommodatie'  => wt_he($accinfo['abestelnaam']),
 				'v_code'          => ($accinfo['code'] ? (' - ' . $accinfo['code']) : ''),
 			]);

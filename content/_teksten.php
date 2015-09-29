@@ -4849,9 +4849,9 @@ $txt["en"]["beschikbaarheid"]["medewerkerssitenaam"]="Staff [[v_websitenaam]]";
 #
 # E-mail aan leverancier
 #
-$txt["nl"]["beschikbaarheid"]["leverancieremailonderwerp"]="Optie-aanvraag [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
-$txt["de"]["beschikbaarheid"]["leverancieremailonderwerp"]="Optionsanfrage [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
-$txt["en"]["beschikbaarheid"]["leverancieremailonderwerp"]="Option request [[v_aankomstdatum]] [[v_accommodatie]][[v_code]]";
+$txt["nl"]["beschikbaarheid"]["leverancieremailonderwerp"]="Optie-aanvraag [[v_aankomstdatum]] [[v_plaats]] [[v_accommodatie]][[v_code]]";
+$txt["de"]["beschikbaarheid"]["leverancieremailonderwerp"]="Optionsanfrage [[v_aankomstdatum]] [[v_plaats]] [[v_accommodatie]][[v_code]]";
+$txt["en"]["beschikbaarheid"]["leverancieremailonderwerp"]="Option request [[v_aankomstdatum]] [[v_plaats]] [[v_accommodatie]][[v_code]]";
 
 $txt["nl"]["beschikbaarheid"]["leverancieremailbody"]="Beste [[v_contactpersoon]],
 
