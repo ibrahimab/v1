@@ -412,7 +412,7 @@ if($form->okay) {
 				
 				'taal'            => $leveranciertaal,
 				'v_aankomstdatum' => $aankomstdatumweergave,
-				'v_accommodatie'  => wt_he($accinfo['naam']),
+				'v_accommodatie'  => wt_he($accinfo['abestelnaam']),
 				'v_code'          => ($accinfo['code'] ? (' - ' . $accinfo['code']) : ''),
 			]);
 			
@@ -421,7 +421,7 @@ if($form->okay) {
 				'taal'             => $leveranciertaal,
 				'v_contactpersoon' => $db3->f('contactpersoon'),
 				'v_plaats'         => $accinfo['plaats'],
-				'v_accommodatie'   => wt_he($accinfo['naam']),
+				'v_accommodatie'   => wt_he($accinfo['abestelnaam']),
 				'v_code'           => ($accinfo['code'] ? (' - ' . $accinfo['code']) : ''),
 				'v_naam'           => $naam,
 				'v_aankomstdatum'  => $aankomstdatumweergavelang,
@@ -444,15 +444,16 @@ if($form->okay) {
 		if($wederverkoop_aanvraag) {
 			$html.="<tr><td class=\"wtform_cell_left\">Via reisagent</td><td class=\"wtform_cell_right\">".wt_he($vars["chalettour_reisagentnaam"])." / <a href=\"https://www.chalet.nl/cms_reisbureaus.php?show=27&27k0=".$login_rb->vars["reisbureau_id"]."\">".wt_he($vars["chalettour_naam"])."</a></td></tr>";
 		}
+		
+		if (count($voorraadweergave) > 0) {
+			$html.= '<tr><td class="wtform_cell_left">Voorraad</td><td class="wtform_cell_right">' . implode(', ', $voorraadweergave) . '</td></tr>';
+		}
+		
 		$html.="<tr><td class=\"wtform_cell_left\">Accommodatie</td><td class=\"wtform_cell_right\"><a href=\"".$accinfo["url"]."\">".$accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".wt_he($accinfo["naam"])."</a> - ".$accinfo["aantalpersonen"]."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Plaats</td><td class=\"wtform_cell_right\">".wt_he($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Aantal personen</td><td class=\"wtform_cell_right\">".wt_he($form->input["aantalpersonen"])."</td></tr>";
 
 		$html .= $aankomstdatumhtml;
-
-		if (count($voorraadweergave) > 0) {
-			$html.= '<tr><td class="wtform_cell_left">Voorraad</td><td class="wtform_cell_right">' . implode(', ', $voorraadweergave) . '</td></tr>';
-		}
 
 		if ($leverancierdata) {
 
