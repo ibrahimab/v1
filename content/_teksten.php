@@ -17,8 +17,8 @@ $txt["nl"]["vars"]["jaar"]="jaar";
 $txt["de"]["vars"]["jaar"]="Jahr";
 $txt["en"]["vars"]["jaar"]="year";
 
-$txt["nl"]["vars"]["jehebtnietallevelden"]="Je hebt niet alle velden correct ingevuld:";
-$txt["de"]["vars"]["jehebtnietallevelden"]="Sie haben nicht alle Felder richtig ausgefüllt:";
+$txt["nl"]["vars"]["jehebtnietallevelden"]="Je hebt niet alle velden correct ingevuld";
+$txt["de"]["vars"]["jehebtnietallevelden"]="Sie haben nicht alle Felder richtig ausgefüllt";
 $txt["en"]["vars"]["jehebtnietallevelden"]="Not all fields are filled out correctly";
 
 $txt["nl"]["vars"]["week"]="week";
