@@ -1076,3 +1076,14 @@ color: #FFFFFF;
 .bijkomendekosten_table .berekentotaalbedrag {
 	display: none;
 }
+
+.de_impressum {
+	text-align: center;
+	margin-bottom: 10px;
+	font-size: 10px !important;
+}
+
+.de_impressum a {
+	font-size: 10px !important;
+}
+

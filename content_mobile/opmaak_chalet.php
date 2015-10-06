@@ -279,8 +279,14 @@ if($vars["website"]=="C") {
 	echo wt_he($vars["websiteinfo"]["websitenaam"][$vars["website"]]);
 }
 echo " - <a href=\"mailto:".wt_he($vars["websiteinfo"]["email"][$vars["website"]])."\">".wt_he($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon");
+
 echo "</p>";
 echo "</div>\n";
+
+if ($vars["websiteland"]=="de") {
+	// Links to AGB - Datenschutz - Impressum
+	echo "<div class=\"de_impressum\"><a href=\"".$vars["path"]."AGB.php\">AGB</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."Datenschutz.php\">Datenschutz</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."Impressum\">Impressum</a></div>";
+}
 
 echo "<p id=\"fullwebsite\"><a href=\"/\" onclick=\"return switch_website('desktop');\">".txt("naar_desktopversie","mobile")."</a></p>";
 
