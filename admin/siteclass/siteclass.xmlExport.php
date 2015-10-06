@@ -467,16 +467,18 @@ class xmlExport extends chaletDefault
 
 
 		// Discounts
-		foreach ($type_data as $type_id => $value) {
-			if($korting_percentage[$type_id]) {
-				$this->type_data[$type_id]["special_offer"]["percentage"] = floor($korting_percentage[$type_id]);
-				$this->type_data[$type_id]["special_offer"]["description"] = txt("boek-nu-met-korting-tot", "xml", array("v_korting"=>floor($korting_percentage[$type_id])."%"));
-			} elseif($korting_euro[$type_id]) {
+		if (is_array($type_data)) {
+			foreach ($type_data as $type_id => $value) {
+				if($korting_percentage[$type_id]) {
+					$this->type_data[$type_id]["special_offer"]["percentage"] = floor($korting_percentage[$type_id]);
+					$this->type_data[$type_id]["special_offer"]["description"] = txt("boek-nu-met-korting-tot", "xml", array("v_korting"=>floor($korting_percentage[$type_id])."%"));
+				} elseif($korting_euro[$type_id]) {
 
-				$this->type_data[$type_id]["special_offer"]["euro"] = floor($korting_euro[$type_id]);
-				$this->type_data[$type_id]["special_offer"]["description"] = txt("boek-nu-met-korting-tot", "xml", array("v_korting"=>$korting_euro[$type_id]." ".txt("euro", "xml")));
-			} elseif($this->aanbieding) {
-				$this->type_data[$type_id]["special_offer"]["description"] = txt("boek-nu-met-korting", "xml");
+					$this->type_data[$type_id]["special_offer"]["euro"] = floor($korting_euro[$type_id]);
+					$this->type_data[$type_id]["special_offer"]["description"] = txt("boek-nu-met-korting-tot", "xml", array("v_korting"=>$korting_euro[$type_id]." ".txt("euro", "xml")));
+				} elseif($this->aanbieding) {
+					$this->type_data[$type_id]["special_offer"]["description"] = txt("boek-nu-met-korting", "xml");
+				}
 			}
 		}
 
@@ -521,37 +523,39 @@ class xmlExport extends chaletDefault
 		//
 		// convert to utf-8
 		//
-		foreach ($type_data as $type_id => $value) {
+		if (is_array($type_data)) {
+			foreach ($type_data as $type_id => $value) {
 
-			foreach ($value as $key => $value2) {
-				if( is_array($value2) ) {
-					foreach ($value2 as $key2 => $value3) {
-						$this->type_data[$type_id][$key][$key2] = iconv("Windows-1252", "UTF-8", $value3);
-					}
-				} else {
-					$this->type_data[$type_id][$key] = iconv("Windows-1252", "UTF-8", $value2);
-				}
-			}
-
-			if (is_array($type_bkk[$type_id]) ) {
-				foreach ($type_bkk[$type_id] as $key => $value2) {
-
-					// skipas
-					if( $skipas[ $type_data[$type_id]["skipas_id"] ] ) {
-						$this->type_bkk[$type_id][$key]["included"]["skipas"] = iconv("Windows-1252", "UTF-8", $skipas[ $type_data[$type_id]["skipas_id"] ]);
-					}
-
-					foreach ($value2 as $key2 => $value3) {
-						foreach ($value3 as $key3 => $value4) {
-							$this->type_bkk[$type_id][$key][$key2][$key3] = iconv("Windows-1252", "UTF-8", $value4);
+				foreach ($value as $key => $value2) {
+					if( is_array($value2) ) {
+						foreach ($value2 as $key2 => $value3) {
+							$this->type_data[$type_id][$key][$key2] = iconv("Windows-1252", "UTF-8", $value3);
 						}
-					}
-
-					// reserveringskosten
-					if($db->f( "bedrag" )>0 and constant("include_bkk")===true) {
-						$this->type_bkk[$type_id][$key]["included"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
 					} else {
-						$this->type_bkk[$type_id][$key]["excluded"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+						$this->type_data[$type_id][$key] = iconv("Windows-1252", "UTF-8", $value2);
+					}
+				}
+
+				if (is_array($type_bkk[$type_id]) ) {
+					foreach ($type_bkk[$type_id] as $key => $value2) {
+
+						// skipas
+						if( $skipas[ $type_data[$type_id]["skipas_id"] ] ) {
+							$this->type_bkk[$type_id][$key]["included"]["skipas"] = iconv("Windows-1252", "UTF-8", $skipas[ $type_data[$type_id]["skipas_id"] ]);
+						}
+
+						foreach ($value2 as $key2 => $value3) {
+							foreach ($value3 as $key3 => $value4) {
+								$this->type_bkk[$type_id][$key][$key2][$key3] = iconv("Windows-1252", "UTF-8", $value4);
+							}
+						}
+
+						// reserveringskosten
+						if($db->f( "bedrag" )>0 and constant("include_bkk")===true) {
+							$this->type_bkk[$type_id][$key]["included"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+						} else {
+							$this->type_bkk[$type_id][$key]["excluded"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+						}
 					}
 				}
 			}
