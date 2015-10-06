@@ -476,6 +476,8 @@ if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 		"https://www.chalet.nl/xml/tradetracker-new.php?aanbiedingen=1&save_cache=1",
 		"https://www.chalet.be/xml/tradetracker-new.php?save_cache=1",
 		"https://www.chalet.be/xml/tradetracker-new.php?aanbiedingen=1&save_cache=1",
+		"https://www.chaletonline.de/xml/tradetracker-new.php?save_cache=1",
+		"https://www.chaletonline.de/xml/tradetracker-new.php?aanbiedingen=1&save_cache=1",
 		"https://www.zomerhuisje.nl/xml/tradetracker-new.php?save_cache=1",
 		"https://www.zomerhuisje.nl/xml/tradetracker-new.php?aanbiedingen=1&save_cache=1",
 		"https://www.italissima.nl/xml/tradetracker-new.php?save_cache=1",
