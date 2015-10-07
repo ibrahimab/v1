@@ -61,7 +61,7 @@ class xmlTradetracker extends xmlExport
 					}
 
 
-					$this->x->writeElement('continent', txt("europa", "xml"));
+					$this->x->writeElement('continent', iconv("Windows-1252", "UTF-8", txt("europa", "xml")));
 					$this->x->writeElement('country', $type_data['land']);
 					$this->x->writeElement('isoCodeDeparture', '');
 					$this->x->writeElement('isoCodeArrival', $type_data['isocode']);
@@ -201,7 +201,8 @@ class xmlTradetracker extends xmlExport
 						$this->x->writeElement('returnDate', date("d-m-Y", $this->type_departure[$type_id][$key]));
 
 						$this->x->writeElement('duration', $this->type_number_of_nights[$type_id][$key]);
-						$this->x->writeElement('durationType', txt("nachten", "xml"));
+						$this->x->writeElement('durationType', iconv("Windows-1252", "UTF-8", txt("nachten", "xml")));
+
 
 						$this->x->writeElement('price', number_format($this->type_price[$type_id][$key], 2, ".", ""));
 
