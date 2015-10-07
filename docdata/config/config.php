@@ -53,9 +53,9 @@ define ('IS_MOBILE', $isMobile);
 
 // Docdata account
 define ("TEST_MERCHANT_NAME", "chalet_nl");
-define ("TEST_MERCHANT_PASSWORD", "7rU5ehew");
+define ("TEST_MERCHANT_PASSWORD", "");
 define ('PRODUCTION_MERCHANT_NAME', "chalet_nl");
-define ('PRODUCTION_MERCHANT_PASSWORD', "ZAphAm6f");
+define ('PRODUCTION_MERCHANT_PASSWORD', "OT07woL1");
 
 // Docdata Payment URLs
 define('TEST_WSDL', 'https://test.tripledeal.com/ps/services/paymentservice/1_0?wsdl');
