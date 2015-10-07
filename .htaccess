@@ -13,15 +13,15 @@ ErrorDocument 404 /404.php
 #
 # Geen enkele pagina tonen wegens werkzaamheden
 #
-# RewriteCond %{REQUEST_URI} !unavailable [NC]
-# RewriteCond %{REQUEST_URI} !monitor-services [NC]
-# RewriteCond %{REQUEST_URI} !logo [NC]
-# RewriteCond %{REQUEST_URI} !wt_phpmysqldump [NC]
-# RewriteCond %{REQUEST_URI} !favicon [NC]
-# RewriteCond %{REQUEST_URI} !wtpma [NC]
+RewriteCond %{REQUEST_URI} !unavailable [NC]
+RewriteCond %{REQUEST_URI} !monitor-services [NC]
+RewriteCond %{REQUEST_URI} !logo [NC]
+RewriteCond %{REQUEST_URI} !wt_phpmysqldump [NC]
+RewriteCond %{REQUEST_URI} !favicon [NC]
+RewriteCond %{REQUEST_URI} !wtpma [NC]
 #RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
 #RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
-# RewriteRule ^(.*)$ unavailable.php
+RewriteRule ^(.*)$ unavailable.php
 
 
 RewriteEngine On
