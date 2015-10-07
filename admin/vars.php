@@ -5,6 +5,10 @@ if(!$cron and !$css) {
 }
 
 
+if ($_SERVER["REMOTE_ADDR"]=="93.97.216.146") {
+	exit;
+}
+
 // constants
 define("WT_trackmailaddress","chaletmailbackup+track@gmail.com");
 define("wt_mail_fromname","Chalet.nl");
@@ -625,15 +629,15 @@ if($vars["websitetype"]==7) {
 	$submenu["reisagent"]=txt("submenutitle_reisagenten");
 	$submenu["huiseigenaren"]=txt("submenutitle_huiseigenaren");
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-	
+
 	if (in_array($vars['website'], $vars['anvr'])) {
 		$submenu["voorwaarden"]=txt("submenutitle_voorwaarden");
 	} else {
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 	}
-	
+
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-	
+
 } elseif($vars["websitetype"]==8) {
 	#
 	# SuperSki
@@ -671,13 +675,13 @@ if($vars["websitetype"]==7) {
 	// $submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-	
+
 	if (in_array($vars['website'], $vars['anvr'])) {
 		$submenu["voorwaarden"]=txt("submenutitle_voorwaarden");
 	} else {
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 	}
-	
+
 } else {
 	#
 	# Winter
