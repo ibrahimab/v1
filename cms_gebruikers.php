@@ -183,8 +183,14 @@ function form_before_goto($form) {
 	$db=new DB_sql;
 	global $login,$vars;
 	if($_POST["free_user"]) {
-		$db->query("UPDATE user SET wrongcount=0, wrongtime=0 WHERE user_id='".addslashes($_GET["25k0"])."';");
+		$db->query("UPDATE user SET wrongcount=0, wrongtime=0 WHERE user_id='".intval($_GET["25k0"])."';");
 	}
+
+	if($_POST["input"]["password"] and $_GET["25k0"]) {
+		// delete cookie-id when changing password
+		$db->query("UPDATE user SET uniqueid_ip='' WHERE user_id='".intval($_GET["25k0"])."';");
+	}
+
 }
 
 # End declaration
