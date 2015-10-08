@@ -9,7 +9,7 @@ AddDefaultCharset ISO-8859-1
 AddType text/x-component .htc
 
 ErrorDocument 404 /404.php
-ErrorDocument 403 /404.php
+ErrorDocument 403 /403.php
 
 #
 # Geen enkele pagina tonen wegens werkzaamheden
