@@ -246,6 +246,10 @@ function wt_404($redirect=false) {
 			$url="http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 			$fp=@fopen("https://owp.webtastic.nl/error_log.php?u=".urlencode($url)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&b=".urlencode($_SERVER["HTTP_USER_AGENT"]),"r");
 		}
+	} elseif($_SERVER["REDIRECT_STATUS"]=="403") {
+		// 403 error
+		$url="http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
+		$fp=@fopen("https://owp.webtastic.nl/error_log.php?type=403&u=".urlencode($url)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&b=".urlencode($_SERVER["HTTP_USER_AGENT"]),"r");
 	}
 }
 
