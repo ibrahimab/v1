@@ -6,7 +6,6 @@
 
 // temporarily: which table to use for caching?
 // 07-09-2015: door ibrahim toegevoegd om prijs bug te verhelpen op mobiele site
-// @TODO: na laten checken door jeroen
 if( $vars["lokale_testserver"] or $_GET["test"]==1 ) {
 	$table_name_cache_vanafprijs = "cache_vanafprijs_incl_bkk_type";
 } else {
@@ -2405,7 +2404,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 	$files = ['a' => [], 't' => []];
 
 	if (isset($imageIds)) {
-		
+
 	    $mongodb      = $vars['mongodb']['wrapper'];
 	    $cursors      = [];
 	    $cursors['a'] = $mongodb->getAllMainFiles('accommodations', array_keys($imageIds['a']));
@@ -2534,7 +2533,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 	                            $img = $files['a'][$accommodationId];
 	                        }
 	                    }
-                        
+
 						$results[$results_teller].="<div class=\"zoekresultaat_img\"><img src=\"".imageurl($img,170,127)."\" alt=\"\"></div>";
 
 
