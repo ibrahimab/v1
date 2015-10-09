@@ -818,6 +818,11 @@ if($cms_form[2]->filled) {
 	if($cms_form[2]->input["video_url"] and !preg_match("/^https:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[2]->input["video_url"])) {
 		$cms_form[2]->error("video_url","onjuist formaat. Voorbeeld: https://player.vimeo.com/video/44377043");
 	}
+
+	// Check homeaway-code
+	if($cms_form[2]->input["homeaway_code"] and !preg_match("@^HA[0-9]+$@",$cms_form[2]->input["homeaway_code"])) {
+		$cms_form[2]->error("homeaway_code","onjuist formaat. Voorbeeld: HA1672528");
+	}
 }
 
 if($_GET["wzt"]==2 and $_GET["edit"]==2 and $cms_form[2]->okay) {
