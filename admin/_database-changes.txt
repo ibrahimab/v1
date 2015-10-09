@@ -2,6 +2,10 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+
+09-oct-2015 11:50
+ALTER TABLE `type` ADD `homeaway_code` VARCHAR(30) NULL DEFAULT NULL AFTER `leverancierscode_negeertarief`;
+
 10-sep-2015 14:37
 ALTER TABLE `boeking` ADD `niet_sturen_trustpilot` TINYINT(1) NOT NULL DEFAULT '0' ;
 
