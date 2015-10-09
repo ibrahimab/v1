@@ -2,7 +2,7 @@
 	"require": {
 		"phpoffice/phpexcel": "1.8.*",
 		"predis/predis": "1.0.1",
-		"gorkalaucirica/hipchat-v2-api-client": "^1.4",
+		"gorkalaucirica/hipchat-v2-api-client": "^1.5",
 		"phpoffice/phpword": "0.11"
 	}
 }

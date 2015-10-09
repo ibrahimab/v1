@@ -232,6 +232,7 @@ $cms->db_field(2,"picture","hoofdfoto_type","",array("savelocation"=>"pic/cms/ho
 $cms->db_field(2,"picture","picklein","",array("savelocation"=>"pic/cms/types_specifiek_tn/","filetype"=>"jpg"));
 $cms->db_field(2,"picture","picaanvullend","",array("savelocation"=>"pic/cms/types/","filetype"=>"jpg","multiple"=>true));
 $cms->db_field(2,"picture","picaanvullend_breed","",array("savelocation"=>"pic/cms/types_breed/","filetype"=>"jpg","multiple"=>true));
+$cms->db_field(2,"text","homeaway_code");
 $cms->db_field(2,"text","gps_lat");
 $cms->db_field(2,"text","gps_long");
 
@@ -366,6 +367,7 @@ $cms->edit_field(2,1,"zoekvolgorde","Zoekvolgorde",array("selection"=>3));
 $cms->edit_field(2,0,"url_virtuele_rondgang","URL virtuele rondgang");
 $cms->edit_field(2,0,"gps_lat","GPS latitude","","",array("info"=>"Vul de breedtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 52.086508"));
 $cms->edit_field(2,0,"gps_long","GPS longitude","","",array("info"=>"Vul de lengtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 4.886513"));
+$cms->edit_field(2,0,"homeaway_code","HomeAway-code","","",array("info"=>"Wordt gebruik om een XML-feed voor jullie partner HomeAway op te stellen. Types waarbij deze code is ingevuld worden vanzelf in de feed opgenomen."));
 $cms->edit_field(2,0,"htmlrow","<hr>");
 $cms->edit_field(2,1,"kenmerken","Kenmerken");
 if($temp["toonper"]<>3) {
@@ -815,6 +817,11 @@ if($cms_form[2]->filled) {
 	# Controle op Vimeo-link
 	if($cms_form[2]->input["video_url"] and !preg_match("/^https:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[2]->input["video_url"])) {
 		$cms_form[2]->error("video_url","onjuist formaat. Voorbeeld: https://player.vimeo.com/video/44377043");
+	}
+
+	// Check homeaway-code
+	if($cms_form[2]->input["homeaway_code"] and !preg_match("@^HA[0-9]+$@",$cms_form[2]->input["homeaway_code"])) {
+		$cms_form[2]->error("homeaway_code","onjuist formaat. Voorbeeld: HA1672528");
 	}
 }
 

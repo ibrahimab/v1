@@ -4,21 +4,22 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6f33b464ed178253e96c254b85f8cec0",
+    "hash": "8a4d75eb20d34a5b4d9f0f295da4ed26",
+    "content-hash": "e682ef84bdc4a921cf95270a99bf26b8",
     "packages": [
         {
             "name": "gorkalaucirica/hipchat-v2-api-client",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "target-dir": "GorkaLaucirica/HipchatAPIv2Client",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gorkalaucirica/HipchatAPIv2Client.git",
-                "reference": "43bdfd4cec1b4134f33627b14d038a985626efdd"
+                "reference": "30ebdd77cca56e18afa41491eb62616486e076d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gorkalaucirica/HipchatAPIv2Client/zipball/43bdfd4cec1b4134f33627b14d038a985626efdd",
-                "reference": "43bdfd4cec1b4134f33627b14d038a985626efdd",
+                "url": "https://api.github.com/repos/gorkalaucirica/HipchatAPIv2Client/zipball/30ebdd77cca56e18afa41491eb62616486e076d2",
+                "reference": "30ebdd77cca56e18afa41491eb62616486e076d2",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +56,7 @@
                 "library",
                 "v2"
             ],
-            "time": "2015-04-11 10:35:18"
+            "time": "2015-10-08 21:36:23"
         },
         {
             "name": "kriswallsmith/buzz",

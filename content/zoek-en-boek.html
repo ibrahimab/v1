@@ -3739,6 +3739,13 @@ if($resultaten_tonen) {
 		$vars["resultsperpage"]=50;
 
 		$startresult=(($_GET["page"]-1)*$vars["resultsperpage"])+1;
+
+		if ($startresult>count($results)) {
+			// prevent a startresult that is higher than the maximum results
+			$startresult = 1;
+			$_GET["page"] = 1;
+		}
+
 		if(count($results)>($startresult+$vars["resultsperpage"]-1)) $endresult=$startresult+$vars["resultsperpage"]-1; else $endresult=count($results);
 
 		// bepalen of de balk "Aantal accommodaties voor 2013/2014 met tarieven" getoond moet worden: alleen tonen als het formulier leeg is
@@ -4095,6 +4102,7 @@ if($vars["verfijnen_aanbieden"]) {
 						} elseif($verfijnd[$verfijndname][$value]>0) {
 							$request_uri=$_SERVER["REQUEST_URI"];
 							$request_uri=preg_replace("/page=[0-9]+&/","",$request_uri);
+							$request_uri=preg_replace("/page=[0-9]+$/","",$request_uri);
 							$keuzes.="<a href=\"".wt_he($request_uri).(preg_match("/\?/",$request_uri) ? "&amp;" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&amp;fzt=&amp;").$getname.$getnumber."=".$getvalue.($vars["aanbiedingenpagina_voor_de_eerste_keer_geopend"] ? "&amp;faab=1" : "")."\" class=\"keuzeopsomming\" rel=\"nofollow\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(".$verfijnd[$verfijndname][$value].")</span></a>";
 						} else {
 							$keuzes.="<div class=\"keuzeopsomming keuzeopsomming_leeg\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(0)</span></div>";

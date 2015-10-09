@@ -675,28 +675,6 @@ $(document).ready(function() {
 				}
 			});
 		});
-
-		// inclusief-tekst overnemen van ander ingevuld veld
-		if($("#vertrekinfo_inclusief_website").length>0) {
-			// input[vertrekinfo_inclusief] bij openen pagina vullen met input[inclusief]
-			$("#vertrekinfo_inclusief_website").html($("textarea[name='input[inclusief]']").val().replace(/\n/g,"<br />"));
-
-			// input[vertrekinfo_inclusief] bij wijzigen input[inclusief]
-			$("textarea[name='input[inclusief]']").keyup(function() {
-				$("#vertrekinfo_inclusief_website").html($("textarea[name='input[inclusief]']").val().replace(/\n/g,"<br />"));
-			});
-		}
-
-		// exclusief-tekst overnemen van ander ingevuld veld
-		if($("#vertrekinfo_exclusief_website").length>0) {
-			// input[vertrekinfo_exclusief] bij openen pagina vullen met input[exclusief]
-			$("#vertrekinfo_exclusief_website").html($("textarea[name='input[exclusief]']").val().replace(/\n/g,"<br />"));
-
-			// input[vertrekinfo_exclusief] bij wijzigen input[exclusief]
-			$("textarea[name='input[exclusief]']").keyup(function() {
-				$("#vertrekinfo_exclusief_website").html($("textarea[name='input[exclusief]']").val().replace(/\n/g,"<br />"));
-			});
-		}
 	}
 
 
