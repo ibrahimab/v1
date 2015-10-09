@@ -75,13 +75,14 @@ for($i=1; $i<=60; $i++) {
 
 		mail("chaletmailbackup+systemlog@gmail.com","git-deploy Chalet.nl","Deployed ".date("r")."\n\n\n".$hipchat_msg."\n\n\n".$git_output."\n\n\n".$sitecopy_output1."\n\n\n".$sitecopy_output2."\n\n\n".$sitecopy_output3);
 
-		$auth = new OAuth2('XIqOmoqjbWaVeGl31aQf8ahExgeug8opaZ4w4Swv');
+		$auth = new OAuth2('uWLqxbAxSMUzJMarSqD6IcAxSx59rGghcoP7f9qT');
 		$client = new Client($auth);
 		$roomAPI = new RoomAPI($client);
 		$msg = new Message();
 		$msg->setMessage( $hipchat_msg );
 		$msg->setNotify(true);
 		$msg->setColor("green");
+		$msg->setFrom("Git auto-deploy");
 
 		// id 900265 = GitHub meldingen
 		// id 1502695 = API-test
