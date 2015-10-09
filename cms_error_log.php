@@ -33,7 +33,7 @@ if( $_GET["error"] ) {
 
 		$hipchat_msg = "New PHP-error. See <a href=\"http://www2.chalet.nl/cms_error_log.php?show=0\">http://www2.chalet.nl/cms_error_log.php?show=0</a> for details.";
 
-		$auth = new OAuth2('uWLqxbAxSMUzJMarSqD6IcAxSx59rGghcoP7f9qT');
+		$auth = new OAuth2('eQJ1W6Cif4636SlZPRdG2AOGaniTGG8J5j5bRg5Y');
 		$client = new Client($auth);
 		$roomAPI = new RoomAPI($client);
 		$msg = new Message();
