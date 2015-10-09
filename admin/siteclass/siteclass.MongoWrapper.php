@@ -24,6 +24,16 @@ class MongoWrapper
             $this->error = true;
         }
     }
+    
+    public function getClient()
+    {
+        return $this->mongodb;
+    }
+    
+    public function connected()
+    {
+        return $this->error !== true;
+    }
 
     public function getFiles($collectionName, $fileId)
     {

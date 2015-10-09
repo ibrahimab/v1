@@ -69,6 +69,28 @@ switch ( $_GET["type"] ) {
 
 	case "mongodb":
 
+		$mongodb = $vars['mongodb']['wrapper'];
+		
+		if (true === $mongodb->connected()) {
+		
+			$client   = $mongodb->getClient();
+			$db 	  = $client->local;
+			$col      = $db->monitoring;
+			$document = [
+				
+				'_id'  => new \MongoId(),
+				'hash' => time() . '-' . md5('monitor-mongodb-' . time()),
+			];
+			
+			$col->insert($document);
+			
+			$comparison = $col->findOne(['_id' => $document['_id']]);
+			
+			if (null !== $comparison && $document['hash'] === $comparison['hash']) {
+				$service_okay = true;
+			}
+		}
+
 		break;
 
 }
