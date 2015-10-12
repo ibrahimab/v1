@@ -420,7 +420,7 @@ if($vars["verberg_linkerkolom"]) {
 			echo "<div><ul>";
 			for($i=1;$i<=6;$i++) {
 				if(html("waarom".$i,"index")<>"-") {
-					echo "<li>".html("waarom".$i,"index")."</li>";
+					echo "<li>".html("waarom".$i,"index", ['v_jaar' => date("Y")-$vars['begin_jaar_chalet']])."</li>";
 				}
 			}
 			echo "</ul></div>";

@@ -312,6 +312,11 @@ $vars['sgr_c'] = ['C', 'T', 'V', 'X', 'Z', 'I'];
  */
 $vars['adwords_conversion_tracking'] = false;
 
+/**
+ * Beginjaar voor chalet.nl oprichting (x jaar winterspecialist tekst homepagina)
+ */
+$vars['begin_jaar_chalet'] = 2000;
+
 #
 # Interne info (voor testsysteem)
 #
