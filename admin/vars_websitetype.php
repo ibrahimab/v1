@@ -22,7 +22,8 @@ if($vars["lokale_testserver"]) {
 
 	# Testsite bepalen indien niet bekend
 	if(defined("wt_test_hostname")) {
-		$vars["cms_basehref"]="http://".constant("wt_test_hostname")."/chalet/";
+		$suffix = (defined('wt_test_url_suffix') ? wt_test_url_suffix . '/' : '/chalet/');
+		$vars["cms_basehref"]="http://".constant("wt_test_hostname").$suffix;
 
 		if(!$vars["testsite"]) {
 			$vars["testsite"]=@file_get_contents($unixdir."tmp/testsite.txt");
@@ -649,8 +650,9 @@ if($_GET["cmscss"]) {
 
 $vars["cmspath"]="https://www.chalet.nl/";
 if($vars["lokale_testserver"]) {
-	$vars["basehref"]="http://".$_SERVER["HTTP_HOST"]."/chalet".$path;
-	$path="/chalet".$path;
+	$suffix = (defined('wt_test_url_suffix') ? (wt_test_url_suffix) : '/chalet');
+	$vars["basehref"]="http://".$_SERVER["HTTP_HOST"].$suffix.$path;
+	$path=$suffix.$path;
 	$vars["cmspath"]=$path;
 }
 if($vars["acceptatie_testserver"]) {
