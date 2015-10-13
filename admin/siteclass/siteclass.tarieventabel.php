@@ -414,9 +414,16 @@ class tarieventabel {
 
 		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
 
-		$seizoen_id = $this->seizoen_id;
-		$seizoen_id = preg_replace("@0,@", "", $seizoen_id);
-		$seizoen_id = preg_replace("@^,?([0-9]{1,}).*$@", "\\1", $seizoen_id);
+		if (preg_match("@,@", $this->seizoen_id)) {
+			// multiple seasons: get correct one
+			$db = new DB_sql;
+			$db->query("SELECT DISTINCT seizoen_id FROM tarief WHERE type_id='".intval($this->type_id)."' AND week='".intval($aankomstdatum)."';");
+			if ($db->next_record()) {
+				$seizoen_id = $db->f( "seizoen_id" );
+			}
+		} else {
+			$seizoen_id = $this->seizoen_id;
+		}
 
 		$bijkomendekosten->seizoen_id = $seizoen_id;
 		$bijkomendekosten->pre_boeken = true;
@@ -521,16 +528,16 @@ class tarieventabel {
 				}
 			}
 			if($totaalbedrag_ter_plaatse>0 and $terPlaatseNumerOfItems>1) {
-				
+
 				$return .= "<tr style=\"height:6px;\"><td colspan=\"5\"></td></tr>";
-				
+
 				$totaal_ter_plaatse = "<tr class=\"tarieventabel_totaalprijs_exclude_bkk_show_bkk\"><td colspan=\"2\">&nbsp;</td><td>[b]".html("totaal-ter-plaatse", "bijkomendekosten")."[/b]</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">[b]".number_format($totaalbedrag_ter_plaatse, 2, ",", ".")."[/b]</td></tr>";
-				
+
 				$tags    = ['f' => ['[b]', '[/b]'], 'r' => ['<b>', '</b>']];
 				$return .= ($this->config->website === 'D' ? str_replace($tags['f'], $tags['r'], $totaal_ter_plaatse) : str_replace($tags['f'], '', $totaal_ter_plaatse));
-				
+
 				if ($this->config->website === 'D') {
-				
+
 					$totaal_vakantie = number_format($totaalbedrag  + $totaalbedrag_ter_plaatse, 2, ',', '.');
 					$return .= '<tr><td colspan="5">&nbsp;</td></tr>';
 					$return .= '<tr class="tarieventabel_totaalprijs_exclude_bkk_show_bkk"><td colspan="2">&nbsp;</td><td>' . html('totaal-vakantie', 'bijkomendekosten') . ' (&euro; ' . number_format($totaalbedrag, 2, ',', '.') . ' + &euro; ' . number_format($totaalbedrag_ter_plaatse, 2, ',', '.') . ') </td><td>&nbsp;&euro;&nbsp;</td>';
@@ -539,11 +546,11 @@ class tarieventabel {
 
 				$totaalbedrag += $totaalbedrag_ter_plaatse;
 			}
-			
+
 			if ($totaalbedrag_ter_plaatse > 0) {
-				
+
 				if ($this->config->website === 'D' && !isset($totaal_vakantie)) {
-				
+
 					$totaal_vakantie = number_format($totaalbedrag  + $totaalbedrag_ter_plaatse, 2, ',', '.');
 					$return .= '<tr><td colspan="5">&nbsp;</td></tr>';
 					$return .= '<tr class="tarieventabel_totaalprijs_exclude_bkk_show_bkk"><td colspan="2">&nbsp;</td><td>' . html('totaal-vakantie', 'bijkomendekosten') . ' (&euro; ' . number_format($totaalbedrag, 2, ',', '.') . ' + &euro; ' . number_format($totaalbedrag_ter_plaatse, 2, ',', '.') . ') </td><td>&nbsp;&euro;&nbsp;</td>';
