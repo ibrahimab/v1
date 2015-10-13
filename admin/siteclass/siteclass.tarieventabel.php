@@ -974,10 +974,20 @@ class tarieventabel {
 			$checkweek=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 		}
 
-		if($this->seizoen_counter>1 and !$this->binnen_seizoen[date("Ym",$checkweek)] and (($begin and $checkweek>$this->begin) or (!$begin and $checkweek<$this->eind))) {
-			return true;
+		if ($this->config->seizoentype==2) {
+			// summer: seasons change 31 December / 1 January
+			if($this->seizoen_counter>1 and date("Y", $week)<>date("Y", $checkweek)) {
+				return true;
+			} else {
+				return false;
+			}
 		} else {
-			return false;
+
+			if($this->seizoen_counter>1 and !$this->binnen_seizoen[date("Ym",$checkweek)] and (($begin and $checkweek>$this->begin) or (!$begin and $checkweek<$this->eind))) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 
