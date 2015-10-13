@@ -78,7 +78,7 @@ class opmaakonderdelen {
 		}
 
 		// parse internal user data (email address) for testing purposes
-		if($voorkant_cms and is_object($login)) {
+		if($voorkant_cms and is_object($login) and isset($login->vars) and isset($login->vars["email"])) {
 			$data_email = $login->vars["email"];
 		} elseif($vars["acceptatie_testserver"] and $_COOKIE["acceptance_email"]) {
 			$data_email = $_COOKIE["acceptance_email"];
