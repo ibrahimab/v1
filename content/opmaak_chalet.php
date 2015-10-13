@@ -109,7 +109,7 @@ if($vars["zoekenboek_overlay_doorschuiven"]<>0) {
 if($vars["jquery_fancybox"]) {
 	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
 }
-if($vars["livechat_code"] and (preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs) || true === $vars['livechat_code'])) {
+if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
 	#
 	# Chatsysteem
 	#
@@ -490,7 +490,7 @@ if(!$vars["verberg_linkerkolom"] and $vars["website"]<>"T" and (!$vars["verberg_
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
 
-	if($vars["livechat_code"] and (preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs) || true === $vars['livechat_code'])) {
+	if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
 		# chat-blok
 		echo "<div id=\"chatblok\" class=\"noprint\">";
 		if($vars["lokale_testserver"]) {
@@ -876,7 +876,7 @@ if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/ie8.js?cache=".@filemtime("scripts/ie8.js")."'";
 }
 
-if($vars["livechat_code"] and (preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs) || true === $vars['livechat_code'])) {
+if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
 	#
 	# Chatsysteem
 	#
@@ -890,13 +890,11 @@ if($vars["livechat_code"] and (preg_match("@^([0-9])-(.*)$@",$vars["livechat_cod
 
 <script type="text/javascript">
 
-	<?php if($vars["livechat_code"] and (preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs) || true === $vars['livechat_code'])) { ?>
+	<?php if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) { ?>
 
 		var __lc = {};
 		__lc.license = 2618611;
-		<?php if (true !== $vars['livechat_code']) : ?>
 		__lc.group = <?php echo $regs[1]; ?>;
-		<?php endif; ?>
 
 	<?php } ?>
 
