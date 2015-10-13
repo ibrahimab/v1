@@ -57,7 +57,7 @@ echo "<div id=\"hoofdpagina_rechterkolom\">";
 echo "<div id=\"hoofdpagina_waarom\">";
 echo "<div class=\"kop\">".html("waarom","index",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
 echo "<div><ul>";
-echo "<li>".html("waarom8", "index", ['v_jaar' => date("Y")-$vars['begin_jaar_chalet']])."</li>";
+echo "<li>".html("waarom8", "index", ['v_jaar' => calculateDiffYear($vars['oprichting_chalet'])])."</li>";
 echo "<li>Kwaliteit</li>";
 echo "<li>Persoonlijke service</li>";
 echo "<li>Prijsbewust</li>";

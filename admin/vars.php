@@ -1,3 +1,4 @@
+
 <?php
 
 if(!$cron and !$css) {
@@ -313,9 +314,9 @@ $vars['sgr_c'] = ['C', 'T', 'V', 'X', 'Z', 'I'];
 $vars['adwords_conversion_tracking'] = false;
 
 /**
- * Beginjaar voor chalet.nl oprichting (x jaar winterspecialist tekst homepagina)
+ * oprichting chalet datetime object
  */
-$vars['begin_jaar_chalet'] = 2000;
+$vars['oprichting_chalet'] =  new \DateTime('1999-10-01');
 
 #
 # Interne info (voor testsysteem)

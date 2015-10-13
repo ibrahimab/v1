@@ -498,7 +498,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div class=\"kop\">".html("waarom","index",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
 		echo "<div><ul>";
 		echo "<li>Bergvakantie-specialist</li>";
-		echo "<li>".html("waarom8", "index", ['v_jaar' => date("Y")-$vars['begin_jaar_chalet']])."</li>";
+		echo "<li>".html("waarom8", "index", ['v_jaar' => calculateDiffYear($vars['oprichting_chalet'])])."</li>";
 		echo "<li>Uniek aanbod</li>";
 		echo "<li>Persoonlijke service</li>";
 		echo "<li>Lid SGR-Garantiefonds</li>";

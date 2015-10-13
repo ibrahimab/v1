@@ -387,7 +387,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<li>".html("waarom4", "index")."</li>";
 		echo "<li>".html("waarom3", "index")."</li>";
 		echo "<li>".html("waarom5", "index")."</li>";
-		echo "<li>".html("waarom8", "index", ['v_jaar' => date("Y")-$vars['begin_jaar_chalet']])."</li>";
+		echo "<li>".html("waarom8", "index", ['v_jaar' => calculateDiffYear($vars['oprichting_chalet'])])."</li>";
 		if($vars["website"]=="I") {
 			# SGR
 			echo "<li>Lid SGR-Garantiefonds</li>";
