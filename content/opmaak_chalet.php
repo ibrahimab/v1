@@ -891,9 +891,11 @@ if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code
 <script type="text/javascript">
 
 	<?php if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) { ?>
+
 		var __lc = {};
 		__lc.license = 2618611;
 		__lc.group = <?php echo $regs[1]; ?>;
+
 	<?php } ?>
 
 	var deferredJSFiles = [<?php echo implode(",", $lazyLoadJs); ?>];
