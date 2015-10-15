@@ -104,7 +104,7 @@ if($_GET["levid"]) {
 			} elseif($roominglist->bestelmailfax_taal=="D") {
 				$mailtekst="Sehr geehrte(r) ".$db->f("contactpersoon_lijsten").",\n\nAnbei unsere Anreiseliste für die Woche vom ".date("d/m/Y",$_GET["date"]).". Können Sie diese Reservierungen und zusätzliche Optionen bitte überprüfen und uns umgehend bestätigen.\n\nViele Dank in voraus für Ihre baldige Rückbestätigung.\n\nMit freundlichen Grüßen,";
 			} else {
-				$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send you attached a list with our arrivals on ".date("d/m/Y",$_GET["date"]).". Can you please check these reservations and the eventual extra options and send us confirmation by return.\n\nThanks in advance for your early reply.\n\nKind regards,";
+				$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send the attached list with our arrivals for ".date("d/m/Y",$_GET["date"]).". Can you please check these reservations (and possible remarks) and confirm them?\n\nThanks in advance for your early reply.\n\nKind regards,";
 			}
 		} else {
 			// text roominglist
@@ -113,7 +113,7 @@ if($_GET["levid"]) {
 			} elseif($roominglist->bestelmailfax_taal=="D") {
 				$mailtekst="Sehr geehrte(r) ".$db->f("contactpersoon_lijsten").",\n\nAnbei schicken wir Ihnen einen Übersicht mit unseren ausstehenden Reservierungen bis heute. Können Sie diese Reservierungen und die zusätzliche Optionen bitte überprüfen und uns umgehend bestätigen. Wir danken Ihnen in voraus für Ihre baldige Reaktion.\n\nMit freundlichen Grüßen,";
 			} else {
-				$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send you attached an actual list with all our outstanding reservations till today.\n\nCan you please check these reservations and the eventual extra options and send us a confirmation by return.\n\nThanks in advance for your early reaction.\n\nKind regards,";
+				$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send the attached list with all our reservations to date.\n\n Can you please check these reservations (and possible remarks) and confirm them by email?\n\nThanks in advance for your early reply.\n\nKind regards,";
 			}
 		}
 		$mailtekst.="\n\n".wt_naam($login->vars["voornaam"],$login->vars["tussenvoegsel"],$login->vars["achternaam"])."\n\nChalet.nl\nWipmolenlaan 3\n3447 GJ Woerden\nKvK: 30209634\nTel:  +31 (0) 348 43 46 49\nFax: +31 (0) 348 69 07 52\nEmail: ".$login->vars["email"]."\n";
