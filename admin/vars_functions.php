@@ -4155,24 +4155,24 @@ function affiliate_tracking($sale=false, $toon_tradetracker=true, $data) {
 
 	// Google AdWords / Analytics code
 	if (true === $vars['adwords_conversion_tracking']) {
-		
+
 		if ($data["ordernummer"]=="beschikbaarheidsaanvraag") {
-			
+
 			# Optie-aanvraag
 			$google_conversion_label = "GsSQCP_TmwQQ94jL_gM";
-			
+
 		} elseif ($data["ordernummer"]=="contactaanvraag") {
-			
+
 			# Contactaanvraag
 			$google_conversion_label = "3DAzCPfUmwQQ94jL_gM";
-			
+
 		} elseif($data["ordernummer"]=="vraagonsadvies") {
-			
+
 			# Vraag ons advies
 			$google_conversion_label = "Qj9RCO_VmwQQ94jL_gM";
-			
+
 		} else {
-			
+
 			# Boeking
 			$google_conversion_label = "RSUICI_SmwQQ94jL_gM";
 		}
@@ -4872,6 +4872,21 @@ function toonreserveringskosten($costs = null) {
 	}
 
 	return (floor($costs) != $costs ? number_format($costs, 2, ',', '.') : ($costs . ',-'));
+}
+
+/**
+ * Function to calculate years chalet.nl is active
+ *
+ * @author Eric Minang <eric@chalet.nl>
+ * @param \DateTime $startYear
+ * @return integer
+ */
+function calculateDiffYear(\DateTime $startYear) {
+
+	$today = new DateTime();
+	$diff  = $startYear->diff($today);
+
+	return $diff->y;
 }
 
 ?>

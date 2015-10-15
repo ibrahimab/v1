@@ -1,3 +1,4 @@
+
 <?php
 
 if(!$cron and !$css) {
@@ -311,6 +312,11 @@ $vars['sgr_c'] = ['C', 'T', 'V', 'X', 'Z', 'I'];
  * - 2015-09-15 15:26 - disabled because of Google Tag Manager (MAR-67)
  */
 $vars['adwords_conversion_tracking'] = false;
+
+/**
+ * oprichting chalet datetime object
+ */
+$vars['oprichting_chalet'] =  new \DateTime('1999-10-01');
 
 #
 # Interne info (voor testsysteem)

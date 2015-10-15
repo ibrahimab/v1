@@ -1319,9 +1319,9 @@ $txt["nl"]["index"]["waarom"]="Waarom [[v_websitenaam]]?";
 $txt["de"]["index"]["waarom"]="Warum  [[v_websitenaam]]?";
 $txt["en"]["index"]["waarom"]="Why [[v_websitenaam]]?";
 
-$txt["nl"]["index"]["waarom1"]="14 jaar winterspecialist";
-$txt["de"]["index"]["waarom1"]="Seit 14 Jahren der Winterspezialist";
-$txt["en"]["index"]["waarom1"]="14 years winterspecialist";
+$txt["nl"]["index"]["waarom1"]="[[v_jaar]] jaar winterspecialist";
+$txt["de"]["index"]["waarom1"]="Seit [[v_jaar]] Jahren der Winterspezialist";
+$txt["en"]["index"]["waarom1"]="[[v_jaar]] years winterspecialist";
 
 $txt["nl"]["index"]["waarom2"]="Veel grote chalets";
 $txt["de"]["index"]["waarom2"]="Viele groﬂe Chalets";
@@ -1350,9 +1350,9 @@ $txt["nl"]["index"]["waarom7"]="Uniek aanbod";
 $txt["de"]["index"]["waarom7"]="Exklusives Angebot";
 $txt["en"]["index"]["waarom7"]="Unique offerings";
 
-$txt["nl"]["index"]["waarom8"]="14 jaar ervaring";
-$txt["de"]["index"]["waarom8"]="14 Jahre Erfahrung";
-$txt["en"]["index"]["waarom8"]="14 years of experience";
+$txt["nl"]["index"]["waarom8"]="[[v_jaar]] jaar ervaring";
+$txt["de"]["index"]["waarom8"]="[[v_jaar]] Jahre Erfahrung";
+$txt["en"]["index"]["waarom8"]="[[v_jaar]] years of experience";
 
 $txt["nl"]["index"]["meer"]="meer";
 $txt["de"]["index"]["meer"]="mehr";
