@@ -105,7 +105,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["reisverzekering_mogelijk"]=0;
 	$vars["schadeverzekering_mogelijk"]=0;
 	$vars["wederverkoop"]=true;
-	$vars["livechat_code"]=false;//"4-VeMFxufQbX";
+	$vars["livechat_code"]="4-VeMFxufQbX";
 	$vars["trustpilot_code"]="5aa723efa5@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
 	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
@@ -684,7 +684,7 @@ $vars["websiteinfo"]["wederverkoop"]["E"]=true;
 $vars["websiteinfo"]["websiteland"]["E"]="en";
 $vars["websiteinfo"]["taal"]["E"]="en";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["E"]=false;
-$vars["websiteinfo"]["livechat_code"]["E"]=false;//"4-VeMFxufQbX";
+$vars["websiteinfo"]["livechat_code"]["E"]="4-VeMFxufQbX";
 $vars["websiteinfo"]["seizoentype"]["E"]=1;
 $vars["websiteinfo"]["schadeverzekering_mogelijk"]["E"]=0;
 
