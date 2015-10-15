@@ -1,4 +1,3 @@
-
 <?php
 
 if(!$cron and !$css) {
