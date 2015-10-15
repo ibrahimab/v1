@@ -237,7 +237,7 @@ if($form->okay) {
 		if(!$form->input["pdfplattegrond_nietnodig"] and $gegevens["stap1"]["pdfplattegrond_nietnodig"]) {
 			chalet_log("Uitgezet: Plattegrond-PDF is niet nodig bij de reisdocumenten",true,true);
 		}
-		
+
 		if($form->input["niet_sturen_trustpilot"] and !$gegevens["stap1"]["niet_sturen_trustpilot"]) {
 			chalet_log("Aangezet: Uitnodiging naar trustpilot wordt niet verstuurd",true,true);
 		}
@@ -781,14 +781,14 @@ if($form->okay) {
 
 		$pdf->Ln();
 		if (in_array($gegevens['stap1']['website'], $vars['anvr']) && in_array($gegevens['stap1']['website'], $vars['sgr_c'])) {
-			
+
 			# Wel een SGR-tekst: pagina is daardoor langer
 			if($pdf->GetY()>225) {
 				$pdf->AddPage();
 			}
-			
+
 		} else {
-			
+
 			# Geen SGR-tekst
 			if($pdf->GetY()>240) {
 				$pdf->AddPage();
@@ -814,7 +814,7 @@ if($form->okay) {
 		$pdf->MultiCell(190,4,txt("opdezeovereenkomstalgvoorwaarden","factuur"));
 
 		if (in_array($gegevens['stap1']['website'], $vars['anvr']) && in_array($gegevens['stap1']['website'], $vars['sgr_c'])) {
-			
+
 			# SGR-tekst
 			$pdf->Ln();
 
@@ -824,10 +824,10 @@ if($form->okay) {
 			$pdf->Cell(10,4,"",0,0,'L',0);
 
 			$pdf->MultiCell(179,4,txt("sgr","factuur"));
-			
+
 			$pdf->Image('pic/factuur_calamiteitenfonds.png', 10, $img_y + 18, 9);
 			$pdf->MultiCell(40, 4, '');
-			
+
 			$pdf->Cell(10, 4, '', 0, 0, 'L', 0);
 			$pdf->MultiCell(179, 4, txt('calamiteitenfonds', 'factuur'));
 		}
@@ -953,7 +953,7 @@ if($form->okay) {
 			$html.="<p>";
 			if($form->input["ondertekenen"]) {
 				$html.=html("tercontroleopfouten","factuur")."<ul>";
-				$html.="<li><b>".html("onlinebevestigen","factuur")."</b><br>".nl2br(html("onlinebevestigen_uitleg","factuur",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"&nbsp;&raquo;</a>")))."</li><br/>";
+				$html.="<li><b>".html("onlinebevestigen","factuur")."</b><br>".nl2br(html("onlinebevestigen_uitleg","factuur",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"&nbsp;&raquo;</a>")))."<br><br></li>";
 				$html.="<li><b>".html("permailfaxpost","factuur")."</b><br>".html("permailfaxpost_uitleg","factuur")."</li>";
 				$html.="</ul>";
 			} else {
@@ -966,7 +966,7 @@ if($form->okay) {
 				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"),md5($db0->f("password_uc")));
 			}
 			$html.="<p>".html("tot6wekeninloggen","factuur",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>","h_3"=>"<i>","h_4"=>"</i>","v_wachtwoord"=>$db0->f("password_uc"),"v_mailadres"=>$gegevens["stap2"]["email"]))."</p>";
-			
+
 			if ($gegevens['stap1']['website'] === 'D') {
 				$html.="<p>".html("ingeslotenverzekeringsbewijs", "factuur", ['h_1' => '<a href="' . $gegevens['stap1']['website_specifiek']['basehref'] . html('menu_algemenevoorwaarden') . '.php#a7.9">', 'h_2' => '</a>']) . '</p>';
 			}
@@ -990,7 +990,7 @@ if($form->okay) {
 				} elseif (!in_array($gegevens['stap1']['website'], $vars['anvr'])) {
 					$pdffile="pdf/".txt("pdf_algemene_voorwaarden").".pdf";
 				}
-				
+
 				if (false !== $pdffile) {
 					if(file_exists($pdffile)) {
 						// $mail->attachment("pdf/".txt("pdf_algemene_voorwaarden").".pdf");
@@ -999,7 +999,7 @@ if($form->okay) {
 						trigger_error("bestand ".$pdffile." niet beschikbaar",E_USER_NOTICE);
 					}
 				}
-				
+
 				if($gegevens["stap1"]["website_specifiek"]["verzekering_mogelijk"] or $gegevens["stap1"]["annverz_aantalpersonen"]) {
 					if(file_exists("pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf")) {
 						// $mail->attachment("pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf");
@@ -1042,21 +1042,21 @@ if($form->okay) {
 					}
 					chalet_log("factuur aangemaakt",true,true);
 				}
-				
+
 				if (in_array($gegevens['stap1']['website'], $vars['anvr']) && $form->input["voorwaardenmeesturen"]) {
-				
+
 					$generated = TermsGenerator::generate($gegevens['stap1']['websitenaam']);
-				
+
 					$settings['attachment']['pdf/ANVR_voorwaarden.pdf'] = 'ANVR_voorwaarden.pdf';
 					$settings['attachment'][$generated] 		        = 'Aanvullende_Voorwaarden.pdf';
 				}
-				
+
 				if ($gegevens['stap1']['website'] === 'D') {
 					$settings['attachment']['pdf/Sicherungsschein.pdf'] = 'Sicherungsschein.pdf';
 				}
-				
+
 				verstuur_opmaakmail($gegevens["stap1"]["website"],$to,"",$subject,$html,$settings);
-				
+
 				if (file_exists($generated)) {
 					unlink($generated);
 				}
