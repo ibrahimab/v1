@@ -6217,17 +6217,17 @@ $txt["nl"]["bsys"]["factuur_mobile"]="Factuur downloaden als pdf";
 $txt["de"]["bsys"]["factuur_mobile"]="Rechnung als PDF downloaden";
 $txt["en"]["bsys"]["factuur_mobile"]="Download invoice as PDF";
 
-$txt["nl"]["bsys"]["factuurgoedkeuren"]="Factuur goedkeuren";
-$txt["de"]["bsys"]["factuurgoedkeuren"]="Rechnung bestätigen";
-$txt["en"]["bsys"]["factuurgoedkeuren"]="Approve invoice";
+$txt["nl"]["bsys"]["factuurgoedkeuren"]="Factuur controleren";
+$txt["de"]["bsys"]["factuurgoedkeuren"]="Rechnung kontrollieren";
+$txt["en"]["bsys"]["factuurgoedkeuren"]="Check invoice";
 
 $txt["nl"]["bsys"]["boekingisalgoedgekeurd"]="De factuur van reserveringsnummer [[v_boekingsnummer]] is al goedgekeurd.";
 $txt["de"]["bsys"]["boekingisalgoedgekeurd"]="Die Rechnung der Reservierungsnummer [[v_boekingsnummer]] ist bereits bestätigt. ";
 $txt["en"]["bsys"]["boekingisalgoedgekeurd"]="The invoice of reservation number [[v_boekingsnummer]] is already approved.";
 
-$txt["nl"]["bsys"]["akkoordfactuur"]="Ja, ik ga akkoord met de [[h_1]]ontvangen factuur[[h_2]] van reserveringsnummer [[v_boekingsnummer]]";
-$txt["de"]["bsys"]["akkoordfactuur"]="Ja, ich bestätige die [[h_1]]empfangenen Rechnung [[h_2]] der Reservierungsnummer [[v_boekingsnummer]]";
-$txt["en"]["bsys"]["akkoordfactuur"]="Yes, I agree with the [[h_1]]received invoice[[h_2]] of reservation number [[v_boekingsnummer]]";
+$txt["nl"]["bsys"]["akkoordfactuur"]="Ja, ik heb de [[h_1]]ontvangen factuur[[h_2]] met reserveringsnummer [[v_boekingsnummer]] gecontroleerd";
+$txt["de"]["bsys"]["akkoordfactuur"]="Ja, ich habe die [[h_1]]empfangene Rechnung [[h_2]] mit Reservierungsnummer [[v_boekingsnummer]] kontrolliert";
+$txt["en"]["bsys"]["akkoordfactuur"]="Yes, I have checked the [[h_1]]received invoice[[h_2]] with reservation number [[v_boekingsnummer]]";
 
 $txt["nl"]["bsys"]["akkoordvoorwaarden"]="Ja, ik ga akkoord met de [[h_1]]algemene voorwaarden van [[v_websitenaam]][[h_2]] [[h_3]](altijd van toepassing)[[h_4]] +[[h_5]] als ik via [[v_websitenaam]] een verzekering afsluit ga ik ook akkoord met onderstaande voorwaarden";
 $txt["de"]["bsys"]["akkoordvoorwaarden"]="Ja, ich stimme den [[h_1]]Allgemeinen Geschäftsbedingungen von [[v_websitenaam]][[h_2]] zu [[h_3]](immer anwendbar)[[h_4]] +[[h_5]] falls ich über [[v_websitenaam]] eine Versicherung abschließe stimme ich auch den unten stehenden Vertragsbedingungen zu";
@@ -6735,40 +6735,37 @@ $txt["nl"]["factuur"]["wederverkoop_hoofdboeker"]="Hoofdboeker";
 $txt["de"]["factuur"]["wederverkoop_hoofdboeker"]="Hauptbucher";
 $txt["en"]["factuur"]["wederverkoop_hoofdboeker"]="Main booker";
 
-$txt["nl"]["factuur"]["attachmentgecorbevest"]="Als attachment bij dit mailtje zit een PDF-bestand met daarin de gecorrigeerde bevestiging van je boeking.";
+$txt["nl"]["factuur"]["attachmentgecorbevest"]="In de bijlage van deze e-mail vind je een PDF-bestand met de gecorrigeerde bevestiging van je boeking.";
 $txt["de"]["factuur"]["attachmentgecorbevest"]="Im Anhang dieser E-Mail finden Sie eine PDF-Datei mit Ihrer korrigierten Buchungsbestätigung.";
-$txt["en"]["factuur"]["attachmentgecorbevest"]="The attachment to this e-mail contains a PDF file with the amended confirmation of your booking.";
+$txt["en"]["factuur"]["attachmentgecorbevest"]="Attached to this email you will find a PDF file with the amended confirmation of your booking.";
 
-$txt["nl"]["factuur"]["attachmentbevest"]="Als attachment bij dit mailtje zit een PDF-bestand met daarin de bevestiging van je boeking.";
+$txt["nl"]["factuur"]["attachmentbevest"]="In de bijlage van deze e-mail vind je een PDF-bestand met de bevestiging van je boeking.";
 $txt["de"]["factuur"]["attachmentbevest"]="Im Anhang dieser E-Mail finden Sie eine PDF-Datei mit Ihrer Buchungsbestätigung. ";
-$txt["en"]["factuur"]["attachmentbevest"]="The attachment to this e-mail contains a PDF file with the confirmation of your booking.";
+$txt["en"]["factuur"]["attachmentbevest"]="Attached to this email you will find a PDF file with the confirmation of your booking.";
 
 $txt["nl"]["factuur"]["pdfdownloaden"]="PDF-bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via [[h_1]]http://get.adobe.com/reader[[h_2]].";
 $txt["de"]["factuur"]["pdfdownloaden"]="PDF-Dateien können Sie öffnen mit dem Adobe Reader-Programm, das kostenlos als Download verfügbar ist über [[h_1]]http://get.adobe.com/reader[[h_2]].";
 $txt["en"]["factuur"]["pdfdownloaden"]="PDF files can be opened with Adobe Reader, which can be downloaded for free from [[h_1]]http://get.adobe.com/reader[[h_2]].";
 
-$txt["nl"]["factuur"]["bedanktvoorjeboeking"]="Bedankt voor je boeking.";
-$txt["de"]["factuur"]["bedanktvoorjeboeking"]="Vielen Dank für Ihre Buchung.";
-$txt["en"]["factuur"]["bedanktvoorjeboeking"]="Thank you for your booking.";
+$txt["nl"]["factuur"]["bedanktvoorjeboeking"]="Hartelijk dank voor je boeking! Inmiddels hebben we deze administratief verwerkt en is de vakantie definitief voor je vastgelegd.";
+$txt["de"]["factuur"]["bedanktvoorjeboeking"]="vielen Dank für Ihre Buchung! Wir haben Ihre Anfrage verarbeitet und eine feste Buchung in Ihrem Namen erstellt.";
+$txt["en"]["factuur"]["bedanktvoorjeboeking"]="Thank you for your booking! We have processed your request and have made a firm booking in your name.";
 
-$txt["nl"]["factuur"]["tercontroleopfouten"]="Ter controle op fouten willen we je vragen deze bevestiging (= tevens factuur) binnen 24 uur te controleren en akkoord te geven op één van onderstaande manieren:";
-$txt["de"]["factuur"]["tercontroleopfouten"]="Zur Fehlerkontrolle bitten wir Sie, diese Bestätigung (= außerdem Rechnung) innerhalb 24 Stunden zu kontrollieren und zuzustimmen auf eine der unten stehenden Weisen:";
-$txt["en"]["factuur"]["tercontroleopfouten"]="To ensure that no errors have been made, we ask you to check the confirmation (= also invoice) within 24 hours and approve it by any of the ways as mentioned below:";
+$txt["nl"]["factuur"]["tercontroleopfouten"]="Ter controle op fouten willen we je vragen deze bevestiging (= tevens factuur) binnen 24 uur te controleren.";
+$txt["de"]["factuur"]["tercontroleopfouten"]="Zur Fehlerkontrolle bitten wir Sie, diese Bestätigung (= außerdem Rechnung) innerhalb 24 Stunden zu kontrollieren.";
+$txt["en"]["factuur"]["tercontroleopfouten"]="To ensure that no errors have been made, we ask you to check the confirmation (= also invoice) within 24 hours.";
 
-$txt["nl"]["factuur"]["onlinebevestigen"]="Online bevestigen";
-$txt["de"]["factuur"]["onlinebevestigen"]="Online bestätigen";
-$txt["en"]["factuur"]["onlinebevestigen"]="Approve online";
+$txt["nl"]["factuur"]["onlinebevestigen"]="Online controleren";
+$txt["de"]["factuur"]["onlinebevestigen"]="Online kontrollieren";
+$txt["en"]["factuur"]["onlinebevestigen"]="Check online";
 
-$txt["nl"]["factuur"]["onlinebevestigen_uitleg"]="Door digitaal je akkoord te geven over de inhoud van de bevestiging:
-[[h_1]]factuur online goedkeuren[[h_2]]";
-$txt["de"]["factuur"]["onlinebevestigen_uitleg"]="Indem Sie online den Inhalt der Bestätigung zustimmen:
-[[h_1]]Rechnung online zustimmen[[h_2]]";
-$txt["en"]["factuur"]["onlinebevestigen_uitleg"]="By digitally approving the content of the confirmation:
-[[h_1]]approve invoice online[[h_2]]";
+$txt["nl"]["factuur"]["onlinebevestigen_uitleg"]="Via 'Mijn boeking' kan je de [[h_1]]factuur online controleren[[h_2]]";
+$txt["de"]["factuur"]["onlinebevestigen_uitleg"]="Über 'Meine Buchung' können Sie Ihre [[h_1]]Rechnung online kontrollieren[[h_2]]";
+$txt["en"]["factuur"]["onlinebevestigen_uitleg"]="Through 'My booking' you can check the [[h_1]]the invoice online[[h_2]]";
 
-$txt["nl"]["factuur"]["permailfaxpost"]="Bevestigen per mail, fax of post";
-$txt["de"]["factuur"]["permailfaxpost"]="Bestätigen per E-Mail, Fax oder Post";
-$txt["en"]["factuur"]["permailfaxpost"]="Approve by e-mail, fax or post";
+$txt["nl"]["factuur"]["permailfaxpost"]="Per mail, fax of post";
+$txt["de"]["factuur"]["permailfaxpost"]="Per E-Mail, Fax oder Post";
+$txt["en"]["factuur"]["permailfaxpost"]="Via email, fax or post";
 
 $txt["nl"]["factuur"]["permailfaxpost_uitleg"]="Door de bevestiging uit te printen, te ondertekenen en terug te sturen. Dit kan per e-mail, fax of post.";
 $txt["de"]["factuur"]["permailfaxpost_uitleg"]="Indem Sie die Bestätigung drucken, unterschreiben und per E-Mail, Fax oder Post zurückschicken. ";
