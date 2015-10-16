@@ -812,7 +812,7 @@ $title["xmlmanual"]="Manual XML export";
 
 # TIJDELIJK
 $title["reischeque"]="Welkom bij Zomerhuisje.nl!";
-$title["smaak-van-italie"]="Zomerhuisje.nl op 'De smaak van Italiï¿½'";
+$title["smaak-van-italie"]="Zomerhuisje.nl op 'De smaak van Italië'";
 if($vars["seizoentype"]==2) {
 	$title["brochure"]="Zomerhuisje Magazine";
 } else {
@@ -820,7 +820,7 @@ if($vars["seizoentype"]==2) {
 }
 $title["agentenactie"]="Chalet.nl Agentenactie";
 $title["vroegboekkorting"]="Unieke aanbieding: 5% vroegboekkorting op je zomervakantie!";
-$title["montegufoni"]="Lezersaanbieding Smaak van Italiï¿½";
+$title["montegufoni"]="Lezersaanbieding Smaak van Italië";
 $title["alpedhuzes"]="Alpe d'HuZes 2015";
 $title["privacy-statement"]=txt("title_privacy-statement");
 $title["disclaimer"]=txt("title_disclaimer","",array("v_websitenaam"=>$vars["websitenaam"]));
@@ -905,19 +905,19 @@ $vars["recaptcha_privatekey"]="6LdyodYSAAAAAIVrp5gAZBhBygsy1KObuX6XAM-W";
 $vars["vertrekdagtypes_soorten"]=array(1=>"unieke afwijkdagen",3=>"zaterdag-zaterdag",2=>"zondag-zondag");
 
 # Voucher-teksten
-$vars["voucher_resnrlev"]=array("D"=>"Reservierung Nummer","E"=>"Reservation number","F"=>"Rï¿½servation accomm.","I"=>"Numero di prenotazione","N"=>"Res.nr. Leverancier","O"=>"Reservierung Nummer","Z"=>"Reservierung Nummer","CZ"=>"Reservierung Nummer","S"=>"Reserva Nï¿½ del proveedor");
-$vars["voucher_bestemming"]=array("D"=>"Ort","E"=>"Destination","F"=>"Destination","I"=>"Cittï¿½","N"=>"Bestemming","O"=>"Ort","Z"=>"Ort","CZ"=>"Ort","S"=>"Destino");
-$vars["voucher_accommodatie"]=array("D"=>"Wohnung","E"=>"Accommodation","F"=>"Hï¿½bergement","I"=>"Proprietï¿½","N"=>"Accommodatie","O"=>"Wohnung","Z"=>"Wohnung","CZ"=>"Wohnung","S"=>"Alojamiento");
-$vars["voucher_accommodatiecode"]=array("D"=>"Code akkommodation","E"=>"Code accommodation","F"=>"Code logement","I"=>"Codice Proprietï¿½","N"=>"Code accommodatie","O"=>"Code akkommodation","Z"=>"Code akkommodation","CZ"=>"Code akkommodation","S"=>"Cï¿½digo del alojamiento");
+$vars["voucher_resnrlev"]=array("D"=>"Reservierung Nummer","E"=>"Reservation number","F"=>"Réservation accomm.","I"=>"Numero di prenotazione","N"=>"Res.nr. Leverancier","O"=>"Reservierung Nummer","Z"=>"Reservierung Nummer","CZ"=>"Reservierung Nummer","S"=>"Reserva Nº del proveedor");
+$vars["voucher_bestemming"]=array("D"=>"Ort","E"=>"Destination","F"=>"Destination","I"=>"Città","N"=>"Bestemming","O"=>"Ort","Z"=>"Ort","CZ"=>"Ort","S"=>"Destino");
+$vars["voucher_accommodatie"]=array("D"=>"Wohnung","E"=>"Accommodation","F"=>"Hébergement","I"=>"Proprietà","N"=>"Accommodatie","O"=>"Wohnung","Z"=>"Wohnung","CZ"=>"Wohnung","S"=>"Alojamiento");
+$vars["voucher_accommodatiecode"]=array("D"=>"Code akkommodation","E"=>"Code accommodation","F"=>"Code logement","I"=>"Codice Proprietà","N"=>"Code accommodatie","O"=>"Code akkommodation","Z"=>"Code akkommodation","CZ"=>"Code akkommodation","S"=>"Código del alojamiento");
 $vars["voucher_eerstedag"]=array("D"=>"Anfang","E"=>"First day","F"=>"Premier jour","I"=>"Arrivo","N"=>"Aanvangsdatum","O"=>"Anfang","Z"=>"Anfang","CZ"=>"Anfang","S"=>"Llegada");
 $vars["voucher_laatstedag"]=array("D"=>"Ende","E"=>"Last day","F"=>"Fin jour","I"=>"Partenza","N"=>"Einddatum","O"=>"Ende","Z"=>"Ende","CZ"=>"Ende","S"=>"Salida");
-$vars["voucher_aantal"]=array("D"=>"Nummer","E"=>"Number","F"=>"Nombre","I"=>"Importo","N"=>"Aantal","O"=>"Nummer","Z"=>"Nummer","CZ"=>"Nummer","S"=>"Nï¿½mero");
+$vars["voucher_aantal"]=array("D"=>"Nummer","E"=>"Number","F"=>"Nombre","I"=>"Importo","N"=>"Aantal","O"=>"Nummer","Z"=>"Nummer","CZ"=>"Nummer","S"=>"Número");
 $vars["voucher_deelnemers"]=array("D"=>"Personen","E"=>"Persons","F"=>"Personnes","I"=>"Persone","N"=>"Deelnemers","O"=>"Personen","Z"=>"Personen","CZ"=>"Personen","S"=>"Participantes");
 $vars["voucher_persoon"]=array("D"=>"Person","E"=>"person","F"=>"personne","I"=>"persone","N"=>"persoon","O"=>"Person","Z"=>"Person","CZ"=>"Person","S"=>"persona");
 $vars["voucher_personen"]=array("D"=>"Personen","E"=>"persons","F"=>"personnes","I"=>"persone","N"=>"personen","O"=>"Personen","Z"=>"Personen","CZ"=>"Personen","S"=>"personas");
-$vars["voucher_reservering"]=array("D"=>"Reservierung","E"=>"Reservation","F"=>"Rï¿½servation","I"=>"Prenotazione","N"=>"Reservering","O"=>"Reservierung","Z"=>"Reservierung","CZ"=>"Reservierung","S"=>"Reserva");
+$vars["voucher_reservering"]=array("D"=>"Reservierung","E"=>"Reservation","F"=>"Réservation","I"=>"Prenotazione","N"=>"Reservering","O"=>"Reservierung","Z"=>"Reservierung","CZ"=>"Reservierung","S"=>"Reserva");
 $vars["voucher_plaats"]=array("D"=>"Ort","E"=>"Resort","F"=>"Destination","I"=>"Paese","N"=>"Plaats","O"=>"Ort","Z"=>"Ort","CZ"=>"Ort","S"=>"Localidad");
-$vars["voucher_omschrijving"]=array("D"=>"[OMSCHRIJVING]","E"=>"[OMSCHRIJVING]","F"=>"[OMSCHRIJVING]","I"=>"[OMSCHRIJVING]","N"=>"Omschrijving","O"=>"[OMSCHRIJVING]","Z"=>"[OMSCHRIJVING]","CZ"=>"[OMSCHRIJVING]","S"=>"Descripciï¿½n");
+$vars["voucher_omschrijving"]=array("D"=>"[OMSCHRIJVING]","E"=>"[OMSCHRIJVING]","F"=>"[OMSCHRIJVING]","I"=>"[OMSCHRIJVING]","N"=>"Omschrijving","O"=>"[OMSCHRIJVING]","Z"=>"[OMSCHRIJVING]","CZ"=>"[OMSCHRIJVING]","S"=>"Descripción");
 $vars["voucher_type"]=array("D"=>"Typ","E"=>"Type","F"=>"Type","I"=>"Tipo","N"=>"Type","O"=>"Typ","Z"=>"Typ","CZ"=>"Typ","S"=>"Tipo");
 $vars["voucher_prijs"]=array("D"=>"Preis","E"=>"Price","F"=>"Prix","I"=>"Prezzo","N"=>"Prijs","O"=>"Preis","Z"=>"Preis","CZ"=>"Preis","S"=>"Precio");
 $vars["voucher_gratis"]=array("D"=>"Frei","E"=>"Free","F"=>"Gratuit","I"=>"Gratuito","N"=>"Gratis","O"=>"Frei","Z"=>"Frei","CZ"=>"Frei","S"=>"Gratis");
@@ -959,7 +959,7 @@ $vars["landcodes"]=array("D"=>"de","E"=>"en","F"=>"fr","I"=>"","N"=>"nl","O"=>"d
 $vars["bestelmailfax_taal"]=array("D"=>"Duits","E"=>"Engels","N"=>"Nederlands");
 
 $vars["bestelmailfax_beste"]=array("D"=>"Sehr geehrte(r)","E"=>"Dear","N"=>"Beste");
-$vars["bestelmailfax_hierbijwillenwe"]=array("D"=>"Wir mï¿½chten gerne nachfolgende Fixreservierung machen","E"=>"We would like to make the next definitive reservation","N"=>"Hierbij willen wij onderstaande accommodatie definitief boeken");
+$vars["bestelmailfax_hierbijwillenwe"]=array("D"=>"Wir möchten gerne nachfolgende Fixreservierung machen","E"=>"We would like to make the next definitive reservation","N"=>"Hierbij willen wij onderstaande accommodatie definitief boeken");
 $vars["bestelmailfax_dezeacchebbenwij"]=array("D"=>"Zur Ihrer Information: Wir haben es","E"=>"This accommodation is","N"=>"Deze accommodatie hebben wij");
 $vars["bestelmailfax_soort"]["D"]=array(1=>"auf Anfrage",2=>"in Kontingent",3=>"in Garantie",4=>"in Option");
 $vars["bestelmailfax_soort"]["E"]=array(1=>"on request",2=>"in allotment",3=>"in guarantee",4=>"in option");
@@ -977,7 +977,7 @@ $vars["bestelmailfax_nachten"]=array("D"=>"Nachten","E"=>"nights","N"=>"nachten"
 $vars["bestelmailfax_plaats"]=array("D"=>"Ort","E"=>"Resort","N"=>"Plaats");
 $vars["bestelmailfax_accommodatie"]=array("D"=>"Akkommodation","E"=>"Accommodation","N"=>"Accommodatie");
 $vars["bestelmailfax_type"]=array("D"=>"Typ","E"=>"Type","N"=>"Type");
-$vars["bestelmailfax_maxcapaciteit"]=array("D"=>"Max. Kapazitï¿½t","E"=>"Max. capacity","N"=>"Max. capaciteit");
+$vars["bestelmailfax_maxcapaciteit"]=array("D"=>"Max. Kapazität","E"=>"Max. capacity","N"=>"Max. capaciteit");
 $vars["bestelmailfax_persoon"]=array("D"=>"Personen","E"=>"person","N"=>"persoon");
 $vars["bestelmailfax_personen"]=array("D"=>"Personen","E"=>"persons","N"=>"personen");
 $vars["bestelmailfax_prijs"]=array("D"=>"Mietpreis","E"=>"Price","N"=>"Prijs");
@@ -985,8 +985,8 @@ $vars["bestelmailfax_korting"]=array("D"=>"Kommission","E"=>"Commission","N"=>"C
 #$vars["bestelmailfax_vroegboekkorting"]=array("D"=>"Spezial Rabatt","E"=>"Early Bird","N"=>"Vroegboekkorting");
 $vars["bestelmailfax_vroegboekkorting"]=array("D"=>"Spezial Rabatt","E"=>"Special Reduction","N"=>"Extra korting");
 $vars["bestelmailfax_extra"]=array("D"=>"Extra","E"=>"Extra","N"=>"Extra");
-$vars["bestelmailfax_graagpermailoffaxbevestigen"]=array("D"=>"Wir bitten Sie uns umgehend eine Buchungsbestï¿½tigung zu schicken per Mail. Vielen dank im voraus.","E"=>"Please confirm this reservation as soon as possible by email.","N"=>"We vragen u deze reservering zo snel mogelijk per e-mail aan ons te bevestigen.");
-$vars["bestelmailfax_metvriendelijkegroet"]=array("D"=>"Mit freundlichen Grï¿½ï¿½en","E"=>"Thanks in advance","N"=>"Met vriendelijke groet");
+$vars["bestelmailfax_graagpermailoffaxbevestigen"]=array("D"=>"Wir bitten Sie uns umgehend eine Buchungsbestätigung zu schicken per Mail. Vielen dank im voraus.","E"=>"Please confirm this reservation as soon as possible by email.","N"=>"We vragen u deze reservering zo snel mogelijk per e-mail aan ons te bevestigen.");
+$vars["bestelmailfax_metvriendelijkegroet"]=array("D"=>"Mit freundlichen Grüßen","E"=>"Thanks in advance","N"=>"Met vriendelijke groet");
 $vars["bestelmailfax_pagina"]=array("D"=>"Seite","E"=>"Page","N"=>"Pagina");
 
 $vars["bestelmailfax_reservering"]=array("D"=>"Reservierung","E"=>"Reservation","N"=>"Reservering");
@@ -1001,10 +1001,10 @@ $vars["roominglist_site_benaming"]=array(1=>"Chalet.nl",2=>"Chalet.nl / Zomerhui
 #
 # Kenmerken Winter
 #
-$vars["kenmerken_type_1"]=array(1=>"catering mogelijk",2=>"aan de piste",3=>"sauna (privï¿½)",4=>"zwembad (privï¿½)",5=>"goed voor kids",6=>"grote groepen",7=>"prijsbewust",8=>"alleen het allerbeste (topselectie)",9=>"winter-wellness",10=>"open haard/houtkachel",11=>"huisdieren toegestaan",12=>"allergievrij",13=>"verhuur zondag t/m zondag",14=>"huisje voor 2",15=>"bijzonder",16=>"wasmachine",17=>"balkon",18=>"terras of balkon",19=>"huisdieren NIET toegestaan",20=>"internetverbinding",21=>"charmant chalet",22=>"internet via Wi-Fi",23=>"Jacuzzi/bubbelbad");
-$vars["kenmerken_accommodatie_1"]=array(1=>"catering mogelijk",2=>"aan de piste",3=>"sauna (privï¿½)",4=>"zwembad (privï¿½)",5=>"goed voor kids",6=>"grote groepen",7=>"prijsbewust",8=>"alleen het allerbeste (topselectie)",9=>"winter-wellness",10=>"sauna",11=>"zwembad",12=>"open haard/houtkachel",13=>"huisdieren toegestaan",14=>"allergievrij",15=>"verhuur zondag t/m zondag",16=>"bijzonder",17=>"wasmachine",18=>"balkon",19=>"terras of balkon",20=>"huisdieren NIET toegestaan",21=>"internetverbinding",22=>"charmant chalet",23=>"internet via Wi-Fi",24=>"Jacuzzi/bubbelbad");
-$vars["kenmerken_plaats_1"]=array(1=>"kindvriendelijk",2=>"prijsbewust",4=>"winter-wellness",5=>"meer dan alleen skiï¿½n",6=>"een 10 voor aprï¿½s-ski",7=>"altijd sneeuw",8=>"voor beginnende wintersporters",9=>"voor fanatieke wintersporters",10=>"snowboardfun",11=>"wandelen",12=>"langlaufen",13=>"charmant skidorp",14=>"super ski stations"); # 3 is nog leeg
-$vars["kenmerken_skigebied_1"]=array(1=>"kindvriendelijk",2=>"prijsbewust",3=>"winter-wellness",4=>"meer dan alleen skiï¿½n",5=>"altijd sneeuw",6=>"voor beginnende wintersporters",7=>"voor fanatieke wintersporters",8=>"snowboardfun",9=>"wandelen",10=>"langlaufen");
+$vars["kenmerken_type_1"]=array(1=>"catering mogelijk",2=>"aan de piste",3=>"sauna (privé)",4=>"zwembad (privé)",5=>"goed voor kids",6=>"grote groepen",7=>"prijsbewust",8=>"alleen het allerbeste (topselectie)",9=>"winter-wellness",10=>"open haard/houtkachel",11=>"huisdieren toegestaan",12=>"allergievrij",13=>"verhuur zondag t/m zondag",14=>"huisje voor 2",15=>"bijzonder",16=>"wasmachine",17=>"balkon",18=>"terras of balkon",19=>"huisdieren NIET toegestaan",20=>"internetverbinding",21=>"charmant chalet",22=>"internet via Wi-Fi",23=>"Jacuzzi/bubbelbad");
+$vars["kenmerken_accommodatie_1"]=array(1=>"catering mogelijk",2=>"aan de piste",3=>"sauna (privé)",4=>"zwembad (privé)",5=>"goed voor kids",6=>"grote groepen",7=>"prijsbewust",8=>"alleen het allerbeste (topselectie)",9=>"winter-wellness",10=>"sauna",11=>"zwembad",12=>"open haard/houtkachel",13=>"huisdieren toegestaan",14=>"allergievrij",15=>"verhuur zondag t/m zondag",16=>"bijzonder",17=>"wasmachine",18=>"balkon",19=>"terras of balkon",20=>"huisdieren NIET toegestaan",21=>"internetverbinding",22=>"charmant chalet",23=>"internet via Wi-Fi",24=>"Jacuzzi/bubbelbad");
+$vars["kenmerken_plaats_1"]=array(1=>"kindvriendelijk",2=>"prijsbewust",4=>"winter-wellness",5=>"meer dan alleen skiën",6=>"een 10 voor après-ski",7=>"altijd sneeuw",8=>"voor beginnende wintersporters",9=>"voor fanatieke wintersporters",10=>"snowboardfun",11=>"wandelen",12=>"langlaufen",13=>"charmant skidorp",14=>"super ski stations"); # 3 is nog leeg
+$vars["kenmerken_skigebied_1"]=array(1=>"kindvriendelijk",2=>"prijsbewust",3=>"winter-wellness",4=>"meer dan alleen skiën",5=>"altijd sneeuw",6=>"voor beginnende wintersporters",7=>"voor fanatieke wintersporters",8=>"snowboardfun",9=>"wandelen",10=>"langlaufen");
 
 #
 # Kenmerken Zomer
@@ -1012,16 +1012,16 @@ $vars["kenmerken_skigebied_1"]=array(1=>"kindvriendelijk",2=>"prijsbewust",3=>"w
 $vars["kenmerken_type_2"]=array(
 	1=>"huisje voor 2",
 	2=>"los, vrijstaand huis",
-	4=>"zwembad (privï¿½)",
+	4=>"zwembad (privé)",
 	5=>"goed voor kids",
 	6=>"voor groepen",
 	11=>"huisdieren toegestaan",
 	14=>"niet vrijstaand/geschakeld/appartement",
 	15=>"vrijstaand huis (met meerdere huizen)",
 	16=>"bijzonder",
-	17=>"tuin/terras (privï¿½)",
+	17=>"tuin/terras (privé)",
 	18=>"wasmachine",
-	19=>"balkon (privï¿½)",
+	19=>"balkon (privé)",
 	20=>"tuin/terras of balkon",
 	22=>"internetverbinding",
 	23=>"omheinde tuin",
@@ -1030,13 +1030,13 @@ $vars["kenmerken_type_2"]=array(
 	26=>"verdieping: niet op begane grond",
 	27=>"airconditioning",
 	28=>"barbecue (gemeenschappelijk)",
-	29=>"barbecue (privï¿½)",
+	29=>"barbecue (privé)",
 	30=>"kinderbed",
 	31=>"jacuzzi",
 	32=>"kinderstoel",
 	33=>"vaatwasser"
 );
-# # verwijderd: 3=>"sauna (privï¿½)",
+# # verwijderd: 3=>"sauna (privé)",
 # # verwijderd: 7=>"prijsbewust",
 # # verwijderd: 8=>"alleen het allerbeste (topselectie)",
 # # verwijderd: 9=>"vleugje wellness",
@@ -1050,7 +1050,7 @@ $vars["kenmerken_type_2"]=array(
 $vars["kenmerken_accommodatie_2"]=array(
 	1=>"actief in de bergen",
 	2=>"golfbaan",
-	4=>"zwembad (privï¿½)",
+	4=>"zwembad (privé)",
 	5=>"goed voor kids",
 	6=>"voor groepen",
 	8=>"alleen het allerbeste (topselectie)",
@@ -1069,10 +1069,10 @@ $vars["kenmerken_accommodatie_2"]=array(
 	27=>"vrijstaand huis (met meerdere huizen)",
 	28=>"bijzonder",
 	29=>"tennisbaan (in directe omgeving)",
-	30=>"tuin/terras (privï¿½)",
+	30=>"tuin/terras (privé)",
 	31=>"paardrijden (in directe omgeving)",
 	32=>"wasmachine",
-	33=>"balkon (privï¿½)",
+	33=>"balkon (privé)",
 	34=>"tuin/terras of balkon",
 	36=>"internetverbinding",
 	37=>"wijndomein",
@@ -1085,7 +1085,7 @@ $vars["kenmerken_accommodatie_2"]=array(
 	44=>"verdieping: niet op begane grond",
 	45=>"airconditioning",
 	46=>"barbecue (gemeenschappelijk)",
-	47=>"barbecue (privï¿½)",
+	47=>"barbecue (privé)",
 	48=>"kinderbed",
 	49=>"jacuzzi",
 	50=>"kinderstoel",
@@ -1100,7 +1100,7 @@ $vars["kenmerken_accommodatie_2"]=array(
 	59=>"kindvriendelijk zwembad",
 	60=>"ontbijt mogelijk",
 );
-# # verwijderd: 3=>"sauna (privï¿½)",
+# # verwijderd: 3=>"sauna (privé)",
 # # verwijderd: 7=>"prijsbewust",
 # # verwijderd: 12=>"open haard/houtkachel",
 # # verwijderd: 14=>"allergievrij",
@@ -1187,7 +1187,7 @@ $vars["commissie_hooglaag"]=array(2=>"hoog",1=>"laag");
 
 
 # Vars m.b.t. de boekhouding
-$vars["landcodes_boekhouding_lang"]=array(1=>"Belgiï¿½",2=>"Duitsland",3=>"Frankrijk",11=>"Italiï¿½",4=>"Luxemburg",5=>"Nederland",6=>"Oostenrijk",7=>"Spanje",8=>"Verenigd Koninkrijk",10=>"Verenigde Staten",9=>"Zwitserland",12=>" - Overig (binnen Europa)");
+$vars["landcodes_boekhouding_lang"]=array(1=>"België",2=>"Duitsland",3=>"Frankrijk",11=>"Italië",4=>"Luxemburg",5=>"Nederland",6=>"Oostenrijk",7=>"Spanje",8=>"Verenigd Koninkrijk",10=>"Verenigde Staten",9=>"Zwitserland",12=>" - Overig (binnen Europa)");
 $vars["landcodes_boekhouding_kort"]=array(1=>"BE",2=>"DE",3=>"FR",4=>"LU",5=>"NL",6=>"AT",7=>"ES",8=>"GB",9=>"CH",10=>"US",11=>"IT",12=>"OV");
 $vars["landcodes_boekhouding_btwcode"]=array(1=>"15",2=>"15",3=>"15",4=>"15",5=>"10",6=>"15",7=>"15",8=>"15",9=>"15",10=>"0",11=>"15",12=>"15");
 
