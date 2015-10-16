@@ -1,6 +1,7 @@
 <?php
-
-# /usr/bin/php /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 26...)
+use Chalet\XML\Import\DirektHolidays\UnavailabilityParser;
+use Chalet\XML\Import\DirektHolidays\PricesParser;
+# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 26...)
 
 #
 # Script wordt elke minuut gerund, maar alleen volledig afgelopen om:
@@ -44,10 +45,10 @@ function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $w
 
 function get_slow_suppliers($xml_type) {
 	//
-	// Determine if Posarelli (8), Marche Holiday (14) and Direkt Holidays (24) should be downloaded (because downloading these suppliers takes a long time)
+	// Determine if Posarelli (8), Marche Holiday (14) should be downloaded (because downloading these suppliers takes a long time)
 	//
 
-	// temporaily: Marche Holiday (14) and Direkt Holidays (24): always true
+	// temporaily: Marche Holiday (14): always true
 	global $current_hour;
 
 	if($xml_type==8) {
@@ -72,13 +73,6 @@ function get_slow_suppliers($xml_type) {
 		} else {
 			return false;
 		}
-	} elseif($xml_type==24) {
-		// Direkt Holidays (24)
-		if($current_hour==3) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }
 
@@ -92,7 +86,7 @@ function track_time($text) {
 	$track_time = microtime(true);
 }
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro" || defined('wt_test') && wt_test === true) {
 	# Lokaal testen
 	$testsysteem=true;
 	header("Content-type: text/plain; charset=utf-8");
@@ -128,10 +122,19 @@ if($_SERVER["HTTP_HOST"]) {
 	} else {
 		$tmpdir="/tmp/";
 	}
+
 } elseif(preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
+
 	$unixdir="/var/www/chalet.nl/html_test/";
 	$tmpdir="/var/www/chalet.nl/html_test/tmp/";
 	$unzip="/usr/bin/unzip";
+
+} elseif (defined('wt_root_dir') && defined('unzip_bin_location')) {
+
+	$unixdir = wt_root_dir . '/';
+	$tmpdir  = wt_root_dir . '/tmp';
+	$unzip   = unzip_bin_location;
+
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
 	$tmpdir="/var/www/chalet.nl/html/tmp/";
@@ -232,7 +235,8 @@ if(($current_hour==11 and !$argv[1]) or $argv[1]=="5") {
 # 2 = tarieven
 #
 #
-
+$xml_urls  = [];
+$soap_urls = [];
 # Huetten
 #$xml_urls[1][1]="Huetten"; (beschikbaarheid en tarieven werken met losse XML's per accommodatie)
 
@@ -252,9 +256,9 @@ $xml_urls[4][1]="http://www.cgh-partenaires.com/results.xml";
 $xml_urls[6][1]="http://f0038e54:chaletnl@www.frosch-info.de/schnittstelle/chaletnl/daily/Vakanzen.xml";
 $xml_urls[6][2]="http://f0038e54:chaletnl@www.frosch-info.de/schnittstelle/chaletnl/daily/Preise.xml";
 
-# CIS / Bellecôte Chalets (VVE) (via Arkiane)
+# CIS / Bellecï¿½te Chalets (VVE) (via Arkiane)
 $xml_urls[7][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=extr_plng@top_id='CHALE'";
-#$xml_urls[7][2]="CIS / Bellecôte Chalets (VVE)" (tarieven werken met losse XML's per accommodatie)
+#$xml_urls[7][2]="CIS / Bellecï¿½te Chalets (VVE)" (tarieven werken met losse XML's per accommodatie)
 
 # Posarelli
 if(get_slow_suppliers(8) or $argv[1]) {
@@ -305,9 +309,9 @@ $xml_urls[17][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=142&to
 $xml_urls[18][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&top=58&qry=extr_plng@top_id='CHALE'";
 #$xml_urls[18][2]="Agence des Belleville" (tarieven werken met losse XML's per accommodatie)
 
-# Oxygène Immobilier (via Arkiane)
+# Oxygï¿½ne Immobilier (via Arkiane)
 $xml_urls[19][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=extr_plng@top_id='CHANL'";
-#$xml_urls[19][2]="Oxygène Immobilier" (tarieven werken met losse XML's per accommodatie)
+#$xml_urls[19][2]="Oxygï¿½ne Immobilier" (tarieven werken met losse XML's per accommodatie)
 
 # Centrale des Hauts Forts (via Arkiane)
 $xml_urls[20][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=extr_plng@top_id='CHALE'";
@@ -328,31 +332,31 @@ if(get_slow_suppliers(23)or $argv[1]) {
 }
 
 # Direkt Holidays
-if(get_slow_suppliers(24)or $argv[1]) {
-	$soap_urls[24] = $unixdir."suppliers/direktholidays/index.php";
-}
+$xml_urls[24][1] = 'https://www.direktholidays.at/OTA/OTA_HotelAvailRQ?agencyId=ota_chaletnl&agencyPin=2840579';     // beschikbaarheid
+$xml_urls[24][2] = 'https://www.directholidays.at/OTA/OTA_HotelRatePlanREQ?agencyId=ota_chaletnl&agencyPin=2840579'; // prijzen
 
 # Alpin Rentals
 $soap_urls[25] = $unixdir."suppliers/newyseservice/index.php";
 
 
-# 3 Vallées Immobilier (via Arkiane)
+# 3 Vallï¿½es Immobilier (via Arkiane)
 $xml_urls[26][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=264&top=58&qry=extr_plng@top_id='CHALE'";
-#$xml_urls[26][2]="3 Vallées Immobilier" (tarieven werken met losse XML's per accommodatie)
+#$xml_urls[26][2]="3 Vallï¿½es Immobilier" (tarieven werken met losse XML's per accommodatie)
 
 
 #
 # Voor testsysteem
 #
 if($testsysteem) {
-	unset($xml_urls);
-	unset($soap_urls);
+
+	$xml_urls  = [];
+	$soap_urls = [];
 	// $xml_urls[2][]=$test_tmpdir."alpenchalets.xml";
 	// $xml_urls[3][]=$test_tmpdir."skifrance.xml";
 	// $xml_urls[4][]=$test_tmpdir."results.xml";
 	// $csv_urls[5]=$test_tmpdir."dispo.csv";
 	// $xml_urls[6][1]=$test_tmpdir."Vakanzen.xml";
-	$xml_urls[6][2]=$test_tmpdir."Preise.xml";
+	// $xml_urls[6][2]=$test_tmpdir."Preise.xml";
 	// $xml_urls[7][1]=$test_tmpdir."bel.xml";
 	// $xml_urls[7][2]=$test_tmpdir."belt.xml";
 	// $xml_urls[8][1]=$test_tmpdir."availability.xml";
@@ -377,6 +381,8 @@ if($testsysteem) {
 	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
 	// $xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
 	// $xml_urls[22][1]="/tmp/nexity.xml"; # prijzen
+	$xml_urls[24][1]=$tmpdir . '/direktholidays/beschikbaarheid.xml';
+	$xml_urls[24][2]=$tmpdir . '/direktholidays/prijzen.xml';
 	unset($http_login[21]);
 }
 
@@ -431,7 +437,7 @@ if(intval($argv[1])>0) {
 #
 
 if($testsysteem) {
-	echo wt_dump($xml_urls, false);
+	// echo wt_dump($xml_urls, false);
 }
 
 @reset($xml_urls);
@@ -564,15 +570,15 @@ while(list($key,$value)=@each($xml_urls)) {
 
 				Arkiane-leveranciers:
 
-				Leverancier CIS / Bellecôte Chalets (VVE)
+				Leverancier CIS / Bellecï¿½te Chalets (VVE)
 				CIS Immobilier
 				Flaine Immobilier
 				Deux Alpes Voyages
 				Agence des Belleville
-				Oxygène Immobilier
+				Oxygï¿½ne Immobilier
 				Centrale des Hauts Forts
 				Nexity
-				3 Vallées Immobilier
+				3 Vallï¿½es Immobilier
 
 				*/
 
@@ -588,7 +594,7 @@ while(list($key,$value)=@each($xml_urls)) {
 					#
 					# $plusdag uitgezet (vanwege conflict met afwijkende vertrekdagtypes). Hopelijk sturen ze voortaan gewoon juiste datums, zodat functie overbodig is (4 augustus 2010)
 					#
-					# Bellecôte stuurt soms foute XML-gegevens (en stuurt datum op zondag): omzetten naar zaterdag
+					# Bellecï¿½te stuurt soms foute XML-gegevens (en stuurt datum op zondag): omzetten naar zaterdag
 					if(date("w",$datum_begin)<>6) {
 						$plusdag=0;
 						if(date("w",$datum_begin)==0) {
@@ -954,6 +960,18 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
+			} elseif ($key === 24) {
+
+                if ($key2 === 1) {
+
+                    $unavailability             = new UnavailabilityParser($xml);
+                    $xml_niet_beschikbaar[$key] = $unavailability->parse();
+
+                } elseif ($key2 === 2) {
+
+                    $prices               = new PricesParser($xml, $testsysteem);
+                    $xml_brutoprijs[$key] = $prices->parse();
+                }
 			}
 		} else {
 			// trigger_error("_notice: URL ".$value2." onbereikbaar of geen valide XML",E_USER_NOTICE);
@@ -1156,87 +1174,6 @@ while(list($key,$value)=@each($soap_urls)) {
 			$xml_laatsteimport_leverancier[$key]=true;
 			$xml_discounts[$key] = $interHome->getDiscounts();
 
-		}
-	} elseif($key == 24) {
-		//
-		// Class Direkt Holidays
-		//
-		if(file_exists($value)) {
-
-			require_once($value);
-
-			// Instantiate the DirektHolidays class
-			try {
-				$is_available = true;
-				$direktHolidays = new DirektHolidays(true);
-			} catch (Exception $e) {
-				trigger_error("DirektHoliday website is not available", E_USER_NOTICE);
-				$is_available = false;
-			}
-
-			if ($is_available) {
-				// Get the last dates for each season type (winter=1, summer=2)
-				$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
-				$db->query($q);
-				while($db->next_record()) {
-					$endDate[$db->f("type")][] = $db->f("end");
-					$startDate[$db->f("type")][] = $db->f("begin");
-				}
-				// Get all accommodations from Direkt Holidays (35)
-				$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '35' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> '';";
-				$db->query($q);
-
-				// Loop through all the database accommodations
-				while($db->next_record()) {
-
-					if($db->f("leverancierscode_negeertarief") != NULL) {
-						$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
-						$leverancierscode = explode(",",$db->f("leverancierscode"));
-
-						$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
-						$accCode = array_shift($accCode);
-					} else {
-						$accCode = $db->f("leverancierscode");
-					}
-
-					$seasonId = $db->f("wzt");
-					foreach($endDate[$seasonId] as $endDatekey => $endDateValue) {
-						$x = strtotime($endDateValue);
-						$end_date = strtotime("+ 7 days", $x);
-						$end_date = date("Y-m-d", $end_date);
-
-						$url = $direktHolidays->getAccommodationURL($accCode);
-						$html = $direktHolidays->getAccomodationHTML($url);
-						$start_date = $startDate[$seasonId][$endDatekey];
-						if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
-							$start_date = date("Y-m-d");
-						}
-
-						$availabilities = $direktHolidays->getAvailability($html, $start_date, $end_date, $accCode);
-
-						$availability = $availabilities['availability'];
-						$prices = $availabilities['price'];
-						if(isset($availability)) {
-							// Get the availability
-							if(isset($xml_beschikbaar[$key][$accCode])) {
-									$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-							} else {
-									$xml_beschikbaar[$key][$accCode] = $availability;
-							}
-						}
-
-						if(isset($prices)) {
-							// Get the prices
-							if(isset($xml_brutoprijs[$key][$accCode])) {
-									$xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
-							} else {
-									$xml_brutoprijs[$key][$accCode] = $prices;
-							}
-						}
-					}
-				}
-				$xml_laatsteimport_leverancier[$key]=true;
-			}
 		}
 	} elseif($key==25) {
 		//
@@ -1683,15 +1620,15 @@ while($db->next_record()) {
 
 			Arkiane-leveranciers:
 
-			Leverancier CIS / Bellecôte Chalets (VVE)
+			Leverancier CIS / Bellecï¿½te Chalets (VVE)
 			CIS Immobilier
 			Flaine Immobilier
 			Deux Alpes Voyages
 			Agence des Belleville
-			Oxygène Immobilier
+			Oxygï¿½ne Immobilier
 			Centrale des Hauts Forts
 			Nexity
-			3 Vallées Immobilier
+			3 Vallï¿½es Immobilier
 
 			*/
 
@@ -1702,7 +1639,7 @@ while($db->next_record()) {
 			# Tarieven
 			unset($xml);
 			if($db->f("xml_type")==7) {
-				# CIS / Bellecôte Chalets (VVE)
+				# CIS / Bellecï¿½te Chalets (VVE)
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=112&top=8700&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==10) {
 				# CIS Immobilier
@@ -1717,7 +1654,7 @@ while($db->next_record()) {
 				# Agence des Belleville
 				$xml_url="http://resa.alpes-skiresa.com/xml/xml_v1.asp?app=LS&clt=141&top=58&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==19) {
-				# Oxygène Immobilier
+				# Oxygï¿½ne Immobilier
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=23&top=6&qry=tarif_lotref@top_id='CHANL',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==20) {
 				# Centrale des Hauts Forts
@@ -1726,7 +1663,7 @@ while($db->next_record()) {
 				# Nexity
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=238&top=22&qry=tarif_lotref@top_id='CHANL',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==26) {
-				# 3 Vallées Immobilier
+				# 3 Vallï¿½es Immobilier
 				$xml_url="http://resa.alpes-skiresa.com/xml/xml_v1.asp?app=LS&clt=264&top=58&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			}
 			if($xml=@simplexml_load_file($xml_url)) {
@@ -1945,10 +1882,10 @@ while($db->next_record()) {
 			# Leverancier Direkt Holidays
 			#
 			# Beschikbaarheid
-			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
-				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
-				while(list($key2,$value2)=each($xml_beschikbaar[$db->f("xml_type")][$value])) {
-					$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]+=$value2;
+			if(is_array($xml_niet_beschikbaar[$db->f("xml_type")][$value])) {
+				reset($xml_niet_beschikbaar[$db->f("xml_type")][$value]);
+				while(list($key2,$value2)=each($xml_niet_beschikbaar[$db->f("xml_type")][$value])) {
+					$nietbeschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]++;
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
@@ -1981,7 +1918,7 @@ while($db->next_record()) {
 			#
 			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")==16 or $db->f("xml_type")==17 or $db->f("xml_type")==18 or $db->f("xml_type")==19 or $db->f("xml_type")==20 or $db->f("xml_type")==21 or $db->f("xml_type")==22 or $db->f("xml_type")==23 or $db->f("xml_type")==24 or $db->f("xml_type")==25 or $db->f("xml_type")==26) {
 				#
-				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Flaine Immobilier (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale des Hauts Forts (20), Ville in Italia (21), Nexity (22), Interhome (23), Direkt Holidays (24), Alpin Rentals Kaprun (25), 3 Vallées Immobilier (26)
+				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecï¿½te (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Rï¿½sidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Flaine Immobilier (17), Agence des Belleville (18), Oxygï¿½ne Immobilier (19), Centrale des Hauts Forts (20), Ville in Italia (21), Nexity (22), Interhome (23), Direkt Holidays (24), Alpin Rentals Kaprun (25), 3 Vallï¿½es Immobilier (26)
 				#
 
 				if(isset($shorter_seasons[$db->f("type_id")])){
@@ -2072,19 +2009,6 @@ while($db->next_record()) {
 										}
 
 										if($nieuwxmltarief>0 and floor($oudtarief)<>floor($nieuwxmltarief) and (floor($xmltarief_al_in_db)<>floor($nieuwxmltarief) or $seizoen_al_in_db<>$seizoen_opslaan)) {
-
-											// Direkt Holidays summer season custom start / end dates
-											if($db->f("xml_type") == 24) {
-												$tmp_date = getdate($key2);
-												// For the summer season (2), change start date to 01/04 and end date to 30/10
-												if(($wzt[$db->f("type_id")] == 2) && ($tmp_date["mon"] < 4 || $tmp_date["mon"] > 10)) {
-													continue;
-												}
-												// For the winter season (1), change the end date to 12/04
-												if(($wzt[$db->f("type_id")] == 1) && ($tmp_date["mon"] == 4 && $tmp_date["mday"] > 12)) {
-													continue;
-												}
-											}
 
 											$tarievenquery="week='".addslashes($key2)."', bruto='".addslashes($nieuwxmltarief)."', type_id='".addslashes($db->f("type_id"))."', seizoen_id='".addslashes($seizoen_opslaan)."', importmoment=NOW()";
 											if(isset($xmltarief_al_in_db)) {
@@ -2732,5 +2656,3 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 }
 
 echo "\n\nFinish: ".date("r")."\n";
-
-?>
