@@ -171,22 +171,36 @@ if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/hom
 
 // autoloaden van classes
 function __autoload($classname) {
+
 	global $vars, $unixdir;
+	if (substr($classname, 0, 7) === 'Chalet\\') {
+
+		$classFile = str_replace('\\', DIRECTORY_SEPARATOR, substr($classname, 7)) . '.php';
+
+		if (file_exists($unixdir . 'admin/siteclass/'  . $classFile)) {
+
+			require_once $unixdir . 'admin/siteclass/' . $classFile;
+			return true;
+		}
+	}
+
 	if (file_exists($unixdir."admin/siteclass/siteclass.".$classname . ".php")) {
+
 		require_once $unixdir."admin/siteclass/siteclass.".$classname . ".php";
 		return true;
-	} else {
-		if($classname!="MYPDF" and !preg_match("@Horde@", $classname)) {
+	}
 
-			$debug=@debug_backtrace();
+	if ($classname != 'MYPDF' && !preg_match('@Horde@', $classname)) {
 
-			if ( is_array( $debug ) ) {
-				$filename=$debug[0]["file"];
-				$linenumber=$debug[0]["line"];
-			}
-			trigger_error("_WT_FILENAME_".$filename."_WT_FILENAME__WT_LINENUMBER_".$linenumber."_WT_LINENUMBER_class ".$classname." kan niet worden geladen",E_USER_NOTICE);
+		$debug = @debug_backtrace();
 
+		if (is_array($debug)) {
+
+			$filename   = $debug[0]['file'];
+			$linenumber = $debug[0]['line'];
 		}
+
+		trigger_error('_WT_FILENAME_' . $filename . '_WT_FILENAME__WT_LINENUMBER_' . $linenumber . '_WT_LINENUMBER_class ' . $classname . ' kan niet worden geladen', E_USER_NOTICE);
 		return false;
 	}
 }
