@@ -31,28 +31,13 @@ $volgorde=$volgorde+10;
 
 if($_GET["wzt"]==2) {
 
-	if(!$vars['cmstaal']){
-		#nedelandse zomer websites
-		$te_tonen_websites = array("I"=>"Italissima.nl", "K"=>"Italissima.be", "Z"=>"Zomerhuisje.nl");
-
-	} else {
-       #internationale zomer websites
-		$te_tonen_websites = array("I"=>"Italissima.nl", "K"=>"Italissima.be", "Z"=>"Zomerhuisje.nl", "H"=>"Italyhomes.eu (Engelstalig)");
-	}
-
+	#zomer websites
+	$te_tonen_websites = array("I"=>"Italissima.nl", "K"=>"Italissima.be", "Z"=>"Zomerhuisje.nl", "H"=>"Italyhomes.eu (Engelstalig)");
 } else {
 
-	if(!$vars['cmstaal']){
-         # Nedelandse winter websites
-		$te_tonen_websites = array("C"=>"Chalet.nl",  "B"=>"Chalet.be", "T"=>"Chalettour.nl","V"=>"Chalets in Vallandry (.nl)","X"=>"Venturasol Wintersport","Y"=>"Venturasol Vacances");
-
-	} else {
-       #internationale winter websites
-		$te_tonen_websites = array("C"=>"Chalet.nl", "E"=>"Chalet.eu (Engelstalig)", "B"=>"Chalet.be", "T"=>"Chalettour.nl", "V"=>"Chalets in Vallandry (.nl)","X"=>"Venturasol Wintersport","Y"=>"Venturasol Vacances", "Q"=>"Chalets in Vallandry (.com)");
-
-	}
+	# winter websites
+	$te_tonen_websites = array("C"=>"Chalet.nl", "E"=>"Chalet.eu (Engelstalig)", "B"=>"Chalet.be", "D"=>"Chaletonline.de (Duitstalig) ", "T"=>"Chalettour.nl", "V"=>"Chalets in Vallandry (.nl)","X"=>"Venturasol Wintersport","Y"=>"Venturasol Vacances", "Q"=>"Chalets in Vallandry (.com)");
 }
-
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 
