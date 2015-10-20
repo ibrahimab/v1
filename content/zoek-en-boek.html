@@ -1703,409 +1703,422 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				#
 				#
 
-				# Aantal badkamers - aantalbadkamers
-				if($db->f("badkamers")>=2) {
-					$verfijnd["aantalbadkamers"][1]++;
-				}
-				if($db->f("badkamers")>=3) {
-					$verfijnd["aantalbadkamers"][2]++;
-				}
-				if($db->f("badkamers")>=4) {
-					$verfijnd["aantalbadkamers"][3]++;
-				}
-				if($db->f("badkamers")>=5) {
-					$verfijnd["aantalbadkamers"][4]++;
-				}
-				if($db->f("badkamers")>=6) {
-					$verfijnd["aantalbadkamers"][5]++;
-				}
-				if($db->f("badkamers")>=8) {
-					$verfijnd["aantalbadkamers"][6]++;
-				}
-				if($db->f("badkamers")>=10) {
-					$verfijnd["aantalbadkamers"][7]++;
-				}
-
-				# Afstand vanaf Utrecht
-				if($vars["websitetype"]==7) {
-					# andere keuzes bij Italissima
-					if($db->f("afstandtotutrecht")>0 and $db->f("afstandtotutrecht")<=1250) {
-						$verfijnd["afstandvanafutrecht"][1]++;
-					} elseif($db->f("afstandtotutrecht")>1250 and $db->f("afstandtotutrecht")<=1500) {
-						$verfijnd["afstandvanafutrecht"][2]++;
-					} elseif($db->f("afstandtotutrecht")>1500) {
-						$verfijnd["afstandvanafutrecht"][3]++;
+				// should this result be accounted for in "verfijnen"?
+				$accommodatie_meetellen_in_verfijningen = false;
+				if($gekozen_skigebied) {
+					if($db->f("skigebied_id")==$gekozen_skigebied) {
+						$accommodatie_meetellen_in_verfijningen = true;
 					}
 				} else {
-					if($db->f("afstandtotutrecht")>0 and $db->f("afstandtotutrecht")<=600) {
-						$verfijnd["afstandvanafutrecht"][1]++;
-					} elseif($db->f("afstandtotutrecht")>600 and $db->f("afstandtotutrecht")<=1000) {
-						$verfijnd["afstandvanafutrecht"][2]++;
-					} elseif($db->f("afstandtotutrecht")>1000 and $db->f("afstandtotutrecht")<=1500) {
-						$verfijnd["afstandvanafutrecht"][3]++;
-					} elseif($db->f("afstandtotutrecht")>1500) {
-						$verfijnd["afstandvanafutrecht"][4]++;
-					}
+					$accommodatie_meetellen_in_verfijningen = true;
 				}
 
-				if($vars["seizoentype"]==1) {
-
-					#
-					# Winter
-					#
-
-					# Afstand tot piste - afstandtotpiste
-					if($db->f("afstandpiste")<>"" and $db->f("afstandpiste")<=50) {
-						$verfijnd["afstandtotpiste"][1]++;
-					}
-					if($db->f("afstandpiste")<>"" and $db->f("afstandpiste")<=250) {
-						$verfijnd["afstandtotpiste"][2]++;
-					}
-					if($db->f("afstandpiste")<>"" and $db->f("afstandpiste")<=500) {
-						$verfijnd["afstandtotpiste"][3]++;
-					}
-					if($db->f("afstandpiste")<>"" and $db->f("afstandpiste")<=1000) {
-						$verfijnd["afstandtotpiste"][4]++;
-					}
-
-					# Kilometer piste - aantalkmpiste
-					if($db->f("kilometerpiste")<>"" and $db->f("kilometerpiste")<100) {
-						$verfijnd["aantalkmpiste"][1]++;
-					}
-					if($db->f("kilometerpiste")<>"" and $db->f("kilometerpiste")>=100) {
-						$verfijnd["aantalkmpiste"][2]++;
-					}
-					if($db->f("kilometerpiste")<>"" and $db->f("kilometerpiste")>=200) {
-						$verfijnd["aantalkmpiste"][3]++;
-					}
-					if($db->f("kilometerpiste")<>"" and $db->f("kilometerpiste")>=400) {
-						$verfijnd["aantalkmpiste"][4]++;
-					}
-
-					# Verfijnd zoeken: faciliteiten
-
-					# Verfijnd zoeken: catering
-					if(check_kenmerken($db->f("tkenmerken"),1) or check_kenmerken($db->f("akenmerken"),1)) {
-						$verfijnd["kenmerken"][2]++;
-					}
-
-					# Verfijnd zoeken: zwembad
-					if(check_kenmerken($db->f("tkenmerken"),4) or check_kenmerken($db->f("akenmerken"),4) or check_kenmerken($db->f("akenmerken"),11)) {
-						$verfijnd["kenmerken"][3]++;
-					}
-
-					# Verfijnd zoeken: sauna
-					if(check_kenmerken($db->f("tkenmerken"),3) or check_kenmerken($db->f("akenmerken"),3) or check_kenmerken($db->f("akenmerken"),10)) {
-						$verfijnd["kenmerken"][4]++;
-					}
-
-					# Verfijnd zoeken: privesauna
-					if(check_kenmerken($db->f("tkenmerken"),3) or check_kenmerken($db->f("akenmerken"),3)) {
-						$verfijnd["kenmerken"][5]++;
-					}
-
-					# Verfijnd zoeken: huisdierentoegestaan
-					if(check_kenmerken($db->f("tkenmerken"),11) or check_kenmerken($db->f("akenmerken"),13)) {
-						$verfijnd["kenmerken"][6]++;
-					}
-
-					# Verfijnd zoeken: openhaardhoutkachel
-					if(check_kenmerken($db->f("tkenmerken"),10) or check_kenmerken($db->f("akenmerken"),12)) {
-						$verfijnd["kenmerken"][7]++;
-					}
-
-					# Verfijnd zoeken: goedvoorkids
-					if(check_kenmerken($db->f("tkenmerken"),5) or check_kenmerken($db->f("akenmerken"),5)) {
-						$verfijnd["kenmerken"][43]++;
-					}
-
-					#
-					# Verfijn zoeken: soortaccommodatie
-					#
-					if($db->f("soortaccommodatie")==1) {
-						# chalet
-						$verfijnd["soortaccommodatie"][39]++;
-					}
-					if($db->f("soortaccommodatie")==2) {
-						# appartement
-						$verfijnd["soortaccommodatie"][41]++;
-					}
-					if($db->f("soortaccommodatie")==3) {
-						# hotel
-						$verfijnd["soortaccommodatie"][42]++;
-					}
-					if($db->f("soortaccommodatie")==4) {
-						# chaletappartement
-						$verfijnd["soortaccommodatie"][40]++;
-					}
-
-					#
-					# Verfijn zoeken: thema's (winter)
-					#
-					if(check_kenmerken($db->f("pkenmerken"),13)) {
-						# charmante skidorpen
-						$verfijnd["kenmerken"][44]++;
-					}
-					if(check_kenmerken($db->f("pkenmerken"),6)) {
-						# 10 voor apres ski
-						$verfijnd["kenmerken"][45]++;
-					}
-					if(check_kenmerken($db->f("pkenmerken"),14)) {
-						# super ski-stations
-						$verfijnd["kenmerken"][47]++;
-					}
-
-					if(check_kenmerken($db->f("tkenmerken"),9) or check_kenmerken($db->f("akenmerken"),9)) {
-						# winter-wellness
-						$verfijnd["kenmerken"][46]++;
-					}
-
-					# Verfijnd zoeken: internet/Wi-Fi
-					if(check_kenmerken($db->f("tkenmerken"),20) or check_kenmerken($db->f("tkenmerken"),22) or check_kenmerken($db->f("akenmerken"),21) or check_kenmerken($db->f("akenmerken"),23)) {
-						$verfijnd["kenmerken"][50]++;
-					}
-
-
-				} else {
-
-					#
-					# Zomer
-					#
-
-					# Verfijnd zoeken: zwemwater
-					if(check_kenmerken($db->f("akenmerken"),16) or check_kenmerken($db->f("pkenmerken"),7)) {
-						$verfijnd["kenmerken"][1]++;
-					}
-
-					# Verfijnd zoeken: golfbaan
-					if(check_kenmerken($db->f("akenmerken"),2) or check_kenmerken($db->f("pkenmerken"),6)) {
-						$verfijnd["kenmerken"][2]++;
-					}
-
-					# Verfijnd zoeken: tennisbaan op max. 10 km
-					if(check_kenmerken($db->f("akenmerken"),29) or check_kenmerken($db->f("akenmerken"),19)) {
-						$verfijnd["kenmerken"][3]++;
-					}
-
-					# Verfijnd zoeken: paardrijden
-					if(check_kenmerken($db->f("akenmerken"),31)) {
-						$verfijnd["kenmerken"][4]++;
-					}
-
-					# Verfijnd zoeken: in de bergen
-					if(check_kenmerken($db->f("akenmerken"),1) or check_kenmerken($db->f("pkenmerken"),5) or check_kenmerken($db->f("skenmerken"),4)) {
-						$verfijnd["kenmerken"][5]++;
-					}
-
-					# Verfijnd zoeken: wijnstreek
-					if(check_kenmerken($db->f("akenmerken"),20) or check_kenmerken($db->f("pkenmerken"),9) or check_kenmerken($db->f("skenmerken"),6)) {
-						$verfijnd["kenmerken"][6]++;
-					}
-
-					# Verfijnd zoeken: vakantiepark
-					if(check_kenmerken($db->f("akenmerken"),24)) {
-						$verfijnd["kenmerken"][7]++;
-					}
-
-					# Verfijnd zoeken: centrum op loopafstand
-					if(check_kenmerken($db->f("akenmerken"),39)) {
-						$verfijnd["kenmerken"][36]++;
-					}
-
-					# Verfijnd zoeken: zwembad
-					if(check_kenmerken($db->f("akenmerken"),11)) {
-						$verfijnd["kenmerken"][8]++;
-					}
-
-					# Verfijnd zoeken: tennisbaan
-					if(check_kenmerken($db->f("akenmerken"),19)) {
-						$verfijnd["kenmerken"][9]++;
-					}
-
-					# Verfijnd zoeken: speeltoestellen
-					if(check_kenmerken($db->f("akenmerken"),26)) {
-						$verfijnd["kenmerken"][10]++;
-					}
-
-					# Verfijnd zoeken: wasmachine
-					if(check_kenmerken($db->f("tkenmerken"),18) or check_kenmerken($db->f("akenmerken"),32)) {
-						$verfijnd["kenmerken"][11]++;
-					}
-
-					# Verfijnd zoeken: restaurant
-					if(check_kenmerken($db->f("akenmerken"),40)) {
-						$verfijnd["kenmerken"][37]++;
-					}
-
-
-					# Verfijnd zoeken: tuin/terras
-					if(check_kenmerken($db->f("tkenmerken"),20) or check_kenmerken($db->f("akenmerken"),34)) {
-						$verfijnd["kenmerken"][49]++;
-					}
-
-					# Verfijnd zoeken: internet/Wi-Fi
-					if(check_kenmerken($db->f("tkenmerken"),22) or check_kenmerken($db->f("tkenmerken"),24) or check_kenmerken($db->f("akenmerken"),36) or check_kenmerken($db->f("akenmerken"),42)) {
-						$verfijnd["kenmerken"][50]++;
-					}
-
-					# Verfijnd zoeken: vrijstaand huis
-					if(check_kenmerken($db->f("tkenmerken"),2) or check_kenmerken($db->f("akenmerken"),22)) {
-						$verfijnd["kenmerken"][12]++;
-					}
-
-					# Verfijnd zoeken: vrijstaand huis, met meerdere huizen
-					if(check_kenmerken($db->f("tkenmerken"),15) or check_kenmerken($db->f("akenmerken"),27)) {
-						$verfijnd["kenmerken"][13]++;
-					}
-
-					# Verfijnd zoeken: geschakelde woning/appartement
-					if(check_kenmerken($db->f("tkenmerken"),14) or check_kenmerken($db->f("akenmerken"),23)) {
-						$verfijnd["kenmerken"][14]++;
-					}
-
-					# Verfijnd zoeken: kleinschaligvakantiepark
-					if(check_kenmerken($db->f("akenmerken"),24)) {
-						$verfijnd["kenmerken"][48]++;
-					}
-
-					# Verfijnd zoeken: appartement (veld soortaccommodatie)
-					if($db->f("soortaccommodatie")==2) {
-						$verfijnd["kenmerken"][51]++;
-					}
-
-					# Verfijnd zoeken: vakantiehuis (veld soortaccommodatie)
-					if($db->f("soortaccommodatie")==6) {
-						$verfijnd["kenmerken"][52]++;
-					}
-
-					# Verfijnd zoeken: villa (veld soortaccommodatie)
-					if($db->f("soortaccommodatie")==7) {
-						$verfijnd["kenmerken"][53]++;
-					}
-
-					# Verfijnd zoeken: kasteel (veld soortaccommodatie)
-					if($db->f("soortaccommodatie")==8) {
-						$verfijnd["kenmerken"][54]++;
-					}
-
-					# Verfijnd zoeken: vakantiepark (veld soortaccommodatie)
-					if($db->f("soortaccommodatie")==9) {
-						$verfijnd["kenmerken"][55]++;
-					}
-
-					# Verfijnd zoeken: agriturismo (veld soortaccommodatie + akenmerken==41)
-					if($db->f("soortaccommodatie")==10 or check_kenmerken($db->f("akenmerken"),41)) {
-						$verfijnd["kenmerken"][56]++;
-					}
-
-					# Verfijnd zoeken: domein (veld soortaccommodatie)
-					if($db->f("soortaccommodatie")==11) {
-						$verfijnd["kenmerken"][57]++;
-					}
-
-					# Verfijnd zoeken: vrijstaand
-					if(check_kenmerken($db->f("tkenmerken"),2) or check_kenmerken($db->f("tkenmerken"),15) or check_kenmerken($db->f("akenmerken"),22) or check_kenmerken($db->f("akenmerken"),27)) {
-						$verfijnd["kenmerken"][58]++;
-					}
-
-					# Verfijnd zoeken: privé-terras
-					if(check_kenmerken($db->f("tkenmerken"),17) or check_kenmerken($db->f("akenmerken"),30)) {
-						$verfijnd["kenmerken"][15]++;
-					}
-
-					# Verfijnd zoeken: balkon
-					if(check_kenmerken($db->f("tkenmerken"),19) or check_kenmerken($db->f("tkenmerken"),20) or check_kenmerken($db->f("akenmerken"),33) or check_kenmerken($db->f("akenmerken"),34)) {
-						$verfijnd["kenmerken"][16]++;
-					}
-
-					# Verfijnd zoeken: balkon of terras
-					if(check_kenmerken($db->f("tkenmerken"),20) or check_kenmerken($db->f("akenmerken"),34)) {
-						$verfijnd["kenmerken"][17]++;
-					}
-
-					# Verfijnd zoeken: privé-zwembad
-					if(check_kenmerken($db->f("tkenmerken"),4) or check_kenmerken($db->f("akenmerken"),4)) {
-						$verfijnd["kenmerken"][18]++;
-					}
-
-					# Verfijnd zoeken: huisdieren toegestaan
-					if(check_kenmerken($db->f("tkenmerken"),11) or check_kenmerken($db->f("akenmerken"),13)) {
-						$verfijnd["kenmerken"][19]++;
-					}
-
-					# Verfijnd zoeken: huisdieren niet toegestaan
-					if(check_kenmerken($db->f("tkenmerken_nee"),11) or check_kenmerken($db->f("akenmerken_nee"),13)) {
-						$verfijnd["kenmerken"][20]++;
-					}
-
-					# Verfijnd zoeken: thema goed voor kids
-					if(check_kenmerken($db->f("tkenmerken"),5) or check_kenmerken($db->f("akenmerken"),5)) {
-						$verfijnd["kenmerken"][21]++;
-					}
-
-					# Verfijnd zoeken: thema bijzonder
-					if(check_kenmerken($db->f("tkenmerken"),16) or check_kenmerken($db->f("akenmerken"),28)) {
-						$verfijnd["kenmerken"][22]++;
-					}
-
-					# Verfijnd zoeken: thema vleugje welness
-					if(check_kenmerken($db->f("akenmerken"),9) or check_kenmerken($db->f("skenmerken"),3)) {
-						$verfijnd["kenmerken"][24]++;
-					}
-
-					# Verfijnd zoeken: thema top selectie
-					if(check_kenmerken($db->f("tkenmerken"),8) or check_kenmerken($db->f("akenmerken"),8) or check_kenmerken($db->f("pkenmerken"),3)) {
-						$verfijnd["kenmerken"][25]++;
-					}
-
-					# Verfijnd zoeken: thema voordelig weg
-					if(check_kenmerken($db->f("tkenmerken"),7) or check_kenmerken($db->f("akenmerken"),7) or check_kenmerken($db->f("pkenmerken"),2) or check_kenmerken($db->f("skenmerken"),2)) {
-						$verfijnd["kenmerken"][26]++;
-					}
-
-					# Verfijnd zoeken: thema huisje voor 2
-					if(check_kenmerken($db->f("tkenmerken"),1) or check_kenmerken($db->f("akenmerken"),18)) {
-						$verfijnd["kenmerken"][27]++;
-					}
-
-					# Verfijnd zoeken: thema met z'n allen
-					if(check_kenmerken($db->f("tkenmerken"),6) or check_kenmerken($db->f("akenmerken"),6)) {
-						$verfijnd["kenmerken"][28]++;
-					}
-
-					# Verfijnd zoeken: thema greenfeeproof
-					if(check_kenmerken($db->f("akenmerken"),2) or check_kenmerken($db->f("pkenmerken"),6)) {
-						$verfijnd["kenmerken"][29]++;
-					}
-
-					# Verfijnd zoeken: thema actief in de bergen
-					if(check_kenmerken($db->f("akenmerken"),1) or check_kenmerken($db->f("pkenmerken"),5) or check_kenmerken($db->f("skenmerken"),4)) {
-						$verfijnd["kenmerken"][30]++;
-					}
-
-					# Verfijnd zoeken: thema stekje bij het water
-					if(check_kenmerken($db->f("akenmerken"),16)) {
-						$verfijnd["kenmerken"][31]++;
-					}
-
-					# Verfijnd zoeken: thema huisje met zwembad
-					if(check_kenmerken($db->f("tkenmerken"),4) or check_kenmerken($db->f("akenmerken"),4) or check_kenmerken($db->f("akenmerken"),11)) {
-						$verfijnd["kenmerken"][32]++;
-					}
-
-					# Verfijnd zoeken: thema vakantieparken
-					if(check_kenmerken($db->f("akenmerken"),24)) {
-						$verfijnd["kenmerken"][33]++;
-					}
-
-					# Verfijnd zoeken: thema boerderij
-					if(check_kenmerken($db->f("akenmerken"),25)) {
-						$verfijnd["kenmerken"][34]++;
-					}
-
-					# Verfijnd zoeken: thema boerderij
-					if(check_kenmerken($db->f("akenmerken"),37)) {
-						$verfijnd["kenmerken"][35]++;
+				if ($accommodatie_meetellen_in_verfijningen) {
+
+					# Aantal badkamers - aantalbadkamers
+					if($db->f("badkamers")>=2) {
+						$verfijnd["aantalbadkamers"][1]++;
+					}
+					if($db->f("badkamers")>=3) {
+						$verfijnd["aantalbadkamers"][2]++;
+					}
+					if($db->f("badkamers")>=4) {
+						$verfijnd["aantalbadkamers"][3]++;
+					}
+					if($db->f("badkamers")>=5) {
+						$verfijnd["aantalbadkamers"][4]++;
+					}
+					if($db->f("badkamers")>=6) {
+						$verfijnd["aantalbadkamers"][5]++;
+					}
+					if($db->f("badkamers")>=8) {
+						$verfijnd["aantalbadkamers"][6]++;
+					}
+					if($db->f("badkamers")>=10) {
+						$verfijnd["aantalbadkamers"][7]++;
+					}
+
+					# Afstand vanaf Utrecht
+					if($vars["websitetype"]==7) {
+						# andere keuzes bij Italissima
+						if($db->f("afstandtotutrecht")>0 and $db->f("afstandtotutrecht")<=1250) {
+							$verfijnd["afstandvanafutrecht"][1]++;
+						} elseif($db->f("afstandtotutrecht")>1250 and $db->f("afstandtotutrecht")<=1500) {
+							$verfijnd["afstandvanafutrecht"][2]++;
+						} elseif($db->f("afstandtotutrecht")>1500) {
+							$verfijnd["afstandvanafutrecht"][3]++;
+						}
+					} else {
+						if($db->f("afstandtotutrecht")>0 and $db->f("afstandtotutrecht")<=600) {
+							$verfijnd["afstandvanafutrecht"][1]++;
+						} elseif($db->f("afstandtotutrecht")>600 and $db->f("afstandtotutrecht")<=1000) {
+							$verfijnd["afstandvanafutrecht"][2]++;
+						} elseif($db->f("afstandtotutrecht")>1000 and $db->f("afstandtotutrecht")<=1500) {
+							$verfijnd["afstandvanafutrecht"][3]++;
+						} elseif($db->f("afstandtotutrecht")>1500) {
+							$verfijnd["afstandvanafutrecht"][4]++;
+						}
+					}
+
+					if($vars["seizoentype"]==1) {
+
+						#
+						# Winter
+						#
+
+						# Afstand tot piste - afstandtotpiste
+						if($db->f("afstandpiste")<>"" and $db->f("afstandpiste")<=50) {
+							$verfijnd["afstandtotpiste"][1]++;
+						}
+						if($db->f("afstandpiste")<>"" and $db->f("afstandpiste")<=250) {
+							$verfijnd["afstandtotpiste"][2]++;
+						}
+						if($db->f("afstandpiste")<>"" and $db->f("afstandpiste")<=500) {
+							$verfijnd["afstandtotpiste"][3]++;
+						}
+						if($db->f("afstandpiste")<>"" and $db->f("afstandpiste")<=1000) {
+							$verfijnd["afstandtotpiste"][4]++;
+						}
+
+						# Kilometer piste - aantalkmpiste
+						if($db->f("kilometerpiste")<>"" and $db->f("kilometerpiste")<100) {
+							$verfijnd["aantalkmpiste"][1]++;
+						}
+						if($db->f("kilometerpiste")<>"" and $db->f("kilometerpiste")>=100) {
+							$verfijnd["aantalkmpiste"][2]++;
+						}
+						if($db->f("kilometerpiste")<>"" and $db->f("kilometerpiste")>=200) {
+							$verfijnd["aantalkmpiste"][3]++;
+						}
+						if($db->f("kilometerpiste")<>"" and $db->f("kilometerpiste")>=400) {
+							$verfijnd["aantalkmpiste"][4]++;
+						}
+
+						# Verfijnd zoeken: faciliteiten
+
+						# Verfijnd zoeken: catering
+						if(check_kenmerken($db->f("tkenmerken"),1) or check_kenmerken($db->f("akenmerken"),1)) {
+							$verfijnd["kenmerken"][2]++;
+						}
+
+						# Verfijnd zoeken: zwembad
+						if(check_kenmerken($db->f("tkenmerken"),4) or check_kenmerken($db->f("akenmerken"),4) or check_kenmerken($db->f("akenmerken"),11)) {
+							$verfijnd["kenmerken"][3]++;
+						}
+
+						# Verfijnd zoeken: sauna
+						if(check_kenmerken($db->f("tkenmerken"),3) or check_kenmerken($db->f("akenmerken"),3) or check_kenmerken($db->f("akenmerken"),10)) {
+							$verfijnd["kenmerken"][4]++;
+						}
+
+						# Verfijnd zoeken: privesauna
+						if(check_kenmerken($db->f("tkenmerken"),3) or check_kenmerken($db->f("akenmerken"),3)) {
+							$verfijnd["kenmerken"][5]++;
+						}
+
+						# Verfijnd zoeken: huisdierentoegestaan
+						if(check_kenmerken($db->f("tkenmerken"),11) or check_kenmerken($db->f("akenmerken"),13)) {
+							$verfijnd["kenmerken"][6]++;
+						}
+
+						# Verfijnd zoeken: openhaardhoutkachel
+						if(check_kenmerken($db->f("tkenmerken"),10) or check_kenmerken($db->f("akenmerken"),12)) {
+							$verfijnd["kenmerken"][7]++;
+						}
+
+						# Verfijnd zoeken: goedvoorkids
+						if(check_kenmerken($db->f("tkenmerken"),5) or check_kenmerken($db->f("akenmerken"),5)) {
+							$verfijnd["kenmerken"][43]++;
+						}
+
+						#
+						# Verfijn zoeken: soortaccommodatie
+						#
+						if($db->f("soortaccommodatie")==1) {
+							# chalet
+							$verfijnd["soortaccommodatie"][39]++;
+						}
+						if($db->f("soortaccommodatie")==2) {
+							# appartement
+							$verfijnd["soortaccommodatie"][41]++;
+						}
+						if($db->f("soortaccommodatie")==3) {
+							# hotel
+							$verfijnd["soortaccommodatie"][42]++;
+						}
+						if($db->f("soortaccommodatie")==4) {
+							# chaletappartement
+							$verfijnd["soortaccommodatie"][40]++;
+						}
+
+						#
+						# Verfijn zoeken: thema's (winter)
+						#
+						if(check_kenmerken($db->f("pkenmerken"),13)) {
+							# charmante skidorpen
+							$verfijnd["kenmerken"][44]++;
+						}
+						if(check_kenmerken($db->f("pkenmerken"),6)) {
+							# 10 voor apres ski
+							$verfijnd["kenmerken"][45]++;
+						}
+						if(check_kenmerken($db->f("pkenmerken"),14)) {
+							# super ski-stations
+							$verfijnd["kenmerken"][47]++;
+						}
+
+						if(check_kenmerken($db->f("tkenmerken"),9) or check_kenmerken($db->f("akenmerken"),9)) {
+							# winter-wellness
+							$verfijnd["kenmerken"][46]++;
+						}
+
+						# Verfijnd zoeken: internet/Wi-Fi
+						if(check_kenmerken($db->f("tkenmerken"),20) or check_kenmerken($db->f("tkenmerken"),22) or check_kenmerken($db->f("akenmerken"),21) or check_kenmerken($db->f("akenmerken"),23)) {
+							$verfijnd["kenmerken"][50]++;
+						}
+
+
+					} else {
+
+						#
+						# Zomer
+						#
+
+						# Verfijnd zoeken: zwemwater
+						if(check_kenmerken($db->f("akenmerken"),16) or check_kenmerken($db->f("pkenmerken"),7)) {
+							$verfijnd["kenmerken"][1]++;
+						}
+
+						# Verfijnd zoeken: golfbaan
+						if(check_kenmerken($db->f("akenmerken"),2) or check_kenmerken($db->f("pkenmerken"),6)) {
+							$verfijnd["kenmerken"][2]++;
+						}
+
+						# Verfijnd zoeken: tennisbaan op max. 10 km
+						if(check_kenmerken($db->f("akenmerken"),29) or check_kenmerken($db->f("akenmerken"),19)) {
+							$verfijnd["kenmerken"][3]++;
+						}
+
+						# Verfijnd zoeken: paardrijden
+						if(check_kenmerken($db->f("akenmerken"),31)) {
+							$verfijnd["kenmerken"][4]++;
+						}
+
+						# Verfijnd zoeken: in de bergen
+						if(check_kenmerken($db->f("akenmerken"),1) or check_kenmerken($db->f("pkenmerken"),5) or check_kenmerken($db->f("skenmerken"),4)) {
+							$verfijnd["kenmerken"][5]++;
+						}
+
+						# Verfijnd zoeken: wijnstreek
+						if(check_kenmerken($db->f("akenmerken"),20) or check_kenmerken($db->f("pkenmerken"),9) or check_kenmerken($db->f("skenmerken"),6)) {
+							$verfijnd["kenmerken"][6]++;
+						}
+
+						# Verfijnd zoeken: vakantiepark
+						if(check_kenmerken($db->f("akenmerken"),24)) {
+							$verfijnd["kenmerken"][7]++;
+						}
+
+						# Verfijnd zoeken: centrum op loopafstand
+						if(check_kenmerken($db->f("akenmerken"),39)) {
+							$verfijnd["kenmerken"][36]++;
+						}
+
+						# Verfijnd zoeken: zwembad
+						if(check_kenmerken($db->f("akenmerken"),11)) {
+							$verfijnd["kenmerken"][8]++;
+						}
+
+						# Verfijnd zoeken: tennisbaan
+						if(check_kenmerken($db->f("akenmerken"),19)) {
+							$verfijnd["kenmerken"][9]++;
+						}
+
+						# Verfijnd zoeken: speeltoestellen
+						if(check_kenmerken($db->f("akenmerken"),26)) {
+							$verfijnd["kenmerken"][10]++;
+						}
+
+						# Verfijnd zoeken: wasmachine
+						if(check_kenmerken($db->f("tkenmerken"),18) or check_kenmerken($db->f("akenmerken"),32)) {
+							$verfijnd["kenmerken"][11]++;
+						}
+
+						# Verfijnd zoeken: restaurant
+						if(check_kenmerken($db->f("akenmerken"),40)) {
+							$verfijnd["kenmerken"][37]++;
+						}
+
+
+						# Verfijnd zoeken: tuin/terras
+						if(check_kenmerken($db->f("tkenmerken"),20) or check_kenmerken($db->f("akenmerken"),34)) {
+							$verfijnd["kenmerken"][49]++;
+						}
+
+						# Verfijnd zoeken: internet/Wi-Fi
+						if(check_kenmerken($db->f("tkenmerken"),22) or check_kenmerken($db->f("tkenmerken"),24) or check_kenmerken($db->f("akenmerken"),36) or check_kenmerken($db->f("akenmerken"),42)) {
+							$verfijnd["kenmerken"][50]++;
+						}
+
+						# Verfijnd zoeken: vrijstaand huis
+						if(check_kenmerken($db->f("tkenmerken"),2) or check_kenmerken($db->f("akenmerken"),22)) {
+							$verfijnd["kenmerken"][12]++;
+						}
+
+						# Verfijnd zoeken: vrijstaand huis, met meerdere huizen
+						if(check_kenmerken($db->f("tkenmerken"),15) or check_kenmerken($db->f("akenmerken"),27)) {
+							$verfijnd["kenmerken"][13]++;
+						}
+
+						# Verfijnd zoeken: geschakelde woning/appartement
+						if(check_kenmerken($db->f("tkenmerken"),14) or check_kenmerken($db->f("akenmerken"),23)) {
+							$verfijnd["kenmerken"][14]++;
+						}
+
+						# Verfijnd zoeken: kleinschaligvakantiepark
+						if(check_kenmerken($db->f("akenmerken"),24)) {
+							$verfijnd["kenmerken"][48]++;
+						}
+
+						# Verfijnd zoeken: appartement (veld soortaccommodatie)
+						if($db->f("soortaccommodatie")==2) {
+							$verfijnd["kenmerken"][51]++;
+						}
+
+						# Verfijnd zoeken: vakantiehuis (veld soortaccommodatie)
+						if($db->f("soortaccommodatie")==6) {
+							$verfijnd["kenmerken"][52]++;
+						}
+
+						# Verfijnd zoeken: villa (veld soortaccommodatie)
+						if($db->f("soortaccommodatie")==7) {
+							$verfijnd["kenmerken"][53]++;
+						}
+
+						# Verfijnd zoeken: kasteel (veld soortaccommodatie)
+						if($db->f("soortaccommodatie")==8) {
+							$verfijnd["kenmerken"][54]++;
+						}
+
+						# Verfijnd zoeken: vakantiepark (veld soortaccommodatie)
+						if($db->f("soortaccommodatie")==9) {
+							$verfijnd["kenmerken"][55]++;
+						}
+
+						# Verfijnd zoeken: agriturismo (veld soortaccommodatie + akenmerken==41)
+						if($db->f("soortaccommodatie")==10 or check_kenmerken($db->f("akenmerken"),41)) {
+							$verfijnd["kenmerken"][56]++;
+						}
+
+						# Verfijnd zoeken: domein (veld soortaccommodatie)
+						if($db->f("soortaccommodatie")==11) {
+							$verfijnd["kenmerken"][57]++;
+						}
+
+						# Verfijnd zoeken: vrijstaand
+						if(check_kenmerken($db->f("tkenmerken"),2) or check_kenmerken($db->f("tkenmerken"),15) or check_kenmerken($db->f("akenmerken"),22) or check_kenmerken($db->f("akenmerken"),27)) {
+							$verfijnd["kenmerken"][58]++;
+						}
+
+						# Verfijnd zoeken: privé-terras
+						if(check_kenmerken($db->f("tkenmerken"),17) or check_kenmerken($db->f("akenmerken"),30)) {
+							$verfijnd["kenmerken"][15]++;
+						}
+
+						# Verfijnd zoeken: balkon
+						if(check_kenmerken($db->f("tkenmerken"),19) or check_kenmerken($db->f("tkenmerken"),20) or check_kenmerken($db->f("akenmerken"),33) or check_kenmerken($db->f("akenmerken"),34)) {
+							$verfijnd["kenmerken"][16]++;
+						}
+
+						# Verfijnd zoeken: balkon of terras
+						if(check_kenmerken($db->f("tkenmerken"),20) or check_kenmerken($db->f("akenmerken"),34)) {
+							$verfijnd["kenmerken"][17]++;
+						}
+
+						# Verfijnd zoeken: privé-zwembad
+						if(check_kenmerken($db->f("tkenmerken"),4) or check_kenmerken($db->f("akenmerken"),4)) {
+							$verfijnd["kenmerken"][18]++;
+						}
+
+						# Verfijnd zoeken: huisdieren toegestaan
+						if(check_kenmerken($db->f("tkenmerken"),11) or check_kenmerken($db->f("akenmerken"),13)) {
+							$verfijnd["kenmerken"][19]++;
+						}
+
+						# Verfijnd zoeken: huisdieren niet toegestaan
+						if(check_kenmerken($db->f("tkenmerken_nee"),11) or check_kenmerken($db->f("akenmerken_nee"),13)) {
+							$verfijnd["kenmerken"][20]++;
+						}
+
+						# Verfijnd zoeken: thema goed voor kids
+						if(check_kenmerken($db->f("tkenmerken"),5) or check_kenmerken($db->f("akenmerken"),5)) {
+							$verfijnd["kenmerken"][21]++;
+						}
+
+						# Verfijnd zoeken: thema bijzonder
+						if(check_kenmerken($db->f("tkenmerken"),16) or check_kenmerken($db->f("akenmerken"),28)) {
+							$verfijnd["kenmerken"][22]++;
+						}
+
+						# Verfijnd zoeken: thema vleugje welness
+						if(check_kenmerken($db->f("akenmerken"),9) or check_kenmerken($db->f("skenmerken"),3)) {
+							$verfijnd["kenmerken"][24]++;
+						}
+
+						# Verfijnd zoeken: thema top selectie
+						if(check_kenmerken($db->f("tkenmerken"),8) or check_kenmerken($db->f("akenmerken"),8) or check_kenmerken($db->f("pkenmerken"),3)) {
+							$verfijnd["kenmerken"][25]++;
+						}
+
+						# Verfijnd zoeken: thema voordelig weg
+						if(check_kenmerken($db->f("tkenmerken"),7) or check_kenmerken($db->f("akenmerken"),7) or check_kenmerken($db->f("pkenmerken"),2) or check_kenmerken($db->f("skenmerken"),2)) {
+							$verfijnd["kenmerken"][26]++;
+						}
+
+						# Verfijnd zoeken: thema huisje voor 2
+						if(check_kenmerken($db->f("tkenmerken"),1) or check_kenmerken($db->f("akenmerken"),18)) {
+							$verfijnd["kenmerken"][27]++;
+						}
+
+						# Verfijnd zoeken: thema met z'n allen
+						if(check_kenmerken($db->f("tkenmerken"),6) or check_kenmerken($db->f("akenmerken"),6)) {
+							$verfijnd["kenmerken"][28]++;
+						}
+
+						# Verfijnd zoeken: thema greenfeeproof
+						if(check_kenmerken($db->f("akenmerken"),2) or check_kenmerken($db->f("pkenmerken"),6)) {
+							$verfijnd["kenmerken"][29]++;
+						}
+
+						# Verfijnd zoeken: thema actief in de bergen
+						if(check_kenmerken($db->f("akenmerken"),1) or check_kenmerken($db->f("pkenmerken"),5) or check_kenmerken($db->f("skenmerken"),4)) {
+							$verfijnd["kenmerken"][30]++;
+						}
+
+						# Verfijnd zoeken: thema stekje bij het water
+						if(check_kenmerken($db->f("akenmerken"),16)) {
+							$verfijnd["kenmerken"][31]++;
+						}
+
+						# Verfijnd zoeken: thema huisje met zwembad
+						if(check_kenmerken($db->f("tkenmerken"),4) or check_kenmerken($db->f("akenmerken"),4) or check_kenmerken($db->f("akenmerken"),11)) {
+							$verfijnd["kenmerken"][32]++;
+						}
+
+						# Verfijnd zoeken: thema vakantieparken
+						if(check_kenmerken($db->f("akenmerken"),24)) {
+							$verfijnd["kenmerken"][33]++;
+						}
+
+						# Verfijnd zoeken: thema boerderij
+						if(check_kenmerken($db->f("akenmerken"),25)) {
+							$verfijnd["kenmerken"][34]++;
+						}
+
+						# Verfijnd zoeken: thema boerderij
+						if(check_kenmerken($db->f("akenmerken"),37)) {
+							$verfijnd["kenmerken"][35]++;
+						}
 					}
 				}
 
