@@ -679,7 +679,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo"<div id=\"footerWrap\">";
 		echo "<div class=\"divSepIND\">";
 		echo "<br><b>&copy; ".wt_he($vars["websitenaam"])."</b><br><br>";
-		echo "<ul><li><a href=\"".$vars["path"]."conditions.php\">Conditions</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li></ul>";
+		echo "<ul><li><a href=\"".$vars["path"]."faq.php\" rel=\"nofollow\">FAQ</a></li><li><a href=\"".$vars["path"]."conditions.php\">Conditions</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li></ul>";
 		echo "</div>";
 		echo "<div class=\"wrap\">";
 		echo "<div class=\"divContentIND\">";
