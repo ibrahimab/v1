@@ -27,27 +27,31 @@ if( $_GET["error"] ) {
 
 	$checkfile = "/var/www/chalet.nl/log/hipchat-sent";
 
-	if( !file_exists($checkfile) or filemtime($checkfile)<(time()-60) ) {
+	// send to HipChat
+	if ( !file_exists($checkfile) or filemtime($checkfile)<(time()-60) ) {
 
-		touch( $checkfile );
+		// only non-403 errors
+		if (!preg_match("@- 403 -@", $error)) {
 
-		$hipchat_msg = "New PHP-error. See <a href=\"http://www2.chalet.nl/cms_error_log.php?show=0\">http://www2.chalet.nl/cms_error_log.php?show=0</a> for details.";
+			touch( $checkfile );
 
-		$auth = new OAuth2('eQJ1W6Cif4636SlZPRdG2AOGaniTGG8J5j5bRg5Y');
-		$client = new Client($auth);
-		$roomAPI = new RoomAPI($client);
-		$msg = new Message();
-		$msg->setMessage( $hipchat_msg );
-		$msg->setNotify(true);
-		$msg->setColor("red");
-		$msg->setFrom("Error-tracker");
+			$hipchat_msg = "New PHP-error. See <a href=\"http://www2.chalet.nl/cms_error_log.php?show=0\">http://www2.chalet.nl/cms_error_log.php?show=0</a> for details.";
+
+			$auth = new OAuth2('eQJ1W6Cif4636SlZPRdG2AOGaniTGG8J5j5bRg5Y');
+			$client = new Client($auth);
+			$roomAPI = new RoomAPI($client);
+			$msg = new Message();
+			$msg->setMessage( $hipchat_msg );
+			$msg->setNotify(true);
+			$msg->setColor("red");
+			$msg->setFrom("Error-tracker");
 
 
-		// id 900265 = GitHub meldingen
-		// id 1502695 = API-test
-		// id 1274406 = PHP error-report
-		$send = $roomAPI->sendRoomNotification(1274406, $msg);
-
+			// id 900265 = GitHub meldingen
+			// id 1502695 = API-test
+			// id 1274406 = PHP error-report
+			$send = $roomAPI->sendRoomNotification(1274406, $msg);
+		}
 	}
 
 
