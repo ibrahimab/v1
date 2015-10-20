@@ -8,14 +8,9 @@ namespace Chalet\XML\Import\DirektHolidays;
 class HotelProducts
 {
     /**
-     * @const string
+     * @var array
      */
-    const HOTEL_PRODUCT_XML_FEED_URL           = 'https://www.direktholidays.at/OTA/OTA_HotelProductRQ?agencyId=ota_chaletnl&agencyPin=2840579';
-
-    /**
-     * @const string
-     */
-    const HOTEL_PRODUCT_XML_FEED_TEST_LOCATION = 'tmp/direktholidays/producten.xml';
+    private $products;
 
     /**
      * @var boolean
@@ -23,16 +18,20 @@ class HotelProducts
     private $test;
 
     /**
-     * @var array
+     * @var FeedFetcher
      */
-    private $products;
+    private $feedFetcher;
 
     /**
      * Constructor
+     *
+     * @param FeedFetcher $feedFetcher
+     * @param boolean $test
      */
-    public function __construct($test)
+    public function __construct(FeedFetcher $feedFetcher, $test)
     {
-        $this->test = $test;
+        $this->test        = $test;
+        $this->feedFetcher = $feedFetcher;
     }
 
     /**
@@ -73,6 +72,6 @@ class HotelProducts
      */
     public function getXMLFeed()
     {
-        return simplexml_load_file((true === $this->test ? self::HOTEL_PRODUCT_XML_FEED_TEST_LOCATION : self::HOTEL_PRODUCT_XML_FEED_URL));
+        return $this->feedFetcher->fetch(FeedFetcher::TYPE_PRODUCTS);
     }
 }

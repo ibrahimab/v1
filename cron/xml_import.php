@@ -1,6 +1,7 @@
 <?php
 use Chalet\XML\Import\DirektHolidays\UnavailabilityParser;
 use Chalet\XML\Import\DirektHolidays\PricesParser;
+use Chalet\XML\Import\DirektHolidays\FeedFetcher;
 # /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 26...)
 
 #
@@ -132,8 +133,8 @@ if($_SERVER["HTTP_HOST"]) {
 } elseif (defined('wt_root_dir') && defined('unzip_bin_location')) {
 
 	$unixdir = wt_root_dir . '/';
-	$tmpdir  = wt_root_dir . '/tmp';
-	$unzip   = unzip_bin_location;
+	$tmpdir	 = wt_root_dir . '/tmp';
+	$unzip	 = unzip_bin_location;
 
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
@@ -235,8 +236,9 @@ if(($current_hour==11 and !$argv[1]) or $argv[1]=="5") {
 # 2 = tarieven
 #
 #
-$xml_urls  = [];
-$soap_urls = [];
+$xml_urls	 = [];
+$soap_urls	 = [];
+$custom_urls = [];
 # Huetten
 #$xml_urls[1][1]="Huetten"; (beschikbaarheid en tarieven werken met losse XML's per accommodatie)
 
@@ -332,8 +334,15 @@ if(get_slow_suppliers(23)or $argv[1]) {
 }
 
 # Direkt Holidays
-$xml_urls[24][1] = 'https://www.direktholidays.at/OTA/OTA_HotelAvailRQ?agencyId=ota_chaletnl&agencyPin=2840579';     // beschikbaarheid
-$xml_urls[24][2] = 'https://www.directholidays.at/OTA/OTA_HotelRatePlanREQ?agencyId=ota_chaletnl&agencyPin=2840579'; // prijzen
+$feedFetcher = new FeedFetcher($testsysteem);
+$feedFetcher->setAvailabilityFile('tmp/direktholidays/beschikbaarheid.xml')
+			->setPricesFile('tmp/direktholidays/prijzen.xml')
+			->setProductsFile('tmp/direktholidays/producten.xml');
+
+$xml_urls[24][1]	= true;
+$xml_urls[24][2]	= true;
+$custom_urls[24][1] = $feedFetcher->fetch(TYPE_AVAILABILITY);
+$custom_urls[24][2] = $feedFetcher->fetch(TYPE_PRICES);
 
 # Alpin Rentals
 $soap_urls[25] = $unixdir."suppliers/newyseservice/index.php";
@@ -460,6 +469,10 @@ while(list($key,$value)=@each($xml_urls)) {
 			if($output) {
 				$xml=@simplexml_load_string($output);
 			}
+		} elseif (isset($custom_urls[$key]) && isset($custom_urls[$key][$key2])) {
+
+			$xml = $custom_urls[$key][$key2];
+
 		} else {
 			# gebruik simplexml_load_file
 			if($xml=@simplexml_load_file($value2)) {
@@ -960,18 +973,18 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
-			} elseif ($key === 24) {
+			} elseif ($key == 24) {
 
-                if ($key2 === 1) {
+				if ($key2 === 1) {
 
-                    $unavailability             = new UnavailabilityParser($xml);
-                    $xml_niet_beschikbaar[$key] = $unavailability->parse();
+					$unavailability				= new UnavailabilityParser($xml);
+					$xml_niet_beschikbaar[$key] = $unavailability->parse();
 
-                } elseif ($key2 === 2) {
+				} elseif ($key2 === 2) {
 
-                    $prices               = new PricesParser($xml, $testsysteem);
-                    $xml_brutoprijs[$key] = $prices->parse();
-                }
+					$prices				  = new PricesParser($xml, $feedFetcher, $testsysteem);
+					$xml_brutoprijs[$key] = $prices->parse();
+				}
 			}
 		} else {
 			// trigger_error("_notice: URL ".$value2." onbereikbaar of geen valide XML",E_USER_NOTICE);
@@ -2042,7 +2055,7 @@ while($db->next_record()) {
 
 						$discount_order = 100000-intval($lev_discount);
 
-						$sql_fields =     " editdatetime=NOW(), "
+						$sql_fields =	  " editdatetime=NOW(), "
 										. " seizoen_id ='".intval($discount_seasonid) ."', "
 										. " gekoppeld_code=0, "
 										. " xml_korting=2, "
@@ -2143,7 +2156,7 @@ while($db->next_record()) {
 
 							// $db3->query("INSERT INTO xml_tarievenimport_flex SET type_id='".$db->f("type_id")."', dag='".addslashes($db2->f("dag"))."', bruto='".addslashes($db2->f("waarde"))."', seizoen_id='".addslashes($welk_seizoen)."', importmoment=NOW();");
 							// if($db3->Errno==1062) {
-							// 	$db3->query("UPDATE xml_tarievenimport_flex SET bruto='".addslashes($db2->f("waarde"))."', seizoen_id='".addslashes($welk_seizoen)."', importmoment=NOW() WHERE type_id='".$db->f("type_id")."' AND dag='".addslashes($db2->f("dag"))."';");
+							//	$db3->query("UPDATE xml_tarievenimport_flex SET bruto='".addslashes($db2->f("waarde"))."', seizoen_id='".addslashes($welk_seizoen)."', importmoment=NOW() WHERE type_id='".$db->f("type_id")."' AND dag='".addslashes($db2->f("dag"))."';");
 							// }
 
 							$db3->query("SELECT bruto, seizoen_id FROM xml_tarievenimport_flex WHERE type_id='".$db->f("type_id")."' AND dag='".addslashes($db2->f("dag"))."'");
@@ -2656,3 +2669,5 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 }
 
 echo "\n\nFinish: ".date("r")."\n";
+
+?>
