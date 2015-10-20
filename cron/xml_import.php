@@ -341,8 +341,8 @@ $feedFetcher->setAvailabilityFile('tmp/direktholidays/beschikbaarheid.xml')
 
 $xml_urls[24][1]	= true;
 $xml_urls[24][2]	= true;
-$custom_urls[24][1] = $feedFetcher->fetch(TYPE_AVAILABILITY);
-$custom_urls[24][2] = $feedFetcher->fetch(TYPE_PRICES);
+$custom_urls[24][1] = $feedFetcher->fetch(FeedFetcher::TYPE_AVAILABILITY);
+$custom_urls[24][2] = $feedFetcher->fetch(FeedFetcher::TYPE_PRICES);
 
 # Alpin Rentals
 $soap_urls[25] = $unixdir."suppliers/newyseservice/index.php";

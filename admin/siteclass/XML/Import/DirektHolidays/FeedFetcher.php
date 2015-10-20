@@ -30,7 +30,7 @@ class FeedFetcher
 	/**
 	 * @var string
 	 */
-	private $pricesUrl		 = 'https://www.directholidays.at/OTA/OTA_HotelRatePlanREQ?agencyId=ota_chaletnl&agencyPin=2840579';
+	private $pricesUrl		 = 'https://www.direktholidays.at/OTA/OTA_HotelRatePlanRQ?agencyId=ota_chaletnl&agencyPin=2840579';
 
 	/**
 	 * @var string
@@ -137,7 +137,6 @@ class FeedFetcher
 			</AvailRequestSegments>
 		</OTA_HotelAvailRQ>
 XML;
-
 		return simplexml_load_string($this->post($this->availabilityUrl, $data));
 	}
 
@@ -161,7 +160,6 @@ XML;
 			</RatePlans>
 		</OTA_HotelRatePlanRQ>
 XML;
-
 		return simplexml_load_string($this->post($this->pricesUrl, $data));
 	}
 
@@ -185,7 +183,6 @@ XML;
 			</HotelProducts>
 		</OTA_HotelProductRQ>
 XML;
-
 		return simplexml_load_string($this->post($this->productsUrl, $data));
 	}
 
