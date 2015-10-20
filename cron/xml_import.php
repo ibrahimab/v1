@@ -256,9 +256,9 @@ $xml_urls[4][1]="http://www.cgh-partenaires.com/results.xml";
 $xml_urls[6][1]="http://f0038e54:chaletnl@www.frosch-info.de/schnittstelle/chaletnl/daily/Vakanzen.xml";
 $xml_urls[6][2]="http://f0038e54:chaletnl@www.frosch-info.de/schnittstelle/chaletnl/daily/Preise.xml";
 
-# CIS / Bellecï¿½te Chalets (VVE) (via Arkiane)
+# CIS / Bellecôte Chalets (VVE) (via Arkiane)
 $xml_urls[7][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=extr_plng@top_id='CHALE'";
-#$xml_urls[7][2]="CIS / Bellecï¿½te Chalets (VVE)" (tarieven werken met losse XML's per accommodatie)
+#$xml_urls[7][2]="CIS / Bellecôte Chalets (VVE)" (tarieven werken met losse XML's per accommodatie)
 
 # Posarelli
 if(get_slow_suppliers(8) or $argv[1]) {
@@ -309,9 +309,9 @@ $xml_urls[17][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=142&to
 $xml_urls[18][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&top=58&qry=extr_plng@top_id='CHALE'";
 #$xml_urls[18][2]="Agence des Belleville" (tarieven werken met losse XML's per accommodatie)
 
-# Oxygï¿½ne Immobilier (via Arkiane)
+# Oxygène Immobilier (via Arkiane)
 $xml_urls[19][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=extr_plng@top_id='CHANL'";
-#$xml_urls[19][2]="Oxygï¿½ne Immobilier" (tarieven werken met losse XML's per accommodatie)
+#$xml_urls[19][2]="Oxygène Immobilier" (tarieven werken met losse XML's per accommodatie)
 
 # Centrale des Hauts Forts (via Arkiane)
 $xml_urls[20][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=extr_plng@top_id='CHALE'";
@@ -339,9 +339,9 @@ $xml_urls[24][2] = 'https://www.directholidays.at/OTA/OTA_HotelRatePlanREQ?agenc
 $soap_urls[25] = $unixdir."suppliers/newyseservice/index.php";
 
 
-# 3 Vallï¿½es Immobilier (via Arkiane)
+# 3 Vallées Immobilier (via Arkiane)
 $xml_urls[26][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=264&top=58&qry=extr_plng@top_id='CHALE'";
-#$xml_urls[26][2]="3 Vallï¿½es Immobilier" (tarieven werken met losse XML's per accommodatie)
+#$xml_urls[26][2]="3 Vallées Immobilier" (tarieven werken met losse XML's per accommodatie)
 
 
 #
@@ -570,15 +570,15 @@ while(list($key,$value)=@each($xml_urls)) {
 
 				Arkiane-leveranciers:
 
-				Leverancier CIS / Bellecï¿½te Chalets (VVE)
+				Leverancier CIS / Bellecôte Chalets (VVE)
 				CIS Immobilier
 				Flaine Immobilier
 				Deux Alpes Voyages
 				Agence des Belleville
-				Oxygï¿½ne Immobilier
+				Oxygène Immobilier
 				Centrale des Hauts Forts
 				Nexity
-				3 Vallï¿½es Immobilier
+				3 Vallées Immobilier
 
 				*/
 
@@ -594,7 +594,7 @@ while(list($key,$value)=@each($xml_urls)) {
 					#
 					# $plusdag uitgezet (vanwege conflict met afwijkende vertrekdagtypes). Hopelijk sturen ze voortaan gewoon juiste datums, zodat functie overbodig is (4 augustus 2010)
 					#
-					# Bellecï¿½te stuurt soms foute XML-gegevens (en stuurt datum op zondag): omzetten naar zaterdag
+					# Bellecôte stuurt soms foute XML-gegevens (en stuurt datum op zondag): omzetten naar zaterdag
 					if(date("w",$datum_begin)<>6) {
 						$plusdag=0;
 						if(date("w",$datum_begin)==0) {
@@ -1620,15 +1620,15 @@ while($db->next_record()) {
 
 			Arkiane-leveranciers:
 
-			Leverancier CIS / Bellecï¿½te Chalets (VVE)
+			Leverancier CIS / Bellecôte Chalets (VVE)
 			CIS Immobilier
 			Flaine Immobilier
 			Deux Alpes Voyages
 			Agence des Belleville
-			Oxygï¿½ne Immobilier
+			Oxygène Immobilier
 			Centrale des Hauts Forts
 			Nexity
-			3 Vallï¿½es Immobilier
+			3 Vallées Immobilier
 
 			*/
 
@@ -1639,7 +1639,7 @@ while($db->next_record()) {
 			# Tarieven
 			unset($xml);
 			if($db->f("xml_type")==7) {
-				# CIS / Bellecï¿½te Chalets (VVE)
+				# CIS / Bellecôte Chalets (VVE)
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=112&top=8700&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==10) {
 				# CIS Immobilier
@@ -1654,7 +1654,7 @@ while($db->next_record()) {
 				# Agence des Belleville
 				$xml_url="http://resa.alpes-skiresa.com/xml/xml_v1.asp?app=LS&clt=141&top=58&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==19) {
-				# Oxygï¿½ne Immobilier
+				# Oxygène Immobilier
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=23&top=6&qry=tarif_lotref@top_id='CHANL',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==20) {
 				# Centrale des Hauts Forts
@@ -1663,7 +1663,7 @@ while($db->next_record()) {
 				# Nexity
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=238&top=22&qry=tarif_lotref@top_id='CHANL',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==26) {
-				# 3 Vallï¿½es Immobilier
+				# 3 Vallées Immobilier
 				$xml_url="http://resa.alpes-skiresa.com/xml/xml_v1.asp?app=LS&clt=264&top=58&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			}
 			if($xml=@simplexml_load_file($xml_url)) {
@@ -1918,7 +1918,7 @@ while($db->next_record()) {
 			#
 			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")==16 or $db->f("xml_type")==17 or $db->f("xml_type")==18 or $db->f("xml_type")==19 or $db->f("xml_type")==20 or $db->f("xml_type")==21 or $db->f("xml_type")==22 or $db->f("xml_type")==23 or $db->f("xml_type")==24 or $db->f("xml_type")==25 or $db->f("xml_type")==26) {
 				#
-				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecï¿½te (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Rï¿½sidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Flaine Immobilier (17), Agence des Belleville (18), Oxygï¿½ne Immobilier (19), Centrale des Hauts Forts (20), Ville in Italia (21), Nexity (22), Interhome (23), Direkt Holidays (24), Alpin Rentals Kaprun (25), 3 Vallï¿½es Immobilier (26)
+				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Flaine Immobilier (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale des Hauts Forts (20), Ville in Italia (21), Nexity (22), Interhome (23), Direkt Holidays (24), Alpin Rentals Kaprun (25), 3 Vallées Immobilier (26)
 				#
 
 				if(isset($shorter_seasons[$db->f("type_id")])){
