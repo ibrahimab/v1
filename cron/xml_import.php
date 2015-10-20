@@ -11,7 +11,7 @@ use Chalet\XML\Import\DirektHolidays\FeedFetcher;
 /*
 
 
-every supplier at 03, 11, 15 and 19 h. Posarelli, Interhome and Direkt Holidays only at 03h.
+every supplier at 03, 11, 15 and 19 h. Posarelli and Interhome only at 03h.
 
 
 
@@ -46,10 +46,9 @@ function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $w
 
 function get_slow_suppliers($xml_type) {
 	//
-	// Determine if Posarelli (8), Marche Holiday (14) should be downloaded (because downloading these suppliers takes a long time)
+	// Determine if Posarelli (8), Marche Holiday (14), Interhome(23) should be downloaded (because downloading these suppliers takes a long time)
 	//
 
-	// temporaily: Marche Holiday (14): always true
 	global $current_hour;
 
 	if($xml_type==8) {
@@ -62,7 +61,10 @@ function get_slow_suppliers($xml_type) {
 	} elseif($xml_type==14) {
 		// Marche Holiday (14)
 		if($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==9 or $current_hour==12 or $current_hour==15 or $current_hour==18 or $current_hour==22) {
+
+			// temporaily: Marche Holiday (14): always true
 			return true;
+
 		} else {
 			// return false;
 			return true;
@@ -328,7 +330,7 @@ $http_login[21]="italissima:italissima2144";
 $xml_urls[22][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=extr_plng@top_id='CHANL'";
 #$xml_urls[22][2]="Nexity" (tarieven werken met losse XML's per accommodatie)
 
-#Interhome
+# Interhome
 if(get_slow_suppliers(23)or $argv[1]) {
 	$soap_urls[23] = $unixdir."suppliers/interhome/index.php";
 }
@@ -974,7 +976,9 @@ while(list($key,$value)=@each($xml_urls)) {
 					}
 				}
 			} elseif ($key == 24) {
-
+				#
+				# Leverancier Direkt Holidays
+				#
 				if ($key2 === 1) {
 
 					$unavailability				= new UnavailabilityParser($xml);
