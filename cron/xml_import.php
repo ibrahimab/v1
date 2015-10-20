@@ -337,9 +337,9 @@ if(get_slow_suppliers(23)or $argv[1]) {
 
 # Direkt Holidays
 $feedFetcher = new FeedFetcher($testsysteem);
-$feedFetcher->setAvailabilityFile('tmp/direktholidays/beschikbaarheid.xml')
-			->setPricesFile('tmp/direktholidays/prijzen.xml')
-			->setProductsFile('tmp/direktholidays/producten.xml');
+$feedFetcher->setAvailabilityFile($test_tmpdir.'direktholidays/beschikbaarheid.xml')
+			->setPricesFile($test_tmpdir.'direktholidays/prijzen.xml')
+			->setProductsFile($test_tmpdir.'direktholidays/producten.xml');
 
 $xml_urls[24][1]	= true;
 $xml_urls[24][2]	= true;
@@ -999,14 +999,14 @@ while(list($key,$value)=@each($xml_urls)) {
 
 }
 
-#echo wt_dump($xml_lastminute);
-#echo wt_dump_with_unixtime($xml_beschikbaar[6]["CH 290.003"]);
-#echo wt_dump_with_unixtime($xml_beschikbaar);
-#echo wt_dump_with_unixtime($xml_niet_beschikbaar);
-#echo wt_dump_with_unixtime($xml_beschikbaar_flex);
-#echo wt_dump_with_unixtime($xml_brutoprijs);
-#echo wt_dump_with_unixtime($xml_minimum_aantal_nachten);
-#exit;
+// echo wt_dump($xml_lastminute);
+// echo wt_dump_with_unixtime($xml_beschikbaar[6]["CH 290.003"]);
+// echo wt_dump_with_unixtime($xml_beschikbaar);
+// echo wt_dump_with_unixtime($xml_niet_beschikbaar);
+// echo wt_dump_with_unixtime($xml_beschikbaar_flex);
+// echo wt_dump_with_unixtime($xml_brutoprijs);
+// echo wt_dump_with_unixtime($xml_minimum_aantal_nachten);
+// exit;
 
 # geheugen vrijmaken
 unset($xml,$hulp_array);
@@ -1899,6 +1899,9 @@ while($db->next_record()) {
 			# Leverancier Direkt Holidays
 			#
 			# Beschikbaarheid
+
+			$aantal_beschikbaar[$db->f("xml_type")][$db->f("type_id")]++;
+
 			if(is_array($xml_niet_beschikbaar[$db->f("xml_type")][$value])) {
 				reset($xml_niet_beschikbaar[$db->f("xml_type")][$value]);
 				while(list($key2,$value2)=each($xml_niet_beschikbaar[$db->f("xml_type")][$value])) {
@@ -2218,32 +2221,33 @@ if(is_array($discount_updates)) {
 	track_time("Interhome-kortingen verwerkt");
 }
 
-#echo wt_dump($xml_brutoprijs[1][342]);
-#echo wt_dump_with_unixtime($nietbeschikbaar);
-#echo wt_dump($aantal_beschikbaar);
-
-#echo wt_dump_with_unixtime($xml_brutoprijs);
 if($testsysteem) {
+	// echo wt_dump($xml_brutoprijs[1][342]);
+	// echo wt_dump_with_unixtime($nietbeschikbaar);
+	// echo wt_dump($aantal_beschikbaar);
+	// echo wt_dump_with_unixtime($xml_brutoprijs);
 	echo wt_dump_with_unixtime($beschikbaar);
+
+	// echo wt_dump($tarief_season);
+	// exit;
+
+	// echo "Brutoprijs:";
+	// ksort($xml_brutoprijs[1][337]);
+	// reset($xml_brutoprijs[1][337]);
+	// while(list($key,$value)=each($xml_brutoprijs[1][337])) {
+	// 	echo date("d-m-Y",$key)." ".$value."<br>";
+	// }
+	// exit;
+
+	// echo wt_dump($vertrekdagtype);
+	// exit;
+
+
+	// echo wt_dump_with_unixtime($beschikbaar);
+	// exit;
+
 }
 
-#echo wt_dump($tarief_season);
-#exit;
-
-#echo "Brutoprijs:";
-#ksort($xml_brutoprijs[1][337]);
-#reset($xml_brutoprijs[1][337]);
-#while(list($key,$value)=each($xml_brutoprijs[1][337])) {
-#	echo date("d-m-Y",$key)." ".$value."<br>";
-#}
-#exit;
-
-#echo wt_dump($vertrekdagtype);
-#exit;
-#
-
-#echo wt_dump_with_unixtime($beschikbaar);
-#exit;
 
 
 #
@@ -2674,4 +2678,3 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 echo "\n\nFinish: ".date("r")."\n";
 
-?>
