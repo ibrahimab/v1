@@ -30,14 +30,11 @@ $volgorde=$volgorde+10;
 // ksort($vars["websites_actief"]);
 
 if($_GET["wzt"]==2) {
-
-	#zomer websites
-	$te_tonen_websites = array("I"=>"Italissima.nl", "K"=>"Italissima.be", "Z"=>"Zomerhuisje.nl", "H"=>"Italyhomes.eu (Engelstalig)");
+	$te_tonen_websites = array("I"=>"Italissima.nl", "K"=>"Italissima.be", "Z"=>"Zomerhuisje.nl");
 } else {
-
-	# winter websites
-	$te_tonen_websites = array("C"=>"Chalet.nl", "E"=>"Chalet.eu (Engelstalig)", "B"=>"Chalet.be", "D"=>"Chaletonline.de (Duitstalig) ", "T"=>"Chalettour.nl", "V"=>"Chalets in Vallandry (.nl)","X"=>"Venturasol Wintersport","Y"=>"Venturasol Vacances", "Q"=>"Chalets in Vallandry (.com)");
+	$te_tonen_websites = array("C"=>"Chalet.nl", "B"=>"Chalet.be", "T"=>"Chalettour.nl","V"=>"Chalets in Vallandry (.nl)","X"=>"Venturasol Wintersport","Y"=>"Venturasol Vacances");
 }
+
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 
@@ -47,46 +44,26 @@ $cms->db[56]["set"]="wzt='".intval($_GET["wzt"])."'";
 $cms->db_field(56,"checkbox","websites","",array("selection"=>$te_tonen_websites));
 $cms->db_field(56,"integer","volgorde");
 $cms->db_field(56,"text","interne_naam");
-$cms->db_field(56, 'textarea', 'vraag');
-
-if ($vars['cmstaal']) {
-	$cms->db_field(56, 'textarea', 'vraag_' . $vars['cmstaal']);
-}
-
+$cms->db_field(56,"textarea","vraag");
 $cms->db_field(56,"textarea","antwoord");
 
-if ($vars['cmstaal']) {
-	$cms->db_field(56, 'textarea', 'antwoord_' . $vars['cmstaal']);
-}
+
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_sort[56]=array("volgorde");
 $cms->list_field(56,"volgorde","Volgorde");
 $cms->list_field(56,"interne_naam","Interne omschrijving");
+// $cms->list_field(56,"vraag","Vraag");
 $cms->list_field(56,"websites","Websites");
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(56,0,"websites","Toon deze vraag op", "", "", array("one_per_line"=>true));
 $cms->edit_field(56,1,"volgorde","Volgorde", array("text"=>$volgorde));
 $cms->edit_field(56,1,"interne_naam", "Korte interne omschrijving");
+$cms->edit_field(56,1,"vraag","Vraag");
+$cms->edit_field(56,1,"antwoord","Antwoord");
 
-if ($vars['cmstaal']) {
 
-	$cms->edit_field(56, 1, 'vraag', 'Vraag NL', '', ['noedit' => true]);
-	$cms->edit_field(56, 1, 'vraag_' . $vars['cmstaal'], 'Vraag ' . strtoupper($vars['cmstaal']));
-
-} else {
-	$cms->edit_field(56, 1, 'vraag', 'Vraag');
-}
-
-if ($vars['cmstaal']) {
-
-	$cms->edit_field(56, 1, 'antwoord', 'Antwoord NL', '', ['noedit' => true]);
-	$cms->edit_field(56, 1, 'antwoord_' . $vars['cmstaal'], 'Antwoord ' . strtoupper($vars['cmstaal']));
-
-} else {
-	$cms->edit_field(56, 1, 'antwoord', 'Antwoord');
-}
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(56);
