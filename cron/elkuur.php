@@ -648,11 +648,16 @@ if($huidig_uur==5) {
 
 	$db->query("SHOW TABLE STATUS;");
 	while($db->next_record()) {
-		$db2->query("ANALYZE TABLE `".$db->f("Name")."`;");
-		$db2->query("OPTIMIZE TABLE `".$db->f("Name")."`;");
-		echo $db->f("Name")."<br>";
+		if ($db->f("Data_length")<200000000) {
+			$db2->query("ANALYZE TABLE `".$db->f("Name")."`;");
+			$db2->query("OPTIMIZE TABLE `".$db->f("Name")."`;");
+			echo $db->f("Name")."<br>";
+		} else {
+			echo $db->f("Name")." - too large<br>";
+		}
 	}
 }
+
 
 #wt_mail("jeroen@webtastic.nl","elk uur afgerond","mail elk uur");
 
