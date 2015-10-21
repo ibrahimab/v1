@@ -491,7 +491,7 @@ if($vars["taal"]=="nl") {
 	echo "<li><a href=\"".$vars["path"]."veelgestelde-vragen\">Veelgestelde vragen</a></li>";
 	echo "<li><a href=\"".$vars["path"]."voorwaarden.php\"".$rel_no_follow.">Voorwaarden</a></li>";
 } elseif($vars["taal"]=="en") {
-	echo "<li><a href=\"".$vars["path"]."faq.php\"".$rel_no_follow.">FAQ</a></li>";
+	echo "<li><a href=\"".$vars["path"]."faq\"".$rel_no_follow.">FAQ</a></li>";
 	echo "<li><a href=\"".$vars["path"]."conditions.php\"".$rel_no_follow.">Conditions</a></li>";
 }
 echo "<li><a href=\"".$vars["path"]."disclaimer.php\"".$rel_no_follow.">Disclaimer</a></li>";
