@@ -231,6 +231,8 @@ $cms->db_field(1,"textarea","aantekeningen","",array("dontlog"=>true));
 $cms->db_field(1,"yesno","controleren");
 $cms->db_field(1,"yesno","tonen");
 $cms->db_field(1,"yesno","request_translation");
+$cms->db_field(1,"yesno","request_translation_en");
+$cms->db_field(1,"yesno","request_translation_de");
 $cms->db_field(1,"yesno","archief");
 $cms->db_field(1,"yesno","tonenzoekformulier");
 $cms->db_field(1,"text","leverancierscode");
@@ -417,8 +419,12 @@ $cms->edit_field(1,0,"archief","Gearchiveerde accommodatie");
 $cms->edit_field(1,0,"controleren","Nog nakijken");
 $cms->edit_field(1,0,"tonen","Tonen op de website",array("selection"=>true));
 $cms->edit_field(1,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
-$cms->edit_field(1,0,"request_translation","Opnemen in lijst <a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(1,0,"weekendski","Weekendski");
+$cms->edit_field(1,0,"htmlrow","<hr>");
+$cms->edit_field(1,0,"htmlrow","Opnemen in lijst <a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\" style=\"padding:5px;\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
+$cms->edit_field(1,0,"request_translation_en","EN",array("selection"=>false),"",array("title_html"=>true));
+$cms->edit_field(1,0,"request_translation_de","DE",array("selection"=>false),"",array("title_html"=>true));
+
 if($_GET["edit"]==1) {
 	$cms->edit_field(1,0,"htmlrow","<hr><i><span style=\"color:red;\"><b>Let op!</b> Bij wijzigen &quot;websites&quot; worden alle onderliggende types aangepast.</span><br>Om dat te voorkomen kun je &quot;websites&quot; aanpassen op type-niveau.</i><br/><br/>Een ingevulde waarde hier wil zeggen dat bij minstens &eacute;&eacute;n onderliggend type deze website aangevinkt staat. Het wil niet zeggen dat bij &agrave;lle onderliggende types de website aangevinkt staat.");
 }
@@ -752,6 +758,19 @@ if($vars["cmstaal"]) {
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(1);
 if($cms_form[1]->filled) {
+
+
+#Controle of website engels of duitse is
+	$websites = explode(",", $cms_form[1]->input["websites"]);
+
+	foreach($websites as $website) {
+
+		if (($vars["websiteinfo"]["taal"][$website] == "en" && $cms_form[1]->input["request_translation_en"]) || ($vars["websiteinfo"]["taal"][$website] == "de" && $cms_form[1]->input["request_translation_de"])) {
+			$cms_form[1]->error("request_translation_en", "'Nieuw te vertalen' niet combineren met een corresponderende aangevinkte website.");
+		}
+
+	}
+
 	if($cms_form[1]->input["aankomst_plusmin"]>0 and $cms_form[1]->input["vertrek_plusmin"]<0) {
 		if($cms_form[1]->input["aankomst_plusmin"]+abs($cms_form[1]->input["vertrek_plusmin"])>6) $cms_form[1]->error("vertrek_plusmin","overlap met aankomst");
 	}
