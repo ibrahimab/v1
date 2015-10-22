@@ -952,5 +952,3 @@ if($vars["wwwtest"]) {
 		$vars["websites_basehref"][$key] = preg_replace("@^https?://www\.@","http://wwwtest.",$value);
 	}
 }
-
-?>

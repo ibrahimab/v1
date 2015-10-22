@@ -18,12 +18,18 @@ filesync::add_to_filesync_table($file, true);
 
 /*
 
+check for changes between web01 and web02:
+	rsync -e ssh -avz --delete --dry-run /var/www/chalet.nl/html/ chalet01@web02.chalet.nl:/var/www/chalet.nl/html | grep -v "cache" | grep -v "/tmp/" | grep -v "vendor/" | grep -v "wtpra/"
+
 
 sync pic-dir:
 
 	sudo rsync -avzh --numeric-ids -e 'ssh' --dry-run --exclude '_imgcache' --rsync-path='sudo rsync' /var/www/chalet.nl/html/pic/cms chalet01@web02.chalet.nl:/var/www/chalet.nl/html/pic/
-	sudo rsync -avzh --numeric-ids -e 'ssh' --exclude '_imgcache' --rsync-path='sudo rsync' /var/www/chalet.nl/html/pic/cms chalet01@web02.chalet.nl:/var/www/chalet.nl/html/pic/
+	sudo rsync -avzh --numeric-ids -e 'ssh' --dry-run --exclude '_imgcache' --rsync-path='sudo rsync' /var/www/chalet.nl/html/pic/cms chalet01@web02.chalet.nl:/var/www/chalet.nl/html/pic/
 
+
+sync facturen-dir van web01 naar web02
+	sudo rsync -avzh --numeric-ids -e 'ssh' --dry-run --rsync-path='sudo rsync' /var/www/chalet.nl/html/pdf/facturen/ chalet01@web02.chalet.nl:/var/www/chalet.nl/html/pdf/facturen
 
 
 Het sync-script werkt als volgt:
