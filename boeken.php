@@ -975,7 +975,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		if($opties_nietbeschikbaar_geboortedatum) $form->field_yesno("wisopties_nietbeschikbaar",txt("wisnietbeschikbareopties","boeken"));
 
 		if ($vars['website'] === 'D') {
-			
+
 			// chaletonline privacy melding
 			$form->field_htmlrow("", txt('privacymelding', 'boeken', ['h_1' => '<a href="' . $vars['path'] . 'Datenschutz.php' . '">', 'h_2' => '</a>']));
 		}
@@ -1057,13 +1057,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		} else {
 			$form->field_htmlrow("","<b>".html("aangezien1persoon","boeken",array("l1"=>"javascript:document.frm.submit();"))."</b><hr>");
 		}
-		
+
 		if ($vars['website'] === 'D') {
-			
+
 			// chaletonline privacy melding
 			$form->field_htmlrow("", txt('privacymelding', 'boeken', ['h_1' => '<a href="' . $vars['path'] . 'Datenschutz.php' . '">', 'h_2' => '</a>']));
 		}
-		
+
 	} elseif($_GET["stap"]==4) {
 
 		$dagen_na_bevestigdatum=round(mktime(0,0,0,date("m"),date("d"),date("Y"))-mktime(0,0,0,date("m",$gegevens["stap1"]["bevestigdatum"]),date("d",$gegevens["stap1"]["bevestigdatum"]),date("Y",$gegevens["stap1"]["bevestigdatum"]))/(60*60*24));
@@ -1456,15 +1456,15 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		// }
 
 		if(!$isMobile) {
-			
-			$form->field_yesno("akkoord",html("jaikwildezeboekingplaatsen","boeken", array("h_1" => "</label>", 
+
+			$form->field_yesno("akkoord",html("jaikwildezeboekingplaatsen","boeken", array("h_1" => "</label>",
 																						   "h_2" => "<label for=\"yesnoakkoord\">",
 																						   'h_3' => (in_array($vars['website'], $vars['anvr']) ? 'voorwaarden' : 'algemene voorwaarden'),
 																						   "l1" => "javascript:popwindow(600,0,'popup.php?id=" . (in_array($vars['website'], $vars['anvr']) ? 'voorwaarden' : 'algemenevoorwaarden') ."');",
 																						   "v_websitenaam" => $vars["websitenaam"])),"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
-			
+
 		} else {
-						$confirmTextFromHtml = html("jaikwildezeboekingplaatsen","boeken", array("h_1" => "</label>", 
+						$confirmTextFromHtml = html("jaikwildezeboekingplaatsen","boeken", array("h_1" => "</label>",
 																								 "h_2" => "<label for=\"yesnoakkoord\">",
 																								 'h_3' => (in_array($vars['website'], $vars['anvr']) ? 'voorwaarden' : 'algemene voorwaarden'),
 																								 "l1" => "popup_mobile?id=" . (in_array($vars['website'], $vars['anvr']) ? 'voorwaarden' : 'algemenevoorwaarden'),"v_websitenaam"=>$vars["websitenaam"]));
@@ -2686,7 +2686,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 									$db->query("SELECT password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
 									if($db->next_record()) {
 										$password=$db->f("password");
-										$db->query("INSERT INTO boekinguser SET password='".addslashes($password)."', password_uc='".addslashes($db->f("password_uc"))."', user='".addslashes($form->input["email"])."';");
+										$db->query("INSERT INTO boekinguser SET password='".addslashes(wt_complex_password_hash($db->f("password_uc"),$vars["salt"]))."', password_uc='".addslashes($db->f("password_uc"))."', user='".addslashes($form->input["email"])."';");
 									}
 								}
 							}
@@ -2704,9 +2704,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 							} else {
 								$mailadres=$gegevens["stap2"]["email"];
 							}
-							$db->query("UPDATE boekinguser SET password='".addslashes(md5($form->input["wachtwoord"]))."', password_uc='".addslashes($form->input["wachtwoord"])."' WHERE user='".addslashes($mailadres)."';");
+							$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($form->input["wachtwoord"],$vars["salt"]))."', password_uc='".addslashes($form->input["wachtwoord"])."' WHERE user='".addslashes($mailadres)."';");
 						} else {
-							$db->query("UPDATE boekinguser SET password='".addslashes(md5($form->input["wachtwoord"]))."', password_uc='".addslashes($form->input["wachtwoord"])."' WHERE user_id='".addslashes($login->user_id)."';");
+							$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($form->input["wachtwoord"],$vars["salt"]))."', password_uc='".addslashes($form->input["wachtwoord"])."' WHERE user_id='".addslashes($login->user_id)."';");
 						}
 					}
 				}
@@ -2934,18 +2934,18 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$directlogin_user_id=$db->f("user_id");
 				if($db->f("password_uc")) {
 					$directlogin_wachtwoord=$db->f("password_uc");
-					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord (".$db->f("password_uc").") bestaan al");
+					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord bestaan al");
 				} else {
 					$directlogin_wachtwoord=wt_generate_password(6,false);
-					$db->query("UPDATE boekinguser SET password='".addslashes(md5($directlogin_wachtwoord))."', password_uc='".addslashes($directlogin_wachtwoord)."' WHERE user_id='".addslashes($db->f("user_id"))."';");
-					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." bestaat al. Nieuw wachtwoord (".$directlogin_wachtwoord.") aangemaakt");
+					$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($directlogin_wachtwoord,$vars["salt"]))."', password_uc='".addslashes($directlogin_wachtwoord)."' WHERE user_id='".addslashes($db->f("user_id"))."';");
+					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." bestaat al. Nieuw wachtwoord aangemaakt");
 				}
 			} else {
 				if(!$gegevens["stap1"]["reisbureau_user_id"]) {
 					$directlogin_wachtwoord=wt_generate_password(6,false);
-					$db->query("INSERT INTO boekinguser SET user='".addslashes($gegevens["stap2"]["email"])."', password='".addslashes(md5($directlogin_wachtwoord))."', password_uc='".addslashes($directlogin_wachtwoord)."';");
+					$db->query("INSERT INTO boekinguser SET user='".addslashes($gegevens["stap2"]["email"])."', password='".addslashes(wt_complex_password_hash($directlogin_wachtwoord,$vars["salt"]))."', password_uc='".addslashes($directlogin_wachtwoord)."';");
 					$directlogin_user_id=$db->insert_id();
-					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord (".$directlogin_wachtwoord.") aangemaakt");
+					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord aangemaakt");
 				}
 			}
 

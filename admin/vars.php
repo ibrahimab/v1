@@ -1292,6 +1292,10 @@ if($boeking_wijzigen) {
 
 	$login->settings["message"]["login"]=txt("email", "bsys");
 	$login->settings["save_user_agent"]=true;
+
+	$login->settings["salt"]=$vars["salt"];
+	// $login->settings["convert_old_passwords"]=true;
+
 	$login->end_declaration();
 
 	if($vars["huidige_user_uitloggen"] and $login->logged_in) {

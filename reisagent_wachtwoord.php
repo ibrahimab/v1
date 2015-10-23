@@ -22,7 +22,7 @@ if($form->okay) {
 
 		# Nieuw wachtwoord aanmaken
 		$password=wt_generate_password(6);
-		$db2->query("UPDATE reisbureau_user SET password='".addslashes(wt_complex_password_hash($password,$vars["salt"]))."', uniqueid='', wrongcount=0, wrongtime=0 WHERE user_id='".addslashes($db->f("user_id"))."';");
+		$db2->query("UPDATE reisbureau_user SET password='".addslashes(wt_complex_password_hash($password,$vars["salt"]))."', uniqueid='', uniqueid_ip='', wrongcount=0, wrongtime=0 WHERE user_id='".addslashes($db->f("user_id"))."';");
 
 		$mail=new wt_mail;
 		$mail->fromname=$vars["websitenaam"];

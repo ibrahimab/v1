@@ -42,9 +42,9 @@ class directlogin {
 		if(!$md5_password) {
 			$db = new DB_sql;
 
-			$db->query("SELECT password FROM boekinguser WHERE user_id='".intval($user_id)."' AND userlevel>0".($this->check_wrongcount ? " AND wrongcount<50" : "").";");
+			$db->query("SELECT password_uc FROM boekinguser WHERE user_id='".intval($user_id)."' AND userlevel>0".($this->check_wrongcount ? " AND wrongcount<50" : "").";");
 			if($db->next_record()) {
-				$md5_password=$db->f("password");
+				$md5_password = md5($db->f("password_uc"));
 			}
 		}
 		if($md5_password) {

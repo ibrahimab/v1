@@ -25,7 +25,7 @@ if($form->okay) {
 		} else {
 			# Nieuw wachtwoord aanmaken
 			$password=wt_generate_password(6,false);
-			$db->query("UPDATE boekinguser SET password='".addslashes(md5($password))."', password_uc='".addslashes($password)."', uniqueid='', wrongcount=0 WHERE user='".addslashes($form->input["email"])."';");
+			$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($password,$vars["salt"]))."', password_uc='".addslashes($password)."', uniqueid='', uniqueid_ip='', wrongcount=0 WHERE user='".addslashes($form->input["email"])."';");
 		}
 
 		$directlogin = new directlogin;

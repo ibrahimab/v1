@@ -63,5 +63,3 @@ if($login->logged_in) {
 }
 
 include "content/opmaak.php";
-
-?>
