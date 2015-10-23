@@ -4889,4 +4889,18 @@ function calculateDiffYear(\DateTime $startYear) {
 	return $diff->y;
 }
 
+/**
+ * (Permanent) redirect function
+ *
+ * @author Ibrahim Abdullah <ibrahim@chalet.nl>
+ * @param  string $url
+ * @param  http code
+ * @return void
+ */
+function redirect($url, $code = 301) {
+
+	header(sprintf('HTTP/1.1 %d Moved Permanently', $code));
+	header(sprintf('Location: %s', $url));
+	exit;
+}
 ?>
