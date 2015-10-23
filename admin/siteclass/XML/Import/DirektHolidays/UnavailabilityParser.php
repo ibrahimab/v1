@@ -29,10 +29,10 @@ class UnavailabilityParser
 	 */
 	public function parse()
 	{
-		$taken			= [];
-		$availabilities = $this->xml->HotelStays->HotelStay;
+		$taken	    = [];
+		$hotelStays = $this->xml->HotelStays->HotelStay;
 
-		if ($availabilities->count() === 0) {
+		if ($hotelStays->count() === 0) {
 			return [];
 		}
 
@@ -40,22 +40,26 @@ class UnavailabilityParser
 		$done       = false;
 		$attributes = [];
 
-		foreach ($availabilities as $availability) {
+		foreach ($hotelStays as $hotelStay) {
 
-			$attributes['availability'] = $availability->Availability->attributes();
-			$attributes['property']     = $availability->BasicPropertyInfo->attributes();
+			$availabilities = $hotelStay->Availability;
+			foreach ($availabilities as $availability) {
 
-			$hotelcode = (string)$attributes['property']['HotelCode'];
-			$status    = (string)$attributes['availability']['Status'];
-			$start     = (string)$attributes['availability']['Start'];
-			$end       = (string)$attributes['availability']['End'];
+				$attributes['availability'] = $availability->attributes();
+				$attributes['property']     = $hotelStay->BasicPropertyInfo->attributes();
 
-			if (!isset($closed[$hotelcode])) {
-				$closed[$hotelcode] = [];
-			}
+				$hotelcode = (string)$attributes['property']['HotelCode'];
+				$status    = (string)$attributes['availability']['Status'];
+				$start     = (string)$attributes['availability']['Start'];
+				$end       = (string)$attributes['availability']['End'];
 
-			if ($status === 'Close') {
-				$closed[$hotelcode][] = $this->extract($start, $end);
+				if (!isset($closed[$hotelcode])) {
+					$closed[$hotelcode] = [];
+				}
+
+				if ($status === 'Close') {
+					$closed[$hotelcode][] = $this->extract($start, $end);
+				}
 			}
 		}
 

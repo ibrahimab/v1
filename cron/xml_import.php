@@ -134,9 +134,10 @@ if($_SERVER["HTTP_HOST"]) {
 
 } elseif (defined('wt_root_dir') && defined('unzip_bin_location')) {
 
-	$unixdir = wt_root_dir . '/';
-	$tmpdir	 = wt_root_dir . '/tmp';
-	$unzip	 = unzip_bin_location;
+	$unixdir     = wt_root_dir . '/';
+	$tmpdir      = wt_root_dir . '/tmp';
+	$test_tmpdir = $tmpdir . '/';
+	$unzip       = unzip_bin_location;
 
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
