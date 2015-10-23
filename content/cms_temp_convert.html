@@ -7,6 +7,38 @@
 echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 
+for ($i=1; $i<=100000; $i++) {
+
+	$db->query("SELECT boeking_id, log FROM boeking WHERE log LIKE '%wachtwoord (%' ORDER BY boeking_id DESC LIMIT 0,1000");
+	if ($db->num_rows()) {
+		while( $db->next_record() ) {
+			echo $db->f( "boeking_id" ).": ";
+
+			$new_log = $db->f( "log" );
+			$new_log = preg_replace("@wachtwoord \([A-Za-z0-9#\^\.&\!\@\?-]+\)@", "wachtwoord ", $new_log);
+
+
+			// echo wt_he($db->f( "log" ));
+			// echo "<br /><br />";
+			// echo wt_he($new_log);
+
+			if ($new_log and preg_match("@wachtwoord @", $new_log)) {
+				$db2->query("UPDATE boeking SET log='".addslashes($new_log)."' WHERE boeking_id='".$db->f( "boeking_id" )."';");
+			} else {
+				echo "Niet correct: ".wt_he($new_log);
+				exit;
+			}
+
+			echo "<br /><hr><br />";
+
+		}
+
+	} else {
+		break;
+	}
+
+}
+
 // foreach ($vars["seizoentype_namen"] as $wzt => $seizoen_naam) {
 // 	echo $seizoen_naam."<br />";
 // 	unset($last_seizoen_id, $prev_seizoen_id, $has_bk);
