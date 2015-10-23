@@ -398,6 +398,9 @@ if($vars["wederverkoop"]) {
 		$login_rb->settings["db"]["tablename"]="reisbureau_user";
 		$login_rb->settings["loginform_nobr"]=true;
 		$login_rb->settings["extra_unsafe_cookie"]="rbli"; # ReisBureauLogIn
+		$login_rb->settings["salt"]=$vars["salt"];
+		// $login_rb->settings["convert_old_passwords"]=true;
+
 		if($vars["reisbureau_mustlogin"]) {
 			$login_rb->settings["mustlogin"]=true;
 		} else {
@@ -471,7 +474,7 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["db"]["tablename"]="leverancier";
 		$login_lev->settings["db"]["fielduserid"]="leverancier_id";
 		$login_lev->settings["loginform_nobr"]=true;
-		$login_lev->settings["extra_unsafe_cookie"]="levli"; # ReisBureauLogIn
+		$login_lev->settings["extra_unsafe_cookie"]="levli";
 		$login_lev->settings["mustlogin"]=true;
 		$login_lev->settings["salt"]=$vars["salt"];
 

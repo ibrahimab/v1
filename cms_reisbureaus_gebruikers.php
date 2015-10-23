@@ -107,8 +107,7 @@ if($_GET["add"]==28 and $vars["taal"]=="nl") {
 if($_GET["edit"]==28) {
 	$cms->edit_field(28,0,"htmlrow","<hr><b>Wachtwoord</b><p><i>Bij het wijzigen van het wachtwoord wordt de teller &quot;aantal foutieve inlogpogingen&quot; op 0 gezet zodat de reisagent direct weer kan inloggen.</i></p>");
 }
-$cms->edit_field(28,0,"password","Wachtwoord","",array("new_password"=>true,"strong_password"=>true));
-
+$cms->edit_field(28,0,"password","Wachtwoord","",array("new_password"=>true,"strong_password"=>true,"salt"=>$vars["salt"]));
 $cms->edit_field(28,0,"htmlrow","<hr><b>Contactgegevens (indien afwijkend van bovenliggend reisbureau)</b>");
 $cms->edit_field(28,0,"adres","Adres");
 $cms->edit_field(28,0,"postcode","Postcode");
@@ -169,7 +168,7 @@ function form_before_goto($form) {
 		} else {
 			# Wachtwoord aanmaken
 			$password=wt_generate_password(6);
-			$db->query("UPDATE reisbureau_user SET password='".addslashes(md5($password))."' WHERE user_id='".addslashes($form->db_insert_id)."';");
+			$db->query("UPDATE reisbureau_user SET password='".addslashes(wt_complex_password_hash($password,$vars["salt"]))."' WHERE user_id='".addslashes($form->db_insert_id)."';");
 		}
 		# Links naar sites
 		$db->query("SELECT websites FROM reisbureau WHERE reisbureau_id='".addslashes($_GET["27k0"])."';");
@@ -205,5 +204,3 @@ function form_before_goto($form) {
 $cms->end_declaration();
 
 $layout->display_all($cms->page_title);
-
-?>
