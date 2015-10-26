@@ -19,6 +19,7 @@ if($_GET["show"]==1) {
 $cms->display_cms();
 
 if($_GET["show"]==1) {
+	exit(test);
 	$db2->query("SELECT t.type_id FROM accommodatie a, type t, leverancier l WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.accommodatie_id='".addslashes($_GET["1k0"])."' AND (t.leverancierscode<>'' OR a.leverancierscode<>'') AND l.xml_type>0;");
 	if($db2->num_rows()) {
 		echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"])."&xmlvoorraadreset=1\" onclick=\"return confirmClick(this,'De XML-voorraad van alle types van deze accommodatie zullen op 0 worden gezet. Doorgaan?')\";>Zet bij alle bovenstaande types de XML-voorraad op 0</a>";

@@ -30,31 +30,31 @@ if($_GET["1k0"]) {
 		$accommodatie_heeft_boekingen=true;
 	}
 } else {
-	
-	$db->query("SELECT s.seizoen_id, s.naam AS seizoen, t.accommodatie_id, COUNT(b.boeking_id) AS aantal 
-				FROM boeking b, type t, seizoen s 
-				WHERE b.seizoen_id = s.seizoen_id 
-				AND b.type_id = t.type_id 
-				AND b.geannuleerd = 0 
-				AND b.stap_voltooid = 5 
-				AND b.goedgekeurd = 1 
+
+	$db->query("SELECT s.seizoen_id, s.naam AS seizoen, t.accommodatie_id, COUNT(b.boeking_id) AS aantal
+				FROM boeking b, type t, seizoen s
+				WHERE b.seizoen_id = s.seizoen_id
+				AND b.type_id = t.type_id
+				AND b.geannuleerd = 0
+				AND b.stap_voltooid = 5
+				AND b.goedgekeurd = 1
 				AND s.tonen >= 1
 				AND s.type = " . intval($_GET['wzt']) . "
 				" . ($_GET['wzt'] == 2 ? ' AND YEAR(s.begin) >= 2009' : '') . "
 				GROUP BY t.accommodatie_id, b.seizoen_id;");
-				
+
 	$boekingen = [];
 	$seizoenen = [];
 	while ($db->next_record()) {
-		
+
 		if (!isset($boekingen[$db->f('seizoen_id')])) {
 			$boekingen[$db->f('seizoen_id')] = [];
 		}
-		
+
 		if (!isset($boekingen[$db->f('seizoen_id')][$db->f('accommodatie_id')])) {
 			$boekingen[$db->f('seizoen_id')][$db->f('accommodatie_id')] = 0;
 		}
-		
+
 		$boekingen[$db->f('seizoen_id')][$db->f('accommodatie_id')] += $db->f('aantal');
 		$seizoenen[$db->f('seizoen_id')] = $db->f('seizoen');
 	}
@@ -389,13 +389,13 @@ if (isset($seizoenen)) {
 
 	arsort($seizoenen);
 	foreach ($seizoenen as $seizoen_id => $seizoen_naam) {
-		
+
 		if (false !== strpos($seizoen_naam, '/')) {
-			
+
 			list($previous,$next) = explode('/', $seizoen_naam);
 			$seizoen_naam		  = substr($previous, -2) . '/' . substr($next, -2);
 		}
-		
+
 		$cms->list_field(1,"seizoen_" . $seizoen_id, trim(str_replace(['zomer', 'winter'], '', $seizoen_naam)));
 		$cms->db_field(1, 'select', 'seizoen_' . $seizoen_id, 'accommodatie_id', ['selection' => $boekingen[$seizoen_id]]);
 	}
@@ -974,7 +974,6 @@ if($_GET["delete"]==1 and $_GET["1k0"]) {
 		$cms->delete_error(1,"Deze accommodatie bevat nog gekoppelde types");
 	}
 }
-
 
 #
 # DELETEn van andere tabellen

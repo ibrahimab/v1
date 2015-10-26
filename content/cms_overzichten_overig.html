@@ -147,40 +147,20 @@ if($_GET["t"]==1) {
 	#
 	# Overzicht te vertalen teksten
 	#
+
 	if($_GET["cmstaal"]) {
 		$vars["cmstaal"]=$_GET["cmstaal"];
 	}
 
-	if($_GET["request_translation"]) {
+	if(!$vars["cmstaal"]) {
+		echo "Selecteer de gewenste taal (Engels of Duits) via de cms-hoofdpagina.";
+	} elseif ($_GET["request_translation"]) {
 
-			//
-			// list new accommodations and types that need translation
-			//
-
-			$db->query("SELECT accommodatie_id FROM accommodatie a INNER JOIN plaats p USING (plaats_id) WHERE a.request_translation=1 AND a.wzt='".intval($_GET["wzt"])."' AND a.archief=0 ORDER BY p.naam, a.naam;");
-			if($db->num_rows()) {
-				$translations_wanted = true;
-				echo "Nieuw te vertalen ".$vars["seizoentype_namen"][$_GET["wzt"]]."accommodaties:<ul>";
-				while($db->next_record()) {
-					echo "<li><a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".intval($_GET["wzt"])."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".wt_he($vars["alleacc"][$db->f("accommodatie_id")])."</a></li>";
-				}
-				echo "</ul>";
-			}
-
-			$db->query("SELECT t.type_id, t.accommodatie_id FROM type t INNER JOIN accommodatie a USING (accommodatie_id) INNER JOIN plaats p USING (plaats_id) WHERE t.request_translation=1 AND a.wzt='".intval($_GET["wzt"])."' AND a.archief=0 ORDER BY p.naam, a.naam, t.naam;");
-			if($db->num_rows()) {
-				$translations_wanted = true;
-				echo "Nieuw te vertalen ".$vars["seizoentype_namen"][$_GET["wzt"]]."types:<ul>";
-				while($db->next_record()) {
-					echo "<li><a href=\"".$vars["path"]."cms_types.php?edit=2&wzt=".intval($_GET["wzt"])."&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
-				}
-				echo "</ul>";
-			}
+			$cms->display_cms();
 
 			if(!$translations_wanted) {
 				echo "Er zijn geen nieuw te vertalen ".$vars["seizoentype_namen"][$_GET["wzt"]]."accommodaties.";
 			}
-
 
 
 	} else {
