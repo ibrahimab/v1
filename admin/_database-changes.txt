@@ -2,6 +2,12 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+
+27-oct-2015 16:11
+ALTER TABLE `type` ADD `request_translation_de` TINYINT( 1 ) NOT NULL AFTER `request_translation` ;
+ALTER TABLE `type` ADD `request_translation_en` TINYINT( 1 ) NOT NULL AFTER `request_translation_de` ;
+ALTER TABLE `type` ADD `request_translation_fr` TINYINT( 1 ) NOT NULL AFTER `request_translation_en` ;
+
 20-oct-2015 09:50
 ALTER TABLE `accommodatie` ADD `request_translation_de` TINYINT( 1 ) NOT NULL AFTER `request_translation` ;
 ALTER TABLE `accommodatie` ADD `request_translation_en` TINYINT( 1 ) NOT NULL AFTER `request_translation_de` ;
