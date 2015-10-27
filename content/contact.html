@@ -10,8 +10,13 @@ if($_GET["fo"]=="frm") {
 	if($vars["website"]=="T" or $vars["website"]=="Y") {
 		echo html("inleiding_chalettour","contact",array("h_1"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">","h_2"=>"</a>"));
 	} else {
-		echo html("inleiding","contact",array("h_1"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">","h_2"=>"</a>"));
-
+			if($vars['taal']=="nl") {
+		     	echo html("inleiding","contact",array("h_1"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">","h_2"=>"</a>"));
+			} elseif ($vars['taal']=="de") {
+			 	echo html("inleiding","contact",array("h_1"=>"<a href=\"".$vars["path"]."viel-gestellte-fragen\">","h_2"=>"</a>"));
+			} else {
+			  echo html("inleiding","contact",array("h_1"=>"<a href=\"".$vars["path"]."faq\">","h_2"=>"</a>"));
+		  }
 		# Tijdelijk! Telefoon doet het niet
 		#echo "<div style=\"background-color:yellow;padding:10px;border:1px solid #000000;margin-top:10px;\">".nl2br(html("opvalmelding","vars",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">","h_2"=>"</a>","v_email"=>$vars["email"])))."</div>";
 
