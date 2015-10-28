@@ -25,6 +25,7 @@ if($_GET["t"]==3) {
 
 	$cms->settings[1]["list"]["show_icon"]=true;
 	$cms->settings[1]["list"]["edit_icon"]=true;
+	$cms->settings[1]["list"]["delete_icon"]=false;
 
 	$cms->show_name[1]="accommodatiegegevens";
 	$cms->show_mainfield[1]="naam";
