@@ -628,7 +628,7 @@ $txta["de"]["title_themas"]="Themen";
 $txta["en"]["title_themas"]="Themes";
 
 $txta["nl"]["title_veelgesteldevragen"]="Veelgestelde vragen";
-$txta["de"]["title_veelgesteldevragen"]="häufig gestellte Fragen";
+$txta["de"]["title_veelgesteldevragen"]="Häufig gestellte Fragen";
 $txta["en"]["title_veelgesteldevragen"]="Frequently Asked Questions";
 
 $txta["nl"]["title_404"]="Pagina niet gevonden";
