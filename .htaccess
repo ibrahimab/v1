@@ -403,7 +403,7 @@ RewriteRule ^sneltoetsen$ sneltoetsen.php [L,QSA]
 # Veelgestelde vragen pagina's
 RewriteRule ^veelgestelde-vragen$ veelgestelde-vragen.php?%{QUERY_STRING}
 RewriteRule ^faq$ veelgestelde-vragen.php?%{QUERY_STRING}
-RewriteRule ^häufig-gestellte-fragen$ veelgestelde-vragen.php?%{QUERY_STRING}
+RewriteRule ^haufig-gestellte-fragen$ veelgestelde-vragen.php?%{QUERY_STRING}
 
 # Werken bij
 RewriteRule ^vacatures$ /werkenbij [L,R=301]
