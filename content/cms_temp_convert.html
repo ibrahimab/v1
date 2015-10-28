@@ -7,6 +7,18 @@
 echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 
+$db->query("SELECT user_id FROM boekinguser WHERE password_uc='';");
+echo $db->lq."<br />";
+while( $db->next_record() ) {
+	$new_password = wt_generate_password(6,false);
+
+	$db2->query("UPDATE boekinguser SET password='".addslashes(md5($new_password))."', password_uc='".addslashes($new_password)."' WHERE user_id='".$db->f( "user_id" )."';");
+	echo "query :".$db2->lq."<br />";
+}
+
+echo "<hr><br />";
+// exit;
+
 for ($i=1; $i<=100000; $i++) {
 
 	$db->query("SELECT boeking_id, log FROM boeking WHERE log LIKE '%wachtwoord (%' ORDER BY boeking_id DESC LIMIT 0,1000");
