@@ -306,7 +306,7 @@ $cms->edit_field(2,0,"verzameltype","Dit is een verzameltype");
 $cms->edit_field(2,0,"verzameltype_parent","Dit type valt onder het volgende verzameltype");
 $cms->edit_field(2,0,"apart_tonen_in_zoekresultaten","Toon dit type bij de zoekresultaten als losse accommodatie (niet als onderdeel van de bovenliggende accommodatie)");
 $cms->edit_field(2,0,"htmlrow","<hr>");
-$cms->edit_field(2,0,"htmlrow","Opnemen in lijst <a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\" style=\"padding:5px;\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
+$cms->edit_field(2,0,"htmlrow","Opnemen in lijst<a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\" style=\"padding:5px;\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(2,0,"request_translation_en","EN",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(2,0,"request_translation_de","DE",array("selection"=>false),"",array("title_html"=>true));
 if($_GET["edit"]==2) {

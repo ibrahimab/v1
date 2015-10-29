@@ -421,7 +421,7 @@ $cms->edit_field(1,0,"tonen","Tonen op de website",array("selection"=>true));
 $cms->edit_field(1,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
 $cms->edit_field(1,0,"weekendski","Weekendski");
 $cms->edit_field(1,0,"htmlrow","<hr>");
-$cms->edit_field(1,0,"htmlrow","Opnemen in lijst <a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\" style=\"padding:5px;\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
+$cms->edit_field(1,0,"htmlrow","Opnemen in lijst<a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\" style=\"padding:5px;\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(1,0,"request_translation_en","EN",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(1,0,"request_translation_de","DE",array("selection"=>false),"",array("title_html"=>true));
 
