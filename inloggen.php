@@ -24,7 +24,7 @@ if($_GET["directlogin"] and $_GET["user_id"] and ($_GET["code"] or $_GET["newcod
 	$directlogin->check_wrongcount=true;
 
 
-	if($_GET["code"] and $directlogin->code_old($_GET["user_id"])==$_GET["code"]) {
+	if($_GET["code"] and $directlogin->check_code_old($_GET["user_id"], $_GET["code"])) {
 		$login->log_user_in($_GET["user_id"]);
 	} elseif($_GET["newcode"] and $directlogin->code($_GET["user_id"])==$_GET["newcode"]) {
 		$login->log_user_in($_GET["user_id"]);

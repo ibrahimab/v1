@@ -57,6 +57,29 @@ class directlogin {
 		}
 	}
 
+	// old function: check old direct-links
+	public function check_code_old($user_id, $code) {
+
+		global $vars;
+
+		$db = new DB_sql;
+
+		$login_okay = false;
+
+		$db->query("SELECT directlogin_check FROM boekinguser WHERE user_id='".intval($user_id)."' AND userlevel>0".($this->check_wrongcount ? " AND wrongcount<50" : "").";");
+		if($db->next_record()) {
+
+			if ($db->f( "directlogin_check" ) == sha1("OLD_CODE_SALT_".$code.$vars["salt"])) {
+				$login_okay = true;
+			}
+		}
+
+		if ($login_okay) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	// old function: create code based on password_uc
 	public function code_old($user_id,$md5_password="") {
