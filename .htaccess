@@ -429,9 +429,13 @@ RewriteRule ^aanbiedingen/([A-Za-z0-9-]*)/$ aanbiedingen_zomerhuisje.php?land=$1
 RewriteRule ^special_offers$ /special_offers/ [L,R=301]
 RewriteRule ^special_offers/$ aanbiedingen_zomerhuisje.php?%{QUERY_STRING}
 
-# Inlogsysteem (via link direct inloggen)
+# Inlogsysteem (via link direct inloggen): old links (based on password_uc)
 RewriteRule ^[wW]/[a-z]([0-9]+)[a-z]([a-zA-Z0-9]+)([0-9])/([0-9]+)$ inloggen.php?directlogin=1&user_id=$1&code=$2&soort=$3&bid=$4
 RewriteRule ^[wW]/[a-z]([0-9]+)[a-z]([a-zA-Z0-9]+)([0-9])$ inloggen.php?directlogin=1&user_id=$1&code=$2&soort=$3
+
+# Inlogsysteem (via link direct inloggen): new links (based on salted-password)
+RewriteRule ^[qQ]/[a-z]([0-9]+)[a-z]([a-zA-Z0-9]+)([0-9])/([0-9]+)$ inloggen.php?directlogin=1&user_id=$1&newcode=$2&soort=$3&bid=$4
+RewriteRule ^[qQ]/[a-z]([0-9]+)[a-z]([a-zA-Z0-9]+)([0-9])$ inloggen.php?directlogin=1&user_id=$1&newcode=$2&soort=$3
 
 
 # TradeTracker Italissima.nl

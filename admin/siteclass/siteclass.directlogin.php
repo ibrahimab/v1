@@ -5,11 +5,13 @@
 */
 class directlogin {
 
-	public $check_wrongcount;
+	// bij nagaan code: controleren of er niet al teveel ongeldige inlogpogingen zijn
+	public $check_wrongcount = false;
+
 	public $boeking_id;
 
 	function __construct() {
-		$check_wrongcount=false; // bij nagaan code: controleren of er niet al teveel ongeldige inlogpogingen zijn
+
 	}
 
 	public function maak_link($website,$soort,$user_id,$md5_password="") {
@@ -24,11 +26,11 @@ class directlogin {
 
 		$link=$vars["websiteinfo"]["basehref"][$website];
 
-		$code=$this->code($user_id,$md5_password);
+		$code=$this->code($user_id);
 
 		if($code) {
 
-			$link.="w/".$this->willekeurige_letter($user_id).$user_id.$this->willekeurige_letter($user_id+33).$code.$soort;
+			$link.="q/".$this->willekeurige_letter($user_id).$user_id.$this->willekeurige_letter($user_id+33).$code.$soort;
 
 			if($this->boeking_id) {
 				$link.="/".$this->boeking_id;
@@ -37,7 +39,27 @@ class directlogin {
 		return $link;
 	}
 
-	public function code($user_id,$md5_password="") {
+	public function code($user_id) {
+
+		$db = new DB_sql;
+
+		$db->query("SELECT password FROM boekinguser WHERE user_id='".intval($user_id)."' AND userlevel>0".($this->check_wrongcount ? " AND wrongcount<50" : "").";");
+		if($db->next_record()) {
+			$salted_password = $db->f("password");
+		}
+
+		if($salted_password) {
+			$code=substr(sha1("jkljLKjlkjhhuUuhbb".$salted_password."kkKjjehhgfyyuq".$user_id."llkk299jjhhkkk"),0,6);
+
+			return $code;
+		} else {
+			return false;
+		}
+	}
+
+
+	// old function: create code based on password_uc
+	public function code_old($user_id,$md5_password="") {
 
 		if(!$md5_password) {
 			$db = new DB_sql;
@@ -66,14 +88,3 @@ class directlogin {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-?>

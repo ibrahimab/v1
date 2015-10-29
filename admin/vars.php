@@ -399,7 +399,6 @@ if($vars["wederverkoop"]) {
 		$login_rb->settings["loginform_nobr"]=true;
 		$login_rb->settings["extra_unsafe_cookie"]="rbli"; # ReisBureauLogIn
 		$login_rb->settings["salt"]=$vars["salt"];
-		// $login_rb->settings["convert_old_passwords"]=true;
 
 		if($vars["reisbureau_mustlogin"]) {
 			$login_rb->settings["mustlogin"]=true;
@@ -1294,7 +1293,6 @@ if($boeking_wijzigen) {
 	$login->settings["save_user_agent"]=true;
 
 	$login->settings["salt"]=$vars["salt"];
-	// $login->settings["convert_old_passwords"]=true;
 
 	$login->end_declaration();
 

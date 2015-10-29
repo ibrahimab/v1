@@ -14,9 +14,7 @@ if($_GET["directlogin"]) {
 include("admin/vars.php");
 
 
-if($_GET["directlogin"] and $_GET["user_id"] and $_GET["code"]) {
-
-
+if($_GET["directlogin"] and $_GET["user_id"] and ($_GET["code"] or $_GET["newcode"])) {
 
 	if($login->logged_in) {
 		$login->logout();
@@ -25,11 +23,17 @@ if($_GET["directlogin"] and $_GET["user_id"] and $_GET["code"]) {
 	$directlogin = new directlogin;
 	$directlogin->check_wrongcount=true;
 
-	if($directlogin->code($_GET["user_id"])==$_GET["code"]) {
+
+	if($_GET["code"] and $directlogin->code_old($_GET["user_id"])==$_GET["code"]) {
+		$login->log_user_in($_GET["user_id"]);
+	} elseif($_GET["newcode"] and $directlogin->code($_GET["user_id"])==$_GET["newcode"]) {
 		$login->log_user_in($_GET["user_id"]);
 	} else {
-		# Opslaan dat er een foute inlogpoging was
+		// Opslaan dat er een foute inlogpoging was
 		$db->query("UPDATE boekinguser SET wrongcount=wrongcount+1 WHERE user_id='".intval($_GET["user_id"])."';");
+
+		// trigger error-message
+		trigger_error( "_notice: inloggen user_id ".intval($_GET["user_id"])." mislukt",E_USER_NOTICE );
 	}
 
 	unset($querystring);
@@ -50,12 +54,6 @@ if($_GET["directlogin"] and $_GET["user_id"] and $_GET["code"]) {
 }
 
 $breadcrumbs["last"]=txt("title_bsys");
-
-## Chalettour.nl : boeking wijzigen niet toegestaan
-#if($vars["websitetype"]==4 or $vars["websitetype"]==5) {
-#	header("Location: ".$path."reisagent.php");
-#	exit;
-#}
 
 if($login->logged_in) {
 	header("Location: ".$path."bsys.php");
