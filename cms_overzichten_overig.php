@@ -49,27 +49,6 @@ if($_GET["t"]==3) {
 	$cms->list_field(1,"plaats_id","Plaats");
 	$cms->list_field(1,"internenaam","Interne naam");
 
-	$cms->settings[2]["list"]["show_icon"]=true;
-	$cms->settings[2]["list"]["edit_icon"]=true;
-	$cms->settings[2]["list"]["delete_icon"]=false;
-
-	$cms->show_name[2]="accommodatiegegevens";
-	$cms->show_mainfield[2]="naam";
-
-	$cms->db[2]["where"]="wzt='".addslashes($_GET["wzt"])."'";
-	$cms->db[2]["where"].=" AND request_translation" . ($vars['cmstaal'] ? ('_' . $vars['cmstaal']) : '');
-	$cms->db[2]["where"].=" AND archief=0";
-
-	$cms->show_field(2,"naam","Naam");
-
-	$cms->db_field(2,'noedit','type_id');
-	$cms->db_field(2,"select","accommodatie_id","",array("othertable"=>"1","otherkeyfield"=>"accommodatie_id","otherfield"=>"naam","otherwhere"=>"wzt='".addslashes($_GET["wzt"])."'"));
-	$cms->db_field(2,'noedit','naam');
-
-	$cms->list_sort[2]=array("accommodatie_id","naam");
-	#$cms->list_field(1,"accommodatie_id","ID");
-	$cms->list_field(2,"naam","Naam");
-
 	$cms->end_declaration();
 }
 if($_GET["t"]==5) {
