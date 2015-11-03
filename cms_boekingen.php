@@ -289,6 +289,7 @@ $cms->db_field(21,"select","stap_voltooid","",array("selection"=>$vars["boeken"]
 if($_GET["bt"]==8) {
 	// $cms->db_field(21,"select","besteluser_id","",array("othertable"=>"25","otherkeyfield"=>"user_id","otherfield"=>"voornaam"));
 }
+$cms->db_field(21,"text","initial_ip_address");
 
 #$cms->list_sort[21]=array("boeking_id");
 $cms->list_sort_desc[21]=true;
@@ -353,6 +354,11 @@ if ($_GET['bt'] == 6) {
 	$cms->list_field(21,'geannuleerd_op','Geannuleerd op', array('date_format' => 'DD-MM-JJ'));
 }
 $cms->list_field(21,"boekingsgegevens","Hoofdboeker");
+if ($_GET['bt'] == 3) {
+	// unfinished bookings: show IP-address in list
+	$cms->list_field(21,"initial_ip_address","IP-adres");
+}
+
 $cms->list_field(21,"acc_of_arrangement","Ac/Ar/Co");
 if($_GET["archief"]==1) {
 	$cms->list_field(21,"enquete","Enquête");

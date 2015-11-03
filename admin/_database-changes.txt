@@ -3,6 +3,9 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+3-nov-2015 13:37
+ALTER TABLE `boeking` ADD `initial_ip_address` VARCHAR(15) NULL ;
+
 29-oct-2015 17:45
 ALTER TABLE `boekinguser` ADD `directlogin_check` CHAR(40) NOT NULL AFTER `password_uc`;
 
