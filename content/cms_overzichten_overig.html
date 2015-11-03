@@ -1,4 +1,5 @@
 <?php
+use Chalet\RequestTranslation;
 
 if($_GET["t"]==1) {
 	# Overzicht van aantal aangeboden bedden per seizoen tonen
@@ -162,45 +163,10 @@ if($_GET["t"]==1) {
 			}
 
 		// display accommodations with request_translation_<locale> = 1
-		$cms->display_list(1);
+		echo 'Eric hates white people<br />';
 
-		// display types with request_translation_<locale> = 1
-		$db->query("SELECT t.type_id , a.naam AS accommodatie, t.naam, p.plaats_id, p.naam AS plaats, l.leverancier_id, l.naam AS leverancier
-					FROM type t, accommodatie a, plaats p, leverancier l
-					WHERE t.accommodatie_id = a.accommodatie_id
-					AND t.leverancier_id= l.leverancier_id
-					AND a.plaats_id = p.plaats_id
-					AND t.request_translation".$vars['ttv']." = 1");
-		if($db->num_rows()) {
-
-			$tl=new tablelist;
-			$tl->settings["systemid"]=2;
-			$tl->settings["arrowcolor"]="white";
-			$tl->settings["max_results_per_page"];
-			$tl->settings["path"]=$vars["path"];
-			$tl->settings["resultpages_top"]=true;
-			$tl->settings["th_id"]="col_";
-			$tl->settings["td_class"]="col_";   # elke cel een class: "deze_voorloper+naam"
-
-			$tl->sort=array("naam");
-			$tl->sort_desc=true;
-
-			$tl->field_show("cms_types.php?show=2&bc=630&wzt=1&archief=0&1k0=&2k0=[ID]","Details bekijken");
-			$tl->field_text("leverancier","Leverancier");
-			$tl->field_text("plaats_id","Plaats");
-			$tl->field_text("naam","Interne Naam");
-			while($db->next_record()) {
-				# add_record($id,$key,$value,$sortvalue="",$datetime=false,$options="")
-				$tl->add_record("naam",$db->f("type_id"), $db->f("accommodatie")." ".$db->f("naam"));
-				$tl->add_record("plaats_id",$db->f("type_id"), $db->f("plaats"));
-				$tl->add_record("leverancier",$db->f("type_id"), $db->f("leverancier"));
-
-
-			}
-		}
-
-		echo '<strong>' . $title['cms_overzichten_overig'] . '</strong><br />';
-		echo $tl->table("tbl",1);
+		$requestTranslation = new RequestTranslation;
+		echo $requestTranslation->types()->table('tbl', 2);
 
 	} else {
 		$db->query("SELECT COUNT(type_id) AS aantal FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE (a.request_translation=1 OR t.request_translation=1) AND wzt='".intval($_GET["wzt"])."';");
