@@ -156,17 +156,49 @@ if($_GET["t"]==1) {
 	if(!$vars["cmstaal"]) {
 		echo "Selecteer de gewenste taal (Engels of Duits) via de cms-hoofdpagina.";
 	} elseif ($_GET["request_translation"]) {
-			if($_GET["wzt"]==2) {
-				$title["cms_overzichten_overig"]="Overzicht nieuw te vertalen zomeraccommodaties en -types";
+
+
+		$requestTranslation = new RequestTranslation($_GET["wzt"]);
+		$accommodations		= $requestTranslation->accommodations();
+		$types				= $requestTranslation->types();
+
+		if($_GET["wzt"]==1) {
+
+			if (false !== $accommodations) {
+
+				echo "Nieuw te vertalen winteraccommodaties:";
+				echo $accommodations->table('tbl', 2);
+
 			} else {
-				$title["cms_overzichten_overig"]="Overzicht nieuw te vertalen winteraccommodaties en -types";
+				echo "Er zijn geen nieuw te vertalen winteraccommodaties.";
 			}
 
-		// display accommodations with request_translation_<locale> = 1
-		echo 'Eric hates white people<br />';
+			if(false !== $types){
+           	echo "Nieuw te vertalen wintertypes:";
+           	echo $types->table('tbl', 2);
+           } else {
+           	echo "Er zijn geen nieuw te vertalen wintertypes:";
+           }
 
-		$requestTranslation = new RequestTranslation;
-		echo $requestTranslation->types()->table('tbl', 2);
+		} else {
+
+
+			if (false !== $accommodations) {
+
+				echo "Nieuw te vertalen zomeraccommodaties:";
+				echo $accommodations->table('tbl', 2);
+
+			} else {
+				echo "Er zijn geen nieuw te vertalen zomeraccommodaties.";
+			}
+
+			if(false !== $types){
+           	echo "Nieuw te vertalen zomertypes:";
+           	echo $types->table('tbl', 2);
+           } else {
+           	echo "Er zijn geen nieuw te vertalen zomertypes.";
+           }
+		}
 
 	} else {
 		$db->query("SELECT COUNT(type_id) AS aantal FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE (a.request_translation=1 OR t.request_translation=1) AND wzt='".intval($_GET["wzt"])."';");
