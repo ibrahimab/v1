@@ -8,5 +8,3 @@ if($vars["websitetype"]==6) {
 }
 
 include "content/opmaak.php";
-
-?>

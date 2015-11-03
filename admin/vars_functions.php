@@ -4903,4 +4903,3 @@ function redirect($url, $code = 301) {
 	header(sprintf('Location: %s', $url));
 	exit;
 }
-?>

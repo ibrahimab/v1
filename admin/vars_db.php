@@ -40,6 +40,3 @@ if($vars["acceptatie_testserver"]) {
 }
 $mysqlsettings["name"]["local"]="dbtest_chalet"; # database-name for testing purposes
 $mysqlsettings["localhost"]="ss.postvak.net";# hostname for testing purposes
-
-
-?>

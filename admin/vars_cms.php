@@ -3064,5 +3064,3 @@ function JsonResponse($data) {
 	echo json_encode($data);
 	exit;
 }
-
-?>
