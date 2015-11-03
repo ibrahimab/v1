@@ -365,7 +365,7 @@ if($form->okay) {
 		if (($leverancierdata = $db3->next_record())) {
 			$leveranciertaal = (isset($vars['landcodes'][$db3->f('taal')]) ? $vars['landcodes'][$db3->f('taal')] : $leveranciertaal);
 		}
-		
+
 		$verblijfsduurweergave = '7 ' . txt('nachten', 'vars', ['taal' => $leveranciertaal]);
 		if($accinfo["wzt"]==2) {
 
@@ -409,16 +409,16 @@ if($form->okay) {
 		if ($leverancierdata) {
 
 			$leverancieremailsubject = txt('leverancieremailonderwerp', 'beschikbaarheid', [
-				
+
 				'taal'            => $leveranciertaal,
 				'v_aankomstdatum' => $aankomstdatumweergave,
 				'v_plaats'		  => $accinfo['plaats'],
 				'v_accommodatie'  => wt_he($accinfo['abestelnaam']),
 				'v_code'          => ($accinfo['code'] ? (' - ' . $accinfo['code']) : ''),
 			]);
-			
+
 			$leverancieremailbody = txt('leverancieremailbody', 'beschikbaarheid', [
-				
+
 				'taal'             => $leveranciertaal,
 				'v_contactpersoon' => $db3->f('contactpersoon'),
 				'v_plaats'         => $accinfo['plaats'],
@@ -428,7 +428,7 @@ if($form->okay) {
 				'v_aankomstdatum'  => $aankomstdatumweergavelang,
 				'v_verblijfsduur'  => $verblijfsduurweergave,
 			]);
-			
+
 			$break = '%0D%0A';
 			$html .= '</table>';
 			$html .= '<br />Leverancier mailen: <a href="mailto:' . $db3->f('email') . '?body=' . str_replace("\n", $break, $leverancieremailbody) . '&subject=' . $leverancieremailsubject . '">optie aanvragen</a>';
@@ -445,11 +445,11 @@ if($form->okay) {
 		if($wederverkoop_aanvraag) {
 			$html.="<tr><td class=\"wtform_cell_left\">Via reisagent</td><td class=\"wtform_cell_right\">".wt_he($vars["chalettour_reisagentnaam"])." / <a href=\"https://www.chalet.nl/cms_reisbureaus.php?show=27&27k0=".$login_rb->vars["reisbureau_id"]."\">".wt_he($vars["chalettour_naam"])."</a></td></tr>";
 		}
-		
+
 		if (count($voorraadweergave) > 0) {
 			$html.= '<tr><td class="wtform_cell_left">Voorraad</td><td class="wtform_cell_right">' . implode(', ', $voorraadweergave) . '</td></tr>';
 		}
-		
+
 		$html.="<tr><td class=\"wtform_cell_left\">Accommodatie</td><td class=\"wtform_cell_right\"><a href=\"".$accinfo["url"]."\">".$accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".wt_he($accinfo["naam"])."</a> - ".$accinfo["aantalpersonen"]."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Plaats</td><td class=\"wtform_cell_right\">".wt_he($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Aantal personen</td><td class=\"wtform_cell_right\">".wt_he($form->input["aantalpersonen"])."</td></tr>";
