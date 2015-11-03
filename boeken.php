@@ -2547,6 +2547,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 				$setquery.=", valt_onder_bedrijf='".intval($vars["valt_onder_bedrijf"])."'";
 
+				// initial ip address of booker
+				$setquery.=", initial_ip_address='".addslashes($_SERVER["REMOTE_ADDR"])."'";
+
 				$db->query("INSERT INTO boeking SET ".$setquery.";");
 
 // if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
