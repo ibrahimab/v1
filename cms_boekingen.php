@@ -67,9 +67,9 @@ if($_GET["deblock"]) {
 }
 
 if(!$_GET["21k0"] and $_GET["bt"]==3) {
-	# Oude onafgeronde boekingen wissen (14 dagen en ouder)
+	# Oude onafgeronde boekingen wissen (31 dagen en ouder)
 	unset($inquery);
-	$db->query("SELECT boeking_id FROM boeking WHERE bevestigdatum IS NULL AND boekingsnummer='' AND goedgekeurd=0 AND UNIX_TIMESTAMP(invuldatum)<'".(time()-86400*14)."';");
+	$db->query("SELECT boeking_id FROM boeking WHERE bevestigdatum IS NULL AND boekingsnummer='' AND goedgekeurd=0 AND UNIX_TIMESTAMP(invuldatum)<'".(time()-86400*31)."';");
 	while($db->next_record()) {
 		if($inquery) $inquery.=",".$db->f("boeking_id"); else $inquery=$db->f("boeking_id");
 	}
