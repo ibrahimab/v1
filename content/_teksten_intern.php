@@ -322,7 +322,8 @@ $txta["de"]["submenutitle_huiseigenaren"]="Hauseigentümer";
 $txta["en"]["submenutitle_huiseigenaren"]="chalet owners";
 
 $txta["nl"]["submenutitle_veelgesteldevragen"]="veelgestelde vragen";
-$txta["de"]["submenutitle_veelgesteldevragen"]="Häufig gestellte Fragen";
+$txta["de"]["submenutitle_veelgesteldevragen"]="häufig
+";
 $txta["en"]["submenutitle_veelgesteldevragen"]="faq";
 
 $txta["nl"]["submenutitle_wiezijnwij"]="wie zijn wij?";
