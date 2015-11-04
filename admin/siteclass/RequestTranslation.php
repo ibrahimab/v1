@@ -38,7 +38,7 @@ class RequestTranslation
 	{
 		$db = $this->getDatabase();
 
-		$db->query("SELECT a.accommodatie_id , a.naam AS accommodatie, a.wzt, a.naam, p.plaats_id, p.naam AS plaats,
+		$db->query("SELECT a.accommodatie_id , a.wzt, a.naam, p.plaats_id, p.naam AS plaats,
 		           		   l.leverancier_id, l.naam AS leverancier
 					FROM    accommodatie a, plaats p, leverancier l
 					WHERE 	a.leverancier_id = l.leverancier_id
@@ -59,7 +59,7 @@ class RequestTranslation
 			$tl->sort_desc				= true;
 
 			// which fields to show in table
-			$tl->field_show('cms_types.php?show=2&bc=630&wzt=1&archief=0&1k0=&2k0=[ID]', 'Details bekijken');
+			$tl->field_show('cms_accommodaties.php?show=1&bc=630wzt=2&archief=0&1k0=[ID]', 'Details bekijken');
 			$tl->field_text('leverancier', 'Leverancier');
 			$tl->field_text('plaats_id', 'Plaats');
 			$tl->field_text('naam', 'Interne Naam');
@@ -67,7 +67,7 @@ class RequestTranslation
 			while ($db->next_record()) {
 
 				// add_record($id,$key,$value,$sortvalue="",$datetime=false,$options="")
-				$tl->add_record('naam', $db->f('accommodatie_id'), $db->f('accommodatie') . ' ' . $db->f('naam'));
+				$tl->add_record('naam', $db->f('accommodatie_id'), $db->f('naam'));
 				$tl->add_record('plaats_id', $db->f('accommodatie_id'), $db->f('plaats'));
 				$tl->add_record('leverancier', $db->f('accommodatie_id'), $db->f('leverancier'));
 			}
