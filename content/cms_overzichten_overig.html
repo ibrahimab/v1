@@ -159,6 +159,7 @@ if($_GET["t"]==1) {
 
 
 		$requestTranslation = new RequestTranslation($_GET["wzt"]);
+		$requestTranslation->setConfiguration(new Configuration);
 		$accommodations		= $requestTranslation->accommodations();
 		$types				= $requestTranslation->types();
 

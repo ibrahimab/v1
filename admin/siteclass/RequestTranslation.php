@@ -38,13 +38,16 @@ class RequestTranslation
 	{
 		$db = $this->getDatabase();
 
+		$ttv = ($this->config->cmstaal ? ('_' . $this->config->cmstaal) : '');
+
+
 		$db->query("SELECT a.accommodatie_id , a.wzt, a.naam, p.plaats_id, p.naam AS plaats,
 		           		   l.leverancier_id, l.naam AS leverancier
 					FROM    accommodatie a, plaats p, leverancier l
 					WHERE 	a.leverancier_id = l.leverancier_id
 					AND     a.plaats_id = p.plaats_id
 					AND     a.wzt = " . $this->season . "
-					AND     a.request_translation" . $this->config->ttv . " = 1");
+					AND     a.request_translation" . $ttv . " = 1");
 
 		if ($db->num_rows()) {
 
@@ -62,7 +65,7 @@ class RequestTranslation
 			$tl->field_show('cms_accommodaties.php?show=1&bc=630wzt=2&archief=0&1k0=[ID]', 'Details bekijken');
 			$tl->field_text('leverancier', 'Leverancier');
 			$tl->field_text('plaats_id', 'Plaats');
-			$tl->field_text('naam', 'Interne Naam');
+			$tl->field_text('naam', 'Naam op de website');
 
 			while ($db->next_record()) {
 
@@ -82,6 +85,9 @@ class RequestTranslation
 	public function types()
 	{
 		$db = $this->getDatabase();
+
+		$ttv = ($this->config->cmstaal ? ('_' . $this->config->cmstaal) : '');
+
 		$db->query("SELECT t.type_id , a.naam AS accommodatie, a.wzt, t.naam, p.plaats_id, p.naam AS plaats,
 		           		   l.leverancier_id, l.naam AS leverancier
 					FROM type t, accommodatie a, plaats p, leverancier l
@@ -89,7 +95,7 @@ class RequestTranslation
 					AND   a.wzt = " . $this->season. "
 					AND t.leverancier_id= l.leverancier_id
 					AND a.plaats_id = p.plaats_id
-					AND t.request_translation" . $this->config->ttv . " = 1");
+					AND t.request_translation" . $ttv . " = 1");
 
 		if ($db->num_rows()) {
 
@@ -107,7 +113,7 @@ class RequestTranslation
 			$tl->field_show('cms_types.php?show=2&bc=630&wzt=1&archief=0&1k0=&2k0=[ID]', 'Details bekijken');
 			$tl->field_text('leverancier', 'Leverancier');
 			$tl->field_text('plaats_id', 'Plaats');
-			$tl->field_text('naam', 'Interne Naam');
+			$tl->field_text('naam', 'Naam op de website');
 
 			while ($db->next_record()) {
 
