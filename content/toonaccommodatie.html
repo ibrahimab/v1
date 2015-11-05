@@ -963,8 +963,8 @@ if($db->next_record()) {
 		echo "<script>\n
 			var mapOptions = {};
 		";
-		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" || $_SERVER['HTTP_HOST'] === 'local.chalet.nl') {
-			echo "mapOptions.googlemaps_base='/chalet/';\n";
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" || defined('wt_test') && true === wt_test) {
+			echo "mapOptions.googlemaps_base='" . (defined('wt_test_url_suffix') ? wt_test_url_suffix . '/' : '/chalet/') . "';\n";
 		}
 		$db0->query("SELECT MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE accommodatie_id='".$db->f("accommodatie_id")."' AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id;");
 		if($db0->next_record()) {

@@ -1264,7 +1264,7 @@ $txt["de"]["index"]["spanje"]="Spanien";
 $txt["en"]["index"]["spanje"]="Spain";
 
 $txt["nl"]["index"]["zwitserland"]="Zwitserland";
-$txt["de"]["index"]["zwitserland"]="die Schweiz";
+$txt["de"]["index"]["zwitserland"]="Die Schweiz";
 $txt["en"]["index"]["zwitserland"]="Switzerland";
 
 $txt["nl"]["index"]["duitsland"]="Duitsland";
