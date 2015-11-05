@@ -249,7 +249,7 @@ if($_GET["t"]==1) {
 
 				# Welke velden moeten worden vertaald bij de types?
 				unset($orquery);
-				$ignore_fields=array("pdfupload","vertrekinfo_seizoengoedgekeurd","pdfupload_user","pdfupload_datum");
+				$ignore_fields=array("pdfupload","vertrekinfo_seizoengoedgekeurd","pdfupload_user","pdfupload_datum", 'request_translation');
 				$db->query("SHOW COLUMNS FROM type;");
 				while($db->next_record()) {
 					if(preg_match("/^(.*)_".$vars["cmstaal"]."$/",$db->f("Field"),$regs) and !in_array($regs[1],$ignore_fields)) {
@@ -291,9 +291,11 @@ if($_GET["t"]==1) {
 						$db2->query("SHOW COLUMNS FROM ".$db->f("table_name").";");
 						while($db2->next_record()) {
 
-							if(substr($db2->f('Field'), -3) === ('_' . $vars['cmstaal'])) {
+							$field = substr($db2->f('Field'), 0, -3);
 
-								$onvertaald[$db->f("table_name")]["inquery"] .= ",'" . substr($db2->f('Field'), 0, -3) . "'";
+							if(substr($db2->f('Field'), -3) === ('_' . $vars['cmstaal']) && !in_array($field, $ignore_fields)) {
+
+								$onvertaald[$db->f("table_name")]["inquery"] .= ",'" . $field . "'";
 								$cms_name[$db->f("table_name")]=$cms->settings[$db->f("cms_id")]["types"];
 							}
 						}
