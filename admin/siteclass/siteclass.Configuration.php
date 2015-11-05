@@ -26,7 +26,6 @@ class Configuration
 
 		$this->configdata["path"]                            = $vars["path"];
 		$this->configdata["seizoentype"]                     = $vars["seizoentype"];
-		$this->configdata['cmstaal']                         = $vars['cmstaal'];
 		$this->configdata["website"]                         = $vars["website"];
 		$this->configdata["websitetype"]                     = $vars["websitetype"];
 		$this->configdata["websitenaam"]                     = $vars["websitenaam"];
