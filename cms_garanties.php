@@ -207,7 +207,6 @@ if($_GET["status"]==1) {
 	$cms->edit_field(34,0,"reserveringsnummer_extern","Leveranciers-volgnr","",array("noedit"=>true),array("title_html"=>true));
 }
 $cms->edit_field(34,1,"soort_garantie","Soort garantie");
-$cms->edit_field(34,0,"opmerkingen_overzicht","Opmerkingen overzicht","",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
 
 
 
@@ -223,7 +222,6 @@ $cms->edit_field(34,0,"inkoopkorting_percentage","Inkoopkorting accommodatie %",
 $cms->edit_field(34,0,"inkoopkorting_euro","Inkoopkorting accommodatie €","","",array("input_class"=>"wtform_input garantie_inkoopgegevens"));
 $cms->edit_field(34,0,"netto","Netto-accommodatie €","","",array("tr_style"=>"display:none;"));
 $cms->edit_field(34,0,"htmlcol","Netto-accommodatie €",array("html"=>""),"",array("tr_class"=>"inkoopgegevens_opvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_garantie_inkoopnetto"));
-$cms->edit_field(34,0,"mag_voor","Mag voor €","","",array("input_class"=>"wtform_input garantie_inkoopgegevens"));
 $cms->edit_field(34,0,"htmlrow","<hr>");
 $cms->edit_field(34,0,"inkoopdatum","Inkoopdatum","",array("startyear"=>2009,"endyear"=>date("Y")+2),array("calendar"=>true));
 if($temp["leverancier_aanbetaling_dagen"]<>"" or $temp["leverancier_eindbetaling_dagen_factuur"]<>"") {
