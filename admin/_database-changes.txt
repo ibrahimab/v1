@@ -13,6 +13,14 @@ ALTER TABLE `accommodatie` ADD `request_translation_de` TINYINT( 1 ) NOT NULL AF
 ALTER TABLE `accommodatie` ADD `request_translation_en` TINYINT( 1 ) NOT NULL AFTER `request_translation_de` ;
 ALTER TABLE `accommodatie` ADD `request_translation_fr` TINYINT( 1 ) NOT NULL AFTER `request_translation_en` ;
 
+05-nov-2015 11:47
+ALTER TABLE `garantie` ADD `opmerkingen_overzicht` TEXT NULL DEFAULT NULL AFTER `opmerkingen` ;
+ALTER TABLE `garantie` ADD `mag_voor` DECIMAL(10,2) NULL DEFAULT NULL AFTER `soort_garantie` ;
+
+05-nov-2015 10:43
+ALTER TABLE `boeking` ADD `opmerkingen_overzicht` TEXT NULL DEFAULT NULL AFTER `opmerkingen_klant` ;
+ALTER TABLE `boeking` ADD `mag_voor` DECIMAL(10,2) NULL DEFAULT NULL AFTER `inkoopkorting` ;
+
 3-nov-2015 13:37
 ALTER TABLE `boeking` ADD `initial_ip_address` VARCHAR(15) NULL ;
 
