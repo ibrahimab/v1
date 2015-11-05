@@ -278,6 +278,7 @@ if($_GET["t"]==1) {
 					ELSE 3 END ASC
 					, table_name ASC;");
 
+				$ignore_fields = ['request_translation'];
 				$table_cache = [];
 
 				while($db->next_record()) {
