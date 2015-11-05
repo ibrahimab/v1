@@ -1,4 +1,5 @@
 <?php
+use Chalet\RequestTranslation;
 
 if($_GET["t"]==1) {
 	# Overzicht van aantal aangeboden bedden per seizoen tonen
@@ -147,41 +148,58 @@ if($_GET["t"]==1) {
 	#
 	# Overzicht te vertalen teksten
 	#
+
 	if($_GET["cmstaal"]) {
 		$vars["cmstaal"]=$_GET["cmstaal"];
 	}
 
-	if($_GET["request_translation"]) {
+	if(!$vars["cmstaal"]) {
+		echo "Selecteer de gewenste taal (Engels of Duits) via de cms-hoofdpagina.";
+	} elseif ($_GET["request_translation"]) {
 
-			//
-			// list new accommodations and types that need translation
-			//
 
-			$db->query("SELECT accommodatie_id FROM accommodatie a INNER JOIN plaats p USING (plaats_id) WHERE a.request_translation=1 AND a.wzt='".intval($_GET["wzt"])."' AND a.archief=0 ORDER BY p.naam, a.naam;");
-			if($db->num_rows()) {
-				$translations_wanted = true;
-				echo "Nieuw te vertalen ".$vars["seizoentype_namen"][$_GET["wzt"]]."accommodaties:<ul>";
-				while($db->next_record()) {
-					echo "<li><a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".intval($_GET["wzt"])."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".wt_he($vars["alleacc"][$db->f("accommodatie_id")])."</a></li>";
-				}
-				echo "</ul>";
+		$requestTranslation = new RequestTranslation($_GET["wzt"]);
+		$requestTranslation->setConfiguration(new Configuration);
+		$accommodations		= $requestTranslation->accommodations();
+		$types				= $requestTranslation->types();
+
+		if($_GET["wzt"]==1) {
+
+			if (false !== $accommodations) {
+
+				echo "<strong>Nieuw te vertalen winteraccommodaties:</strong>";
+				echo $accommodations->table('tbl', 2)."<br/><br/>";
+
+			} else {
+				echo "<strong style='color:red'>Er zijn geen nieuw te vertalen winteraccommodaties.</strong><br/><br/>";
 			}
 
-			$db->query("SELECT t.type_id, t.accommodatie_id FROM type t INNER JOIN accommodatie a USING (accommodatie_id) INNER JOIN plaats p USING (plaats_id) WHERE t.request_translation=1 AND a.wzt='".intval($_GET["wzt"])."' AND a.archief=0 ORDER BY p.naam, a.naam, t.naam;");
-			if($db->num_rows()) {
-				$translations_wanted = true;
-				echo "Nieuw te vertalen ".$vars["seizoentype_namen"][$_GET["wzt"]]."types:<ul>";
-				while($db->next_record()) {
-					echo "<li><a href=\"".$vars["path"]."cms_types.php?edit=2&wzt=".intval($_GET["wzt"])."&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
-				}
-				echo "</ul>";
+			if(false !== $types){
+           	echo "<strong>Nieuw te vertalen wintertypes:</strong>";
+           	echo $types->table('tbl', 2);
+           } else {
+           	echo "<strong style='color:red'>Er zijn geen nieuw te vertalen wintertypes:</strong><br/><br/>";
+           }
+
+		} else {
+
+
+			if (false !== $accommodations) {
+
+				echo "<strong>Nieuw te vertalen zomeraccommodaties:</strong>";
+				echo $accommodations->table('tbl', 2)."<br/><br/>";
+
+			} else {
+				echo "<strong style='color:red'>Er zijn geen nieuw te vertalen zomeraccommodaties.</strong><br/><br/>";
 			}
 
-			if(!$translations_wanted) {
-				echo "Er zijn geen nieuw te vertalen ".$vars["seizoentype_namen"][$_GET["wzt"]]."accommodaties.";
-			}
-
-
+			if(false !== $types){
+           	echo "<strong>Nieuw te vertalen zomertypes:</strong>";
+           	echo $types->table('tbl', 2);
+           } else {
+           	echo "<strong style='color:red'>Er zijn geen nieuw te vertalen zomertypes.</strong><br/><br/>";
+           }
+		}
 
 	} else {
 		$db->query("SELECT COUNT(type_id) AS aantal FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE (a.request_translation=1 OR t.request_translation=1) AND wzt='".intval($_GET["wzt"])."';");
@@ -254,7 +272,7 @@ if($_GET["t"]==1) {
 				}
 
 				echo "Klik op <img src=\"".$vars["path"]."pic/icon_okay.png\" width=\"20\" height=\"20\" border=\"0\"> na het controleren/vertalen van alle velden van een record.<br><br>";
-				$db->query("SELECT DISTINCT table_name, cms_id, cms_name FROM cmslog WHERE vertaald_".$vars["cmstaal"]."=0 AND specialtype NOT IN (2,3) ORDER BY CASE table_name
+				$db->query("SELECT DISTINCT table_name, cms_id, cms_name, savedate FROM cmslog WHERE vertaald_".$vars["cmstaal"]."=0 AND specialtype NOT IN (2,3) ORDER BY CASE table_name
 					WHEN 'accommodatie' THEN 1
 					WHEN 'type' THEN 2
 					ELSE 3 END ASC
@@ -313,7 +331,7 @@ if($_GET["t"]==1) {
 
 				while(list($key,$value)=@each($onvertaald)) {
 					if($value["inquery"]) {
-						$db->query("SELECT cmslog_id, table_name, cms_id, cms_name, record_id, record_name, hide, field, field_name, previous, now, url FROM cmslog WHERE field<>'vertrekinfo_goedgekeurd_seizoen' AND field<>'vertrekinfo_goedgekeurd_datetime' AND cms_name<>'Gearchiveerde zomeraanbiedingen' AND table_name='".addslashes($key)."' AND vertaald_".$vars["cmstaal"]."=0 AND field IN (".substr($value["inquery"],1).")".($alleen_inquery[$key] ? " AND record_id IN (".substr($alleen_inquery[$key],1).") ORDER BY FIELD(record_id,".substr($alleen_inquery[$key],1)."), hide" : " ORDER BY record_id, hide").";");
+						$db->query("SELECT cmslog_id, table_name, cms_id, cms_name, record_id, record_name, hide, savedate, field, field_name, previous, now, url FROM cmslog WHERE field<>'vertrekinfo_goedgekeurd_seizoen' AND field<>'vertrekinfo_goedgekeurd_datetime' AND cms_name<>'Gearchiveerde zomeraanbiedingen' AND table_name='".addslashes($key)."' AND vertaald_".$vars["cmstaal"]."=0 AND field IN (".substr($value["inquery"],1).")".($alleen_inquery[$key] ? " AND record_id IN (".substr($alleen_inquery[$key],1).") ORDER BY FIELD(record_id,".substr($alleen_inquery[$key],1)."), hide" : " ORDER BY record_id, hide").";");
 						// echo "QUERY1:".$db->lq;
 						if($db->num_rows()) {
 							echo "\n<br><h2>".wt_he(ucfirst($cms_name[$key]))."</h2>\n";
@@ -359,7 +377,7 @@ if($_GET["t"]==1) {
 									echo "<div style=\"clear:both;\"></div>\n";
 									echo "<div id=\"row3_".$key.$db->f("record_id")."\" style=\"display:none;padding-left:20px;\">\n";
 									if($db->f("hide")==0) {
-										echo "<table cellspacing=\"0\" class=\"tbl difftbl\" style=\"margin-top:5px;\"><tr><th style=\"width:140px;\">veld</th><th style=\"width:40%;\">van</th><th style=\"width:40%;\">naar</th></tr>";
+										echo "<table cellspacing=\"0\" class=\"tbl difftbl\" style=\"margin-top:5px;\"><tr><th style=\"width:140px;\">veld</th><th style=\"width:40%;\">van</th><th style=\"width:40%;\">naar</th><th style=\"width:9%;\">Gewijzigd</th></tr>";
 										$table_geopend=true;
 									}
 									$record_gehad[$db->f("record_id")]=true;
@@ -367,7 +385,7 @@ if($_GET["t"]==1) {
 								if($table_geopend) {
 									if($db->f("hide")==0) {
 										if($need_field) {
-											echo "<tr><td valign=\"top\">".wt_he($db->f("field_name"))."</td><td valign=\"top\">".nl2br(wt_he($db->f("previous")))."</td><td valign=\"top\">".nl2br(wt_diff($db->f("previous"),$db->f("now")))."</td></tr>";
+											echo "<tr><td valign=\"top\">".wt_he($db->f("field_name"))."</td><td valign=\"top\">".nl2br(wt_he($db->f("previous")))."</td><td valign=\"top\">".nl2br(wt_diff($db->f("previous"),$db->f("now")))."</td><td valign=\"top\">".wt_he(date("d-m-Y", strtotime($db->f("savedate"))))."</td></tr>";
 										}
 									} else {
 										echo "<tr><td valign=\"top\" colspan=\"3\"> + Controleer alle velden</td></tr>";
