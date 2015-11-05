@@ -7,10 +7,6 @@ When this file is updated in Git it means there are changes to the database-stru
 ALTER TABLE `garantie` ADD `opmerkingen_overzicht` TEXT NULL DEFAULT NULL AFTER `opmerkingen` ;
 ALTER TABLE `garantie` ADD `mag_voor` DECIMAL(10,2) NULL DEFAULT NULL AFTER `soort_garantie` ;
 
-05-nov-2015 10:43
-ALTER TABLE `boeking` ADD `opmerkingen_overzicht` TEXT NULL DEFAULT NULL AFTER `opmerkingen_klant` ;
-ALTER TABLE `boeking` ADD `mag_voor` DECIMAL(10,2) NULL DEFAULT NULL AFTER `inkoopkorting` ;
-
 3-nov-2015 13:37
 ALTER TABLE `boeking` ADD `initial_ip_address` VARCHAR(15) NULL ;
 
