@@ -100,6 +100,8 @@ $cms->db_field(34,"yesno","confirmed");
 $cms->db_field(34,"text","factuurnummer");
 $cms->db_field(34,"text","leverancierscode");
 $cms->db_field(34,"currency","bruto");
+$cms->db_field(34,"currency","mag_voor"); //database field to be created
+$cms->db_field(34,"text","opmerkingen_overzicht");  //database field to be created
 $cms->db_field(34,"float","korting_percentage");
 $cms->db_field(34,"currency","korting_euro");
 $cms->db_field(34,"float","inkoopkorting_percentage");
@@ -145,6 +147,8 @@ $cms->list_field(34,"naam","Naam");
 $cms->list_field(34,"netto","Netto");
 $cms->list_field(34,"bruto","Bruto");
 $cms->list_field(34,"garantie_id","Verkoop",array("force_field_type"=>"currency"));
+$cms->list_field(34,"mag_voor","Mag voor",array("force_field_type"=>"currency"));
+$cms->list_field(34,"opmerkingen_overzicht","Opmerking");
 
 # Controle op delete-opdracht
 if($_GET["delete"]==34 and $_GET["34k0"]) {
@@ -205,6 +209,7 @@ if($_GET["status"]==1) {
 $cms->edit_field(34,1,"soort_garantie","Soort garantie");
 
 
+
 #$cms->edit_field(34,0,"reserveringsnummer_intern","Reserveringsnummer intern");
 
 $cms->edit_field(34,0,"htmlrow","<hr><b>Inkoopgegevens</b>");
@@ -254,6 +259,11 @@ if($_GET["status"]==1) {
 	$cms->edit_field(34,0,"htmlrow","<hr><b>T.b.v. roominglist</b>");
 	$cms->edit_field(34,0,"aan_leverancier_doorgegeven_naam","Aan leverancier doorgegeven naam");
 }
+
+$cms->edit_field(34,0,"htmlrow","<hr><b>Commerciële/lastminute-informatie </b>");
+$cms->edit_field(34,0,"mag_voor","Mag voor €","","",array("input_class"=>"wtform_input garantie_inkoopgegevens"));
+$cms->edit_field(34,0,"opmerkingen_overzicht","Opmerking overzicht","",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
+$cms->edit_field(34,0,"htmlrow","<hr>");
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(34);
