@@ -30,31 +30,31 @@ if($_GET["1k0"]) {
 		$accommodatie_heeft_boekingen=true;
 	}
 } else {
-	
-	$db->query("SELECT s.seizoen_id, s.naam AS seizoen, t.accommodatie_id, COUNT(b.boeking_id) AS aantal 
-				FROM boeking b, type t, seizoen s 
-				WHERE b.seizoen_id = s.seizoen_id 
-				AND b.type_id = t.type_id 
-				AND b.geannuleerd = 0 
-				AND b.stap_voltooid = 5 
-				AND b.goedgekeurd = 1 
+
+	$db->query("SELECT s.seizoen_id, s.naam AS seizoen, t.accommodatie_id, COUNT(b.boeking_id) AS aantal
+				FROM boeking b, type t, seizoen s
+				WHERE b.seizoen_id = s.seizoen_id
+				AND b.type_id = t.type_id
+				AND b.geannuleerd = 0
+				AND b.stap_voltooid = 5
+				AND b.goedgekeurd = 1
 				AND s.tonen >= 1
 				AND s.type = " . intval($_GET['wzt']) . "
 				" . ($_GET['wzt'] == 2 ? ' AND YEAR(s.begin) >= 2009' : '') . "
 				GROUP BY t.accommodatie_id, b.seizoen_id;");
-				
+
 	$boekingen = [];
 	$seizoenen = [];
 	while ($db->next_record()) {
-		
+
 		if (!isset($boekingen[$db->f('seizoen_id')])) {
 			$boekingen[$db->f('seizoen_id')] = [];
 		}
-		
+
 		if (!isset($boekingen[$db->f('seizoen_id')][$db->f('accommodatie_id')])) {
 			$boekingen[$db->f('seizoen_id')][$db->f('accommodatie_id')] = 0;
 		}
-		
+
 		$boekingen[$db->f('seizoen_id')][$db->f('accommodatie_id')] += $db->f('aantal');
 		$seizoenen[$db->f('seizoen_id')] = $db->f('seizoen');
 	}
@@ -231,6 +231,8 @@ $cms->db_field(1,"textarea","aantekeningen","",array("dontlog"=>true));
 $cms->db_field(1,"yesno","controleren");
 $cms->db_field(1,"yesno","tonen");
 $cms->db_field(1,"yesno","request_translation");
+$cms->db_field(1,"yesno","request_translation_en");
+$cms->db_field(1,"yesno","request_translation_de");
 $cms->db_field(1,"yesno","archief");
 $cms->db_field(1,"yesno","tonenzoekformulier");
 $cms->db_field(1,"text","leverancierscode");
@@ -389,13 +391,13 @@ if (isset($seizoenen)) {
 
 	arsort($seizoenen);
 	foreach ($seizoenen as $seizoen_id => $seizoen_naam) {
-		
+
 		if (false !== strpos($seizoen_naam, '/')) {
-			
+
 			list($previous,$next) = explode('/', $seizoen_naam);
 			$seizoen_naam		  = substr($previous, -2) . '/' . substr($next, -2);
 		}
-		
+
 		$cms->list_field(1,"seizoen_" . $seizoen_id, trim(str_replace(['zomer', 'winter'], '', $seizoen_naam)));
 		$cms->db_field(1, 'select', 'seizoen_' . $seizoen_id, 'accommodatie_id', ['selection' => $boekingen[$seizoen_id]]);
 	}
@@ -417,8 +419,12 @@ $cms->edit_field(1,0,"archief","Gearchiveerde accommodatie");
 $cms->edit_field(1,0,"controleren","Nog nakijken");
 $cms->edit_field(1,0,"tonen","Tonen op de website",array("selection"=>true));
 $cms->edit_field(1,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
-$cms->edit_field(1,0,"request_translation","Opnemen in lijst <a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(1,0,"weekendski","Weekendski");
+$cms->edit_field(1,0,"htmlrow","<hr>");
+$cms->edit_field(1,0,"htmlrow","Opnemen in lijst<a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\" style=\"padding:5px;\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
+$cms->edit_field(1,0,"request_translation_en","EN",array("selection"=>false),"",array("title_html"=>true));
+$cms->edit_field(1,0,"request_translation_de","DE",array("selection"=>false),"",array("title_html"=>true));
+
 if($_GET["edit"]==1) {
 	$cms->edit_field(1,0,"htmlrow","<hr><i><span style=\"color:red;\"><b>Let op!</b> Bij wijzigen &quot;websites&quot; worden alle onderliggende types aangepast.</span><br>Om dat te voorkomen kun je &quot;websites&quot; aanpassen op type-niveau.</i><br/><br/>Een ingevulde waarde hier wil zeggen dat bij minstens &eacute;&eacute;n onderliggend type deze website aangevinkt staat. Het wil niet zeggen dat bij &agrave;lle onderliggende types de website aangevinkt staat.");
 }
@@ -752,6 +758,19 @@ if($vars["cmstaal"]) {
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(1);
 if($cms_form[1]->filled) {
+
+
+#Controle of website engels of duitse is
+	$websites = explode(",", $cms_form[1]->input["websites"]);
+
+	foreach($websites as $website) {
+
+		if (($vars["websiteinfo"]["taal"][$website] == "en" && $cms_form[1]->input["request_translation_en"]) || ($vars["websiteinfo"]["taal"][$website] == "de" && $cms_form[1]->input["request_translation_de"])) {
+			$cms_form[1]->error("request_translation_en", "'Nieuw te vertalen' niet combineren met een corresponderende aangevinkte website.");
+		}
+
+	}
+
 	if($cms_form[1]->input["aankomst_plusmin"]>0 and $cms_form[1]->input["vertrek_plusmin"]<0) {
 		if($cms_form[1]->input["aankomst_plusmin"]+abs($cms_form[1]->input["vertrek_plusmin"])>6) $cms_form[1]->error("vertrek_plusmin","overlap met aankomst");
 	}
@@ -974,7 +993,6 @@ if($_GET["delete"]==1 and $_GET["1k0"]) {
 		$cms->delete_error(1,"Deze accommodatie bevat nog gekoppelde types");
 	}
 }
-
 
 #
 # DELETEn van andere tabellen
