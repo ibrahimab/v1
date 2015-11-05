@@ -3,19 +3,13 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
-27-oct-2015 16:11
-ALTER TABLE `type` ADD `request_translation_de` TINYINT( 1 ) NOT NULL AFTER `request_translation` ;
-ALTER TABLE `type` ADD `request_translation_en` TINYINT( 1 ) NOT NULL AFTER `request_translation_de` ;
-ALTER TABLE `type` ADD `request_translation_fr` TINYINT( 1 ) NOT NULL AFTER `request_translation_en` ;
-
-20-oct-2015 09:50
-ALTER TABLE `accommodatie` ADD `request_translation_de` TINYINT( 1 ) NOT NULL AFTER `request_translation` ;
-ALTER TABLE `accommodatie` ADD `request_translation_en` TINYINT( 1 ) NOT NULL AFTER `request_translation_de` ;
-ALTER TABLE `accommodatie` ADD `request_translation_fr` TINYINT( 1 ) NOT NULL AFTER `request_translation_en` ;
-
 05-nov-2015 11:47
 ALTER TABLE `garantie` ADD `opmerkingen_overzicht` TEXT NULL DEFAULT NULL AFTER `opmerkingen` ;
 ALTER TABLE `garantie` ADD `mag_voor` DECIMAL(10,2) NULL DEFAULT NULL AFTER `soort_garantie` ;
+
+05-nov-2015 10:43
+ALTER TABLE `boeking` ADD `opmerkingen_overzicht` TEXT NULL DEFAULT NULL AFTER `opmerkingen_klant` ;
+ALTER TABLE `boeking` ADD `mag_voor` DECIMAL(10,2) NULL DEFAULT NULL AFTER `inkoopkorting` ;
 
 3-nov-2015 13:37
 ALTER TABLE `boeking` ADD `initial_ip_address` VARCHAR(15) NULL ;
@@ -23,12 +17,22 @@ ALTER TABLE `boeking` ADD `initial_ip_address` VARCHAR(15) NULL ;
 29-oct-2015 17:45
 ALTER TABLE `boekinguser` ADD `directlogin_check` CHAR(40) NOT NULL AFTER `password_uc`;
 
+27-oct-2015 16:11
+ALTER TABLE `type` ADD `request_translation_de` TINYINT( 1 ) NOT NULL AFTER `request_translation` ;
+ALTER TABLE `type` ADD `request_translation_en` TINYINT( 1 ) NOT NULL AFTER `request_translation_de` ;
+ALTER TABLE `type` ADD `request_translation_fr` TINYINT( 1 ) NOT NULL AFTER `request_translation_en` ;
+
 23-oct-2015 16:00
 ALTER TABLE `leverancier` ADD `uniqueid_ip` TEXT NOT NULL AFTER `uniqueid`;
 ALTER TABLE `reisbureau_user` ADD `uniqueid_ip` TEXT NOT NULL AFTER `uniqueid`;
 ALTER TABLE `boekinguser` ADD `uniqueid_ip` TEXT NOT NULL AFTER `uniqueid`;
 ALTER TABLE `reisbureau_user` CHANGE `password` `password` CHAR(41) NOT NULL DEFAULT '';
 ALTER TABLE `boekinguser` CHANGE `password` `password` CHAR(41) NOT NULL DEFAULT '';
+
+20-oct-2015 09:50
+ALTER TABLE `accommodatie` ADD `request_translation_de` TINYINT( 1 ) NOT NULL AFTER `request_translation` ;
+ALTER TABLE `accommodatie` ADD `request_translation_en` TINYINT( 1 ) NOT NULL AFTER `request_translation_de` ;
+ALTER TABLE `accommodatie` ADD `request_translation_fr` TINYINT( 1 ) NOT NULL AFTER `request_translation_en` ;
 
 09-oct-2015 11:50
 ALTER TABLE `type` ADD `homeaway_code` VARCHAR(30) NULL DEFAULT NULL AFTER `leverancierscode_negeertarief`;
