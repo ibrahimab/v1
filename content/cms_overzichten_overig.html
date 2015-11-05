@@ -272,21 +272,31 @@ if($_GET["t"]==1) {
 				}
 
 				echo "Klik op <img src=\"".$vars["path"]."pic/icon_okay.png\" width=\"20\" height=\"20\" border=\"0\"> na het controleren/vertalen van alle velden van een record.<br><br>";
-				$db->query("SELECT DISTINCT table_name, cms_id, cms_name, savedate FROM cmslog WHERE vertaald_".$vars["cmstaal"]."=0 AND specialtype NOT IN (2,3) ORDER BY CASE table_name
+				$db->query("SELECT DISTINCT table_name, cms_id, cms_name, savedate FROM cmslog WHERE vertaald_".$vars["cmstaal"]."=0 AND specialtype NOT IN (2,3) AND table_name <> '' ORDER BY CASE table_name
 					WHEN 'accommodatie' THEN 1
 					WHEN 'type' THEN 2
 					ELSE 3 END ASC
 					, table_name ASC;");
+
+				$table_cache = [];
+
 				while($db->next_record()) {
-					if($db->f("table_name")) {
+
+						if (isset($table_cache[$db->f('table_name')])) {
+							continue;
+						}
+
+						$table_cache[$db->f('table_name')] = true;
+
 						$db2->query("SHOW COLUMNS FROM ".$db->f("table_name").";");
 						while($db2->next_record()) {
-							if(ereg("^(.*)_".$vars["cmstaal"]."$",$db2->f("Field"),$regs)) {
-								$onvertaald[$db->f("table_name")]["inquery"].=",'".$regs[1]."'";
+
+							if(substr($db2->f('Field'), -3) === ('_' . $vars['cmstaal'])) {
+
+								$onvertaald[$db->f("table_name")]["inquery"] .= ",'" . substr($db2->f('Field'), 0, -3) . "'";
 								$cms_name[$db->f("table_name")]=$cms->settings[$db->f("cms_id")]["types"];
 							}
 						}
-					}
 				}
 
 				#
