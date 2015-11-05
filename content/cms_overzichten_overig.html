@@ -331,7 +331,7 @@ if($_GET["t"]==1) {
 
 				while(list($key,$value)=@each($onvertaald)) {
 					if($value["inquery"]) {
-						$db->query("SELECT cmslog_id, table_name, cms_id, cms_name, record_id, record_name, hide, savedate, field, field_name, previous, now, url FROM cmslog WHERE field<>'vertrekinfo_goedgekeurd_seizoen' AND field<>'vertrekinfo_goedgekeurd_datetime' AND cms_name<>'Gearchiveerde zomeraanbiedingen' AND table_name='".addslashes($key)."' AND vertaald_".$vars["cmstaal"]."=0 AND field IN (".substr($value["inquery"],1).")".($alleen_inquery[$key] ? " AND record_id IN (".substr($alleen_inquery[$key],1).") ORDER BY FIELD(record_id,".substr($alleen_inquery[$key],1)."), hide" : " ORDER BY record_id, hide").";");
+						$db->query("SELECT cmslog_id, table_name, cms_id, cms_name, record_id, record_name, hide, DATE_FORMAT(savedate, '%d-%m-%Y') AS savedate, field, field_name, previous, now, url FROM cmslog WHERE field<>'vertrekinfo_goedgekeurd_seizoen' AND field<>'vertrekinfo_goedgekeurd_datetime' AND cms_name<>'Gearchiveerde zomeraanbiedingen' AND table_name='".addslashes($key)."' AND vertaald_".$vars["cmstaal"]."=0 AND field IN (".substr($value["inquery"],1).")".($alleen_inquery[$key] ? " AND record_id IN (".substr($alleen_inquery[$key],1).") ORDER BY FIELD(record_id,".substr($alleen_inquery[$key],1)."), hide" : " ORDER BY record_id, hide").";");
 						// echo "QUERY1:".$db->lq;
 						if($db->num_rows()) {
 							echo "\n<br><h2>".wt_he(ucfirst($cms_name[$key]))."</h2>\n";
@@ -385,7 +385,7 @@ if($_GET["t"]==1) {
 								if($table_geopend) {
 									if($db->f("hide")==0) {
 										if($need_field) {
-											echo "<tr><td valign=\"top\">".wt_he($db->f("field_name"))."</td><td valign=\"top\">".nl2br(wt_he($db->f("previous")))."</td><td valign=\"top\">".nl2br(wt_diff($db->f("previous"),$db->f("now")))."</td><td valign=\"top\">".wt_he(date("d-m-Y", strtotime($db->f("savedate"))))."</td></tr>";
+											echo "<tr><td valign=\"top\">".wt_he($db->f("field_name"))."</td><td valign=\"top\">".nl2br(wt_he($db->f("previous")))."</td><td valign=\"top\">".nl2br(wt_diff($db->f("previous"),$db->f("now")))."</td><td valign=\"top\">".$db->f("savedate")."</td></tr>";
 										}
 									} else {
 										echo "<tr><td valign=\"top\" colspan=\"3\"> + Controleer alle velden</td></tr>";
