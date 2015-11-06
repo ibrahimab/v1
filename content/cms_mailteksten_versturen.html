@@ -127,16 +127,22 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 		if($_GET["sort"]==2) {
 			echo "<tr><th>wis</th><th>boeking</th><th>accommodatie</th><th>1e&nbsp;factuur</th><th>aankomst</th><th>tekst</th><th>bewerkt</th><th>versturen</th></tr>";
 		}
+
+		$vandaag  = new \DateTime();
+		$aankomst = new \DateTime($db->f("aankomstdatum"));
 		while($db->next_record()) {
 
 			if($_GET["sort"]==1) {
 				if(!$date_header_shown[$db->f("aankomstdatum")]) {
-
+					#countdown tot aankomstdatum
+					$aankomst->setTimestamp($db->f("aankomstdatum"));
+					$interval = $vandaag->diff($aankomst);
+					$interval->format('%R%a dagen');
 					echo "<tr><td colspan=\"8\">";
 					if($date_header_shown) {
 						echo "<br />";
 					}
-					echo "<b>Aankomsten weekend ".datum("D MAAND JJJJ", $db->f("aankomstdatum"))."</b></td></tr>";
+					echo "<b>Aankomsten weekend ".datum("D MAAND JJJJ", $db->f("aankomstdatum")). "&nbsp&nbsp&nbsp&nbsp" .$interval->format('%R%a dagen'). "</b></td></tr>";
 					echo "<tr><th>wis</th><th>boeking</th><th>accommodatie</th><th>1e&nbsp;factuur</th><th>aankomst</th><th>tekst</th><th>bewerkt</th><th>versturen<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"checkbox\" class=\"checbox_check_all\" data-only-class=\"checkbox_versturen_".$db->f("aankomstdatum")."\"></th></tr>";
 					$date_header_shown[$db->f("aankomstdatum")] = true;
 				}
