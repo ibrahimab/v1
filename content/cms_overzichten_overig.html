@@ -175,14 +175,15 @@ if($_GET["t"]==1) {
 			}
 
 			if(false !== $types){
-           	echo "<strong>Nieuw te vertalen wintertypes:</strong>";
-           	echo $types->table('tbl', 2);
-           } else {
-           	echo "<strong style='color:red'>Er zijn geen nieuw te vertalen wintertypes:</strong><br/><br/>";
-           }
+
+				echo "<strong>Nieuw te vertalen wintertypes:</strong>";
+				echo $types->table('tbl', 2);
+
+			} else {
+				echo "<strong style='color:red'>Er zijn geen nieuw te vertalen wintertypes:</strong><br/><br/>";
+			}
 
 		} else {
-
 
 			if (false !== $accommodations) {
 
@@ -193,12 +194,14 @@ if($_GET["t"]==1) {
 				echo "<strong style='color:red'>Er zijn geen nieuw te vertalen zomeraccommodaties.</strong><br/><br/>";
 			}
 
-			if(false !== $types){
-           	echo "<strong>Nieuw te vertalen zomertypes:</strong>";
-           	echo $types->table('tbl', 2);
-           } else {
-           	echo "<strong style='color:red'>Er zijn geen nieuw te vertalen zomertypes.</strong><br/><br/>";
-           }
+			if (false !== $types) {
+
+				echo "<strong>Nieuw te vertalen zomertypes:</strong>";
+           		echo $types->table('tbl', 2);
+
+			} else {
+				echo "<strong style='color:red'>Er zijn geen nieuw te vertalen zomertypes.</strong><br/><br/>";
+			}
 		}
 
 	} else {

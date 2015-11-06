@@ -21,36 +21,6 @@ if($_POST["winterkoppeling"]) {
 	header("Location: ".$_SERVER["REQUEST_URI"]);
 	exit;
 }
-if($_GET["t"]==3) {
-
-	$cms->settings[1]["list"]["show_icon"]=true;
-	$cms->settings[1]["list"]["edit_icon"]=true;
-	$cms->settings[1]["list"]["delete_icon"]=false;
-
-	$cms->show_name[1]="accommodatiegegevens";
-	$cms->show_mainfield[1]="naam";
-
-	$cms->db[1]["where"]="wzt='".addslashes($_GET["wzt"])."'";
-	$cms->db[1]["where"].=" AND request_translation" . ($vars['cmstaal'] ? ('_' . $vars['cmstaal']) : '');
-	$cms->db[1]["where"].=" AND archief=0";
-
-	$cms->show_field(1,"leverancier_id","Leverancier");
-	$cms->show_field(1,"plaats_id","Plaats");
-	$cms->show_field(1,"naam","Naam");
-
-	//$cms->db_field(1,'noedit','naam');
-	$cms->db_field(1,"select","plaats_id","",array("othertable"=>"4","otherkeyfield"=>"plaats_id","otherfield"=>"naam","otherwhere"=>"wzt='".addslashes($_GET["wzt"])."'"));
-	$cms->db_field(1,'noedit','internenaam');
-	$cms->db_field(1,"select","leverancier_id","",array("othertable"=>"3","otherkeyfield"=>"leverancier_id","otherfield"=>"naam","otherwhere"=>"beheerder=0"));
-
-	$cms->list_sort[1]=array("leverancier_id","plaats_id","naam");
-	#$cms->list_field(1,"accommodatie_id","ID");
-	$cms->list_field(1,"leverancier_id","Leverancier");
-	$cms->list_field(1,"plaats_id","Plaats");
-	$cms->list_field(1,"internenaam","Interne naam");
-
-	$cms->end_declaration();
-}
 if($_GET["t"]==5) {
 	#
 	# Overzicht vouchers
