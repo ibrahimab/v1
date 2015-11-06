@@ -1303,7 +1303,7 @@ a.opm {
 }
 
 #cms_body_cms_garanties .tbl td:nth-child(11) {
-min-width: 250px;
+	min-width: 250px;
 }
 
 .image-grid {
