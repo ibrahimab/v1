@@ -1303,7 +1303,15 @@ a.opm {
 }
 
 #cms_body_cms_garanties .tbl td:nth-child(11) {
-	min-width: 250px;
+	min-width: 280px;
+}
+
+#cms_body_cms_garanties .tbl td:nth-child(6) {
+	min-width: 100px;
+}
+
+#cms_body_cms_garanties .tbl td:nth-child(3) {
+	min-width: 350px;
 }
 
 .image-grid {
