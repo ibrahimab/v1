@@ -1301,6 +1301,11 @@ a.opm {
 	border: 1px solid #000000;
 	padding: 5px;
 }
+
+#cms_body_cms_garanties .tbl td:nth-child(11) {
+min-width: 250px;
+}
+
 .image-grid {
 
     width: 100%;
