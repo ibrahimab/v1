@@ -21,7 +21,6 @@ if($_POST["winterkoppeling"]) {
 	header("Location: ".$_SERVER["REQUEST_URI"]);
 	exit;
 }
-
 if($_GET["t"]==5) {
 	#
 	# Overzicht vouchers
