@@ -210,6 +210,7 @@ $cms->edit_field(34,1,"soort_garantie","Soort garantie");
 
 
 
+
 #$cms->edit_field(34,0,"reserveringsnummer_intern","Reserveringsnummer intern");
 
 $cms->edit_field(34,0,"htmlrow","<hr><b>Inkoopgegevens</b>");
