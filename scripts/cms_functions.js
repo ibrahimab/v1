@@ -1188,11 +1188,7 @@ $(document).ready(function() {
 				}
 			}
 		);
-
-		// alert(current_select.data("boeking_id"));
-
 	});
-
 });
 
 function bk_keuzes_actief_inactief() {

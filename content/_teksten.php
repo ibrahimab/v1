@@ -8354,18 +8354,17 @@ $txt["en"]["htmlbanner"]["kies-datum"]="Date";
 
 
 # mail to unfinished booking
-$txt["nl"]["unfinished_mail"]["subject"]="Jouw wintersportvakantie naar [[v_accommodatie]], [[v_plaats]]?";
-$txt["de"]["unfinished_mail"]["subject"]="Ihr Skiurlaub nach [[v_accommodatie]], [[v_plaats]]?";
-$txt["en"]["unfinished_mail"]["subject"]="Your ski holiday to [[v_accommodatie]], [[v_plaats]]?";
+$txt["nl"]["unfinished_mail"]["subject"]="Jouw wintersportvakantie naar [[v_plaats]]?";
+$txt["de"]["unfinished_mail"]["subject"]="Ihr Skiurlaub nach [[v_plaats]]?";
+$txt["en"]["unfinished_mail"]["subject"]="Your ski holiday to [[v_plaats]]?";
 
 $txt["nl"]["unfinished_mail"]["body"]="Beste [[v_voornaam]],
 
 Leuk dat je interesse hebt getoond in één van onze accommodaties. Je boeking is nog niet helemaal afgerond. Voor de zekerheid hebben we de boekingsaanvraag voor je bewaard, zodat je eventueel later niet alle gegevens opnieuw hoeft in te vullen.
-Mocht je nog twijfelen over je keuze, dan is het ook mogelijk om voor deze accommodatie vrijblijvend een optie aan te vragen.
+Mocht je nog twijfelen over je keuze, dan is het ook mogelijk om voor dit [[v_soortaccommodatie]] vrijblijvend een optie aan te vragen.
 
-[[v_aankomstdatum]]
-[[v_type]]
-[[v_plaats]]
+[[v_aankomstdatum]] [[v_plaats]] / [[v_type]]
+Voor omschrijving: [[v_typelink]]
 
 Klik op onderstaande link om je boeking af te ronden:
 [[v_boekinglink]]
@@ -8376,15 +8375,16 @@ Klik op onderstaande link om een vrijblijvende optie te nemen:
 We hopen je hiermee van dienst geweest te zijn. Neem voor vragen gerust contact met ons op.
 
 Met vriendelijke groet,
-Het team van [[v_website]]";
+Medewerkers [[v_website]]
+
+Tel: +31 (0)348 - 43 46 49";
 $txt["de"]["unfinished_mail"]["body"]="Sehr geehrter Herr, sehr geehrte Frau [[v_achternaam]],
 
 Wir freuen uns, dass Sie an einem unserer Unterkünfte interessiert sind. Ihre Buchung ist noch nicht völlig verarbeitet. Zur Sicherheit haben wir die Buchungsanfrage für Sie aufbewahrt. So brauchen Sie an einem späteren Zeitpunkt nicht nochmal Ihre Daten einzugeben.
 Falls Sie sich noch nicht im Klaren sind über Ihre Wahl, bieten wir Ihnen gerne eine unverbindliche Option an für diese Unterkunft.
 
-[[v_aankomstdatum]]
-[[v_type]]
-[[v_plaats]]
+[[v_aankomstdatum]] [[v_plaats]] / [[v_type]]
+Für Umschreibung: [[v_typelink]]
 
 Klicken Sie auf unten stehenden Link um Ihre Buchung fertigzustellen:
 [[v_boekinglink]]
@@ -8395,15 +8395,16 @@ Klicken Sie auf unten stehenden Link um eine unverbindliche Option anzufordern:
 Wir hoffen Ihnen hiermit zu Diensten gewesen zu sein. Bei etwaigen Fragen stehen wir Ihnen gerne zur Verfügung.
 
 Mit freundlichen Grüßen,
-Das Team von [[v_website]]";
+Mitarbeiter [[v_website]]
+
+Telefon: 030-767598210";
 $txt["en"]["unfinished_mail"]["body"]="Dear [[v_voornaam]],
 
 Thank you for your interest in one of our accommodations. You haven’t completed your booking yet, so we’ve saved your request. If you want to continue this booking request you won’t have to fill in all your details again.
-If you are still on the fence, feel free to request a free option on this accommodation.
+If you are still on the fence, feel free to request a free option on this [[v_soortaccommodatie]].
 
-[[v_aankomstdatum]]
-[[v_type]]
-[[v_plaats]]
+[[v_aankomstdatum]] [[v_plaats]] / [[v_type]]
+Description: [[v_typelink]]
 
 Click the link below to complete your booking:
 [[v_boekinglink]]
@@ -8413,8 +8414,8 @@ Click the link below to request an option:
 
 Hope all is clear, please let us know if you have any questions!
 Kind regards,
-Team [[v_website]]";
+Employees [[v_website]]
 
+Phone: +31 (0)348 - 43 46 49";
 
 #$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
-

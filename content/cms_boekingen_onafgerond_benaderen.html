@@ -31,7 +31,7 @@ while( $db->next_record() ) {
 }
 
 // main query: get unfinished bookings
-$db->query("SELECT UNIX_TIMESTAMP(invuldatum) AS invuldatum, boeking_id, website, initial_ip_address, type_id, aankomstdatum_exact, UNIX_TIMESTAMP(unfinished_contacted) AS unfinished_contacted FROM boeking WHERE bevestigdatum IS NULL AND stap_voltooid>=1 AND calc=0 AND reisbureau_user_id IS NULL AND initial_ip_address<>'' ORDER BY invuldatum DESC;");
+$db->query("SELECT UNIX_TIMESTAMP(invuldatum) AS invuldatum, boeking_id, website, initial_ip_address, type_id, aankomstdatum_exact, UNIX_TIMESTAMP(unfinished_contacted) AS unfinished_contacted FROM boeking WHERE bevestigdatum IS NULL AND stap_voltooid>=1 AND calc=0 AND reisbureau_user_id IS NULL AND initial_ip_address<>'' AND invuldatum>(NOW() - INTERVAL 30 DAY) ORDER BY invuldatum DESC;");
 
 if ($db->num_rows()) {
 
@@ -44,7 +44,7 @@ if ($db->num_rows()) {
 	}
 
 	// show explanation
-	echo "<p>Hieronder een overzicht van mensen met onafgeronde boekingen die benaderd kunnen worden. Boekingen die afkomstig zijn van hetzelfde IP-adres worden gegroepeerd getoond. Mailadressen waarmee de afgelopen maand is geboekt of waarmee een optie-aanvraag is ingediend komen niet in het overzicht terecht.</p>";
+	echo "<p>Hieronder een overzicht van mensen met onafgeronde boekingen van de afgelopen 30 dagen die benaderd kunnen worden. Boekingen die afkomstig zijn van hetzelfde IP-adres worden gegroepeerd getoond. Mailadressen waarmee de afgelopen maand is geboekt of waarmee een optie-aanvraag is ingediend komen niet in het overzicht terecht.</p>";
 	echo "<p><b>Werkwijze: klik op &quot;mailen&quot;, verstuur de mail vanuit Outlook en kies vervolgens &quot;verstuurd&quot; in de kolom &quot;Wijzig&quot;.</b></p>";
 	echo "<br />";
 
@@ -60,6 +60,7 @@ if ($db->num_rows()) {
 
 		$email_address_known = false;
 		$already_contacted = false;
+		$skip_type = false;
 
 		// ignore bookings from known ip addresses
 		if (in_array($key, $vars["vertrouwde_ips"])) {
@@ -75,15 +76,21 @@ if ($db->num_rows()) {
 					$already_contacted = true;
 				}
 			}
+
+			if (!$vars["alletypes"][1][$value2["type_id"]]) {
+				// only winter accommodations
+				$skip_type = true;
+			}
 		}
 
-		if ($email_address_known and !$already_contacted) {
+		if ($email_address_known and !$already_contacted and !$skip_type) {
 
 			if($unfinished_counter_per_ip) {
 				echo "<tr><td colspan=\"7\">";
 				echo "<br />";
 				echo "</td></tr>";
 			}
+
 
 			foreach ($value as $key2 => $value2) {
 
@@ -96,7 +103,14 @@ if ($db->num_rows()) {
 				echo "<tr style=\"background-color:".$bgcolor."\">";
 				echo "<td>".wt_he($value2["website"])."</td>";
 				echo "<td><a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$key2."\" target=\"_blank\">".date("d-m-Y", $value2["invuldatum"])."</a></td>";
-				echo "<td>".wt_he($vars["alletypes"][$value2["type_id"]])."</td>";
+
+				$type_name = wt_he($vars["alletypes"][1][$value2["type_id"]]);
+
+				// add clickable typecode
+				$type_name = preg_replace("@([A-Z][0-9]+)\)$@", "<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$value2["website"]])."accommodatie/\\1/#prijsinformatie\" target=\"_blank\">\\1</a>)", $type_name);
+				$type_name = preg_replace("@([A-Z][0-9]+)\) \(V\)$@", "<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$value2["website"]])."accommodatie/\\1/#prijsinformatie\" target=\"_blank\">\\1</a>) (V)", $type_name);
+
+				echo "<td>".$type_name."</td>";
 				echo "<td>".date("d-m-Y", $value2["aankomstdatum_exact"])."</td>";
 				echo "<td>".($main_booker[$key2]["email"] ? wt_he(wt_naam($main_booker[$key2]["voornaam"], $main_booker[$key2]["tussenvoegsel"], $main_booker[$key2]["achternaam"])." (".$main_booker[$key2]["email"].")") : "&nbsp;")."</td>";
 
@@ -130,9 +144,10 @@ if ($db->num_rows()) {
 
 				echo "</tr>\n";
 			}
-		}
 
-		$unfinished_counter_per_ip++;
+			$unfinished_counter_per_ip++;
+
+		}
 
 	}
 
