@@ -334,8 +334,14 @@ $vars['oprichting_chalet'] =  new \DateTime('1999-10-01');
 #
 # Interne info (voor testsysteem)
 #
+
+if ($vars["acceptatie_testserver"]) {
+	// show current branch on acceptancetest-server
+	$interneinfo .= "<b><a href=\"".$vars["path"]."cms_diversen.php?t=3#git\">".file_get_contents($vars["unixdir"]."tmp/git-current-branch.txt")."</a></b><br /><br />";
+}
+
 if($vars["bezoeker_is_jeroen"] or $vars["testsite"]) {
-	$interneinfo="Testaccommodaties:<ul>";
+	$interneinfo.="Testaccommodaties:<ul>";
 	if($vars["seizoentype"]==1) {
 		$interneinfo.="<li><a href=\"".$vars["path"]."accommodatie/F240/\">Le Clos du Pr&eacute;</a></li>";
 		$interneinfo.="<li><a href=\"".$vars["path"]."accommodatie/F251/\">Verzameltype</a></li>";
@@ -1396,6 +1402,12 @@ if($boeking_wijzigen) {
 			if(defined("wt_server_name")) {
 				$helemaalboven .= "server: ".wt_server_name." - ";
 			}
+
+			if ($vars["acceptatie_testserver"]) {
+				// show current branch on acceptancetest-server
+				$helemaalboven .= "branch: <a href=\"".$vars["path"]."cms_diversen.php?t=3#git\">".file_get_contents($vars["unixdir"]."tmp/git-current-branch.txt")."</a> - ";
+			}
+
 			$helemaalboven .= "Intern ingelogd: ".wt_he($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://".($vars["acceptatie_testserver"] ? "test" : ($vars["backup_server"] ? "www2" : "www")).".chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
 		}
 

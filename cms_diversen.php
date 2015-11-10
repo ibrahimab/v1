@@ -234,7 +234,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$form->field_textarea(0,"tradetracker_higher_payout","Accommodatie-codes",array("field"=>"tradetracker_higher_payout"),"","",array("style"=>"height:400px"));
 
 	if( $vars["acceptatie_testserver"] or $vars["lokale_testserver"]) {
-		$form->field_htmlrow("","<hr><b>Git-branch op test.chalet.nl</b>");
+		$form->field_htmlrow("","<hr><div id=\"git\"></div><b>Git-branch op test.chalet.nl</b>");
 
 		$gitfile = dirname(__FILE__)."/.git/HEAD";
 		if( file_exists($gitfile) ) {
@@ -242,15 +242,17 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		}
 
 		// git-branches
-		$db->query("SELECT git_branches FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
-		if( $db->next_record() ) {
-			$git_branches = explode("\n", $db->f("git_branches"));
-			foreach ($git_branches as $key => $value) {
-				if( preg_match("@^([a-z0-9_-]+) (.*)$@", $value, $regs)) {
-					$vars["git_branches"][$regs[1]] = trim($regs[2])." (".trim($regs[1]).")";
-				}
+		$git_branches = file($vars["unixdir"]."tmp/git-branch-list.txt");
+		foreach ($git_branches as $key => $value) {
+
+			if (preg_match("@^[a-z]{3}[0-9]+$@", $value)) {
+				$vars["git_branches"][$value] = strtoupper($value);
+			} else {
+				$vars["git_branches"][$value] = $value;
 			}
 		}
+
+		ksort($vars["git_branches"]);
 
 		$form->field_htmlcol("","Huidige branch", array("html"=>wt_he(($vars["git_branches"][$git_current_branch] ? $vars["git_branches"][$git_current_branch] : $git_current_branch))));
 
