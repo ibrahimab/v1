@@ -228,6 +228,7 @@ if($mustlogin) {
 	}
 	$title["cms_overzichten_boekingen"]="Adressen bij boekingen";
 	$title["cms_meldingen"]="Indeling CMS-hoofdpagina / Meldingen";
+	$title["cms_boekingen_onafgerond_benaderen"]="Te benaderen onafgeronde boekingen";
 
 
 	# Layout CMS
@@ -392,7 +393,8 @@ if($mustlogin) {
 	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen","Bevestigd",array("bt"=>"2","archief"=>"0"),true);
 	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen","Bestelstatus",array("bt"=>"8","archief"=>"0"),true);
 	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen","Actueel",array("bt"=>"5","archief"=>"0"),true);
-	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen","Recent onafgerond",array("bt"=>"3","archief"=>"0"),true);
+	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen","Onafgerond: totaaloverzicht",array("bt"=>"3","archief"=>"0"),true);
+	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen_onafgerond_benaderen","Onafgerond: benaderen","",true);
 	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen","Geannuleerd",array("bt"=>"6","archief"=>"0"),true);
 	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen","Vervallen aanvragen",array("bt"=>"7","archief"=>"0"),true);
 

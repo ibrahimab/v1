@@ -3,11 +3,14 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+06-nov-2015 12:22
+ALTER TABLE `boeking` ADD `unfinished_contacted` DATETIME NULL DEFAULT NULL ;
+
 05-nov-2015 11:47
 ALTER TABLE `garantie` ADD `opmerkingen_overzicht` TEXT NULL DEFAULT NULL AFTER `opmerkingen` ;
 ALTER TABLE `garantie` ADD `mag_voor` DECIMAL(10,2) NULL DEFAULT NULL AFTER `soort_garantie` ;
 
-3-nov-2015 13:37
+03-nov-2015 13:37
 ALTER TABLE `boeking` ADD `initial_ip_address` VARCHAR(15) NULL ;
 
 29-oct-2015 17:45
@@ -66,10 +69,10 @@ ALTER TABLE `land` ADD `isocode` CHAR(2) NOT NULL AFTER `begincode`;
 19-may-2015 14:30
 ALTER TABLE `diverse_instellingen` ADD `monitor_mysql` CHAR(52) NULL DEFAULT NULL ;
 
-8-may-2015 22:48
+08-may-2015 22:48
 ALTER TABLE `bk_soort` ADD `altijd_diversen_indien_niet_inclusief` TINYINT(1) NOT NULL AFTER `altijd_diversen`;
 
-8-may-2015 08:44
+08-may-2015 08:44
 ALTER TABLE `diverse_instellingen` ADD `git_branches` TEXT NOT NULL ;
 
 29-apr-2015 10:15
@@ -122,7 +125,7 @@ ALTER TABLE `plaats` ADD `korteomschrijving` VARCHAR(70) NOT NULL AFTER `kenmerk
 12-feb-2015 10:20
 ALTER TABLE `boeking` ADD `geannuleerd_op` DATETIME NULL DEFAULT NULL AFTER `geannuleerd`;
 
-2-feb-2015 16:40
+02-feb-2015 16:40
 ALTER TABLE `accommodatie` ADD `vertrekinfo_noodtelefoonnummer_accommodatie` VARCHAR(100) NULL DEFAULT NULL AFTER `vertrekinfo_telefoonnummer`;
 
 16-jan-2015 09:15
@@ -137,7 +140,7 @@ ADD COLUMN `websitetekst_gewijzigd_de` TEXT NULL AFTER `websitetekst_gewijzigd_e
 ADD COLUMN `websitetekst_gewijzigd_nl` TEXT NULL AFTER `websitetekst_gewijzigd_de`,
 ADD COLUMN `tekst_language` VARCHAR(2) NULL AFTER `websitetekst_gewijzigd_nl`;
 
-5-jan-2015 17:40
+05-jan-2015 17:40
 ALTER TABLE `type_seizoen` ADD `bijkomendekosten_checked` TINYINT(1) NOT NULL ;
 ALTER TABLE `accommodatie_seizoen` ADD `bijkomendekosten_checked` TINYINT(1) NOT NULL ;
 
@@ -190,15 +193,15 @@ ADD `max_personen` INT NULL DEFAULT NULL AFTER `min_personen` ;
 11-sep-2014 12:48
 ALTER TABLE `accommodatie` ADD `bk_opmerkingen_intern` TEXT NULL DEFAULT NULL AFTER `bijkomendekosten6_id` ;
 
-9-sep-2014 13:35
+09-sep-2014 13:35
 ALTER TABLE `bk_soort` ADD `min_leeftijd` TINYINT NULL DEFAULT NULL AFTER `borg` ,
 ADD `max_leeftijd` TINYINT NULL DEFAULT NULL AFTER `min_leeftijd` ,
 ADD `zonderleeftijd` TINYINT( 1 ) NOT NULL AFTER `max_leeftijd` ;
 
-4-sep-2014 18:47
+04-sep-2014 18:47
 ALTER TABLE `user` ADD `cmstaal` CHAR( 2 ) NOT NULL DEFAULT 'nl' AFTER `cmslog_pagina` ;
 
-2-sep-2014 17:16
+02-sep-2014 17:16
 ALTER TABLE `accommodatie` ADD `tmp_teksten_omgezet` TINYINT( 1 ) NOT NULL AFTER `video_url` ;
 ALTER TABLE `type` ADD `tmp_teksten_omgezet` TINYINT( 1 ) NOT NULL AFTER `video_url` ;
 
@@ -398,7 +401,7 @@ ALTER TABLE `leverancier` ADD `inlog_toon_roominglists` TINYINT( 1 ) NOT NULL AF
 11-dec-2013 16:45
 ALTER VIEW view_accommodatie AS SELECT `a`.`accommodatie_id` AS `accommodatie_id`,`a`.`wzt` AS `wzt`,`t`.`websites` AS `websites`,`l`.`begincode` AS `begincode`,`t`.`type_id` AS `type_id`,`a`.`naam` AS `naam`,`a`.`kwaliteit` AS `akwaliteit`,`a`.`weekendski` AS `weekendski`, `a`.`korteomschrijving` AS `akorteomschrijving`, `t`.`kwaliteit` AS `tkwaliteit`,`t`.`naam` AS `tnaam`,`t`.`naam_de` AS `tnaam_de`,`t`.`naam_en` AS `tnaam_en`,`t`.`naam_fr` AS `tnaam_fr`,`t`.`optimaalaantalpersonen` AS `optimaalaantalpersonen`,`t`.`maxaantalpersonen` AS `maxaantalpersonen`,`t`.`verzameltype` AS `verzameltype`,`t`.`verzameltype_parent` AS `verzameltype_parent`, `t`.`korteomschrijving` AS `tkorteomschrijving`, `lev`.`leverancier_id` AS `leverancier_id`,`lev`.`naam` AS `leverancier`,`t`.`beheerder_id` AS `beheerder_id`,`t`.`eigenaar_id` AS `eigenaar_id`,`t`.`code` AS `code`,`a`.`soortaccommodatie` AS `soortaccommodatie`,`a`.`toonper` AS `toonper`,`a`.`tonen` AS `atonen`,`a`.`receptie` AS `receptie`,`a`.`receptie_en` AS `receptie_en`,`a`.`telefoonnummer` AS `telefoonnummer`,`a`.`gps_lat` AS `gps_lat`,`a`.`gps_long` AS `gps_long`,`t`.`gps_lat` AS `tgps_lat`,`t`.`gps_long` AS `tgps_long`,`t`.`tonen` AS `ttonen`,`a`.`archief` AS `archief`,`p`.`plaats_id` AS `plaats_id`,`p`.`naam` AS `plaats`,`p`.`altnaam` AS `plaats_altnaam`,`s`.`skigebied_id` AS `skigebied_id`,`s`.`naam` AS `skigebied`,`s`.`altnaam` AS `skigebied_altnaam`,`l`.`naam` AS `land`,`l`.`naam_de` AS `land_de`,`l`.`naam_en` AS `land_en`,`l`.`naam_fr` AS `land_fr`,`l`.`land_id` AS `land_id`,`a`.`leverancierscode` AS `aleverancierscode`,`t`.`leverancierscode` AS `tleverancierscode` from (((((`accommodatie` `a` join `type` `t`) join `plaats` `p`) join `skigebied` `s`) join `land` `l`) join `leverancier` `lev`) where ((`t`.`leverancier_id` = `lev`.`leverancier_id`) and (`t`.`accommodatie_id` = `a`.`accommodatie_id`) and (`a`.`plaats_id` = `p`.`plaats_id`) and (`p`.`skigebied_id` = `s`.`skigebied_id`) and (`p`.`land_id` = `l`.`land_id`)) order by `p`.`naam`,`a`.`naam`,`t`.`naam`,`t`.`maxaantalpersonen`;
 
-6-dec-2013 09:53
+06-dec-2013 09:53
 ALTER TABLE `leverancier_aankomstlijst` ADD `aantal_wijzigingen` INT NOT NULL , ADD `inhoud_laatste_verzending` MEDIUMTEXT NULL DEFAULT NULL ;
 ALTER TABLE `leverancier_aankomstlijst` ADD `garanties_doorgeven` TEXT NOT NULL ;
 
@@ -448,7 +451,7 @@ ALTER TABLE `boeking_enquete` ADD UNIQUE (hash);
 12-nov-2013 17:31
 ALTER TABLE `boeking` ADD `factuurdatum_eerste_factuur` DATE NULL DEFAULT NULL AFTER `factuurdatum` ;
 
-6-nov-2013 16:37
+06-nov-2013 16:37
 ALTER TABLE `docdata_payments`
 CHANGE `created_at` `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
 
@@ -458,7 +461,7 @@ CHANGE `updated_at` `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON
 ALTER TABLE `docdata_payments`
 CHANGE `cluster_key` `cluster_key` varchar(255) COLLATE 'utf8_general_ci' NOT NULL;
 
-1-nov-2013 10:47
+01-nov-2013 10:47
 ALTER TABLE `docdata_payments` ADD COLUMN `reference` VARCHAR(50) NOT NULL AFTER `type`;
 
 25-oct-2013 13:07

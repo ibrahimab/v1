@@ -373,6 +373,73 @@ if($_GET["t"]=="keep_session_alive") {
 
 	$json["saved"] = true;
 	wt_echo_json($json);
-}
 
-?>
+} elseif($_GET["t"]=="unfinished_mailto") {
+	//
+	// create mailto-link for unfinished bookings
+	//
+
+	$db->query("SELECT b.boeking_id, b.type_id, b.aankomstdatum_exact, b.taal, b.website, b.aantalpersonen, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email FROM boeking_persoon bp INNER JOIN boeking b USING (boeking_id) WHERE b.bevestigdatum IS NULL AND b.stap_voltooid>=1 AND b.calc=0 AND b.boeking_id='".intval($_GET["boeking_id"])."';");
+
+	if ($db->next_record()) {
+
+		$accinfo = accinfo($db->f( "type_id" ));
+
+		$boeking_bepaalt_taal = true;
+		$gegevens["stap1"]["taal"] = $db->f( "taal" );
+
+		$boekinglink = $vars["websiteinfo"]["basehref"][$db->f( "website" )]."uf/b".$db->f( "boeking_id" )."f".substr(sha1(boeking_veiligheid($db->f( "boeking_id" ).$vars["salt"])), 0, 10);
+		$optielink = $vars["websiteinfo"]["basehref"][$db->f( "website" )]."uf/o".$db->f( "boeking_id" )."c".substr(sha1(boeking_veiligheid($db->f( "boeking_id" ).$vars["salt"])), 0, 10);
+
+		$type_name = $accinfo["accnaam"]." (".txt("max")." ".$accinfo["maxaantalpersonen"]." ".txt("personen").") ".txt("met")." ".$db->f( "aantalpersonen" )." ".($db->f( "aantalpersonen" )==1 ? txt("persoon") : txt("personen"));
+
+		$to = $db->f("email");
+		$subject = txt("subject", "unfinished_mail", array("v_plaats"=>$accinfo["plaats"]));
+		$typelink = $vars["websiteinfo"]["basehref"][$db->f( "website" )].txt("menu_accommodatie")."/".$accinfo["begincode"].$accinfo["type_id"]."/";
+
+
+		$body = txt("body", "unfinished_mail", array("v_voornaam"=>ucfirst($db->f( "voornaam" )), "v_achternaam"=>wt_naam("", $db->f( "tussenvoegsel" ), $db->f( "achternaam" )), "v_type"=>$type_name, "v_plaats"=>$accinfo["plaats"], "v_aankomstdatum"=>date("d/m/Y", $db->f( "aankomstdatum_exact" )), "v_website"=>$vars["websiteinfo"]["websitenaam"][$db->f( "website" )], "v_boekinglink"=>$boekinglink, "v_optielink"=>$optielink, "v_typelink"=>$typelink, "v_soortaccommodatie"=>$accinfo["soortaccommodatie"]))."\n";
+
+		$mailto_link = (string) mailto::generate()
+		->to($to)
+		->subject($subject)
+		->body($body);
+
+		$json["link"] = base64_encode($mailto_link);
+	}
+	wt_echo_json($json);
+} elseif($_GET["t"]=="unfinished_change") {
+	//
+	// change status of unfinished bookings
+	//
+
+	if ($_GET["type"] and $_GET["boeking_id"]) {
+
+		if ($_GET["type"]==1) {
+			// change to: sent now
+			$unfinished_contacted = "NOW()";
+
+			$json["new_field_content"] = date("d-m-Y");
+
+		} elseif ($_GET["type"]==2) {
+			// change to: ignore
+			$unfinished_contacted = "0000-00-00";
+
+			$json["new_field_content"] = "negeren";
+		} else {
+			// reset field: change to NULL
+			$unfinished_contacted = "NULL";
+
+			$json["new_field_content"] = "<a href=\"#\" data-boeking_id=\"".intval($_GET["boeking_id"])."\" class=\"unfinished_mailto\">mailen</a>";
+
+		}
+
+
+		$db->query("UPDATE boeking SET unfinished_contacted=".$unfinished_contacted." WHERE boeking_id='".intval($_GET["boeking_id"])."';");
+
+		$json["ok"] = true;
+	}
+
+	wt_echo_json($json);
+
+}

@@ -1150,6 +1150,45 @@ $(document).ready(function() {
 		}
 	});
 
+
+
+	$(document).on("click", ".unfinished_mailto", function(event) {
+		// handle clicks on "verstuur"-links for unfinished bookings
+
+		var current_link = $(this);
+
+		event.preventDefault();
+
+		// get mailto-link via rpc (in base64-format)
+		$.getJSON(
+			'cms/wtjson.php?t=unfinished_mailto&boeking_id='+current_link.data("boeking_id"),
+			function(data) {
+				if(data.link) {
+
+					// change href of link (decode base64)
+					window.location.href = window.atob(data.link);
+					return true;
+				}
+			}
+		);
+	});
+
+
+	$("select.unfinished_change").change(function(event) {
+		// handle changes to select-field unfinished bookings
+
+		var current_select = $(this);
+
+		$.getJSON(
+			'cms/wtjson.php?t=unfinished_change&boeking_id='+current_select.data("boeking_id")+"&type="+current_select.val(),
+			function(data) {
+				if(data.ok) {
+					current_select.parent().prev("td").html(data.new_field_content);
+					current_select.val(0);
+				}
+			}
+		);
+	});
 });
 
 function bk_keuzes_actief_inactief() {

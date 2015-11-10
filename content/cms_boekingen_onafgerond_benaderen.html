@@ -1,0 +1,158 @@
+<?php
+
+//
+// show and mail unfinished bookings
+//
+
+// get main booker of unfinished bookings
+$db->query("SELECT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, UNIX_TIMESTAMP(b.unfinished_contacted) AS unfinished_contacted FROM boeking_persoon bp INNER JOIN boeking b USING (boeking_id) WHERE b.bevestigdatum IS NULL AND b.stap_voltooid>=1 AND b.calc=0;");
+while( $db->next_record() ) {
+	$main_booker[$db->f( "boeking_id" )]["voornaam"] = $db->f( "voornaam" );
+	$main_booker[$db->f( "boeking_id" )]["tussenvoegsel"] = $db->f( "tussenvoegsel" );
+	$main_booker[$db->f( "boeking_id" )]["achternaam"] = $db->f( "achternaam" );
+	$main_booker[$db->f( "boeking_id" )]["email"] = $db->f( "email" );
+
+	if ($db->f( "unfinished_contacted" )) {
+		// block people that have already been contacted
+		$block_email_addres[$db->f( "email" )] = $db->f( "boeking_id" );
+	}
+}
+
+// get email address of people that have booked in the last 31 days
+$db->query("SELECT bp.email FROM boeking_persoon bp INNER JOIN boeking b USING (boeking_id) WHERE bp.email<>'' AND b.bevestigdatum IS NOT NULL AND b.stap_voltooid=5 AND invuldatum>(NOW() - INTERVAL 31 DAY);");
+while( $db->next_record() ) {
+	$block_email_addres[$db->f( "email" )] = true;
+}
+
+// get email address of people that have requested an option in the last 31 days
+$db->query("SELECT email FROM optieaanvraag WHERE email<>'' AND invulmoment>(NOW() - INTERVAL 31 DAY);");
+while( $db->next_record() ) {
+	$block_email_addres[$db->f( "email" )] = true;
+}
+
+// main query: get unfinished bookings
+$db->query("SELECT UNIX_TIMESTAMP(invuldatum) AS invuldatum, boeking_id, website, initial_ip_address, type_id, aankomstdatum_exact, UNIX_TIMESTAMP(unfinished_contacted) AS unfinished_contacted FROM boeking WHERE bevestigdatum IS NULL AND stap_voltooid>=1 AND calc=0 AND reisbureau_user_id IS NULL AND initial_ip_address<>'' AND invuldatum>(NOW() - INTERVAL 30 DAY) ORDER BY invuldatum DESC;");
+
+if ($db->num_rows()) {
+
+	while( $db->next_record() ) {
+		$unfinished[$db->f( "initial_ip_address" )][$db->f( "boeking_id" )]["invuldatum"] = $db->f( "invuldatum" );
+		$unfinished[$db->f( "initial_ip_address" )][$db->f( "boeking_id" )]["website"] = $db->f( "website" );
+		$unfinished[$db->f( "initial_ip_address" )][$db->f( "boeking_id" )]["type_id"] = $db->f( "type_id" );
+		$unfinished[$db->f( "initial_ip_address" )][$db->f( "boeking_id" )]["aankomstdatum_exact"] = $db->f( "aankomstdatum_exact" );
+		$unfinished[$db->f( "initial_ip_address" )][$db->f( "boeking_id" )]["unfinished_contacted"] = $db->f( "unfinished_contacted" );
+	}
+
+	// show explanation
+	echo "<p>Hieronder een overzicht van mensen met onafgeronde boekingen van de afgelopen 30 dagen die benaderd kunnen worden. Boekingen die afkomstig zijn van hetzelfde IP-adres worden gegroepeerd getoond. Mailadressen waarmee de afgelopen maand is geboekt of waarmee een optie-aanvraag is ingediend komen niet in het overzicht terecht.</p>";
+	echo "<p><b>Werkwijze: klik op &quot;mailen&quot;, verstuur de mail vanuit Outlook en kies vervolgens &quot;verstuurd&quot; in de kolom &quot;Wijzig&quot;.</b></p>";
+	echo "<br />";
+
+	// main table
+	echo "<table class=\"tbl\" cellspacing=\"0\">";
+
+	// table-header
+	echo "<tr><th>Site</th><th>Ingevuld</th><th>Accommodatie</th><th>Aankomst</th><th>Hoofdboeker</th><th>Verstuurd</th><th>Wijzig</th></tr>";
+
+	$unfinished_counter = 0;
+
+	foreach ($unfinished as $key => $value) {
+
+		$email_address_known = false;
+		$already_contacted = false;
+		$skip_type = false;
+
+		// ignore bookings from known ip addresses
+		if (in_array($key, $vars["vertrouwde_ips"])) {
+			continue;
+		}
+
+		// check if there's one booking for this ip that has an email address
+		foreach ($value as $key2 => $value2) {
+			if ($main_booker[$key2]["email"]) {
+				$email_address_known = true;
+
+				if ($block_email_addres[$main_booker[$key2]["email"]] and $block_email_addres[$main_booker[$key2]["email"]]<>$key2) {
+					$already_contacted = true;
+				}
+			}
+
+			if (!$vars["alletypes"][1][$value2["type_id"]]) {
+				// only winter accommodations
+				$skip_type = true;
+			}
+		}
+
+		if ($email_address_known and !$already_contacted and !$skip_type) {
+
+			if($unfinished_counter_per_ip) {
+				echo "<tr><td colspan=\"7\">";
+				echo "<br />";
+				echo "</td></tr>";
+			}
+
+
+			foreach ($value as $key2 => $value2) {
+
+				if ($unfinished_counter_per_ip % 2 == 0) {
+					$bgcolor = "#ebebeb";
+				} else {
+					$bgcolor = "#c0beeb";
+				}
+
+				echo "<tr style=\"background-color:".$bgcolor."\">";
+				echo "<td>".wt_he($value2["website"])."</td>";
+				echo "<td><a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$key2."\" target=\"_blank\">".date("d-m-Y", $value2["invuldatum"])."</a></td>";
+
+				$type_name = wt_he($vars["alletypes"][1][$value2["type_id"]]);
+
+				// add clickable typecode
+				$type_name = preg_replace("@([A-Z][0-9]+)\)$@", "<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$value2["website"]])."accommodatie/\\1/#prijsinformatie\" target=\"_blank\">\\1</a>)", $type_name);
+				$type_name = preg_replace("@([A-Z][0-9]+)\) \(V\)$@", "<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$value2["website"]])."accommodatie/\\1/#prijsinformatie\" target=\"_blank\">\\1</a>) (V)", $type_name);
+
+				echo "<td>".$type_name."</td>";
+				echo "<td>".date("d-m-Y", $value2["aankomstdatum_exact"])."</td>";
+				echo "<td>".($main_booker[$key2]["email"] ? wt_he(wt_naam($main_booker[$key2]["voornaam"], $main_booker[$key2]["tussenvoegsel"], $main_booker[$key2]["achternaam"])." (".$main_booker[$key2]["email"].")") : "&nbsp;")."</td>";
+
+				// column "Verstuurd"
+				echo "<td>";
+				if ($value2["unfinished_contacted"]=="") {
+					echo ($main_booker[$key2]["email"] ? "<a href=\"#\" data-boeking_id=\"".$key2."\" class=\"unfinished_mailto\">mailen</a>" : "&nbsp;");
+				} else {
+					if ($value2["unfinished_contacted"]>0) {
+						echo date("d-m-Y", $value2["unfinished_contacted"]);
+					} else {
+						echo "negeren";
+					}
+				}
+				echo "</td>";
+
+
+				// column "Wijzig"
+				echo "<td>";
+				if ($main_booker[$key2]["email"]) {
+					echo "<select class=\"unfinished_change\" data-boeking_id=\"".$key2."\">";
+					echo "<option value=\"0\"></option>";
+					echo "<option value=\"1\">verstuurd</option>";
+					echo "<option value=\"2\">negeren</option>";
+					echo "<option value=\"3\">reset</option>";
+					echo "</select>";
+				} else {
+					echo "&nbsp;";
+				}
+				echo "</td>";
+
+				echo "</tr>\n";
+			}
+
+			$unfinished_counter_per_ip++;
+
+		}
+
+	}
+
+	echo "</table>";
+
+} else {
+	echo "Er zijn geen te benaderen onafgeronde boekingen.";
+}
