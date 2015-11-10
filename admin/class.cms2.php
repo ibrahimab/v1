@@ -674,7 +674,7 @@ class cms2 {
 			if($this->settings[$counter]["list"]["delete_checkbox"]) $tl->field_delete_checkbox();
 
 			while(list($key,$value)=@each($this->list[$counter]["title"])) {
-				unset($list_options);
+				unset($list_options, $list_layout);
 				if($this->list[$counter]["options"][$key]["index_field"]) {
 					$list_options["index_field"]=true;
 				}
@@ -683,12 +683,17 @@ class cms2 {
 					$list_options["sort_substring"]=$this->list[$counter]["options"][$key]["sort_substring"];
 				}
 
+				if($this->list[$counter]["layout"][$key]["td_class"]) {
+					// layout: td class
+					$list_layout["td_class"]=$this->list[$counter]["layout"][$key]["td_class"];
+				}
+
 				if($this->list[$counter]["options"][$key]["index_field"]) {
-					$tl->field_text($key,$value,"",$list_options);
+					$tl->field_text($key,$value,"",$list_options,$list_layout);
 				} elseif($this->list[$counter]["options"][$key]["force_field_type"]=="currency" or $this->db[$counter]["type"][$key]=="currency") {
-					$tl->field_currency($key,$value,"",$list_options);
+					$tl->field_currency($key,$value,"",$list_options,$list_layout);
 				} else {
-					$tl->field_text($key,$value,"",$list_options);
+					$tl->field_text($key,$value,"",$list_options,$list_layout);
 				}
 			}
 			while($db->next_record()) {

@@ -380,17 +380,18 @@ class tablelist {
 					}
 					unset($tdclass);
 					if($this->settings["td_class"]) {
-						$tdclass=$this->settings["td_class"].$key2;
+						$tdclass = $this->settings["td_class"].$key2;
 					}
 					if($this->fields["layout"][$key2]["class"]) {
-						if($tdclass) {
-							$tdclass=" ".$this->fields["layout"][$key2]["class"];
-						} else {
-							$tdclass=$this->fields["layout"][$key2]["class"];
-						}
+						$tdclass .= " ".$this->fields["layout"][$key2]["class"];
 					}
+
+					if($this->fields["layout"][$key2]["td_class"]) {
+						$tdclass .= " ".$this->fields["layout"][$key2]["td_class"];
+					}
+
 					if($this->fields["type"][$key2]=="currency") {
-						$return.="<td".($tdclass ? " class=\"".$tdclass."\"" : "")." style=\"text-align:right\">".$aname_in_td;
+						$return.="<td".($tdclass ? " class=\"".trim($tdclass)."\"" : "")." style=\"text-align:right\">".$aname_in_td;
 						if(ereg("^-?[0-9\.,]+$",$this->fields["content"][$key2][$key])) {
 							$this->fields["content"][$key2][$key]=ereg_replace(",",".",$this->fields["content"][$key2][$key]);
 							if(!$this->settings["currencyfields_hide_euro_sign"]) {
