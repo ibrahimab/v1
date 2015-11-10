@@ -247,7 +247,7 @@ if($db->next_record()) {
 	    } else {
 	        $afbeelding = ['accommodaties/0.jpg'];
 	    }
-		
+
 		$files['all']['pic'] = array_merge($afbeelding, $files['all']['pic'], $files['all']['piconderaan']);
 
 		echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("fotos","vars")."</h3></div>";
@@ -644,7 +644,7 @@ if($db->next_record()) {
 		$temp_intern.="</table><p>";
 #		echo $temp_intern;
 #		if($db->f("type_id")==1542) {
-		$interneinfo=$temp_intern;
+		$interneinfo .= $temp_intern;
 #		}
 	}
 

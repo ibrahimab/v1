@@ -337,6 +337,12 @@ if($mustlogin) {
 		if(defined("wt_server_name")) {
 			$layout->settings["logout_extra"] .= " - server: ".wt_server_name;
 		}
+
+		if ($vars["acceptatie_testserver"]) {
+			// show current branch on acceptancetest-server
+			$layout->settings["logout_extra"] .= " - branch: <a href=\"".$vars["path"]."cms_diversen.php?t=3#git\">".file_get_contents($vars["unixdir"]."tmp/git-current-branch.txt")."</a>";
+		}
+
 		if($login->userlevel>=5) {
 			$layout->settings["logout_extra"] .= " - sessieduur: ".(time()-$_SESSION["wt_session_start_time"]);
 		}

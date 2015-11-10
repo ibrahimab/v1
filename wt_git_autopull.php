@@ -24,6 +24,9 @@ if( $_GET["git-deploy"]==1 ) {
 	$checkfile = $unixdir."tmp/git-autopull-acceptance-test.txt";
 }
 
+$rebuild_branch_list_file = $unixdir."tmp/git-rebuild-branch-list.txt";
+$branch_list_file = $unixdir."tmp/git-branch-list.txt";
+
 $current_branch_file = $unixdir."tmp/git-current-branch.txt";
 
 if($argv[1]=="cron") {
@@ -42,6 +45,25 @@ if($argv[1]=="cron") {
 		file_put_contents($current_branch_file, $git_branch);
 	}
 
+	if(file_exists($rebuild_branch_list_file)) {
+		//
+		// rebuild the branch list
+		//
+
+		// git command to fetch all changes
+		exec("cd /var/www/chalet.nl/html_test/;git fetch --all");
+
+		// git command to list all branches
+		exec("cd /var/www/chalet.nl/html_test/;git branch | awk -F ' +' '! /\(no branch\)/ {print $2}'", $output);
+
+		// save contents to tmp/git-branch-list.txt
+		file_put_contents($branch_list_file, implode("\n", $output));
+
+		// delete rebuild-file
+		unlink($rebuild_branch_list_file);
+
+	}
+
 } else {
 
 	if($_POST["payload"]) {
@@ -55,6 +77,8 @@ if($argv[1]=="cron") {
 			}
 
 		} else {
+
+			touch($rebuild_branch_list_file);
 
 			$current_branch = trim(file_get_contents($current_branch_file));
 
