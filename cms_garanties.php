@@ -136,19 +136,19 @@ if($_GET["status"]==1) {
 } else {
 	$cms->list_sort[34]=array("type_id","aankomstdatum_exact","reserveringsnummer_extern","naam");
 }
-$cms->list_field(34,"type_id","Accommodatie","",array("html"=>true));
+$cms->list_field(34,"type_id","Accommodatie","",array("html"=>true, "td_class"=>"td_type_id"));
 $cms->list_field(34,"aankomstdatum_exact","Aankomst",array("date_format"=>"DD-MM-JJJJ"));
 if($_GET["status"]==2) {
 	$cms->list_field(34,"boeking_id","Boeking");
 } else {
 	$cms->list_field(34,"reserveringsnummer_extern","Volgnr");
 }
-$cms->list_field(34,"naam","Naam");
+$cms->list_field(34,"naam","Naam", "", array("td_class"=>"td_naam"));
 $cms->list_field(34,"netto","Netto");
 $cms->list_field(34,"bruto","Bruto");
 $cms->list_field(34,"garantie_id","Verkoop",array("force_field_type"=>"currency"));
 $cms->list_field(34,"mag_voor","Mag voor",array("force_field_type"=>"currency"));
-$cms->list_field(34,"opmerkingen_overzicht","Opmerking");
+$cms->list_field(34,"opmerkingen_overzicht","Opmerking", "", array("td_class"=>"td_opmerkingen_overzicht"));
 
 # Controle op delete-opdracht
 if($_GET["delete"]==34 and $_GET["34k0"]) {

@@ -1302,16 +1302,16 @@ a.opm {
 	padding: 5px;
 }
 
-#cms_body_cms_garanties .tbl td:nth-child(11) {
-	min-width: 280px;
+#cms_body_cms_garanties .td_type_id {
+	min-width: 350px;
 }
 
-#cms_body_cms_garanties .tbl td:nth-child(6) {
+#cms_body_cms_garanties .td_naam {
 	min-width: 100px;
 }
 
-#cms_body_cms_garanties .tbl td:nth-child(3) {
-	min-width: 350px;
+#cms_body_cms_garanties .td_opmerkingen_overzicht {
+	min-width: 280px;
 }
 
 .image-grid {
