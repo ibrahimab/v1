@@ -14,20 +14,20 @@ while( $db->next_record() ) {
 
 	if ($db->f( "unfinished_contacted" )) {
 		// block people that have already been contacted
-		$block_email_addres[$db->f( "email" )] = $db->f( "boeking_id" );
+		$block_email_address[$db->f( "email" )] = $db->f( "boeking_id" );
 	}
 }
 
 // get email address of people that have booked in the last 31 days
 $db->query("SELECT bp.email FROM boeking_persoon bp INNER JOIN boeking b USING (boeking_id) WHERE bp.email<>'' AND b.bevestigdatum IS NOT NULL AND b.stap_voltooid=5 AND invuldatum>(NOW() - INTERVAL 31 DAY);");
 while( $db->next_record() ) {
-	$block_email_addres[$db->f( "email" )] = true;
+	$block_email_address[$db->f( "email" )] = true;
 }
 
 // get email address of people that have requested an option in the last 31 days
 $db->query("SELECT email FROM optieaanvraag WHERE email<>'' AND invulmoment>(NOW() - INTERVAL 31 DAY);");
 while( $db->next_record() ) {
-	$block_email_addres[$db->f( "email" )] = true;
+	$block_email_address[$db->f( "email" )] = true;
 }
 
 // main query: get unfinished bookings
@@ -72,7 +72,7 @@ if ($db->num_rows()) {
 			if ($main_booker[$key2]["email"]) {
 				$email_address_known = true;
 
-				if ($block_email_addres[$main_booker[$key2]["email"]] and $block_email_addres[$main_booker[$key2]["email"]]<>$key2) {
+				if ($block_email_address[$main_booker[$key2]["email"]] and intval($block_email_address[$main_booker[$key2]["email"]])<>intval($key2)) {
 					$already_contacted = true;
 				}
 			}
