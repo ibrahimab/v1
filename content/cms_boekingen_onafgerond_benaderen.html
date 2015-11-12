@@ -5,7 +5,7 @@
 //
 
 // get main booker of unfinished bookings
-$db->query("SELECT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, UNIX_TIMESTAMP(b.unfinished_contacted) AS unfinished_contacted FROM boeking_persoon bp INNER JOIN boeking b USING (boeking_id) WHERE b.bevestigdatum IS NULL AND b.stap_voltooid>=1 AND b.calc=0;");
+$db->query("SELECT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, UNIX_TIMESTAMP(b.unfinished_contacted) AS unfinished_contacted FROM boeking_persoon bp INNER JOIN boeking b USING (boeking_id) WHERE bp.persoonnummer=1 AND b.bevestigdatum IS NULL AND b.stap_voltooid>=1 AND b.calc=0;");
 while( $db->next_record() ) {
 	$main_booker[$db->f( "boeking_id" )]["voornaam"] = $db->f( "voornaam" );
 	$main_booker[$db->f( "boeking_id" )]["tussenvoegsel"] = $db->f( "tussenvoegsel" );
