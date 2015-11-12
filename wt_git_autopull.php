@@ -60,7 +60,7 @@ if($argv[1]=="cron") {
 		file_put_contents($branch_list_file, implode("\n", $output));
 
 		// delete rebuild-file
-		unlink($rebuild_branch_list_file);
+		@unlink($rebuild_branch_list_file);
 
 	}
 
