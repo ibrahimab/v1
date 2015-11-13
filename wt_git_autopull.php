@@ -53,11 +53,18 @@ if($argv[1]=="cron") {
 		// git command to fetch all changes
 		exec("cd /var/www/chalet.nl/html_test/;git fetch --all");
 
+		// git command to clean-up outdated references
+		exec("cd /var/www/chalet.nl/html_test/;git remote prune origin");
+
 		// git command to list all branches
-		exec("cd /var/www/chalet.nl/html_test/;git branch | awk -F ' +' '! /\(no branch\)/ {print $2}'", $output);
+		exec("cd /var/www/chalet.nl/html_test/;git branch -r | awk -F ' +' '! /\(no branch\)/ {print $2}'", $output);
+
+		// convert and clean-up output
+		$git_branches = implode("\n", $output);
+		$git_branches = preg_replace("@origin/@", "", $git_branches);
 
 		// save contents to tmp/git-branch-list.txt
-		file_put_contents($branch_list_file, implode("\n", $output));
+		file_put_contents($branch_list_file, $git_branches);
 
 		// delete rebuild-file
 		@unlink($rebuild_branch_list_file);
