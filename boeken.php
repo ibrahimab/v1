@@ -924,14 +924,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		if($mustlogin) {
 			$form->field_htmlrow("","<hr><b>Inloggegevens</b>");
 
-			$db0->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
-			if($db0->next_record() and $db0->f("password_uc")) {
+			$db0->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+			if($db0->next_record()) {
 
 				$directlogin = new directlogin;
 				$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
-				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"),md5($db0->f("password_uc")));
+				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"));
 
-				$form->field_htmlcol("","Huidig wachtwoord",array("html"=>wt_he($db0->f("password_uc"))));
 				if($vars["acceptatie_testserver"]) {
 					$form->field_htmlcol("","URL directe inlog",array("html"=>"<a href=\"".wt_he($directlogin_link)."\" target=\"_blank\">".wt_he($directlogin_link)."</a>"));
 				} else {
@@ -939,12 +938,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				}
 				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
-					$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"),md5($db0->f("password_uc")));
-
+					$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"));
 					$directlogin_link=str_replace($vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]],"http://".$_SERVER["HTTP_HOST"]."/chalet/",$directlogin_link);
-
 					$directlogin_link_l="http://".$_SERVER["HTTP_HOST"]."/chalet/cms.php?gotourl=".urlencode($directlogin_link)."&testsite=".$gegevens["stap1"]["website"];
-
 					$form->field_htmlcol("","URL directe inlog lokaal",array("html"=>"<a href=\"".wt_he($directlogin_link_l)."\" target=\"_blank\">".wt_he($directlogin_link)."</a>"));
 				}
 			}
@@ -2682,14 +2678,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						# Zijn er andere boekingen met dit mailadres?
 						$db->query("SELECT DISTINCT b.boeking_id FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND bp.email='".addslashes($gegevens["stap2"]["email"])."';");
 						if($db->num_rows()>1) {
-							$db->query("SELECT password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+							$db->query("SELECT password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
 							if($db->next_record()) {
 								$db->query("SELECT user_id FROM boekinguser WHERE user='".addslashes($form->input["email"])."';");
 								if(!$db->num_rows()) {
-									$db->query("SELECT password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+									$db->query("SELECT password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
 									if($db->next_record()) {
-										$password=$db->f("password");
-										$db->query("INSERT INTO boekinguser SET password='".addslashes(wt_complex_password_hash($db->f("password_uc"),$vars["salt"]))."', password_uc='".addslashes($db->f("password_uc"))."', user='".addslashes($form->input["email"])."';");
+										$db->query("INSERT INTO boekinguser SET password='".addslashes($db->f("password"))."', user='".addslashes($form->input["email"])."';");
 									}
 								}
 							}
@@ -2707,9 +2702,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 							} else {
 								$mailadres=$gegevens["stap2"]["email"];
 							}
-							$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($form->input["wachtwoord"],$vars["salt"]))."', password_uc='".addslashes($form->input["wachtwoord"])."' WHERE user='".addslashes($mailadres)."';");
+							$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($form->input["wachtwoord"],$vars["salt"]))."' WHERE user='".addslashes($mailadres)."';");
 						} else {
-							$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($form->input["wachtwoord"],$vars["salt"]))."', password_uc='".addslashes($form->input["wachtwoord"])."' WHERE user_id='".addslashes($login->user_id)."';");
+							$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($form->input["wachtwoord"],$vars["salt"]))."' WHERE user_id='".addslashes($login->user_id)."';");
 						}
 					}
 				}
@@ -2932,39 +2927,34 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$db->query("UPDATE boeking SET verkoop='".addslashes($gegevens["stap1"]["verkoop"])."', accprijs='".addslashes($gegevens["stap1"]["accprijs"])."', ".($gegevens["stap1"]["reisbureau_user_id"] ? "commissie='".addslashes($gegevens["stap1"]["commissie"])."', " : "")."opmerkingen_boeker='".addslashes($form->input["opmerkingen_boeker"])."', ".($form->input["referentiekeuze"] ? "referentiekeuze='".addslashes($form->input["referentiekeuze"])."', " : "").($form->input["verzendmethode_reisdocumenten"] ? "verzendmethode_reisdocumenten='".addslashes($form->input["verzendmethode_reisdocumenten"])."', " : "")."bevestigdatum=NOW()".$setquery_inkoop." WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 
 			# E-mailadres en wachtwoord opslaan in boekinguser
-			$db->query("SELECT user_id, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+			$db->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
 			if($db->next_record()) {
 				$directlogin_user_id=$db->f("user_id");
-				if($db->f("password_uc")) {
-					$directlogin_wachtwoord=$db->f("password_uc");
+				if($db->f("password")) {
 					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord bestaan al");
 				} else {
 					$directlogin_wachtwoord=wt_generate_password(6,false);
-					$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($directlogin_wachtwoord,$vars["salt"]))."', password_uc='".addslashes($directlogin_wachtwoord)."' WHERE user_id='".addslashes($db->f("user_id"))."';");
+					$db->query("UPDATE boekinguser SET password='".addslashes(wt_complex_password_hash($directlogin_wachtwoord,$vars["salt"]))."' WHERE user_id='".addslashes($db->f("user_id"))."';");
 					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." bestaat al. Nieuw wachtwoord aangemaakt");
 				}
 			} else {
 				if(!$gegevens["stap1"]["reisbureau_user_id"]) {
 					$directlogin_wachtwoord=wt_generate_password(6,false);
-					$db->query("INSERT INTO boekinguser SET user='".addslashes($gegevens["stap2"]["email"])."', password='".addslashes(wt_complex_password_hash($directlogin_wachtwoord,$vars["salt"]))."', password_uc='".addslashes($directlogin_wachtwoord)."';");
+					$db->query("INSERT INTO boekinguser SET user='".addslashes($gegevens["stap2"]["email"])."', password='".addslashes(wt_complex_password_hash($directlogin_wachtwoord,$vars["salt"]))."';");
 					$directlogin_user_id=$db->insert_id();
 					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord aangemaakt");
 				}
 			}
 
 			$directlogin = new directlogin;
-			$directlogin_link=$directlogin->maak_link($vars["website"],1,$directlogin_user_id,md5($directlogin_wachtwoord));
+			$directlogin_link=$directlogin->maak_link($vars["website"],1,$directlogin_user_id);
 
 			$inlogtext="";
 			$inlogtext.=html("viaadreskuntuinloggen","boeken",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>"));
 
-			# Button
-#			$inlogtext.="<p><center><table class=\"table\"><tr><td width=\"200\" height=\"30\" bgcolor=\"".$table."\" style=\"-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: ".$thfontcolor."; display: block; text-align: center;\"><a href=\"".wt_he($directlogin_link)."\" style=\"color: ".$thfontcolor."; font-size:11px; font-weight: bold; font-family: Verdana, Arial, Helvetica, sans-serif; text-decoration: none; line-height:30px; width:100%; display:inline-block\">".html("directinloggen","boeken")."</a></td></tr></table></center></p>";
-
 			if($directlogin_wachtwoord) {
 				$inlogtext.=" ".html("gebruikdaarbijhetvolgendewachtwoord","boeken")." <strong>".wt_he($directlogin_wachtwoord)."</strong>";
 			}
-
 
 			# Status optieaanvraag wijzigen indien gekoppeld aan optieaanvraag
 			if($gegevens["stap1"]["optieaanvraag_id"]) {

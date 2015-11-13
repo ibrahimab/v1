@@ -184,14 +184,14 @@ if($login->logged_in) {
 						}
 
 						if(($vars["acceptatie_testserver"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $mustlogin) {
-							$db2->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
-							if($db2->next_record() and $db2->f("password_uc")) {
+							$db2->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+							if($db2->next_record()) {
 
 								$directlogin = new directlogin;
 								$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
-								$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db2->f("user_id"),md5($db2->f("password_uc")));
+								$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db2->f("user_id"));
 
-								$directlogin_link2=$directlogin->maak_link($gegevens["stap1"]["website"],2,$db2->f("user_id"),md5($db2->f("password_uc")));
+								$directlogin_link2=$directlogin->maak_link($gegevens["stap1"]["website"],2,$db2->f("user_id"));
 
 								echo "<div class=\"opvalblok\">";
 								if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {

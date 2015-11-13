@@ -962,9 +962,9 @@ if($form->okay) {
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
 				$directlogin_link=$vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]]."bsys.php?menu=3&reisbureaulogin=1&bid=".$gegevens["stap1"]["boekingid"];
 			} else {
-				$db0->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
-				if($db0->next_record() and $db0->f("password_uc")) {
-					$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],3,$db0->f("user_id"),md5($db0->f("password_uc")));
+				$db0->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+				if($db0->next_record()) {
+					$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],3,$db0->f("user_id"));
 				}
 			}
 
@@ -980,10 +980,11 @@ if($form->okay) {
 
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
 				$directlogin_link=$vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]]."reisagent.php";
+				$html.="<p>".html("tot6wekeninloggen-reisagent","factuur",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>","h_3"=>"<i>","h_4"=>"</i>"))."</p>";
 			} else {
-				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"),md5($db0->f("password_uc")));
+				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"));
+				$html.="<p>".html("tot6wekeninloggen","factuur",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>","h_3"=>"<i>","h_4"=>"</i>"))."</p>";
 			}
-			$html.="<p>".html("tot6wekeninloggen","factuur",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>","h_3"=>"<i>","h_4"=>"</i>","v_wachtwoord"=>$db0->f("password_uc"),"v_mailadres"=>$gegevens["stap2"]["email"]))."</p>";
 
 			if ($gegevens['stap1']['website'] === 'D') {
 				$html.="<p>".html("ingeslotenverzekeringsbewijs", "factuur", ['h_1' => '<a href="' . $gegevens['stap1']['website_specifiek']['basehref'] . html('menu_algemenevoorwaarden') . '.php#a7.9">', 'h_2' => '</a>']) . '</p>';

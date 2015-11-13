@@ -184,14 +184,14 @@ if($login->logged_in) {
 						}
 
 						if(($vars["acceptatie_testserver"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $mustlogin) {
-							$db2->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
-							if($db2->next_record() and $db2->f("password_uc")) {
+							$db2->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+							if($db2->next_record()) {
 
 								$directlogin = new directlogin;
 								$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
-								$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db2->f("user_id"),md5($db2->f("password_uc")));
+								$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db2->f("user_id"));
 
-								$directlogin_link2=$directlogin->maak_link($gegevens["stap1"]["website"],2,$db2->f("user_id"),md5($db2->f("password_uc")));
+								$directlogin_link2=$directlogin->maak_link($gegevens["stap1"]["website"],2,$db2->f("user_id"));
 
 								echo "<div class=\"opvalblok\">";
 								if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
@@ -337,8 +337,8 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 					}
 					// track login in Google Tag Manager
 					$google_tagmanager = new google_tagmanager;
-					echo $google_tagmanager->mijnboeking_login($login);	
-					
+					echo $google_tagmanager->mijnboeking_login($login);
+
 					echo "<p>".html("bekijken","bsys").":</p><ul class=\"mobile_list\">\n";
 					echo "<li><a href=\"".$path."bsys.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".lcfirst(html("samenstellingreissom","bsys"))."</a></li>";
 					echo "<li><a href=\"".$path."bsys.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".lcfirst(html("gegevensdeelnemers","bsys"))."</a></li>";
