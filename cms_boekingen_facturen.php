@@ -939,13 +939,14 @@ if($form->okay) {
 				$html.="<p>".html("beste","factuur")." ".wt_he(trim($naam)).",</p><p>".html("bedanktvoorjeboeking","factuur")." ".html("attachmentbevest","factuur")."</p>";
 			}
 
+			$directlogin = new directlogin;
+			$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
+
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
 				$directlogin_link=$vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]]."bsys.php?menu=3&reisbureaulogin=1&bid=".$gegevens["stap1"]["boekingid"];
 			} else {
 				$db0->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
 				if($db0->next_record() and $db0->f("password_uc")) {
-					$directlogin = new directlogin;
-					$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
 					$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],3,$db0->f("user_id"),md5($db0->f("password_uc")));
 				}
 			}
