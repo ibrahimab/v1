@@ -78,9 +78,9 @@ if($_GET["feed"]=="accommodaties") {
 
 	if($vars["seizoentype"]==1) {
 		if($vars["website"] == "D"){
-			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Soort accommodatie".wt_csvconvert_delimiter."Accommodatienaam".wt_csvconvert_delimiter."	".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."Accommodatie-URL".wt_csvconvert_delimiter."Klassering\n";
+			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Soort accommodatie".wt_csvconvert_delimiter."Accommodatienaam".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."Accommodatie-URL".wt_csvconvert_delimiter."Klassering\n";
 		} else {
-			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Soort accommodatie".wt_csvconvert_delimiter."Accommodatienaam".wt_csvconvert_delimiter."	".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."Accommodatie-URL".wt_csvconvert_delimiter."Afstand tot de piste".wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter."Klassering\n";
+			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Soort accommodatie".wt_csvconvert_delimiter."Accommodatienaam".wt_csvconvert_delimiter."Typenaam".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."Accommodatie-URL".wt_csvconvert_delimiter."Afstand tot de piste".wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter."Klassering\n";
 		}
 	} else {
 		echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Soort accommodatie".wt_csvconvert_delimiter."Accommodatienaam".wt_csvconvert_delimiter."Typenaam".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."Accommodatie-URL".wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter."Klassering\n";
@@ -96,27 +96,35 @@ if($_GET["feed"]=="accommodaties") {
 
 			// $accnaam=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "");
 			echo wt_csvconvert(utf8_encode($db->f("naam"))).wt_csvconvert_delimiter;
-			echo wt_csvconvert(utf8_encode($db->f("tnaam"))).wt_csvconvert_delimiter;
-
+			if($vars["website"] !== "D"){
+				echo wt_csvconvert(utf8_encode($db->f("tnaam"))).wt_csvconvert_delimiter;
+			}
 			echo wt_csvconvert($i).wt_csvconvert_delimiter;
 			echo wt_csvconvert(utf8_encode($vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/")).wt_csvconvert_delimiter;
 
 			if($vars["seizoentype"]==1) {
-				if($db->f("afstandpiste")) {
-					echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandpiste"),$db->f("afstandpisteextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
-				} else {
-					echo wt_csvconvert_delimiter;
-				}
+
+					if($db->f("afstandpiste")) {
+						if($vars["website"] !== "D") {
+							echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandpiste"),$db->f("afstandpisteextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
+						}
+					} else {
+						echo wt_csvconvert_delimiter;
+					}
 			}
 
 			if($db->f("afstandrestaurant")) {
-				echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandrestaurant"),$db->f("afstandrestaurantextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
+				if($vars["website"] !== "D"){
+					echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandrestaurant"),$db->f("afstandrestaurantextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
+				}
 			} else {
 				echo wt_csvconvert_delimiter;
 			}
 
 			if($db->f("afstandwinkel")) {
-				echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandwinkel"),$db->f("afstandwinkelextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
+				if($vars["website"] !== "D"){
+					echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandwinkel"),$db->f("afstandwinkelextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
+				}
 			} else {
 				echo wt_csvconvert_delimiter;
 			}
