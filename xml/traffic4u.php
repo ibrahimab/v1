@@ -103,14 +103,13 @@ if($_GET["feed"]=="accommodaties") {
 			echo wt_csvconvert(utf8_encode($vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/")).wt_csvconvert_delimiter;
 
 			if($vars["seizoentype"]==1) {
-
-					if($db->f("afstandpiste")) {
-						if($vars["website"] !== "D") {
-							echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandpiste"),$db->f("afstandpisteextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
-						}
-					} else {
-						echo wt_csvconvert_delimiter;
+				if($db->f("afstandpiste")) {
+					if($vars["website"] !== "D") {
+						echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandpiste"),$db->f("afstandpisteextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
 					}
+				} else {
+					echo wt_csvconvert_delimiter;
+				}
 			}
 
 			if($db->f("afstandrestaurant")) {
