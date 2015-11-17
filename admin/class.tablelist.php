@@ -123,6 +123,14 @@ class tablelist {
 			} else {
 				$sortvalue=$value;
 			}
+
+			if (!empty($options["html"])) {
+
+				// when content is html: sort without html-tags
+				$sortvalue = strip_tags($sortvalue);
+
+			}
+
 		}
 		$sortvalue=strtolower($sortvalue);
 		if($datetime) {
@@ -442,5 +450,3 @@ class tablelist {
 		return true;
 	}
 }
-
-?>

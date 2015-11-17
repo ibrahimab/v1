@@ -324,5 +324,3 @@ $cms->end_declaration();
 
 # Vormgeving weergeven
 $layout->display_all($cms->page_title);
-
-?>
