@@ -8419,3 +8419,44 @@ Employees [[v_website]]
 Phone: +31 (0)348 - 43 46 49";
 
 #$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
+
+#xml feeds from traffic4u
+$txt["nl"]["traffic4u"]["land"]="Land";
+$txt["de"]["traffic4u"]["land"]="Land";
+$txt["en"]["traffic4u"]["land"]="Country";
+
+$txt["nl"]["traffic4u"]["skiegebied"]="Skiegebied";
+$txt["de"]["traffic4u"]["skiegebied"]="Skigebiet";
+$txt["en"]["traffic4u"]["skiegebied"]="Ski region";
+
+$txt["nl"]["traffic4u"]["plaats"]="Plaats";
+$txt["de"]["traffic4u"]["plaats"]="Ort";
+$txt["en"]["traffic4u"]["plaats"]="Place";
+
+$txt["nl"]["traffic4u"]["soortaccommodatie"]="Soort accommodatie";
+$txt["de"]["traffic4u"]["soortaccommodatie"]="Unterkunftstyp";
+$txt["en"]["traffic4u"]["soortaccommodatie"]="Type of accommodation";
+
+$txt["nl"]["traffic4u"]["accommodatienaam"]="Accommodatienaam";
+$txt["de"]["traffic4u"]["accommodatienaam"]="Unterkunftsname";
+$txt["en"]["traffic4u"]["accommodatienaam"]="Accommodation Name";
+
+$txt["nl"]["traffic4u"]["aantalpersonen"]="Aantal personen";
+$txt["de"]["traffic4u"]["aantalpersonen"]="Personenzahl";
+$txt["en"]["traffic4u"]["aantalpersonen"]="Number of persons";
+
+$txt["nl"]["traffic4u"]["accommodatie_url"]="Accommodatie-URL";
+$txt["de"]["traffic4u"]["accommodatie_url"]="Unterkunft-URL";
+$txt["en"]["traffic4u"]["accommodatie_url"]="Accommodation-URL";
+
+$txt["nl"]["traffic4u"]["klassering"]="Klassering";
+$txt["de"]["traffic4u"]["klassering"]="Wertung";
+$txt["en"]["traffic4u"]["klassering"]="Classification";
+
+$txt["nl"]["traffic4u"]["regio"]="Regio";
+$txt["de"]["traffic4u"]["regio"]="Region";
+$txt["en"]["traffic4u"]["regio"]="Region";
+
+
+
+
