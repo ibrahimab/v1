@@ -527,6 +527,7 @@ if(($huidig_uur==2 and date("w")==1) or $argv[1]=="traffic4u") {
 		"feed_traffic4u_aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=aantal-personen&nocache=1",
 		"feed_traffic4u_bestemmingen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
 		"feed_traffic4u_bestemmingen-aantal-personen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
+		"feed-traffic4u_bestemmingen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen&nocache=1"
 	);
 
 	ini_set("default_socket_timeout",7200);

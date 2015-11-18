@@ -51,8 +51,8 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	# UTF-8 BOM
 	echo "\xEF\xBB\xBF";
 } elseif(!$_GET["nocache"] and ($_GET["feed"]=="bestemmingen" or $_GET["feed"]=="bestemmingen-aantal-personen" or $_GET["feed"]=="land-aantal-personen" or $_GET["feed"]=="aantal-personen")) {
-	header("Content-Type: application/octet-stream; charset=utf-8");
-	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
+	//header("Content-Type: application/octet-stream; charset=utf-8");
+	//header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 	$content=file_get_contents($cachefile);
 	echo $content;
 	exit;
@@ -185,9 +185,9 @@ if($_GET["feed"]=="accommodaties") {
 		}
 
 		if($_GET["feed"]=="bestemmingen-aantal-personen") {
-			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."URL skigebied + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties skigebied + aantal personen".wt_csvconvert_delimiter."URL plaats + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties plaats + aantal personen\n";
+			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt('skiegebied', 'traffic4u').wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('aantalpersonen', 'traffic4u').wt_csvconvert_delimiter."URL skigebied + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties skigebied + aantal personen".wt_csvconvert_delimiter."URL plaats + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties plaats + aantal personen\n";
 		} else {
-			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL skigebied".wt_csvconvert_delimiter."URL plaats".wt_csvconvert_delimiter."URL skigebied + thema".wt_csvconvert_delimiter."Aantal accommodaties skigebied + thema".wt_csvconvert_delimiter."URL plaats + thema".wt_csvconvert_delimiter."Aantal accommodaties plaats + thema\n";
+			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt('skiegebied', 'traffic4u').wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('thema', 'traffic4u').wt_csvconvert_delimiter."URL skigebied".wt_csvconvert_delimiter."URL plaats".wt_csvconvert_delimiter."URL skigebied + thema".wt_csvconvert_delimiter."Aantal accommodaties skigebied + thema".wt_csvconvert_delimiter."URL plaats + thema".wt_csvconvert_delimiter."Aantal accommodaties plaats + thema\n";
 		}
 
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
@@ -228,7 +228,7 @@ if($_GET["feed"]=="accommodaties") {
 			echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL regio".wt_csvconvert_delimiter."URL regio + thema".wt_csvconvert_delimiter."Aantal accommodaties regio + thema\n";
 		}
 
-		$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id;");
+		$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied" . $vars['ttv'] . " AS skiegebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id;");
 		// $db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND skigebied_id IN (124);");
 
 	}

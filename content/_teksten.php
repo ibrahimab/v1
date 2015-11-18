@@ -8542,6 +8542,10 @@ $txt["nl"]["traffic4u"]["regio"]="Regio";
 $txt["de"]["traffic4u"]["regio"]="Region";
 $txt["en"]["traffic4u"]["regio"]="Region";
 
+$txta["nl"]["traffic4u"]["thema"]="Thema";
+$txta["de"]["traffic4u"]["thema"]="Thema";
+$txta["en"]["traffic4u"]["thema"]="theme";
+
 
 #$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
 
