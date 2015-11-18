@@ -19,6 +19,8 @@ if($_SERVER["HTTP_HOST"]) {
 	echo "<pre>";
 } elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/elkuur.php") {
 	$unixdir="/home/webtastic/html/chalet/";
+} else if (defined('wt_test') && wt_test === true) {
+	$unixdir = dirname(dirname(__FILE__)) . '/';
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
 #	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
