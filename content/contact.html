@@ -80,11 +80,14 @@ if($_GET["fo"]=="frm") {
 		echo "30209634";
 		echo "</td>";
 		echo "</tr>";
-		if($vars["websiteland"]=="nl") {
+
+		if (in_array($vars['website'], $vars['sgr']) || in_array($vars['website'], $vars['sgr_c'])) {
+
 			echo "<td>SGR:</td><td>";
 			echo "3199";
 			echo "</td>";
 		}
+
 		echo "</p>";
 		echo "</tr>";
 		echo "<tr>";
