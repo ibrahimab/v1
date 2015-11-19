@@ -1343,7 +1343,7 @@ $txt["nl"]["index"]["waarom6"]="Lid SGR-Garantiefonds";
 $txt["de"]["index"]["waarom6"]="-";
 $txt["en"]["index"]["waarom6"]="-";
 
-$txt["nl_b"]["index"]["waarom6"]="-";
+$txt["nl_b"]["index"]["waarom6"]="Lid SGR-Garantiefonds";
 $txt["en_b"]["index"]["waarom6"]="-";
 
 $txt["nl"]["index"]["waarom7"]="Uniek aanbod";

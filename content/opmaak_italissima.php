@@ -389,10 +389,15 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<li>".html("waarom3", "index")."</li>";
 		echo "<li>".html("waarom5", "index")."</li>";
 		echo "<li>".html("waarom8", "index", ['v_jaar' => calculateDiffYear($vars['oprichting_chalet'])])."</li>";
-		if($vars["website"]=="I") {
-			# SGR
-			echo "<li>Lid SGR-Garantiefonds</li>";
+
+		if (in_array($vars['website'], $vars['sgr']) || in_array($vars['website'], $vars['sgr_c'])) {
+
+			$sgrText = html('waarom6', 'index');
+			if ($sgrText !== '-') {
+				echo '<li>' . $sgrText . '</li>';
+			}
 		}
+
 		echo "</ul></div>"; # afsluiten naamloze div
 		echo "</a>\n"; # afsluiten hoofdpagina_waarom
 	}
