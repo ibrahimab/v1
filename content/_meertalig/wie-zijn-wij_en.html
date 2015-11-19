@@ -1,27 +1,40 @@
-<?php
+<?php if ($vars['website'] === 'H') : ?>
 
-if($vars["website"]=="H") {
-	echo "Italyhomes is a trademark of Chalet.nl B.V. ";
-}
+	Italyhomes is a trademark of Chalet.nl B.V.
 
-?>Chalet.nl is an independent tour operator specialized in the rental of detached chalets and luxurious apartments from 2 until 50 persons in France, Austria, Switzerland, Italy and Germany.
+<?php endif; ?>
+
+Chalet.nl is an independent tour operator specialized in the rental of detached chalets and luxurious apartments from 2 until 50 persons in France, Austria, Switzerland, Italy and Germany.
+
 <p>
-The organisation was founded in 1999 as a sole proprietorship and has grown to a fully fledged travel company with a team of twenty-two people. We are located in Woerden, in the province of Utrecht in the Netherlands.
-<p>
+	The organisation was founded in 1999 as a sole proprietorship and has grown to a fully fledged travel company with a team of twenty-two people. We are located in Woerden, in the province of Utrecht in the Netherlands.
+
+	<?php if (in_array($vars['website'], $vars['sgr']) || in_array($vars['website'], $vars['sgr_c'])) : ?>
+
+		Chalet.nl is a member of the SGR.
+
+	<?php endif; ?>
+</p>
 
 <?php if (in_array($vars['website'], ['H'])) : ?>
-Reservations can be made via our website or by telephone. Our winter sports programme can be found on <a href="https://www.chalet.eu">Chalet.eu</a>
+
+	<p>Reservations can be made via our website or by telephone. Our winter sports programme can be found on <a href="https://www.chalet.eu">Chalet.eu</a></p>
+
 <?php endif; ?>
 
 <?php if (in_array($vars['website'], ['E'])) : ?>
-Reservations can be made via our website or by telephone. Our summer programme can be found on <a href="https://www.italyhomes.eu">Italyhomes.eu</a>
+
+	<p>Reservations can be made via our website or by telephone. Our summer programme can be found on <a href="https://www.italyhomes.eu">Italyhomes.eu</a></p>
+
 <?php endif; ?>
 
 <p>
-<h2>The keyword is specialization</h2>
-Chalet.nl doesn't go for the mass tourism. Specialization is what we choose for. Winter sports enthusiasts can come to us for a winter holiday in a chalet or a luxurious apartment in one of the Alpine countries. If desired we can include ski passes, ski equipment catering and other extra options. Our sales department has an extensive knowledge of the various destinations in our programme and personally visit most accommodations.
-<p>
-<h2>High quality of service</h2>
-Our quality of service and a personal approach is our has a very high priority. Give us your wishes, and we will find you the best suitable accommodation. If you want to make changes after booking? We will make them free of charge up to at least four weeks before your departure.<br/>
+	<h2>The keyword is specialization</h2>
+	Chalet.nl doesn't go for the mass tourism. Specialization is what we choose for. Winter sports enthusiasts can come to us for a winter holiday in a chalet or a luxurious apartment in one of the Alpine countries. If desired we can include ski passes, ski equipment catering and other extra options. Our sales department has an extensive knowledge of the various destinations in our programme and personally visit most accommodations.
+</p>
 
-Do not hesitate to <a href="contact.php">reach us by phone, chat or e-mail</a>.
+<p>
+	<h2>High quality of service</h2>
+	Our quality of service and a personal approach is our has a very high priority. Give us your wishes, and we will find you the best suitable accommodation. If you want to make changes after booking? We will make them free of charge up to at least four weeks before your departure. <br />
+	Do not hesitate to <a href="contact.php">reach us by phone, chat or e-mail</a>.
+</p>
