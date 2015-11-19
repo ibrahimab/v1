@@ -795,6 +795,10 @@ if($form->okay) {
 			}
 		}
 
+		if (in_array($gegevens['stap1']['website'], $vars['sgr']) && $pdf->GetY()>225) {
+			$pdf->AddPage();
+		}
+
 		$y=$pdf->GetY();
 		$pdf->SetY($y);
 		$pdf->MultiCell(125,4,txt("metvriendelijkegroet","factuur")."\n\n".txt("medewerkerswebsitenaam","factuur",array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"])));
@@ -830,6 +834,19 @@ if($form->okay) {
 
 			$pdf->Cell(10, 4, '', 0, 0, 'L', 0);
 			$pdf->MultiCell(179, 4, txt('calamiteitenfonds', 'factuur'));
+		}
+
+		if (in_array($gegevens['stap1']['website'], $vars['sgr'])) {
+
+			# SGR-tekst
+			$pdf->Ln();
+
+			$img_y = $pdf->GetY();
+
+			$pdf->Image('pic/factuur_sgr.png',11,$img_y+2,7);
+			$pdf->Cell(10,4,"",0,0,'L',0);
+
+			$pdf->MultiCell(179,4,txt("sgr","factuur"));
 		}
 
 		$pdf->Ln();
