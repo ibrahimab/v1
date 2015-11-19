@@ -198,8 +198,13 @@ if($last_acc and $id<>"saved") {
 }
 
 echo "<div class=\"paymenticons\" id=\"sgr_logo\">";
-if($vars["website"]=="V") {
+
+if (in_array($vars['website'], $vars['anvr']) && in_array($vars['website'], $vars['sgr_c'])) {
     echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" height=\"27\" style=\"border:0;\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+}
+
+if (in_array($vars['website'], $vars['sgr'])) {
+	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" height=\"27\" alt=\"SGR\" /></a>";
 }
 
 # Docdata payment logos

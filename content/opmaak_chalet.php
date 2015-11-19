@@ -308,10 +308,17 @@ echo "</div><!--END #hoofdmenu-->\n";
 
 
 echo "<div class=\"paymenticons\" id=\"kleinelogos\">";
+
 if (in_array($vars['website'], $vars['anvr']) && in_array($vars['website'], $vars['sgr_c'])) {
 	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/anvr_sgr_calamiteitenfonds_hoofdmenu.png\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
-} elseif (in_array($vars['website'], $vars['anvr']) && !in_array($vars['website'], $vars['sgr_c'])) {
+}
+
+if (in_array($vars['website'], $vars['anvr']) && !in_array($vars['website'], $vars['sgr_c'])) {
 	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/anvr_hoofdmenu.png\" height=\"27\" alt=\"ANVR\" /></a>";
+}
+
+if (in_array($vars['website'], $vars['sgr'])) {
+	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" height=\"27\" alt=\"SGR\" /></a>";
 }
 
 if($vars["docdata_payments"]) {
