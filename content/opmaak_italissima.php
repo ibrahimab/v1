@@ -275,7 +275,7 @@ if (in_array($vars['website'], $vars['anvr']) && !in_array($vars['website'], $va
 }
 
 if (in_array($vars['website'], $vars['sgr'])) {
-	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" height=\"27\" alt=\"SGR\" /></a>";
+	echo "<a href=\"".$vars["path"].txt("menu_voorwaarden").".php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" height=\"27\" alt=\"SGR\" /></a>";
 }
 
 

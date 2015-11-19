@@ -102,7 +102,7 @@ $txta["en"]["menu_algemenevoorwaarden"]="conditions";
 
 $txta["nl"]["menu_voorwaarden"]="voorwaarden";
 $txta["de"]["menu_voorwaarden"]="-";
-$txta["en"]["menu_voorwaarden"]="-";
+$txta["en"]["menu_voorwaarden"]="conditions";
 
 $txta["nl"]["menu_aanvullendevoorwaarden"]="aanvullendevoorwaarden";
 $txta["de"]["menu_aanvullendevoorwaarden"]="-";
