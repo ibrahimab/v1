@@ -51,8 +51,8 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	# UTF-8 BOM
 	echo "\xEF\xBB\xBF";
 } elseif(!$_GET["nocache"] and ($_GET["feed"]=="bestemmingen" or $_GET["feed"]=="bestemmingen-aantal-personen" or $_GET["feed"]=="land-aantal-personen" or $_GET["feed"]=="aantal-personen")) {
-	//header("Content-Type: application/octet-stream; charset=utf-8");
-	//header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
+	header("Content-Type: application/octet-stream; charset=utf-8");
+	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 	$content=file_get_contents($cachefile);
 	echo $content;
 	exit;
@@ -191,9 +191,9 @@ if($_GET["feed"]=="accommodaties") {
 		}
 
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-			$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND skigebied_id=2 ORDER BY skigebied_id, plaats_id;");
+			$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND skigebied_id=2 ORDER BY skigebied_id, plaats_id;");
 		} else {
-			$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id, plaats_id;");
+			$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id, plaats_id;");
 		}
 
 	} else {
