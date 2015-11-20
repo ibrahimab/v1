@@ -5,6 +5,8 @@
     Als je bij ons een boeking maakt betekent het dat je akkoord gaat met de <a href="<?php echo $vars['path'] . txt('menu_aanvullendevoorwaarden') . '.php'; ?>">voorwaarden</a> van Chalet.nl B.V. (KvK 30209634) en de <a href="<?php echo $vars['path'] . 'pdf/ANVR_voorwaarden.pdf'; ?>" target="_blank"><img src="pic/pdflogo.gif" width="18" height="18" border="0" style="padding-right: 5px;" />ANVR-reisvoorwaarden</a>.
 </p>
 
+<?php if (in_array($vars['website'], $vars['anvr'])) : ?>
+
 <p>
     <b>ANVR</b><br />
     Wij zijn aangesloten bij de ANVR. Deze vereniging hanteert strenge normen voor het lidmaatschap en bevordert de kwaliteit van reizen en van de informatie daarover.
@@ -12,11 +14,18 @@
 <p>De reizen op deze website worden aangeboden onder het beding dat de ANVR-Consumentenvoorwaarden (Deel A: Reisvoorwaarden) van toepassing zijn op alle aanbiedingen op deze website tenzij uitdrukkelijk wordt aangegeven dat dit niet het geval is.</p>
 <p>Op het boekingsformulier dien je aan te vinken dat je kennis hebt genomen van en akkoord gaat met de ANVR-Consumentenvoorwaarden (Deel A: Reisvoorwaarden) en overige ANVR-informatie.</p>
 
-<?php if (in_array($vars['website'], $vars['anvr']) && in_array($vars['website'], $vars['sgr_c'])) : ?>
+<?php endif; ?>
+
+<?php if (in_array($vars['website'], $vars['sgr']) || in_array($vars['website'], $vars['sgr_c'])) : ?>
+
 <p>
     <b>Stichting Garantiefonds Reisgelden</b><br />
-    Wij zijn aangesloten bij de SGR. Binnen de grenzen van de <a href="https://www.sgr.nl/garantieregeling" target="_blank">SGR-garantieregeling</a> vallen de in dit programma gepubliceerde reizen onder de garantie van SGR. De SGR-garantie is alleen van toepassing op in Nederland woonachtige reizigers, en houdt in dat de consument ervan verzekerd is zijn vooruitbetaalde reisgeld terug te krijgen, als de wederpartij door financieel onvermogen de overeengekomen tegenprestatie niet kan nakomen. Voor zover de overeenkomst mede het vervoer omvat en de plaats van bestemming reeds is bereikt, wordt zorggedragen voor de terugreis.
+    Wij zijn aangesloten bij de SGR. Binnen de grenzen van de <a href="https://www.sgr.nl/garantieregeling" target="_blank">SGR-garantieregeling</a> vallen de in dit programma gepubliceerde reizen onder de garantie van SGR. De SGR-garantie is alleen van toepassing op in Nederland, Belgi&euml; en het Verenigd Koninkrijk van Groot-Brittanni&euml; en Noord-Ierland woonachtige reizigers, en houdt in dat de consument ervan verzekerd is zijn vooruitbetaalde reisgeld terug te krijgen, als de wederpartij door financieel onvermogen de overeengekomen tegenprestatie niet kan nakomen. Voor zover de overeenkomst mede het vervoer omvat en de plaats van bestemming reeds is bereikt, wordt zorggedragen voor de terugreis.
 </p>
+
+<?php endif; ?>
+
+<?php if (in_array($vars['website'], $vars['sgr_c'])) : ?>
 
 <p>
     <b>Calamiteitenfonds</b><br />
@@ -28,4 +37,5 @@
     </ul><br />
     Onder calamiteit wordt verstaan een door molest of natuurramp veroorzaakte abnormale gebeurtenis.
 </p>
+
 <?php endif; ?>

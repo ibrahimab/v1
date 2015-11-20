@@ -1343,7 +1343,7 @@ $txt["nl"]["index"]["waarom6"]="Lid SGR-Garantiefonds";
 $txt["de"]["index"]["waarom6"]="-";
 $txt["en"]["index"]["waarom6"]="-";
 
-$txt["nl_b"]["index"]["waarom6"]="-";
+$txt["nl_b"]["index"]["waarom6"]="Lid SGR-Garantiefonds";
 $txt["en_b"]["index"]["waarom6"]="-";
 
 $txt["nl"]["index"]["waarom7"]="Uniek aanbod";
@@ -6714,7 +6714,7 @@ $txt["en"]["factuur"]["opdezeovereenkomstalgvoorwaarden"]="This agreement is sub
 
 $txt["nl"]["factuur"]["sgr"]="Op deze overeenkomst zijn de voorwaarden van de garantieregeling van de Stichting Garantiefonds Reisgelden (SGR), gevestigd te Rotterdam, Admiraliteitskade 40, 3063 ED, mede van toepassing. Deze voorwaarden liggen bij SGR ter inzage, zijn gedeponeerd ter Griffie van de rechtbank te Rotterdam, alsmede bij de Kamer van Koophandel te Rotterdam, worden op verzoek aan SGR onverwijld kosteloos toegezonden en zijn te vinden op www.sgr.nl.";
 $txt["de"]["factuur"]["sgr"]="Für diesen Reisevertrag gelten die Bedingungen der Stichting Garantiefonds Reisgelden (SGR), Admiraliteitskade 40, 3063 ED Rotterdam. Dieser Fonds ist mit dem in Deutschland bekannten Sicherungsschein zu vergleichen. Die SGR Bürgschaftsfazilität ermöglicht, dass der Reisende über eine Gewährleistung verfügt, die die Rückzahlung der Anzahlung an den Reiseveranstalter auch dann garantiert, wenn der Reiseveranstalter finanziell nicht in der Lage ist, die vereinbarte Dienstleistung auszuführen. Siehe www.sgr.nl";
-$txt["en"]["factuur"]["sgr"]="-";
+$txt["en"]["factuur"]["sgr"]="This agreement is subject to SGR's guarantee scheme. The terms and conditions of this guarantee can be found on www.sgr.nl/guaranteescheme. SGR will be happy to send you a printed copy of the terms and conditions upon request, free of charge.";
 
 $txt["nl"]["factuur"]["calamiteitenfonds"]="Op deze overeenkomst zijn de voorwaarden van de garantieregeling van de Stichting Calamiteitenfonds Reizen, gevestigd te Rotterdam, mede van toepassing. Deze voorwaarden liggen bij het Calamiteitenfonds ter inzage, zijn gedeponeerd ter Griffie van de rechtbank te Rotterdam, alsmede bij de Kamer van Koophandel te Rotterdam, worden op verzoek aan het Calamiteitenfonds onverwijld kosteloos toegezonden en zijn te vinden op www.calamiteitenfonds.nl.";
 $txt["de"]["factuur"]["calamiteitenfonds"]="-";
