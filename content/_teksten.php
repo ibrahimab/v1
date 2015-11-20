@@ -5949,9 +5949,9 @@ $txt["nl"]["bsys"]["andereboeking"]="andere boeking";
 $txt["de"]["bsys"]["andereboeking"]="andere Buchung";
 $txt["en"]["bsys"]["andereboeking"]="other booking";
 
-$txt["nl"]["bsys"]["inleiding"]="Welkom bij \"Mijn boeking\" van [[v_websitenaam]]. Via dit systeem kun je de gegevens van je boekingen bij [[v_websitenaam]] inzien en wijzigen.";
-$txt["de"]["bsys"]["inleiding"]="Wilkommen bei \"Meine Buchung\" von [[v_websitenaam]]. Über dieses System können Sie die Daten Ihrer Buchung bei [[v_websitenaam]] einsehen und ändern.";
-$txt["en"]["bsys"]["inleiding"]="Welcome to \"My booking\" of [[v_websitenaam]]. This system allows you to view and change the details of your booking with [[v_websitenaam]].";
+$txt["nl"]["bsys"]["inleiding"]="Welkom bij \"Mijn boeking\" van [[v_websitenaam]]. Hier kun je de gegevens van je boeking inzien en aanpassen. Deze worden door ons verwerkt, en daarna binnen één werkdag bevestigd via een aangepaste factuur.";
+$txt["de"]["bsys"]["inleiding"]="Wilkommen bei \"Meine Buchung\" von [[v_websitenaam]]. Hier können Sie die Daten Ihrer Buchung einsehen und ändern. Die Änderungen werden wir verarbeiten, und innerhalb eines Werktages erhalten Sie eine neue Rechnung.";
+$txt["en"]["bsys"]["inleiding"]="Welcome to \"My booking\" of [[v_websitenaam]]. Here you can view and change the details of your booking. These are manually processed and confirmed within one working day via an amended invoice.";
 
 $txt["nl"]["bsys"]["aanvraagmoetnogbevestigdworden"]="Deze aanvraag moet nog door [[v_websitenaam]] bevestigd worden";
 $txt["de"]["bsys"]["aanvraagmoetnogbevestigdworden"]="Diese Anfrage muss noch von [[v_websitenaam]] bestätigt werden.";
