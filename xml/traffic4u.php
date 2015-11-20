@@ -54,8 +54,8 @@ if($vars["lokale_testserver"]) {
 	echo "<pre>";
 
 } elseif(!$_GET["nocache"] and ($_GET["feed"]=="bestemmingen" or $_GET["feed"]=="bestemmingen-aantal-personen" or $_GET["feed"]=="land-aantal-personen" or $_GET["feed"]=="aantal-personen")) {
-	header("Content-Type: application/octet-stream; charset=utf-8");
-	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
+	//header("Content-Type: application/octet-stream; charset=utf-8");
+	// header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 	$content=file_get_contents($cachefile);
 	echo $content;
 	exit;
@@ -190,7 +190,7 @@ if($_GET["feed"]=="accommodaties") {
 		if($_GET["feed"]=="bestemmingen-aantal-personen") {
 			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt('skiegebied', 'traffic4u').wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('aantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('url_skigebied_aantaalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('aantalaccommodatiesskigebied_aantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('url_plaatsaantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('aantalaccommodatiesplaats_aantalpersonen', 'traffic4u')."\n";
 		} else {
-			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt('skiegebied', 'traffic4u').wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('thema', 'traffic4u').wt_csvconvert_delimiter.txt('url_skigebied', 'traffic4u').wt_csvconvert_delimiter.txt('url_plaats', 'traffic4u').wt_csvconvert_delimiter.txt('url_skigebiedthema', 'traffic4u').wt_csvconvert_delimiter."Aantal accommodaties skigebied + thema".wt_csvconvert_delimiter.txt('url_plaatsthema', 'traffic4u').wt_csvconvert_delimiter."Aantal accommodaties plaats + thema"."\n";
+			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt('skiegebied', 'traffic4u').wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('thema', 'traffic4u').wt_csvconvert_delimiter.txt('url_skigebied', 'traffic4u').wt_csvconvert_delimiter.txt('url_plaats', 'traffic4u').wt_csvconvert_delimiter.txt('url_skigebiedthema', 'traffic4u').wt_csvconvert_delimiter.txt('aantalaccommodatiesskigebied_thema', 'traffic4u').wt_csvconvert_delimiter.txt('url_plaatsthema', 'traffic4u').wt_csvconvert_delimiter.txt('aantalaccommodatiesplaats_thema', 'traffic4u')."\n";
 		}
 
 		if($vars["lokale_testserver"]) {
@@ -386,7 +386,7 @@ if($_GET["feed"]=="accommodaties") {
 
 	echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt("aantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("url_land_aantaalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("aantalaccommodatiesland_aantalpersonen", "traffic4u")."\n";
 
-	$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY land;");
+	$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY land;");
 	$result_teller=0;
 	while($db4->next_record()) {
 
@@ -468,7 +468,7 @@ if($_GET["feed"]=="accommodaties") {
 		"fap=40"=>"40"
 	);
 
-	echo txt("aantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("aantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("aantalaccommodatiesaantalpersonen", "traffic4u")."\n";
+	echo txt("aantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("url_aantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("aantalaccommodatiesaantalpersonen", "traffic4u")."\n";
 
 	reset($doorloop_array);
 	foreach ($doorloop_array as $key99 => $value99) {
