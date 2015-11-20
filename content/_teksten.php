@@ -8583,12 +8583,11 @@ $txta["nl"]["traffic4u"]["url_regiothema"]="URL regio + thema";
 $txta["de"]["traffic4u"]["url_regiothema"]="URL region + thema";
 $txta["en"]["traffic4u"]["url_regiothema"]="URL region + theme";
 
-$txta["nl"]["traffic4u"]["url_skigebiedthema"]="URL skigebied + thema"
+$txta["nl"]["traffic4u"]["url_skigebiedthema"]="URL skigebied + thema";
 $txta["de"]["traffic4u"]["url_skigebiedthema"]="URL skigebiet + thema";
 $txta["en"]["traffic4u"]["url_skigebiedthema"]="URL ski region + theme";
 
-
-$txta["nl"]["traffic4u"]["url_plaatsthema"]="URL plaats + thema"
+$txta["nl"]["traffic4u"]["url_plaatsthema"]="URL plaats + thema";
 $txta["de"]["traffic4u"]["url_plaatsthema"]="URL ort + thema";
 $txta["en"]["traffic4u"]["url_plaatsthema"]="URL place + theme";
 
