@@ -54,8 +54,8 @@ if($vars["lokale_testserver"]) {
 	echo "<pre>";
 
 } elseif(!$_GET["nocache"] and ($_GET["feed"]=="bestemmingen" or $_GET["feed"]=="bestemmingen-aantal-personen" or $_GET["feed"]=="land-aantal-personen" or $_GET["feed"]=="aantal-personen")) {
-	//header("Content-Type: application/octet-stream; charset=utf-8");
-	// header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
+	header("Content-Type: application/octet-stream; charset=utf-8");
+	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 	$content=file_get_contents($cachefile);
 	echo $content;
 	exit;
