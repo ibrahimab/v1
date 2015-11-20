@@ -6213,6 +6213,10 @@ $txt["nl"]["bsys"]["factuur"]="Factuur";
 $txt["de"]["bsys"]["factuur"]="Rechnung";
 $txt["en"]["bsys"]["factuur"]="Invoice";
 
+$txt["nl"]["bsys"]["laatst-verzonden-factuur"]="Laatst verzonden factuur";
+$txt["de"]["bsys"]["laatst-verzonden-factuur"]="Letzte Rechnung geschickt";
+$txt["en"]["bsys"]["laatst-verzonden-factuur"]="Most recently sent invoice";
+
 $txt["nl"]["bsys"]["factuur_mobile"]="Factuur downloaden als pdf";
 $txt["de"]["bsys"]["factuur_mobile"]="Rechnung als PDF downloaden";
 $txt["en"]["bsys"]["factuur_mobile"]="Download invoice as PDF";

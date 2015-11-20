@@ -347,7 +347,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 							echo "<li><a href=\"".$path."bsys.php?menu=3&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("factuurgoedkeuren","bsys")."</a></li>";
 						} else {
 							# link naar "factuur"
-							echo "<li><a href=\"".$path."bsys.php?laatstefactuur=1&bid=".$gegevens["stap1"]["boekingid"]."\" target=\"_blank\">".html("factuur","bsys")."</a></li>";
+							echo "<li><a href=\"".$path."bsys.php?laatstefactuur=1&bid=".$gegevens["stap1"]["boekingid"]."\" target=\"_blank\">".html("laatst-verzonden-factuur","bsys")."</a></li>";
 						}
 					}
 
@@ -478,13 +478,13 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 				}
 				echo "</table><br />";
                 if ($mustlogin) {
-                    
-                    $db2->query("SELECT leverancier_id, naam, contactpersoon_reserveringen AS contactpersoon, email_reserveringen AS email, telefoonnummer_reserveringen AS telefoonnummer 
-                                 FROM leverancier 
+
+                    $db2->query("SELECT leverancier_id, naam, contactpersoon_reserveringen AS contactpersoon, email_reserveringen AS email, telefoonnummer_reserveringen AS telefoonnummer
+                                 FROM leverancier
                                  WHERE leverancier_id='".addslashes($gegevens["stap1"]["leverancierid"])."';");
-                                 
+
                     if ($db2->next_record()) {
-                        
+
                         $table  = '<table cellspacing="0" class="toonacctabel">';
                         $table .=     '<tr><th colspan="2">' . html('leveranciersgegevens', 'bsys') . '</th></tr>';
                         $table .=     '<tr><td width="100">' . html('leverancier', 'bsys') . '</td><td><a href="' . $vars['path'] . 'cms_leveranciers.php?show=8&bc=&8k0=' . $db2->f('leverancier_id') . '">' . $db2->f('naam') . '</a></td></tr>';
@@ -492,7 +492,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						$table .=     '<tr><td>' . html('telefoonnummerleverancier', 'bsys') . '</td><td>' . $db2->f('telefoonnummer') . '</td></tr>';
                         $table .=     '<tr><td>' . html('emailleverancier', 'bsys') . '</td><td><a href="mailto:' . $db2->f('email') . '">' . $db2->f('email') . '</a></td></tr>';
                         $table .= '</table>';
-                        
+
                         echo $table;
                     }
                 }
