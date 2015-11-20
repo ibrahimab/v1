@@ -6,8 +6,9 @@
 #
 # /usr/bin/php /var/www/chalet.nl/html/cron/elkuur.php test
 #
-
-
+// exit('test');
+//var_dump(file_get_contents('http://local.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1'));
+exit;
 set_time_limit(0);
 if($argv[1]=="test" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
@@ -523,21 +524,21 @@ if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 # handmatig starten: /usr/bin/php /var/www/chalet.nl/html/cron/elkuur.php traffic4u
 if(($huidig_uur==2 and date("w")==1) or $argv[1]=="traffic4u") {
 	$doorloop_array=array(
-		"feed_traffic4u_bestemmingen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
-		"feed_traffic4u_bestemmingen-aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
-		"feed_traffic4u_land-aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=land-aantal-personen&nocache=1",
-		"feed_traffic4u_aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=aantal-personen&nocache=1",
-		"feed_traffic4u_bestemmingen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
-		"feed_traffic4u_bestemmingen-aantal-personen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
-		"feed-traffic4u_bestemmingen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen&nocache=1",
-		"feed-traffic4u_bestemmingen-aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
-		"feed-traffic4u_land-aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=land-aantal-personen&nocache=1",
-		"feed-traffic4u_aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=aantal-personen&nocache=1"
+		"feed_traffic4u_bestemmingen_C"=>"?feed=bestemmingen&nocache=1",
+		"feed_traffic4u_bestemmingen-aantal-personen_C"=>"?feed=bestemmingen-aantal-personen&nocache=1",
+		"feed_traffic4u_land-aantal-personen_C"=>"?feed=land-aantal-personen&nocache=1",
+		"feed_traffic4u_aantal-personen_C"=>"?feed=aantal-personen&nocache=1",
+		"feed_traffic4u_bestemmingen_I"=>"?feed=bestemmingen&nocache=1",
+		"feed_traffic4u_bestemmingen-aantal-personen_I"=>"?feed=bestemmingen-aantal-personen&nocache=1",
+		"feed_traffic4u_bestemmingen_D"=>"?feed=bestemmingen&nocache=1",
+		"feed_traffic4u_bestemmingen-aantal-personen_D"=>"?feed=bestemmingen-aantal-personen&nocache=1",
+		"feed_traffic4u_land-aantal-personen_D"=>"?feed=land-aantal-personen&nocache=1",
+		"feed_traffic4u_aantal-personen_D"=>"?feed=aantal-personen&nocache=1"
 	);
 
 	ini_set("default_socket_timeout",7200);
 	while(list($key,$value)=each($doorloop_array)) {
-		$feed=file_get_contents($value);
+		$feed=file_get_contents('http://local.chalet.nl/xml/traffic4u.php' . $value);
 		$filename=$unixdir."cache/".$key.".csv";
 		if(strlen($feed)>10) {
 			save_data_to_file($filename,$feed);
