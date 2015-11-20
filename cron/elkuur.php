@@ -19,6 +19,8 @@ if($_SERVER["HTTP_HOST"]) {
 	echo "<pre>";
 } elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/elkuur.php") {
 	$unixdir="/home/webtastic/html/chalet/";
+} elseif (defined('wt_test') && wt_test === true) {
+	$unixdir = dirname(dirname(__FILE__)) . '/';
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
 #	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
@@ -527,7 +529,6 @@ if(($huidig_uur==2 and date("w")==1) or $argv[1]=="traffic4u") {
 		"feed_traffic4u_aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=aantal-personen&nocache=1",
 
 		"feed_traffic4u_bestemmingen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen&nocache=1",
-		"feed_traffic4u_bestemmingen-aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
 		"feed_traffic4u_land-aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=land-aantal-personen&nocache=1",
 		"feed_traffic4u_aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=aantal-personen&nocache=1",
 
