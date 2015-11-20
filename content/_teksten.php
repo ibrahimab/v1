@@ -305,7 +305,18 @@ Mit freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
 Tel: [TELEFOONNUMMER]";
-$txt["en"]["vars"]["mailopties_wzt1_2"]="Through [LOGIN_LINK_OPEN]My booking[LOGIN_LINK_CLOSE] you can make adjustments to your booking. You can do this until 28 days before your departure to [PLAATS] (this is not possible with last minute reservations). Just let us know if you rather have us make the adjustments, we will gladly arrange it for you.\n\nYou will receive a new confirmation/invoice each time you make any adjustments, so it's easiest to save them up and then change as much as possible in one sitting.\n\nFurthermore we ask you to pay any outstanding amount no later than 6 weeks before departure (or if already past this date we ask you to pay this immediately).\n\nApproximately 10 days before your departure you will receive travel documents with extra information with directions, the residence, where to pick up your key, vouchers for ski material if rented, etc.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: [TELEFOONNUMMER]";
+$txt["en"]["vars"]["mailopties_wzt1_2"]="Through [LOGIN_LINK_OPEN]My booking[LOGIN_LINK_CLOSE] you can log in with just one click. Up to 28 days before arrival it's possible to make changes in your booking (with last-minute bookings it's possible even longer). You can change things yourself, or you could let us know what you want changed, so we can do it for you.
+
+You will receive a new confirmation/invoice each time you make any adjustments, so it's easiest to save them up and then change as much as possible in one sitting.
+
+Please don't forget to settle any outstanding amount no later than 6 weeks before departure (or immediately if it's passed the due date).
+
+Approximately 10 days before your departure you will receive travel documents with extra information with directions, the residence, where to pick up your key, vouchers for ski material if rented, etc.
+
+Best regards,
+Employees [WEBSITE]
+
+Tel: [TELEFOONNUMMER]";
 
 
 $txt["nl"]["vars"]["mailopties_wzt2_1"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS], dit komt al snel dichterbij. Het is dus de hoogste tijd om te controleren of je een aantal belangrijke zaken voor jullie vakantie goed geregeld hebt.";
@@ -328,9 +339,21 @@ Circa 10 Tage vor Abreise erhalten Sie die Reiseunterlagen mit extra Information
 Mit freundlichen Grüßen,
 Mitarbeiter [WEBSITE]
 
-Telefon: [TELEFOONNUMMER]
-";
-$txt["en"]["vars"]["mailopties_wzt2_2"]="It is important to make sure that you have a good travel insurance and a good insurance for possible accidents that caues damage to the accommodation. With these insurances a lot of risks you might have during your trip are covered. For more information, please visit the following link: [VERZEKERINGLINK]\n\nWith your password ([WACHTWOORD]) you can log in via [LINK]. Here you can make changes to your reservation (up to 28 days before departure) and add an insurance if you want to. If you would rather have us make the changes, just let us know, and we'll do it for you.\n\nWhen you make changes you will receive a new confirmation (= also invoice), so it's the easiest if you make as many changes as possible at a time.\n\nI would also like to point out that the deadline for payment is 6 weeks before departure (or immediately if it's passed the due date).\n\nYou will receive travel documents around 10 days before departe. These travel documents will have extra information about the route you can take, the accommodation, where to get the key, vouchers for any additional options you may have booked, etc.\n\nSincerely,\nEmployees [WEBSITE]\n\nTel: [TELEFOONNUMMER]";
+Telefon: [TELEFOONNUMMER]";
+$txt["en"]["vars"]["mailopties_wzt2_2"]="At the very least it's important to have good travel insurance and a being insured for damage to the accommodation. With these many risks during your stay will be covered. For more information please see: [VERZEKERINGLINK]
+
+Through [LINK_DIRECTLOGIN] you can log in with just one click. Up to 28 days before arrival it's possible to make changes in your booking (with last-minute bookings it's possible even longer). You can change things yourself, or you could let us know what you want changed, so we can do it for you.
+
+You will receive a new confirmation/invoice each time you make any adjustments, so it's easiest to save them up and then change as much as possible in one sitting.
+
+Please don't forget to settle any outstanding amount no later than 6 weeks before departure (or immediately if it's passed the due date).
+
+Approximately 10 days before your departure you will receive travel documents with extra information with directions, the residence, where to pick up your key, vouchers for any additional options you may have booked, etc.
+
+Best regards,
+Employees [WEBSITE]
+
+Tel: [TELEFOONNUMMER]";
 
 $txt["nl"]["vars"]["mailverzendmethode_reisdocumenten_wzt1"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS]. Ongeveer 10 dagen voor vertrek ontvang je de reisdocumenten met daarin extra informatie over jullie route, verblijf, sleuteladres, vouchers voor eventueel bijgeboekte opties enz.\n\nGraag vernemen wij hoe je deze reisdocumenten wilt ontvangen (per post of per e-mail). Bezoek daarvoor de volgende link:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nJe hebt tot en met [UITERLIJKE_DATUM] de tijd om je voorkeur door te geven.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["de"]["vars"]["mailverzendmethode_reisdocumenten_wzt1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
@@ -391,7 +414,22 @@ Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
 Tel: 030-767598210";
-$txt["en"]["vars"]["mailpersoonsgegevens_wzt1"]="Dear [NAAM],\n\nThe departure date for your ski holiday is rapidly closing in. To make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+$txt["en"]["vars"]["mailpersoonsgegevens_wzt1"]="Dear [NAAM],
+
+The departure date for your ski holiday is rapidly closing in. To make sure your travel documents are accurate we need some personal information of the participants. We would like to ask you to enter this information as soon as possible, so we can send everything to you in time.
+
+Through [LINK_DIRECTLOGIN] you can log in to \"My booking\" with just one click, and fill everything in.
+
+We're missing the following information:
+
+[GEGEVENS]
+
+After we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, key pickup, options booked, ca. 10 days before arrival.
+
+Best regards,
+Employees [WEBSITE]
+
+Tel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_wzt2"]="Beste [NAAM],\n\nDe vertrekdatum van jullie vakantie komt snel dichterbij. Om jullie reisdocumenten op de juiste wijze te kunnen maken, hebben wij de persoonlijke gegevens van de deelnemers nodig. Wij willen jullie daarom vragen om deze z.s.m. in te vullen zodat wij alles tijdig naar jullie kunnen versturen.\n\nVia [LINK_DIRECTLOGIN] kun je met één klik inloggen in \"Mijn boeking\" en daar de ontbrekende gegevens invullen.\n\nDe volgende gegevens moeten nog worden ingevuld:\n\n[GEGEVENS]\n\nNa ontvangst van de eindbetaling sturen wij de reisdocumenten met daarin extra informatie over jullie verblijf, sleuteladres, eventueel bijgeboekte opties, ca. 10 dagen voor vertrek naar je toe.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["de"]["vars"]["mailpersoonsgegevens_wzt2"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
@@ -410,7 +448,22 @@ Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
 Tel: 030-767598210";
-$txt["en"]["vars"]["mailpersoonsgegevens_wzt2"]="Dear [NAAM],\n\nThe departure date for your vacation is rapidly closing in. To make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+$txt["en"]["vars"]["mailpersoonsgegevens_wzt2"]="Dear [NAAM],
+
+The departure date for your holiday is rapidly closing in. To make sure your travel documents are accurate we need some personal information of the participants. We would like to ask you to enter this information as soon as possible, so we can send everything to you in time.
+
+Through [LINK_DIRECTLOGIN] you can log in with just one click, and fill everything in.
+
+We're missing the following information:
+
+[GEGEVENS]
+
+After we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, key pickup, options booked, ca. 10 days before arrival.
+
+Best regards,
+Employees [WEBSITE]
+
+Tel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_subject_wzt1"]="Invullen persoonsgegevens wintersport";
 $txt["de"]["vars"]["mailpersoonsgegevens_subject_wzt1"]="Eingabe persönliche Daten Wintersporturlaub";
@@ -439,7 +492,24 @@ Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
 Tel: 030-767598210";
-$txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt1"]="Dear [NAAM],\n\nA few days ago we sent you an e-mail asking for the personal information of the participants of your winter sport. According to our administration this information has not been entered yet.\n\nTo make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+$txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt1"]="Dear [NAAM],
+
+A couple of days ago we sent an email, asking for some extra information of the participants for the ski holiday. According to our administration we are still missing some information.
+
+To make sure your travel documents are accurate we need some personal information of the participants. We would like to ask you to enter this information as soon as possible, so we can send everything to you in time.
+
+Through [LINK_DIRECTLOGIN] you can log in with just one click, and fill everything in.
+
+We're missing the following information:
+
+[GEGEVENS]
+
+After we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, key pickup, options booked, ca. 10 days before arrival.
+
+Best regards,
+Employees [WEBSITE]
+
+Tel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Beste [NAAM],\n\nEen aantal dagen geleden hebben wij je per mail gevraagd om de persoonlijke gegevens van de deelnemers van jullie vakantie. Volgens onze administratie zijn deze gegevens nog niet doorgegeven.\n\nOm jullie reisdocumenten op de juiste wijze te kunnen maken, hebben wij deze gegevens nodig. Wij willen jullie daarom vragen om deze z.s.m. alsnog in te vullen zodat wij alles tijdig naar jullie kunnen versturen.\n\nVia [LINK_DIRECTLOGIN] kun je met één klik inloggen in \"Mijn boeking\" en daar de ontbrekende gegevens invullen.\n\nDe volgende gegevens moeten nog worden ingevuld:\n\n[GEGEVENS]\n\nNa ontvangst van de eindbetaling sturen wij de reisdocumenten met daarin extra informatie over jullie verblijf, sleuteladres, eventueel bijgeboekte opties, ca. 10 dagen voor vertrek naar je toe.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["de"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Sehr geehrter Herr / Sehr Geehrte Frau [ACHTERNAAM],
@@ -460,7 +530,24 @@ Met freundlichem Gruß,
 Mitarbeiter [WEBSITE]
 
 Tel: 030-767598210";
-$txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Dear [NAAM],\n\nA few days ago we sent you an e-mail asking for the personal information of the participants of your vacation. According to our administration this information has not been entered yet.\n\nTo make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+$txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Dear [NAAM],
+
+A couple of days ago we sent an email, asking for some extra information of the participants for your holiday. According to our administration we are still missing some information.
+
+To make sure your travel documents are accurate we need some personal information of the participants. We would like to ask you to enter this information as soon as possible, so we can send everything to you in time.
+
+Through [LINK_DIRECTLOGIN] you can log in with just one click, and fill everything in.
+
+We're missing the following information:
+
+[GEGEVENS]
+
+After we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, key pickup, options booked, ca. 10 days before arrival.
+
+Best regards,
+Employees [WEBSITE]
+
+Tel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nNa controle van onze administratie, lijkt het erop dat er een achterstand is ontstaan in de betaling van jullie [SOORTVAKANTIE] aan [WEBSITE].\n\nOnderstaand het betaaloverzicht van jullie boeking:\n\n[BETALINGSINFO]\nWij willen je daarom vriendelijk verzoeken om het nog openstaande bedrag per omgaande te voldoen. Ga voor alle betaalinformatie en de mogelijkheid om online te betalen naar onze website:\n\n[BETAALLINK]\n\nMocht de betaling reeds zijn voldaan, dan zouden wij graag de volgende gegevens ontvangen zodat wij onze administratie kunnen controleren:\n\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nMocht je nog vragen hebben naar aanleiding van dit bericht, neem dan gerust contact met ons op!\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["de"]["vars"]["mailaanmaning"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
@@ -6773,11 +6860,11 @@ $txt["en"]["factuur"]["bijonjuistheden"]="If you find any errors, please let us 
 
 $txt["nl"]["factuur"]["tot6wekeninloggen"]="Via [[h_1]]Mijn boeking[[h_2]] kun je met één klik inloggen. Tot 4 weken voor vertrek kun je daar de gegevens van de deelnemers zelf invullen of aanpassen en opties bijboeken. Het is natuurlijk ook mogelijk om wijzigingen per mail of telefonisch aan ons door te geven, waarna wij het voor je verwerken.";
 $txt["de"]["factuur"]["tot6wekeninloggen"]="Bis zu 4 Wochen vor Abreise können Sie über \"[[h_1]]Meine Buchung[[h_2]]\" die Daten der Mitreisenden selber eingeben oder ändern und Optionen zubuchen. Sie können sich anmelden über einen [[h_1]]direkten Link[[h_2]] oder über Ihre E-Mail-Adresse ([[h_3]][[v_mailadres]][[h_4]]) und das Passwort [[h_3]][[v_wachtwoord]][[h_4]]. Sie können Änderungen natürlich auch per E-Mail oder telefonisch an uns weiterleiten, wonach wir diese für Sie verarbeiten werden.";
-$txt["en"]["factuur"]["tot6wekeninloggen"]="Up to 4 weeks before your departure, you can use \"[[h_1]]My booking[[h_2]]\" to change the data of the participants and add any options. You can login using a [[h_1]]direct link[[h_2]] or your email address ([[h_3]][[v_mailadres]][[h_4]]) and the password [[h_3]][[v_wachtwoord]][[h_4]]. You can of course also provide us with these changes by email or telephone.";
+$txt["en"]["factuur"]["tot6wekeninloggen"]="Through [[h_1]]My booking[[h_2]] you can log in with just one click. There you enter or edit the data of the participants and book extra options, at least until 4 weeks before arrival. Of course it's also possible to just send us a message or give us a call, and we'll edit it for you.";
 
 $txt["nl"]["factuur"]["tot6wekeninloggen-reisagent"]="Via [[h_1]]Mijn boeking[[h_2]] kun je tot 4 weken voor vertrek de gegevens van de deelnemers zelf invullen of aanpassen en opties bijboeken. Het is natuurlijk ook mogelijk om wijzigingen per mail of telefonisch aan ons door te geven, waarna wij het voor je verwerken.";
 $txt["de"]["factuur"]["tot6wekeninloggen-reisagent"]="";
-$txt["en"]["factuur"]["tot6wekeninloggen-reisagent"]="";
+$txt["en"]["factuur"]["tot6wekeninloggen-reisagent"]="Through [[h_1]]My booking[[h_2]] you can enter or edit the data of the participants and book extra options, at least until 4 weeks before arrival. Of course it's also possible to just send us a message or give us a call, and we'll edit it for you.";
 
 $txt["nl"]["factuur"]["ingeslotenverzekeringsbewijs"]="-";
 $txt["de"]["factuur"]["ingeslotenverzekeringsbewijs"]="Anbei finden Sie den [[h_1]]Sicherungsschein[[h_2]] zur Kundengeldabsicherung gemäß § 651k Abs. 5 BGB.";
@@ -8457,14 +8544,6 @@ $txt["en"]["traffic4u"]["regio"]="Region";
 
 
 #$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
-
-$nieuwe_vertaling["en"]["vars"]["mailpersoonsgegevens_wzt1"]=true;
-$nieuwe_vertaling["en"]["vars"]["mailpersoonsgegevens_wzt2"]=true;
-$nieuwe_vertaling["en"]["vars"]["mailpersoonsgegevens_reminder_wzt1"]=true;
-$nieuwe_vertaling["en"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]=true;
-$nieuwe_vertaling["en"]["vars"]["mailopties_wzt1_2"]=true;
-$nieuwe_vertaling["en"]["vars"]["mailopties_wzt2_2"]=true;
-$nieuwe_vertaling["en"]["factuur"]["tot6wekeninloggen"]=true;
 
 $nieuwe_vertaling["de"]["vars"]["mailpersoonsgegevens_wzt1"]=true;
 $nieuwe_vertaling["de"]["vars"]["mailpersoonsgegevens_wzt2"]=true;
