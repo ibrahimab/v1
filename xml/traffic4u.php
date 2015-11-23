@@ -45,13 +45,13 @@ include("../admin/vars.php");
 $cachefile=$unixdir."cache/feed_traffic4u_".basename($_GET["feed"])."_".$vars["website"].".csv";
 
 if($vars["lokale_testserver"]) {
-	// header("Content-Type: text/plain; charset=utf-8");
-	// header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
+	header("Content-Type: text/plain; charset=utf-8");
+	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 
 	// # UTF-8 BOM
-	// echo "\xEF\xBB\xBF";
+	echo "\xEF\xBB\xBF";
 
-	echo "<pre>";
+	// echo "<pre>";
 
 } elseif(!$_GET["nocache"] and ($_GET["feed"]=="bestemmingen" or $_GET["feed"]=="bestemmingen-aantal-personen" or $_GET["feed"]=="land-aantal-personen" or $_GET["feed"]=="aantal-personen")) {
 	header("Content-Type: application/octet-stream; charset=utf-8");
@@ -178,13 +178,25 @@ if($_GET["feed"]=="accommodaties") {
 			);
 		} else {
 
-			$doorloop_array=array(
-				"vf_piste1=1"=>"aan de piste",
-				"vf_kenm2=1"=>"catering mogelijk",
-				"vf_kenm4=1"=>"sauna",
-				"vf_kenm43=1"=>"goed voor kids",
-				"vf_kenm6=1"=>"huisdieren toegestaan",
-			);
+			if($vars["website"] !== "D"){
+				$doorloop_array=array(
+					"vf_piste1=1"=>"aan de piste",
+					"vf_kenm2=1"=>"catering mogelijk",
+					"vf_kenm4=1"=>"sauna",
+					"vf_kenm43=1"=>"goed voor kids",
+					"vf_kenm6=1"=>"huisdieren toegestaan",
+				);
+			} else {
+				$doorloop_array=array(
+					"vf_piste1=1"=>"an der Piste",
+					"vf_kenm2=1"=>"catering möglich",
+					"vf_kenm4=1"=>"sauna",
+					"vf_kenm43=1"=>"kinderfreundlich",
+					"vf_kenm6=1"=>"haustiere erlaubt",
+				);
+
+			}
+
 		}
 
 		if($_GET["feed"]=="bestemmingen-aantal-personen") {
@@ -299,7 +311,6 @@ if($_GET["feed"]=="accommodaties") {
 					echo wt_csvconvert(utf8_encode($db4->f("plaats"))).wt_csvconvert_delimiter;
 				}
 				echo wt_csvconvert(utf8_encode($value99)).wt_csvconvert_delimiter;
-
 
 				if($_GET["feed"]=="bestemmingen") {
 					//
