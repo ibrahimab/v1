@@ -1,12 +1,12 @@
 <?php
 
+//
+// message after error on test.chalet.nl
+//
+
 if($_GET["t"]==1) {
 	echo "<p>The test-site is not available from your IP-address.</p>";
-	trigger_error("geen toegang tot test-site", E_USER_NOTICE);
+	trigger_error("_notice: geen toegang tot test-site", E_USER_NOTICE);
 } elseif($_GET["t"]==2) {
 	echo "<p>The test-site is not available in https.</p>";
 }
-
-
-
-?>
