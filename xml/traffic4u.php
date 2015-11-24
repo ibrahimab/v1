@@ -6,7 +6,9 @@
 #
 # ========================>>>>>>>>>>>>>>>> LET OP: bij deze file wordt een cache gebruikt! <<<<<<<<<<<<<<<<==================================
 #
-# Elke dag om 03:00 uur wordt de nieuwe cache aangemaakt (via cron/elkuur.php)
+# 1x per week wordt de nieuwe cache aangemaakt (via cron/elkuur.php)
+# maandag om 02:00 uur: 	nieuwe feeds Chalet.nl en Italissima.nl worden aangemaakt
+# woensdag om 02:00 uur:	nieuwe feeds Chaletonline.de worden aangemaakt
 #
 # handmatig starten aanmaken cache: /usr/bin/php /var/www/chalet.nl/html/cron/elkuur.php traffic4u
 #
@@ -22,12 +24,21 @@
 
 URL's or all feeds:
 
+Chalet.nl:
 https://www.chalet.nl/xml/traffic4u.php?feed=accommodaties
 https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen
 https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen
 https://www.chalet.nl/xml/traffic4u.php?feed=land-aantal-personen
 https://www.chalet.nl/xml/traffic4u.php?feed=aantal-personen
 
+Chaletonline.de:
+https://www.chaletonline.de/xml/traffic4u.php?feed=accommodaties
+https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen
+https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen-aantal-personen
+https://www.chaletonline.de/xml/traffic4u.php?feed=land-aantal-personen
+https://www.chaletonline.de/xml/traffic4u.php?feed=aantal-personen
+
+Italissma.nl:
 https://www.italissima.nl/xml/traffic4u.php?feed=accommodaties
 https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen
 https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen
@@ -67,11 +78,7 @@ if($vars["lokale_testserver"]) {
 	echo "\xEF\xBB\xBF";
 }
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
-	define(wt_csvconvert_delimiter,",");
-} else {
-	define(wt_csvconvert_delimiter,";");
-}
+define(wt_csvconvert_delimiter,";");
 
 # header
 if($_GET["feed"]=="accommodaties") {
@@ -80,10 +87,10 @@ if($_GET["feed"]=="accommodaties") {
 	#
 
 	if($vars["seizoentype"]==1) {
-		if($vars["website"] == "D"){
-			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt('skiegebied', 'traffic4u').wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('soortaccommodatie', 'traffic4u').wt_csvconvert_delimiter.txt('accommodatienaam', 'traffic4u').wt_csvconvert_delimiter.txt('aantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('accommodatie_url', 'traffic4u').wt_csvconvert_delimiter.txt('klassering', 'traffic4u')."\n";
+		if($vars["website"] == "D") {
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skiegebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('soortaccommodatie', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatienaam', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatie_url', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('klassering', 'traffic4u'))."\n";
 		} else {
-			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt('skiegebied', 'traffic4u').wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('soortaccommodatie', 'traffic4u').wt_csvconvert_delimiter.txt('accommodatienaam', 'traffic4u').wt_csvconvert_delimiter."Typenaam".wt_csvconvert_delimiter.txt('aantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('accommodatie_url', 'traffic4u').wt_csvconvert_delimiter."Afstand tot de piste".wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter.txt('klassering', 'traffic4u')."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skiegebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('soortaccommodatie', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatienaam', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode("Typenaam").wt_csvconvert_delimiter.utf8_encode(txt('aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatie_url', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode("Afstand tot de piste").wt_csvconvert_delimiter.utf8_encode("Afstand tot restaurant").wt_csvconvert_delimiter.utf8_encode("Afstand tot winkels").wt_csvconvert_delimiter.utf8_encode(txt('klassering', 'traffic4u'))."\n";
 		}
 	} else {
 		echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt("regio", "traffic4u").wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('soortaccommodatie', 'traffic4u').wt_csvconvert_delimiter.txt('accommodatienaam', 'traffic4u').wt_csvconvert_delimiter."Typenaam".wt_csvconvert_delimiter.txt('aantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('accommodatie_url', 'traffic4u').wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter.txt('klassering', 'traffic4u')."\n";
@@ -99,7 +106,7 @@ if($_GET["feed"]=="accommodaties") {
 
 			// $accnaam=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "");
 			echo wt_csvconvert(utf8_encode($db->f("naam"))).wt_csvconvert_delimiter;
-			if($vars["website"] !== "D"){
+			if($vars["website"] !== "D") {
 				echo wt_csvconvert(utf8_encode($db->f("tnaam"))).wt_csvconvert_delimiter;
 			}
 			echo wt_csvconvert($i).wt_csvconvert_delimiter;
@@ -116,7 +123,7 @@ if($_GET["feed"]=="accommodaties") {
 			}
 
 			if($db->f("afstandrestaurant")) {
-				if($vars["website"] !== "D"){
+				if($vars["website"] !== "D") {
 					echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandrestaurant"),$db->f("afstandrestaurantextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
 				}
 			} else {
@@ -124,7 +131,7 @@ if($_GET["feed"]=="accommodaties") {
 			}
 
 			if($db->f("afstandwinkel")) {
-				if($vars["website"] !== "D"){
+				if($vars["website"] !== "D") {
 					echo wt_csvconvert(utf8_encode(toonafstand($db->f("afstandwinkel"),$db->f("afstandwinkelextra"),txt("meter","toonaccommodatie")))).wt_csvconvert_delimiter;
 				}
 			} else {
@@ -178,7 +185,15 @@ if($_GET["feed"]=="accommodaties") {
 			);
 		} else {
 
-			if($vars["website"] !== "D"){
+			if($vars["website"] == "D") {
+				$doorloop_array=array(
+					"vf_piste1=1"=>"an der Piste",
+					"vf_kenm2=1"=>"Catering möglich",
+					"vf_kenm4=1"=>"Sauna",
+					"vf_kenm43=1"=>"kinderfreundlich",
+					"vf_kenm6=1"=>"Haustiere erlaubt",
+				);
+			} else {
 				$doorloop_array=array(
 					"vf_piste1=1"=>"aan de piste",
 					"vf_kenm2=1"=>"catering mogelijk",
@@ -186,23 +201,13 @@ if($_GET["feed"]=="accommodaties") {
 					"vf_kenm43=1"=>"goed voor kids",
 					"vf_kenm6=1"=>"huisdieren toegestaan",
 				);
-			} else {
-				$doorloop_array=array(
-					"vf_piste1=1"=>"an der Piste",
-					"vf_kenm2=1"=>"catering möglich",
-					"vf_kenm4=1"=>"sauna",
-					"vf_kenm43=1"=>"kinderfreundlich",
-					"vf_kenm6=1"=>"haustiere erlaubt",
-				);
-
 			}
-
 		}
 
 		if($_GET["feed"]=="bestemmingen-aantal-personen") {
-			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt('skiegebied', 'traffic4u').wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('aantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('url_skigebied_aantaalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('aantalaccommodatiesskigebied_aantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('url_plaatsaantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('aantalaccommodatiesplaats_aantalpersonen', 'traffic4u')."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skiegebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_skigebied_aantaalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesskigebied_aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_plaatsaantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesplaats_aantalpersonen', 'traffic4u'))."\n";
 		} else {
-			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt('skiegebied', 'traffic4u').wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('thema', 'traffic4u').wt_csvconvert_delimiter.txt('url_skigebied', 'traffic4u').wt_csvconvert_delimiter.txt('url_plaats', 'traffic4u').wt_csvconvert_delimiter.txt('url_skigebiedthema', 'traffic4u').wt_csvconvert_delimiter.txt('aantalaccommodatiesskigebied_thema', 'traffic4u').wt_csvconvert_delimiter.txt('url_plaatsthema', 'traffic4u').wt_csvconvert_delimiter.txt('aantalaccommodatiesplaats_thema', 'traffic4u')."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skiegebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('thema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_skigebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_skigebiedthema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesskigebied_thema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_plaatsthema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesplaats_thema', 'traffic4u'))."\n";
 		}
 
 		if($vars["lokale_testserver"]) {
@@ -238,9 +243,9 @@ if($_GET["feed"]=="accommodaties") {
 
 
 		if($_GET["feed"]=="bestemmingen-aantal-personen") {
-			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt("regio", "traffic4u").wt_csvconvert_delimiter.txt("aantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("url_regioaantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("aantalaccommodatiesregio_aantalpersonen", "traffic4u")."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalpersonen", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("url_regioaantalpersonen", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalaccommodatiesregio_aantalpersonen", "traffic4u"))."\n";
 		} else {
-			echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt("regio", "traffic4u").wt_csvconvert_delimiter.txt("thema", "traffic4u").wt_csvconvert_delimitertxt.txt("url_regio", "traffic4u").wt_csvconvert_delimiter.txt("url_regiothema", "traffic4u").wt_csvconvert_delimiter.txt("aantalaccommodatiesregio_thema", "traffic4u")."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("thema", "traffic4u")).wt_csvconvert_delimitertxt.utf8_encode(txt("url_regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("url_regiothema", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalaccommodatiesregio_thema", "traffic4u"))."\n";
 		}
 
 		$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied" . $vars['ttv'] . " AS skiegebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id;");
@@ -361,7 +366,7 @@ if($_GET["feed"]=="accommodaties") {
 
 			}
 
-			if($_SERVER["DOCUMENT_ROOT"]!="/home/webtastic/html") {
+			if(!$vars["lokale_testserver"]) {
 				sleep(1);
 			}
 
@@ -395,7 +400,7 @@ if($_GET["feed"]=="accommodaties") {
 		"fap=20"=>"20"
 	);
 
-	echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt("aantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("url_land_aantaalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("aantalaccommodatiesland_aantalpersonen", "traffic4u")."\n";
+	echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalpersonen", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("url_land_aantaalpersonen", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalaccommodatiesland_aantalpersonen", "traffic4u"))."\n";
 
 	$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY land;");
 	$result_teller=0;
@@ -479,7 +484,7 @@ if($_GET["feed"]=="accommodaties") {
 		"fap=40"=>"40"
 	);
 
-	echo txt("aantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("url_aantalpersonen", "traffic4u").wt_csvconvert_delimiter.txt("aantalaccommodatiesaantalpersonen", "traffic4u")."\n";
+	echo utf8_encode(txt("aantalpersonen", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("url_aantalpersonen", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalaccommodatiesaantalpersonen", "traffic4u"))."\n";
 
 	reset($doorloop_array);
 	foreach ($doorloop_array as $key99 => $value99) {

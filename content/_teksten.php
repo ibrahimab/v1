@@ -8505,7 +8505,10 @@ Employees [[v_website]]
 
 Phone: +31 (0)348 - 43 46 49";
 
-#xml feeds from traffic4u
+
+//
+// csv-exports Traffic4U
+//
 $txt["nl"]["traffic4u"]["land"]="Land";
 $txt["de"]["traffic4u"]["land"]="Land";
 $txt["en"]["traffic4u"]["land"]="Country";
@@ -8547,7 +8550,7 @@ $txt["de"]["traffic4u"]["thema"]="Thema";
 $txt["en"]["traffic4u"]["thema"]="Theme";
 
 $txt["nl"]["traffic4u"]["url_aantalpersonen"]="URL aantalpersonen";
-$txt["de"]["traffic4u"]["url_aantalpersonen"]="URL personenzahl";
+$txt["de"]["traffic4u"]["url_aantalpersonen"]="URL Personenzahl";
 $txt["en"]["traffic4u"]["url_aantalpersonen"]="URL number of persons";
 
 $txt["nl"]["traffic4u"]["url_skigebied"]="URL skigebied";
@@ -8559,68 +8562,67 @@ $txt["de"]["traffic4u"]["url_plaats"]="URL Ort";
 $txt["en"]["traffic4u"]["url_plaats"]="URL Place";
 
 $txt["nl"]["traffic4u"]["url_skigebied_aantaalpersonen"]="URL skigebied + aantal personen";
-$txt["de"]["traffic4u"]["url_skigebied_aantaalpersonen"]="URL skigebiet + personenzahl";
+$txt["de"]["traffic4u"]["url_skigebied_aantaalpersonen"]="URL skigebiet + Personenzahl";
 $txt["en"]["traffic4u"]["url_skigebied_aantaalpersonen"]="URL ski region + pumber of persons";
 
 $txt["nl"]["traffic4u"]["url_land_aantaalpersonen"]="URL Land + aantal personen";
-$txt["de"]["traffic4u"]["url_land_aantaalpersonen"]="URL Land + personenzahl";
+$txt["de"]["traffic4u"]["url_land_aantaalpersonen"]="URL Land + Personenzahl";
 $txt["en"]["traffic4u"]["url_land_aantaalpersonen"]="URL Country + number of persons";
 
-
 $txt["nl"]["traffic4u"]["aantalaccommodatiesaantalpersonen"]="Aantal accommodaties aantal personen";
-$txt["de"]["traffic4u"]["aantalaccommodatiesaantalpersonen"]="Anzahl der Unterkünfte personenzahl";
+$txt["de"]["traffic4u"]["aantalaccommodatiesaantalpersonen"]="Anzahl der Unterkünfte Personenzahl";
 $txt["en"]["traffic4u"]["aantalaccommodatiesaantalpersonen"]="Number of accommodations number of persons";
 
 $txt["nl"]["traffic4u"]["aantalaccommodatiesland_aantalpersonen"]="Aantal accommodaties land + aantal personen";
-$txt["de"]["traffic4u"]["aantalaccommodatiesland_aantalpersonen"]="Anzahl der Unterkünfte land + personenzahl";
+$txt["de"]["traffic4u"]["aantalaccommodatiesland_aantalpersonen"]="Anzahl der Unterkünfte Land + Personenzahl";
 $txt["en"]["traffic4u"]["aantalaccommodatiesland_aantalpersonen"]="Number of accommodations country + number of persons";
 
 $txt["nl"]["traffic4u"]["url_regio"]="URL regio";
-$txt["de"]["traffic4u"]["url_regio"]="URL region";
+$txt["de"]["traffic4u"]["url_regio"]="URL Region";
 $txt["en"]["traffic4u"]["url_regio"]="URL region";
 
 $txt["nl"]["traffic4u"]["url_regiothema"]="URL regio + thema";
-$txt["de"]["traffic4u"]["url_regiothema"]="URL region + thema";
+$txt["de"]["traffic4u"]["url_regiothema"]="URL Region + Thema";
 $txt["en"]["traffic4u"]["url_regiothema"]="URL region + theme";
 
 $txt["nl"]["traffic4u"]["url_skigebiedthema"]="URL skigebied + thema";
-$txt["de"]["traffic4u"]["url_skigebiedthema"]="URL skigebiet + thema";
+$txt["de"]["traffic4u"]["url_skigebiedthema"]="URL Skigebiet + Thema";
 $txt["en"]["traffic4u"]["url_skigebiedthema"]="URL ski region + theme";
 
 $txt["nl"]["traffic4u"]["url_plaatsthema"]="URL plaats + thema";
-$txt["de"]["traffic4u"]["url_plaatsthema"]="URL ort + thema";
+$txt["de"]["traffic4u"]["url_plaatsthema"]="URL Ort + Thema";
 $txt["en"]["traffic4u"]["url_plaatsthema"]="URL place + theme";
 
 $txt["nl"]["traffic4u"]["url_regioaantalpersonen"]="URL regio + aantal personen";
-$txt["de"]["traffic4u"]["url_regioaantalpersonen"]="URL region + personenzahl";
+$txt["de"]["traffic4u"]["url_regioaantalpersonen"]="URL Region + Personenzahl";
 $txt["en"]["traffic4u"]["url_regioaantalpersonen"]="URL region + number of persons";
 
 $txt["nl"]["traffic4u"]["aantalaccommodatiesregio_aantalpersonen"]="Aantal accommodaties regio + aantal personen";
-$txt["de"]["traffic4u"]["aantalaccommodatiesregio_aantalpersonen"]="Anzahl der Unterkünfte region + personenzahl";
+$txt["de"]["traffic4u"]["aantalaccommodatiesregio_aantalpersonen"]="Anzahl der Unterkünfte Region + Personenzahl";
 $txt["en"]["traffic4u"]["aantalaccommodatiesregio_aantalpersonen"]="Number of accommodations region + number of persons";
 
 $txt["nl"]["traffic4u"]["aantalaccommodatiesregio_thema"]="Aantal accommodaties regio + thema";
-$txt["de"]["traffic4u"]["aantalaccommodatiesregio_thema"]="Anzahl der Unterkünfte region + thema";
+$txt["de"]["traffic4u"]["aantalaccommodatiesregio_thema"]="Anzahl der Unterkünfte Region + Thema";
 $txt["en"]["traffic4u"]["aantalaccommodatiesregio_thema"]="Number of accommodations region + theme";
 
 $txt["nl"]["traffic4u"]["aantalaccommodatiesskigebied_aantalpersonen"]="Aantal accommodaties skigebied + aantal personen";
-$txt["de"]["traffic4u"]["aantalaccommodatiesskigebied_aantalpersonen"]="Anzahl der Unterkünfte skigebiet + personenzahl";
+$txt["de"]["traffic4u"]["aantalaccommodatiesskigebied_aantalpersonen"]="Anzahl der Unterkünfte Skigebiet + Personenzahl";
 $txt["en"]["traffic4u"]["aantalaccommodatiesskigebied_aantalpersonen"]="Number of accommodations ski region + number of persons";
 
 $txt["nl"]["traffic4u"]["aantalaccommodatiesplaats_aantalpersonen"]="Aantal accommodaties plaats + aantal personen";
-$txt["de"]["traffic4u"]["aantalaccommodatiesplaats_aantalpersonen"]="Anzahl der Unterkünfte ort + personenzahl";
+$txt["de"]["traffic4u"]["aantalaccommodatiesplaats_aantalpersonen"]="Anzahl der Unterkünfte Ort + Personenzahl";
 $txt["en"]["traffic4u"]["aantalaccommodatiesplaats_aantalpersonen"]="Number of accommodations place + number of persons";
 
 $txt["nl"]["traffic4u"]["url_plaatsaantalpersonen"]="URL plaats + aantal personen";
-$txt["de"]["traffic4u"]["url_plaatsaantalpersonen"]="URL ort + personenzahl";
+$txt["de"]["traffic4u"]["url_plaatsaantalpersonen"]="URL Ort + Personenzahl";
 $txt["en"]["traffic4u"]["url_plaatsaantalpersonen"]="URL place + number of persons";
 
 $txt["nl"]["traffic4u"]["aantalaccommodatiesskigebied_thema"]="Aantal accommodaties skigebied + thema";
-$txt["de"]["traffic4u"]["aantalaccommodatiesskigebied_thema"]="Anzahl der Unterkünfte skigebiet + thema";
+$txt["de"]["traffic4u"]["aantalaccommodatiesskigebied_thema"]="Anzahl der Unterkünfte Skigebiet + Thema";
 $txt["en"]["traffic4u"]["aantalaccommodatiesskigebied_thema"]="Number of accommodations ski region + theme";
 
 $txt["nl"]["traffic4u"]["aantalaccommodatiesplaats_thema"]="Aantal accommodaties plaats + thema";
-$txt["de"]["traffic4u"]["aantalaccommodatiesplaats_thema"]="Anzahl der Unterkünfte ort + thema";
+$txt["de"]["traffic4u"]["aantalaccommodatiesplaats_thema"]="Anzahl der Unterkünfte Ort + Thema";
 $txt["en"]["traffic4u"]["aantalaccommodatiesplaats_thema"]="Number of accommodations place + theme";
 
 #$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;

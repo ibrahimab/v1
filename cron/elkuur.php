@@ -519,22 +519,32 @@ if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 	}
 }
 
-# Cache Traffic4U (2 uur 's nachts elke maandag)
+# Cache Traffic4U (2 uur 's nachts elke maandag + woensdag)
 # handmatig starten: /usr/bin/php /var/www/chalet.nl/html/cron/elkuur.php traffic4u
-if(($huidig_uur==2 and date("w")==1) or $argv[1]=="traffic4u") {
-	$doorloop_array=array(
-		"feed_traffic4u_bestemmingen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
-		"feed_traffic4u_bestemmingen-aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
-		"feed_traffic4u_land-aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=land-aantal-personen&nocache=1",
-		"feed_traffic4u_aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=aantal-personen&nocache=1",
+if(($huidig_uur==2 and (date("w")==1 or date("w")==3)) or $argv[1]=="traffic4u") {
 
-		"feed_traffic4u_bestemmingen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen&nocache=1",
-		"feed_traffic4u_land-aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=land-aantal-personen&nocache=1",
-		"feed_traffic4u_aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=aantal-personen&nocache=1",
+	if (date("w")==1) {
 
-		"feed_traffic4u_bestemmingen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
-		"feed_traffic4u_bestemmingen-aantal-personen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
-	);
+		// Monday: Chalet.nl and Italissima.nl
+		$doorloop_array=array(
+			"feed_traffic4u_bestemmingen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
+			"feed_traffic4u_bestemmingen-aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
+			"feed_traffic4u_land-aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=land-aantal-personen&nocache=1",
+			"feed_traffic4u_aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=aantal-personen&nocache=1",
+
+			"feed_traffic4u_bestemmingen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
+			"feed_traffic4u_bestemmingen-aantal-personen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
+		);
+	} elseif (date("w")==3) {
+
+		// Wednesday: Chaletonline.de
+		$doorloop_array=array(
+			"feed_traffic4u_bestemmingen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen&nocache=1",
+			"feed_traffic4u_bestemmingen-aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
+			"feed_traffic4u_land-aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=land-aantal-personen&nocache=1",
+			"feed_traffic4u_aantal-personen_D"=>"https://www.chaletonline.de/xml/traffic4u.php?feed=aantal-personen&nocache=1",
+		);
+	}
 
 	ini_set("default_socket_timeout",7200);
 	while(list($key,$value)=each($doorloop_array)) {
