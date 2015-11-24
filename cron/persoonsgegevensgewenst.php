@@ -27,7 +27,8 @@ flush();
 # Persoonsgegevens - Gewone mailtjes
 #
 if ($vars["lokale_testserver"]) {
-	$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE UNIX_TIMESTAMP(invuldatum)<'".(time()-86400)."' AND aankomstdatum_exact>'".(time()+(86400*10))."' AND aankomstdatum<=(".mktime(0,0,0,date("m"),date("d"),date("Y"))."+(86400*(mailverstuurd_persoonsgegevens_dagenvoorvertrek))) AND mailverstuurd_persoonsgegevens IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 ORDER BY aankomstdatum;");
+	$test_website = "E";
+	$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE UNIX_TIMESTAMP(invuldatum)<'".(time()-86400)."' AND aankomstdatum_exact>'".(time()+(86400*10))."' AND aankomstdatum<=(".mktime(0,0,0,date("m"),date("d"),date("Y"))."+(86400*(mailverstuurd_persoonsgegevens_dagenvoorvertrek))) AND mailverstuurd_persoonsgegevens IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 AND website='".$test_website."' ORDER BY aankomstdatum;");
 } else {
 	$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE UNIX_TIMESTAMP(invuldatum)<'".(time()-86400)."' AND aankomstdatum_exact>'".(time()+(86400*10))."' AND aankomstdatum<=(".mktime(0,0,0,date("m"),date("d"),date("Y"))."+(86400*(mailverstuurd_persoonsgegevens_dagenvoorvertrek))) AND mailverstuurd_persoonsgegevens IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 ORDER BY aankomstdatum;");
 }
@@ -69,8 +70,12 @@ while($db->next_record()) {
 #
 # Persoonsgegevens - Reminders
 #
-$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE aankomstdatum_exact>'".(time()+(86400*10))."' AND UNIX_TIMESTAMP(mailverstuurd_persoonsgegevens)<='".mktime(0,0,0,date("m"),date("d")-6,date("Y"))."' AND mailverstuurd_persoonsgegevens_reminder IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 ORDER BY aankomstdatum;");
-if($db->num_rows()) echo "\n\nReminder \n\n";
+if ($vars["lokale_testserver"]) {
+	$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE aankomstdatum_exact>'".(time()+(86400*10))."' AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 AND website='".$test_website."' ORDER BY boeking_id DESC, aankomstdatum;");
+} else {
+	$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE aankomstdatum_exact>'".(time()+(86400*10))."' AND UNIX_TIMESTAMP(mailverstuurd_persoonsgegevens)<='".mktime(0,0,0,date("m"),date("d")-6,date("Y"))."' AND mailverstuurd_persoonsgegevens_reminder IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 ORDER BY aankomstdatum;");
+}
+if($db->num_rows()) echo "\n\n\n\n\nReminder \n";
 while($db->next_record()) {
 
 	$gegevens=get_boekinginfo($db->f("boeking_id"));

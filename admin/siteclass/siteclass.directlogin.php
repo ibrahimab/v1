@@ -14,17 +14,14 @@ class directlogin {
 
 	}
 
-	public function maak_link($website,$soort,$user_id,$md5_password="") {
+	public function maak_link($website,$soort,$user_id) {
 		global $vars;
-
-		// $md5_password is not used right now
 
 		// soort = 1 : doorlinken naar "Mijn boeking"
 		// soort = 2 : doorlinken naar "betalen"
 		// soort = 3 : doorlinken naar "factuur goedkeuren"
 
 		// zie inloggen.php voor deze redirects
-
 
 		$link=$vars["websiteinfo"]["basehref"][$website];
 
@@ -108,5 +105,4 @@ class directlogin {
 		$return=substr($keuze,$keuze_getal,1);
 		return $return;
 	}
-
 }
