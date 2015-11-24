@@ -31,7 +31,7 @@ if( $_GET["error"] ) {
 	if ( !file_exists($checkfile) or filemtime($checkfile)<(time()-60) ) {
 
 		// only non-403 errors
-		if (!preg_match("@- 403 -@", $error)) {
+		if (!preg_match("@- 403 -@", $error) and !preg_match("@_notice: @", $error)) {
 
 			touch( $checkfile );
 
