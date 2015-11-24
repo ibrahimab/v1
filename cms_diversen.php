@@ -262,6 +262,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			$git_selected_branch = trim(file_get_contents($checkfile));
 			$form->field_htmlcol("","Wordt nu gepulld", array("html"=>wt_he(($vars["git_branches"][$git_selected_branch] ? $vars["git_branches"][$git_selected_branch] : $git_selected_branch))));
 		} else {
+			$form->field_htmlrow("","<div style=\"background-color:yellow;padding: 3px;\">Belangrijk: pas wijzigen nadat je via HipChat in de room &quot;Chalet.nl&quot; hebt gevraagd of niemand met de huidige branch bezig is.</div>");
 			$form->field_select(0,"git_change_to_branch","Switch naar branch","","",array("selection"=>$vars["git_branches"]));
 		}
 	}
