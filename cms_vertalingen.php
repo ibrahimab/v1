@@ -4,6 +4,9 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
+// always send these translation-emails to jeroen@webtastic.nl
+$vars["lokale_testserver_mailadres"]="jeroen@webtastic.nl";
+
 $form=new form2("frm");
 $form->settings["fullname"]="vertalingen";
 $form->settings["layout"]["css"]=false;
@@ -112,8 +115,8 @@ if(is_array($vertaal_array)) {
 					$form->field_htmlrow("","<b>Site-brede tekst &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div class=\"vertaal_nederlands\">".nl2br(wt_he($value2))."</div></div>");
 					$form->field_textarea(0,ereg_replace("-","_",$key2)."_1","<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txta[".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
 				} else {
-					$form->field_htmlrow("","<b>Pagina &quot;".($key=="vars" ? "algemeen" : ($key=="index" ? "hoofdpagina" : $key))."&quot; - onderdeel &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div  class=\"vertaal_nederlands\">".nl2br(wt_he($txt["nl"][$key][$key2]))."</div></div>");
-					$form->field_textarea(0,ereg_replace("-","_",$key).ereg_replace("-","_",$key2)."_3","<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txt[".$key."][".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
+					$form->field_htmlrow("","<b>Pagina &quot;".($key=="vars" ? "algemeen" : ($key=="index" ? "hoofdpagina" : $key))."&quot; - onderdeel &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div class=\"vertaal_nederlands\">".nl2br(wt_he($txt["nl"][$key][$key2]))."</div></div>");
+					$form->field_textarea(0,ereg_replace("-","_",$key).ereg_replace("-","_",$key2)."_3",($txt[$vertaal_taal][$key][$key2] ? "<i>Huidige te vervangen tekst</i>:<div style=\"width:665px\" class=\"vertaal_nederlands\">".nl2br(wt_he($txt[$vertaal_taal][$key][$key2]))."</div><br />" : "")."<i>".wt_he($vars["vertaal_talen"][$vertaal_taal])." (txt[".$key."][".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
 				}
 				$form->field_htmlrow("","<hr>");
 			}

@@ -44,8 +44,12 @@ while($db->next_record()) {
 }
 
 # Kijken welke zomerboekingen een mail moeten ontvangen
-$db->query("SELECT b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_opties, a.naam, a.mailtekst_id, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.factuurdatum IS NOT NULL AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".mktime(0,0,0,date("m"),date("d")+1,date("Y"))."' AND b.aankomstdatum<='".$vars["vertrekdatum_over_50_dagen"]."' AND a.wzt=2 AND b.mailblokkeren_opties=0".($reisbureau_user_blokkeren ? " AND (b.reisbureau_user_id IS NULL OR b.reisbureau_user_id NOT IN (".$reisbureau_user_blokkeren."))" : "")." ORDER BY b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
-#echo $db->lastquery."<br>a";
+if ($vars["lokale_testserver"]) {
+	$test_website = "H";
+	$db->query("SELECT b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_opties, a.naam, a.mailtekst_id, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.factuurdatum IS NOT NULL AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND a.wzt=2 AND b.mailblokkeren_opties=0".($reisbureau_user_blokkeren ? " AND (b.reisbureau_user_id IS NULL OR b.reisbureau_user_id NOT IN (".$reisbureau_user_blokkeren."))" : "")." AND b.website='".$test_website."' ORDER BY b.aankomstdatum_exact DESC, s.naam, p.naam, b.boekingsnummer LIMIT 0,1;");
+} else {
+	$db->query("SELECT b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_opties, a.naam, a.mailtekst_id, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.factuurdatum IS NOT NULL AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".mktime(0,0,0,date("m"),date("d")+1,date("Y"))."' AND b.aankomstdatum<='".$vars["vertrekdatum_over_50_dagen"]."' AND a.wzt=2 AND b.mailblokkeren_opties=0".($reisbureau_user_blokkeren ? " AND (b.reisbureau_user_id IS NULL OR b.reisbureau_user_id NOT IN (".$reisbureau_user_blokkeren."))" : "")." ORDER BY b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
+}
 if($db->num_rows()) {
 	echo "De volgende zomerboekingen hebben een opties-bijboeken-mailtje ontvangen:\n\n";
 	while($db->next_record()) {
@@ -64,13 +68,18 @@ if($db->num_rows()) {
 			$mail->subject=$mailtekst_opties["subject"];
 			$mail->plaintext=$mailtekst_opties["body"];
 
-			$mail->send();
+			if ($vars["lokale_testserver"]) {
+				echo "<hr><b>".wt_he($mailtekst_opties["subject"])."</b><br /><br />".wordwrap($mailtekst_opties["body"])."<br />";
+			} else {
 
-			# Loggen
-			chalet_log("opties-bijboeken-mailtje verstuurd aan ".$mail->to,false,true);
+				$mail->send();
 
-			# Database opslaan
-			$db2->query("UPDATE boeking SET mailverstuurd_opties=NOW() WHERE boeking_id='".addslashes($db->f("boeking_id"))."';");
+				# Loggen
+				chalet_log("opties-bijboeken-mailtje verstuurd aan ".$mail->to,false,true);
+
+				# Database opslaan
+				$db2->query("UPDATE boeking SET mailverstuurd_opties=NOW() WHERE boeking_id='".addslashes($db->f("boeking_id"))."';");
+			}
 
 			echo "- ".$db->f("boekingsnummer")." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."\n";
 			flush();
@@ -78,5 +87,3 @@ if($db->num_rows()) {
 	}
 	echo "\n\n";
 }
-
-?>

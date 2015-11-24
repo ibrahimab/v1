@@ -229,6 +229,7 @@ if($mustlogin) {
 	$title["cms_overzichten_boekingen"]="Adressen bij boekingen";
 	$title["cms_meldingen"]="Indeling CMS-hoofdpagina / Meldingen";
 	$title["cms_boekingen_onafgerond_benaderen"]="Te benaderen onafgeronde boekingen";
+	$title["cms_vertalingen"]="Te vertalen teksten ".strtoupper($_GET["taal"]);
 
 
 	# Layout CMS
@@ -1336,24 +1337,25 @@ function mailtekst_opties($boekingid) {
 			$return["body"].=$txt[$taal]["vars"]["mailopties_wzt".$gegevens["stap1"]["accinfo"]["wzt"]."_2"];
 
 
-			# Wachtwoord invullen
-			$db->query("SELECT user_id, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+			# Login-link
+			$db->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
 			if($db->next_record()) {
-				$return["body"]=ereg_replace("\[WACHTWOORD\]",$db->f("password_uc"),$return["body"]);
 
 				$directlogin = new directlogin;
 				$directlogin->boeking_id = $gegevens["stap1"]["boekingid"];
-				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"], 1, $db->f("user_id"), md5($db->f("password_uc")));
+				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"], 1, $db->f("user_id"));
 
 				$return["body"]=ereg_replace("\[LOGIN_LINK_OPEN\]","[link=".wt_he($directlogin_link)."]",$return["body"]);
 				$return["body"]=ereg_replace("\[LOGIN_LINK_CLOSE\]","[/link]",$return["body"]);
 
+				$return["body"]=ereg_replace("\[LINK_DIRECTLOGIN\]",$directlogin_link,$return["body"]);
+
 			} else {
-				$return["body"]=ereg_replace("\(\[WACHTWOORD\]\) ","",$return["body"]);
-				$return["body"]=ereg_replace("\[WACHTWOORD\]","",$return["body"]);
 
 				$return["body"]=ereg_replace("\[LOGIN_LINK_OPEN\]","",$return["body"]);
 				$return["body"]=ereg_replace("\[LOGIN_LINK_CLOSE\]","",$return["body"]);
+
+				$return["body"]=ereg_replace("\[LINK_DIRECTLOGIN\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_inloggen"].".php",$return["body"]);
 
 			}
 
@@ -1389,15 +1391,18 @@ function mailtekst_opties($boekingid) {
 function mailtekst_persoonsgegevens($boekingid,$gewenst,$reminder=false) {
 	global $vars,$txt,$txta,$gegevens;
 	if($boekingid) {
-		$taal=$gegevens["stap1"]["taal"];
+		$taal = $gegevens["stap1"]["taal"];
+		if ($vars["lokale_testserver"]) {
+			// $taal = "en";
+			// $gegevens["stap1"]["accinfo"]["wzt"] = "2";
+		}
+
 		$return["subject"]="[".$gegevens["stap1"]["boekingsnummer"]."] ".$txt[$taal]["vars"]["mailpersoonsgegevens_subject_wzt".$gegevens["stap1"]["accinfo"]["wzt"]]." ".$gegevens["stap1"]["accinfo"]["plaats"];
 		$return["from"]=$gegevens["stap1"]["website_specifiek"]["email"];
 		$return["fromname"]=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
 		$return["boekingsnummer"]=$gegevens["stap1"]["boekingsnummer"];
 		$return["plaats"]=$gegevens["stap1"]["accinfo"]["plaats"];
 		$return["to"]=$gegevens["stap2"]["email"];
-
-#		echo "mailpersoonsgegevens_".($reminder ? "reminder_" : "")."wzt".$gegevens["stap1"]["accinfo"]["wzt"];
 
 		$return["body"]=$txt[$taal]["vars"]["mailpersoonsgegevens_".($reminder ? "reminder_" : "")."wzt".$gegevens["stap1"]["accinfo"]["wzt"]];
 
@@ -1415,6 +1420,16 @@ function mailtekst_persoonsgegevens($boekingid,$gewenst,$reminder=false) {
 			$return["body"]=ereg_replace("\[DATUM\]",DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal),$return["body"]);
 			$return["body"]=ereg_replace("\[LINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_inloggen"].".php",$return["body"]);
 			$return["body"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["body"]);
+
+			// direct login-link
+			$directlogin = new directlogin;
+			$directlogin_link = $directlogin->createLinkBasedOnBooking(1, $gegevens);
+			if ($directlogin_link) {
+				$return["body"]=ereg_replace("\[LINK_DIRECTLOGIN\]", $directlogin_link, $return["body"]);
+			} else {
+				return false;
+			}
+
 			return $return;
 		} else {
 			return false;
@@ -1551,8 +1566,8 @@ function mailtekst_verzendmethode_reisdocumenten($boekingid) {
 
 function persoonsgegevensgewenst($gegevens) {
 	# Checken of er nog persoonsgegevens moeten worden ingevuld
-	global $vars,$txt,$txta;
-	$taal=$gegevens["stap1"]["taal"];
+	global $vars, $txt, $txta;
+	$taal = $gegevens["stap1"]["taal"];
 
 	for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 		# Arrangement incl. skipas
@@ -1597,7 +1612,17 @@ function persoonsgegevensgewenst($gegevens) {
 				$return["tekst"][$i].=": ".$txt[$taal]["bsys"]["gewenst_naamplaats"];
 			}
 		}
+
+		// for testing purposes
+		if ($vars["lokale_testserver"]) {
+			$mail_versturen=true;
+			if($i==1) {
+				$return["tekst"][$i]=$txt[$taal]["bsys"]["gewenst_hoofdboeker"];
+			}
+		}
+
 	}
+
 	if($mail_versturen) {
 		return $return;
 	} else {
@@ -1678,11 +1703,11 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
 				$directlogin_link = $vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]]."reisagent.php";
 			} else {
-				$db2->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
-				if($db2->next_record() and $db2->f("password_uc")) {
+				$db2->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+				if($db2->next_record()) {
 					$directlogin = new directlogin;
 					$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
-					$directlogin_link = $directlogin->maak_link($gegevens["stap1"]["website"], 2, $db2->f("user_id"),md5($db2->f("password_uc")));
+					$directlogin_link = $directlogin->maak_link($gegevens["stap1"]["website"], 2, $db2->f("user_id"));
 				}
 			}
 

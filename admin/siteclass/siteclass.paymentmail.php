@@ -159,11 +159,11 @@ class paymentmail {
 			if($this->gegevens["stap1"]["reisbureau_user_id"]) {
 				$directlogin_link = $vars["websiteinfo"]["basehref"][$this->gegevens["stap1"]["website"]]."reisagent.php";
 			} else {
-				$db->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($this->gegevens["stap2"]["email"])."';");
-				if($db->next_record() and $db->f("password_uc")) {
+				$db->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($this->gegevens["stap2"]["email"])."';");
+				if($db->next_record()) {
 					$directlogin = new directlogin;
 					$directlogin->boeking_id=$this->gegevens["stap1"]["boekingid"];
-					$directlogin_link = $directlogin->maak_link($this->gegevens["stap1"]["website"], 2, $db->f("user_id"),md5($db->f("password_uc")));
+					$directlogin_link = $directlogin->maak_link($this->gegevens["stap1"]["website"], 2, $db->f("user_id"));
 				}
 			}
 

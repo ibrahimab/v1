@@ -14,15 +14,14 @@ class directlogin {
 
 	}
 
-	public function maak_link($website,$soort,$user_id,$md5_password="") {
+	public function maak_link($website,$soort,$user_id) {
 		global $vars;
 
-
+		// soort = 1 : doorlinken naar "Mijn boeking"
 		// soort = 2 : doorlinken naar "betalen"
 		// soort = 3 : doorlinken naar "factuur goedkeuren"
 
 		// zie inloggen.php voor deze redirects
-
 
 		$link=$vars["websiteinfo"]["basehref"][$website];
 
@@ -37,6 +36,23 @@ class directlogin {
 			}
 		}
 		return $link;
+	}
+
+	public function createLinkBasedOnBooking($soort, $gegevens) {
+
+		$db = new DB_sql;
+
+		$this->boeking_id = $gegevens["stap1"]["boekingid"];
+
+		$db->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+
+		if ($db->next_record()) {
+			$link = $this->maak_link($gegevens["stap1"]["website"], $soort, $db->f( "user_id" ));
+			return $link;
+		} else {
+			trigger_error( "no directlogin-link for boeking_id ".$this->boeking_id, E_USER_NOTICE );
+			return false;
+		}
 	}
 
 	public function code($user_id) {
@@ -81,26 +97,6 @@ class directlogin {
 		}
 	}
 
-	// old function: create code based on password_uc
-	public function code_old($user_id,$md5_password="") {
-
-		if(!$md5_password) {
-			$db = new DB_sql;
-
-			$db->query("SELECT password_uc FROM boekinguser WHERE user_id='".intval($user_id)."' AND userlevel>0".($this->check_wrongcount ? " AND wrongcount<50" : "").";");
-			if($db->next_record()) {
-				$md5_password = md5($db->f("password_uc"));
-			}
-		}
-		if($md5_password) {
-			$code=substr(sha1("jkljLKjlkjhhuUuhbb".$md5_password."kkKjjehhgfyyuq".$user_id."llkk299jjhhkkk"),0,6);
-
-			return $code;
-		} else {
-			return false;
-		}
-	}
-
 	private function willekeurige_letter($gekoppeld_getal) {
 
 		$keuze_getal=round(intval(substr($gekoppeld_getal,-2))/4);
@@ -109,5 +105,4 @@ class directlogin {
 		$return=substr($keuze,$keuze_getal,1);
 		return $return;
 	}
-
 }

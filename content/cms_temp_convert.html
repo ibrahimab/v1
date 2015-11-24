@@ -7,29 +7,11 @@
 echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 
-echo "Salt:".$vars["salt"];
-echo "<br />";
-echo "<br />";
-$directlogin = new directlogin;
-$db->query("SELECT user_id, password_uc FROM boekinguser WHERE directlogin_check='' ORDER BY user_id DESC;");
-while( $db->next_record() ) {
-	$code = $directlogin->code_old($db->f( "user_id" ), md5($db->f( "password_uc" )));
 
-	$code_sha1 = sha1("OLD_CODE_SALT_".$code.$vars["salt"]);
 
-	$db2->query("UPDATE boekinguser SET directlogin_check='".addslashes($code_sha1)."' WHERE user_id='".intval($db->f( "user_id" ))."';");
-	echo $db2->lq."<br />";
-}
+
 exit;
 
-$db->query("SELECT user_id FROM boekinguser WHERE password_uc='';");
-echo $db->lq."<br />";
-while( $db->next_record() ) {
-	$new_password = wt_generate_password(6,false);
-
-	$db2->query("UPDATE boekinguser SET password='".addslashes(md5($new_password))."', password_uc='".addslashes($new_password)."' WHERE user_id='".$db->f( "user_id" )."';");
-	echo "query :".$db2->lq."<br />";
-}
 
 echo "<hr><br />";
 exit;

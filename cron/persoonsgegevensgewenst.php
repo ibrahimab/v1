@@ -26,14 +26,19 @@ flush();
 #
 # Persoonsgegevens - Gewone mailtjes
 #
-$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE UNIX_TIMESTAMP(invuldatum)<'".(time()-86400)."' AND aankomstdatum_exact>'".(time()+(86400*10))."' AND aankomstdatum<=(".mktime(0,0,0,date("m"),date("d"),date("Y"))."+(86400*(mailverstuurd_persoonsgegevens_dagenvoorvertrek))) AND mailverstuurd_persoonsgegevens IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 ORDER BY aankomstdatum;");
+if ($vars["lokale_testserver"]) {
+	$test_website = "E";
+	$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE UNIX_TIMESTAMP(invuldatum)<'".(time()-86400)."' AND aankomstdatum_exact>'".(time()+(86400*10))."' AND aankomstdatum<=(".mktime(0,0,0,date("m"),date("d"),date("Y"))."+(86400*(mailverstuurd_persoonsgegevens_dagenvoorvertrek))) AND mailverstuurd_persoonsgegevens IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 AND website='".$test_website."' ORDER BY aankomstdatum;");
+} else {
+	$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE UNIX_TIMESTAMP(invuldatum)<'".(time()-86400)."' AND aankomstdatum_exact>'".(time()+(86400*10))."' AND aankomstdatum<=(".mktime(0,0,0,date("m"),date("d"),date("Y"))."+(86400*(mailverstuurd_persoonsgegevens_dagenvoorvertrek))) AND mailverstuurd_persoonsgegevens IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 ORDER BY aankomstdatum;");
+}
 while($db->next_record()) {
 
-	$gegevens=get_boekinginfo($db->f("boeking_id"));
+	$gegevens = get_boekinginfo($db->f("boeking_id"));
 
-	$gewenst=persoonsgegevensgewenst($gegevens);
+	$gewenst = persoonsgegevensgewenst($gegevens);
 	if($gewenst) {
-		$mailtekst_persoonsgegevens=mailtekst_persoonsgegevens($gegevens["stap1"]["boekingid"],$gewenst);
+		$mailtekst_persoonsgegevens = mailtekst_persoonsgegevens($gegevens["stap1"]["boekingid"],$gewenst);
 
 		$mail=new wt_mail;
 		$mail->fromname=$mailtekst_persoonsgegevens["fromname"];
@@ -46,27 +51,31 @@ while($db->next_record()) {
 		echo "<hr><a href=\"".$vars["path"]."cms_boekingen.php?show=21&bt=2&archief=0&21k0=".$gegevens["stap1"]["boekingid"]."\" target=\"_blank\">Boeking ".$gegevens["stap1"]["boekingsnummer"]."</a> - ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])."<p>";
 		echo "<b>".$mailtekst_persoonsgegevens["subject"]."</b><p>".wordwrap($mailtekst_persoonsgegevens["body"]);
 
-		if($mail->to) {
-			$mail->send();
-		}
+		if (!$vars["lokale_testserver"]) {
+			if($mail->to) {
+				$mail->send();
+			}
 
-		# Opslaan in database
-		$db2->query("UPDATE boeking SET mailverstuurd_persoonsgegevens=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+			# Opslaan in database
+			$db2->query("UPDATE boeking SET mailverstuurd_persoonsgegevens=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+		}
 
 		# Loggen
 		chalet_log("persoonsgegevensgewenst-mailtje verstuurd aan ".$mail->to,false,true);
-
-#		echo "<br>";
 	}
 	flush();
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") break;
+	if($vars["lokale_testserver"]) break;
 }
 
 #
 # Persoonsgegevens - Reminders
 #
-$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE aankomstdatum_exact>'".(time()+(86400*10))."' AND UNIX_TIMESTAMP(mailverstuurd_persoonsgegevens)<='".mktime(0,0,0,date("m"),date("d")-6,date("Y"))."' AND mailverstuurd_persoonsgegevens_reminder IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 ORDER BY aankomstdatum;");
-if($db->num_rows()) echo "Reminder \n\n";
+if ($vars["lokale_testserver"]) {
+	$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE aankomstdatum_exact>'".(time()+(86400*10))."' AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 AND website='".$test_website."' ORDER BY boeking_id DESC, aankomstdatum;");
+} else {
+	$db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE aankomstdatum_exact>'".(time()+(86400*10))."' AND UNIX_TIMESTAMP(mailverstuurd_persoonsgegevens)<='".mktime(0,0,0,date("m"),date("d")-6,date("Y"))."' AND mailverstuurd_persoonsgegevens_reminder IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND mailblokkeren_persoonsgegevens=0 AND voucherstatus=0 ORDER BY aankomstdatum;");
+}
+if($db->num_rows()) echo "\n\n\n\n\nReminder \n";
 while($db->next_record()) {
 
 	$gegevens=get_boekinginfo($db->f("boeking_id"));
@@ -86,21 +95,23 @@ while($db->next_record()) {
 		echo "<hr><a href=\"".$vars["path"]."cms_boekingen.php?show=21&bt=2&archief=0&21k0=".$gegevens["stap1"]["boekingid"]."\" target=\"_blank\">Boeking ".$gegevens["stap1"]["boekingsnummer"]."</a> - ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])."<p>";
 		echo "<b>".$mailtekst_persoonsgegevens["subject"]."</b><p>".wordwrap($mailtekst_persoonsgegevens["body"]);
 
-		if($mail->to) {
-			$mail->send();
-		}
+		if (!$vars["lokale_testserver"]) {
 
-		# Opslaan in database
-		$db2->query("UPDATE boeking SET mailverstuurd_persoonsgegevens_reminder=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+			if($mail->to) {
+				$mail->send();
+			}
+
+			# Opslaan in database
+			$db2->query("UPDATE boeking SET mailverstuurd_persoonsgegevens_reminder=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+		}
 
 		# Loggen
 		chalet_log("persoonsgegevensgewenst-mailtje-reminder verstuurd aan ".$mail->to,false,true);
 
 	}
-#	echo "<br>";
 	flush();
 
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") break;
+	if($vars["lokale_testserver"]) break;
 
 }
 
@@ -111,6 +122,9 @@ while($db->next_record()) {
 # tussen 30 en 29 dagen voor vertrek versturen
 #
 $db->query("SELECT boeking_id, aankomstdatum FROM boeking WHERE UNIX_TIMESTAMP(invuldatum)<'".(time()-86400)."' AND aankomstdatum_exact<'".(time()+(86400*30))."' AND aankomstdatum_exact>'".(time()+(86400*29))."' AND wijzigen_dagen<=26 AND verzendmethode_reisdocumenten=0 and mailverstuurd_verzendmethode_reisdocumenten IS NULL AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND voucherstatus=0 ORDER BY aankomstdatum, boeking_id;");
+if ($db->num_rows()) {
+	echo "Verzendmethode invullen\n\n";
+}
 while($db->next_record()) {
 
 	$gegevens=get_boekinginfo($db->f("boeking_id"));
@@ -128,19 +142,20 @@ while($db->next_record()) {
 	echo "<hr>Verzendmethode reisdocumenten: <a href=\"".$vars["path"]."cms_boekingen.php?show=21&bt=2&archief=0&21k0=".$gegevens["stap1"]["boekingid"]."\" target=\"_blank\">boeking ".$gegevens["stap1"]["boekingsnummer"]."</a> - ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])."<p>\n\n";
 	echo "<b>".$mailtekst["subject"]."</b><p>".wordwrap($mailtekst["body"]);
 
-	if($mail->to and $mail->plaintext) {
-		$mail->send();
-	}
+	if (!$vars["lokale_testserver"]) {
 
-	# Opslaan in database
-	$db2->query("UPDATE boeking SET mailverstuurd_verzendmethode_reisdocumenten=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+		if($mail->to and $mail->plaintext) {
+			$mail->send();
+		}
+
+		# Opslaan in database
+		$db2->query("UPDATE boeking SET mailverstuurd_verzendmethode_reisdocumenten=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+	}
 
 	# Loggen
 	chalet_log("'verzendmethode reisdocumenten'-mailtje verstuurd aan ".$mail->to,false,true);
 
 #	echo "<br>";
 	flush();
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") break;
+	if($vars["lokale_testserver"]) break;
 }
-
-?>
