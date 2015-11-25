@@ -8,7 +8,7 @@
 #
 # 1x per week wordt de nieuwe cache aangemaakt (via cron/elkuur.php)
 # maandag om 02:00 uur: 	nieuwe feeds Chalet.nl en Italissima.nl worden aangemaakt
-# woensdag om 02:00 uur:	nieuwe feeds Chaletonline.de worden aangemaakt
+# donderdag om 02:00 uur:	nieuwe feeds Chaletonline.de worden aangemaakt
 #
 # handmatig starten aanmaken cache: /usr/bin/php /var/www/chalet.nl/html/cron/elkuur.php traffic4u
 #
@@ -88,14 +88,14 @@ if($_GET["feed"]=="accommodaties") {
 
 	if($vars["seizoentype"]==1) {
 		if($vars["website"] == "D") {
-			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skiegebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('soortaccommodatie', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatienaam', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatie_url', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('klassering', 'traffic4u'))."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skigebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('soortaccommodatie', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatienaam', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatie_url', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('klassering', 'traffic4u'))."\n";
 		} else {
-			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skiegebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('soortaccommodatie', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatienaam', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode("Typenaam").wt_csvconvert_delimiter.utf8_encode(txt('aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatie_url', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode("Afstand tot de piste").wt_csvconvert_delimiter.utf8_encode("Afstand tot restaurant").wt_csvconvert_delimiter.utf8_encode("Afstand tot winkels").wt_csvconvert_delimiter.utf8_encode(txt('klassering', 'traffic4u'))."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skigebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('soortaccommodatie', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatienaam', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode("Typenaam").wt_csvconvert_delimiter.utf8_encode(txt('aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('accommodatie_url', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode("Afstand tot de piste").wt_csvconvert_delimiter.utf8_encode("Afstand tot restaurant").wt_csvconvert_delimiter.utf8_encode("Afstand tot winkels").wt_csvconvert_delimiter.utf8_encode(txt('klassering', 'traffic4u'))."\n";
 		}
 	} else {
 		echo txt("land", "traffic4u").wt_csvconvert_delimiter.txt("regio", "traffic4u").wt_csvconvert_delimiter.txt('plaats', 'traffic4u').wt_csvconvert_delimiter.txt('soortaccommodatie', 'traffic4u').wt_csvconvert_delimiter.txt('accommodatienaam', 'traffic4u').wt_csvconvert_delimiter."Typenaam".wt_csvconvert_delimiter.txt('aantalpersonen', 'traffic4u').wt_csvconvert_delimiter.txt('accommodatie_url', 'traffic4u').wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter.txt('klassering', 'traffic4u')."\n";
 	}
-	$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, t.naam" . $vars['ttv'] . " AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra, a.afstandskilift, a.afstandskiliftextra, a.afstandloipe, a.afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, s.skigebied_id, s.naam AS skigebied, l.naam" . $vars['ttv'] . " AS land, l.begincode, p.naam AS plaats, p.plaats_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "")." ORDER BY t.type_id".($vars["lokale_testserver"] ? " LIMIT 0,10" : "").";");
+	$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, t.naam" . $vars['ttv'] . " AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra, a.afstandskilift, a.afstandskiliftextra, a.afstandloipe, a.afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, s.skigebied_id, s.naam" . $vars['ttv'] . " AS skigebied, l.naam" . $vars['ttv'] . " AS land, l.begincode, p.naam" . $vars['ttv'] . " AS plaats, p.plaats_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "")." ORDER BY t.type_id".($vars["lokale_testserver"] ? " LIMIT 0,10" : "").";");
 	while($db->next_record()) {
 		for($i=$db->f("optimaalaantalpersonen");$i<=$db->f("maxaantalpersonen");$i++) {
 			echo wt_csvconvert(utf8_encode($db->f("land"))).wt_csvconvert_delimiter;
@@ -205,15 +205,15 @@ if($_GET["feed"]=="accommodaties") {
 		}
 
 		if($_GET["feed"]=="bestemmingen-aantal-personen") {
-			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skiegebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_skigebied_aantaalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesskigebied_aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_plaatsaantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesplaats_aantalpersonen', 'traffic4u'))."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skigebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_skigebied_aantaalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesskigebied_aantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_plaatsaantalpersonen', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesplaats_aantalpersonen', 'traffic4u'))."\n";
 		} else {
-			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skiegebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('thema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_skigebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_skigebiedthema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesskigebied_thema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_plaatsthema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesplaats_thema', 'traffic4u'))."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt('skigebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('thema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_skigebied', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_plaats', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_skigebiedthema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesskigebied_thema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('url_plaatsthema', 'traffic4u')).wt_csvconvert_delimiter.utf8_encode(txt('aantalaccommodatiesplaats_thema', 'traffic4u'))."\n";
 		}
 
 		if($vars["lokale_testserver"]) {
-			$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND skigebied_id=2 ORDER BY skigebied_id, plaats_id;");
+			$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied" . $vars['ttv'] . " AS skigebied, skigebied_id, plaats_id, plaats" . $vars['ttv'] . " AS plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND skigebied_id=2 ORDER BY skigebied_id, plaats_id;");
 		} else {
-			$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id, plaats_id;");
+			$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied" . $vars['ttv'] . " AS skigebied, skigebied_id, plaats_id, plaats" . $vars['ttv'] . " AS plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id, plaats_id;");
 		}
 
 	} else {
@@ -248,7 +248,7 @@ if($_GET["feed"]=="accommodaties") {
 			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("thema", "traffic4u")).wt_csvconvert_delimitertxt.utf8_encode(txt("url_regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("url_regiothema", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalaccommodatiesregio_thema", "traffic4u"))."\n";
 		}
 
-		$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied" . $vars['ttv'] . " AS skiegebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id;");
+		$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied" . $vars['ttv'] . " AS skigebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id;");
 
 	}
 	$result_teller=0;
@@ -367,9 +367,9 @@ if($_GET["feed"]=="accommodaties") {
 			}
 
 			if(!$vars["lokale_testserver"]) {
-				sleep(1);
+				// wait 0,5 second
+				usleep(500000);
 			}
-
 		}
 	}
 } elseif( $_GET["feed"]=="land-aantal-personen" ) {

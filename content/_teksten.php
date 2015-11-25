@@ -8513,9 +8513,9 @@ $txt["nl"]["traffic4u"]["land"]="Land";
 $txt["de"]["traffic4u"]["land"]="Land";
 $txt["en"]["traffic4u"]["land"]="Country";
 
-$txt["nl"]["traffic4u"]["skiegebied"]="Skiegebied";
-$txt["de"]["traffic4u"]["skiegebied"]="Skigebiet";
-$txt["en"]["traffic4u"]["skiegebied"]="Ski region";
+$txt["nl"]["traffic4u"]["skigebied"]="Skigebied";
+$txt["de"]["traffic4u"]["skigebied"]="Skigebiet";
+$txt["en"]["traffic4u"]["skigebied"]="Ski region";
 
 $txt["nl"]["traffic4u"]["plaats"]="Plaats";
 $txt["de"]["traffic4u"]["plaats"]="Ort";
