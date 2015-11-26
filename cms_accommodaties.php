@@ -337,6 +337,7 @@ $cms->db_field(1,"checkbox","vertrekinfo_seizoengoedgekeurd_en","",array("select
 
 # Nieuw vertrekinfo-systeem
 $cms->db_field(1,"upload","accommodatie_aanvullende_informatie","",array("savelocation"=>"pdf/accommodatie_aanvullende_informatie/","filetype"=>"pdf"));
+$cms->db_field(1,"upload","pdfplattegrond","",array("savelocation"=>"pdf/accommodaties_plattegrond/","filetype"=>"pdf"));
 
 $cms->db_field(1,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
 if($vars["cmstaal"]) $cms->db_field(1,"checkbox","vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"",array("selection"=>$vars["seizoengoedgekeurd"]));
@@ -664,6 +665,7 @@ $cms->edit_field(1,0,"video","Toon deze video op de accommodatiepagina");
 # Nieuw vertrekinfo-systeem
 $cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
 $cms->edit_field(1,0,"accommodatie_aanvullende_informatie","PDF met voor deze accommodatie specifieke informatie","",array("showfiletype"=>true));
+$cms->edit_field(1,0,"pdfplattegrond","Plattegrond-PDF","",array("showfiletype"=>true));
 $cms->edit_field(1,0,"htmlrow","<br><i>Alinea 'Inchecken'</i>");
 $cms->edit_field(1,0,"vertrekinfo_incheck_sjabloon_id","Sjabloon inchecken");
 if($vertrekinfo_tracking["vertrekinfo_incheck_sjabloon_id"]) {
@@ -889,10 +891,31 @@ if($cms_form[1]->filled) {
 }
 
 # functie na opslaan form
+function form_before_goto1($form1){
+	global $db0,$login;
+	 # datum plattegrondpdf-upload vastleggen
+	if($cms_form[1]->okay) {
+
+    }
+	if($form1->settings["fullname"]=="cms_1") {
+		if($form1->upload_okay["pdfplattegrond"]) {
+			if($form1->db_insert_id) {
+				$accommodatieid=$form1->db_insert_id;
+			} elseif($_GET["1k0"]) {
+				$accommodatieid=$_GET["1k0"];
+			}
+			if($plaatsid) {
+				$db0->query("UPDATE accommodatie SET pdfplattegrondupload_user='".addslashes($login->user_id)."', pdfupload_datum=NOW() WHERE accommodatie_id='".addslashes($accommodatieid)."';");
+			}
+		}
+	}
+
+}
+
 function form_before_goto($form) {
 	$db=new DB_sql;
 	$db2=new DB_sql;
-	global $login,$vars;
+	global $login,$vars, $db0;
 
 	# datum pdf-upload vastleggen
 	if($form->settings["fullname"]=="cms_1") {
