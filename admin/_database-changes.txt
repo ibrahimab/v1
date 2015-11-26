@@ -3,6 +3,13 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+26-nov-2015 13:46
+ALTER TABLE `type` ADD `pdfupload_user` TINYINT( 11 ) NULL AFTER `wronghost` ;
+ALTER TABLE `type` ADD `pdfupload_datum` DATETIME NULL AFTER `pdfupload_user` ;
+ALTER TABLE `accommodatie` ADD `pdfplattegrondupload_user` TINYINT( 11 ) NULL AFTER `pdfupload_datum_fr` ;
+ALTER TABLE `accommodatie` ADD `pdfplattegrondupload_datum` DATETIME NULL AFTER `pdfplattegrondupload_user` ;
+
+
 06-nov-2015 12:22
 ALTER TABLE `boeking` ADD `unfinished_contacted` DATETIME NULL DEFAULT NULL ;
 
