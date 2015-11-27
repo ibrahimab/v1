@@ -370,8 +370,8 @@ $vars["temp_pdfprinttable"].="</td></tr>";
 # Plattegrond-pdf
 unset($htmlrow);
 $pdffile_plattegrond_plaats="pdf/plaats_plattegrond/".$gegevens["stap1"]["accinfo"]["plaats_id"].".pdf";
-$pdffile_plattegrond_accom="pdf/accommodatie_plattegrond/".$gegevens["stap1"]["accinfo"]["plaats_id"].".pdf";
-$pdffile_plattegrond_lev="pdf/leverancier_plattegrond/".$gegevens["stap1"]["accinfo"]["plaats_id"].".pdf";
+$pdffile_plattegrond_accom="pdf/accommodaties_plattegrond/".$gegevens["stap1"]["accinfo"]["accommodatie_id"].".pdf";
+$pdffile_plattegrond_lev="pdf/leveranciers_plattegrond/".$gegevens["stap1"]["accinfo"]["leverancier_id"].".pdf";
 
 $db->query("SELECT pdfplattegrond_nietnodig FROM plaats WHERE plaats_id='".addslashes($gegevens["stap1"]["accinfo"]["plaats_id"])."';");
 if($db->next_record()) {
@@ -387,10 +387,9 @@ if($plaats_pdfplattegrond_nietnodig) {
 	unset($pdffile_plattegrond);
 } elseif(file_exists($pdffile_plattegrond_accom)) {
 	$htmlrow="<a href=\"".wt_he($pdffile_plattegrond_accom)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
-} else if(file_exists($pdffile_plattegrond_lev)) {
+} elseif(file_exists($pdffile_plattegrond_lev)) {
 	$htmlrow="<a href=\"".wt_he($pdffile_plattegrond_lev)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
-		}
-elseif(file_exists($pdffile_plattegrond_plaats)){
+} elseif(file_exists($pdffile_plattegrond_plaats)){
 	$htmlrow="<a href=\"".wt_he($pdffile_plattegrond_plaats)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
 } else {
 	$htmlrow="<b>Let op! plattegrond-PDF ontbreekt. Uploaden via <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">plaats</a> of <a href=\"cms_leveranciers.php?edit=8&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&8k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">leveranciers</a> of <a href=\"cms_accommodaties.php?edit=1&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&1k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">accommodaties</a></b>";
