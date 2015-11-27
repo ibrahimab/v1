@@ -487,7 +487,7 @@ class xmlExport extends chaletDefault
 		// additional costs (bijkomende kosten)
 		//
 		$db->query("SELECT bt.type_id, bt.seizoen_id, bs.bk_soort_id, bs.naam".$this->config->ttv." AS naam,
-			bt.bedrag, bt.verplicht, bt.ter_plaatse
+			bt.bedrag, bt.verplicht, bt.ter_plaatse, eenheid
 			FROM bk_type bt
 			INNER JOIN bk_soort bs USING (bk_soort_id)
 			WHERE
@@ -512,6 +512,7 @@ class xmlExport extends chaletDefault
 
 				if ($in_ex_type === 'excluded') {
 					$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )]['excluded_price'][$db->f( "bk_soort_id" )] = $db->f( "bedrag" );
+					$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )]['unit'][$db->f( "bk_soort_id" )]           = $this->config->bk_eenheid[$db->f( "eenheid" )];
 				}
 			}
 		}

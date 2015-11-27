@@ -185,6 +185,10 @@ class xmlTradetracker extends xmlExport
 									$this->x->writeAttribute('price', $this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key]);
 								}
 
+								if (isset($this->type_bkk[$type_id][$last_seizoen_id]['unit'][$key])) {
+									$this->x->writeAttribute('unit', $this->type_bkk[$type_id][$last_seizoen_id]['unit'][$key]);
+								}
+
 								$this->x->text($value);
 								$this->x->endElement();
 							}
