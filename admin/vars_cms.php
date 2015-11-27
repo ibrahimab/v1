@@ -427,6 +427,7 @@ if($mustlogin) {
 
 	$layout->menu_item("cms_garanties","Garanties","",true,false,array("slide"=>true));
 	$layout->submenu_item("cms_garanties","","cms_garanties","Ongebruikte",array("status"=>"1"),true);
+	$layout->submenu_item("cms_garanties","","cms_garanties","Ongebruikte (in optie)",array("status"=>"5"),true);
 	if($login->has_priv("9")) {
 		$layout->submenu_item("cms_garanties","","cms_garanties","Gebruikte",array("status"=>"2"),true);
 		$layout->submenu_item("cms_garanties","","cms_garanties","Verlopen",array("status"=>"3"),true);
@@ -903,6 +904,9 @@ if($mustlogin) {
 	} elseif($_GET["status"]==4) {
 		$cms->settings[34]["types"]="garanties";
 		$cms->settings[34]["type_single"]="garantie";
+	} elseif($_GET["status"]==5) {
+		$cms->settings[34]["types"]="ongebruikte garanties (in optie)";
+		$cms->settings[34]["type_single"]="ongebruikte garantie (in optie)";
 	} elseif($_GET["status"]==1) {
 		$cms->settings[34]["types"]="ongebruikte garanties";
 		$cms->settings[34]["type_single"]="ongebruikte garantie";

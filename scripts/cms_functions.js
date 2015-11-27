@@ -1189,6 +1189,29 @@ $(document).ready(function() {
 			}
 		);
 	});
+
+	// cms_garanties: set date when selecting
+	$("body#cms_body_cms_garanties #yesnooptie_klant").change(function(event) {
+
+		if ($(this).is(":checked") && $("select[name='input[optie_einddatum][day]']").val()=="") {
+
+			// set date 2 days ahead
+			var d = new Date();
+			d.setDate(d.getDate() + 2);
+
+			if (d.getDay()==0) {
+				// Sunday becomes Monday
+				d.setDate(d.getDate() + 1);
+			}
+
+			$("select[name='input[optie_einddatum][day]']").val(d.getDate());
+			$("select[name='input[optie_einddatum][month]']").val(d.getMonth()+1);
+			$("select[name='input[optie_einddatum][year]']").val(d.getFullYear());
+
+			$("select[name='input[optie_einddatum][hour]']").val((d.getHours() < 10 ? '0' + d.getHours() : d.getHours()));
+			$("select[name='input[optie_einddatum][minute]']").val("00");
+		}
+	});
 });
 
 function bk_keuzes_actief_inactief() {

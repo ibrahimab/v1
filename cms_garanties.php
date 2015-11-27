@@ -4,11 +4,10 @@ $mustlogin=true;
 $vars["types_in_vars"]=true;
 include("admin/vars.php");
 
-if(!$_GET["status"] or $_GET["status"]>=5) {
+if(!$_GET["status"] or $_GET["status"]>5) {
 	$_GET["status"]=1;
 }
-
-if(!$login->has_priv("9") and $_GET["status"]<>1) {
+if(!$login->has_priv("9") and !in_array($_GET["status"], array(1,5))) {
 	header("Location: cms.php");
 	exit;
 }
@@ -50,8 +49,14 @@ while($db->next_record()) {
 		$verkoopprijs[$db->f("garantie_id")]="onbekend";
 	}
 }
-#echo $reserveringsnummer_2;
-#echo wt_dump($acc);
+
+// get `optie_opmerkingen_intern`
+if ($_GET["status"]==5) {
+	$db->query("SELECT garantie_id, optie_opmerkingen_intern FROM garantie WHERE boeking_id=0 AND aankomstdatum_exact>'".time()."' AND optie_klant=1 AND optie_opmerkingen_intern IS NOT NULL AND optie_opmerkingen_intern<>'';");
+	while($db->next_record()) {
+		$optie_opmerkingen_intern[$db->f("garantie_id")]="<a href=\"#\" onclick=\"return false;\" class=\"opm\"><span class=\"balloon_small2\">".nl2br(wt_he($db->f( "optie_opmerkingen_intern" )))."</span>opmerking</a>";
+	}
+}
 
 # Boekingen vullen
 $db->query("SELECT b.boeking_id, b.boekingsnummer, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE bp.persoonnummer=1 AND bp.boeking_id=b.boeking_id AND b.boekingsnummer<>'' AND b.geannuleerd=0 ORDER BY b.boekingsnummer;");
@@ -72,6 +77,9 @@ if($_GET["status"]==1) {
 } elseif($_GET["status"]==3) {
 	# Verlopen garanties
 	$cms->db[34]["where"].=" AND boeking_id=0 AND aankomstdatum_exact<='".time()."'";
+} elseif($_GET["status"]==5) {
+	# Ongebruikte garanties (in optie)
+	$cms->db[34]["where"].=" AND boeking_id=0 AND aankomstdatum_exact>'".time()."' AND optie_klant=1";
 }
 
 if($_GET["tid"]) {
@@ -113,6 +121,13 @@ $cms->db_field(34,"textarea","opmerkingen");
 $cms->db_field(34,"select","garantie_id","",array("selection"=>$verkoopprijs));
 $cms->db_field(34,"select","soort_garantie","",array("selection"=>$vars["soort_garantie_uitgebreid"]));
 $cms->db_field(34,"text","aan_leverancier_doorgegeven_naam");
+$cms->db_field(34,"yesno","optie_klant");
+$cms->db_field(34,"text","optie_klantnaam");
+$cms->db_field(34,"datetime","optie_einddatum");
+$cms->db_field(34,"textarea","optie_opmerkingen_intern");
+if ($_GET["status"]==5) {
+	$cms->db_field(34,"select","optie_opmerkingen_intern_popup","garantie_id",array("selection"=>$optie_opmerkingen_intern));
+}
 
 
 #
@@ -128,27 +143,45 @@ if($login->has_priv("9")) {
 	$cms->settings[34]["list"]["edit_icon"]=false;
 	$cms->settings[34]["list"]["delete_icon"]=false;
 }
+if (in_array($_GET["status"], array(1,5))) {
+	// status 1 & 5: anybody can edit
+	$cms->settings[34]["list"]["edit_icon"] = true;
+}
 $cms->settings[34]["list"]["add_link"]=false;
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 if($_GET["status"]==1) {
 	$cms->list_sort[34]=array("aankomstdatum_exact","type_id","reserveringsnummer_extern","naam");
+} elseif($_GET["status"]==5) {
+	$cms->list_sort[34]=array("optie_einddatum","aankomstdatum_exact","type_id","reserveringsnummer_extern");
 } else {
 	$cms->list_sort[34]=array("type_id","aankomstdatum_exact","reserveringsnummer_extern","naam");
 }
 $cms->list_field(34,"type_id","Accommodatie","",array("html"=>true, "td_class"=>"td_type_id"));
 $cms->list_field(34,"aankomstdatum_exact","Aankomst",array("date_format"=>"DD-MM-JJJJ"));
-if($_GET["status"]==2) {
+if($_GET["status"]==1) {
+	$cms->list_field(34,"optie_klant","Optie");
+} elseif($_GET["status"]==2) {
 	$cms->list_field(34,"boeking_id","Boeking");
+} elseif($_GET["status"]==5) {
+	$cms->list_field(34,"optie_klantnaam","Klantnaam");
+	$cms->list_field(34,"optie_einddatum","Optie-einddatum",array("date_format"=>"DD-MM-JJJJ UU:ZZ"));
+	$cms->list_field(34,"optie_opmerkingen_intern_popup","Intern","",array("html"=>true));
+
 } else {
 	$cms->list_field(34,"reserveringsnummer_extern","Volgnr");
 }
-$cms->list_field(34,"naam","Naam", "", array("td_class"=>"td_naam"));
+
+if($_GET["status"]!=5) {
+	$cms->list_field(34,"naam","Naam", "", array("td_class"=>"td_naam"));
+}
 $cms->list_field(34,"netto","Netto");
-$cms->list_field(34,"bruto","Bruto");
-$cms->list_field(34,"garantie_id","Verkoop",array("force_field_type"=>"currency"));
-$cms->list_field(34,"mag_voor","Mag voor",array("force_field_type"=>"currency"));
-$cms->list_field(34,"opmerkingen_overzicht","Opmerking", "", array("td_class"=>"td_opmerkingen_overzicht"));
+if($_GET["status"]<>5) {
+	$cms->list_field(34,"bruto","Bruto");
+	$cms->list_field(34,"garantie_id","Verkoop",array("force_field_type"=>"currency"));
+	$cms->list_field(34,"mag_voor","Mag voor",array("force_field_type"=>"currency"));
+	$cms->list_field(34,"opmerkingen_overzicht","Opmerking", "", array("td_class"=>"td_opmerkingen_overzicht"));
+}
 
 # Controle op delete-opdracht
 if($_GET["delete"]==34 and $_GET["34k0"]) {
@@ -264,7 +297,12 @@ if($_GET["status"]==1) {
 $cms->edit_field(34,0,"htmlrow","<hr><b>Commerciële/lastminute-informatie </b>");
 $cms->edit_field(34,0,"mag_voor","Mag voor €","","",array("input_class"=>"wtform_input garantie_inkoopgegevens"));
 $cms->edit_field(34,0,"opmerkingen_overzicht","Opmerking overzicht","",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
-$cms->edit_field(34,0,"htmlrow","<hr>");
+$cms->edit_field(34,0,"htmlrow","<hr><b>In optie voor klant</b>");
+$cms->edit_field(34,0,"optie_klant","Deze garantie staat in optie voor een klant");
+$cms->edit_field(34,0,"optie_klantnaam","Klantnaam");
+$cms->edit_field(34,0,"optie_einddatum","Einddatum", "", "", array("calendar"=>true));
+$cms->edit_field(34,0,"optie_opmerkingen_intern","Interne opmerkingen bij de optie");
+
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(34);
