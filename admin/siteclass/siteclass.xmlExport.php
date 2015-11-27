@@ -509,6 +509,10 @@ class xmlExport extends chaletDefault
 			}
 			if ($in_ex_type) {
 				$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )][$in_ex_type][$db->f( "bk_soort_id" )] = $db->f( "naam" );
+
+				if ($in_ex_type === 'excluded') {
+					$type_bkk[$db->f( "type_id" )][$db->f( "seizoen_id" )]['excluded_price'][$db->f( "bk_soort_id" )] = $db->f( "bedrag" );
+				}
 			}
 		}
 
@@ -552,9 +556,10 @@ class xmlExport extends chaletDefault
 
 						// reserveringskosten
 						if($db->f( "bedrag" )>0 and constant("include_bkk")===true) {
-							$this->type_bkk[$type_id][$key]["included"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+							$this->type_bkk[$type_id][$key]["included"]["reserveringskosten"] 		= iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
 						} else {
-							$this->type_bkk[$type_id][$key]["excluded"]["reserveringskosten"] = iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+							$this->type_bkk[$type_id][$key]["excluded"]["reserveringskosten"] 		= iconv("Windows-1252", "UTF-8", txt("reserveringskosten", "xml"));
+							$this->type_bkk[$type_id][$key]['excluded_price']['reserveringskosten'] = $this->config->reserveringskosten;
 						}
 					}
 				}

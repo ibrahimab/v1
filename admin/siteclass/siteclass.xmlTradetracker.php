@@ -178,7 +178,15 @@ class xmlTradetracker extends xmlExport
 						if( is_array( $this->type_bkk[$type_id][$last_seizoen_id]["excluded"] )) {
 							$this->x->startElement('excludedFromPrice');
 							foreach ($this->type_bkk[$type_id][$last_seizoen_id]["excluded"] as $key => $value) {
-								$this->x->writeElement('value', $value);
+
+								$this->x->startElement('value');
+
+								if (isset($this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key])) {
+									$this->x->writeAttribute('price', $this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key]);
+								}
+
+								$this->x->text($value);
+								$this->x->endElement();
 							}
 							$this->x->endElement(); // close excludedFromPrice
 						} else {
