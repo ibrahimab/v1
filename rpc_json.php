@@ -870,5 +870,3 @@ function handle_google_translation() {
 	}
 	return $translations;
 }
-
-?>
