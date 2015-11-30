@@ -891,27 +891,6 @@ if($cms_form[1]->filled) {
 }
 
 # functie na opslaan form
-function form_before_goto1($form1){
-	global $db0,$login;
-	 # datum plattegrondpdf-upload vastleggen
-	if($cms_form[1]->okay) {
-
-    }
-	if($form1->settings["fullname"]=="cms_1") {
-		if($form1->upload_okay["pdfplattegrond"]) {
-			if($form1->db_insert_id) {
-				$accommodatieid=$form1->db_insert_id;
-			} elseif($_GET["1k0"]) {
-				$accommodatieid=$_GET["1k0"];
-			}
-			if($plaatsid) {
-				$db0->query("UPDATE accommodatie SET pdfplattegrondupload_user='".addslashes($login->user_id)."', pdfupload_datum=NOW() WHERE accommodatie_id='".addslashes($accommodatieid)."';");
-			}
-		}
-	}
-
-}
-
 function form_before_goto($form) {
 	$db=new DB_sql;
 	$db2=new DB_sql;
@@ -931,7 +910,19 @@ function form_before_goto($form) {
 			}
 		}
 	}
-
+	 # datum plattegrondpdf-upload vastleggen
+	if($form->settings["fullname"]=="cms_1") {
+		if($form->upload_okay["pdfplattegrond"]) {
+			if($form->db_insert_id) {
+				$accommodatieid=$form1->db_insert_id;
+			} elseif($_GET["1k0"]) {
+				$accommodatieid=$_GET["1k0"];
+			}
+			if($accommodatieid) {
+				$db0->query("UPDATE accommodatie SET pdfplattegrondupload_user='".addslashes($login->user_id)."', pdfplattegrondupload_datum=NOW() WHERE accommodatie_id='".addslashes($accommodatieid)."';");
+			}
+		}
+	}
 	if($_GET["1k0"]) {
 
 		# wijziging in websites: op alle onderliggende types doorvoeren
