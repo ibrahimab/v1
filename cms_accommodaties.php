@@ -559,16 +559,20 @@ $cms->edit_field(1,0,"mailtekst_id","Mailtekst (8 weken voor vertrek)");
 $cms->edit_field(1,1,"optiedagen_klanten_vorig_seizoen","Aantal optiedagen voor klant die het volgende seizoen de accommodatie opnieuw boekt");
 
 
-$cms->edit_field(1,0,"htmlrow","<hr><b>Afstanden</b>");
-$cms->edit_field(1,0,"afstandwinkel","Afstand tot winkel (in meters)");
-if($vars["cmstaal"]) {
-	$cms->edit_field(1,0,"afstandwinkelextra","Toevoeging afstand winkel NL","",array("noedit"=>true));
-	$cms->edit_field(1,0,"afstandwinkelextra_".$vars["cmstaal"],"Toevoeging afstand winkel ".strtoupper($vars["cmstaal"]));
+$cms->edit_field(1,0,"htmlrow","<hr><b>Afstanden</b><br /><i>0 = &quot;ter plaatse&quot;</i>");
+if ($_GET["wzt"]==1) {
+	$afstandwinkel = "winkel";
 } else {
-	$cms->edit_field(1,0,"afstandwinkelextra","Toevoeging afstand winkel");
+	$afstandwinkel = "dorp";
+}
+$cms->edit_field(1,0,"afstandwinkel","Afstand tot ".$afstandwinkel." (in meters)");
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"afstandwinkelextra","Toevoeging afstand ".$afstandwinkel." NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"afstandwinkelextra_".$vars["cmstaal"],"Toevoeging afstand ".$afstandwinkel." ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,0,"afstandwinkelextra","Toevoeging afstand ".$afstandwinkel);
 }
 $cms->edit_field(1,0,"afstandrestaurant","Afstand tot restaurant (in meters)");
-$cms->edit_field(1,0,"afstandwinkel","Afstand tot winkel (in meters)");
 if($vars["cmstaal"]) {
 	$cms->edit_field(1,0,"afstandrestaurantextra","Toevoeging afstand restaurant NL","",array("noedit"=>true));
 	$cms->edit_field(1,0,"afstandrestaurantextra_".$vars["cmstaal"],"Toevoeging afstand restaurant ".strtoupper($vars["cmstaal"]));
@@ -614,27 +618,6 @@ if($_GET["wzt"]==1) {
 		$cms->edit_field(1,0,"afstandstrandextra_".$vars["cmstaal"],"Toevoeging afstand strand ".strtoupper($vars["cmstaal"]));
 	} else {
 		$cms->edit_field(1,0,"afstandstrandextra","Toevoeging afstand strand");
-	}
-	$cms->edit_field(1,0,"afstandzwembad","Afstand tot zwembad (in meters)");
-	if($vars["cmstaal"]) {
-		$cms->edit_field(1,0,"afstandzwembadextra","Toevoeging afstand zwembad NL","",array("noedit"=>true));
-		$cms->edit_field(1,0,"afstandzwembadextra_".$vars["cmstaal"],"Toevoeging afstand zwembad ".strtoupper($vars["cmstaal"]));
-	} else {
-		$cms->edit_field(1,0,"afstandzwembadextra","Toevoeging afstand zwembad");
-	}
-	$cms->edit_field(1,0,"afstandzwemwater","Afstand tot zwemwater (in meters)");
-	if($vars["cmstaal"]) {
-		$cms->edit_field(1,0,"afstandzwemwaterextra","Toevoeging afstand zwemwater NL","",array("noedit"=>true));
-		$cms->edit_field(1,0,"afstandzwemwaterextra_".$vars["cmstaal"],"Toevoeging afstand zwemwater ".strtoupper($vars["cmstaal"]));
-	} else {
-		$cms->edit_field(1,0,"afstandzwemwaterextra","Toevoeging afstand zwemwater");
-	}
-	$cms->edit_field(1,0,"afstandgolfbaan","Afstand tot golfbaan (in meters)");
-	if($vars["cmstaal"]) {
-		$cms->edit_field(1,0,"afstandgolfbaanextra","Toevoeging afstand golfbaan NL","",array("noedit"=>true));
-		$cms->edit_field(1,0,"afstandgolfbaanextra_".$vars["cmstaal"],"Toevoeging afstand golfbaan ".strtoupper($vars["cmstaal"]));
-	} else {
-		$cms->edit_field(1,0,"afstandgolfbaanextra","Toevoeging afstand golfbaan");
 	}
 }
 
