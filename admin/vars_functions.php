@@ -2925,7 +2925,7 @@ function imageurl($file,$width="",$height="") {
 		# de rest: nagaan of er cache of thumbnail moet worden getoond
 		$cachefile="pic/cms/_imgcache/".$width."x".$height."-".preg_replace("/\//","-",$file);
 		if(file_exists($unixdir.$cachefile) and filemtime($unixdir.$cachefile)==@filemtime($unixdir."pic/cms/".$file)) {
-			$return=$vars["path"].$cachefile."?cache=".filemtime($cachefile);
+			$return=$vars["path"].$cachefile."?cache=".filemtime($unixdir.$cachefile);
 		} else {
 			$return=$vars["path"]."thumbnail.php?file=".urlencode($file);
 			if($width or $height) {
