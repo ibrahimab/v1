@@ -1557,12 +1557,12 @@ if($_COOKIE["sch"] and !$geen_tracker_cookie) {
 				$last_acc_html.="<div id=\"laatstbekeken_acc_wrapper\">";
 				$last_acc_html.="<div class=\"kop\">".html("laatstbekekenaccommodaties","index")."</div>";
 				$last_acc_teller=0;
-				while(list($key,$value)=each($last_acc)) {
+				foreach ($last_acc as $key => $value) {
 					if($last_acc_teller) {
 						$last_acc_html.="<div class=\"laatstbekeken_divider\">&nbsp;</div>";
 					}
 					$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."/';\">";
-					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\" alt=\"\"></div>";
+					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".imageurl($value["afbeelding"], 170, 127)."\" alt=\"\"></div>";
 					$last_acc_html.="<div class=\"laatstbekeken_tekst\">";
 					$last_acc_html.="<div>".wt_he($value["naam"])."</div>";
 					$last_acc_html.="<div style=\"margin-top:7px;\">";
