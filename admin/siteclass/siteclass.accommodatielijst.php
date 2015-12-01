@@ -279,7 +279,7 @@ class accommodatielijst {
                         $img = $this->images['a'][$input['accommodatie_id']];
                     }
 				}
-				$return.="<div class=\"zoekresultaat_img\"><img src=\"".wt_he($vars["path"]."pic/cms/".$img)."\"></div>";
+				$return.="<div class=\"zoekresultaat_img\"><img src=\"".imageurl($img, 170, 127)."\"></div>";
 
 				$return.="<div class=\"zoekresultaat_content\">";
 
