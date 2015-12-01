@@ -169,6 +169,43 @@ $(document).ready(function() {
 		);
 	}, 300000);
 
+	//
+	// tablelist-hovers
+	//
+
+	// tablelist-edit
+	$(".tbl td.tbl_icon_edit").mouseenter(function(event) {
+		$(this).parent().addClass("row_edit");
+	});
+	$(".tbl td.tbl_icon_edit").mouseleave(function(event) {
+		$(this).parent().removeClass("row_edit");
+	});
+
+	// tablelist-show
+	$(".tbl td.tbl_icon_show").mouseenter(function(event) {
+		$(this).parent().addClass("row_show");
+	});
+	$(".tbl td.tbl_icon_show").mouseleave(function(event) {
+		$(this).parent().removeClass("row_show");
+	});
+
+	// tablelist-delete
+	$(".tbl td.tbl_icon_delete").mouseenter(function(event) {
+		$(this).parent().addClass("row_delete");
+	});
+	$(".tbl td.tbl_icon_delete").mouseleave(function(event) {
+		$(this).parent().removeClass("row_delete");
+	});
+
+	// tbl_icon_delete_checkbox
+	$(".tbl td.tbl_icon_delete_checkbox input[type=checkbox]").change(function() {
+		if ($(this).is(":checked")) {
+			$(this).parent().parent().addClass("row_delete_checkbox");
+		} else {
+			$(this).parent().parent().removeClass("row_delete_checkbox");
+		}
+	});
+
 
 	$("#accCodeIh").focus(function() {
 		$("#ih_country").prop("disabled", true);
@@ -836,6 +873,8 @@ $(document).ready(function() {
 	// bij overzicht aanvragen (https://www.chalet.nl/cms_boekingen.php?bt=1&archief=0) hele tr opvallend kleuren als er nog geen bestelstatus bekend is
 	$(".bestelstatus_hele_tr_opvallend").parent().parent().addClass("tr_bestelstatus_hele_tr_opvallend");
 
+	// CMS-list "Garanties Ongebruikte": highlight option-guarantees
+	$("#cms_body_cms_garanties .td_optie[data-content=1]").parent().addClass("tr_bestelstatus_hele_tr_opvallend");
 
 	// bij annuleren boeking: vinkje "deze boeking is voor de klant zichtbaar in "Mijn boeking"" uitzetten
 	$("input[name='input[geannuleerd]']").change(function() {

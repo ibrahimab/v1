@@ -559,7 +559,8 @@ if($mustlogin) {
 	# CMS
 	$cms=new cms2;
 
-	$cms->settings["show_upload_message"]=true;
+	$cms->settings["show_upload_message"] = true;
+	$cms->settings["tablelist_use_onmouse"] = false;
 
 	// filesync-settings
 	$cms->settings["add_to_filesync_table"] = true;

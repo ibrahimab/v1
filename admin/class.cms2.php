@@ -74,9 +74,10 @@ class cms2 {
 		// general settings
 		$this->settings["add_to_filesync_table"] = false;
 		$this->settings["add_to_filesync_table_source"] = 0;
+		$this->settings["tablelist_use_onmouse"] = true;
 
 
-		# Messages
+		// Messages
 		$this->settings["message"]["nognietaanweziginsysteem"]["nl"]="er zijn nog geen _VALveldnaam_ aanwezig in het systeem";
 		$this->settings["message"]["nognietaanweziginsysteem"]["en"]="no _VALveldnaam_ in the system yet";
 		$this->settings["message"]["nognietaanweziginsysteem"]["fr"]="no _VALveldnaam_ in the system yet";
@@ -629,6 +630,7 @@ class cms2 {
 			$tl=new tablelist;
 			$tl->settings["arrowcolor"]="white";
 			$tl->settings["systemid"]=$counter;
+			$tl->settings["use_onmouse"] = $this->settings["tablelist_use_onmouse"];
 
 			# maximaal aantal resultaten per pagina instellen?
 			if($this->settings[$counter]["list"]["max_results_per_page"]) {
@@ -764,7 +766,7 @@ class cms2 {
 							}
 						}
 					} elseif($this->db[$counter]["type"][$key]=="yesno") {
-						$tl->add_record($key,$db->f("primkey"),($db->f($key) ? $this->message("ja",false) : ($this->list[$counter]["options"][$key]["showno"] ? $this->message("nee",false) : "")),$db->f($key));
+						$tl->add_record($key,$db->f("primkey"),($db->f($key) ? $this->message("ja",false) : ($this->list[$counter]["options"][$key]["showno"] ? $this->message("nee",false) : "")),$db->f($key), false, array("data_attribute_content"=>($db->f($key)? "1" : "0")));
 					} elseif($this->list[$counter]["options"][$key]["pretext"] or $this->list[$counter]["options"][$key]["posttext"]) {
 						$tl->add_record($key,$db->f("primkey"),ereg_replace("\[FIELD_VALUE\]",$db->f($key),$this->list[$counter]["options"][$key]["pretext"]).wt_he($db->f($key)).$this->list[$counter]["options"][$key]["posttext"],$db->f($key),"",array("html"=>true));
 					} else {
