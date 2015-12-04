@@ -300,7 +300,7 @@ $cms->edit_field(34,0,"opmerkingen_overzicht","Opmerking overzicht","",array("on
 $cms->edit_field(34,0,"htmlrow","<hr><b>In optie voor klant</b>");
 $cms->edit_field(34,0,"optie_klant","Deze garantie staat in optie voor een klant");
 $cms->edit_field(34,0,"optie_klantnaam","Klantnaam");
-$cms->edit_field(34,0,"optie_einddatum","Einddatum", "", "", array("calendar"=>true));
+$cms->edit_field(34,0,"optie_einddatum","Einddatum", "", array("min_jump"=>5), array("calendar"=>true));
 $cms->edit_field(34,0,"optie_opmerkingen_intern","Interne opmerkingen bij de optie");
 
 

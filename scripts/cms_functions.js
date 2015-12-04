@@ -1,4 +1,5 @@
 
+chaletcms_global = {};
 
 var inkoopgegevens_verschil_met_actueel = [];
 var cms_via_verkeerde_site=0;
@@ -1232,23 +1233,49 @@ $(document).ready(function() {
 	// cms_garanties: set date when selecting
 	$("body#cms_body_cms_garanties #yesnooptie_klant").change(function(event) {
 
-		if ($(this).is(":checked") && $("select[name='input[optie_einddatum][day]']").val()=="") {
+		if ($(this).is(":checked")) {
 
-			// set date 2 days ahead
-			var d = new Date();
-			d.setDate(d.getDate() + 2);
-
-			if (d.getDay()==0) {
-				// Sunday becomes Monday
-				d.setDate(d.getDate() + 1);
+			// reset stored data
+			if (!$("input[name='input[optie_klantnaam]']").val()) {
+				$("input[name='input[optie_klantnaam]']").val(chaletcms_global.optie_klantnaam);
+			}
+			if (!$("textarea[name='input[optie_opmerkingen_intern]']").val()) {
+				$("textarea[name='input[optie_opmerkingen_intern]']").val(chaletcms_global.optie_opmerkingen_intern);
 			}
 
-			$("select[name='input[optie_einddatum][day]']").val(d.getDate());
-			$("select[name='input[optie_einddatum][month]']").val(d.getMonth()+1);
-			$("select[name='input[optie_einddatum][year]']").val(d.getFullYear());
+			if ($("select[name='input[optie_einddatum][day]']").val()=="") {
 
-			$("select[name='input[optie_einddatum][hour]']").val((d.getHours() < 10 ? '0' + d.getHours() : d.getHours()));
-			$("select[name='input[optie_einddatum][minute]']").val("00");
+				// set date 2 days ahead
+				var d = new Date();
+				d.setDate(d.getDate() + 2);
+
+				if (d.getDay()==0) {
+					// Sunday becomes Monday
+					d.setDate(d.getDate() + 1);
+				}
+
+				$("select[name='input[optie_einddatum][day]']").val(d.getDate());
+				$("select[name='input[optie_einddatum][month]']").val(d.getMonth()+1);
+				$("select[name='input[optie_einddatum][year]']").val(d.getFullYear());
+
+				$("select[name='input[optie_einddatum][hour]']").val((d.getHours() < 10 ? '0' + d.getHours() : d.getHours()));
+				$("select[name='input[optie_einddatum][minute]']").val("00");
+			}
+		} else {
+
+			// store data
+			chaletcms_global.optie_klantnaam = $("input[name='input[optie_klantnaam]']").val();
+			chaletcms_global.optie_opmerkingen_intern = $("textarea[name='input[optie_opmerkingen_intern]']").val();
+
+			// empty all fields
+			$("input[name='input[optie_klantnaam]']").val("");
+			$("textarea[name='input[optie_opmerkingen_intern]']").val("");
+
+			$("select[name='input[optie_einddatum][day]']").val("");
+			$("select[name='input[optie_einddatum][month]']").val("");
+			$("select[name='input[optie_einddatum][year]']").val("");
+			$("select[name='input[optie_einddatum][hour]']").val("");
+			$("select[name='input[optie_einddatum][minute]']").val("");
 		}
 	});
 });
