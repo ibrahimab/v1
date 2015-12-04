@@ -4,7 +4,7 @@
 * class to show the distance in the correct unit (meters, kilometers)
 *
 * @author Jeroen Boschman (jeroen@webtastic.nl)
-* @since  2015-05-26 21:00
+* @since  2015-12-04 16:00
 */
 class distance
 {
