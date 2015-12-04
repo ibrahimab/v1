@@ -410,6 +410,10 @@ RewriteRule ^veelgestelde-vragen$ veelgestelde-vragen.php?%{QUERY_STRING}
 RewriteRule ^faq$ veelgestelde-vragen.php?%{QUERY_STRING}
 RewriteRule ^haeufig-gestellte-fragen$ veelgestelde-vragen.php?%{QUERY_STRING}
 
+# Veelgestelde vragen pagina chaletonline
+RewriteRule ^haufig-gestellte-fragen$ veelgestelde-vragen.php?%{QUERY_STRING}
+RewriteRule ^haeufig-gestellte-fragen$ veelgestelde-vragen.php?%{QUERY_STRING}
+
 # Werken bij
 RewriteRule ^vacatures$ /werkenbij [L,R=301]
 # RewriteRule ^werkenbij\.php$ /werkenbij [L,R=301]
