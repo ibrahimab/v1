@@ -392,7 +392,7 @@ if($plaats_pdfplattegrond_nietnodig) {
 } elseif(file_exists($pdffile_plattegrond_plaats)){
 	$htmlrow="<a href=\"".wt_he($pdffile_plattegrond_plaats)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
 } else {
-	$htmlrow="<b>Let op! plattegrond-PDF ontbreekt. Uploaden via <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">plaats</a> of <a href=\"cms_leveranciers.php?edit=8&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&8k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">leveranciers</a> of <a href=\"cms_accommodaties.php?edit=1&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&1k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">accommodaties</a></b>";
+	$htmlrow="<b>Let op! plattegrond-PDF ontbreekt. Uploaden via <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">plaats</a>, <a href=\"cms_leveranciers.php?edit=8&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&8k0=".$gegevens["stap1"]["accinfo"]["leverancier_id"]."\" target=\"_blank\">leverancier</a> of <a href=\"cms_accommodaties.php?edit=1&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&1k0=".$gegevens["stap1"]["accinfo"]["accommodatie_id"]."\" target=\"_blank\">accommodatie</a></b>";
 	unset($pdffile_plattegrond);
 }
 $vars["temp_pdfprinttable"].="<tr><td>";
