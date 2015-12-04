@@ -1935,6 +1935,13 @@ $txt["nl"]["zoek-en-boek"]["hotel"]="hotel";
 $txt["de"]["zoek-en-boek"]["hotel"]="Hotel";
 $txt["en"]["zoek-en-boek"]["hotel"]="hotel";
 
+$txt["nl"]["zoek-en-boek"]["flexibel"]="flexibele aankomst/vertrek";
+$txt["de"]["zoek-en-boek"]["flexibel"]="flexible Anreise/Abfahrt";
+$txt["en"]["zoek-en-boek"]["flexibel"]="flexible dates";
+
+$nieuwe_vertaling["de"]["zoek-en-boek"]["flexibel"]=true;
+
+
 $txt["nl"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Faciliteiten accommodatie";
 $txt["de"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Annehmlichkeiten der Unterkunft";
 $txt["en"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Facilities accommodation";
@@ -3309,17 +3316,9 @@ $txt["nl"]["toonaccommodatie"]["bekijk-ook-weektarieven"]="Bekijk ook de weektar
 $txt["de"]["toonaccommodatie"]["bekijk-ook-weektarieven"]="Beachten Sie auch die Wochenpreise ";
 $txt["en"]["toonaccommodatie"]["bekijk-ook-weektarieven"]="Also see the weekly rates";
 
-$txt["nl"]["toonaccommodatie"][""]="";
-$txt["en"]["toonaccommodatie"][""]="";
-
-$txt["nl"]["toonaccommodatie"][""]="";
-$txt["en"]["toonaccommodatie"][""]="";
-
-$txt["nl"]["toonaccommodatie"][""]="";
-$txt["en"]["toonaccommodatie"][""]="";
-
-$txt["nl"]["toonaccommodatie"][""]="";
-$txt["en"]["toonaccommodatie"][""]="";
+$txt["nl"]["toonaccommodatie"]["fleixibele-aankomst-vertrek"]="flexibele aankomst/vertrek";
+$txt["de"]["toonaccommodatie"]["fleixibele-aankomst-vertrek"]="flexible Anreise/Abfahrt";
+$txt["en"]["toonaccommodatie"]["fleixibele-aankomst-vertrek"]="flexible dates";
 
 $txt["nl"]["toonaccommodatie"]["deel"]="Deel deze accommodatie:";
 $txt["de"]["toonaccommodatie"]["deel"]="Diese Unterkunft teilen:";
@@ -3328,9 +3327,6 @@ $txt["en"]["toonaccommodatie"]["deel"]="Share accommodation:";
 $txt["nl"]["toonaccommodatie"]["waardering"]="waardering:";
 $txt["de"]["toonaccommodatie"]["waardering"]="Bewertung:";
 $txt["en"]["toonaccommodatie"]["waardering"]="rating:";
-
-
-
 
 # tabs
 $txt["nl"]["toonaccommodatie"]["tab_overzicht"]="overzicht";

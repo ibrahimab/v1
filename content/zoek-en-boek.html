@@ -99,7 +99,7 @@ if(is_array($_GET)) {
 }
 
 #
-# Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [58] (eerst beschikbare: 59)
+# Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [59] (eerst beschikbare: 60)
 #
 if($vars["seizoentype"]==1) {
 	#
@@ -329,6 +329,7 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[6]["verfijndname"]="kenmerken";
 		$keuzeopsomming[6]["getname"]="vf_kenm";
 		$keuzeopsomming[6]["fields"]=array(
+			"flexibel"=>59,
 			"goedvoorkids"=>21,
 			"grotegroepen"=>28,
 			"huisjevoor2"=>27,
@@ -358,6 +359,7 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[6]["addwhere"][33][]="(a.kenmerken REGEXP '[[:<:]]24[[:>:]]')";
 		$keuzeopsomming[6]["addwhere"][34][]="(a.kenmerken REGEXP '[[:<:]]25[[:>:]]')";
 		$keuzeopsomming[6]["addwhere"][35][]="(a.kenmerken REGEXP '[[:<:]]37[[:>:]]')";
+		$keuzeopsomming[6]["addwhere"][59][]="(a.flexibel=1)";
 
 		# Ligging
 		$keuzeopsomming[1]["combinatiesmogelijk"]=1;
@@ -1016,7 +1018,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 	$wherequery_zondertarieven=$wherequery;
 
-	$op_te_vragen_velden="a.wzt, t.type_id, t.websites, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, a.kenmerken_nee AS akenmerken_nee, a.afstandpiste, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.naam".$vars["ttv"]." AS tnaam, a.zoekvolgorde AS azoekvolgorde, t.zoekvolgorde AS tzoekvolgorde, t.apart_tonen_in_zoekresultaten, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, t.kenmerken_nee AS tkenmerken_nee, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, p.kenmerken AS pkenmerken, p.afstandtotutrecht, s.kenmerken AS skenmerken, s.skigebied_id, s.naam".$vars["ttv"]." AS skigebied, s.kilometerpiste, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam".$vars["ttv"]." AS plaats";
+	$op_te_vragen_velden="a.wzt, t.type_id, t.websites, a.accommodatie_id, a.toonper, a.flexibel, a.naam, a.kenmerken AS akenmerken, a.kenmerken_nee AS akenmerken_nee, a.afstandpiste, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.naam".$vars["ttv"]." AS tnaam, a.zoekvolgorde AS azoekvolgorde, t.zoekvolgorde AS tzoekvolgorde, t.apart_tonen_in_zoekresultaten, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, t.kenmerken_nee AS tkenmerken_nee, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, p.kenmerken AS pkenmerken, p.afstandtotutrecht, s.kenmerken AS skenmerken, s.skigebied_id, s.naam".$vars["ttv"]." AS skigebied, s.kilometerpiste, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam".$vars["ttv"]." AS plaats";
 	if($_GET["fad"]>0 and !$_GET["altflexberekenen"]) {
 
 		# Kijken of korting van toepassing is (om "aanbieding" bij zoekresultaat te kunnen tonen)
@@ -2018,6 +2020,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						# Verfijnd zoeken: vrijstaand
 						if(check_kenmerken($db->f("tkenmerken"),2) or check_kenmerken($db->f("tkenmerken"),15) or check_kenmerken($db->f("akenmerken"),22) or check_kenmerken($db->f("akenmerken"),27)) {
 							$verfijnd["kenmerken"][58]++;
+						}
+
+						# Verfijnd zoeken: flexibel
+						if($db->f("flexibel")==1) {
+							$verfijnd["kenmerken"][59]++;
 						}
 
 						# Verfijnd zoeken: privé-terras
