@@ -419,6 +419,7 @@ $cms->edit_field(1,0,"archief","Gearchiveerde accommodatie");
 $cms->edit_field(1,0,"controleren","Nog nakijken");
 $cms->edit_field(1,0,"tonen","Tonen op de website",array("selection"=>true));
 $cms->edit_field(1,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
+$cms->edit_field(1,0,"htmlrow","<hr>");
 $cms->edit_field(1,0,"weekendski","Weekendski");
 $cms->edit_field(1,0,"htmlrow","<hr>");
 $cms->edit_field(1,0,"htmlrow","Opnemen in lijst<a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\" style=\"padding:5px;\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
@@ -742,8 +743,12 @@ if($vars["cmstaal"]) {
 $cms->set_edit_form_init(1);
 if($cms_form[1]->filled) {
 
+	// selecting one of these fields is mandatory: archief, controleren, tonen, tonenzoekformulier
+	if(!$cms_form[1]->input["archief"] and !$cms_form[1]->input["controleren"] and !$cms_form[1]->input["tonen"] and !$cms_form[1]->input["tonenzoekformulier"]) {
+		$cms_form[1]->error("archief", "Selecteer minimaal &eacute;&eacute;n van de bovenste 4 checkboxes");
+	}
 
-#Controle of website engels of duitse is
+	// Controle of website engels of duitse is
 	$websites = explode(",", $cms_form[1]->input["websites"]);
 
 	foreach($websites as $website) {
@@ -1054,5 +1059,3 @@ if($_GET["controleren"]) {
 $cms->end_declaration();
 
 $layout->display_all($cms->page_title);
-
-?>
