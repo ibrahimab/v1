@@ -734,19 +734,16 @@ if($db->next_record()) {
 #	if($vars["seizoentype"]==2) {
 #		if($db->f("plaatsomschrijving")) echo "<tr><td valign=\"top\" width=\"175\" nowrap>".html("omschrijving","toonaccommodatie")."</TD><TD>".nl2br(wt_htmlent($db->f("plaatsomschrijving")))."</TD></TR>";
 #	}
-	if($vars["taal"]=="nl") echo "<tr><td width=\"175\" nowrap>Afstand tot Utrecht</TD><TD>".$db->f("afstandtotutrecht")." ".html("kilometer","toonaccommodatie")."</TD></TR>";
-	if($db->f("afstandwinkel")) echo "<tr><td width=\"175\" nowrap>".html("afstandtotwinkels","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandwinkel"),$db->f("afstandwinkelextra"),html("meter","toonaccommodatie")))."</TD></TR>";
-	if($db->f("afstandrestaurant")) echo "<tr><td width=\"175\" nowrap>".html("afstandrestaurantbar","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandrestaurant"),$db->f("afstandrestaurantextra"),html("meter","toonaccommodatie")))."</TD></TR>";
+	if($vars["taal"]=="nl") echo "<tr><td width=\"175\" nowrap>Afstand tot Utrecht</td><td>".$db->f("afstandtotutrecht")." ".html("kilometer","toonaccommodatie")."</td></tr>";
+	if($db->f("afstandwinkel") or $db->f("afstandwinkel")=="0") echo "<tr><td width=\"175\" nowrap>".html("afstandtotwinkels","toonaccommodatie")."</td><td>".wt_he(distance::show($db->f("afstandwinkel") ,$db->f("afstandwinkelextra")))."</td></tr>";
+	if($db->f("afstandrestaurant") or $db->f("afstandrestaurant")=="0") echo "<tr><td width=\"175\" nowrap>".html("afstandrestaurantbar","toonaccommodatie")."</td><td>".wt_he(distance::show($db->f("afstandrestaurant") ,$db->f("afstandrestaurantextra")))."</td></tr>";
 	if($vars["seizoentype"]==1) {
-		if($db->f("afstandpiste")) echo "<tr><td width=\"175\" nowrap>".html("afstandpiste","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandpiste"),$db->f("afstandpisteextra"),html("meter","toonaccommodatie")))."</TD></TR>";
-		if($db->f("afstandskilift")) echo "<tr><td width=\"175\" nowrap>".html("afstandskilift","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandskilift"),$db->f("afstandskiliftextra"),html("meter","toonaccommodatie")))."</TD></TR>";
-		if($db->f("afstandloipe")) echo "<tr><td width=\"175\" nowrap>".html("afstandloipe","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandloipe"),$db->f("afstandloipeextra"),html("meter","toonaccommodatie")))."</TD></TR>";
-		if($db->f("afstandskibushalte")) echo "<tr><td width=\"175\" nowrap>".html("afstandskibushalte","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandskibushalte"),$db->f("afstandskibushalteextra"),html("meter","toonaccommodatie")))."</TD></TR>";
+		if($db->f("afstandpiste") or $db->f("afstandpiste")=="0") echo "<tr><td width=\"175\" nowrap>".html("afstandpiste","toonaccommodatie")."</td><td>".wt_he(distance::show($db->f("afstandpiste") ,$db->f("afstandpisteextra")))."</td></tr>";
+		if($db->f("afstandskilift") or $db->f("afstandskilift")=="0") echo "<tr><td width=\"175\" nowrap>".html("afstandskilift","toonaccommodatie")."</td><td>".wt_he(distance::show($db->f("afstandskilift") ,$db->f("afstandskiliftextra")))."</td></tr>";
+		if($db->f("afstandloipe") or $db->f("afstandloipe")=="0") echo "<tr><td width=\"175\" nowrap>".html("afstandloipe","toonaccommodatie")."</td><td>".wt_he(distance::show($db->f("afstandloipe") ,$db->f("afstandloipeextra")))."</td></tr>";
+		if($db->f("afstandskibushalte") or $db->f("afstandskibushalte")=="0") echo "<tr><td width=\"175\" nowrap>".html("afstandskibushalte","toonaccommodatie")."</td><td>".wt_he(distance::show($db->f("afstandskibushalte") ,$db->f("afstandskibushalteextra")))."</td></tr>";
 	} else {
-		if($db->f("afstandstrand")) echo "<tr><td width=\"175\" nowrap>".html("afstandstrand","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandstrand"),$db->f("afstandstrandextra"),html("meter","toonaccommodatie")))."</TD></TR>";
-		if($db->f("afstandzwembad")) echo "<tr><td width=\"175\" nowrap>".html("afstandzwembad","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandzwembad"),$db->f("afstandzwembadextra"),html("meter","toonaccommodatie")))."</TD></TR>";
-		if($db->f("afstandzwemwater")) echo "<tr><td width=\"175\" nowrap>".html("afstandzwemwater","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandzwemwater"),$db->f("afstandzwemwaterextra"),html("meter","toonaccommodatie")))."</TD></TR>";
-		if($db->f("afstandgolfbaan")) echo "<tr><td width=\"175\" nowrap>".html("afstandgolfbaan","toonaccommodatie")."</TD><TD>".wt_he(toonafstand($db->f("afstandgolfbaan"),$db->f("afstandgolfbaanextra"),html("meter","toonaccommodatie")))."</TD></TR>";
+		if($db->f("afstandstrand") or $db->f("afstandstrand")=="0") echo "<tr><td width=\"175\" nowrap>".html("afstandstrand","toonaccommodatie")."</td><td>".wt_he(distance::show($db->f("afstandstrand") ,$db->f("afstandstrandextra")))."</td></tr>";
 	}
 	echo "</table>";
 	if(($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
@@ -1723,6 +1720,3 @@ if(!defined("wt_test") and !$voorkant_cms) {
 	$google_tagmanager = new google_tagmanager;
 	echo $google_tagmanager->product_detail_impressions($product_details_impressions, $ie);
 }
-
-
-?>

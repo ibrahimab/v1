@@ -3068,6 +3068,10 @@ $txt["nl"]["toonaccommodatie"]["afstandtotwinkels"]="Afstand tot winkel(s)";
 $txt["de"]["toonaccommodatie"]["afstandtotwinkels"]="Entfernung zu Geschäft(en)";
 $txt["en"]["toonaccommodatie"]["afstandtotwinkels"]="Distance to shop(s)";
 
+$txt["nl_z"]["toonaccommodatie"]["afstandtotwinkels"]="Afstand tot dorp";
+$txt["de_z"]["toonaccommodatie"]["afstandtotwinkels"]="Entfernung zum Ort";
+$txt["en_z"]["toonaccommodatie"]["afstandtotwinkels"]="Distance to village";
+
 $txt["nl"]["toonaccommodatie"]["meter"]="meter";
 $txt["de"]["toonaccommodatie"]["meter"]="Meter";
 $txt["en"]["toonaccommodatie"]["meter"]="metres";
@@ -3075,6 +3079,12 @@ $txt["en"]["toonaccommodatie"]["meter"]="metres";
 $txt["nl"]["toonaccommodatie"]["kilometer"]="kilometer";
 $txt["de"]["toonaccommodatie"]["kilometer"]="Kilometer";
 $txt["en"]["toonaccommodatie"]["kilometer"]="kilometres";
+
+$txt["nl"]["toonaccommodatie"]["ter-plaatse"]="ter plaatse";
+$txt["de"]["toonaccommodatie"]["ter-plaatse"]="vor Ort";
+$txt["en"]["toonaccommodatie"]["ter-plaatse"]="on site";
+
+$nieuwe_vertaling["de"]["toonaccommodatie"]["ter-plaatse"]=true;
 
 $txt["nl"]["toonaccommodatie"]["afstandrestaurantbar"]="Afstand tot restaurant/bar";
 $txt["de"]["toonaccommodatie"]["afstandrestaurantbar"]="Entfernung zum(r) Restaurant/Bar";

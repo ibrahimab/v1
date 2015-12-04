@@ -12,12 +12,15 @@ $form->settings["fullname"]="vertalingen";
 $form->settings["layout"]["css"]=false;
 $form->settings["message"]["submitbutton"]["nl"]="VERSTUREN";
 
-if($_GET["taal"]) {
-	$vertaal_taal = $_GET["taal"];
+if(!$_GET["taal"]) {
+	$_GET["taal"]="en";
+}
+$vertaal_taal = $_GET["taal"];
+
+if ($vertaal_taal=="en") {
+	$doorloop_array=array("","v", "i");
+} elseif($vertaal_taal=="de") {
 	$doorloop_array=array("");
-} else {
-	$vertaal_taal = "en";
-	$doorloop_array=array("","v", "z", "i"); # alleen Vallandry-afwijkingen moeten in het Engels vertaald worden
 }
 
 while(list($afwijkingkey,$afwijkingvalue)=each($doorloop_array)) {
@@ -43,18 +46,19 @@ while(list($afwijkingkey,$afwijkingvalue)=each($doorloop_array)) {
 			}
 		}
 	}
-}
 
-if(is_array($nieuwe_vertaling[$vertaal_taal])) {
-	while(list($key,$value)=each($nieuwe_vertaling[$vertaal_taal])) {
-		while(list($key2,$value2)=each($value)) {
-			if($value2) {
-				$vertaal_array[$key][$key2] = $value2;
-				$vars["onvertaald"]=true;
+	if(is_array($nieuwe_vertaling[$vertaal_taal.$afwijking])) {
+		while(list($key,$value)=each($nieuwe_vertaling[$vertaal_taal.$afwijking])) {
+			while(list($key2,$value2)=each($value)) {
+				if($value2) {
+					$vertaal_array[$key][$key2] = $value2;
+					$vars["onvertaald"]=true;
+				}
 			}
 		}
 	}
 }
+
 
 
 if(is_array($vertaal_array)) {
