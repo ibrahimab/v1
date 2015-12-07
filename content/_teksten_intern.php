@@ -710,7 +710,7 @@ $txta["de"]["title_blog"]="-";
 $txta["en"]["title_blog"]="-";
 
 $txta["nl"]["title_privacy-statement"]="Privacy-statement";
-$txta["de"]["title_privacy-statement"]="Datenschutzerklärung";
+$txta["de"]["title_privacy-statement"]="Datenschutzerklärung Chaletonline.de";
 $txta["en"]["title_privacy-statement"]="Privacy statement";
 
 $txta["nl"]["title_disclaimer"]="Disclaimer voor [[v_websitenaam]]";
