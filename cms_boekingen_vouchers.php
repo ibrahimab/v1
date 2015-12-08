@@ -119,6 +119,7 @@ if($_GET["printvertrekinfo"]) {
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Pragma: public");
 		header("Content-type: application/pdf");
+		header('Content-Disposition: attachment; filename=vertrekinfo.pdf');
 		readfile($tmpfile);
 		unlink($tmpfile);
 		exit;
