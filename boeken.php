@@ -1239,6 +1239,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 		if(is_array($optie_soort["naam_enkelvoud"]) or $vars["annverzekering_mogelijk"]) {
 			for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+				unset($geen_leeftijdscontrole);
 				if(isset($gegevens["stap3"][$i]["geboortedatum"])) {
 					$leeftijd=wt_leeftijd($gegevens["stap3"][$i]["geboortedatum"],mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
 				} else {
@@ -3402,5 +3403,3 @@ if($mustlogin) {
 if($voorkant_cms and $_GET["stap"]==4 and $_POST) {
 #	wt_mail("chaletmailbackup+systemlog@gmail.com","Chalet.nl memory usage",round(memory_get_peak_usage()/1024/1024)." MiB\n\n".$_SERVER["REQUEST_URI"]);
 }
-
-?>
