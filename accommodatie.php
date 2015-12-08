@@ -186,10 +186,9 @@ if($acc_aanwezig) {
 		}
 	}
 
-	// header("HTTP/1.0 404 Not Found");
+	// send 404 header when an accommodation is not found
+	header( $_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true , 404);
 
 }
 
 include "content/opmaak.php";
-
-?>
