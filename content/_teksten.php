@@ -4014,6 +4014,10 @@ $txt["nl"]["tarieventabel"]["mailcopy-huurprijs-acc"]="Huurprijs accommodatie: €
 $txt["de"]["tarieventabel"]["mailcopy-huurprijs-acc"]="Preis Unterkunft: € [[v_bedrag]] pro Woche, exkl. Skipässe";
 $txt["en"]["tarieventabel"]["mailcopy-huurprijs-acc"]="Rental price accommodation: € [[v_bedrag]] per week, excl. lift passes";
 
+$txt["nl_z"]["tarieventabel"]["mailcopy-huurprijs-acc"]="Huurprijs accommodatie: € [[v_bedrag]] per week";
+$txt["de_z"]["tarieventabel"]["mailcopy-huurprijs-acc"]="Preis Unterkunft: € [[v_bedrag]] pro Woche";
+$txt["en_z"]["tarieventabel"]["mailcopy-huurprijs-acc"]="Rental price accommodation: € [[v_bedrag]] per week";
+
 $txt["nl"]["tarieventabel"]["mailcopy-inclusief-x-daagse-skipas"]="inclusief [[v_skipasaantaldagen]]-daagse skipas [[v_skipasnaam]]";
 $txt["de"]["tarieventabel"]["mailcopy-inclusief-x-daagse-skipas"]="inklusive [[v_skipasaantaldagen]]-Tagesskipass [[v_skipasnaam]]";
 $txt["en"]["tarieventabel"]["mailcopy-inclusief-x-daagse-skipas"]="-";
