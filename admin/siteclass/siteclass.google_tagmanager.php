@@ -28,7 +28,7 @@ class google_tagmanager {
 		$current_website_id = $tag_manager_id[$vars["website"]];
 		$return_ie = <<<EOT
 		<!-- Google Tag Manager -->
-		<noscript><iframe id="gtm_script" src="//www.googletagmanager.com/ns.html?id="{$current_website_id}"
+		<noscript><iframe id="gtm_script" src="https://www.googletagmanager.com/ns.html?id={$current_website_id}"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<script>(function(w,d,s,l,i){
 			$(document).ready(function() {
@@ -48,7 +48,7 @@ class google_tagmanager {
 EOT;
 		$return = <<<EOT
 		<!-- Google Tag Manager -->
-		<noscript><iframe id="gtm_script" src="//www.googletagmanager.com/ns.html?id="{$current_website_id}"
+		<noscript><iframe id="gtm_script" src="https://www.googletagmanager.com/ns.html?id={$current_website_id}"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		<script>(function(w,d,s,l,i){
 				w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -295,5 +295,3 @@ EOT;
 		return $return;
 	}
 }
-
-?>
