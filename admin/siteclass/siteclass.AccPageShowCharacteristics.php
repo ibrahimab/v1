@@ -26,6 +26,9 @@ class AccPageShowCharacteristics
 
 		$kenmerken_kolomteller = 1;
 
+		// sort characteristics alphabetically
+		sort($kenmerken_array);
+
 		$aantal_kenmerken_per_kolom = ceil(count($kenmerken_array) / 3);
 		$aantal_kenmerken_per_kolom_eerste_kolom = ceil(count($kenmerken_array) / 3);
 
