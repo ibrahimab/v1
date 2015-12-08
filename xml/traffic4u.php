@@ -245,7 +245,7 @@ if($_GET["feed"]=="accommodaties") {
 		if($_GET["feed"]=="bestemmingen-aantal-personen") {
 			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalpersonen", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("url_regioaantalpersonen", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalaccommodatiesregio_aantalpersonen", "traffic4u"))."\n";
 		} else {
-			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("thema", "traffic4u")).wt_csvconvert_delimitertxt.utf8_encode(txt("url_regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("url_regiothema", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalaccommodatiesregio_thema", "traffic4u"))."\n";
+			echo utf8_encode(txt("land", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("thema", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("url_regio", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("url_regiothema", "traffic4u")).wt_csvconvert_delimiter.utf8_encode(txt("aantalaccommodatiesregio_thema", "traffic4u"))."\n";
 		}
 
 		$db4->query("SELECT DISTINCT land_id, land" . $vars['ttv'] . " AS land, skigebied" . $vars['ttv'] . " AS skigebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id;");
