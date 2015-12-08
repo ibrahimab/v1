@@ -13,5 +13,5 @@ define("wt_redis_host", "localhost");
 
 define('CH_MONGODB_MASTER', 'mongodb://127.0.0.1:27017');
 define('CH_MONGODB_SLAVE', 'mongodb://127.0.0.1:27017');
-define('CH_MONGODB_FILES_DB', 'files');
+define('CH_MONGODB_FILES_DB', 'prod_files');
 define('CH_MONGODB_FILES_REPLICASET', false);
