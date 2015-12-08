@@ -38,10 +38,9 @@ class vertrekdagaanpassing
 		}
 
 		// vertrekdagtype
-		$db->query("SELECT t.type_id, v.naam, v.toelichting".$this->config->ttv." AS toelichting, v.vertrekdagtype_id, v.soort, v.afwijking, UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind, asz.seizoen_id, a.aankomst_plusmin, a.vertrek_plusmin FROM accommodatie a, vertrekdagtype v, type t, seizoen s, accommodatie_seizoen asz WHERE a.accommodatie_id=asz.accommodatie_id AND a.accommodatie_id=t.accommodatie_id AND t.type_id IN(".wt_as($type_id).") AND asz.vertrekdagtype_id=v.vertrekdagtype_id AND asz.seizoen_id=s.seizoen_id;");
+		$db->query("SELECT t.type_id, v.naam, v.vertrekdagtype_id, v.soort, v.afwijking, UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind, asz.seizoen_id, a.aankomst_plusmin, a.vertrek_plusmin FROM accommodatie a, vertrekdagtype v, type t, seizoen s, accommodatie_seizoen asz WHERE a.accommodatie_id=asz.accommodatie_id AND a.accommodatie_id=t.accommodatie_id AND t.type_id IN(".wt_as($type_id).") AND asz.vertrekdagtype_id=v.vertrekdagtype_id AND asz.seizoen_id=s.seizoen_id;");
 		while($db->next_record()) {
 			$this->info[$db->f( "type_id" )][$db->f("seizoen_id")]["naam"]=$db->f("naam");
-			$this->info[$db->f( "type_id" )][$db->f("seizoen_id")]["toelichting"]=$db->f("toelichting");
 			$this->info[$db->f( "type_id" )][$db->f("seizoen_id")]["id"]=$db->f("vertrekdagtype_id");
 			if($db->f("soort")==2) {
 				// Optie B - zondag-zondag
@@ -90,7 +89,7 @@ class vertrekdagaanpassing
 	/**
 	 * get the general textual info ($this->info)
 	 *
-	 * @return array (naam, toelichting, id)
+	 * @return array (naam, id)
 	 */
 	public function get_info()
 	{

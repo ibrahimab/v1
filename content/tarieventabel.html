@@ -918,14 +918,6 @@ if($db2->next_record()) {
 			}
 		} elseif(!$print) {
 
-			# Toelichting bij afwijkend vertrekdagtype tonen
-			if($vars["vertrekdagtype"][$seizoenid]["toelichting"]) {
-				echo "<tr><td nowrap class=\"afwijkingenaankomstdatum\" style=\"background-color:#ccffff;padding-top:4px;padding-bottom:4px;\" colspan=\"".(count($dag)+1)."\">";
-				echo "<b>".html("vertrekdagafwijking","tarieventabel").":</b>";
-				echo "<br>".nl2br(wt_he($vars["vertrekdagtype"][$seizoenid]["toelichting"]));
-				echo "</td></tr>";
-			}
-
 			echo "<tr><td nowrap class=\"onderste_regel noprint\" colspan=\"".(count($dag)+1)."\">";
 			$popup_hoogte=240;
 			if($voorkant_cms) $aantal_getoonde_regels+=10;
@@ -982,5 +974,3 @@ if($db2->next_record()) {
 		}
 	}
 }
-
-?>
