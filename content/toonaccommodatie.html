@@ -207,7 +207,7 @@ if($nieuwe_tarieventabel) {
 	}
 }
 
-$db->query("SELECT DISTINCT a.wzt, a.accommodatie_id, a.naam, a.altnaam_zichtbaar, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, a.kenmerken_gecontroleerd, a.url_leverancier AS aurl_leverancier, t.zomerwinterkoppeling_accommodatie_id, t.code, t.altnaam_zichtbaar AS taltnaam_zichtbaar, t.naam".$vars["ttv"]." AS tnaam, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.url_leverancier AS turl_leverancier, t.verzameltype, a.soortaccommodatie, a.omschrijving".$vars["ttv"]." AS omschrijving, t.omschrijving".$vars["ttv"]." AS tomschrijving, a.kwaliteit AS akwaliteit, a.kenmerken AS kenmerken_accommodatie, t.type_id, t.kwaliteit, t.optimaalaantalpersonen, a.toonper, a.aantekeningen, t.aantekeningen AS taantekeningen, t.kenmerken AS kenmerken_type, t.maxaantalpersonen, t.oppervlakte, t.oppervlakteextra".$vars["ttv"]." AS oppervlakteextra, t.slaapkamers, t.slaapkamersextra".$vars["ttv"]." AS slaapkamersextra, t.badkamers, t.badkamersextra".$vars["ttv"]." AS badkamersextra, a.indeling".$vars["ttv"]." AS indeling, t.indeling".$vars["ttv"]." AS tindeling, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, p.afstandtotutrecht, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra, a.inclusief".$vars["ttv"]." AS inclusief, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, t.inclusief".$vars["ttv"]." AS tinclusief, a.exclusief".$vars["ttv"]." AS exclusief, a.extraopties".$vars["ttv"]." AS extraopties, t.exclusief".$vars["ttv"]." AS texclusief, t.url_virtuele_rondgang, a.video AS avideo, a.video_url AS avideo_url, t.video AS tvideo, t.video_url AS tvideo_url, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam".$vars["ttv"]." AS plaats, p.omschrijving".$vars["ttv"]." AS plaatsomschrijving, p.plaats_id, p.kenmerken AS kenmerken_plaats, s.naam".$vars["ttv"]." AS skigebied, s.omschrijving".$vars["ttv"]." AS skigebiedomschrijving, s.kenmerken AS kenmerken_skigebied, lev.leverancier_id, lev.naam AS leverancier, lev.opmerkingen_intern AS lopmerkingen_intern, lev.url AS url_leverancier, lev.contactpersoon_contract AS contactpersoon_contract_leverancier, lev.email_contract AS email_contract_leverancier, lev.contactpersoon_reserveringen AS contactpersoon_reserveringen_leverancier, lev.email_reserveringen AS email_reserveringen_leverancier FROM accommodatie a, plaats p, skigebied s, land l, type t, leverancier lev WHERE a.accommodatie_id=t.accommodatie_id AND p.land_id=l.land_id AND t.type_id='".addslashes($typeid)."' AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.leverancier_id=lev.leverancier_id AND t.tonen=1;");
+$db->query("SELECT DISTINCT a.wzt, a.accommodatie_id, a.naam, a.flexibel, a.altnaam_zichtbaar, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, a.kenmerken_gecontroleerd, a.url_leverancier AS aurl_leverancier, t.zomerwinterkoppeling_accommodatie_id, t.code, t.altnaam_zichtbaar AS taltnaam_zichtbaar, t.naam".$vars["ttv"]." AS tnaam, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.url_leverancier AS turl_leverancier, t.verzameltype, a.soortaccommodatie, a.omschrijving".$vars["ttv"]." AS omschrijving, t.omschrijving".$vars["ttv"]." AS tomschrijving, a.kwaliteit AS akwaliteit, a.kenmerken AS kenmerken_accommodatie, t.type_id, t.kwaliteit, t.optimaalaantalpersonen, a.toonper, a.aantekeningen, t.aantekeningen AS taantekeningen, t.kenmerken AS kenmerken_type, t.maxaantalpersonen, t.oppervlakte, t.oppervlakteextra".$vars["ttv"]." AS oppervlakteextra, t.slaapkamers, t.slaapkamersextra".$vars["ttv"]." AS slaapkamersextra, t.badkamers, t.badkamersextra".$vars["ttv"]." AS badkamersextra, a.indeling".$vars["ttv"]." AS indeling, t.indeling".$vars["ttv"]." AS tindeling, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, p.afstandtotutrecht, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra, a.inclusief".$vars["ttv"]." AS inclusief, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, t.inclusief".$vars["ttv"]." AS tinclusief, a.exclusief".$vars["ttv"]." AS exclusief, a.extraopties".$vars["ttv"]." AS extraopties, t.exclusief".$vars["ttv"]." AS texclusief, t.url_virtuele_rondgang, a.video AS avideo, a.video_url AS avideo_url, t.video AS tvideo, t.video_url AS tvideo_url, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam".$vars["ttv"]." AS plaats, p.omschrijving".$vars["ttv"]." AS plaatsomschrijving, p.plaats_id, p.kenmerken AS kenmerken_plaats, s.naam".$vars["ttv"]." AS skigebied, s.omschrijving".$vars["ttv"]." AS skigebiedomschrijving, s.kenmerken AS kenmerken_skigebied, lev.leverancier_id, lev.naam AS leverancier, lev.opmerkingen_intern AS lopmerkingen_intern, lev.url AS url_leverancier, lev.contactpersoon_contract AS contactpersoon_contract_leverancier, lev.email_contract AS email_contract_leverancier, lev.contactpersoon_reserveringen AS contactpersoon_reserveringen_leverancier, lev.email_reserveringen AS email_reserveringen_leverancier FROM accommodatie a, plaats p, skigebied s, land l, type t, leverancier lev WHERE a.accommodatie_id=t.accommodatie_id AND p.land_id=l.land_id AND t.type_id='".addslashes($typeid)."' AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.leverancier_id=lev.leverancier_id AND t.tonen=1;");
 if($db->next_record()) {
 	$accid=$db->f("accommodatie_id");
 
@@ -696,37 +696,19 @@ if($db->next_record()) {
 		ksort($toon_kenmerken, SORT_LOCALE_STRING);
 		setlocale(LC_COLLATE, "C");
 
-		$aantal_kenmerken_per_kolom = round(count($toon_kenmerken) / 3);
-		$aantal_kenmerken_per_kolom = ceil(count($toon_kenmerken) / 3);
-		$aantal_kenmerken_per_kolom_eerste_kolom = ceil(count($toon_kenmerken) / 3);
-
-		echo "<div class=\"kenmerken_block\">";
-		echo "<ul class=\"kenmerken\">";
-		$kenmerken_kolomteller = 1;
 		foreach ($toon_kenmerken as $key => $value) {
 			if( $txt[$vars["taal"]]["kenmerken"][$key] ) {
-				$kenmerken_teller ++;
-				echo "<li>".html($key, "kenmerken")."</li>";
-
-				if($kenmerken_kolomteller==1) {
-					$check_aantal_kenmerken = $aantal_kenmerken_per_kolom_eerste_kolom;
-				} else {
-					$check_aantal_kenmerken = $aantal_kenmerken_per_kolom;
-				}
-
-				if(fmod($kenmerken_teller, $check_aantal_kenmerken)==0 and $kenmerken_teller<count($toon_kenmerken)) {
-					echo "</ul>";
-					echo "<div class=\"kenmerken_divider\"></div>";
-					echo "<ul class=\"kenmerken\">";
-
-					$kenmerken_kolomteller++;
-				}
+				$kenmerken_array[] = txt($key, "kenmerken");
 			}
 		}
-		echo "</ul>"; // close #kenmerken
-		echo "</div>"; // close .kenmerken_block
-		echo "<div class=\"clear\"></div>";
+	}
 
+	if ($db->f( "flexibel" )) {
+		$kenmerken_array[] = txt("fleixibele-aankomst-vertrek", "toonaccommodatie");
+	}
+
+	if (is_array($kenmerken_array)) {
+		echo AccPageShowCharacteristics::show($kenmerken_array);
 	}
 
 	if($db->f("korteomschrijving") or $db->f("tkorteomschrijving")) {
