@@ -1842,6 +1842,7 @@ class bijkomendekosten {
 		}
 
 		if(is_array($kosten["vars"]["inclusief"])) {
+
 			foreach ($kosten["vars"]["inclusief"] as $key => $value) {
 				$aantal = 0;
 				if($key=="skipas" and $this->vertrekinfo) {
@@ -1990,7 +1991,11 @@ class bijkomendekosten {
 									$return["aan_chalet_nl"][$key]["toonbedrag"] .= " ".$vars["bk_eenheid"][$value["eenheid"]];
 								}
 							}
-
+						} else {
+							if($this->vertrekinfo) {
+								// include "verplicht vooraf" on vertrekinfo
+								$return["voldaan"][$key]["naam"] = $value["vouchernaam"];
+							}
 						}
 					}
 				}
