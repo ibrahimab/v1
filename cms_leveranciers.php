@@ -131,6 +131,7 @@ $cms->db_field(8,"textarea","vertrekinfo_adres");
 $cms->db_field(8,"text","vertrekinfo_plaatsnaam_beheer");
 $cms->db_field(8,"text","vertrekinfo_gps_lat");
 $cms->db_field(8,"text","vertrekinfo_gps_long");
+$cms->db_field(8,"upload","pdfplattegrond","",array("savelocation"=>"pdf/leveranciers_plattegrond/","filetype"=>"pdf"));
 
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
@@ -250,6 +251,7 @@ $cms->edit_field(8,0,"gegevensgecontroleerd","Alle bovenstaande gegevens zijn ge
 # Nieuw vertrekinfo-systeem
 if(!$_GET["beheerder"]) {
 	$cms->edit_field(8,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
+	$cms->edit_field(8,0,"pdfplattegrond","Plattegrond-PDF","",array("showfiletype"=>true));
 	$cms->edit_field(8,0,"htmlrow","<br><i>Alinea 'Inchecken'</i>");
 	$cms->edit_field(8,0,"vertrekinfo_incheck_sjabloon_id","Sjabloon inchecken");
 	if($vertrekinfo_tracking["vertrekinfo_incheck_sjabloon_id"]) {
@@ -405,15 +407,26 @@ if($_GET["delete"]==8 and $_GET["8k0"]) {
 	}
 }
 
+# Na opslaan form de volgende actie uitvoeren
+if($cms_form[8]->okay) {
 
+}
 
-
-
-
-
-
-
-
+function form_before_goto($form) {
+	global $db0,$login;
+	if($form->settings["fullname"]=="cms_8") {
+		if($form->upload_okay["pdfplattegrond"]) {
+			if($form->db_insert_id) {
+				$leverancierid=$form->db_insert_id;
+			} elseif($_GET["8k0"]) {
+				$leverancierid=$_GET["8k0"];
+			}
+			if($leverancierid) {
+				$db0->query("UPDATE leverancier SET pdfupload_user='".addslashes($login->user_id)."', pdfupload_datum=NOW() WHERE leverancier_id='".addslashes($leverancierid)."';");
+			}
+		}
+	}
+}
 
 #
 #

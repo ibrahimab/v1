@@ -337,6 +337,7 @@ $cms->db_field(1,"checkbox","vertrekinfo_seizoengoedgekeurd_en","",array("select
 
 # Nieuw vertrekinfo-systeem
 $cms->db_field(1,"upload","accommodatie_aanvullende_informatie","",array("savelocation"=>"pdf/accommodatie_aanvullende_informatie/","filetype"=>"pdf"));
+$cms->db_field(1,"upload","pdfplattegrond","",array("savelocation"=>"pdf/accommodaties_plattegrond/","filetype"=>"pdf"));
 
 $cms->db_field(1,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
 if($vars["cmstaal"]) $cms->db_field(1,"checkbox","vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"",array("selection"=>$vars["seizoengoedgekeurd"]));
@@ -648,6 +649,7 @@ $cms->edit_field(1,0,"video","Toon deze video op de accommodatiepagina");
 # Nieuw vertrekinfo-systeem
 $cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
 $cms->edit_field(1,0,"accommodatie_aanvullende_informatie","PDF met voor deze accommodatie specifieke informatie","",array("showfiletype"=>true));
+$cms->edit_field(1,0,"pdfplattegrond","Plattegrond-PDF","",array("showfiletype"=>true));
 $cms->edit_field(1,0,"htmlrow","<br><i>Alinea 'Inchecken'</i>");
 $cms->edit_field(1,0,"vertrekinfo_incheck_sjabloon_id","Sjabloon inchecken");
 if($vertrekinfo_tracking["vertrekinfo_incheck_sjabloon_id"]) {
@@ -880,7 +882,7 @@ if($cms_form[1]->filled) {
 function form_before_goto($form) {
 	$db=new DB_sql;
 	$db2=new DB_sql;
-	global $login,$vars;
+	global $login,$vars, $db0;
 
 	# datum pdf-upload vastleggen
 	if($form->settings["fullname"]=="cms_1") {
@@ -896,7 +898,19 @@ function form_before_goto($form) {
 			}
 		}
 	}
-
+	 # datum plattegrondpdf-upload vastleggen
+	if($form->settings["fullname"]=="cms_1") {
+		if($form->upload_okay["pdfplattegrond"]) {
+			if($form->db_insert_id) {
+				$accommodatieid=$form1->db_insert_id;
+			} elseif($_GET["1k0"]) {
+				$accommodatieid=$_GET["1k0"];
+			}
+			if($accommodatieid) {
+				$db0->query("UPDATE accommodatie SET pdfplattegrondupload_user='".addslashes($login->user_id)."', pdfplattegrondupload_datum=NOW() WHERE accommodatie_id='".addslashes($accommodatieid)."';");
+			}
+		}
+	}
 	if($_GET["1k0"]) {
 
 		# wijziging in websites: op alle onderliggende types doorvoeren

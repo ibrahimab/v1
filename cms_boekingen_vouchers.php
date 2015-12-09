@@ -370,21 +370,30 @@ $vars["temp_pdfprinttable"].="</td></tr>";
 
 # Plattegrond-pdf
 unset($htmlrow);
-$pdffile_plattegrond="pdf/plaats_plattegrond/".$gegevens["stap1"]["accinfo"]["plaats_id"].".pdf";
+$pdffile_plattegrond_plaats="pdf/plaats_plattegrond/".$gegevens["stap1"]["accinfo"]["plaats_id"].".pdf";
+$pdffile_plattegrond_accom="pdf/accommodaties_plattegrond/".$gegevens["stap1"]["accinfo"]["accommodatie_id"].".pdf";
+$pdffile_plattegrond_lev="pdf/leveranciers_plattegrond/".$gegevens["stap1"]["accinfo"]["leverancier_id"].".pdf";
+
 $db->query("SELECT pdfplattegrond_nietnodig FROM plaats WHERE plaats_id='".addslashes($gegevens["stap1"]["accinfo"]["plaats_id"])."';");
 if($db->next_record()) {
 	$plaats_pdfplattegrond_nietnodig=$db->f("pdfplattegrond_nietnodig");
 }
 if($plaats_pdfplattegrond_nietnodig) {
 	$htmlrow="Plattegrond-PDF is bij <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">deze plaats</a> niet nodig bij de reisdocumenten";
-	unset($pdffile_plattegrond);
+	unset($pdffile_plattegrond_plaats);
+	unset($pdffile_plattegrond_accom);
+	unset($pdffile_plattegrond_lev);
 } elseif($gegevens["stap1"]["pdfplattegrond_nietnodig"]) {
 	$htmlrow="Plattegrond-PDF is bij <a href=\"cms_boekingen_facturen.php?bid=".$gegevens["stap1"]["boekingid"]."\">deze boeking</a> niet nodig bij de reisdocumenten";
 	unset($pdffile_plattegrond);
-} elseif(file_exists($pdffile_plattegrond)) {
-	$htmlrow="<a href=\"".wt_he($pdffile_plattegrond)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
+} elseif(file_exists($pdffile_plattegrond_accom)) {
+	$htmlrow="<a href=\"".wt_he($pdffile_plattegrond_accom)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
+} elseif(file_exists($pdffile_plattegrond_lev)) {
+	$htmlrow="<a href=\"".wt_he($pdffile_plattegrond_lev)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
+} elseif(file_exists($pdffile_plattegrond_plaats)){
+	$htmlrow="<a href=\"".wt_he($pdffile_plattegrond_plaats)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
 } else {
-	$htmlrow="<b>Let op! plattegrond-PDF ontbreekt. Uploaden via <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">plaats</a>.</b>";
+	$htmlrow="<b>Let op! plattegrond-PDF ontbreekt. Uploaden via <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">plaats</a>, <a href=\"cms_leveranciers.php?edit=8&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&8k0=".$gegevens["stap1"]["accinfo"]["leverancier_id"]."\" target=\"_blank\">leverancier</a> of <a href=\"cms_accommodaties.php?edit=1&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&1k0=".$gegevens["stap1"]["accinfo"]["accommodatie_id"]."\" target=\"_blank\">accommodatie</a></b>";
 	unset($pdffile_plattegrond);
 }
 $vars["temp_pdfprinttable"].="<tr><td>";
@@ -424,7 +433,7 @@ if(file_exists($pdffile_boeking)) {
 # Afsluiten temp_pdfprinttable
 $vars["temp_pdfprinttable"].="</table><br><br>";
 
-if($pdffile_voorbrief and !$vars["vertrekinfo_boeking"]["error"] and ($pdffile_plattegrond or $plaats_pdfplattegrond_nietnodig or $gegevens["stap1"]["pdfplattegrond_nietnodig"])) {
+if($pdffile_voorbrief and !$vars["vertrekinfo_boeking"]["error"] and ($pdffile_plattegrond_plaats or $pdffile_plattegrond_lev or $pdffile_plattegrond_accom or $plaats_pdfplattegrond_nietnodig or $gegevens["stap1"]["pdfplattegrond_nietnodig"])) {
 	$vars["temp_pdffiles_aanwezig"]=true;
 }
 
@@ -895,8 +904,12 @@ if($form->okay) {
 			}
 
 			# Plaats-plattegrond
-			if(file_exists($pdffile_plattegrond)) {
-				$array_pdfs[]=$pdffile_plattegrond;
+			if(file_exists($pdffile_plattegrond_accom)) {
+				$array_pdfs[]=$pdffile_plattegrond_accom;
+			} elseif(file_exists($pdffile_plattegrond_lev)) {
+				$array_pdfs[]=$pdffile_plattegrond_lev;
+			} elseif(file_exists($pdffile_plattegrond_plaats)) {
+				$array_pdfs[]=$pdffile_plattegrond_plaats;
 			}
 
 			# Accommodatie-specifieke PDF
