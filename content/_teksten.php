@@ -1068,12 +1068,6 @@ $txt["nl"]["popup_bijkomendekosten"]["korting"]="korting";
 $txt["de"]["popup_bijkomendekosten"]["korting"]="Rabatt";
 $txt["en"]["popup_bijkomendekosten"]["korting"]="discount";
 
-$txt["nl"]["popup_bijkomendekosten"][""]="";
-$txt["en"]["popup_bijkomendekosten"][""]="";
-
-$txt["nl"]["popup_bijkomendekosten"][""]="";
-$txt["en"]["popup_bijkomendekosten"][""]="";
-
 
 
 #
@@ -1863,9 +1857,6 @@ $txt["nl"]["zoek-en-boek"]["soortaccommodatie"]="Soort accommodatie";
 $txt["de"]["zoek-en-boek"]["soortaccommodatie"]="Unterkunftstyp";
 $txt["en"]["zoek-en-boek"]["soortaccommodatie"]="Type of accommodation";
 
-// $txt["nl_i"]["zoek-en-boek"]["soortaccommodatie"]="Soort vakantiehuis";
-// $txt["en_i"]["zoek-en-boek"]["soortaccommodatie"]="Type of holiday home";
-
 $txt["nl"]["zoek-en-boek"]["vrijstaandhuis"]="vrijstaand huis";
 $txt["de"]["zoek-en-boek"]["vrijstaandhuis"]="freistehendes Haus";
 $txt["en"]["zoek-en-boek"]["vrijstaandhuis"]="detached house";
@@ -1938,9 +1929,6 @@ $txt["en"]["zoek-en-boek"]["hotel"]="hotel";
 $txt["nl"]["zoek-en-boek"]["flexibel"]="flexibele aankomst/vertrek";
 $txt["de"]["zoek-en-boek"]["flexibel"]="flexible Anreise/Abfahrt";
 $txt["en"]["zoek-en-boek"]["flexibel"]="flexible dates";
-
-$nieuwe_vertaling["de"]["zoek-en-boek"]["flexibel"]=true;
-
 
 $txt["nl"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Faciliteiten accommodatie";
 $txt["de"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Annehmlichkeiten der Unterkunft";
@@ -2718,17 +2706,9 @@ $txt["nl"]["favorieten"]["stuurkopie"]="Stuur een kopie naar mijzelf";
 $txt["de"]["favorieten"]["stuurkopie"]="Eine Kopie an mich versenden";
 $txt["en"]["favorieten"]["stuurkopie"]="Send me a copy";
 
-$txt["nl"]["favorieten"][""]="";
-$txt["en"]["favorieten"][""]="";
 
-$txt["nl"]["favorieten"][""]="";
-$txt["en"]["favorieten"][""]="";
 
-$txt["nl"]["favorieten"][""]="";
-$txt["en"]["favorieten"][""]="";
 
-$txt["nl"]["favorieten"][""]="";
-$txt["en"]["favorieten"][""]="";
 
 
 #
@@ -3088,10 +3068,8 @@ $txt["de"]["toonaccommodatie"]["kilometer"]="Kilometer";
 $txt["en"]["toonaccommodatie"]["kilometer"]="kilometres";
 
 $txt["nl"]["toonaccommodatie"]["ter-plaatse"]="ter plaatse";
-$txt["de"]["toonaccommodatie"]["ter-plaatse"]="vor Ort";
+$txt["de"]["toonaccommodatie"]["ter-plaatse"]="ist vorhanden";
 $txt["en"]["toonaccommodatie"]["ter-plaatse"]="on site";
-
-$nieuwe_vertaling["de"]["toonaccommodatie"]["ter-plaatse"]=true;
 
 $txt["nl"]["toonaccommodatie"]["afstandrestaurantbar"]="Afstand tot restaurant/bar";
 $txt["de"]["toonaccommodatie"]["afstandrestaurantbar"]="Entfernung zum(r) Restaurant/Bar";

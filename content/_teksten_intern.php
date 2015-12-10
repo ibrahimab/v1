@@ -1,9 +1,8 @@
 <?php
 
 #
-# regexp-zoeken in EditPad op lege en-velden kan via: \$txta\["en"\]\[\"[a-z_]*\"\]=""
+# Internal texts
 #
-
 
 # Menu-vertalingen / bestandsnamen
 $txta["nl"]["menu_accommodaties"]="accommodaties";
@@ -1020,5 +1019,3 @@ $txta["en"]["aantalnachten"]="Number of nights";
 $txta["nl"]["aantalweken"]="Aantal weken";
 $txta["de"]["aantalweken"]="Anzahl Wochen";
 $txta["en"]["aantalweken"]="Number of weeks";
-
-?>
