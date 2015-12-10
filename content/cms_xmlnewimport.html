@@ -1566,15 +1566,31 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 										if($imgsize[0]>$imgsize[1]) {
 											# Landscape-afbeelding: opslaan
 											if($hoofdafbeelding) {
+
 												$imgteller++;
-												$filename="pic/cms/accommodaties_aanvullend/".$accid."-".$imgteller.".jpg";
-												rename($tempfilename,$filename);
-												filesync::add_to_filesync_table($filename);
+												$filename  = ($accid . '-' . $imgteller . '.jpg');
+												$directory = 'accommodaties_aanvullend';
+												$path      = 'pic/cms/' . $directory . '/' . $filename;
+
+												rename($tempfilename, $path);
+												filesync::add_to_filesync_table($path);
+
+												$mongodb = $vars['mongodb']['wrapper'];
+												$mongodb->saveAccommodationImage($accid, $directory, $filename, $imgteller, $imgsize[0], $imgsize[1]);
+
+
 											} else {
+
+												$filename  = $accid . '.jpg';
+												$directory = 'accommodaties';
+												$path      = 'pic/cms/' . $directory . '/' . $filename;
+
 												# Thumbnail 240x180
-												$filename="pic/cms/accommodaties/".$accid.".jpg";
-												wt_create_thumbnail($tempfilename,$filename,240,0);
-												filesync::add_to_filesync_table($filename);
+												wt_create_thumbnail($tempfilename, $path, 240, 0);
+												filesync::add_to_filesync_table($path);
+
+												$mongodb = $vars['mongodb']['wrapper'];
+												$mongodb->saveAccommodationImage($accid, $directory, $filename, 1, $imgsize[0], $imgsize[1]);
 
 												# Thumbnail 60x45
 												$filename="pic/cms/accommodaties_tn/".$accid.".jpg";
@@ -1612,11 +1628,19 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 										$imgsize=getimagesize($tempfilename);
 										if($imgsize[0]>$imgsize[1]) {
+
 											# Landscape-afbeelding: opslaan
 											$imgteller++;
-											$filename="pic/cms/types/".$typeid."-".$imgteller.".jpg";
-											rename($tempfilename,$filename);
-											filesync::add_to_filesync_table($filename);
+											$filename  = $typeid . '-' . $imgteller . '.jpg';
+											$directory = 'types';
+											$path      = 'pic/cms/' . $directory . '/' . $filename;
+
+											rename($tempfilename, $path);
+											filesync::add_to_filesync_table($path);
+
+											$mongodb = $vars['mongodb']['wrapper'];
+											$mongodb->saveTypeImage($typeid, $directory, $filename, $imgteller, $imgsize[0], $imgsize[1]);
+
 										} else {
 											# Portrait-afbeelding: wissen
 											unlink($tempfilename);
