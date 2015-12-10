@@ -347,20 +347,20 @@ li {
 	background-color: #F3F3F3;
 }
 
-.row_delete {
-	background-color: #FFA9A9;
+.row_delete, .row_delete_checkbox {
+	background-color: #FFA9A9 !important;
 }
 
 .row_delete_confirm {
-	background-color: #FF7979;
+	background-color: #FF7979 !important;
 }
 
 .row_edit {
-	background-color: #FDFF86;
+	background-color: #FDFF86 !important;
 }
 
 .row_show {
-	background-color: #FDFF86;
+	background-color: #FDFF86 !important;
 }
 
 .wt_cms_show {
