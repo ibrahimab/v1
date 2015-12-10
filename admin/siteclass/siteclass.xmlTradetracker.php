@@ -176,23 +176,29 @@ class xmlTradetracker extends xmlExport
 
 						// excluded from price
 						if( is_array( $this->type_bkk[$type_id][$last_seizoen_id]["excluded"] )) {
+
 							$this->x->startElement('excludedFromPrice');
+
 							foreach ($this->type_bkk[$type_id][$last_seizoen_id]["excluded"] as $key => $value) {
 
-								$this->x->startElement('value');
+								$unit  = '';
+								$price = '';
 
 								if (isset($this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key])) {
-									$this->x->writeAttribute('price', $this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key]);
+
+									$price = $this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key];
+									$price = (' ' . (html_entity_decode('&euro;')) . sprintf('%.2f', $price));
 								}
 
 								if (isset($this->type_bkk[$type_id][$last_seizoen_id]['unit'][$key])) {
-									$this->x->writeAttribute('unit', $this->type_bkk[$type_id][$last_seizoen_id]['unit'][$key]);
+									$unit = (' ' . $this->type_bkk[$type_id][$last_seizoen_id]['unit'][$key]);
 								}
 
-								$this->x->text($value);
-								$this->x->endElement();
+								$this->x->writeElement('value', $value . $unit . $price);
 							}
+
 							$this->x->endElement(); // close excludedFromPrice
+
 						} else {
 							$this->x->writeElement('excludedFromPrice', '');
 						}
