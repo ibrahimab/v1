@@ -160,6 +160,7 @@ if($_GET["status"]==1) {
 $cms->list_field(34,"type_id","Accommodatie","",array("html"=>true, "td_class"=>"td_type_id"));
 $cms->list_field(34,"aankomstdatum_exact","Aankomst",array("date_format"=>"DD-MM-JJJJ"));
 if($_GET["status"]==1) {
+	$cms->list_field(34,"reserveringsnummer_extern","Volgnr");
 	$cms->list_field(34,"optie_klant","Optie","",array("td_class"=>"td_optie"));
 } elseif($_GET["status"]==2) {
 	$cms->list_field(34,"boeking_id","Boeking");
