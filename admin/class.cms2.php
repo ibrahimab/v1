@@ -685,6 +685,11 @@ class cms2 {
 					$list_options["sort_substring"]=$this->list[$counter]["options"][$key]["sort_substring"];
 				}
 
+				if (!empty($this->list[$counter]["options"][$key]["sort_empty_below"])) {
+					// sort empty below
+					$list_options["sort_empty_below"] = true;
+				}
+
 				if($this->list[$counter]["layout"][$key]["td_class"]) {
 					// layout: td class
 					$list_layout["td_class"]=$this->list[$counter]["layout"][$key]["td_class"];
@@ -1747,5 +1752,3 @@ class cms2 {
 		return true;
 	}
 }
-
-?>
