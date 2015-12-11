@@ -184,7 +184,7 @@ class xmlTradetracker extends xmlExport
 								$unit  = '';
 								$price = '';
 
-								if (isset($this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key])) {
+								if (isset($this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key]) && $this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key] > 0) {
 
 									$price = $this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key];
 									$price = (' ' . (html_entity_decode('&euro;')) . sprintf('%.2f', $price));
