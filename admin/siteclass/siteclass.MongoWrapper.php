@@ -299,7 +299,7 @@ class MongoWrapper
 	 */
 	public function saveImage($collection, $id, $directory, $filename, $rank, $width, $height)
 	{
-		$collection = $this->db->getCollection($collection);
+		$collection = $this->getCollection($collection);
 		$data       = [
 
 			'file_id'   => $id,
