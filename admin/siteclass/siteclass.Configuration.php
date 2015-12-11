@@ -42,6 +42,7 @@ class Configuration
 		$this->configdata["wt_htmlentities_cp1252"]          = $vars["wt_htmlentities_cp1252"];
 		$this->configdata["basehref"]                        = $vars["basehref"];
 		$this->configdata["seizoentype_namen"]               = $vars["seizoentype_namen"];
+		$this->configdata["bk_eenheid"]                      = $vars["bk_eenheid"];
 
 		$this->configdata["isMobile"]                        = $isMobile;
 		$this->configdata["voorkant_cms"]                    = $voorkant_cms;
