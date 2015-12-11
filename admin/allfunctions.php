@@ -1731,8 +1731,8 @@ function wt_autoload_class($classname) {
 		return true;
 	} else {
 		$class = wt_hernoem_classname($classname);
-		if (file_exists($vars["unixdir"]."admin/class.".$classname . ".php")) {
-			require_once $vars["unixdir"]."admin/class.".$classname . ".php";
+		if (file_exists($vars["unixdir"]."admin/class.".$class . ".php")) {
+			require_once $vars["unixdir"]."admin/class.".$class . ".php";
 			return true;
 		} else {
 
