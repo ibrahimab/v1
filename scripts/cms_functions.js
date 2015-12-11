@@ -1230,7 +1230,7 @@ $(document).ready(function() {
 		);
 	});
 
-	// cms_garanties: set date when selecting
+	// cms_garanties: set date when selecting option
 	$("body#cms_body_cms_garanties #yesnooptie_klant").change(function(event) {
 
 		if ($(this).is(":checked")) {

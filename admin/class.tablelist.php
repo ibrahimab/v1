@@ -145,14 +145,21 @@ class tablelist {
 				$sortvalue = strip_tags($sortvalue);
 
 			}
-
 		}
 		$sortvalue=strtolower($sortvalue);
-		if($datetime) {
-			$sortvalue=substr("00000".adodb_date("Y",$sortvalue),-5).adodb_date("mdHis",$sortvalue);
+
+		if (!$sortvalue and !empty($this->fields["options"][$id]["sort_empty_below"])) {
+			// sort empty field: below
+			$sortvalue = "ZZZZZZZZZZZZ";
 		} else {
-			if(strlen($sortvalue)<12 and ereg("^[0-9\.]+$",$sortvalue)) $sortvalue=substr("000000000000000".$sortvalue,-14);
+			if($datetime) {
+				// sort date field
+				$sortvalue=substr("00000".adodb_date("Y",$sortvalue),-5).adodb_date("mdHis",$sortvalue);
+			} else {
+				if(strlen($sortvalue)<12 and ereg("^[0-9\.]+$",$sortvalue)) $sortvalue=substr("000000000000000".$sortvalue,-14);
+			}
 		}
+
 		if(isset($options["html"]) and $options["html"]) $this->fields["options"][$id][$key]=$options;
 
 		if(isset($options["data_attribute_content"])) {

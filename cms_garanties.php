@@ -147,6 +147,9 @@ if (in_array($_GET["status"], array(1,5))) {
 	// status 1 & 5: anybody can edit
 	$cms->settings[34]["list"]["edit_icon"] = true;
 }
+if ($_GET["status"]==5) {
+	$cms->settings[34]["list"]["delete_icon"] = false;
+}
 $cms->settings[34]["list"]["add_link"]=false;
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
@@ -166,7 +169,7 @@ if($_GET["status"]==1) {
 	$cms->list_field(34,"boeking_id","Boeking");
 } elseif($_GET["status"]==5) {
 	$cms->list_field(34,"optie_klantnaam","Klantnaam");
-	$cms->list_field(34,"optie_einddatum","Optie-einddatum",array("date_format"=>"DD-MM-JJJJ UU:ZZ"));
+	$cms->list_field(34,"optie_einddatum","Optie-einddatum",array("date_format"=>"DD-MM-JJJJ UU:ZZ", "sort_empty_below"=>true));
 	$cms->list_field(34,"optie_opmerkingen_intern_popup","Intern","",array("html"=>true));
 
 } else {
@@ -301,8 +304,8 @@ $cms->edit_field(34,0,"opmerkingen_overzicht","Opmerking overzicht","",array("on
 $cms->edit_field(34,0,"htmlrow","<hr><b>In optie voor klant</b>");
 $cms->edit_field(34,0,"optie_klant","Deze garantie staat in optie voor een klant");
 $cms->edit_field(34,0,"optie_klantnaam","Klantnaam");
-$cms->edit_field(34,0,"optie_einddatum","Einddatum", "", array("min_jump"=>5), array("calendar"=>true));
-$cms->edit_field(34,0,"optie_opmerkingen_intern","Interne opmerkingen bij de optie");
+$cms->edit_field(34,0,"optie_einddatum","Einddatum", "", array("min_jump"=>5), array("add_html_after_field"=>"&nbsp;&nbsp;<a href=\"#\" onclick=\"$(&quot;select[name^='input[optie_einddatum]'&quot;).val(&quot;&quot;);return false;\" style=\"font-size:1.3em;text-decoration:none;\">&times;</a>","calendar"=>true));
+$cms->edit_field(34,0,"optie_opmerkingen_intern","Interne opmerkingen bij de optie", "", array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
 
 
 # Controle op ingevoerde formuliergegevens
