@@ -184,14 +184,20 @@ class xmlTradetracker extends xmlExport
 								$unit  = '';
 								$price = '';
 
-								if (isset($this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key]) && $this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key] > 0) {
+								if (isset($this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key])) {
 
-									$price = $this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key];
-									$price = (' ' . (html_entity_decode('&euro;')) . sprintf('%.2f', $price));
-								}
+									if ($this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key] > 0) {
 
-								if (isset($this->type_bkk[$type_id][$last_seizoen_id]['unit'][$key])) {
-									$unit = (' ' . $this->type_bkk[$type_id][$last_seizoen_id]['unit'][$key]);
+										$price = $this->type_bkk[$type_id][$last_seizoen_id]['excluded_price'][$key];
+										$price = (' ' . (html_entity_decode('&euro;')) . sprintf('%.2f', $price));
+
+										if (isset($this->type_bkk[$type_id][$last_seizoen_id]['unit'][$key])) {
+											$unit = (' ' . $this->type_bkk[$type_id][$last_seizoen_id]['unit'][$key]);
+										}
+
+									} else {
+										$price = ' ter plaatse voldoen';
+									}
 								}
 
 								$this->x->writeElement('value', $value . $unit . $price);
