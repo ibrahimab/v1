@@ -29,9 +29,9 @@ if($_GET["stap"]==1) {
 			if(!$gegevens["stap3"]["geboortedatum_ingevuld"][$i]) {
 				echo "<li><a href=\"";
 				if($i==1) {
-					echo $path."bsys_wijzigen.php?stap=2&bid=".wt_he($_GET["bid"])."&burl=".wt_he($_GET["burl"]);
+					echo $path."bsys_wijzigen.php?stap=2&bid=".wt_he($_GET["bid"])."&burl=".wt_he(urlencode($_GET["burl"]));
 				} else {
-					echo $path."bsys_wijzigen.php?stap=3&bid=".wt_he($_GET["bid"])."&burl=".wt_he($_GET["burl"])."#persoon".$i;
+					echo $path."bsys_wijzigen.php?stap=3&bid=".wt_he($_GET["bid"])."&burl=".wt_he(urlencode($_GET["burl"]))."#persoon".$i;
 				}
 				echo "\">";
 				if($gegevens["stap3"][$i]["voornaam"] or $gegevens["stap3"][$i]["achternaam"]) {
@@ -42,9 +42,5 @@ if($_GET["stap"]==1) {
 				echo "</a></li>";
 			}
 		}
-#echo wt_dump($gegevens["stap3"]);
 	}
 }
-
-
-?>

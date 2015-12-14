@@ -43,10 +43,8 @@ if($_POST["overbetaling_filled"] and $_GET["bid"]) {
 			$overboektotaal+=$value;
 		}
 	}
-	header("Location: ".$vars["path"]."cms_boekingen_betalingen.php?burl=".$_GET["burl"]."&bid=".$_GET["bid"]);
+	header("Location: ".$vars["path"]."cms_boekingen_betalingen.php?burl=".urlencode($_GET["burl"])."&bid=".$_GET["bid"]);
 	exit;
-#	echo wt_dump($_POST);
-#	exit;
 }
 
 if(isset($_GET["goedgekeurde_betaling"]) and $_GET["confirmed"]) {
@@ -175,5 +173,3 @@ $cms->end_declaration();
 
 # Vormgeving weergeven
 $layout->display_all($cms->page_title);
-
-?>
