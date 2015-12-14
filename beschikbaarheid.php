@@ -372,15 +372,16 @@ if($form->okay) {
 			if($accinfo["flexibel"]) {
 
 				$aankomstdatumweergave     = DATUM(txt('aankomstdatumformaat', 'beschikbaarheid', ['taal' => $leveranciertaal]), $form->input["aankomstdatum_flex"]["unixtime"], $leveranciertaal);
-				$aankomstdatumweergavelang = DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"], $leveranciertaal);
+				$aankomstdatumweergavelang = DATUM('DAG D MAAND JJJJ', $form->input['aankomstdatum_flex']['unixtime'], $leveranciertaal);
 				$verblijfsduurweergave     = (substr($form->input['verblijfsduur'], -1) === 'n' ? (substr($form->input['verblijfsduur'], 0, -1) . ' ' . txt('nachten', 'vars', ['taal' => $leveranciertaal])) : ($form->input['verblijfsduur'] . ' ' . txt('weken', 'vars', ['taal' => $leveranciertaal])));
 				$aankomstdatumhtml         = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"])."</td></tr>";
 
 			} else {
 
 				$aankomstdatumweergave     = DATUM(txt('aankomstdatumformaat', 'beschikbaarheid', ['taal' => $leveranciertaal]), $accinfo['aankomstdatum_unixtime'][$form->input["aankomstdatum"]], $leveranciertaal);
-				$aankomstdatumweergavelang = DATUM("DAG D MAAND JJJJ",$accinfo['aankomstdatum_unixtime'][$form->input["aankomstdatum"]], $leveranciertaal);
-				$aankomstdatumhtml         = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"]) . "</td></tr>";
+				$aankomstdatumweergavelang = DATUM('DAG D MAAND JJJJ', $accinfo['aankomstdatum_unixtime'][$form->input['aankomstdatum']], $leveranciertaal);
+				$verblijfsduurweergave     = $form->input['verblijfsduur'] . ' ' . txt('weken', 'vars', ['taal' => $leveranciertaal]);
+				$aankomstdatumhtml         = "<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">" . DATUM('DAG D MAAND JJJJ', $accinfo['aankomstdatum_unixtime'][$form->input['aankomstdatum']]) . "</td></tr>";
 			}
 
 			$aankomstdatumhtml .= "<tr><td class=\"wtform_cell_left\">Verblijfsduur</td><td class=\"wtform_cell_right\">".wt_he($vars["verblijfsduur"][$form->input["verblijfsduur"]])."</td></tr>";
@@ -511,7 +512,7 @@ if($form->okay) {
 			if($accinfo["flexibel"]) {
 				$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he(DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"],$vars["taal"]))."</td></tr>";
 			} else {
-				$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he(DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"],$vars["taal"]))."</td></tr>";
+				$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he(DATUM('DAG D MAAND JJJJ', $accinfo['aankomstdatum_unixtime'][$form->input['aankomstdatum']], $vars['taal']))."</td></tr>";
 			}
 			$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("verblijfsduur","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($vars["verblijfsduur"][$form->input["verblijfsduur"]])."</td></tr>";
 		} else {
