@@ -162,6 +162,7 @@ $cms->db_field(2,"yesno","tonenzoekformulier");
 $cms->db_field(2,"yesno","request_translation");
 $cms->db_field(2,"yesno","request_translation_en");
 $cms->db_field(2,"yesno","request_translation_de");
+$cms->db_field(2,"yesno","canonical_tag");
 $cms->db_field(2,"yesno","controleren");
 $cms->db_field(2,"yesno","onderverdeeld_in_nummers");
 #$cms->db_field(2,"yesno","shortlist");
@@ -341,6 +342,8 @@ $cms->edit_field(2,0,"eigenaar_id","Eigenaar");
 $cms->edit_field(2,0,"aantekeningen","Aantekeningen (intern)","",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
 $cms->edit_field(2,0,"code","Code");
 $cms->edit_field(2,0,"url_leverancier","Directe link bij leverancier");
+$cms->edit_field(2,0,"canonical_tag","Canonical-tag (voor Google)", "", "", array("info"=>"Om te voorkomen dat één accommodatie meerdere keren in google terecht komt en dat de linkwaarde over meerdere types verdeeld wordt, kun je met behulp van deze checkbox één type van de accommodatie aanwijzen welke we in de zoekresultaten van google willen tonen. Dit gebeurt met een canonical-tag."));
+#$cms->edit_field(2,0,"onderverdeeld_in_nummers","Dit type is onderverdeeld in nummers");
 $cms->edit_field(2,0,"htmlrow","<hr><b>XML-import (beschikbaarheid/tarieven)</b><p><i>In geval van meerdere codes: scheiden door komma</i>");
 $cms->edit_field(2,0,"leverancierscode","Leverancierscode type");
 $cms->edit_field(2,0,"leverancierscode_negeertarief","Leverancierscodes die niet moeten worden opgeteld bij de brutoprijs");
@@ -707,6 +710,15 @@ function form_before_goto($form) {
 		$bijkomendekosten->pre_calculate_type($form->db_insert_id);
 	}
 
+	// change canonical-tag
+	if ($form->okay && isset($_GET['1k0'])) {
+
+		$db->query("SELECT canonical_tag, accommodatie_id, type_id FROM type WHERE accommodatie_id = '" . intval($_GET["1k0"]) . "';");
+
+		if ($form->input['canonical_tag'] === '1') {
+			$db->query("UPDATE type SET canonical_tag = 0 WHERE accommodatie_id = " . intval($_GET['1k0']). " AND type_id != " . intval($_GET['2k0']) . ";");
+		}
+	}
 }
 
 function form_after_imagedelete($form) {
