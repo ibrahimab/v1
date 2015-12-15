@@ -258,13 +258,13 @@ $txt["de"]["vars"]["mobilenotification"]="Sie sehen jetzt unsere mobile Webseite
 $txt["en"]["vars"]["mobilenotification"] = "You are browsing the mobile website. [[h_1]]Take me to the desktop site[[h_2]].";
 
 $txt["nl"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk slecht bereikbaar op ons reguliere telefoonnummer.\nJe kunt ons bereiken op 088 - 811 22 00, via [[h_1]][[v_email]][[h_2]] of via de chat.";
-$txt["de"]["vars"]["opvalmelding"]="Wegen eines Umzugs sind wir vorübergehend unter einer anderen Telefonnummer erreichbar: 088 - 811 22 00.\nSie können uns natürlich auch eine E-Mail schicken über [[h_1]][[v_email]][[h_2]] oder chat.";
+$txt["de"]["vars"]["opvalmelding"]="Wegen eines Umzugs sind wir vorübergehend unter einer anderen Telefonnummer erreichbar: +31 888 11 22 00.\nSie können uns natürlich auch eine E-Mail schicken über [[h_1]][[v_email]][[h_2]] oder chat.";
 $txt["en"]["vars"]["opvalmelding"]="Due to a malfunction we are temporarily hard to reach our regular telephone number.\nYou can reach us via +31 888 11 22 00, via [[h_1]][[v_email]][[h_2]] or via chat.";
 
 $txt["nl_t"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk slecht bereikbaar op ons reguliere telefoonnummer.\nJe kunt ons bereiken op 088 - 811 22 00, via [[h_1]][[v_email]][[h_2]] of via de chat.";
 $txt["en_t"]["vars"]["opvalmelding"]="Due to a malfunction we are temporarily hard to reach our regular telephone number.\nYou can reach us via +31 888 11 22 00, via [[h_1]][[v_email]][[h_2]] or via chat.";
 
-$txt["nl_z"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk slecht bereikbaar op ons reguliere telefoonnummer.\nJe kunt ons bereiken op 088 - 811 22 00, via [[h_1]][[v_email]][[h_2]] of via de chat.";
+$txt["nl_b"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk slecht bereikbaar op ons reguliere telefoonnummer.\nJe kunt ons bereiken op +31 888 11 22 00, via [[h_1]][[v_email]][[h_2]] of via de chat.";
 $txt["en_z"]["vars"]["opvalmelding"]="Due to a malfunction we are temporarily hard to reach our regular telephone number.\nYou can reach us via +31 888 11 22 00, via [[h_1]][[v_email]][[h_2]] or via chat.";
 
 $txt["nl_v"]["vars"]["opvalmelding"]="Wegens een storing zijn wij tijdelijk slecht bereikbaar op ons reguliere telefoonnummer.\nJe kunt ons bereiken op 088 - 811 22 00, via [[h_1]][[v_email]][[h_2]] of via de chat.";
