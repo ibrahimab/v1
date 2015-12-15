@@ -196,7 +196,6 @@ if($_GET["delete"]==34 and $_GET["34k0"]) {
 			$delete_aankomstdatum=$db->f("aankomstdatum");
 		} else {
 			$cms->delete_error(34,"Deze garantie kan niet worden gewist");
-			trigger_error("garantie kan niet worden gewist",E_USER_NOTICE);
 		}
 	}
 
