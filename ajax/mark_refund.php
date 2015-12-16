@@ -35,7 +35,7 @@ $refundRequest = new RefundRequest($db);
 $id 		   = $params['id'];
 
 if ($params['method'] === 'paid') {
-	
+
 	$refundRequest->markAsPaid($id);
 	$message = 'Request was successfully marked as paid';
 
@@ -64,19 +64,21 @@ while ($refunds->next_record()) {
 
 	if ($params['method'] === 'paid') {
 
-		chalet_log(sprintf('retourstorting t.w.v. € %s afgerond', [$formatted_price]), false, true);
-		cmslog_pagina_title('retourstorting afgerond');
+		$iban_partly = substr($refunds->f('iban'), 0, 8) . '...' . substr($refunds->f('iban'), -3);
+
+		boeking_log($refunds->f('boeking_id'), sprintf('Retour gestort: € %s op %s', $formatted_price, $iban_partly));
+		cmslog_pagina_title('retourbetaling afgerond');
 
 		// appending refund request to internal comments
 		$comment = sprintf("%s (%s):\n€ %s retour gestort", date('d/m/Y'), $login->vars['voornaam'], $formatted_price);
 
 	} else {
 
-		chalet_log(sprintf('retourstorting t.w.v. € %s geannuleerd', [$formatted_price]), false, true);
-		cmslog_pagina_title('retourstorting geannuleerd');
+		boeking_log($refunds->f('boeking_id'), sprintf('verzoek retourbetaling t.w.v. € %s geannuleerd', $formatted_price));
+		cmslog_pagina_title('retourbetaling geannuleerd');
 
 		// appending refund request to internal comments
-		$comment = sprintf("%s (%s):\nAanvraag retourstorting € %s teruggetrokken", date('d/m/Y'), $login->vars['voornaam'], $formatted_price);
+		$comment = sprintf("%s (%s):\nVerzoek retourbetaling € %s teruggetrokken", date('d/m/Y'), $login->vars['voornaam'], $formatted_price);
 	}
 
 	$db->query("UPDATE boeking SET opmerkingen_intern = CONCAT(opmerkingen_intern, '\n\n', '" . wt_as($comment) . "') WHERE boeking_id = " . intval($refunds->f('boeking_id')));

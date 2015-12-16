@@ -2015,7 +2015,7 @@ function validate_refund_form(form, success) {
    var error_class = 'ui-state-error';
    var fields      = {};
    var errors      = [];
-   var prefix      = 'Retourstorting ' + form.data('reservation-number');
+   var prefix      = 'Retourbetaling ' + form.data('reservation-number');
 
    // transform form data into usable object
    form.serializeArray().map(function(field) { fields[field.name] = field.value; });
@@ -2148,6 +2148,9 @@ function update_refund_form(selector, fields) {
 
             // appending retour ID
             form_data['boeking_retour_id'] = fields['boeking_retour_id'];
+
+            // appending boeking_id
+            form_data['boeking_id'] = form.data('reservation-id');
 
             $.ajax({
 

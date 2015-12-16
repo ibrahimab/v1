@@ -90,10 +90,10 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 
 					/**
 					 * Refunds now need to be requested
-					 * This means that when you add the data-role "refund-request" to an element, 
+					 * This means that when you add the data-role "refund-request" to an element,
 					 * it will call a form that needs to filled in before being processed.
 					 */
-					echo '<br />&nbsp;&nbsp;&nbsp;&bull; <a href="#" data-role="create-refund-request">retourbetaling aanvragen &raquo;</a>';
+					echo '<br /><br />&nbsp;&nbsp;&nbsp;&bull; <a href="#" data-role="create-refund-request">retourbetaling aanvragen &raquo;</a>';
 				}
 			} else {
 				echo "&nbsp;";
@@ -132,12 +132,14 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 
 		$refundRequest = new RefundRequest($db);
 		$refunds       = $refundRequest->all($gegevens['stap1']['boekingid'], ['ingetrokken_op' => null]);
+
+		if ($refunds->num_rows()) {
 ?>
+		<p><strong>Retourbetalingen</strong></p>
 		<table class="tbl" cellspacing="0" border="0">
 			<tr>
-				<td colspan="9"><strong>Retourbetalingen</strong></td>
-			</tr>
-			<tr>
+				<th>&nbsp;</th>
+				<th>&nbsp;</th>
 				<th>Naam</th>
 				<th>Omschrijving</th>
 				<th>IBAN</th>
@@ -145,11 +147,23 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 				<th>Bedrag</th>
 				<th>Aangevraagd op</th>
 				<th>Betaald op</th>
-				<th>Aanpassen</th>
-				<th>Annuleren</th>
 			</tr>
 			<?php while ($refunds->next_record()) : ?>
 			<tr>
+                <td class="tbl_icon tbl_icon_edit">
+                    <?php if (null === $refunds->f('paid_at')) : ?>
+                        <a href="#" data-role="update-refund-request" data-form-data='{"boeking_retour_id": <?php echo $refunds->f('boeking_retour_id'); ?>,"amount": "<?php echo number_format($refunds->f('amount'), 2, ',', ''); ?>", "name": "<?php echo $refunds->f('name'); ?>", "iban": "<?php echo $refunds->f('iban'); ?>", "bic": "<?php echo $refunds->f('bic'); ?>", "description": "<?php echo trim($refunds->f('description')); ?>"}'>
+                            <img src="<?php echo $this->settings["path"]."pic/class.cms_edit.gif"; ?>" />
+                        </a>
+                    <?php endif; ?>
+                </td>
+				<td class="tbl_icon tbl_icon_delete">
+					<?php if (null === $refunds->f('paid_at')) : ?>
+						<a href="#" data-role="mark-refund" data-method="cancel" data-id="<?php echo $refunds->f('boeking_retour_id'); ?>">
+                            <img src="<?php echo $this->settings["path"]."pic/class.cms_delete.gif"; ?>" />
+                        </a>
+					<?php endif; ?>
+				</td>
 				<td><?php echo $refunds->f('name'); ?></td>
 				<td><?php echo $refunds->f('description'); ?></td>
 				<td><?php echo str_replace(' ', '', $refunds->f('iban')); ?></td>
@@ -159,25 +173,14 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 				</td>
 				<td><?php echo $refunds->f('created_at'); ?></td>
 				<td style="text-align: center;" data-role="paid-at"><?php echo ($refunds->f('paid_at') === null ? 'n.v.t.' : $refunds->f('paid_at')); ?></td>
-                <td style="text-align:center;">
-                    <?php if (null === $refunds->f('paid_at')) : ?>
-                        <a href="#" data-role="update-refund-request" data-form-data='{"boeking_retour_id": <?php echo $refunds->f('boeking_retour_id'); ?>,"amount": "<?php echo number_format($refunds->f('amount'), 2, ',', ''); ?>", "name": "<?php echo $refunds->f('name'); ?>", "iban": "<?php echo $refunds->f('iban'); ?>", "bic": "<?php echo $refunds->f('bic'); ?>", "description": "<?php echo trim($refunds->f('description')); ?>"}'>
-                            <img src="<?php echo $this->settings["path"]."pic/class.cms_edit.gif"; ?>" />
-                        </a>
-                    <?php endif; ?>
-                </td>
-				<td class="center" style="text-align:center;">
-					<?php if (null === $refunds->f('paid_at')) : ?>
-						<a href="#" data-role="mark-refund" data-method="cancel" data-id="<?php echo $refunds->f('boeking_retour_id'); ?>">
-                            <img src="<?php echo $this->settings["path"]."pic/class.cms_delete.gif"; ?>" />
-                        </a>
-					<?php endif; ?>
-				</td>
 			</tr>
 			<?php endwhile; ?>
-		</table>
+		</table><br /><hr />
 
 <?php
+
+		}
+
         /**
          * This is the actual refund-request form
          * Landcode = 5 => Verenigde Staten
@@ -206,9 +209,9 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
                                     <tr>
                                         <td><label for="refund-request-form-label-description" data-role="refund-request-form-label">Omschrijving</label></td>
                                         <td>
-                                        	<textarea name="description" data-role="max-length" data-max-length="140" data-max-length-view="max-length" class="ui-widget-content ui-corner-all" rows="7" cols="21">Retourstorting ' . $gegevens['stap1']['boekingsnummer'] . '</textarea>
+                                        	<textarea name="description" data-role="max-length" data-max-length="140" data-max-length-view="max-length" class="ui-widget-content ui-corner-all" rows="7" cols="21">Retourbetaling ' . $gegevens['stap1']['boekingsnummer'] . '</textarea>
                                         	<br />
-                                        	<span data-view="max-length">' . strlen('Retourstorting ' . $gegevens['stap1']['boekingsnummer']) . '</span> karakters
+                                        	<span data-view="max-length">' . strlen('Retourbetaling ' . $gegevens['stap1']['boekingsnummer']) . '</span> karakters
                                         </td>
                                     </tr>
                                 </table>
@@ -221,7 +224,7 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 }
 
 if($login->has_priv("5") and !$_GET["overbetaling"]) {
-	echo "<hr>";
+	// echo "<hr>";
 	$cms->display_cms();
 
 	# Docdata payments history table
