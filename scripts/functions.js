@@ -1619,51 +1619,49 @@ $(document).ready(function() {
 						zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via type-regel onder accommodatie-blok");
 					}
 
+					// trigger product_clicks for Google Tag Manager
+					if(nieuwe_url.match(/zoek-en-boek/g) || nieuwe_url.match(/aanbiedingen/g)) {
+						var list = 'Zoek en boek';
+						if (nieuwe_url.match(/aanbiedingen/g)) list = 'Aanbiedingen';
+						var url = nieuwe_url.split('/');
+						if(lokale_testserver) {
+							var match_type = url[3].match("^([A-Z]{1,2})([0-9]+)");
+						} else {
+							var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");
+						}
+						$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
+						var product_clicks_type = 0;
+						var product_clicks_price = 0;
+						if(match_type != null) {
+							product_clicks_type = match_type[2];
+						}
+						if(match_price != null) {
+							product_clicks_price = match_price[0];
+						}
+						$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":product_clicks_type, "price":product_clicks_price, "url":nieuwe_url, "list":list}, function(data) {
+							if(data.ok && typeof dataLayer !== 'undefined' && dataLayer !== null) {
+								var callBackJson={'eventCallback': function(){
+
+								}};
+								var object = $.extend({}, data.dataLayer, callBackJson);
+								dataLayer.push(object);
+							}
+						});
+					}
+
+
 					if(event.ctrlKey||event.which==2) {
 						// link is geklikt via CTRL-click: laat de link z'n gang gaan
 						return true;
 					} else {
-						// anders: even wachten om Analytics te kunnen sturen
+						// wait 150 ms for Google Analytics + Tag Manager to finish
 						setTimeout(function() {
-							// heel even wachten zodat Analytics kan laden
-							if(nieuwe_url.match(/zoek-en-boek/g) || nieuwe_url.match(/aanbiedingen/g)){
-								var list = 'Zoek en boek';
-								if (nieuwe_url.match(/aanbiedingen/g)) list = 'Aanbiedingen';
-								var url = nieuwe_url.split('/');
-								if(lokale_testserver) {
-									var match_type = url[3].match("^([A-Z]{1,2})([0-9]+)");
-								} else {
-									var match_type = url[2].match("^([A-Z]{1,2})([0-9]+)");
-								}
-								$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
-								var product_clicks_type = 0;
-								var product_clicks_price = 0;
-								if(match_type != null) {
-									product_clicks_type = match_type[2];
-								}
-								if(match_price != null) {
-									product_clicks_price = match_price[0];
-								}
-								$.getJSON(absolute_path+"rpc_json.php", {"t": "product_clicks","type_id":product_clicks_type, "price":product_clicks_price, "url":nieuwe_url, "list":list}, function(data){
-									if(data.ok && typeof dataLayer !== 'undefined' && dataLayer !== null) {
-										var callBackJson={'eventCallback': function(){
-											document.location = nieuwe_url;
-											}};
-										var object = $.extend({}, data.dataLayer, callBackJson);
-										dataLayer.push(object);
-									} else {
-										document.location.href = nieuwe_url;
-									}
-								});
-							} else {
-								document.location.href = nieuwe_url;
-							}
-						},100);
+							document.location.href = nieuwe_url;
+						},150);
 
 						return false;
 					}
 				}
-
 			});
 
 			// naar de juiste positie scrollen
