@@ -10,6 +10,11 @@ class distance
 {
 
 	/**
+	 * maximum amount of meters to show in meters (everything above this value: show in kilometers)
+	 **/
+	const MAX_TO_SHOW_IN_METERS = 2000;
+
+	/**
 	 * show the distance on site, in meters or kilometers (depending on the actual distance)
 	 * including an optional extraText
 	 *
@@ -19,6 +24,7 @@ class distance
 	 **/
 	public static function show($distanceInMeters, $extraText)
 	{
+
 
 		$distanceInMeters = trim($distanceInMeters);
 		$extraText = trim($extraText);
@@ -35,7 +41,7 @@ class distance
 
 
 		} else {
-			if ($distanceInMeters>=1000) {
+			if ($distanceInMeters>static::MAX_TO_SHOW_IN_METERS) {
 				$distanceText = static::convert($distanceInMeters);
 
 				$unitText = txt("kilometer", "toonaccommodatie");
@@ -49,8 +55,8 @@ class distance
 			if ($extraText) {
 				if (preg_match("@^[0-9]+$@", $extraText)) {
 					if ($extraText>$distanceInMeters) {
-						if ( ($distanceInMeters>=1000 and $extraText<1000) or ($distanceInMeters<1000 and $extraText>=1000) ) {
-							if ($extraText>=1000) {
+						if ( ($distanceInMeters>static::MAX_TO_SHOW_IN_METERS and $extraText<=static::MAX_TO_SHOW_IN_METERS) or ($distanceInMeters<=static::MAX_TO_SHOW_IN_METERS and $extraText>static::MAX_TO_SHOW_IN_METERS) ) {
+							if ($extraText>static::MAX_TO_SHOW_IN_METERS) {
 								$unitTextExtra = txt("kilometer", "toonaccommodatie");
 							} else {
 								$unitTextExtra = txt("meter", "toonaccommodatie");
@@ -82,7 +88,7 @@ class distance
 	private static function convert($distanceInMeters)
 	{
 
-		if ($distanceInMeters>=1000) {
+		if ($distanceInMeters>static::MAX_TO_SHOW_IN_METERS) {
 			$distance = number_format($distanceInMeters/1000, 1, ",", ".");
 			if (substr($distance, -2)==",0") {
 				$distance = substr($distance, 0, -2);
