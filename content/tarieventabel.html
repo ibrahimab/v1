@@ -365,7 +365,9 @@ if($db2->next_record()) {
 				echo "</div><div style=\"font-size:0.75em;\">Wederverkoop:&nbsp;";
 				if($accinfo["wederverkoop"]) echo "ja"; else echo "nee";
 				echo "&nbsp;&nbsp;&nbsp;<a href=\"";
-				if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+				if ($vars["acceptatie_testserver"]) {
+					echo "http://test.chalet.nl";
+				} elseif($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
 					echo "https://www.chalet.nl";
 				}
 				if($vars["lokale_testserver"]) {
@@ -409,7 +411,9 @@ if($db2->next_record()) {
 				echo "</div><div style=\"text-align:right;font-size:0.75em;\">";
 				// if($accinfo["wederverkoop"]) echo "ja"; else echo "nee";
 				echo "<a href=\"";
-				if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+				if ($vars["acceptatie_testserver"]) {
+					echo "http://test.chalet.nl";
+				} elseif($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
 					echo "https://www.chalet.nl";
 				}
 				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {

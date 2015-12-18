@@ -1834,7 +1834,9 @@ if($db->next_record()) {
 
 	if($voorkant_cms) {
 		echo "<li><a href=\"";
-		if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html" and !$vars["acceptatie_testserver"]) {
+		if ($vars["acceptatie_testserver"]) {
+			echo "http://test.chalet.nl";
+		} elseif($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
 			echo "https://www.chalet.nl";
 		}
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
@@ -1842,7 +1844,9 @@ if($db->next_record()) {
 		}
 		echo ereg_replace("[a-z]+/$","",$path)."cms_accommodaties.php?wzt=".$db->f("wzt")."&show=1&1k0=".$accinfo["accommodatie_id"]."\" target=\"_blank\">Accommodatie bewerken</a></li>";
 		echo "<li><a href=\"";
-		if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html" and !$vars["acceptatie_testserver"]) {
+		if ($vars["acceptatie_testserver"]) {
+			echo "http://test.chalet.nl";
+		} elseif($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
 			echo "https://www.chalet.nl";
 		}
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
