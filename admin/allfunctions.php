@@ -48,9 +48,9 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 # Error handling
 if($vars["wt_disable_error_handler"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/extern-html" or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"])) or (defined("wt_test") and constant("wt_test") === true)) {
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $_SERVER["HTTP_HOST"]=="ss.postvak.net") {
-		# Lokaal
-#		@set_error_handler('LocalErrorHandler');
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $_SERVER["HTTP_HOST"]=="dev.webtastic.nl") {
+		// Lokaal
+		// @set_error_handler('LocalErrorHandler');
 	}
 } else {
 	# Online
@@ -66,6 +66,9 @@ if($vars["wt_disable_error_handler"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtas
 }
 
 function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
+
+	global $login;
+
 	if(!isset($GLOBALS["errorcounter"])) $GLOBALS["errorcounter"]=0;
 	if(error_reporting()<>0 and $GLOBALS["errorcounter"]<=4 and $errno<>8 and $errno<>2048 and $errno<>8192) {
 		if($_ENV["LOGNAME"] and $_SERVER["SCRIPT_FILENAME"]) {
@@ -116,6 +119,13 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 		}
 
 		if(!$nietopslaan) {
+
+			// send current username
+			$username = '';
+			if (is_object($login) and !empty($login->username)) {
+				$username = $login->username;
+			}
+
 			# gegevens uit _WT_FILENAME_ en _WT_LINENUMBER_ filteren
 			if(preg_match("/_WT_FILENAME_(.*)_WT_FILENAME__WT_LINENUMBER_(.*)_WT_LINENUMBER_(.*)$/",$errstr,$regs)) {
 				$errfile=$regs[1];
@@ -129,7 +139,7 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			}
 
 			$url="http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
-			$fp=@fopen("https://owp.webtastic.nl/error_log.php?req=".$_SERVER["REQUEST_METHOD"]."&l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script),"r");
+			$fp=@fopen("https://owp.webtastic.nl/error_log.php?req=".$_SERVER["REQUEST_METHOD"]."&l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script)."&usr=".urlencode($username),"r");
 			$GLOBALS["errorcounter"]++;
 		}
 	}
