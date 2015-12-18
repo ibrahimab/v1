@@ -629,8 +629,10 @@ class tarieventabel {
 			$return.="<div class=\"tarieventabel_top_interne_link\">Wederverkoop:&nbsp;";
 			if($this->accinfo["wederverkoop"]) $return.="ja"; else $return.="nee";
 			$return.="&nbsp;&nbsp;&nbsp;<a href=\"";
-			if($this->config->website<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-				$return.="https://www.chalet.nl";
+			if ($this->config->acceptatie_testserver) {
+				$return .= "http://test.chalet.nl";
+			} elseif ($this->config->website<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+				$return .= "https://www.chalet.nl";
 			}
 			if($this->config->lokale_testserver) {
 				$return.="/chalet";

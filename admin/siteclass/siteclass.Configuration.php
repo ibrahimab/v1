@@ -35,6 +35,7 @@ class Configuration
 		$this->configdata["taal"]                            = $vars["taal"];
 		$this->configdata["reserveringskosten"]              = $vars["reserveringskosten"];
 		$this->configdata["lokale_testserver"]               = $vars["lokale_testserver"];
+		$this->configdata["acceptatie_testserver"]           = $vars["acceptatie_testserver"];
 		$this->configdata["chalettour_aanpassing_commissie"] = $vars["chalettour_aanpassing_commissie"];
 		$this->configdata["ttv"]                             = $vars["ttv"];
 		$this->configdata["unixdir"]                         = $vars["unixdir"];
