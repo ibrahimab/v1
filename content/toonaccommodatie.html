@@ -1834,7 +1834,7 @@ if($db->next_record()) {
 
 	if($voorkant_cms) {
 		echo "<li><a href=\"";
-		if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+		if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html" and !$vars["acceptatie_testserver"]) {
 			echo "https://www.chalet.nl";
 		}
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
