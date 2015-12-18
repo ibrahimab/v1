@@ -571,7 +571,9 @@ li {
 
 .accinfo__in_typeform {
 	color: #878481;
+	display: block;
 	font-size: 0.8em;
+	max-width: 670px;
 }
 
 .tarieventabel_input {

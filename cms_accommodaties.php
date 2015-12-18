@@ -267,11 +267,13 @@ $cms->db_field(1,"select","aankomst_plusmin","",array("selection"=>$vars["aankom
 $cms->db_field(1,"select","vertrek_plusmin","",array("selection"=>$vars["vertrek_plusmin"]));
 
 $cms->db_field(1,"textarea","omschrijving");
-#$cms->db_field(1,"checkbox","kenmerken","",array("selection"=>$vars["kenmerken_accommodatie_".$_GET["wzt"]]));
-$cms->db_field(1,"multiradio","kenmerken","",array("selection"=>$vars["kenmerken_accommodatie_".$_GET["wzt"]],"multiselection"=>array(1=>"ja",2=>"nee",3=>"onbekend",4=>"niet relevant"),"multiselectionfields"=>array(1=>"kenmerken",2=>"kenmerken_nee",3=>"kenmerken_onbekend",4=>"kenmerken_irrelevant")));
-#$cms->db_field(1,"yesno","kenmerken_gecontroleerd");
-$cms->db_field(1,"date","kenmerken_gecontroleerd_datum");
 if($vars["cmstaal"]) $cms->db_field(1,"textarea","omschrijving_".$vars["cmstaal"]);
+$cms->db_field(1,"textarea","tip_specialist");
+if($vars["cmstaal"]) $cms->db_field(1,"textarea","tip_specialist_".$vars["cmstaal"]);
+$cms->db_field(1,"textarea","praktische_info");
+if($vars["cmstaal"]) $cms->db_field(1,"textarea","praktische_info_".$vars["cmstaal"]);
+$cms->db_field(1,"multiradio","kenmerken","",array("selection"=>$vars["kenmerken_accommodatie_".$_GET["wzt"]],"multiselection"=>array(1=>"ja",2=>"nee",3=>"onbekend",4=>"niet relevant"),"multiselectionfields"=>array(1=>"kenmerken",2=>"kenmerken_nee",3=>"kenmerken_onbekend",4=>"kenmerken_irrelevant")));
+$cms->db_field(1,"date","kenmerken_gecontroleerd_datum");
 $cms->db_field(1,"select","kwaliteit","",array("selection"=>$vars["kwaliteit"]));
 $cms->db_field(1,"textarea","indeling");
 if($vars["cmstaal"]) $cms->db_field(1,"textarea","indeling_".$vars["cmstaal"]);
@@ -506,6 +508,18 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(1,0,"omschrijving_".$vars["cmstaal"],"Omschrijving ".strtoupper($vars["cmstaal"]),"","",array("rows"=>25));
 } else {
 	$cms->edit_field(1,0,"omschrijving","Omschrijving","","",array("rows"=>25));
+}
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"tip_specialist","Tip van de specialist NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"tip_specialist_".$vars["cmstaal"],"Tip van de specialist ".strtoupper($vars["cmstaal"]),"","",array("rows"=>10));
+} else {
+	$cms->edit_field(1,0,"tip_specialist","Tip van de specialist","","",array("rows"=>10));
+}
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"praktische_info","Praktische info NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"praktische_info_".$vars["cmstaal"],"Praktische info ".strtoupper($vars["cmstaal"]),"","",array("rows"=>10));
+} else {
+	$cms->edit_field(1,0,"praktische_info","Praktische info","","",array("rows"=>10));
 }
 if($vars["cmstaal"]) {
 	$cms->edit_field(1,0,"indeling","Indeling NL","",array("noedit"=>true));

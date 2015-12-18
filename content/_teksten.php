@@ -3305,6 +3305,14 @@ $txt["nl"]["toonaccommodatie"]["waardering"]="waardering:";
 $txt["de"]["toonaccommodatie"]["waardering"]="Bewertung:";
 $txt["en"]["toonaccommodatie"]["waardering"]="rating:";
 
+$txt["nl"]["toonaccommodatie"]["tip-van-de-specialist"]="Tip van de specialist";
+$txt["de"]["toonaccommodatie"]["tip-van-de-specialist"]="";
+$txt["en"]["toonaccommodatie"]["tip-van-de-specialist"]="";
+
+$txt["nl"]["toonaccommodatie"]["praktische-informatie"]="Praktische informatie";
+$txt["de"]["toonaccommodatie"]["praktische-informatie"]="";
+$txt["en"]["toonaccommodatie"]["praktische-informatie"]="";
+
 # tabs
 $txt["nl"]["toonaccommodatie"]["tab_overzicht"]="overzicht";
 $txt["de"]["toonaccommodatie"]["tab_overzicht"]="Übersicht";
