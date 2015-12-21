@@ -171,6 +171,10 @@ $cms->db_field(2,"url","url_virtuele_rondgang");
 $cms->db_field(2,"multiradio","kenmerken","",array("selection"=>$vars["kenmerken_type_".$_GET["wzt"]],"multiselection"=>array(1=>"ja",2=>"nee",3=>"onbekend",4=>"niet relevant"),"multiselectionfields"=>array(1=>"kenmerken",2=>"kenmerken_nee",3=>"kenmerken_onbekend",4=>"kenmerken_irrelevant")));
 $cms->db_field(2,"textarea","omschrijving");
 if($vars["cmstaal"]) $cms->db_field(2,"textarea","omschrijving_".$vars["cmstaal"]);
+$cms->db_field(2,"textarea","tip_specialist");
+if($vars["cmstaal"]) $cms->db_field(2,"textarea","tip_specialist_".$vars["cmstaal"]);
+$cms->db_field(2,"textarea","praktische_info");
+if($vars["cmstaal"]) $cms->db_field(2,"textarea","praktische_info_".$vars["cmstaal"]);
 $cms->db_field(2,"select","kwaliteit","",array("selection"=>$vars["kwaliteit"]));
 $cms->db_field(2,"integer","optimaalaantalpersonen");
 $cms->db_field(2,"integer","maxaantalpersonen");
@@ -275,11 +279,10 @@ $cms->list_sort[2]=array("naam","naam");
 $cms->list_field(2,"naam","Naam");
 
 if($vars["cmstaal"]) {
-	$db->query("SELECT toonper, omschrijving, omschrijving_".$vars["cmstaal"].", indeling, indeling_".$vars["cmstaal"].", inclusief, inclusief_".$vars["cmstaal"].", exclusief, exclusief_".$vars["cmstaal"].", voucherinfo, voucherinfo_".$vars["cmstaal"]." FROM accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
+	$db->query("SELECT toonper, omschrijving, omschrijving_".$vars["cmstaal"].", indeling, indeling_".$vars["cmstaal"].", inclusief, inclusief_".$vars["cmstaal"].", exclusief, exclusief_".$vars["cmstaal"].", tip_specialist, tip_specialist_".$vars["cmstaal"].", praktische_info, praktische_info_".$vars["cmstaal"].", voucherinfo, voucherinfo_".$vars["cmstaal"]." FROM accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
 } else {
-	$db->query("SELECT toonper, omschrijving, indeling, inclusief, exclusief, voucherinfo FROM accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
+	$db->query("SELECT toonper, omschrijving, indeling, inclusief, exclusief, tip_specialist, praktische_info, voucherinfo FROM accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
 }
-#echo $db->lastquery;
 
 if($db->next_record()) {
 	$temp["toonper"]=$db->f("toonper");
@@ -291,12 +294,13 @@ if($db->next_record()) {
 	$temp["inclusief_".$vars["cmstaal"]]=$db->f("inclusief_".$vars["cmstaal"]);
 	$temp["exclusief"]=$db->f("exclusief");
 	$temp["exclusief_".$vars["cmstaal"]]=$db->f("exclusief_".$vars["cmstaal"]);
+	$temp["tip_specialist"]=$db->f("tip_specialist");
+	$temp["tip_specialist_".$vars["cmstaal"]]=$db->f("tip_specialist_".$vars["cmstaal"]);
+	$temp["praktische_info"]=$db->f("praktische_info");
+	$temp["praktische_info_".$vars["cmstaal"]]=$db->f("praktische_info_".$vars["cmstaal"]);
 	$temp["voucherinfo"]=$db->f("voucherinfo");
 	$temp["voucherinfo_".$vars["cmstaal"]]=$db->f("voucherinfo_".$vars["cmstaal"]);
 }
-
-#echo wt_dump($temp);
-#exit;
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(2,0,"controleren","Nog nakijken");
@@ -320,10 +324,8 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(2,0,"naam","Naam NL","",array("noedit"=>true));
 	$cms->edit_field(2,0,"naam_".$vars["cmstaal"],"Naam ".strtoupper($vars["cmstaal"]));
 } else {
-#	$cms->edit_field(2,0,"naam","Naam op de website","","",array("onchange"=>"if(document.forms['frm'].elements['input[bestelnaam]'].value=='') document.forms['frm'].elements['input[bestelnaam]'].value=document.forms['frm'].elements['input[naam]'].value;"));
 	$cms->edit_field(2,0,"naam","Naam op de website");
 }
-#$cms->edit_field(2,0,"bestelnaam","Naam volgens leverancier");
 if($vars["cmstaal"]) {
 	$cms->edit_field(2,0,"korteomschrijving","Korte omschrijving NL","",array("noedit"=>true));
 	$cms->edit_field(2,0,"korteomschrijving_".$vars["cmstaal"],"Korte omschrijving ".strtoupper($vars["cmstaal"]));
@@ -339,7 +341,6 @@ $cms->edit_field(2,0,"eigenaar_id","Eigenaar");
 $cms->edit_field(2,0,"aantekeningen","Aantekeningen (intern)","",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
 $cms->edit_field(2,0,"code","Code");
 $cms->edit_field(2,0,"url_leverancier","Directe link bij leverancier");
-#$cms->edit_field(2,0,"onderverdeeld_in_nummers","Dit type is onderverdeeld in nummers");
 $cms->edit_field(2,0,"htmlrow","<hr><b>XML-import (beschikbaarheid/tarieven)</b><p><i>In geval van meerdere codes: scheiden door komma</i>");
 $cms->edit_field(2,0,"leverancierscode","Leverancierscode type");
 $cms->edit_field(2,0,"leverancierscode_negeertarief","Leverancierscodes die niet moeten worden opgeteld bij de brutoprijs");
@@ -395,6 +396,26 @@ if($vars["cmstaal"]) {
 } else {
 	$cms->edit_field(2,1,"htmlcol","Accommodatie-omschrijving",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["omschrijving"]))."</span>"));
 	$cms->edit_field(2,0,"omschrijving","Type-omschrijving");
+}
+$cms->edit_field(2,1,"htmlrow","<hr>");
+if($vars["cmstaal"]) {
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-tip van de specialist NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["tip_specialist"]))."</span>"));
+	$cms->edit_field(2,0,"tip_specialist","Type-tip van de specialist NL","",array("noedit"=>true));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-tip van de specialist ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["tip_specialist_".$vars["cmstaal"]]))."</span>"));
+	$cms->edit_field(2,0,"tip_specialist_".$vars["cmstaal"],"Type-tip van de specialist ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-tip van de specialist",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["tip_specialist"]))."</span>"));
+	$cms->edit_field(2,0,"tip_specialist","Type-tip van de specialist");
+}
+$cms->edit_field(2,1,"htmlrow","<hr>");
+if($vars["cmstaal"]) {
+	$cms->edit_field(2,1,"htmlcol","Accommodatie praktische info NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["praktische_info"]))."</span>"));
+	$cms->edit_field(2,0,"praktische_info","Type praktische info NL","",array("noedit"=>true));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie praktische info ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["praktische_info_".$vars["cmstaal"]]))."</span>"));
+	$cms->edit_field(2,0,"praktische_info_".$vars["cmstaal"],"Type praktische info ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(2,1,"htmlcol","Accommodatie praktische info",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["praktische_info"]))."</span>"));
+	$cms->edit_field(2,0,"praktische_info","Type praktische info");
 }
 $cms->edit_field(2,1,"htmlrow","<hr>");
 $cms->edit_field(2,0,"kwaliteit","Kwaliteit");
@@ -881,7 +902,6 @@ if($_GET["show"]==2) {
 $cms->show_header[2]=$naam;
 $cms->show_name[2]="typegegevens";
 $cms->show_mainfield[2]="naam";
-#$cms->show_field(2,"naam2","Naam accommodatie");
 $cms->show_field(2,"naam","Naam type");
 $cms->show_field(2,"type_id","ID");
 $cms->show_field(2,"code");
@@ -895,5 +915,3 @@ $cms->show_field(2,"picgroot","Afbeelding");
 $cms->end_declaration();
 
 $layout->display_all($cms->page_title);
-
-?>
