@@ -659,39 +659,27 @@ if($db->next_record()) {
 		}
 		echo "</h2>";
 	}
-	if($db->f("omschrijving") or $db->f("tomschrijving")) {
-		echo "<div style=\"margin-top:15px;\">".toon_tekst_acc_en_type($db->f("omschrijving"),$db->f("tomschrijving"))."</div>";
-	}
-	# trefwoorden uitgezet op verzoek van Grizzly (8 december 2010)
-#	if($vars["websitetype"]<>6) {
-#		echo "<hr><div style=\"margin-top:10px;\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"top\">".html("trefwoorden","toonaccommodatie").":</td><td>&nbsp;</td><td valign=\"top\">".wt_he($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".html("trefwoordenlijst","toonaccommodatie")." ".wt_he($db->f("naam"));
-#		if($db->f("altnaam_zichtbaar")) {
-#			echo " ".ereg_replace("/"," ",$db->f("altnaam_zichtbaar"));
-#		}
-#		if($db->f("taltnaam_zichtbaar")) {
-#			echo " ".ereg_replace("/"," ",$db->f("taltnaam_zichtbaar"));
-#		}
-#		echo "</td></tr></table></div>";
-#	}
 
-	# Reviews
-	// if($vars["taal"]=="nl" and $vars["websitetype"]==7) {
-	//	$db2->query("SELECT UNIX_TIMESTAMP(datum) AS datum, naam, tekst, afbreken FROM accommodatie_review WHERE actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
-	//	if($db2->num_rows()) {
-	//		echo "<div id=\"reviews\">";
-	//		echo "<h2>Beoordeling".($db2->num_rows()>1 ? "en" : "")."</h2>";
-	//		while($db2->next_record()) {
-	//			echo "<div class=\"reviewblok\">";
-	//			if($db2->f("afbreken")) {
-	//				echo "<div class=\"reviewblok_afbreken\"><div class=\"reviewblok_afbreken_content\">";
-	//			} else {
-	//				echo "<div><div>";
-	//			}
-	//			echo "<div class=\"reviewblok_datum\">".($db2->f("naam") ? wt_he($db2->f("naam")).", " : "").DATUM("D MAAND JJJJ",$db2->f("datum"))."</div>".nl2br(wt_he($db2->f("tekst")))."</div></div><div class=\"reviewblok_afbreken_openklap\"><a href=\"#\" onclick=\"return false;\">Lees verder</a></div></div>";
-	//		}
-	//		echo "</div>";
-	//	}
-	// }
+	// omschrijving
+	if($db->f("omschrijving") or $db->f("tomschrijving")) {
+		echo "<div style=\"margin-top:10px;\">".toon_tekst_acc_en_type($db->f("omschrijving"), $db->f("tomschrijving"))."</div>";
+	}
+
+	// tip van de specialist
+	if($db->f("tip_specialist") or $db->f("ttip_specialist")) {
+		echo "<div style=\"margin-top:15px;\">";
+		echo "<h3 class=\"minder_opvallend\">".html("tip-van-de-specialist", "toonaccommodatie")."</h3>";
+		echo toon_tekst_acc_en_type($db->f("tip_specialist"), $db->f("ttip_specialist"), " ");
+		echo "</div>";
+	}
+
+	// praktische info
+	if($db->f("praktische_info") or $db->f("tpraktische_info")) {
+		echo "<div style=\"margin-top:15px;\">";
+		echo "<h3 class=\"minder_opvallend\">".html("praktische-informatie", "toonaccommodatie")."</h3>";
+		echo toon_tekst_acc_en_type($db->f("praktische_info"), $db->f("tpraktische_info"), " ");
+		echo "</div>";
+	}
 
 	echo "</div>";
 
