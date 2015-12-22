@@ -29,6 +29,7 @@ if($_GET["1k0"]) {
 	if($db->next_record()) {
 		$accommodatie_heeft_boekingen=true;
 	}
+
 } else {
 
 	$db->query("SELECT s.seizoen_id, s.naam AS seizoen, t.accommodatie_id, COUNT(b.boeking_id) AS aantal
@@ -1059,6 +1060,7 @@ $cms->db_field(2,"select","leverancier_id","",array("othertable"=>"3","otherkeyf
 $cms->db_field(2,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(2,"yesno","verzameltype");
 $cms->db_field(2,"yesno","controleren");
+$cms->db_field(2,"yesno","is_maintype_canonical");
 
 #$cms->db_field(2,"yesno","shortlist");
 
@@ -1076,6 +1078,7 @@ $cms->list_field(2,"optimaalaantalpersonen","Min");
 $cms->list_field(2,"maxaantalpersonen","Max");
 $cms->list_field(2,"tonen","Tonen");
 $cms->list_field(2,"websites","Sites");
+$cms->list_field(2,"is_maintype_canonical","can.tag");
 if($_GET["controleren"]) {
 	$cms->list_field(2,"controleren","Nakijken");
 }

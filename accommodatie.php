@@ -71,7 +71,7 @@ if($url[0]) {
 #		header("Location: ".$path.txt("menu_accommodatie")."/".strtoupper($regs[1]).$regs[2]."/",true,301);
 #		exit;
 	}
-	$db->query("SELECT a.accommodatie_id, a.naam, a.wzt, a.weekendski, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam".$vars["ttv"]." AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen, t.tonen AS ttonen, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($typeid)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+	$db->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.type_id, a.weekendski, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam".$vars["ttv"]." AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen, t.tonen AS ttonen, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($typeid)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
 	if($db->next_record()) {
 		$title["toonaccommodatie"]=wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")]))." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".txt("pers").") - ".$db->f("plaats");
 		if($db->f("tonen")==1 and $db->f("ttonen")==1) {
@@ -103,7 +103,21 @@ if($url[0]) {
 			}
 		}
 
-		if($vars["websitetype"]==6) {
+		$db1 = new DB_sql;
+		$db1->query("SELECT t.is_maintype_canonical, t.naam AS tnaam, l.begincode, a.naam, a.soortaccommodatie, t.type_id
+		             FROM type t, accommodatie a, plaats p, land l
+		             WHERE t.accommodatie_id = a.accommodatie_id
+		             AND a.plaats_id = p.plaats_id
+		             AND l.land_id = p.land_id
+		           	 AND t.is_maintype_canonical = 1
+		           	 AND a.accommodatie_id = " . $db->f('accommodatie_id'));
+
+		if ($db1->next_record()) {
+			// var_dump($db->f("begincode")); exit;
+			$url[0] = $db1->f("begincode").$db1->f("type_id");
+			$vars["canonical"]=seo_acc_url($url[0],$db1->f("soortaccommodatie"),$db1->f("naam"),$db1->f("tnaam"));
+
+		} elseif($vars["websitetype"]==6) {
 			# canonical voor ChaletsinVallandry
 			$vars["canonical"]=$vars["basehref"].txt("menu_accommodatie")."/".$url[0]."/";
 		} elseif($vars["website"]=="Z" and preg_match("/I/",$db->f("websites"))) {
