@@ -372,17 +372,20 @@ if($_GET["levid"]) {
 							foreach ($roominglist->klantnamen_boekingen as $key => $value) {
 								$db2->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($value)."' WHERE boeking_id='".intval($key)."';");
 
-								// naamswijziging opslaan (zodat deze kan worden goedgekeurd)
-								$db2->query("INSERT INTO leverancier_naamswijziging SET leverancier_id='".intval($_GET["levid"])."', verzonden=NOW(), beschrijving='".addslashes($roominglist->naamswijzigingen_html[$key])."', boeking_id='".intval($key)."';");
+								if ($roominglist->naamswijzigingen_html[$key]) {
+									// naamswijziging opslaan (zodat deze kan worden goedgekeurd)
+									$db2->query("INSERT INTO leverancier_naamswijziging SET leverancier_id='".intval($_GET["levid"])."', verzonden=NOW(), beschrijving='".addslashes($roominglist->naamswijzigingen_html[$key])."', boeking_id='".intval($key)."';");
+								}
 							}
 						}
 						if(is_array($roominglist->klantnamen_garanties)) {
 							foreach ($roominglist->klantnamen_garanties as $key => $value) {
 								$db2->query("UPDATE garantie SET aan_leverancier_doorgegeven_naam='".addslashes($value)."' WHERE garantie_id='".intval($key)."';");
 
-								// naamswijziging opslaan (zodat deze kan worden goedgekeurd)
-								$db2->query("INSERT INTO leverancier_naamswijziging SET leverancier_id='".intval($_GET["levid"])."', verzonden=NOW(), beschrijving='".addslashes($roominglist->naamswijzigingen_html["g".$key])."', garantie_id='".intval($key)."';");
-
+								if ($roominglist->naamswijzigingen_html["g".$key]) {
+									// naamswijziging opslaan (zodat deze kan worden goedgekeurd)
+									$db2->query("INSERT INTO leverancier_naamswijziging SET leverancier_id='".intval($_GET["levid"])."', verzonden=NOW(), beschrijving='".addslashes($roominglist->naamswijzigingen_html["g".$key])."', garantie_id='".intval($key)."';");
+								}
 							}
 						}
 						unlink($vars["unixdir"]."tmp/".$filename);
@@ -403,5 +406,3 @@ if($_GET["levid"]) {
 
 
 $layout->display_all($cms->page_title);
-
-?>
