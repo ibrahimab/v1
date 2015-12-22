@@ -104,7 +104,7 @@ if($url[0]) {
 		}
 
 		$db1 = new DB_sql;
-		$db1->query("SELECT t.is_maintype_canonical, t.naam AS tnaam, l.begincode, a.naam, t.type_id
+		$db1->query("SELECT t.is_maintype_canonical, t.naam AS tnaam, l.begincode, a.naam, a.soortaccommodatie, t.type_id
 		             FROM type t, accommodatie a, plaats p, land l
 		             WHERE t.accommodatie_id = a.accommodatie_id
 		             AND a.plaats_id = p.plaats_id
