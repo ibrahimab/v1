@@ -1060,7 +1060,7 @@ $cms->db_field(2,"select","leverancier_id","",array("othertable"=>"3","otherkeyf
 $cms->db_field(2,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(2,"yesno","verzameltype");
 $cms->db_field(2,"yesno","controleren");
-$cms->db_field(2,"yesno","canonical_tag");
+$cms->db_field(2,"yesno","is_maintype_canonical");
 
 #$cms->db_field(2,"yesno","shortlist");
 
@@ -1078,7 +1078,7 @@ $cms->list_field(2,"optimaalaantalpersonen","Min");
 $cms->list_field(2,"maxaantalpersonen","Max");
 $cms->list_field(2,"tonen","Tonen");
 $cms->list_field(2,"websites","Sites");
-$cms->list_field(2,"canonical_tag","can.tag");
+$cms->list_field(2,"is_maintype_canonical","can.tag");
 if($_GET["controleren"]) {
 	$cms->list_field(2,"controleren","Nakijken");
 }
