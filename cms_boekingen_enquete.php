@@ -122,5 +122,3 @@ if($_GET["controleren"]) {
 }
 
 $layout->display_all($cms->page_title);
-
-?>

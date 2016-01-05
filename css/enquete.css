@@ -2,3 +2,33 @@
 .wtform_textarea {
 	font-size: 1.0em;
 }
+
+.hr_new_question {
+	margin: 30px 0;
+}
+
+table.enquete_nps {
+	width: 600px;
+}
+
+tr.enquete_nps_score_explanation {
+	font-style: italic;
+	color: #888888;
+}
+
+.enquete_nps_0 {
+	float: left;
+	width: 33%;
+}
+
+.enquete_nps_5 {
+	text-align: center;
+	display: inline-block;
+	width: 33%;
+}
+
+.enquete_nps_10 {
+	float: right;
+	width: 33%;
+	text-align: right;
+}

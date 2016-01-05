@@ -1,5 +1,8 @@
 <?php
 
+// include enquete-css
+echo "<link href=\"".$vars["path"]."css/enquete.css\" type=\"text/css\" rel=\"stylesheet\" />";
+
 if(!$vars["lev_login_enquete"]) {
 	if($_GET["bid"]) {
 		echo boekingkoptekst($gegevens);
@@ -153,7 +156,41 @@ if($db->next_record()) {
 
 	echo "<hr>&nbsp;<br>";
 
-	# Vraag 5
+	// Vraag 5: Net Promotor Score
+	echo "<b><i>".html("nps","enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</i></b><p>";
+	echo "<table class=\"tbl enquete_nps\" cellspacing=\"0\">";
+
+	// row with score explanation
+	echo "<tr class=\"enquete_nps_score_explanation\"><td colspan=\"11\">";
+	echo "<div class=\"enquete_nps_0\">".html("nps_score0", "enquete")."</div>";
+	echo "<div class=\"enquete_nps_5\">".html("nps_score5", "enquete")."</div>";
+	echo "<div class=\"enquete_nps_10\">".html("nps_score10", "enquete")."</div>";
+	echo "<div class=\"clear\"></div>";
+	echo "</td></tr>";
+
+	// row with number 0 - 10
+	echo "<tr>";
+	for ($i=0; $i<=10; $i++) {
+		echo "<td align=\"center\">".$i."</td>";
+	}
+	echo "</tr>";
+
+	// row with result
+	echo "<tr>";
+	for ($i=0; $i<=10; $i++) {
+		echo "";
+		if($db->f("nps")<>"" and $db->f("nps")==$i) {
+			echo "<td align=\"center\" style=\"background-color:#ebebeb;\">X</td>";
+		} else {
+			echo "<td align=\"center\">&nbsp;</td>";
+		}
+	}
+	echo "</tr>";
+
+	echo "</table><p>";
+
+
+	# Vraag 6
 	if(!$vars["lev_login_enquete"]) {
 		echo "<b><i>".html("vraag4","enquete")."</i></b><p>";
 		for($i=1;$i<=3;$i++) {
@@ -166,7 +203,7 @@ if($db->next_record()) {
 	}
 
 	if($vars["websiteinfo"]["nieuwsbrief_aanbieden"][$gegevens["stap1"]["website"]] and !$vars["lev_login_enquete"]) {
-		# Vraag 6: nieuwsbrief (verbergen voor leveranciers)
+		# Vraag 7: nieuwsbrief (verbergen voor leveranciers)
 		echo "<b><i>".html("vraag6","enquete",array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]))."</i></b><p>";
 		for($i=1;$i<=3;$i++) {
 			echo "<div style=\"height:20px;width:560px;".($db->f("vraag6")==$i ? "border: 1px #282e82 solid;background-color:#ebebeb;" : "border: 1px #ffffff solid;")."\">";
@@ -189,7 +226,6 @@ if($db->next_record()) {
 } else {
 	echo "Bij deze boeking is geen enqu&ecirc;te ingevuld.";
 }
-
 
 ?>
 <script>
