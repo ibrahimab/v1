@@ -51,12 +51,6 @@ if($_GET["accid"]) {
 
 if($url[0]) {
 
-# 	uitgezet (op 16-08-2012 trad hierbij ineens een oneindige redirect op)
-#	if(substr($_SERVER["REQUEST_URI"],-1)<>"/" and !eregi("\?",$_SERVER["REQUEST_URI"]) and !eregi("#",$_SERVER["REQUEST_URI"]) and !$url[1] and !$url[2] and !$_GET["accid"]) {
-#		header("Location: ".$_SERVER["REQUEST_URI"]."/",true,301);
-#		exit;
-#	}
-
 	if(eregi("^([A-Z]{1,2})([0-9]+)",$url[0],$regs)) {
 		$begincode=$regs[1];
 		$typeid=$regs[2];
@@ -66,10 +60,6 @@ if($url[0]) {
 			header("Location: ".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/",true,301);
 			exit;
 		}
-#	} elseif(eregi("^([a-z]{1,2})([0-9]+)",$url[0],$regs) and !$_GET["accid"]) {
-#		# Accommodatiecode met kleine letters (f1234) doorsturen (naar F1234)
-#		header("Location: ".$path.txt("menu_accommodatie")."/".strtoupper($regs[1]).$regs[2]."/",true,301);
-#		exit;
 	}
 	$db->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.type_id, a.weekendski, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam".$vars["ttv"]." AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen, t.tonen AS ttonen, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($typeid)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
 	if($db->next_record()) {
@@ -103,6 +93,7 @@ if($url[0]) {
 			}
 		}
 
+		// check for canonical-connection to other type of this accommodation
 		$db1 = new DB_sql;
 		$db1->query("SELECT t.is_maintype_canonical, t.naam AS tnaam, l.begincode, a.naam, a.soortaccommodatie, t.type_id
 		             FROM type t, accommodatie a, plaats p, land l
@@ -113,10 +104,8 @@ if($url[0]) {
 		           	 AND a.accommodatie_id = " . $db->f('accommodatie_id'));
 
 		if ($db1->next_record()) {
-			// var_dump($db->f("begincode")); exit;
-			$url[0] = $db1->f("begincode").$db1->f("type_id");
-			$vars["canonical"]=seo_acc_url($url[0],$db1->f("soortaccommodatie"),$db1->f("naam"),$db1->f("tnaam"));
-
+			$canonical_type_id = $db1->f("begincode").$db1->f("type_id");
+			$vars["canonical"]=seo_acc_url($canonical_type_id, $db1->f("soortaccommodatie"), $db1->f("naam"), $db1->f("tnaam"));
 		} elseif($vars["websitetype"]==6) {
 			# canonical voor ChaletsinVallandry
 			$vars["canonical"]=$vars["basehref"].txt("menu_accommodatie")."/".$url[0]."/";
@@ -139,7 +128,6 @@ if($url[0]) {
 			$meta_description=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." voor ".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " tot ".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? "persoon" : "personen")." in ".$db->f("plaats").", ".$db->f("skigebied").", ".$db->f("land");
 		}
 
-#		$breadcrumbs[txt("menu_skigebieden").".php"]=ucfirst(txt("menu_skigebieden"));
 		if($vars["websitetype"]==7) {
 			$breadcrumbs[txt("menu_bestemmingen").".php"] = txt("bestemmingen", "vars");
 		} else {
