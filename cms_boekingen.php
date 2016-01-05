@@ -333,6 +333,9 @@ if($_GET["boekingsearch"]) {
 } elseif($_GET["bt"]==6) {
 	// Geannuleerd
 	$cms->list_field(21,"website","Site");
+	$cms->list_field(21,'geannuleerd_op','Geannuleerd', array('date_format' => 'DD-MM-JJ'));
+	$cms->list_sort[21]=array("geannuleerd_op");
+	$cms->list_sort_desc[21]=true;
 } elseif($_GET["bt"]==8) {
 	// bestelstatus
 	$cms->list_field(21,"website","Site");
@@ -350,10 +353,6 @@ if($_GET["boekingsearch"]) {
 	$cms->list_field(21,"invuldatum","Ingevuld",array("date_format"=>"DD-MM-JJJJ"));
 	$cms->list_sort[21]=array("invuldatum");
 	$cms->list_sort_desc[21]=true;
-}
-if ($_GET['bt'] == 6) {
-	// Geannuleerd
-	$cms->list_field(21,'geannuleerd_op','Geannuleerd op', array('date_format' => 'DD-MM-JJ'));
 }
 $cms->list_field(21,"type_id","Accommodatie");
 $cms->list_field(21,"aankomstdatum_exact","Aankomst",array("date_format"=>"DD-MM-JJ"));
