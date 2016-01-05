@@ -3306,11 +3306,11 @@ $txt["de"]["toonaccommodatie"]["waardering"]="Bewertung:";
 $txt["en"]["toonaccommodatie"]["waardering"]="rating:";
 
 $txt["nl"]["toonaccommodatie"]["tip-van-de-specialist"]="Tip van de specialist";
-$txt["de"]["toonaccommodatie"]["tip-van-de-specialist"]="";
+$txt["de"]["toonaccommodatie"]["tip-van-de-specialist"]="Tipp vom Experten";
 $txt["en"]["toonaccommodatie"]["tip-van-de-specialist"]="Our tip";
 
 $txt["nl"]["toonaccommodatie"]["praktische-informatie"]="Praktische informatie";
-$txt["de"]["toonaccommodatie"]["praktische-informatie"]="";
+$txt["de"]["toonaccommodatie"]["praktische-informatie"]="Praktische Informationen";
 $txt["en"]["toonaccommodatie"]["praktische-informatie"]="Practical info";
 
 # tabs
