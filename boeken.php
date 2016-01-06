@@ -952,6 +952,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_htmlrow("","<hr><b>T.b.v. roominglist</b>");
 			$form->field_text(0,"aan_leverancier_doorgegeven_naam","Aan leverancier doorgegeven naam","",array("text"=>$gegevens["stap1"]["aan_leverancier_doorgegeven_naam"]));
 
+			// check if this supplier uses roominglist_show_all_names
+			$db->query("SELECT leverancier_id FROM leverancier WHERE roominglist_show_all_names=1 AND leverancier_id='".intval($gegevens["stap1"]["accinfo"]["leverancier_id"])."';");
+			if ($db->next_record()) {
+				// show checkbox roominglist_show_all_names for this booking
+				$form->field_yesno("roominglist_show_all_names", "Toon de namen en leeftijden van alle deelnemers op roominglist en aankomstlijst", "", array("selection"=>$gegevens["stap1"]["roominglist_show_all_names"]));
+				$show_checkbox_roominglist_show_all_names = true;
+			}
 		}
 
 		# Kijken of een aangepaste geboortedatum overeenkomt met gekozen opties
@@ -2643,10 +2650,27 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			# Cookie plaatsen
 			nawcookie($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"],$form->input["adres"],$form->input["postcode"],$form->input["plaats"],$form->input["land"],$form->input["telefoonnummer"],$form->input["mobielwerk"],$form->input["email"],$form->input["geboortedatum"]["unixtime"],$form->input["nieuwsbrief"],$form->input["geslacht"]);
 
+			$boeking_change_query = '';
 
-			# aan_leverancier_doorgegeven_naam opslaan
-			if(isset($form->input["aan_leverancier_doorgegeven_naam"])) {
-				$db->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($form->input["aan_leverancier_doorgegeven_naam"])."' WHERE boeking_id='".intval($gegevens["stap1"]["boekingid"])."';");
+			// aan_leverancier_doorgegeven_naam opslaan
+			if (isset($form->input["aan_leverancier_doorgegeven_naam"])) {
+				$boeking_change_query .= ", aan_leverancier_doorgegeven_naam='".addslashes($form->input["aan_leverancier_doorgegeven_naam"])."'";
+			}
+
+			// save roominglist_show_all_names
+			if ($show_checkbox_roominglist_show_all_names) {
+				$boeking_change_query .= ", roominglist_show_all_names='".addslashes($form->input["roominglist_show_all_names"])."'";
+
+				// log change
+				if (intval($gegevens["stap1"]["roominglist_show_all_names"])<>intval($form->input["roominglist_show_all_names"])) {
+					chalet_log(($form->input["roominglist_show_all_names"] ? "aangezet" : "uitgezet") . ": toon de namen en leeftijden van alle deelnemers op roominglist en aankomstlijst");
+				}
+			}
+
+			if ($boeking_change_query) {
+				// save changes to `boeking` table
+				$db->query("UPDATE boeking SET ".substr($boeking_change_query,1)." WHERE boeking_id='".intval($gegevens["stap1"]["boekingid"])."';");
+				unset($boeking_change_query);
 			}
 
 			if($mustlogin) {

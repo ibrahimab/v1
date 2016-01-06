@@ -32,6 +32,8 @@ class roominglist {
 
 	private $boeking_id_inquery;
 	private $garantie_id_inquery;
+	private $colspan;
+	private $ms_word = false;
 
 	function __construct() {
 
@@ -56,7 +58,7 @@ class roominglist {
 
 			unset( $nieuwe_roominglist, $roominglist_aantal_wijzigingen, $roominglist_inhoud_laatste_verzending_array, $roominglist_inhoud_laatste_verzending_stripped_array, $roominglist_inhoud_nieuwe_verzending_array, $roominglist_inhoud_nieuwe_verzending_stripped_array, $create_list );
 
-			$roominglist_inhoud_laatste_verzending_array=explode( "</td></tr>", trim( $db->f( "roominglist_inhoud_laatste_verzending" ) ) );
+			$roominglist_inhoud_laatste_verzending_array=explode( "</td></tr>", $this->cleanupCompare( $db->f( "roominglist_inhoud_laatste_verzending" ) ) );
 
 			foreach ( $roominglist_inhoud_laatste_verzending_array as $key => $value ) {
 				if ( $value ) {
@@ -72,7 +74,7 @@ class roominglist {
 			$this->leverancier_id = $db->f( "leverancier_id" );
 			$create_list = $this->create_list();
 
-			$roominglist_inhoud_nieuwe_verzending_array=explode( "</td></tr>", trim( $this->regels ) );
+			$roominglist_inhoud_nieuwe_verzending_array=explode( "</td></tr>", $this->cleanupCompare( $this->regels ) );
 			foreach ( $roominglist_inhoud_nieuwe_verzending_array as $key => $value ) {
 				if ( $value ) {
 					$value = preg_replace( "@&nbsp;@", " ", $value );
@@ -110,7 +112,7 @@ class roominglist {
 
 			unset( $nieuwe_roominglist, $aantal_wijzigingen, $inhoud_laatste_verzending_array, $inhoud_laatste_verzending_stripped_array, $inhoud_nieuwe_verzending_array, $inhoud_nieuwe_verzending_stripped_array, $create_list );
 
-			$inhoud_laatste_verzending_array=explode( "</td></tr>", trim( $db->f( "inhoud_laatste_verzending" ) ) );
+			$inhoud_laatste_verzending_array=explode( "</td></tr>", $this->cleanupCompare( $db->f( "inhoud_laatste_verzending" ) ) );
 
 			foreach ( $inhoud_laatste_verzending_array as $key => $value ) {
 				if ( $value ) {
@@ -129,7 +131,7 @@ class roominglist {
 			$this->date = $db->f( "aankomstdatum" );
 			$create_list = $this->create_list();
 
-			$inhoud_nieuwe_verzending_array=explode( "</td></tr>", trim( $this->regels ) );
+			$inhoud_nieuwe_verzending_array=explode( "</td></tr>", $this->cleanupCompare( $this->regels ) );
 			foreach ( $inhoud_nieuwe_verzending_array as $key => $value ) {
 				if ( $value ) {
 					$value = preg_replace( "@&nbsp;@", " ", $value );
@@ -154,9 +156,22 @@ class roominglist {
 		}
 	}
 
-	public function create_list() {
+	private function cleanupCompare($html) {
+
+		$clean_html = $html;
+		$clean_html = preg_replace("@<\!-- ignore_in_changes_check_start -->.*?<\!-- ignore_in_changes_check_end -->@", "", $clean_html);
+		$clean_html =  trim($clean_html);
+
+		return $clean_html;
+	}
+
+	public function create_list($ms_word = false) {
 
 		global $vars, $mustlogin;
+
+		if ($ms_word) {
+			$this->ms_word = $ms_word;
+		}
 
 		$db = new DB_sql;
 		$db2 = new DB_sql;
@@ -182,19 +197,19 @@ class roominglist {
 			}
 		}
 
-		$colspan=9;
+		$this->colspan=9;
 
 		// Leveranciersgegevens ophalen
 		$db->query( "SELECT bestelmailfax_taal, roominglist_toonaantaldeelnemers, roominglist_toontelefoonnummer, roominglist_site_benaming, roominglist_garanties_doorgeven FROM leverancier WHERE leverancier_id='".intval( $this->leverancier_id )."';" );
 		if ( $db->next_record() ) {
 			if ( $db->f( "roominglist_toonaantaldeelnemers" ) ) {
 				$roominglist_toonaantaldeelnemers=true;
-				$colspan++;
+				$this->colspan++;
 			}
 			if ( $db->f( "roominglist_toontelefoonnummer" ) ) {
 				if ( !$this->totaal ) {
 					$roominglist_toontelefoonnummer=true;
-					$colspan++;
+					$this->colspan++;
 				}
 			}
 			$roominglist_site_benaming=$db->f( "roominglist_site_benaming" );
@@ -320,7 +335,13 @@ class roominglist {
 			$where.="b.boeking_id NOT IN (".substr( $this->boeking_id_notinquery, 1 ).") AND ";
 		}
 
-		$db->query( "SELECT b.boeking_id, b.boekingsnummer, b.type_id, b.aan_leverancier_doorgegeven_naam, b.bestelstatus, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.mobielwerk, bp.telefoonnummer, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." (b.leverancier_id=l.leverancier_id OR b.beheerder_id=l.leverancier_id) AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, b.aankomstdatum_exact, a.naam, t.naam;" );
+		// enlarge size of GROUP_CONCAT for this database-session
+		$db->query("SET SESSION group_concat_max_len = 10000000;");
+
+		$db->query( "SELECT b.boeking_id, b.boekingsnummer, b.type_id, b.aan_leverancier_doorgegeven_naam, b.bestelstatus, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.mobielwerk, bp.telefoonnummer, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, b.roominglist_show_all_names, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier, l.roominglist_show_all_names AS lroominglist_show_all_names,
+		           (SELECT GROUP_CONCAT(CONCAT(bp.persoonnummer, '--wt-col--', bp.voornaam, '--wt-col--', bp.tussenvoegsel, '--wt-col--', bp.achternaam, '--wt-col--', IFNULL(bp.geboortedatum, '')) SEPARATOR '--wt-row--') FROM boeking_persoon bp WHERE bp.boeking_id=b.boeking_id ORDER BY bp.persoonnummer) AS participants
+		 FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." (b.leverancier_id=l.leverancier_id OR b.beheerder_id=l.leverancier_id) AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, b.aankomstdatum_exact, a.naam, t.naam;" );
+
 		while ( $db->next_record() ) {
 
 			if ( $db->f( "besteldatum" )>0 or isset( $garantie_boeking[$db->f( "boeking_id" )] ) ) {
@@ -383,9 +404,13 @@ class roominglist {
 					$naam = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
 				}
 
-				$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".( $this->onbesteld_opvallend&&$db->f( "bestelstatus" )<=1 ? " class='nog_niet_besteld'" : "" )." data-list-id=\"b".$db->f( "boeking_id" )."\"><td valign=\"top\">".wt_he( $naam )."</td>";
+				$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".( $this->onbesteld_opvallend&&$db->f( "bestelstatus" )<=1 ? " class='nog_niet_besteld'" : "" )." data-list-id=\"b".$db->f( "boeking_id" )."\"><td valign=\"top\">";
+				if ($db->f( "lroominglist_show_all_names" ) && $naam!="Stock Chalet.nl") {
+					$regels[$sortkey] .= "<!-- ignore_in_changes_check_start -->Party <!-- ignore_in_changes_check_end -->";
+				}
+				$regels[$sortkey] .= wt_he( $naam )."</td>";
 
-				// boeking die aan garantie is: opnemen in de lijst met te selecteren garanties
+				// boeking die een garantie is: opnemen in de lijst met te selecteren garanties
 				if ( isset( $garantie_boeking[$db->f( "boeking_id" )] ) ) {
 					if ( $this->totaal ) {
 						$this->garanties_html["b".$db->f( "boeking_id" )] = "<span class=\"soort_garantie_".$garantie_boeking[$db->f( "boeking_id" )]."\">".wt_he( $vars["alletypes"][$db->f( "type_id" )] )." - ".wt_he( wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) ) )." - <a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f( "boeking_id" )."\" target=\"_blank\">".$db->f( "boekingsnummer" )."</a> - ".date( "d/m/Y", $db->f( "aankomstdatum_exact" ) )."</span>";
@@ -420,6 +445,44 @@ class roominglist {
 					$regels[$sortkey].="<td valign=\"top\">".$aantal."</td>";
 				}
 				$regels[$sortkey].="<td valign=\"top\">".( $db->f( "leverancierscode" ) ? wt_he( $db->f( "leverancierscode" ) ) : "&nbsp;" )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( wt_he( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
+
+
+				if ($db->f( "lroominglist_show_all_names" )) {
+
+					// add names + birthdates of all participants
+
+					unset ($participants, $participants_cols, $participants_rows, $bookingdata);
+
+					if ($naam!="Stock Chalet.nl") {
+
+						// extract participants from 1 string
+						$participants_rows = explode ("--wt-row--", $db->f("participants"));
+						if(is_array($participants_rows)) {
+							foreach ($participants_rows as $key => $value) {
+								$participants_cols = explode ("--wt-col--", $value);
+
+								if (intval($participants_cols[0])==$participants_cols[0]) {
+									$participants[$participants_cols[0]]["persoonnummer"] = $participants_cols[0];
+									$participants[$participants_cols[0]]["voornaam"] = $participants_cols[1];
+									$participants[$participants_cols[0]]["tussenvoegsel"] = $participants_cols[2];
+									$participants[$participants_cols[0]]["achternaam"] = $participants_cols[3];
+									$participants[$participants_cols[0]]["geboortedatum"] = $participants_cols[4];
+								}
+							}
+						}
+					}
+
+					if ($aantal>0) {
+
+						$bookingdata["roominglist_show_all_names"] = $db->f( "roominglist_show_all_names" );
+						$bookingdata["vertrekdatum_exact"] = $db->f( "vertrekdatum_exact" );
+						$bookingdata["aantalpersonen"] = $aantal;
+
+
+						$regels[$sortkey] .= $this->renderParticipantsTable($participants, $bookingdata);
+
+					}
+				}
 			}
 		}
 
@@ -441,11 +504,7 @@ class roominglist {
 			$where.="g.garantie_id IN (".substr( $this->garantie_id_inquery, 1 ).") AND ";
 		}
 
-		// if($this->verberg_garanties) {
-		//  $where.="g.garantie_id NOT IN (".$this->verberg_garanties.") AND ";
-		// }
-
-		$db->query( "SELECT g.garantie_id, g.naam, g.aan_leverancier_doorgegeven_naam, g.type_id, g.soort_garantie, g.aankomstdatum_exact, g.vertrekdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, g.reserveringsnummer_extern, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." ((g.leverancier_id=l.leverancier_id AND g.leverancier_id='".intval( $this->leverancier_id )."') OR (t.beheerder_id='".intval( $this->leverancier_id )."' AND l.leverancier_id='".intval( $this->leverancier_id )."')) AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND g.boeking_id=0 ORDER BY g.aankomstdatum_exact, t.type_id, g.garantie_id;" );
+		$db->query( "SELECT g.garantie_id, g.naam, g.aan_leverancier_doorgegeven_naam, g.type_id, g.soort_garantie, g.aankomstdatum_exact, g.vertrekdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, g.reserveringsnummer_extern, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier, l.roominglist_show_all_names AS lroominglist_show_all_names FROM garantie g, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." ((g.leverancier_id=l.leverancier_id AND g.leverancier_id='".intval( $this->leverancier_id )."') OR (t.beheerder_id='".intval( $this->leverancier_id )."' AND l.leverancier_id='".intval( $this->leverancier_id )."')) AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND g.boeking_id=0 ORDER BY g.aankomstdatum_exact, t.type_id, g.garantie_id;" );
 		while ( $db->next_record() ) {
 			$sortkey=$db->f( "plaats" )."_".$db->f( "aankomstdatum_exact" )."_".$db->f( "accommodatie" )."_".$db->f( "type" );
 			if ( !$leverancier ) {
@@ -462,8 +521,6 @@ class roominglist {
 			} else {
 				$nog_niet_besteld=true;
 			}
-
-
 
 			$naam=$db->f( "aan_leverancier_doorgegeven_naam" );
 
@@ -503,7 +560,17 @@ class roominglist {
 				$naam = $db->f( "naam" );
 			}
 
-			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".( $this->onbesteld_opvallend&&$nog_niet_besteld ? " class='nog_niet_besteld'" : "" )." data-list-id=\"g".$db->f( "garantie_id" )."\"><td valign=\"top\">".wt_he( $naam )."</td>";
+			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".( $this->onbesteld_opvallend&&$nog_niet_besteld ? " class='nog_niet_besteld'" : "" )." data-list-id=\"g".$db->f( "garantie_id" )."\"><td valign=\"top\">";
+
+			if ($vars["lokale_testserver"]) {
+				$regels[$sortkey] .= "ID:".$db->f( "type_id" )." ";
+			}
+
+			if ($db->f( "lroominglist_show_all_names" ) && $naam!="Stock Chalet.nl") {
+				$regels[$sortkey] .= "<!-- ignore_in_changes_check_start -->Party <!-- ignore_in_changes_check_end -->";
+			}
+
+			$regels[$sortkey] .= wt_he( $naam )."</td>";
 
 			// Garanties in array plaatsen
 			$this->garanties[$db->f( "garantie_id" )] = $vars["alletypes"][$db->f( "type_id" )]." - ".$db->f( "naam" )." - ".$db->f( "reserveringsnummer_extern" )." - ".date( "d/m/Y", $db->f( "aankomstdatum_exact" ) );
@@ -528,6 +595,31 @@ class roominglist {
 				}
 			}
 			$regels[$sortkey].="<td valign=\"top\">".( $db->f( "factuurnummer" ) ? wt_he( $db->f( "factuurnummer" ) ) : ( $db->f( "inkoopdatum" )>0 ? "OK ".date( "d-m-Y", $db->f( "inkoopdatum" ) ) : "&nbsp;" ) )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( wt_he( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
+
+			if ($db->f( "lroominglist_show_all_names" )) {
+
+				unset($bookingdata, $participants);
+
+				$bookingdata["roominglist_show_all_names"] = false;
+				$bookingdata["vertrekdatum_exact"] = $db->f( "vertrekdatum_exact" );
+
+				if ($db->f( "soort_garantie" )==1) {
+					// garantie seizoen en bulk: 1 person
+					$bookingdata["aantalpersonen"] = 1;
+				} else {
+					// garantie op naam en losse weken: maxaantalpersonen
+					$bookingdata["aantalpersonen"] = $db->f( "maxaantalpersonen" );
+				}
+
+				if ($naam!="Stock Chalet.nl") {
+					$participants[1]["persoonnummer"] = 1;
+					$participants[1]["voornaam"] = " ";
+					$participants[1]["achternaam"] = $naam;
+				}
+
+				$regels[$sortkey] .= $this->renderParticipantsTable($participants, $bookingdata);
+			}
+
 		}
 
 
@@ -570,6 +662,9 @@ class roominglist {
 			}
 			$regels[$sortkey].="<td valign=\"top\">&nbsp;</td><td valign=\"top\">".( $db->f( "tekst_extra_options" ) ? nl2br( wt_he( $db->f( "tekst_extra_options" ) ) ) : "&nbsp;" )."</td></tr>";
 
+
+
+
 		}
 
 
@@ -584,8 +679,9 @@ class roominglist {
 			ksort( $regels );
 
 			while ( list( $key, $value )=each( $regels ) ) {
+
 				if ( $plaatsid_gehad and $tempplaatsid[$key]<>$plaatsid_gehad ) {
-					$html.="<tr style='mso-yfti-irow:1'><td colspan=\"".$colspan."\">&nbsp;</td></tr>";
+					$html.="<tr style='mso-yfti-irow:1'><td colspan=\"".$this->colspan."\">&nbsp;</td></tr>";
 				}
 				$plaatsid_gehad=$tempplaatsid[$key];
 				$html.=$value;
@@ -596,7 +692,7 @@ class roominglist {
 			$this->regels=trim( $this->regels );
 
 
-			// check for changes for arrivals
+			// check for changes of arrivals
 			if ( !$this->totaal and is_array( $inhoud_laatste_verzending_stripped_array ) ) {
 				$inhoud_nieuwe_verzending_array=explode( "</td></tr>", trim( $this->regels ) );
 				foreach ( $inhoud_nieuwe_verzending_array as $key => $value ) {
@@ -627,12 +723,9 @@ class roominglist {
 					}
 				}
 
-				// echo wt_dump($data_list_id_ongewijzigd);
-
 				unset($while_teller);
 				while(preg_match("@(((<tr style=')([^>]+))data-list-id=\"([a-z][0-9]+)\")@", $html, $regs)) {
 					$while_teller++;
-					// echo wt_dump($regs);
 					$replace = $regs[2];
 					if($data_list_id_ongewijzigd[$regs[5]]) {
 
@@ -640,10 +733,7 @@ class roominglist {
 						$replace = str_replace($regs[3] , $regs[3]."font-weight:bold;background-color:yellow;", $replace);
 						$this->aankomstlijst_gele_wijziging = true;
 					}
-					// echo wt_he("==".$replace."==");
-					// echo "replace ".wt_he($regs[1])." with ".wt_he($replace)."<hr/>";
 					$html = str_replace($regs[1], $replace, $html);
-					// exit;
 
 					if($while_teller>1000) {
 						break;
@@ -653,7 +743,7 @@ class roominglist {
 
 
 			$totaal_html.="<table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
-			$totaal_html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><td colspan=".$colspan.">";
+			$totaal_html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><td colspan=".$this->colspan.">";
 
 			$totaal_html.="<table width=100%><thead><tr><td><h3>";
 			if ( !$this->totaal ) {
@@ -676,18 +766,18 @@ class roominglist {
 			$totaal_html.=": ".wt_he( $vars["roominglist_site_benaming"][$roominglist_site_benaming] )."</h3>Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
 			$totaal_html.="<img width=105 height=79 src=\"https://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></thead></table>";
 			$totaal_html.="</td></tr>";
-			$totaal_html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th>";
+			$totaal_html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Client</th>";
 
 			if ( $roominglist_toontelefoonnummer ) {
 				$totaal_html.="<th>Phone</th>";
 			}
 			$totaal_html.="<th>Arrival</th><th>Departure</th><th>Resort</th><th>Accommodation</th><th>Type</th>";
 
-			$totaal_html.="<th>Max. Cap.</th>";
+			$totaal_html.="<th>Cap.</th>";
 			if ( $roominglist_toonaantaldeelnemers ) {
 				$totaal_html.="<th>People</th>";
 			}
-			$totaal_html.="<th>Reserv.<br>Nr.</th><th>Extra<br>Options</th></tr></thead>";
+			$totaal_html.="<th>Ref.</th><th>Extra</th></tr></thead>";
 
 			$totaal_html.=$html;
 			$totaal_html.="</table>";
@@ -698,6 +788,74 @@ class roominglist {
 		$return["html"]=$totaal_html;
 
 		return $return;
+
+	}
+
+	private function renderParticipantsTable($participants, $bookingdata) {
+
+		$html = '';
+
+		$html .= "<!-- ignore_in_changes_check_start -->";
+
+		$html .= "<tr style='mso-yfti-irow:1;page-break-inside:avoid;color:#777777'><td colspan=\"".$this->colspan."\">";
+		$html .= "<table style='table-layout:fixed;'>";
+
+
+		// sort participants by reverse birth date
+		for ($i=1; $i<=$bookingdata["aantalpersonen"]; $i++) {
+
+			if ($participants[$i]["geboortedatum"] and $bookingdata["roominglist_show_all_names"]) {
+				$sortkey = date("Y-m-d", $participants[$i]["geboortedatum"]);
+			} else {
+				$sortkey = "9999-99-99";
+			}
+
+			$sortkey .= "_" . substr("00000".$i, -5);
+
+			$sorted_participants[$sortkey] = $participants[$i];
+		}
+		ksort($sorted_participants);
+
+		$counter = 0;
+		foreach ($sorted_participants as $key => $value) {
+			$counter++;
+			$html .= "<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\" valign=\"top\">".$counter.".</td><td width=\"".($this->ms_word ? "165" : "220")."\" valign=\"top\">";
+			if ($value["voornaam"] and $value["achternaam"] and ($bookingdata["roominglist_show_all_names"] or $value["persoonnummer"]==1)) {
+				// show name
+				$html .= wt_he(wt_naam($value["voornaam"], $value["tussenvoegsel"], $value["achternaam"]));
+			} else {
+				// show "unknown participant"
+				$html .= "<i>unknown participant</i>";
+			}
+			$html .= "</td><td>&nbsp;</td><td>";
+
+			$age_checkdate = mktime(0,0,0,date("m",$bookingdata["vertrekdatum_exact"]),date("d",$bookingdata["vertrekdatum_exact"])-1,date("Y",$bookingdata["vertrekdatum_exact"]));
+			if ($value["geboortedatum"] and $bookingdata["roominglist_show_all_names"]) {
+				// show actual age
+				$html .= "<td valign=\"top\">".date("d-m-Y", $value["geboortedatum"])."</td>";
+				$html .= "<td>&nbsp;</td>";
+
+				$age = wt_leeftijd($value["geboortedatum"], $age_checkdate);
+
+				$html .= "<td valign=\"top\">age: ".$age."</td>";
+			} else {
+				// show fake age (01-01-1980)
+				$html .= "<td valign=\"top\"><i>01-01-1980</i></td>";
+				$html .= "<td>&nbsp;</td>";
+
+				$age = wt_leeftijd(strtotime("1980-01-01"), $age_checkdate);
+				$html .= "<td valign=\"top\"><i>age: ".$age."</i></td>";
+
+			}
+
+			$html .= "</tr>";
+		}
+
+		$html .= "</table><br /></td></tr>";
+
+		$html .= "<!-- ignore_in_changes_check_end -->";
+
+		return $html;
 
 	}
 
@@ -777,7 +935,7 @@ class roominglist {
 
 		if ( $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" ) $ms->test=true;
 
-		$create_list=$this->create_list();
+		$create_list=$this->create_list(true);
 		$ms->html=$create_list["html"];
 
 
@@ -981,11 +1139,4 @@ class roominglist {
 
 		return $return;
 	}
-
-
-
 }
-
-
-
-?>

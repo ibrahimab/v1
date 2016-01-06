@@ -3,6 +3,10 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+22-dec-2015 12:06
+ALTER TABLE `leverancier` ADD `roominglist_show_all_names` TINYINT(1) NOT NULL DEFAULT '0' AFTER `roominglist_naamswijzigingen_tegenhouden`;
+ALTER TABLE `boeking` ADD `roominglist_show_all_names` TINYINT(1) NOT NULL DEFAULT '1' ;
+
 18-dec-2015 15:39
 ALTER TABLE `type` ADD `is_maintype_canonical` TINYINT( 1 ) NOT NULL DEFAULT 0 AFTER `request_translation_fr` ;
 
