@@ -96,13 +96,18 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 			if($_POST["vraag4"]) {
 				$setquery.=", vraag4='".addslashes($_POST["vraag4"])."'";
 				$mailhtml.="<tr><td colspan=\"3\">".html("vraag4_".$_POST["vraag4"],"enquete")."</td></tr>";
-#				if($_POST["vraag4"]==2 or $_POST["vraag4"]==3) {
 				if($_POST["vraag4"]==3) {
 					$db->query("UPDATE boeking SET mailblokkeren_klanten_vorig_seizoen=1 WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 				}
 			}
 
-			# Vraag 5
+			// Vraag 5 NPS
+			if(isset($_POST["nps"])) {
+				$setquery.=", nps='".intval($_POST["nps"])."'";
+			}
+
+
+			# Vraag 6
 #			$mailhtml.="<tr><td colspan=\"3\">&nbsp;</td></tr>";
 #			$mailhtml.="<tr><td colspan=\"3\"><b><i>".html("vraag5","enquete")."</i></b></td></tr>";
 #			if($_POST["vraag5"]) {
@@ -117,7 +122,7 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 #				$setquery.=", vraag5_toelichting='".addslashes($_POST["toelichting5"])."'";
 #			}
 
-			# Vraag 6
+			# Vraag 7
 			if($vars["taal"]=="nl") {
 				$mailhtml.="<tr><td colspan=\"3\">&nbsp;</td></tr>";
 				$mailhtml.="<tr><td colspan=\"3\"><b><i>".html("vraag6","enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</i></b></td></tr>";
@@ -132,22 +137,6 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 					nieuwsbrief_inschrijven($vars["seizoentype"],$nieuwsbrief_waardes);
 				}
 			}
-
-			# Vraag 7
-#			if($vars["taal"]=="nl" and $vars["seizoentype"]<>2) {
-#				$mailhtml.="<tr><td colspan=\"3\">&nbsp;</td></tr>";
-#				$mailhtml.="<tr><td colspan=\"3\"><b><i>".html("vraag7","enquete",array("h_1"=>"","h_2"=>""))."</i></b></td></tr>";
-#			}
-#			if($_POST["vraag7"]) {
-#				$setquery.=", vraag7='".addslashes($_POST["vraag7"])."'";
-#				$mailhtml.="<tr><td colspan=\"3\">".html("vraag7_".$_POST["vraag7"],"enquete")."</td></tr>";
-#
-#				if($_POST["vraag7"]==1) {
-#					# Inschrijven nieuwsbrief Zomerhuisje.nl
-#					$mm_waardes=array("voornaam"=>$gegevens["stap2"]["voornaam"],"tussenvoegsel"=>$gegevens["stap2"]["tussenvoegsel"],"achternaam"=>$gegevens["stap2"]["achternaam"]);
-#					mm_newmember($gegevens["stap2"]["email"],"uv8lyday",$mm_waardes);
-#				}
-#			}
 
 			# Overige toelichting
 			if($_POST["overigetoelichting"]) {
@@ -201,7 +190,6 @@ Met vriendelijke groet,
 				}
 			}
 
-
 			$db->query("INSERT INTO boeking_enquete SET boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', type_id='".addslashes($gegevens["stap1"]["typeid"])."', aankomstdatum_exact=FROM_UNIXTIME('".addslashes($gegevens["stap1"]["aankomstdatum_exact"])."'), vertrekdatum_exact=FROM_UNIXTIME('".addslashes($gegevens["stap1"]["vertrekdatum_exact"])."'), invulmoment=NOW()".$setquery.";");
 
 			$mail=new wt_mail;
@@ -209,15 +197,11 @@ Met vriendelijke groet,
 			$mail->from="info@chalet.nl";
 			$mail->to="info@chalet.nl";
 
-#$mail->to="jeroen@webtastic.nl";
-
 			$mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] Ingevulde enquête";
 
 			$mail->plaintext="";
 
-#			$mail->html_top="";
 			$mail->html=$mailhtml;
-#			$mail->html_bottom="";
 
 			$mail->send();
 
@@ -235,5 +219,3 @@ Met vriendelijke groet,
 }
 
 include "content/opmaak.php";
-
-?>

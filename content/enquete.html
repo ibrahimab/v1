@@ -33,7 +33,7 @@ if($onjuisteurl) {
 		echo nl2br(html("inleiding3","enquete"))."<p>";
 		echo "<hr><b>".html("boeking","enquete")." ".wt_he($gegevens["stap1"]["boekingsnummer"]." - ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"])."</b>";
 
-		echo "<hr>&nbsp;<br>";
+		echo "<hr><br />";
 		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 		echo "<input type=\"hidden\" name=\"enqfilled\" value=\"1\">";
 
@@ -49,7 +49,7 @@ if($onjuisteurl) {
 		echo "</table><p>";
 		echo html("toelichtingbij","enquete").":<br><textarea name=\"toelichting1\" class=\"wtform_textarea\" style=\"width:600px;height:60px;\"></textarea>";
 
-		echo "<hr>&nbsp;<br>";
+		echo "<hr class=\"hr_new_question\">";
 
 		# Vraag 2: Totaaloordeel accommodatie
 		echo "<i><b>".html("totaaloordeel","enquete")."</b></i><p>";
@@ -65,7 +65,7 @@ if($onjuisteurl) {
 
 		# Indien we je totaaloordeel opnemen op de website: welke naam kunnen we daarbij vermelden? (leeglaten voor anonieme bijdrage)
 		echo html("totaaloordeeltoelichten_naam","enquete")."<br><input type=\"text\" name=\"websitetekst_naam\" style=\"width:600px;\">";
-		echo "<hr>&nbsp;<br>";
+		echo "<hr class=\"hr_new_question\">";
 
 		# Vraag 3: Waarom heb je gekozen voor deze accommodatie? (meerdere antwoorden mogelijk)
 		echo "<b><i>".html("vraag2","enquete")."</i></b><p>";
@@ -77,7 +77,7 @@ if($onjuisteurl) {
 			}
 			echo "<br>";
 		}
-		echo "<hr>&nbsp;<br>";
+		echo "<hr class=\"hr_new_question\">";
 
 
 		# Vraag 4: Wat is je mening over Chalet.nl?
@@ -92,46 +92,60 @@ if($onjuisteurl) {
 		echo "</table><p>";
 		echo html("toelichtingbij","enquete").":<br><textarea name=\"toelichting3\" class=\"wtform_textarea\" style=\"width:600px;height:60px;\"></textarea>";
 
-		echo "<hr>&nbsp;<br>";
+		echo "<hr class=\"hr_new_question\">";
 
-		# Vraag 5: Wil je per mail door ons benaderd worden over de mogelijkheden voor volgend seizoen?
+
+		// Vraag 5: Net Promotor Score
+		echo "<b><i>".html("nps","enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</i></b><p>";
+		echo "<table class=\"tbl enquete_nps\" cellspacing=\"0\">";
+
+		// row with score explanation
+		echo "<tr class=\"enquete_nps_score_explanation\"><td colspan=\"11\">";
+		echo "<div class=\"enquete_nps_0\">".html("nps_score0", "enquete")."</div>";
+		echo "<div class=\"enquete_nps_5\">".html("nps_score5", "enquete")."</div>";
+		echo "<div class=\"enquete_nps_10\">".html("nps_score10", "enquete")."</div>";
+		echo "<div class=\"clear\"></div>";
+		echo "</td></tr>";
+
+		// row with number 0 - 10
+		echo "<tr>";
+		for ($i=0; $i<=10; $i++) {
+			echo "<td align=\"center\">".$i."</td>";
+		}
+		echo "</tr>";
+
+		// row with radio's
+		echo "<tr>";
+		for ($i=0; $i<=10; $i++) {
+			echo "<td align=\"center\"><input type=\"radio\" name=\"nps\" value=\"".$i."\"></td>";
+		}
+		echo "</tr>";
+
+		echo "</table><p>";
+		echo "<hr class=\"hr_new_question\">";
+
+
+		# Vraag 6: Wil je per mail door ons benaderd worden over de mogelijkheden voor volgend seizoen?
 		echo "<b><i>".html("vraag4","enquete")."</i></b><p>";
 		for($i=1;$i<=3;$i++) {
 			echo "<input type=\"radio\" name=\"vraag4\" value=\"".$i."\" id=\"vraag4_".$i."\">";
 			echo "<label for=\"vraag4_".$i."\">&nbsp;&nbsp;".html("vraag4_".$i,"enquete")."</label>";
 			echo "<br>";
 		}
-		echo "<hr>&nbsp;<br>";
-
-		# (vervallen) Vraag x: Zijn er meer accommodaties en/of bestemmingen waarvan je informatie wenst te ontvangen?
-#		echo "<b><i>".html("vraag5","enquete")."</i></b><p>";
-#		for($i=1;$i<=2;$i++) {
-#			echo "<input type=\"radio\" name=\"vraag5\" value=\"".$i."\" id=\"vraag5_".$i."\">";
-#			echo "<label for=\"vraag5_".$i."\">&nbsp;&nbsp;".html("vraag5_".$i,"enquete")."</label>";
-#			if($i==1) {
-#				echo ":<br><textarea name=\"toelichting5\" style=\"margin-left:40px;width:400px;height:40px;\"></textarea>";
-#			}
-#			echo "<br>";
-#		}
-#		echo "<hr>&nbsp;<br>";
+		echo "<hr class=\"hr_new_question\">";
 
 		if($vars["nieuwsbrief_aanbieden"]) {
-			# Vraag 6: Wil je op de hoogte gehouden worden van nieuws en aanbiedingen van Chalet.nl en je abonneren op onze nieuwsbrief?
+			# Vraag 7: Wil je op de hoogte gehouden worden van nieuws en aanbiedingen van Chalet.nl en je abonneren op onze nieuwsbrief?
 			echo "<b><i>".html("vraag6","enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</i></b><p>";
 			for($i=1;$i<=3;$i++) {
 				echo "<input type=\"radio\" name=\"vraag6\" value=\"".$i."\" id=\"vraag6_".$i."\">";
 				echo "<label for=\"vraag6_".$i."\">&nbsp;&nbsp;".html("vraag6_".$i,"enquete")."</label>";
 				echo "<br>";
 			}
-			echo "<hr>&nbsp;<br>";
+			echo "<hr class=\"hr_new_question\">";
 		}
-
-#		echo "<b>".html("overigetoelichting","enquete").":</b><br><textarea name=\"overigetoelichting\" class=\"wtform_textarea\" style=\"width:600px;height:60px;\"></textarea>";
-#		echo "<hr>&nbsp;<br>";
 
 		echo "<input type=\"submit\" value=\" ".html("versturen","enquete")."\" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\">";
 		echo "</form>";
 	}
 }
-
-?>

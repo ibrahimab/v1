@@ -7392,9 +7392,25 @@ $txt["nl"]["enquete"]["vraag3_9"]="Eindoordeel over [[v_websitenaam]]";
 $txt["de"]["enquete"]["vraag3_9"]="Gesamturteil über [[v_websitenaam]]";
 $txt["en"]["enquete"]["vraag3_9"]="Final verdict on [[v_websitenaam]]";
 
-$txt["nl"]["enquete"]["vraag4"]="Vraag 5: Wil je per mail door ons benaderd worden over de mogelijkheden voor volgend seizoen?";
-$txt["de"]["enquete"]["vraag4"]="5. Frage: Möchten Sie per E-Mail informiert werden über die Möglichkeiten für die nächste Saison?";
-$txt["en"]["enquete"]["vraag4"]="Question 5: Do you want to be approached by us via mail about the possibilities for the next season?";
+$txt["nl"]["enquete"]["nps"]="Vraag 5: In welke mate zou je [[v_websitenaam]] aanraden aan vrienden/familie/collega's?";
+$txt["de"]["enquete"]["nps"]="5. Frage: Würden Sie [[v_websitenaam]] an Ihre Freunden/Familien/Kollegen weiter empfehlen?";
+$txt["en"]["enquete"]["nps"]="Question 5: How likely are you to recommend [[v_websitenaam]] to friends / family / colleagues?";
+
+$txt["nl"]["enquete"]["nps_score0"]="zeer onwaarschijnlijk";
+$txt["de"]["enquete"]["nps_score0"]="eher unwahrscheinlich";
+$txt["en"]["enquete"]["nps_score0"]="very unlikely";
+
+$txt["nl"]["enquete"]["nps_score5"]="neutraal";
+$txt["de"]["enquete"]["nps_score5"]="weder noch";
+$txt["en"]["enquete"]["nps_score5"]="neutral";
+
+$txt["nl"]["enquete"]["nps_score10"]="zeer waarschijnlijk";
+$txt["de"]["enquete"]["nps_score10"]="eher wahrscheinlich";
+$txt["en"]["enquete"]["nps_score10"]="very likely";
+
+$txt["nl"]["enquete"]["vraag4"]="Vraag 6: Wil je per mail door ons benaderd worden over de mogelijkheden voor volgend seizoen?";
+$txt["de"]["enquete"]["vraag4"]="6. Frage: Möchten Sie per E-Mail informiert werden über die Möglichkeiten für die nächste Saison?";
+$txt["en"]["enquete"]["vraag4"]="Question 6: Do you want to be approached by us via mail about the possibilities for the next season?";
 
 $txt["nl"]["enquete"]["vraag4_1"]="Ja, mail me over deze accommodatie (zodra de nieuwe tarieven bekend zijn)";
 $txt["de"]["enquete"]["vraag4_1"]="Ja, mailen Sie mir über diese Unterkunft (sobald die neuen Preise bekannt sind)";
@@ -7408,9 +7424,9 @@ $txt["nl"]["enquete"]["vraag4_3"]="Nee";
 $txt["de"]["enquete"]["vraag4_3"]="Nein";
 $txt["en"]["enquete"]["vraag4_3"]="No";
 
-$txt["nl"]["enquete"]["vraag6"]="Vraag 6: Wil je op de hoogte gehouden worden van nieuws en aanbiedingen van [[v_websitenaam]] en je abonneren op onze nieuwsbrief?";
-$txt["de"]["enquete"]["vraag6"]="6. Frage: Möchten Sie per E-Mail informiert werden über Neuigkeiten und Angebote von [[v_websitenaam]] und sich anmelden für unseren Newsletter?";
-$txt["en"]["enquete"]["vraag6"]="Question 6: Do you want us to keep you up to date and give your special offers from [[v_websitenaam]] and do you want to be subscribed to our newsletter?";
+$txt["nl"]["enquete"]["vraag6"]="Vraag 7: Wil je op de hoogte gehouden worden van nieuws en aanbiedingen van [[v_websitenaam]] en je abonneren op onze nieuwsbrief?";
+$txt["de"]["enquete"]["vraag6"]="7. Frage: Möchten Sie per E-Mail informiert werden über Neuigkeiten und Angebote von [[v_websitenaam]] und sich anmelden für unseren Newsletter?";
+$txt["en"]["enquete"]["vraag6"]="Question 7: Do you want us to keep you up to date and give your special offers from [[v_websitenaam]] and do you want to be subscribed to our newsletter?";
 
 $txt["nl"]["enquete"]["vraag6_1"]="Ja";
 $txt["de"]["enquete"]["vraag6_1"]="Ja";
@@ -7423,22 +7439,6 @@ $txt["en"]["enquete"]["vraag6_2"]="No";
 $txt["nl"]["enquete"]["vraag6_3"]="Ik ben al geabonneerd";
 $txt["de"]["enquete"]["vraag6_3"]="Ich habe mich bereits angemeldet für den Newsletter";
 $txt["en"]["enquete"]["vraag6_3"]="I am already subscribed";
-
-$txt["nl"]["enquete"]["vraag7"]="Vraag 7: Sinds december 2009 bieden wij vakantiehuizen in Europa aan via onze nieuwe website [[h_1]]Zomerhuisje.nl[[h_2]]. Wil je je abonneren op de nieuwsbrief van Zomerhuisje.nl en voortaan alle nieuwtjes en aanbiedingen ontvangen?";
-$txt["de"]["enquete"]["vraag7"]="7. Frage: Seit Dezember 2009 bieten wir Ferienwohnungen in Europa an über unsere neue Webseite [[h_1]]Zomerhuisje.nl[[h_2]]. Möchten Sie sich anmelden für den Newsletter von Zomerhuisje.nl und ab jetzt alle Neuigkeiten und Angebote erhalten?";
-$txt["en"]["enquete"]["vraag7"]="Question 7: Since December 2009 we have villas in Europe via our new website [[h_1]]Zomerhuisje.nl[[h_2]]. Do you want to subscrive to the newsletter of Zomerhuisje.nl and receive all new information and special offers?";
-
-$txt["nl"]["enquete"]["vraag7_1"]="Ja";
-$txt["de"]["enquete"]["vraag7_1"]="Ja";
-$txt["en"]["enquete"]["vraag7_1"]="Yes";
-
-$txt["nl"]["enquete"]["vraag7_2"]="Nee";
-$txt["de"]["enquete"]["vraag7_2"]="Nein";
-$txt["en"]["enquete"]["vraag7_2"]="No";
-
-$txt["nl"]["enquete"]["vraag7_3"]="Ik ben al geabonneerd";
-$txt["de"]["enquete"]["vraag7_3"]="Ich habe mich bereits angemeldet für den Newsletter";
-$txt["en"]["enquete"]["vraag7_3"]="I am already subscribed";
 
 $txt["nl"]["enquete"]["overigetoelichting"]="Overige toelichting, vragen en/of opmerkingen";
 $txt["de"]["enquete"]["overigetoelichting"]="Übriges, Fragen und/oder Bemerkungen";
