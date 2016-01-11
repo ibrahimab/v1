@@ -1,7 +1,7 @@
 <?php
 
 $geen_tracker_cookie=true;
-$banner_size["728x90"]  = array(1, 10, 13, 16, 19, 22, 25, 28, 31);
+$banner_size["728x90"]  = array(1, 10, 13, 16, 19, 22, 25, 28, 31, 36);
 $banner_size["120x600"] = array(5, 11, 14, 17, 20, 23, 26, 29, 32);
 $banner_size["300x250"] = array(6, 12, 15, 18, 21, 24, 27, 30, 33);
 $banner_size["300x600"] = array(34);
@@ -37,7 +37,7 @@ if($_GET["n"]==1) {
 if($_GET["wzt"]==2) {
 	$site="zomerhuisje";
 	$siteurl="https://www.zomerhuisje.nl/";
-} elseif($_GET["wzt"]==3) {
+} elseif($_GET["wzt"]==3 or $_GET['t'] == 36) {
 	$site="italissima";
 	$siteurl="https://www.italissima.nl/";
 
@@ -246,31 +246,34 @@ if($_GET["n"]==2) {
     $utm9 = "utm_source=wintersporters.nl&utm_medium=wintersporters.nl&utm_campaign=wintersporters.nl-lesmenuires-banner";
     $utm = ($_GET["t"] == 8) ? $utm8 : $utm9;
 } elseif($_GET["n"]==5) {
+	if($_GET['t'] == 36) {
+		$utm = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-htmlbanner";
+	} else {
 
-    $region_url["zellamsell"]   = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-zellamsee-banner";
-    $region_url["Kaprun"]       = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-kaprun-banner";
-    $region_url["lesmenui"]     = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-lesmenuires-banner";
-    $region_url["ozenoisans"]   = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-ozenoisans-banner";
-    $region_url["alpedhuez"]    = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-alpedhuez-banner";
-    $region_url["vallandry"]    = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-vallandry-banner";
-    $region_url["valthorens"]   = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-valthorens-banner";
-    $region_url["chatel"]       = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-chatel-banner";
+	    $region_url["zellamsell"]   = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-zellamsee-banner";
+	    $region_url["Kaprun"]       = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-kaprun-banner";
+	    $region_url["lesmenui"]     = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-lesmenuires-banner";
+	    $region_url["ozenoisans"]   = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-ozenoisans-banner";
+	    $region_url["alpedhuez"]    = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-alpedhuez-banner";
+	    $region_url["vallandry"]    = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-vallandry-banner";
+	    $region_url["valthorens"]   = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-valthorens-banner";
+	    $region_url["chatel"]       = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-chatel-banner";
 
-    $region_by_utm["zellamsell"]= array("10", "11", "12");
-    $region_by_utm["Kaprun"]    = array("13", "14", "15");
-    $region_by_utm["lesmenui"]  = array("16", "17", "18");
-    $region_by_utm["ozenoisans"]= array("19", "20", "21");
-    $region_by_utm["alpedhuez"] = array("22", "23", "24");
-    $region_by_utm["vallandry"] = array("25", "26", "27");
-    $region_by_utm["valthorens"]= array("28", "29", "30");
-    $region_by_utm["chatel"]    = array("31", "32", "33");
+	    $region_by_utm["zellamsell"]= array("10", "11", "12");
+	    $region_by_utm["Kaprun"]    = array("13", "14", "15");
+	    $region_by_utm["lesmenui"]  = array("16", "17", "18");
+	    $region_by_utm["ozenoisans"]= array("19", "20", "21");
+	    $region_by_utm["alpedhuez"] = array("22", "23", "24");
+	    $region_by_utm["vallandry"] = array("25", "26", "27");
+	    $region_by_utm["valthorens"]= array("28", "29", "30");
+	    $region_by_utm["chatel"]    = array("31", "32", "33");
 
-    foreach($region_by_utm as $regionName => $region){
-        if(in_array($_GET["t"], $region)){
-            $utm = $region_url[$regionName];
-        }
-    }
-
+	    foreach($region_by_utm as $regionName => $region){
+	        if(in_array($_GET["t"], $region)){
+	            $utm = $region_url[$regionName];
+	        }
+	    }
+	}
 }
 
 ?>
@@ -297,6 +300,7 @@ function formsubmit(type) {
 	var flash=false;
 	var aantalpersonen=0;
 	var gebruik_aantalpersonen=false;
+	var gebruik_datum=true;
 
 	if(typeof document.frm.p!='undefined') {
 		aantalpersonen=document.frm.p.value;
@@ -308,6 +312,9 @@ function formsubmit(type) {
 			url='https://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==3) { ?>
 			url='https://www.italissima.nl/zoek-en-boek.php?filled=1&fzt=&fsg=5-'+document.frm.l.value+'&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
+		<?php } elseif($_GET["t"]==36) { ?>
+			gebruik_datum=false;
+			url='https://www.italissima.nl/zoek-en-boek.php?filled=1&fzt=&fsg=5-'+document.frm.l.value+'&fap='+aantalpersonen+'&fas=0&<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==4) { ?>
 			url='https://www.chalet.be/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==6) { ?>
@@ -398,12 +405,16 @@ function formsubmit(type) {
 		if(type=='s') {
 			window.open(url);
 			document.frm.l.value=0;
-			document.frm.t.value=0;
 			document.frm.l.disabled=false;
-			document.frm.t.disabled=false;
+
 			if(gebruik_aantalpersonen) {
 				document.frm.p.value=0;
 				document.frm.p.disabled=false;
+			}
+
+			if(gebruik_datum) {
+				document.frm.t.value=0;
+				document.frm.t.disabled=false;
 			}
 
 			if(document.getElementById('submit').src.indexOf("_flash.gif")) {
@@ -428,10 +439,18 @@ function formsubmit(type) {
 				}
 			} else if(themadatum==2) {
 				if(gebruik_aantalpersonen) {
-					if(document.frm.l.value>0&&document.frm.t.value>0&&document.frm.p.value>0) {
-						flash=true;
+					if(gebruik_datum) {
+						if(document.frm.l.value>0&&document.frm.t.value>0&&document.frm.p.value>0) {
+							flash=true;
+						} else {
+							flash=false;
+						}
 					} else {
-						flash=false;
+						if (document.frm.l.value>0&&document.frm.p.value>0) {
+							flash=true;
+						} else {
+							flash=false;
+						}
 					}
 				} else {
 					if(document.frm.l.value>0&&document.frm.t.value>0) {
@@ -675,6 +694,23 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:199px;left:192px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
+
+} elseif($_GET["t"]==36 and $_GET["wzt"]==8) {
+	# italissima 728x90
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.jpg');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:22px;left:498px;\">\n";
+	italissima_regio();
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:50px;left:498px;\">\n";
+	italissima_personen();
+	echo "</div>\n";
+
+	echo "<div style=\"position:absolute;top:35px;left:635px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
+
 
 } elseif(in_array($_GET["t"], $banner_size["728x90"]) and ($_GET["wzt"]==1 or $_GET["wzt"]==4 or $_GET["wzt"]==8) and $_GET["themadatum"]==2) {
 	# chalet 728x90 land-datum-aantal personen
