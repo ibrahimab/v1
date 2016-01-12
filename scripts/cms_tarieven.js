@@ -152,7 +152,6 @@ function bereken_voorraad(dit, week, naam) {
 	} else {
 		dit.value=dit.value.replace(',','');
 		dit.value=dit.value.replace('.','');
-		dit.value=dit.value.replace('-','');
 		waarde_ingevoerd = true;
 	}
 
