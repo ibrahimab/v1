@@ -35,7 +35,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
 }
 
 $refundRequest    = new RefundRequest($db);
+
+// convert all params to windows-1252 (source is ajax utf-8)
+foreach ($params as $key => $value) {
+    $params[$key] = wt_utf8_decode($value);
+}
+
 $params['amount'] = floatval(str_replace(',', '.', $params['amount']));
+
+// removes spaces from iban
+$params['iban']   = str_replace(' ', '', $params['iban']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
