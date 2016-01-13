@@ -128,6 +128,7 @@ $keuzes[8][30][2]="Chalet.nl htmlbanner Val Thorens land-datum 300x250";
 $keuzes[8][31][2]="Chalet.nl htmlbanner Chatel land-datum-aantal personen 728x90";
 $keuzes[8][32][2]="Chalet.nl htmlbanner Chatel land-datum-aantal personen 120x600";
 $keuzes[8][33][2]="Chalet.nl htmlbanner Chatel land-datum 300x250";
+$keuzes[8][36][2]="Italissima.nl htmlbanner regio-personen 728x90";
 
 $netwerken[1]="TradeTracker";
 $netwerken[2]="Sneeuwhoogte.nl";
