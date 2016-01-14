@@ -5495,6 +5495,10 @@ $txt["nl"]["boeken"]["aanvraagnummer"]="Aanvraagnummer";
 $txt["de"]["boeken"]["aanvraagnummer"]="Anfragenummer";
 $txt["en"]["boeken"]["aanvraagnummer"]="Application number";
 
+$txt["nl"]["boeken"]["voorraad"]="Voorraad";
+$txt["de"]["boeken"]["voorraad"]="Vorrat";
+$txt["en"]["boeken"]["voorraad"]="Stock";
+
 $txt["nl"]["boeken"]["vragenofopmerkingenopties"]="Vragen of opmerkingen m.b.t. opties";
 $txt["de"]["boeken"]["vragenofopmerkingenopties"]="Fragen oder Bemerkungen in Bezug auf Optionen";
 $txt["en"]["boeken"]["vragenofopmerkingenopties"]="Questions or comments about options";
