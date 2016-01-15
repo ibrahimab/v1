@@ -314,9 +314,7 @@ $cms->edit_field(2,0,"htmlrow","<hr>");
 $cms->edit_field(2,0,"htmlrow","Opnemen in lijst<a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\" style=\"padding:5px;\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(2,0,"request_translation_en","EN",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(2,0,"request_translation_de","DE",array("selection"=>false),"",array("title_html"=>true));
-if($_GET["edit"]==2) {
-	$cms->edit_field(2,0,"htmlrow","<hr><i><span style=\"color:red;\"><b>Let op!</b> Bij wijzigen &quot;websites&quot; worden alle onderliggende types aangepast.</span><br>Om dat te voorkomen kun je &quot;websites&quot; aanpassen op type-niveau.</i><br/><br/>Een ingevulde waarde hier wil zeggen dat bij minstens &eacute;&eacute;n onderliggend type deze website aangevinkt staat. Het wil niet zeggen dat bij &agrave;lle onderliggende types de website aangevinkt staat.");
-}
+$cms->edit_field(2,0,"htmlrow","<hr>");
 $cms->edit_field(2,0,"websites","Websites",array("selection"=>$accommodatiegegevens["websites"]),"",array("one_per_line"=>true));
 if($_GET["edit"]==2) {
 	$cms->edit_field(2,0,"htmlrow","<hr>");

@@ -3112,6 +3112,10 @@ $txt["nl"]["toonaccommodatie"]["afstandstrand"]="Afstand tot strand";
 $txt["de"]["toonaccommodatie"]["afstandstrand"]="Entfernung zum Strand";
 $txt["en"]["toonaccommodatie"]["afstandstrand"]="Distance to beach";
 
+$txt["nl"]["toonaccommodatie"]["afstandbekendestad"]="Afstand tot [[v_stad]]";
+$txt["de"]["toonaccommodatie"]["afstandbekendestad"]="Entfernung zum [[v_stad]]";
+$txt["en"]["toonaccommodatie"]["afstandbekendestad"]="Distance to [[v_stad]]";
+
 $txt["nl"]["toonaccommodatie"]["afstandzwembad"]="Afstand tot zwembad";
 $txt["de"]["toonaccommodatie"]["afstandzwembad"]="Entfernung zum Schwimmbad";
 $txt["en"]["toonaccommodatie"]["afstandzwembad"]="Distance to swimming pool";

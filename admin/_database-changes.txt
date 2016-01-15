@@ -3,6 +3,9 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+15-jan-2016 13:14 - CMS-314
+ALTER TABLE `plaats` ADD `bekendestad` VARCHAR(255) NULL DEFAULT NULL AFTER `vervoeromschrijving_fr`, ADD `bekendestad_de` VARCHAR(255) NULL DEFAULT NULL AFTER `bekendestad`, ADD `bekendestad_en` VARCHAR(255) NULL DEFAULT NULL AFTER `bekendestad_de`, ADD `bekendestad_fr` VARCHAR(255) NULL DEFAULT NULL AFTER `bekendestad_en`, ADD `afstandbekendestad` INT NULL DEFAULT NULL AFTER `bekendestad_fr`, ADD `afstandbekendestadextra` VARCHAR(255) NULL DEFAULT NULL AFTER `afstandbekendestad`, ADD `afstandbekendestadextra_de` VARCHAR(255) NULL DEFAULT NULL AFTER `afstandbekendestadextra`, ADD `afstandbekendestadextra_en` VARCHAR(255) NULL DEFAULT NULL AFTER `afstandbekendestadextra_de`, ADD `afstandbekendestadextra_fr` VARCHAR(255) NULL DEFAULT NULL AFTER `afstandbekendestadextra_en`;
+
 05-jan-2016 13:35 - MAR-60
 ALTER TABLE `boeking_enquete` ADD `nps` TINYINT(1) NULL DEFAULT NULL AFTER `vraag7`;
 
