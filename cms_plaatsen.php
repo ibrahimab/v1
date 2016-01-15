@@ -135,6 +135,11 @@ $cms->db_field(4,"text","treinstation");
 $cms->db_field(4,"integer","afstandtottreinstation");
 $cms->db_field(4,"textarea","vervoeromschrijving");
 if($vars["cmstaal"]) $cms->db_field(4,"textarea","vervoeromschrijving_".$vars["cmstaal"]);
+$cms->db_field(4,"text","bekendestad");
+if($vars["cmstaal"]) $cms->db_field(4,"text","bekendestad_".$vars["cmstaal"]);
+$cms->db_field(4,"integer","afstandbekendestad");
+$cms->db_field(4,"text","afstandbekendestadextra");
+if($vars["cmstaal"]) $cms->db_field(4,"text","afstandbekendestadextra_".$vars["cmstaal"]);
 $cms->db_field(4,"url","toeristenbureau");
 $cms->db_field(4,"url","weerbericht");
 $cms->db_field(4,"url","webcam");
@@ -293,6 +298,23 @@ if($vars["cmstaal"]) {
 } else {
 	$cms->edit_field(4,0,"vervoeromschrijving","Aanvulling vervoer");
 }
+
+// Bekende stad + afstand (known city + distance)
+$cms->edit_field(4,0,"htmlrow","<hr><b>Bekende stad</b>");
+if($vars["cmstaal"]) {
+	$cms->edit_field(4,0,"bekendestad","Dichtsbijzijnde bekende stad NL","",array("noedit"=>true));
+	$cms->edit_field(4,0,"bekendestad_".$vars["cmstaal"],"Dichtsbijzijnde bekende stad ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(4,0,"bekendestad","Dichtsbijzijnde bekende stad");
+}
+$cms->edit_field(4,0,"afstandbekendestad","Afstand tot die bekende stad (in k.m.)");
+if($vars["cmstaal"]) {
+	$cms->edit_field(4,0,"afstandbekendestadextra","Toevoeging afstand tot die bekende stad NL","",array("noedit"=>true));
+	$cms->edit_field(4,0,"afstandbekendestadextra_".$vars["cmstaal"],"Toevoeging afstand tot die bekende stad ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(4,0,"afstandbekendestadextra","Toevoeging afstand tot die bekende stad");
+}
+
 $cms->edit_field(4,0,"htmlrow","<hr><b>Links</b>");
 $cms->edit_field(4,0,"toeristenbureau","Toeristenbureau URL");
 $cms->edit_field(4,0,"weerbericht","Weerbericht URL");
@@ -389,6 +411,16 @@ if($cms_form[4]->filled) {
 		$cms_form[4]->error("video_url","onjuist formaat. Voorbeeld: https://player.vimeo.com/video/44377043");
 	}
 
+	// Check known city (bekende stad)
+	if($cms_form[4]->input["bekendestad".$vars["ttv"]] and !$cms_form[4]->input["afstandbekendestad"]) {
+		$cms_form[4]->error("afstandbekendestad","obl");
+	}
+	if(!$cms_form[4]->input["bekendestad".$vars["ttv"]] and $cms_form[4]->input["afstandbekendestad"]) {
+		$cms_form[4]->error("bekendestad".$vars["ttv"],"obl");
+	}
+	if($cms_form[4]->input["afstandbekendestadextra".$vars["ttv"]] and !$cms_form[4]->input["afstandbekendestad"]) {
+		$cms_form[4]->error("afstandbekendestad","obl");
+	}
 }
 
 # Na opslaan form de volgende actie uitvoeren
