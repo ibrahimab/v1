@@ -2085,7 +2085,7 @@ while($db->next_record()) {
 
 						if($db2->next_record()){
 							if($new_insert[$discount_seasonid] != true)
-								$db2->query("UPDATE korting set " .$sql_fields. " WHERE type_id =".$db->f("type_id")." AND seizoen_id='".$discount_seasonid."'");
+								$db2->query("UPDATE korting set " .$sql_fields. " WHERE xml_korting=2 AND type_id =".$db->f("type_id")." AND seizoen_id='".$discount_seasonid."'");
 
 							$discountid = $db2->f("korting_id");
 						} else {
