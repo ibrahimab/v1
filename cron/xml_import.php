@@ -2079,7 +2079,7 @@ while($db->next_record()) {
 										. " omschrijving = '', "
 										. " onlinenaam = '".str_replace("[DISCOUNTVALUE]",$lev_discount, $txt["nl"]["vars"]["xml_discount_message"])."', "
 										. " toon_abpagina=1, "
-										. " naam='Import kortings percentage - " .$lev_discount. "'";
+										. " naam='Import kortingspercentage - " .$lev_discount. "'";
 
 						$db2->query("SELECT * from korting where xml_korting=2 AND type_id=".$db->f("type_id")." AND seizoen_id = '".intval($discount_seasonid)."'");
 
