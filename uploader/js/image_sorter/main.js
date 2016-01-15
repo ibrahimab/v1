@@ -10,6 +10,8 @@ var ImageSorter = (function(ns, jq, _, undefined) {
 
     ns.initialize = function() {
 
+        jq.event.props.push( "dataTransfer" );
+
         jq('body').on('dragstart', ns.get('anchor'), ns.start);
         jq('body').on('dragend',   ns.get('anchor'), ns.end);
         jq('body').on('dragover',  ns.get('item'),   ns.over);
@@ -24,14 +26,21 @@ var ImageSorter = (function(ns, jq, _, undefined) {
             event.preventDefault();
         });
 
-        jq('body').on('drop', '[data-role="main-images"]', function() {
+        jq('body').on('drop', '[data-role="main-images"]', function(event) {
+
+            if(event.preventDefault) {
+                event.preventDefault();
+            }
+            if(event.stopPropagation) {
+                event.stopPropagation();
+            }
 
             var id      = event.dataTransfer.getData('id');
             var element = jq(this);
-            
+
             element.find('img[data-role="main-image"]').attr('src', jq(ns.get('item') + '[data-id="' + id + '"]').find('img').attr('src'));
             element.find('input').val(id);
-            
+
         });
     };
 

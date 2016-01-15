@@ -5,7 +5,7 @@ div.uploader-container div.container {
 }
 
 div.uploader-container div.previewer {
-
+    margin-top: 10px;
     width: 100%;
     border: 1px solid #000;
 }
@@ -50,7 +50,7 @@ div.uploader-container div.previewer ul li.over {
 }
 
 div.uploader-container div.previewer ul li span.error {
-    
+
     display: block;
     background-color: red;
     color: white;
@@ -67,7 +67,7 @@ div.uploader-container div.previewer ul li span.done {
 }
 
 div.uploader-container div.previewer ul li img.preview-image {
-    
+
     width: 213px;
     height: 164px;
 }
