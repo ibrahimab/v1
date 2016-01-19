@@ -95,7 +95,8 @@ class xmlExport extends chaletDefault
 				"afstandpiste"=>"distance_piste",
 				"afstandskilift"=>"distance_skilift",
 				"afstandloipe"=>"distance_crosscountry",
-				"afstandskibushalte"=>"distance_skibusstop"
+				"afstandskibushalte"=>"distance_skibusstop",
+				"afstandbekendestad"=>"distance_wellknown_city",
 			);
 		} elseif($this->config->seizoentype==2) {
 			// Summer
@@ -105,7 +106,8 @@ class xmlExport extends chaletDefault
 				"afstandstrand"=>"distance_beach",
 				"afstandzwembad"=>"distance_pool",
 				"afstandzwemwater"=>"distance_swimmingwater",
-				"afstandgolfbaan"=>"distance_golfcourse"
+				"afstandgolfbaan"=>"distance_golfcourse",
+				"afstandbekendestad"=>"distance_wellknown_city",
 			);
 		}
 
@@ -143,7 +145,7 @@ class xmlExport extends chaletDefault
 			$limit = 650;
 		}
 
-		$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS kenmerken_accommodatie, a.aankomst_plusmin, a.vertrek_plusmin, a.skipas_id, t.naam".$this->config->ttv." AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving".$this->config->ttv." AS omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra".$this->config->ttv." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$this->config->ttv." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$this->config->ttv." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$this->config->ttv." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$this->config->ttv." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$this->config->ttv." AS afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra".$this->config->ttv." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$this->config->ttv." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$this->config->ttv." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$this->config->ttv." AS afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving".$this->config->ttv." AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS kenmerken_type, s.skigebied_id, s.naam".$this->config->ttv." AS skigebied, s.kenmerken AS kenmerken_skigebied, l.naam".$this->config->ttv." AS land, l.begincode, l.isocode, p.naam AS plaats, p.plaats_id, p.kenmerken AS kenmerken_plaats FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$this->website."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($this->type_ids ? " AND t.type_id IN (".$this->type_ids.")" : "")." ORDER BY type_id".($limit ? " LIMIT 0,".$limit : "").";");
+		$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS kenmerken_accommodatie, a.aankomst_plusmin, a.vertrek_plusmin, a.skipas_id, t.naam".$this->config->ttv." AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving".$this->config->ttv." AS omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra".$this->config->ttv." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$this->config->ttv." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$this->config->ttv." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$this->config->ttv." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$this->config->ttv." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$this->config->ttv." AS afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra".$this->config->ttv." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$this->config->ttv." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$this->config->ttv." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$this->config->ttv." AS afstandgolfbaanextra, p.bekendestad".$this->config->ttv." AS bekendestad, p.afstandbekendestad, p.afstandbekendestadextra".$this->config->ttv." AS afstandbekendestadextra, t.kwaliteit AS tkwaliteit, t.omschrijving".$this->config->ttv." AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS kenmerken_type, s.skigebied_id, s.naam".$this->config->ttv." AS skigebied, s.kenmerken AS kenmerken_skigebied, l.naam".$this->config->ttv." AS land, l.begincode, l.isocode, p.naam AS plaats, p.plaats_id, p.kenmerken AS kenmerken_plaats FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$this->website."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($this->type_ids ? " AND t.type_id IN (".$this->type_ids.")" : "")." ORDER BY type_id".($limit ? " LIMIT 0,".$limit : "").";");
 		while($db->next_record()) {
 
 			$type_id = $db->f( "type_id" );
@@ -287,7 +289,18 @@ class xmlExport extends chaletDefault
 			// Distances
 			foreach ($doorloop_afstanden as $key => $value) {
 				if($db->f($key)) {
-					$type_data[$type_id]["distance"][$value] = $this->showDistance($db->f($key), $db->f($key."extra"), txt("meter","toonaccommodatie"));
+
+					if ($value=="distance_wellknown_city") {
+
+						// well known city
+						$type_data[$type_id]["distance"][$value] = $this->showDistance($db->f($key), $db->f($key."extra"), txt("kilometer","toonaccommodatie"));
+						$type_data[$type_id]["distance"]["wellknown_city"] = $db->f( "bekendestad" );
+
+					} else {
+
+						// other distances
+						$type_data[$type_id]["distance"][$value] = $this->showDistance($db->f($key), $db->f($key."extra"), txt("meter","toonaccommodatie"));
+					}
 				}
 			}
 		}
