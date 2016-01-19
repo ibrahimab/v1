@@ -775,7 +775,6 @@ $title["accommodaties"]=txt("title_zoekenboek");
 $title["algemenevoorwaarden"]=txt("title_algemenevoorwaarden");
 $title["voorwaarden"]=txt("title_voorwaarden");
 $title["aanvullendevoorwaarden"]=txt("title_aanvullendevoorwaarden");
-$title["werkwijze"]=txt("title_werkwijze");
 $title["materiaalhuur"]=txt("title_materiaalhuur");
 $title["aanbiedingen"]=txt("title_aanbiedingen").($_GET["d"] ? " - ".ucfirst(txt("aankomst")).": ".weekend_voluit($_GET["d"]) : "");
 $title["contact"]=txt("title_contact");
