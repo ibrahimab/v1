@@ -561,7 +561,7 @@ if($form->okay) {
 		}
 
 		$html .= '</table>';
-		$html .= '<br><br>' . html('vooreengrootdeel', 'beschikbaarheid') . '<p>' . html('uontvangtzospoedigmogelijk', 'beschikbaarheid') . ' ';
+		$html .= '<br>' . html('vooreengrootdeel', 'beschikbaarheid') . '<p>' . html('uontvangtzospoedigmogelijk', 'beschikbaarheid') . ' ';
 
 		if ($form->input['optie'] || $_GET['o']) {
 			$html .= html('hierinvermeldenwijook', 'beschikbaarheid');
