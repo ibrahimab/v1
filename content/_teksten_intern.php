@@ -115,10 +115,6 @@ $txta["nl"]["menu_sitemap"]="sitemap";
 $txta["de"]["menu_sitemap"]="Übersichtsseite";
 $txta["en"]["menu_sitemap"]="sitemap";
 
-$txta["nl"]["menu_werkwijze"]="werkwijze";
-$txta["de"]["menu_werkwijze"]="Arbeitsweise";
-$txta["en"]["menu_werkwijze"]="how_we_work";
-
 $txta["nl"]["menu_inloggen"]="inloggen";
 $txta["de"]["menu_inloggen"]="anmelden";
 $txta["en"]["menu_inloggen"]="login";
@@ -296,13 +292,6 @@ $txta["en_z"]["submenutitle_verzekeringen"]="insurances";
 $txta["nl"]["submenutitle_sitemap"]="sitemap";
 $txta["de"]["submenutitle_sitemap"]="Übersichtsseite";
 $txta["en"]["submenutitle_sitemap"]="sitemap";
-
-$txta["nl"]["submenutitle_werkwijze"]="werkwijze ".$vars["websitenaam"];
-$txta["de"]["submenutitle_werkwijze"]="Arbeitsweise ".$vars["websitenaam"];
-$txta["en"]["submenutitle_werkwijze"]="how we work";
-
-$txta["nl_t"]["submenutitle_werkwijze"]="werkwijze";
-$txta["en_t"]["submenutitle_werkwijze"]="how we work";
 
 $txta["nl"]["submenutitle_inloggen"]="mijn boeking";
 $txta["de"]["submenutitle_inloggen"]="Meine Buchung";
@@ -499,10 +488,6 @@ $txta["en"]["title_aanvullendevoorwaarden"]="-";
 $txta["nl"]["title_favorieten"]="Mijn favorieten";
 $txta["de"]["title_favorieten"]="Favoriten";
 $txta["en"]["title_favorieten"]="My favourites";
-
-$txta["nl"]["title_werkwijze"]="Werkwijze ".$vars["websitenaam"];
-$txta["de"]["title_werkwijze"]="Arbeitsweise ".$vars["websitenaam"];
-$txta["en"]["title_werkwijze"]="How we work";
 
 $txta["nl"]["title_materiaalhuur"]="Materiaalhuur";
 $txta["de"]["title_materiaalhuur"]="Skiverleih";

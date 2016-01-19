@@ -2875,10 +2875,6 @@ $txt["nl"]["toonaccommodatie"]["bewaardezeaccommodatie"]="Bewaar deze accommodat
 $txt["de"]["toonaccommodatie"]["bewaardezeaccommodatie"]="Diese Unterkunft speichern";
 $txt["en"]["toonaccommodatie"]["bewaardezeaccommodatie"]="Save this accommodation";
 
-$txt["nl"]["toonaccommodatie"]["werkwijze"]="Werkwijze";
-$txt["de"]["toonaccommodatie"]["werkwijze"]="Arbeitsweise";
-$txt["en"]["toonaccommodatie"]["werkwijze"]="How we work - ";
-
 $txt["nl"]["toonaccommodatie"]["aanbieding"]="Aanbieding";
 $txt["de"]["toonaccommodatie"]["aanbieding"]="Angebot";
 $txt["en"]["toonaccommodatie"]["aanbieding"]="Special offer";
