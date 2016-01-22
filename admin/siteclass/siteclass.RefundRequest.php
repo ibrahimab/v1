@@ -8,7 +8,7 @@
  * @since  2015-02-04 17:14
  */
 class RefundRequest {
-	
+
 	/**
 	 * @var DB_sql
 	 */
@@ -16,7 +16,7 @@ class RefundRequest {
 
 	/**
 	 * Setting Dependency
-	 * 
+	 *
 	 * @param DB_sql $db
 	 */
 	public function __construct(DB_sql $db) {
@@ -43,7 +43,7 @@ class RefundRequest {
 		self::query('INSERT INTO `boeking_retour` (`boeking_id`, `naam`, `iban`, `bic`, `omschrijving`, `openstaand`)
 					 VALUES (:boeking_id, :name, :iban, :bic, :description, :amount)', $values);
 	}
-    
+
 	/**
 	 * This updates an existing refund request
 	 *
@@ -68,14 +68,14 @@ class RefundRequest {
 	/**
 	 * This method selects all the refund requests. Based on the filters you pass,
 	 * You can actually creates multiple views with the same method.
-	 * 
+	 *
 	 * @param array $filters
-	 */ 
+	 */
 	public function all($boeking_id = null, $filters = []) {
 
-		$sql[]= 'SELECT `br`.`boeking_retour_id`, `br`.`boeking_id`, `br`.`naam` AS `name`, 
-				   	    `b`.`boekingsnummer` AS `reservation_number`, `br`.`iban`, `br`.`bic`, 
-				 	    `br`.`omschrijving` AS `description`, `br`.`openstaand` AS `amount`, 
+		$sql[]= 'SELECT `br`.`boeking_retour_id`, `br`.`boeking_id`, `br`.`naam` AS `name`,
+				   	    `b`.`boekingsnummer` AS `reservation_number`, `br`.`iban`, `br`.`bic`,
+				 	    `br`.`omschrijving` AS `description`, `br`.`openstaand` AS `amount`,
 				 	    DATE_FORMAT(`br`.`aangemaakt_op`, \'%d-%m-%Y %H:%i:%s\') AS `created_at`,
 				 	    DATE_FORMAT(`br`.`betaald_op`, \'%d-%m-%Y %H:%i:%s\') AS `paid_at`
 			     FROM `boeking_retour` AS `br`
@@ -89,9 +89,9 @@ class RefundRequest {
 
 		foreach ($filters as $field => $filter) {
 
-			$sql[] = 'AND ' . $field . ' ' . (is_array($filter) ? (isset($filter['$ne']) ? '!=' : ' IN ') : (true === is_null($filter) ? '' : '=')) 
+			$sql[] = 'AND ' . $field . ' ' . (is_array($filter) ? (isset($filter['$ne']) ? '!=' : ' IN ') : (true === is_null($filter) ? '' : '='))
 					. (true === is_null($filter) ? ' IS NULL' : ':' . $field);
-            
+
             if (isset($filter['$ne'])) {
                 $filters[$field] = $filter['$ne'];
             }
@@ -100,15 +100,15 @@ class RefundRequest {
 		self::query(implode("\n", $sql), array_merge(['boeking_id' => $boeking_id], $filters));
 		return self::getDb();
 	}
-    
+
     /**
      * Get all open refund requests
      *
      * @return array
      */
     public function open() {
-        
-		$sql = "SELECT `br`.`boeking_id`, `br`.`iban`, `br`.`betaald_op`
+
+		$sql = "SELECT `br`.`boeking_id`, `br`.`iban`, `br`.`betaald_op`, `br`.`openstaand`
 	            FROM   `boeking_retour` AS `br`
                 WHERE  `br`.`ingetrokken_op` IS NULL";
 
@@ -116,17 +116,30 @@ class RefundRequest {
         $ids = [];
         $db  = self::getDB();
         while ($db->next_record()) {
-            
-            $ids[$db->f('boeking_id')] = [
-                
-                'betaald_op' => $db->f('betaald_op'),
-                'iban'       => $db->f('iban'),
-            ];
+
+        	if (!$ids[$db->f('boeking_id')]) {
+        		$ids[$db->f('boeking_id')]['counter'] = 0;
+        		$ids[$db->f('boeking_id')]['betaald_op_counter'] = 0;
+        		$ids[$db->f('boeking_id')]['iban_counter'] = 0;
+        		$ids[$db->f('boeking_id')]['openstaand'] = 0;
+        	}
+
+        	$ids[$db->f('boeking_id')]['counter'] ++;
+
+        	if ($db->f('betaald_op') !== null) {
+        		$ids[$db->f('boeking_id')]['betaald_op_counter'] ++;
+        	}
+        	if ($db->f('iban') !== null && $db->f('iban') !== 'n.n.b.') {
+        		$ids[$db->f('boeking_id')]['iban_counter'] ++;
+        	}
+
+        	$ids[$db->f('boeking_id')]['openstaand'] += $db->f('openstaand');
+
         }
-        
+
         return $ids;
     }
-    
+
     /**
      * Count all the open refund requests
      *
@@ -142,11 +155,11 @@ class RefundRequest {
 
 		self::query($sql);
         $db  = self::getDB();
-        
+
         if ($db->next_record()) {
             return $db->f('total');
         }
-        
+
         return 0;
     }
 

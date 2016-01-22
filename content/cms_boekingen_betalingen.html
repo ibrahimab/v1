@@ -172,7 +172,7 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 					&euro; <?php echo number_format($refunds->f('amount'), 2, ',', '.'); ?>
 				</td>
 				<td><?php echo $refunds->f('created_at'); ?></td>
-				<td style="text-align: center;" data-role="paid-at"><?php echo ($refunds->f('paid_at') === null ? 'n.v.t.' : $refunds->f('paid_at')); ?></td>
+				<td style="text-align: left;" data-role="paid-at"><?php echo ($refunds->f('paid_at') === null ? 'n.v.t.' : $refunds->f('paid_at')); ?></td>
 			</tr>
 			<?php endwhile; ?>
 		</table><br /><hr />
@@ -306,4 +306,3 @@ if($login->has_priv("5") and !$_GET["overbetaling"]) {
 	}
 
 }
-?>
