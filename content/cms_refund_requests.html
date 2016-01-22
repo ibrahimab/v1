@@ -2,8 +2,8 @@
 	table, tr, td, th { border: 1px solid #000; }
 	tr th {	width: 80px; }
 	tr th.big { width: 150px; }
-	[data-role="select-contents"]:link, [data-role="select-contents"]:active, [data-role="select-contents"]:visited { 
-		color: #000; text-decoration: none; 
+	[data-role="select-contents"]:link, [data-role="select-contents"]:active, [data-role="select-contents"]:visited {
+		color: #000; text-decoration: none;
 	}
 	tr td.center { text-align: center; }
 	[data-role="select-contents"]:hover { color: red; }
@@ -11,14 +11,14 @@
 <?php
 $refundRequest = new RefundRequest($db);
 if ($login->has_priv(27)) :
-    
+
     $complete      = $refundRequest->all(null, ['ingetrokken_op' => null, 'betaald_op' => null, 'iban' => ['$ne' => 'n.n.b.']]);
     if ($complete->num_rows() === 0) : ?>
 
     	<strong>Geen retourbetalingen gevonden</strong>
 
     <?php else : ?>
-	
+
         <strong style="margin-top:10px; margin-bottom: 10px; display:block;">Complete retouraanvragen</strong>
     	<table class="tbl" border="0" cellspacing="0">
     		<tr>
@@ -26,7 +26,6 @@ if ($login->has_priv(27)) :
     			<th>Openstaand</th>
     			<th>Naam</th>
     			<th>IBAN</th>
-    			<th>BIC</th>
     			<th>Omschrijving</th>
     			<th>Aangevraagd</th>
     			<th>Afgerond</th>
@@ -43,7 +42,6 @@ if ($login->has_priv(27)) :
     			</td>
     			<td><a href="#" data-role="select-contents"><?php echo $complete->f('name'); ?></a></td>
     			<td><a href="#" data-role="select-contents"><?php echo str_replace(' ', '', $complete->f('iban')); ?></a></td>
-    			<td><a href="#" data-role="select-contents"><?php echo str_replace(' ', '', $complete->f('bic')); ?></a></td>
     			<td><a href="#" data-role="select-contents"><?php echo $complete->f('description'); ?></a></td>
     			<td><?php echo $complete->f('created_at'); ?></td>
     			<td class="center" style="text-align:center;">
@@ -57,7 +55,7 @@ if ($login->has_priv(27)) :
     <?php endif; ?>
 
     <hr />
-    
+
 <?php endif; ?>
 
 <?php
@@ -67,7 +65,7 @@ if ($incomplete->num_rows() === 0) : ?>
 	<strong>Geen incomplete retouraanvragen gevonden</strong>
 
 <?php else : ?>
-	
+
     <strong style="margin-top:10px; margin-bottom: 10px; display:block;">Incomplete retouraanvragen</strong>
 	<table class="tbl" border="0" cellspacing="0">
 		<tr>
@@ -75,7 +73,6 @@ if ($incomplete->num_rows() === 0) : ?>
 			<th>Openstaand</th>
 			<th>Naam</th>
 			<th>IBAN</th>
-			<th>BIC</th>
 			<th>Omschrijving</th>
 			<th>Aangevraagd</th>
 		</tr>
@@ -91,7 +88,6 @@ if ($incomplete->num_rows() === 0) : ?>
 			</td>
 			<td><?php echo $incomplete->f('name'); ?></td>
 			<td><?php echo str_replace(' ', '', $incomplete->f('iban')); ?></td>
-			<td><?php echo str_replace(' ', '', $incomplete->f('bic')); ?></td>
 			<td><?php echo $incomplete->f('description'); ?></td>
 			<td><?php echo $incomplete->f('created_at'); ?></td>
 		</tr>

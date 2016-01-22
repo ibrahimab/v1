@@ -35,13 +35,12 @@ class RefundRequest {
 			'boeking_id'  => $data['boeking_id'],
 			'name'		  => $data['name'],
 			'iban'		  => $data['iban'],
-			'bic'		  => $data['bic'],
 			'description' => $data['description'],
 			'amount'	  => $data['amount'],
 		);
 
-		self::query('INSERT INTO `boeking_retour` (`boeking_id`, `naam`, `iban`, `bic`, `omschrijving`, `openstaand`)
-					 VALUES (:boeking_id, :name, :iban, :bic, :description, :amount)', $values);
+		self::query('INSERT INTO `boeking_retour` (`boeking_id`, `naam`, `iban`, `omschrijving`, `openstaand`)
+					 VALUES (:boeking_id, :name, :iban, :description, :amount)', $values);
 	}
 
 	/**
@@ -56,12 +55,11 @@ class RefundRequest {
 			'boeking_retour_id' => $id,
 			'name'		        => $data['name'],
 			'iban'		        => $data['iban'],
-			'bic'		        => $data['bic'],
 			'description'       => $data['description'],
 			'amount'	        => $data['amount'],
 		);
 
-		$q = self::query('UPDATE `boeking_retour` SET `naam` = :name, `iban` = :iban, `bic` = :bic, `omschrijving` = :description, `openstaand` = :amount
+		$q = self::query('UPDATE `boeking_retour` SET `naam` = :name, `iban` = :iban, `omschrijving` = :description, `openstaand` = :amount
 					 WHERE  `boeking_retour_id` = :boeking_retour_id', $values);
 	}
 
@@ -74,7 +72,7 @@ class RefundRequest {
 	public function all($boeking_id = null, $filters = []) {
 
 		$sql[]= 'SELECT `br`.`boeking_retour_id`, `br`.`boeking_id`, `br`.`naam` AS `name`,
-				   	    `b`.`boekingsnummer` AS `reservation_number`, `br`.`iban`, `br`.`bic`,
+				   	    `b`.`boekingsnummer` AS `reservation_number`, `br`.`iban`,
 				 	    `br`.`omschrijving` AS `description`, `br`.`openstaand` AS `amount`,
 				 	    DATE_FORMAT(`br`.`aangemaakt_op`, \'%d-%m-%Y %H:%i:%s\') AS `created_at`,
 				 	    DATE_FORMAT(`br`.`betaald_op`, \'%d-%m-%Y %H:%i:%s\') AS `paid_at`

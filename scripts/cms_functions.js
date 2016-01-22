@@ -1881,16 +1881,6 @@ function retourbetaling_goedkeuren(theLink, msg, bedrag) {
 var check_iban = (function(e){var t=e.replace(/ /g,"").toUpperCase(),n="",r=true,i="",s="",o,u,a,f,l,c,h,p,d;o=t.substring(0,2);c={AL:"\\d{8}[\\dA-Z]{16}",AD:"\\d{8}[\\dA-Z]{12}",AT:"\\d{16}",AZ:"[\\dA-Z]{4}\\d{20}",BE:"\\d{12}",BH:"[A-Z]{4}[\\dA-Z]{14}",BA:"\\d{16}",BR:"\\d{23}[A-Z][\\dA-Z]",BG:"[A-Z]{4}\\d{6}[\\dA-Z]{8}",CR:"\\d{17}",HR:"\\d{17}",CY:"\\d{8}[\\dA-Z]{16}",CZ:"\\d{20}",DK:"\\d{14}",DO:"[A-Z]{4}\\d{20}",EE:"\\d{16}",FO:"\\d{14}",FI:"\\d{14}",FR:"\\d{10}[\\dA-Z]{11}\\d{2}",GE:"[\\dA-Z]{2}\\d{16}",DE:"\\d{18}",GI:"[A-Z]{4}[\\dA-Z]{15}",GR:"\\d{7}[\\dA-Z]{16}",GL:"\\d{14}",GT:"[\\dA-Z]{4}[\\dA-Z]{20}",HU:"\\d{24}",IS:"\\d{22}",IE:"[\\dA-Z]{4}\\d{14}",IL:"\\d{19}",IT:"[A-Z]\\d{10}[\\dA-Z]{12}",KZ:"\\d{3}[\\dA-Z]{13}",KW:"[A-Z]{4}[\\dA-Z]{22}",LV:"[A-Z]{4}[\\dA-Z]{13}",LB:"\\d{4}[\\dA-Z]{20}",LI:"\\d{5}[\\dA-Z]{12}",LT:"\\d{16}",LU:"\\d{3}[\\dA-Z]{13}",MK:"\\d{3}[\\dA-Z]{10}\\d{2}",MT:"[A-Z]{4}\\d{5}[\\dA-Z]{18}",MR:"\\d{23}",MU:"[A-Z]{4}\\d{19}[A-Z]{3}",MC:"\\d{10}[\\dA-Z]{11}\\d{2}",MD:"[\\dA-Z]{2}\\d{18}",ME:"\\d{18}",NL:"[A-Z]{4}\\d{10}",NO:"\\d{11}",PK:"[\\dA-Z]{4}\\d{16}",PS:"[\\dA-Z]{4}\\d{21}",PL:"\\d{24}",PT:"\\d{21}",RO:"[A-Z]{4}[\\dA-Z]{16}",SM:"[A-Z]\\d{10}[\\dA-Z]{12}",SA:"\\d{2}[\\dA-Z]{18}",RS:"\\d{18}",SK:"\\d{20}",SI:"\\d{15}",ES:"\\d{20}",SE:"\\d{20}",CH:"\\d{5}[\\dA-Z]{12}",TN:"\\d{20}",TR:"\\d{5}[\\dA-Z]{17}",AE:"\\d{3}\\d{16}",GB:"[A-Z]{4}\\d{14}",VG:"[\\dA-Z]{4}\\d{16}"};l=c[o];if(typeof l!=="undefined"){h=new RegExp("^[A-Z]{2}\\d{2}"+l+"$","");if(!h.test(t)){return false}}u=t.substring(4,t.length)+t.substring(0,4);for(p=0;p<u.length;p++){a=u.charAt(p);if(a!=="0"){r=false}if(!r){n+="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(a)}}for(d=0;d<n.length;d++){f=n.charAt(d);s=""+i+""+f;i=s%97}return i===1});
 
 /**
- * This method checks the validity of BIC/Swift codes entered
- *
- * @copyright http://networking.mydesigntool.com/viewtopic.php?tid=307&id=31
- * @author    Ibrahim Abdullah <ibrahim@chalet.nl>
- * @param     String
- * @return 	  Boolean
- */
-var check_bic  = (function(e){var t=/^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$/;return t.test(e)});
-
-/**
  * This functions transforms european number format
  * to javascript readable number
  *
@@ -2024,7 +2014,6 @@ function validate_refund_form(form, success) {
    form.find('[data-role="refund-request-form-label"]').removeClass(error_class);
 
    // find out if land code is United States (= 10)
-   var use_bic  = form.data('land-code') === 10;
    var use_iban = fields.iban !== 'n.n.b.';
 
    /**
@@ -2053,12 +2042,6 @@ function validate_refund_form(form, success) {
 
        form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-iban"]').addClass(error_class);
        errors.push('iban');
-   }
-
-   if ((use_bic && false === check_bic(fields.bic)) || ($.trim(fields.bic) === '')) {
-
-       form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-bic"]').addClass(error_class);
-       errors.push('bic');
    }
 
    if (errors.length === 0) {
