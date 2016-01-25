@@ -158,6 +158,12 @@ if($vars["lokale_testserver"]) {
 	// $db->log_slow_queries_time=.1;
 }
 
+/**
+ * This variable defines the development e-mail that will forward
+ * all developer e-mails to the respective developers.
+ */
+$vars['development_team_mail'] = 'developers@chalet.nl';
+
 
 if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	// // log slow queries
