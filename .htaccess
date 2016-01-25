@@ -675,6 +675,10 @@ php_value memory_limit 512M
 php_value memory_limit 512M
 </Files>
 
+<Files ciao-tutti-special.pdf>
+Header set X-Robots-Tag "noindex, nofollow"
+</Files>
+
 <IfModule mod_expires.c>
 	#
 	# mod_headers en mod_expires
