@@ -35,9 +35,10 @@ class MongoWrapper
 			$replicaSetOptions = ['connect' => true, 'replicaSet' => $replicaSet];
 			$this->mongodb     = new MongoClient($server, (false === $replicaSet ? $defaultOptions : $replicaSetOptions));
 			$this->db          = $this->mongodb->{$database};
+			$this->exception   = null;
 
 		} catch (\Exception $e) {
-			$this->error = true;
+			$this->exception = $e;
 		}
 	}
 
@@ -54,7 +55,7 @@ class MongoWrapper
 	 */
 	public function connected()
 	{
-		return $this->error !== true;
+		return (false === $this->hasError());
 	}
 
 	/**
@@ -65,7 +66,7 @@ class MongoWrapper
 	 */
 	public function getFiles($collectionName, $fileId)
 	{
-		if (true === $this->error) {
+		if (true === $this->hasError()) {
 			return [];
 		}
 
@@ -84,7 +85,7 @@ class MongoWrapper
 	 */
 	public function getFirstFilesByKind($collectionName, $fileIds, $kinds)
 	{
-		if (true === $this->error) {
+		if (true === $this->hasError()) {
 			return [];
 		}
 
@@ -104,7 +105,7 @@ class MongoWrapper
 	 */
 	public function getAllFilesByKind($collectionName, $fileIds, $kinds)
 	{
-		if (true === $this->error) {
+		if (true === $this->hasError()) {
 			return [];
 		}
 
@@ -123,7 +124,7 @@ class MongoWrapper
 	 */
 	public function getAllFiles($collectionName, $fileIds)
 	{
-		if (true === $this->error) {
+		if (true === $this->hasError()) {
 			return [];
 		}
 
@@ -141,7 +142,7 @@ class MongoWrapper
 	 */
 	public function getAllMainFiles($collectionName, $fileIds)
 	{
-		if (true === $this->error) {
+		if (true === $this->hasError()) {
 			return [];
 		}
 
@@ -160,7 +161,7 @@ class MongoWrapper
 	 */
 	public function getFile($collectionName, $_id)
 	{
-		if (true === $this->error) {
+		if (true === $this->hasError()) {
 			return [];
 		}
 
@@ -177,7 +178,7 @@ class MongoWrapper
 	 */
 	public function maxRank($collectionName, $fileId)
 	{
-		if (true === $this->error) {
+		if (true === $this->hasError()) {
 			return 0;
 		}
 
@@ -314,5 +315,21 @@ class MongoWrapper
 		$collection->insert($data);
 
 		return $data['_id'];
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasError()
+	{
+		return (null !== $this->exception);
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getException()
+	{
+		return (true === $this->hasError() ? $this->exception : null);
 	}
 }

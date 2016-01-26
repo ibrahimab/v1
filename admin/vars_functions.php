@@ -1,5 +1,8 @@
 <?php
 
+use Chalet\Mailer\Mailer;
+use Chalet\Encoder\Encoder;
+
 function txt($id,$page="",$settings=array(""),$html=false) {
 	global $vars,$txt,$txta,$path,$gegevens,$boeking_bepaalt_taal,$txt_al_getoond,$woorden_toegestaan;
 	if($boeking_bepaalt_taal and is_array($gegevens)) {
@@ -4717,150 +4720,57 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	#
 	# Functie om opgemaakte mail (met header-afbeelding) te verzenden
 	#
+	global $vars, $unixdir;
 
-	global $vars,$unixdir;
-
-
-	if(!$website) $website=$vars["website"];
-
-	$topfoto="pic/mailheader/".$website.".jpg";
-
-	if(file_exists($vars["unixtime"].$topfoto)) {
-		$topfoto_size=getimagesize($vars["unixtime"].$topfoto);
+	if (!is_array($settings)) {
+		$settings = [];
 	}
 
-	if($settings["convert_to_html"]) {
+	$getSetting = function($identifier, $default) use ($settings) {
+		return (isset($settings[$identifier]) ? $settings[$identifier] : $default);
+	};
 
-		if($settings["make_clickable"]) {
-			$body = preg_replace("@([^=>\"]|^)(https?://[a-zA-Z0-9\./?&%=\-_\(#!\@]+)@","\\1[link=\\2]\\2[/link]",$body);
-		}
+	$settings['add_to_basehref'] = $getSetting('add_to_basehref', '');
 
-		$body=wt_he($body);
+    $mailer = new Mailer([
 
-		$body=nl2br($body);
+	    'convert_to_html' => $getSetting('convert_to_html', false),
+	    'make_clickable'  => $getSetting('make_clickable', false),
+	    'add_to_basehref' => $getSetting('add_to_basehref', ''),
+	    'no_header_image' => $getSetting('no_header_image', false),
+	    'attachments'	  => $getSetting('attachment', []),
+	]);
 
-		# [link=http://url/]tekst[/link] omzetten
-		$body=preg_replace("/\[link=(https?[^]]+)\](.*)\[\/link\]/","<a href=\"\\1\">\\2</a>",$body);
+    $website      = !$website ? $vars['website'] : $website;
+    $taal         = $vars['taal'];
+    $vars['taal'] = $vars['websiteinfo']['taal'][$website];
+	$signature    = html('hetteamvan', 'vars', ['v_websitenaam' => $vars['websiteinfo']['websitenaam'][$website], 'h_1' => '<a href="' . wt_he($vars['websiteinfo']['basehref'][$website] . $settings['add_to_basehref']) . '">', 'h_2' => '</a>']) . '<br/>' . html('telefoonnummer');
+	$vars['taal'] = $taal;
 
-		# [b] bold
-		$body=preg_replace("/\[b\](.*)\[\/b\]/","<b>\\1</b>",$body);
-
-		# [i] italics
-		$body=preg_replace("/\[i\](.*)\[\/i\]/","<i>\\1</i>",$body);
-
-		# [ul] u-list
-		$body=preg_replace("/\[ul\](.*)\[\/ul\]/s","<ul>\\1</ul>",$body);
-
-		# [li] list-item
-		$body=preg_replace("/\[li\](.*)\[\/li\]/","<li style=\"margin-bottom:1.5em;\">\\1</li>",$body);
-
-		$body=str_replace("</li><br />\n<li>","</li><li>",$body);
-		$body=str_replace("</li><br />\n<li ","</li><li ",$body);
+	/**
+	 * @todo refactor this into the service container
+	 */
+	$encoding = Encoder::ENCODING_PHP_DEFAULT;
+	if ($vars['wt_htmlentities_cp1252']) {
+		$encoding = Encoder::ENCODING_WINDOWS_1252;
+	} elseif ($vars['wt_htmlentities_utf8']) {
+		$encoding = Encoder::ENCODING_UTF8;
 	}
 
-	if(preg_match("/\[ondertekening\]/",$body)) {
-
-		$temp_taal=$vars["taal"];
-
-		$vars["taal"]=$vars["websiteinfo"]["taal"][$website];
-		$ondertekening=html("hetteamvan","vars",array("v_websitenaam"=>$vars["websiteinfo"]["websitenaam"][$website],"h_1"=>"<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website].$settings["add_to_basehref"])."\">","h_2"=>"</a>"))."<br/>".html("telefoonnummer");
-		$body=preg_replace("/\[ondertekening\]/",$ondertekening,$body);
-
-		$vars["taal"]=$temp_taal;
-
-	}
-
-	// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
-	//	$mail=new wt_mail2;
-	// } else {
-	//	$mail=new wt_mail;
-	// }
-	$mail=new wt_mail;
-
-	# header-attachment toevoegen
-	if(!$settings["no_header_image"]) {
-		$cid=$mail->attachment($unixdir.$topfoto,"image/jpeg",true);
-	}
-
-	# attachments toevoegen
-	if(is_array($settings["attachment"])) {
-		foreach ($settings["attachment"] as $key => $value) {
-			$mail->attachment($key,"",false,$value);
-		}
-	}
-
-	# from
-	if($settings["from"]) {
-		$mail->from=$settings["from"];
-	} else {
-		$mail->from=$vars["websiteinfo"]["email"][$website];
-	}
-
-	// return-path
-	if($website and $vars["websiteinfo"]["email"][$website]) {
-		$mail->returnpath=$vars["websiteinfo"]["email"][$website];
-	}
+	$mailer->setEncoder(new Encoder($encoding));
+	$mailer->setSubject($subject);
+	$mailer->setWebsite($website);
+	$mailer->setWebsiteInfo($vars['websiteinfo']);
+	$mailer->setPath($vars['unixdir']);
+	$mailer->setSignature('ondertekening', $signature);
+	$mailer->setFrom($getSetting('from', null), $getSetting('fromname', null));
+	$mailer->setTo($to, $toname);
+	$mailer->setReplyTo($getSetting('replyto', null));
+	$mailer->setBcc($getSetting('bcc', null));
+	$mailer->setBody($body, Mailer::MULTIPART_HTML);
 
 
-	# fromname
-	if($settings["fromname"]) {
-		$mail->fromname=$settings["fromname"];
-	} else {
-		$mail->fromname=$vars["websiteinfo"]["websitenaam"][$website];
-	}
-
-	# reply-to
-	if($settings["replyto"]) {
-		$mail->replyto = $settings["replyto"];
-	}
-
-	# subject
-	$mail->subject=$subject;
-
-	# to
-	$mail->to=$to;
-
-
-	// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	//	$mail->to="jeroen@webtastic.nl";
-	//	$mail->to="mmtest@postvak.net";
-	//	$mail->test=false;
-	// }
-
-	# toname
-	if($toname) {
-		$mail->toname=$toname;
-	}
-
-	# bcc versturen?
-	if($settings["bcc"]) {
-		$mail->bcc=$settings["bcc"];
-	}
-
-	$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-	$mail->html_top="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style><!--\na:hover { color:#888888; }\n--></style>\n</head><body bgcolor=\"#ffffff\" style=\"background-color:#ffffff;margin:0;padding:0;\"><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" bgcolor=\"#ffffff\" style=\"background-color:#ffffff;width:100%;\"><tr><td align=\"center\" width=\"100%\" style=\"background-color:#ffffff;width:100%;\"><br><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"681\" style=\"background-color:#ffffff;\"><tr><td>";
-
-
-	# topfoto
-	if($settings["no_header_image"]) {
-		$mail->html_top.="&nbsp;";
-	} else {
-		$mail->html_top.="<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website].$settings["add_to_basehref"])."\">";
-		if($cid) {
-			$mail->html_top.="<img src=\"cid:".$cid."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\">";
-		} else {
-			$mail->html_top.="<img src=\"".wt_he($vars["websiteinfo"]["basehref"][$website]).$topfoto."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\">";
-		}
-		$mail->html_top.="</a><br/>&nbsp;";
-	}
-
-	$mail->html_top.="</td></tr><tr><td style=\"font-family: Verdana, Helvetica, Arial, sans-serif;line-height: 14pt;font-size: 10pt;padding-top:10px;\">\n";
-
-	$mail->html_bottom="<br/>&nbsp;</td></tr></table></td></tr></table></body></html>\n";
-
-	$mail->html=$body;
-	$mail->send();
-
+	return $mailer->send();
 }
 
 function toonreserveringskosten($costs = null) {
