@@ -20,9 +20,26 @@ class tablelist {
 		$tl->sort_desc=true;
 
 		$tl->field_show("show.php?id=[ID]","Details bekijken");
+
 		$tl->field_text("naam","Naam");
 		$tl->field_text("email","E-mail");
-		$tl->field_text("lastlogin","Laatste login");
+
+		// callable
+		$check_for_lastlogin = function($fieldvalue) {
+
+			if (!empty($fieldvalue['value'])) {
+				$datetime = strtotime($fieldvalue['value']);
+
+				if ($datetime < time()-864000) {
+					return 'long-ago';
+				}
+			}
+			return false;
+		};
+
+		$tl->field_text("lastlogin","Laatste login", "", array("td_class_based_on_function"=>$check_for_lastlogin));
+
+
 		while($db->next_record()) {
 			# add_record($id,$key,$value,$sortvalue="",$datetime=false,$options="")
 			$tl->add_record("naam",$db->f("user_id"),$db->f("voornaam"));
@@ -159,6 +176,25 @@ class tablelist {
 				if(strlen($sortvalue)<12 and ereg("^[0-9\.]+$",$sortvalue)) $sortvalue=substr("000000000000000".$sortvalue,-14);
 			}
 		}
+
+		if (is_callable($this->fields["options"][$id]["td_class_based_on_function"])) {
+			//
+			// call anonymous function to determine the css class for this <td>
+			//
+
+			// values to pass to the function
+			$pass_to_callable = array('value'=>$value, 'sortvalue'=>$sortvalue);
+
+			$td_class_based_on_function = $this->fields["options"][$id]["td_class_based_on_function"]($pass_to_callable);
+
+			if ($td_class_based_on_function) {
+
+				$this->fields["td_class_specific"][$id][$key] .= ' ' . $td_class_based_on_function;
+				$this->fields["td_class_specific"][$id][$key] = trim($this->fields["td_class_specific"][$id][$key]);
+
+			}
+		}
+
 
 		if(isset($options["html"]) and $options["html"]) $this->fields["options"][$id][$key]=$options;
 
@@ -420,6 +456,10 @@ class tablelist {
 
 					if($this->fields["layout"][$key2]["td_class"]) {
 						$tdclass .= " ".$this->fields["layout"][$key2]["td_class"];
+					}
+
+					if ($this->fields["td_class_specific"][$key2][$key]) {
+						$tdclass .= ' ' . $this->fields["td_class_specific"][$key2][$key];
 					}
 
 					if($this->fields["type"][$key2]=="currency") {

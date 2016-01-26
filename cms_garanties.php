@@ -169,7 +169,21 @@ if($_GET["status"]==1) {
 	$cms->list_field(34,"boeking_id","Boeking");
 } elseif($_GET["status"]==5) {
 	$cms->list_field(34,"optie_klantnaam","Klantnaam");
-	$cms->list_field(34,"optie_einddatum","Optie-einddatum",array("date_format"=>"DD-MM-JJJJ UU:ZZ", "sort_empty_below"=>true));
+
+	// function to check if optie_einddatum has passed. If so: use css-class error
+	$check_for_deadline = function($fieldvalue) {
+
+		if (!empty($fieldvalue['value'])) {
+			$datetime = strtotime($fieldvalue['value']);
+
+			if ($datetime < time()) {
+				return 'error';
+			}
+		}
+		return false;
+	};
+
+	$cms->list_field(34,"optie_einddatum","Optie-einddatum",array("date_format"=>"DD-MM-JJJJ UU:ZZ", "sort_empty_below"=>true, "td_class_based_on_function"=>$check_for_deadline));
 	$cms->list_field(34,"optie_opmerkingen_intern_popup","Intern","",array("html"=>true));
 
 } else {
