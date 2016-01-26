@@ -1,4 +1,10 @@
 <?php
+
+$error = include __DIR__ . '/status.php';
+if (true === $error) {
+    return;
+}
+
 $id              = intval($uploaderData['id']);
 $accommodationId = intval($uploaderData['accommodationId']);
 $collection      = $uploaderData['collection'];
