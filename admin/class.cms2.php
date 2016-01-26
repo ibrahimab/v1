@@ -1,64 +1,11 @@
 <?php
 
-
-
-
-# 6 december, gebleven bij:
-# - productgroepen
-# - merken
-# - series
-# - bestellingen
-#
-
-
-#
-# 21 februari, gebleven bij:
-# - delete-icon bij een show-pagina
-# - exposities
-# - transactie toevoegen vanuit kunstwerken.php
-# - "terug naar" in geval van "back_link"
-
-#
-# NOG DOEN:
-# - Maxsize textfield op basis van database-gegevens
-# - verschil tussen persoon en bedrijf bij <SELECT>-invulvelden
-# - $_GET[$counter."mt"] weghalen (en controleren of het bij alle sites goed werkt)
-#
-#
-#
-#
-# Nieuwe form-class
-# wt_naam
-# koppeltabel (n:n)
-# tabellen met primary key zonder id/autoincrement
-# kleine afbeeldingen in database?
-# wherequery
-# tabel met meerdere primary keys
-# date bij show_rightcell (bij end_decleration)
-# bij list:
-#	- markeren voor wissen (met checkbox)
-#
-# bij edit:
-#	- check op correct INSERTen/UPDATEen (indien primkey al bestaat)
-#
-
-#
-# UITLEG ALLE _FIELD-FUNCTIONS
-#
-# ===========
-# list_field:
-# ===========
-# options:
-#	- selection
-#
-#
-#
-# Uitleg _GET-fields
-# flqs = former list query string
-# flf = former list file
-# fsqs = former show query string
-#
-#
+/**
+ * class to generate a CRUD CMS
+ *
+ * @package default
+ * @author  Jeroen Boschman <jeroen@webtastic.nl>
+ **/
 
 class cms2 {
 
@@ -205,12 +152,6 @@ class cms2 {
 		$this->settings["message"]["aangevinkterecordswissen"]["nl"]="Aangevinkte _VALveldnaam_ wissen";
 		$this->settings["message"]["aangevinkterecordswissen"]["en"]="Delete checkbox _VALveldnaam_";
 		$this->settings["message"]["aangevinkterecordswissen"]["fr"]="Delete checkbox _VALveldnaam_";
-
-#		$this->settings["message"][""]["nl"]="";
-#		$this->settings["message"][""]["en"]="";
-#		$this->settings["message"][""]["nl"]="";
-#		$this->settings["message"][""]["en"]="";
-
 
 		if($vars["wt_htmlentities_utf8"]) {
 			foreach ($this->settings["message"] as $key => $value) {
@@ -693,6 +634,11 @@ class cms2 {
 				if($this->list[$counter]["layout"][$key]["td_class"]) {
 					// layout: td class
 					$list_layout["td_class"]=$this->list[$counter]["layout"][$key]["td_class"];
+				}
+
+				// td_class_based_on_function
+				if (!empty($this->list[$counter]["options"][$key]["td_class_based_on_function"])) {
+					$list_options["td_class_based_on_function"] = $this->list[$counter]["options"][$key]["td_class_based_on_function"];
 				}
 
 				if($this->list[$counter]["options"][$key]["index_field"]) {
