@@ -433,14 +433,14 @@ if($_GET["uitgaand"]==1) {
 				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
 			}
 			echo "<p>";
-			echo "<div style=\"float:left;\">";
-			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#ffa9a9;\">Rood</span> = boeking waarbij aanmaning is uitgezet</div>";
-			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#a6ffb3;\">Groen</span> = openstaand bedrag waarvan de <i>volledige betaling</i> al is goedgekeurd</div>";
-			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#94d3ff;\">Blauw</span> = openstaand bedrag waarvan een <i>gedeeltelijke betaling</i> al is goedgekeurd</div>";
-            echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#FDFF86;\">Geel</span> = Incomplete aanvraag retour te storten bedrag in systeem</div>";
-            echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#FFAE00;\">Oranje</span> = Complete aanvraag retour te storten bedrag in systeem</div>";
-			echo "</div>";
-            
+			echo '<table>';
+			echo '<tr><td style="background-color:#ffa9a9;">Rood</td><td>=</td><td>boeking waarbij aanmaning is uitgezet</td></tr>';
+			echo '<tr><td style="background-color:#a6ffb3;">Groen</td><td>=</td><td>openstaand bedrag waarvan de <i>volledige betaling</i> al is goedgekeurd</td></tr>';
+			echo '<tr><td style="background-color:#94d3ff;">Blauw</td><td>=</td><td>openstaand bedrag waarvan een <i>gedeeltelijke betaling</i> al is goedgekeurd</td></tr>';
+            echo '<tr><td style="background-color:#FDFF86;">Geel</td><td>=</td><td>Incomplete aanvraag retour te storten bedrag in systeem</td></tr>';
+            echo '<tr><td style="background-color:#FFAE00;">Oranje</td><td>=</td><td>Complete aanvraag retour te storten bedrag in systeem</td></tr>';
+            echo '</table>';
+
 			echo "<div style=\"float:right;margin-top:-30px;\">";
 			echo "<table>";
 			echo "<form method=\"get\">";
@@ -650,16 +650,19 @@ if($_GET["uitgaand"]==1) {
 					}
 					echo "<td nowrap>".date("d-m-y",$db->f("aankomstdatum_exact"))."</td>".($laatstefactuur[$db->f("boeking_id")]>0 ? "<td align=\"right\" title=\"Laatste factuur: ".DATUM("DAG D MAAND JJJJ",$laatstefactuur[$db->f("boeking_id")])."\">".strftime("%e %b",$laatstefactuur[$db->f("boeking_id")]) : "<td>&nbsp;")."</td><td align=\"right\">".number_format($totaal,2,",",".")."</td><td align=\"right\">".number_format($voldaan,2,",",".")."</td>";
 
-					# Achtergrondkleur en hovertext van de cel "Openst." bepalen
+					// Achtergrondkleur en hovertext van de cel "Openst." bepalen
 					$cel_bgcolor="#ffffff";
 					$hovertext="";
-                    
+
                     if (array_key_exists($db->f('boeking_id'), $refunds)) {
-                        if (null !== $refunds[$db->f('boeking_id')]['betaald_op']) {
+
+                    	// when there is a payed refund and
+                        if ($refunds[$db->f('boeking_id')]['betaald_op_counter'] === $refunds[$db->f('boeking_id')]['counter'] && $toonopenstaand - $refunds[$db->f('boeking_id')]['openstaand'] == 0) {
                             $cel_bgcolor = '#A6FFB3';
                         }
+
                     }
-                    
+
 					if($db->f("goedgekeurde_betaling")>0) {
 						if($toonopenstaand>0) {
 							if($db->f("goedgekeurde_betaling")>=$toonopenstaand) {
@@ -672,6 +675,7 @@ if($_GET["uitgaand"]==1) {
 						}
 					} elseif($db->f("goedgekeurde_betaling")<0) {
 						if($toonopenstaand<0) {
+
 							if($db->f("goedgekeurde_betaling")<=$toonopenstaand) {
 								$cel_bgcolor="#a6ffb3";
 								$hovertext="goedgekeurde retourbetaling: &euro;&nbsp;".number_format(abs($db->f("goedgekeurde_betaling")),2,",",".");
@@ -682,12 +686,12 @@ if($_GET["uitgaand"]==1) {
 							}
 						}
 					}
-                    
+
                     if (array_key_exists($db->f('boeking_id'), $refunds)) {
-                        
-                        if ($refunds[$db->f('boeking_id')]['iban'] === 'n.n.b.') {
+
+                        if ($refunds[$db->f('boeking_id')]['iban_counter'] < $refunds[$db->f('boeking_id')]['counter']) {
                             $cel_bgcolor = '#fdff86';
-                        } else if (null === $refunds[$db->f('boeking_id')]['betaald_op']) {
+                        } else if ($refunds[$db->f('boeking_id')]['betaald_op_counter'] < $refunds[$db->f('boeking_id')]['counter']) {
                             $cel_bgcolor = '#FFAE00';
                         }
                     }
@@ -733,4 +737,3 @@ if($_GET["uitgaand"]==1) {
 #	}
 
 }
-?>

@@ -143,7 +143,6 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 				<th>Naam</th>
 				<th>Omschrijving</th>
 				<th>IBAN</th>
-				<th>BIC</th>
 				<th>Bedrag</th>
 				<th>Aangevraagd op</th>
 				<th>Betaald op</th>
@@ -152,7 +151,7 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 			<tr>
                 <td class="tbl_icon tbl_icon_edit">
                     <?php if (null === $refunds->f('paid_at')) : ?>
-                        <a href="#" data-role="update-refund-request" data-form-data='{"boeking_retour_id": <?php echo $refunds->f('boeking_retour_id'); ?>,"amount": "<?php echo number_format($refunds->f('amount'), 2, ',', ''); ?>", "name": "<?php echo $refunds->f('name'); ?>", "iban": "<?php echo $refunds->f('iban'); ?>", "bic": "<?php echo $refunds->f('bic'); ?>", "description": "<?php echo trim($refunds->f('description')); ?>"}'>
+                        <a href="#" data-role="update-refund-request" data-form-data='{"boeking_retour_id": <?php echo $refunds->f('boeking_retour_id'); ?>,"amount": "<?php echo number_format($refunds->f('amount'), 2, ',', ''); ?>", "name": "<?php echo $refunds->f('name'); ?>", "iban": "<?php echo $refunds->f('iban'); ?>", "description": "<?php echo trim($refunds->f('description')); ?>"}'>
                             <img src="<?php echo $this->settings["path"]."pic/class.cms_edit.gif"; ?>" />
                         </a>
                     <?php endif; ?>
@@ -167,12 +166,11 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 				<td><?php echo $refunds->f('name'); ?></td>
 				<td><?php echo $refunds->f('description'); ?></td>
 				<td><?php echo str_replace(' ', '', $refunds->f('iban')); ?></td>
-				<td><?php echo str_replace(' ', '', $refunds->f('bic')); ?></td>
 				<td>
 					&euro; <?php echo number_format($refunds->f('amount'), 2, ',', '.'); ?>
 				</td>
 				<td><?php echo $refunds->f('created_at'); ?></td>
-				<td style="text-align: center;" data-role="paid-at"><?php echo ($refunds->f('paid_at') === null ? 'n.v.t.' : $refunds->f('paid_at')); ?></td>
+				<td style="text-align: left;" data-role="paid-at"><?php echo ($refunds->f('paid_at') === null ? 'n.v.t.' : $refunds->f('paid_at')); ?></td>
 			</tr>
 			<?php endwhile; ?>
 		</table><br /><hr />
@@ -201,10 +199,6 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
                                     <tr>
                                         <td><label for="refund-request-form-label-iban" data-role="refund-request-form-label">IBAN</label></td>
                                         <td><input type="text" name="iban" class="ui-widget-content ui-corner-all" value="n.n.b." /></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="refund-request-form-label-bic" data-role="refund-request-form-label">BIC</label></td>
-                                        <td><input type="text" name="bic" class="ui-widget-content ui-corner-all" value="' . ($gegevens['stap1']['landcode'] != 10 ? 'n.v.t.' : '') . '" /></td>
                                     </tr>
                                     <tr>
                                         <td><label for="refund-request-form-label-description" data-role="refund-request-form-label">Omschrijving</label></td>
@@ -304,6 +298,4 @@ if($login->has_priv("5") and !$_GET["overbetaling"]) {
 		}
 		echo "</tbody></table>";
 	}
-
 }
-?>
