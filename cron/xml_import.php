@@ -44,39 +44,38 @@ function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $w
 	return $xml;
 }
 
-function get_slow_suppliers($xml_type) {
-	//
-	// Determine if Posarelli (8), Marche Holiday (14), Interhome(23) should be downloaded (because downloading these suppliers takes a long time)
-	//
+/**
+ * @param integer $xmlType
+ * @param integer $currentHour
+ * @return bool
+ */
+function getSlowSuppliers($xmlType, $currentHour) {
 
-	global $current_hour;
+	$timeSchedule = [
 
-	if($xml_type==8) {
-		// Posarelli (8)
-		if($current_hour==3) {
-			return true;
-		} else {
-			return false;
-		}
-	} elseif($xml_type==14) {
+		8  => [3, 11, 15, 19],
+		14 => [0, 3, 6, 9, 12, 15, 18, 22],
+		23 => [23],
+	];
+
+	if ($xmlType == 8) {
+
+		// Posarelli (8) increased frequency following request from Brenda
+		return in_array($currentHour, $timeSchedule[8];
+
+	} elseif ($xmlType == 14) {
+
 		// Marche Holiday (14)
-		if($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==9 or $current_hour==12 or $current_hour==15 or $current_hour==18 or $current_hour==22) {
+		return in_array($currentHour, $timeSchedule[14];
 
-			// temporaily: Marche Holiday (14): always true
-			return true;
+	} elseif ($xmlType == 23) {
 
-		} else {
-			// return false;
-			return true;
-		}
-	} elseif($xml_type==23) {
 		// Interhome (23)
-		if($current_hour==3) {
-			return true;
-		} else {
-			return false;
-		}
+		return in_array($currentHour, $timeSchedule[23]);
+
 	}
+
+	return false;
 }
 
 $track_time = microtime(true);
@@ -266,7 +265,8 @@ $xml_urls[7][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=e
 #$xml_urls[7][2]="CIS / Bellecôte Chalets (VVE)" (tarieven werken met losse XML's per accommodatie)
 
 # Posarelli
-if(get_slow_suppliers(8) or $argv[1]) {
+if (getSlowSuppliers(8, $current_hour) || $argv[1]) {
+
 	$xml_urls[8][1]="http://export.easyreserve.com/cha_availability.xml";
 	$xml_urls[8][2]="http://export.easyreserve.com/cha_unitrates.xml";
 	$xml_urls[8][3]="http://export.easyreserve.com/cha_unit.xml"; # lastminutes
@@ -292,7 +292,7 @@ $xml_urls[12][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=122&top=3037&qry=
 $soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
 
 # Marche Holiday
-if(get_slow_suppliers(14) or $argv[1]) {
+if (getSlowSuppliers(14, $current_hour) || $argv[1]) {
 	$soap_urls[14] = $unixdir."suppliers/marche/index.php";
 }
 
@@ -332,7 +332,7 @@ $xml_urls[22][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=ex
 #$xml_urls[22][2]="Nexity" (tarieven werken met losse XML's per accommodatie)
 
 # Interhome
-if(get_slow_suppliers(23)or $argv[1]) {
+if (getSlowSuppliers(23, $current_hour) || $argv[1]) {
 	$soap_urls[23] = $unixdir."suppliers/interhome/index.php";
 }
 
