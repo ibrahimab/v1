@@ -44,6 +44,7 @@ class Configuration
 		$this->configdata["basehref"]                        = $vars["basehref"];
 		$this->configdata["seizoentype_namen"]               = $vars["seizoentype_namen"];
 		$this->configdata["bk_eenheid"]                      = $vars["bk_eenheid"];
+		$this->configdata["development_team_mail"]           = $vars["development_team_mail"];
 
 		$this->configdata["isMobile"]                        = $isMobile;
 		$this->configdata["voorkant_cms"]                    = $voorkant_cms;
