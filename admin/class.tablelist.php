@@ -144,6 +144,9 @@ class tablelist {
 	}
 
 	function add_record($id,$key,$value,$sortvalue="",$datetime=false,$options="") {
+
+		$original_sortvalue = $sortvalue;
+
 		if(!$sortvalue) {
 			if(is_array($this->fields["options"][$id]["sort_substring"])) {
 				# gebruik een substring als sort-value
@@ -183,7 +186,7 @@ class tablelist {
 			//
 
 			// values to pass to the function
-			$pass_to_callable = array('value'=>$value, 'sortvalue'=>$sortvalue);
+			$pass_to_callable = array('value'=>$value, 'sortvalue'=>$sortvalue, 'original_sortvalue'=>$original_sortvalue);
 
 			$td_class_based_on_function = $this->fields["options"][$id]["td_class_based_on_function"]($pass_to_callable);
 

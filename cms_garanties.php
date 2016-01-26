@@ -173,10 +173,9 @@ if($_GET["status"]==1) {
 	// function to check if optie_einddatum has passed. If so: use css-class error
 	$check_for_deadline = function($fieldvalue) {
 
-		if (!empty($fieldvalue['value'])) {
-			$datetime = strtotime($fieldvalue['value']);
+		if (!empty($fieldvalue['original_sortvalue'])) {
 
-			if ($datetime < time()) {
+			if ($fieldvalue['original_sortvalue'] < time()) {
 				return 'error';
 			}
 		}
