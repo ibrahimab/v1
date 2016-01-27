@@ -45,37 +45,22 @@ function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $w
 }
 
 /**
+ * Determine how frequent Posarelli (8), Marche Holiday (14), Interhome(23) should be downloaded (because downloading these suppliers takes a long time)
+ *
  * @param integer $xmlType
  * @param integer $currentHour
  * @return bool
  */
-function getSlowSuppliers($xmlType, $currentHour) {
+function shouldImportSlowSupplier($xmlType, $currentHour) {
 
 	$timeSchedule = [
 
 		8  => [3, 11, 15, 19],
 		14 => [0, 3, 6, 9, 12, 15, 18, 22],
-		23 => [23],
+		23 => [3],
 	];
 
-	if ($xmlType == 8) {
-
-		// Posarelli (8) increased frequency following request from Brenda
-		return in_array($currentHour, $timeSchedule[8];
-
-	} elseif ($xmlType == 14) {
-
-		// Marche Holiday (14)
-		return in_array($currentHour, $timeSchedule[14];
-
-	} elseif ($xmlType == 23) {
-
-		// Interhome (23)
-		return in_array($currentHour, $timeSchedule[23]);
-
-	}
-
-	return false;
+	return (isset($timeSchedule[$xmlType]) && in_array($currentHour, $timeSchedule[$xmlType]));
 }
 
 $track_time = microtime(true);
@@ -265,7 +250,7 @@ $xml_urls[7][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=e
 #$xml_urls[7][2]="CIS / Bellecôte Chalets (VVE)" (tarieven werken met losse XML's per accommodatie)
 
 # Posarelli
-if (getSlowSuppliers(8, $current_hour) || $argv[1]) {
+if (shouldImportSlowSupplier(8, $current_hour) || $argv[1]) {
 
 	$xml_urls[8][1]="http://export.easyreserve.com/cha_availability.xml";
 	$xml_urls[8][2]="http://export.easyreserve.com/cha_unitrates.xml";
@@ -292,7 +277,7 @@ $xml_urls[12][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=122&top=3037&qry=
 $soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
 
 # Marche Holiday
-if (getSlowSuppliers(14, $current_hour) || $argv[1]) {
+if (shouldImportSlowSupplier(14, $current_hour) || $argv[1]) {
 	$soap_urls[14] = $unixdir."suppliers/marche/index.php";
 }
 
@@ -332,7 +317,7 @@ $xml_urls[22][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=ex
 #$xml_urls[22][2]="Nexity" (tarieven werken met losse XML's per accommodatie)
 
 # Interhome
-if (getSlowSuppliers(23, $current_hour) || $argv[1]) {
+if (shouldImportSlowSupplier(23, $current_hour) || $argv[1]) {
 	$soap_urls[23] = $unixdir."suppliers/interhome/index.php";
 }
 
