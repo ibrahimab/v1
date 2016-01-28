@@ -752,7 +752,7 @@ if($db->next_record()) {
             return $label . ': ' . wt_he(distance::show($distance, $extra));
         };
 
-        if ($db->f('afstandwinkel')) {
+        if ($db->f('afstandwinkel') || $db->f('afstandwinkel') == '0') {
             $ligging .= $liggingHtml(html('afstandtotwinkels', 'toonaccommodatie'), $db->f('afstandwinkel'), $db->f('afstandwinkelextra')) . '<br />';
         }
 
@@ -760,12 +760,8 @@ if($db->next_record()) {
 			$ligging .= $liggingHtml(html('afstandrestaurantbar', 'toonaccommodatie'), $db->f('afstandrestaurant'), $db->f('afstandrestaurantextra')) . '<br />';
 		}
 
-        if ($db->f('afstandstrand')) {
+        if ($db->f('afstandstrand') || $db->f('afstandstrand') == '0') {
             $ligging .= $liggingHtml(html('afstandstrand', 'toonaccommodatie'), $db->f('afstandstrand'), $db->f('afstandstrandextra')) . '<br />';
-        }
-
-        if ($db->f('afstandbekendestad')) {
-            $ligging .= $liggingHtml(html('afstandbekendestad', 'toonaccommodatie'), $db->f('afstandbekendestad'), $db->f('afstandbekendestadextra')) . '<br />';
         }
 
 		if ($db->f('afstandbekendestad') && $db->f('bekendestad')) {
