@@ -243,7 +243,7 @@ class Mailer implements MailerInterface
         if (true === $this->getConfig('convert_to_html', false)) {
 
             if (true === $this->getConfig('make_clickable')) {
-                $body = preg_replace('/([^=>\"]|^)(https?://[a-zA-Z0-9\./?&%=\-_\(#!\@]+)/', '\\1[link=\\2]\\2[/link]', $body);
+                $body = preg_replace('/([^=>\"]|^)(https?:\/\/[a-zA-Z0-9\.\/?&%=\-_\(#!\@]+)/', '\\1[link=\\2]\\2[/link]', $body);
             }
 
             $body = $this->encoder->encode($body);
