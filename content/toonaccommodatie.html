@@ -744,6 +744,41 @@ if($db->next_record()) {
 		echo "</div>";
 	}
 
+    if ($vars['website'] === 'I') {
+
+        // ligging
+        $ligging     = '';
+        $liggingHtml = function($label, $distance, $extra) {
+            return $label . ': ' . wt_he(distance::show($distance, $extra));
+        };
+
+        if ($db->f('afstandwinkel') || $db->f('afstandwinkel') == '0') {
+            $ligging .= $liggingHtml(html('afstandtotwinkels', 'toonaccommodatie'), $db->f('afstandwinkel'), $db->f('afstandwinkelextra')) . '<br />';
+        }
+
+        if ($db->f('afstandrestaurant') || $db->f('afstandrestaurant') == '0') {
+			$ligging .= $liggingHtml(html('afstandrestaurantbar', 'toonaccommodatie'), $db->f('afstandrestaurant'), $db->f('afstandrestaurantextra')) . '<br />';
+		}
+
+        if ($db->f('afstandstrand') || $db->f('afstandstrand') == '0') {
+            $ligging .= $liggingHtml(html('afstandstrand', 'toonaccommodatie'), $db->f('afstandstrand'), $db->f('afstandstrandextra')) . '<br />';
+        }
+
+		if ($db->f('afstandbekendestad') && $db->f('bekendestad')) {
+			$ligging .= $liggingHtml(html('afstandbekendestad', 'toonaccommodatie', ['v_stad' => $db->f('bekendestad')]), $db->f('afstandbekendestad') * 1000, $db->f('afstandbekendestadextra'));
+		}
+
+        if (!empty($ligging)) {
+
+			$liggingHtml  = '<div style="margin-top: 15px;">';
+			$liggingHtml .= '<h3 class="minder_opvallend">' . html('ligging', 'toonaccommodatie') . '</h3>';
+			$liggingHtml .= $ligging;
+			$liggingHtml .= '</div>';
+
+			echo $liggingHtml;
+		}
+	}
+
 	echo "</div>";
 
 	#
