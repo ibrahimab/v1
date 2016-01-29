@@ -3,6 +3,7 @@
 namespace Chalet\Api;
 
 use Chalet\Api\Exception as ApiException;
+use Chalet\Encoder\Encoder;
 
 /**
  * @author  Ibrahim Abdullah <ibrahim@chalet.nl>
@@ -13,17 +14,12 @@ abstract class Endpoint
 	/**
 	 * @var integer
 	 */
-	private $method;
+	protected $method;
 
 	/**
 	 * @var array
 	 */
-	private $data;
-
-	/**
-	 * @var array
-	 */
-	private $requiredFields;
+	protected $data;
 
 	/**
 	 * @param integer $method
@@ -36,7 +32,7 @@ abstract class Endpoint
 			throw new ApiException(sprintf('Could not find method %s for api endpoint %s', $method, static::class));
 		}
 
-		$this->method = $method;
+		$this->method = (int)$method;
 		$this->data   = $data;
 
 		$this->checkRequired();
@@ -61,7 +57,9 @@ abstract class Endpoint
 	 */
 	public function result()
 	{
-		$result = $this->{$this->methods[$this->method]['method']};
+		$encoder = new Encoder(Encoder::ENCODING_UTF8);
+		$result  = $this->{$this->methods[$this->method]['method']}();
+		$result  = $encoder->fix($result);
 
 		return json_encode($result);
 	}

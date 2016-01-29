@@ -30,6 +30,6 @@ class Booking extends Endpoint
 	 */
 	public function getBookingInfo()
 	{
-		return \get_bookinginfo($this->data['bookingid']);
+		return \get_boekinginfo($this->data['bookingid']);
 	}
 }

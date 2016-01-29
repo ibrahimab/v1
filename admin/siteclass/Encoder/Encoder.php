@@ -77,4 +77,14 @@ class Encoder implements EncoderInterface
 
         return $result;
     }
+
+    public function fix($array)
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            $result[iconv('CP1252', 'UTF-8', $key)] = (is_array($value) ? self::fix($value) : iconv('CP1252', 'UTF-8', $value));
+        }
+
+        return $result;
+    }
 }
