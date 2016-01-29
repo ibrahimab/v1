@@ -34,6 +34,7 @@ $huidig_uur = date("H");
 if($huidig_uur>=4 and $huidig_uur<=5) {
 	sleep(10);
 	$bijkomendekosten = new bijkomendekosten;
+    $bijkomendekosten->setRedis(new wt_redis);
 	$bijkomendekosten->pre_calculate_all_types(100);
 }
 

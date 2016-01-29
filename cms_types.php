@@ -705,6 +705,7 @@ function form_before_goto($form) {
 
 		// calculate bijkomendekosten
 		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->pre_calculate_type($form->db_insert_id);
 	}
 

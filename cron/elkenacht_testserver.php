@@ -15,4 +15,5 @@ $boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
 
 $bijkomendekosten = new bijkomendekosten;
+$bijkomendekosten->setRedis(new wt_redis);
 $bijkomendekosten->pre_calculate_all_types(0, true);

@@ -632,6 +632,7 @@ if($form->okay) {
 
 
 		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
 		$bk = $bijkomendekosten->get_booking_data($gegevens);
 

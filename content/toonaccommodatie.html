@@ -1977,6 +1977,7 @@ if($db->next_record()) {
 		echo "</div>";
 
 		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bk = $bijkomendekosten->get_complete_cache($vars["seizoentype"]);
 
 

@@ -29,11 +29,14 @@ class bijkomendekosten {
 	public $pre_calculate = false;
 
 	function __construct($id=0, $soort="type") {
+
 		$this->id = $id;
 		$this->soort = $soort;
+	}
 
-		$this->wt_redis = new wt_redis;
-
+	public function setRedis(RedisInterface $redis)
+	{
+		$this->redis = $redis;
 	}
 
 	private function clear() {

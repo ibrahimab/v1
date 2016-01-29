@@ -2033,6 +2033,7 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 
 	// bijkomendekosten ter plaatse
 	$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
+	$bijkomendekosten->setRedis(new wt_redis);
 	$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
 	$bk = $bijkomendekosten->get_booking_data($gegevens);
 
@@ -3413,6 +3414,7 @@ function bereken_bijkomendekosten($boekingid) {
 	if(!$use_old_system) {
 
 		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
 
 		$bijkomendekosten->add_to_booking($gegevens);

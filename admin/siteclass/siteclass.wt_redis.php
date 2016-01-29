@@ -8,13 +8,16 @@
 class wt_redis {
 
 	private $redis;
+	private $logger;
 
 	public $retry = 0;
 	public $expire_time = 604800; // expire every key after 7 days
 
-	function __construct() {
+	function __construct(\LoggerInterface $logger = null) {
 
 		global $vars;
+		dump($logger);
+		$this->logger = $logger ?: new \Logger('redis');
 
 		if(!$this->connect()) {
 			$this->connect();
@@ -39,7 +42,7 @@ class wt_redis {
 			$this->error("Couldn't connect to Redis:". $e->getMessage());
 		}
 		if($return) {
-			wt_debugbar_message("connected to redis-server ".wt_redis_host, "connect", "redis");
+			$this->logger->log('connected to redis-server ' . wt_redis_host, 'connect-redis');
 		}
 		return $return;
 	}
@@ -50,7 +53,7 @@ class wt_redis {
 
 		trigger_error($message,E_USER_NOTICE);
 
-		wt_debugbar_message($message, "error", "redis");
+		$this->logger->error($message);
 
 		if($vars["lokale_testserver"]) {
 			exit;
@@ -60,7 +63,7 @@ class wt_redis {
 
 	public function store_array($group, $key, $data) {
 
-		wt_debugbar_message("store_array group:".$group." - key:".$key, "query", "redis");
+		$this->logger->log("store_array group:".$group." - key:".$key, "query-redis");
 
 		try {
 			$this->redis->hSet($this->prefix.$group, $key, serialize($data));
@@ -77,7 +80,7 @@ class wt_redis {
 
 	public function get_array($group, $key) {
 
-		wt_debugbar_message("get_array group:".$group." - key:".$key, "query", "redis");
+		$this->logger->log("get_array group:".$group." - key:".$key, "query-redis");
 
 		try {
 			$data = $this->redis->hGet($this->prefix.$group, $key);
@@ -97,7 +100,7 @@ class wt_redis {
 
 	public function array_group_exists($group) {
 
-		wt_debugbar_message("array_group_exists group:".$group, "query", "redis");
+		$this->logger->log("array_group_exists group:".$group, "query-redis");
 
 		try {
 			$return = $this->redis->exists($this->prefix.$group);
@@ -111,7 +114,7 @@ class wt_redis {
 
 	public function array_group_delete($group) {
 
-		wt_debugbar_message("array_group_delete group:".$group, "query", "redis");
+		$this->logger->log("array_group_delete group:".$group, "query-redis");
 
 		try {
 			$return = $this->redis->del($this->prefix.$group);
@@ -125,7 +128,7 @@ class wt_redis {
 
 	public function set($key, $value) {
 
-		wt_debugbar_message("set key:".$key." - value:".$value, "query", "redis");
+		$this->logger->log("set key:".$key." - value:".$value, "query-redis");
 
 		try {
 			$return = $this->redis->set($this->prefix.$key, $value);
@@ -139,7 +142,7 @@ class wt_redis {
 
 	public function get($key) {
 
-		wt_debugbar_message("get key:".$key, "query", "redis");
+		$this->logger->log("get key:".$key, "query-redis");
 
 		try {
 			$return = $this->redis->get($this->prefix.$key);
@@ -153,7 +156,7 @@ class wt_redis {
 
 	public function hset($key, $field, $value) {
 
-		wt_debugbar_message("hset key:".$key." - field:".$field, "query", "redis");
+		$this->logger->log("hset key:".$key." - field:".$field, "query-redis");
 
 		try {
 			$return = $this->redis->hset($this->prefix.$key, $field, $value);
@@ -172,7 +175,7 @@ class wt_redis {
 
 	public function hget($key, $field) {
 
-		wt_debugbar_message("hget key:".$key." - field:".$field, "query", "redis");
+		$this->logger->log("hget key:".$key." - field:".$field, "query-redis");
 
 		try {
 			$return = $this->redis->hget($this->prefix.$key, $field);
@@ -186,7 +189,7 @@ class wt_redis {
 
 	public function hgetall($key, $use_prefix=true) {
 
-		wt_debugbar_message("hgetall key:".$key, "query", "redis");
+		$this->logger->log("hgetall key:".$key, "query-redis");
 
 		try {
 			if($use_prefix) {
@@ -204,7 +207,7 @@ class wt_redis {
 
 	public function hexists($key, $field) {
 
-		wt_debugbar_message("hexists key:".$key." - field:".$field, "query", "redis");
+		$this->logger->log("hexists key:".$key." - field:".$field, "query-redis");
 
 		try {
 			$return = $this->redis->hexists($this->prefix.$key, $field);
@@ -218,7 +221,7 @@ class wt_redis {
 
 	public function del($key) {
 
-		wt_debugbar_message("del key:".$key, "query", "redis");
+		$this->logger->log("del key:".$key, "query-redis");
 
 		try {
 			$return = $this->redis->del($this->prefix.$key);
@@ -232,7 +235,7 @@ class wt_redis {
 
 	public function exists($key) {
 
-		wt_debugbar_message("exists key:".$key, "query", "redis");
+		$this->logger->log("exists key:".$key, "query-redis");
 
 		try {
 			$return = $this->redis->exists($this->prefix.$key);
@@ -246,7 +249,7 @@ class wt_redis {
 
 	public function keys($query) {
 
-		wt_debugbar_message("keys query:".$key, "query", "redis");
+		$this->logger->log("keys query:".$key, "query-redis");
 
 		try {
 			$return = $this->redis->keys($this->prefix.$query);
