@@ -2,6 +2,8 @@
 
 namespace Chalet\Api;
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * @author  Ibrahim Abdullah <ibrahim@chalet.nl>
  * @package Chalet
@@ -33,7 +35,10 @@ class AdditionalCosts extends Endpoint
         $additionalCosts = new \bijkomendekosten($this->request->query->getInt('type_id'), 'type');
         $additionalCosts->seizoen_id = $this->request->query->getInt('season_id');
 
-        $booking = new Booking(Booking::API_METHOD_GET_BOOKING_INFO, $this->request);
+        $get     = array_replace($_GET, ['endpoint' => Api::API_ENDPOINT_BOOKING, 'method' => Booking::API_METHOD_GET_BOOKING_INFO]);
+        $request = new Request($get);
+
+        $booking = new Booking($request);
         $result  = json_decode($booking->result(), true);
 
         return $additionalCosts->get_booking_data($result, true);
