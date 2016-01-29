@@ -4,6 +4,7 @@ namespace Chalet\Api;
 
 use Chalet\Api\Exception as ApiException;
 use Chalet\Encoder\Encoder;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author  Ibrahim Abdullah <ibrahim@chalet.nl>
@@ -17,23 +18,23 @@ abstract class Endpoint
     protected $method;
 
     /**
-     * @var array
+     * @var Request
      */
-    protected $data;
+    protected $request;
 
     /**
      * @param integer $method
      * @param array $data
      * @throws ApiException
      */
-    public function __construct($method, $data)
+    public function __construct(Request $request)
     {
-        if (!array_key_exists($method, $this->methods)) {
-            throw new ApiException(sprintf('Could not find method %s for api endpoint %s', $method, static::class));
-        }
+        $this->method  = $request->query->getInt('method');
+        $this->request = $request;
 
-        $this->method = (int)$method;
-        $this->data   = $data;
+        if (!array_key_exists($this->method, $this->methods)) {
+            throw new ApiException(sprintf('Could not find method %s for api endpoint %s', $this->method, static::class));
+        }
 
         $this->checkRequired();
     }
@@ -46,7 +47,7 @@ abstract class Endpoint
     {
         foreach ($this->methods[$this->method]['required'] as $field) {
 
-            if (!array_key_exists($field, $this->data)) {
+            if (false === $this->request->query->has($field)) {
                 throw new ApiException(sprintf('Could not find required data key %s', $field));
             }
         }

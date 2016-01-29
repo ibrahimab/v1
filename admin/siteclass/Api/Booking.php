@@ -21,7 +21,7 @@ class Booking extends Endpoint
         self::API_METHOD_GET_BOOKING_INFO => [
 
             'method'   => 'getBookingInfo',
-            'required' => ['bookingid'],
+            'required' => ['booking_id'],
         ],
     ];
 
@@ -30,6 +30,6 @@ class Booking extends Endpoint
      */
     public function getBookingInfo()
     {
-        return \get_boekinginfo($this->data['bookingid']);
+        return \get_boekinginfo($this->request->query->getInt('booking_id'));
     }
 }

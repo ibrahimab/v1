@@ -3,6 +3,7 @@
 namespace Chalet\Api;
 
 use Chalet\Api\Exception as ApiException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author  Ibrahim Abdullah
@@ -10,15 +11,14 @@ use Chalet\Api\Exception as ApiException;
  */
 class Api
 {
-    /**
-     * @var integer
-     */
+    /** @var integer */
     const API_ENDPOINT_ADDITIONAL_COSTS = 1;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     const API_ENDPOINT_BOOKING          = 2;
+
+    /** @var integer */
+    const API_ENDPOINT_PRICE_TABLE      = 3;
 
     /**
      * @var integer
@@ -31,41 +31,52 @@ class Api
     private $method;
 
     /**
+     * @var Request
+     */
+    private $request;
+
+    /**
      * @var array
      */
     private $allowedEndpoints = [
 
         self::API_ENDPOINT_ADDITIONAL_COSTS,
         self::API_ENDPOINT_BOOKING,
+        self::API_ENDPOINT_PRICE_TABLE,
     ];
 
     /**
      * @param string $endpoint
      */
-    public function __construct($endpoint, $method)
+    public function __construct(Request $request)
     {
-        if (!in_array($endpoint, $this->allowedEndpoints)) {
-            throw new ApiException(sprintf('Your chosen endpoint %s is not allowed', $endpoint));
-        }
+        $this->endpoint = $request->query->getInt('endpoint');
+        $this->method   = $request->query->getInt('method');
+        $this->request  = $request;
 
-        $this->endpoint = $endpoint;
-        $this->method   = $method;
+        if (!in_array($this->endpoint, $this->allowedEndpoints)) {
+            throw new ApiException(sprintf('Your chosen endpoint %s is not allowed', $this->endpoint));
+        }
     }
 
     /**
      * @param array $data
      * @return Endpoint
      */
-    public function getEndpoint($data)
+    public function getEndpoint()
     {
         switch ($this->endpoint) {
 
             case self::API_ENDPOINT_ADDITIONAL_COSTS:
-                return new AdditionalCosts($this->method, $data);
+                return new AdditionalCosts($this->request);
             break;
 
             case self::API_ENDPOINT_BOOKING:
-                return new Booking($this->method, $data);
+                return new Booking($this->request);
+            break;
+
+            case self::API_ENDPOINT_PRICE_TABLE:
+                return new PriceTable($this->request);
             break;
         }
     }

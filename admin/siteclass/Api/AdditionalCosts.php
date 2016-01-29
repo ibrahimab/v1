@@ -21,7 +21,7 @@ class AdditionalCosts extends Endpoint
         self::API_METHOD_GET_BOOKING_DATA => [
 
             'method'   => 'getBookingData',
-            'required' => ['typeid', 'bookingid', 'seasonid'],
+            'required' => ['type_id', 'booking_id', 'season_id'],
         ],
     ];
 
@@ -30,10 +30,10 @@ class AdditionalCosts extends Endpoint
      */
     public function getBookingData()
     {
-        $additionalCosts = new \bijkomendekosten($this->data['typeid'], 'type');
-        $additionalCosts->seizoen_id = $this->data['seasonid'];
+        $additionalCosts = new \bijkomendekosten($this->request->query->getInt('type_id'), 'type');
+        $additionalCosts->seizoen_id = $this->request->query->getInt('season_id');
 
-        $booking = new Booking(Booking::API_METHOD_GET_BOOKING_INFO, $this->data);
+        $booking = new Booking(Booking::API_METHOD_GET_BOOKING_INFO, $this->request);
         $result  = json_decode($booking->result(), true);
 
         return $additionalCosts->get_booking_data($result, true);

@@ -2,9 +2,11 @@
 require 'admin/vars.php';
 
 use Chalet\Api\Api;
+use Symfony\Component\HttpFoundation\Request;
 
-$api      = new Api($_GET['endpoint'], $_GET['method']);
-$endpoint = $api->getEndpoint($_GET);
+$request  = Request::createFromGlobals();
+$api      = new Api($request);
+$endpoint = $api->getEndpoint();
 $result   = $endpoint->result();
 
 header('Content-type: application/json');
