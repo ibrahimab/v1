@@ -1,5 +1,7 @@
 <?php
 
+use Chalet\RedisInterface;
+
 /**
 * Bijkomende kosten
 */
@@ -768,7 +770,7 @@ class bijkomendekosten {
 		$db->query("SELECT DISTINCT type_id, wzt FROM view_accommodatie WHERE 1=1 ORDER BY type_id;");
 		while($db->next_record()) {
 
-			$last_save_time = $this->wt_redis->hget("bk:".$db->f("wzt").":".$db->f("type_id"), "saved");
+			$last_save_time = $this->redis->hget("bk:".$db->f("wzt").":".$db->f("type_id"), "saved");
 
 			if($last_save_time<(time()-82800) or $force) {
 
@@ -799,7 +801,7 @@ class bijkomendekosten {
 
 		$db->query("SELECT DISTINCT type_id, wzt FROM view_accommodatie WHERE 1=1 ORDER BY type_id;");
 		while($db->next_record()) {
-			if(!$this->wt_redis->hexists("bk:".$db->f("wzt").":".$db->f("type_id"), "saved")) {
+			if(!$this->redis->hexists("bk:".$db->f("wzt").":".$db->f("type_id"), "saved")) {
 				$this->pre_calculate_type($db->f("type_id"));
 				$new[$db->f("wzt")] = true;
 			}
@@ -846,7 +848,7 @@ class bijkomendekosten {
 		$this->get_data();
 
 
-		$this->wt_redis->del("bk:".$this->wzt.":".$type_id);
+		$this->redis->del("bk:".$this->wzt.":".$type_id);
 
 		if(is_array($this->data) and constant("include_bkk")===true) {
 			foreach ($this->data as $seizoen_id => $data) {
@@ -880,7 +882,7 @@ class bijkomendekosten {
 
 				for($i=$this->maxaantalpersonen;$i>=1;$i--) {
 					$total = $per_accommodation + $i * $per_person;
-					$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, $seizoen_id.":".$i, $total);
+					$this->redis->hset("bk:".$this->wzt.":".$type_id, $seizoen_id.":".$i, $total);
 					if($vars["tmp_info_tonen"]) {
 						echo "bk:".$this->wzt.":".$type_id." - ".$seizoen_id.":".$i." - ".$total." <br/>\n";
 						flush();
@@ -894,7 +896,7 @@ class bijkomendekosten {
 		//
 		// surcharge extra persons (toeslag extra personen)
 		//
-		$this->wt_redis->del("bk_per_week:".$this->wzt.":".$type_id);
+		$this->redis->del("bk_per_week:".$this->wzt.":".$type_id);
 
 		if(is_array($this->data_var)) {
 			unset($save_redis_var);
@@ -915,7 +917,7 @@ class bijkomendekosten {
 				foreach ($save_redis_var as $persons => $data) {
 					foreach ($data as $week => $total) {
 						if($total<>0) {
-							$this->wt_redis->hset("bk_per_week:".$this->wzt.":".$type_id, $week.":".$persons, $total);
+							$this->redis->hset("bk_per_week:".$this->wzt.":".$type_id, $week.":".$persons, $total);
 							if($vars["tmp_info_tonen"]) {
 								echo "bk_per_week:".$this->wzt.":".$type_id." - ". $week.":".$persons." - ". $total." <br />\n";
 								flush();
@@ -926,7 +928,7 @@ class bijkomendekosten {
 			}
 		}
 
-		$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, "saved", time());
+		$this->redis->hset("bk:".$this->wzt.":".$type_id, "saved", time());
 
 		if(!$GLOBALS["class_bijkomendekosten_register_shutdown_".$this->wzt]) {
 			register_shutdown_function(array($this, "store_complete_cache"), $this->wzt);
@@ -961,11 +963,11 @@ class bijkomendekosten {
 		if(!$aantalpersonen) {
 			$aantalpersonen = 1;
 		}
-		$return = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$aantalpersonen);
+		$return = $this->redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$aantalpersonen);
 		if(constant("include_bkk")===true and !$return) {
 			$this->pre_calculate_type($type_id);
 
-			$return = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$aantalpersonen);
+			$return = $this->redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$aantalpersonen);
 			if(!$return) {
 				trigger_error("geen bijkomende kosten gevonden voor type_id ".$type_id.", seizoen_id ".$seizoen_id.", ".$aantalpersonen." personen", E_USER_NOTICE);
 			}
@@ -980,12 +982,12 @@ class bijkomendekosten {
 	public function get_type_from_cache_all_persons($type_id, $wzt, $seizoen_id, $maxaantalpersonen, $per_person) {
 
 		for($i=1;$i<=$maxaantalpersonen;$i++) {
-			$bedrag = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$i);
+			$bedrag = $this->redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$i);
 
 			if(constant("include_bkk")===true and !$bedrag) {
 				$this->pre_calculate_type($type_id);
 
-				$bedrag = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$i);
+				$bedrag = $this->redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$i);
 				if(!$bedrag) {
 					trigger_error("geen bijkomende kosten gevonden voor type_id ".$type_id.", seizoen_id ".$seizoen_id.", ".$i." personen", E_USER_NOTICE);
 				}
@@ -1006,7 +1008,7 @@ class bijkomendekosten {
 		// get surcharge extra persons (toeslag extra personen)
 		//
 
-		$bedrag = $this->wt_redis->hgetall("bk_per_week:".$wzt.":".$type_id);
+		$bedrag = $this->redis->hgetall("bk_per_week:".$wzt.":".$type_id);
 
 		if(is_array($bedrag)) {
 			foreach ($bedrag as $key => $value) {
@@ -1021,10 +1023,10 @@ class bijkomendekosten {
 
 	public function store_complete_cache($wzt) {
 
-		$all_bk = $this->wt_redis->keys("bk:".$wzt.":*");
+		$all_bk = $this->redis->keys("bk:".$wzt.":*");
 		if(is_array($all_bk)) {
 			foreach ($all_bk as $key => $value) {
-				$content=$this->wt_redis->hgetall($value, false);
+				$content=$this->redis->hgetall($value, false);
 				foreach ($content as $key2 => $value2) {
 
 					if(preg_match("@bk:([12]):([0-9]+)$@", $value, $regs)) {
@@ -1048,17 +1050,17 @@ class bijkomendekosten {
 			$bk = array();
 		}
 
-		$this->wt_redis->store_array("bk:".$wzt, "all", $bk);
+		$this->redis->store_array("bk:".$wzt, "all", $bk);
 		unset($bk);
 
 		//
 		// surcharge extra persons
 		//
 
-		$all_bk = $this->wt_redis->keys("bk_per_week:".$wzt.":*");
+		$all_bk = $this->redis->keys("bk_per_week:".$wzt.":*");
 		if(is_array($all_bk)) {
 			foreach ($all_bk as $key => $value) {
-				$content=$this->wt_redis->hgetall($value, false);
+				$content=$this->redis->hgetall($value, false);
 				foreach ($content as $key2 => $value2) {
 
 					if(preg_match("@bk_per_week:([12]):([0-9]+)$@", $value, $regs)) {
@@ -1081,13 +1083,13 @@ class bijkomendekosten {
 
 		if(is_array($bk_all_persons)) {
 			foreach ($bk_all_persons as $key => $value) {
-				$this->wt_redis->store_array("bk_per_week:".$wzt, "all_persons:".$key, $value);
+				$this->redis->store_array("bk_per_week:".$wzt, "all_persons:".$key, $value);
 			}
 			unset($bk_all_persons);
 		}
 		// if(is_array($bk_all_weeks)) {
 		// 	foreach ($bk_all_weeks as $key => $value) {
-		// 		$this->wt_redis->store_array("bk_per_week:".$wzt, "all_weeks:".$key, $value);
+		// 		$this->redis->store_array("bk_per_week:".$wzt, "all_weeks:".$key, $value);
 		// 	}
 		// 	unset($bk_all_weeks);
 		// }
@@ -1095,7 +1097,7 @@ class bijkomendekosten {
 
 	public function get_complete_cache($wzt) {
 
-		$return = $this->wt_redis->get_array("bk:".$wzt, "all");
+		$return = $this->redis->get_array("bk:".$wzt, "all");
 
 		return $return;
 
@@ -1103,7 +1105,7 @@ class bijkomendekosten {
 
 	public function get_complete_cache_per_persons($wzt, $aantalpersonen) {
 
-		$return = $this->wt_redis->get_array("bk_per_week:".$wzt, "all_persons:".$aantalpersonen);
+		$return = $this->redis->get_array("bk_per_week:".$wzt, "all_persons:".$aantalpersonen);
 
 		return $return;
 

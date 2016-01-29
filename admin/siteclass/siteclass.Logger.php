@@ -17,7 +17,6 @@ class Logger implements \LoggerInterface
      */
     public function __construct($collector = 'messages')
     {
-        throw new \Exception('test');
         $this->setCollector($collector);
     }
 

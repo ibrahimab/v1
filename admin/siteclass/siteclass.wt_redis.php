@@ -1,11 +1,11 @@
 <?php
 
+use Chalet\RedisInterface;
+
 /**
 *  talk to redis-server
 */
-
-
-class wt_redis {
+class wt_redis implements RedisInterface {
 
 	private $redis;
 	private $logger;
@@ -16,7 +16,7 @@ class wt_redis {
 	function __construct(\LoggerInterface $logger = null) {
 
 		global $vars;
-		dump($logger);
+
 		$this->logger = $logger ?: new \Logger('redis');
 
 		if(!$this->connect()) {
