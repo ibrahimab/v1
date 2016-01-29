@@ -8,28 +8,28 @@ namespace Chalet\Api;
  */
 class Booking extends Endpoint
 {
-	/**
-	 * @var integer
-	 */
-	const API_METHOD_GET_BOOKING_INFO = 1;
+    /**
+     * @var integer
+     */
+    const API_METHOD_GET_BOOKING_INFO = 1;
 
-	/**
-	 * @var array
-	 */
-	protected $methods = [
+    /**
+     * @var array
+     */
+    protected $methods = [
 
-		self::API_METHOD_GET_BOOKING_INFO => [
+        self::API_METHOD_GET_BOOKING_INFO => [
 
-			'method'   => 'getBookingInfo',
-			'required' => ['bookingid'],
-		],
-	];
+            'method'   => 'getBookingInfo',
+            'required' => ['bookingid'],
+        ],
+    ];
 
-	/**
-	 * @return array
-	 */
-	public function getBookingInfo()
-	{
-		return \get_boekinginfo($this->data['bookingid']);
-	}
+    /**
+     * @return array
+     */
+    public function getBookingInfo()
+    {
+        return \get_boekinginfo($this->data['bookingid']);
+    }
 }

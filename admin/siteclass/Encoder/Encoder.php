@@ -82,7 +82,12 @@ class Encoder implements EncoderInterface
     {
         $result = [];
         foreach ($array as $key => $value) {
-            $result[iconv('CP1252', 'UTF-8', $key)] = (is_array($value) ? self::fix($value) : iconv('CP1252', 'UTF-8', $value));
+
+            if (is_array($value)) {
+                $result[iconv('CP1252', 'UTF-8', $key)] = $this->fix($value);
+            } else {
+                $result[iconv('CP1252', 'UTF-8', $key)] = iconv('CP1252', 'UTF-8', $value);
+            }
         }
 
         return $result;
