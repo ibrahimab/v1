@@ -560,7 +560,11 @@ class form2 {
 			$this->fields["type"][$id]=$type;
 			$this->fields["checktype"][$id]=$checktype;
 			if($obl) $this->fields["obl"][$id]=$obl;
-			$this->fields["title"][$id]=$title;
+			if ($type == 'raw_html') {
+				$this->fields['raw_html'][$id]=$title;
+			} else {
+				$this->fields["title"][$id]=$title;
+			}
 			if($db) $this->fields["db"][$id]=$db;
 			if($prevalue) $this->fields["prevalue"][$id]=$prevalue;
 			if($options) $this->fields["options"][$id]=$options;
@@ -624,6 +628,14 @@ class form2 {
 			$id="htmlrow_".$this->htmlrow_counter;
 		}
 		$this->newfield("htmlrow","htmlrow",$obl,$id,$html,$db,$prevalue,$options,$layout);
+	}
+
+	function field_raw_html($id,$html,$options="",$layout="") {
+		if(!$id) {
+			$this->raw_html_counter++;
+			$id="raw_html_".$this->htmlrow_counter;
+		}
+		$this->newfield("raw_html","raw_html",$obl,$id,$html,$db,$prevalue,$options,$layout);
 	}
 
 	function field_integer($obl,$id,$title,$db="",$prevalue="",$options="",$layout="") {
@@ -1082,6 +1094,9 @@ class form2 {
 			}
 		} elseif($this->fields["type"][$id]=="htmlrow") {
 			# Htmlrow
+			# Niks doen
+		} elseif($this->fields["type"][$id]=="raw_html") {
+			# raw html
 			# Niks doen
 		} elseif($this->fields["type"][$id]=="multiradio") {
 			# multiradio
@@ -1603,6 +1618,8 @@ class form2 {
 
 					} elseif($value=="htmlrow") {
 						echo $tr."<td class=\"wtform_cell_colspan\" colspan=\"2\">".$this->fields["title"][$key]."</td></tr>\n";
+					} elseif($value=="raw_html") {
+						echo $this->fields["raw_html"][$key]."\n";
 					} else {
 						if($this->fields["layout"][$key]["notitle"]) {
 							echo $tr."<td class=\"wtform_cell_colspan\" colspan=\"2\">".$this->display_input($key)."</td></tr>\n";
@@ -1903,6 +1920,8 @@ class form2 {
 
 								} elseif($this->fields["type"][$key2]=="htmlrow") {
 
+								} elseif($this->fields["type"][$key2]=="raw_html") {
+
 								} elseif($this->fields["type"][$key2]=="multiradio") {
 									if(is_array($this->fields["options"][$key2]["multiselectionfields"])) {
 										reset($this->fields["options"][$key2]["multiselectionfields"]);
@@ -2158,6 +2177,8 @@ class form2 {
 					if($this->fields["options"][$key]["htmlrow_in_output"]) {
 						$this->outputtable_row[$key]=$this->fields["title"][$key];
 					}
+				} elseif($value=="raw_html") {
+
 				} elseif($value=="integer") {
 					$this->input[$key]=$this->value[$key];
 					$this->outputtable_cell[$key]=$this->value[$key];
