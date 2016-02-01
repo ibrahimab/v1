@@ -45,7 +45,13 @@ function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $w
 }
 
 /**
- * Determine how frequent Posarelli (8), Marche Holiday (14), Interhome(23) should be downloaded (because downloading these suppliers takes a long time)
+ * Determine whether the xml supplier import should be run (downloading for these suppliers takes a long time)
+ *
+ * Posarelli(8) every 3am, 11am, 15pm, 19pm
+ *
+ * Marche Holiday(14) every 0(midnight), 3am, 6am, 9am, 12pm, 15pm, 18pm, 22pm
+ *
+ * Interhome(23) every 3am
  *
  * @param integer $xmlType
  * @param integer $currentHour
