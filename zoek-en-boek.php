@@ -234,6 +234,7 @@ if($vars["websitetype"]<>6) {
 // bijkomendekosten
 
 $bijkomendekosten = new bijkomendekosten;
+$bijkomendekosten->setRedis(new wt_redis);
 
 if( $vars["websitetype"]==6 ) {
 	// Chaletsinvallandry.nl: get both winter and summer

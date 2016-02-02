@@ -349,6 +349,7 @@ class xmlExport extends chaletDefault
 		//
 
 		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bk = $bijkomendekosten->get_complete_cache($this->config->seizoentype);
 
 		// vertrekdagaanpassing

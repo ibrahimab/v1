@@ -9,6 +9,7 @@ if($_GET["cmsversie"]=="nieuw4") {
 	echo "<br />";
 
 	$bijkomendekosten = new bijkomendekosten;
+	$bijkomendekosten->setRedis(new wt_redis);
 	echo $bijkomendekosten->cms_list_to_be_checked($_GET["wzt"]);
 
 } else {

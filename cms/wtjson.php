@@ -187,6 +187,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 
 	$bijkomendekosten = new bijkomendekosten($_GET["id"], $_GET["soort"]);
+	$bijkomendekosten->setRedis(new wt_redis);
 	$json["html"] = $bijkomendekosten->cms_new_row($_GET["bk_soort_id"], true);
 
 	wt_echo_json($json);
@@ -229,6 +230,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 			// recalculate Redis-cache
 			$bijkomendekosten = new bijkomendekosten();
+			$bijkomendekosten->setRedis(new wt_redis);
 			if($_GET["soort"]=="accommodatie") {
 				$bijkomendekosten->pre_calculate_accommodation($_GET["id"]);
 			} else {
@@ -237,6 +239,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 			// save log
 			$bijkomendekosten = new bijkomendekosten($_GET["id"], $_GET["soort"]);
+			$bijkomendekosten->setRedis(new wt_redis);
 			$bijkomendekosten->seizoen_id = $_GET["seizoen_id"];
 			$all_rows = $bijkomendekosten->cms_all_rows();
 			$json["all_rows_for_log"] = $bijkomendekosten->all_rows_for_log[$_GET["seizoen_id"]];
@@ -336,6 +339,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 
 		$bijkomendekosten = new bijkomendekosten(intval($_GET["id"]), "accommodatie");
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->seizoen_id = intval($_GET["sid"]);
 		// $bijkomendekosten->copy = true;
 
@@ -345,6 +349,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 		// copy from other type
 		$bijkomendekosten = new bijkomendekosten(intval($_GET["id"]), "type");
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->seizoen_id = intval($_GET["sid"]);
 		$bijkomendekosten->copy = true;
 

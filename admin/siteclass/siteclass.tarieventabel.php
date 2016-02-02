@@ -324,6 +324,7 @@ class tarieventabel {
 		$this->tarieven_uit_database();
 
 		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->seizoen_id = $this->seizoen_id;
 		$bijkomendekosten->pre_boeken = true;
 		$bijkomendekosten->aantalpersonen = $aantalpersonen;
@@ -413,6 +414,7 @@ class tarieventabel {
 		$this->tarieven_uit_database();
 
 		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+		$bijkomendekosten->setRedis(new wt_redis);
 
 		if (preg_match("@,@", $this->seizoen_id)) {
 			// multiple seasons: get correct one
@@ -1452,6 +1454,7 @@ class tarieventabel {
 		}
 
 		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->arrangement = $this->arrangement;
 		$bijkomendekosten->accinfo = $this->accinfo;
 		if($this->seizoen_counter>1) {
@@ -1562,6 +1565,7 @@ class tarieventabel {
 			$db2 = new DB_sql;
 
 			$bijkomendekosten = new bijkomendekosten;
+			$bijkomendekosten->setRedis(new wt_redis);
 
 			// Accinfo
 			if($accinfo) {

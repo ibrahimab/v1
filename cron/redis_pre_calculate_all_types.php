@@ -33,6 +33,7 @@ if ($vars["acceptatie_testserver"]) {
 $vars["tmp_info_tonen"] = true;
 
 $bijkomendekosten = new bijkomendekosten;
+$bijkomendekosten->setRedis(new wt_redis);
 $bijkomendekosten->pre_calculate_all_types(0, true);
 $bijkomendekosten->store_complete_cache(1);
 $bijkomendekosten->store_complete_cache(2);

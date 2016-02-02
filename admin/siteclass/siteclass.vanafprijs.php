@@ -187,6 +187,7 @@ class vanafprijs extends chaletDefault
 		$db2 = new DB_sql;
 
 		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->setRedis(new wt_redis);
 
 		// winter
 		$this->bk[1] = $bijkomendekosten->get_complete_cache(1);

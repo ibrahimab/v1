@@ -35,6 +35,7 @@ $huidig_uur = date("H");
 //
 if($huidig_uur>=2 and $huidig_uur<=3) {
 	$bijkomendekosten = new bijkomendekosten;
+	$bijkomendekosten->setRedis(new wt_redis);
 	$bijkomendekosten->pre_calculate_all_types(100);
 }
 
@@ -42,6 +43,7 @@ if($huidig_uur>=2 and $huidig_uur<=3) {
 // Types without bijkomendekosten in Redis: calculate
 //
 $bijkomendekosten = new bijkomendekosten;
+$bijkomendekosten->setRedis(new wt_redis);
 $bijkomendekosten->pre_calculate_missing_types();
 
 

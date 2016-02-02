@@ -219,6 +219,7 @@ function form_before_goto($form) {
 
 	if($_GET["33k0"]) {
 		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->pre_calculate_variable_costs($_GET["33k0"]);
 	}
 }

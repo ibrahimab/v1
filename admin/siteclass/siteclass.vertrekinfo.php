@@ -365,6 +365,7 @@ class vertrekinfo {
 
 		// bijkomendekosten
 		$bijkomendekosten = new bijkomendekosten($gegevens["stap1"]["typeid"], "type");
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->seizoen_id = $gegevens["stap1"]["seizoenid"];
 		$bijkomendekosten->vertrekinfo = true;
 		$bk = $bijkomendekosten->get_booking_data($gegevens);

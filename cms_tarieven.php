@@ -365,6 +365,7 @@ if($_POST["filled"]) {
 
 	// check if there are no "bijkomendekosten": if so, copy from previous season
 	$bijkomendekosten = new bijkomendekosten;
+	$bijkomendekosten->setRedis(new wt_redis);
 	$bijkomendekosten->check_for_copy($_GET["sid"], $_GET["tid"]);
 
 	if($_GET["from"]) {

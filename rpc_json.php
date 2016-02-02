@@ -735,6 +735,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	// get content for zoekresultaat_prijs_info_bijkomendekosten_popup
 
 	$bijkomendekosten = new bijkomendekosten($_GET["type_id"], "type");
+	$bijkomendekosten->setRedis(new wt_redis);
 	$bijkomendekosten->seizoen_id = $_GET["seizoen_id"];
 	if($_GET["arrangement"]) {
 		$bijkomendekosten->arrangement = true;

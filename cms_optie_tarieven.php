@@ -43,6 +43,7 @@ if($_POST["filled"]) {
 
 	if($_GET["bkid"]) {
 		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->pre_calculate_variable_costs($_GET["bkid"]);
 	}
 

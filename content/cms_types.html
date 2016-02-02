@@ -141,6 +141,7 @@ if($_GET["show"]==2) {
 
 	// bijkomende kosten
 	$bijkomendekosten = new bijkomendekosten($_GET["2k0"], "type");
+	$bijkomendekosten->setRedis(new wt_redis);
 	echo $bijkomendekosten->cms_enter_costs_per_acc_type();
 
 	echo "<p>&nbsp;</p>";
