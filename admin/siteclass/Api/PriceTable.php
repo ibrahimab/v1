@@ -28,8 +28,8 @@ class PriceTable extends Endpoint
         self::API_METHOD_GET_TABLE => [
 
             'method'   => 'getTable',
-            'required' => ['type_id'],
-            'optional' => ['legenda', 'weekendski', 'internal', 'availability', 'commission', 'multiple_currencies', 'active_currency', 'season_id'],
+            'required' => ['type_id', 'season_id'],
+            'optional' => ['legenda', 'weekendski', 'internal', 'availability', 'commission', 'multiple_currencies', 'active_currency'],
         ],
     ];
 
@@ -43,7 +43,7 @@ class PriceTable extends Endpoint
         $table->toon_interne_informatie = $this->request->query->getBoolean('internal', false);
         $table->toon_beschikbaarheid    = $this->request->query->getBoolean('availability', false);
         $table->toon_commissie          = $this->request->query->getBoolean('commission', false);
-        $table->seizoen_id              = implode(', ', $this->request->query->get('season_id', [0]));
+        $table->seizoen_id              = implode(', ', [0, $this->request->query->get('season_id')]);
         $table->type_id                 = $this->request->query->get('type_id');
 
         if (true === $this->request->query->getBoolean('weekendski', false)) {
