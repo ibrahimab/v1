@@ -1278,6 +1278,36 @@ $(document).ready(function() {
 			$("select[name='input[optie_einddatum][minute]']").val("");
 		}
 	});
+
+	// cms_accommodaties.php: add extra distance
+	$(".add_extra_distance").click(function(event) {
+
+		event.preventDefault();
+
+		// get hightest counter
+		var counter = $(".extra_distance").map(function() {
+		    return parseInt($(this).data("counter"), 10);
+		}).get();
+		var new_counter = Math.max.apply(Math, counter) + 1;
+
+		// get html to insert
+		$.getJSON(
+			'cms/wtjson.php?t=add_extra_distance&counter=' + new_counter,
+			function(data) {
+				if(data.html) {
+					$(".add_extra_distance").closest("tr").before(data.html);
+
+					// set correct height for content-div
+					setHgt2();
+				}
+			}
+		);
+	});
+
+	// copy extra distance name to field with actual distance
+	$(document).on("keyup", "input.extra_distance_name", function(event) {
+		$(this).closest("tr").next("tr").find("span.distance_name").html( $(this).val() );
+	});
 });
 
 function bk_keuzes_actief_inactief() {

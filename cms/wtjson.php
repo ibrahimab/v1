@@ -446,5 +446,15 @@ if($_GET["t"]=="keep_session_alive") {
 	}
 
 	wt_echo_json($json);
+} elseif($_GET["t"]=="add_extra_distance") {
+	//
+	// cms_accommodaties.php: add extra distance
+	//
+
+	// new extra Distances object
+	$extraDistances = new Chalet\CMS\Accommodation\ExtraDistances($db, new \Configuration, intval($_GET["1k0"]), []);
+	$json['html'] = $extraDistances->renderFormElements($_GET['counter'], [], 'nl');
+
+	wt_echo_json($json);
 
 }

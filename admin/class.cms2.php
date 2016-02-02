@@ -284,6 +284,9 @@ class cms2 {
 		} elseif($id=="htmlrow") {
 			$this->htmlrow_edit_counter[$counter]++;
 			$id="htmlrow_".$this->htmlrow_edit_counter[$counter];
+		} elseif($id=="raw_html") {
+			$this->raw_html_edit_counter[$counter]++;
+			$id="raw_html_".$this->raw_html_edit_counter[$counter];
 		}
 
 		$this->edit[$counter]["obl"][$id]=$obl;
@@ -939,6 +942,11 @@ class cms2 {
 					# Waarde buiten db om (htmlrow)
 					#
 					$cms_form[$counter]->field_htmlrow($key,$value,$options,$layout);
+				} elseif(ereg("^raw_html_",$key)) {
+					#
+					# Waarde buiten db om (raw_html)
+					#
+					$cms_form[$counter]->field_raw_html($key,$value,$options,$layout);
 				} elseif(!$this->db[$counter]["type"][$key]) {
 					trigger_error("WT-Error: unknown edit-id '".$key."' called in function 'display_edit'",E_USER_ERROR);
 				} else {
@@ -1052,6 +1060,8 @@ class cms2 {
 						} elseif($cms_form[$counter]->fields["type"][$key]=="htmlcol") {
 
 						} elseif($cms_form[$counter]->fields["type"][$key]=="htmlrow") {
+
+						} elseif($cms_form[$counter]->fields["type"][$key]=="raw_html") {
 
 						} elseif($cms_form[$counter]->fields["type"][$key]=="multiradio") {
 							while(list($key2,$value2)=@each($cms_form[$counter]->fields["previous"][$key]["multiselection"])) {
@@ -1341,6 +1351,8 @@ class cms2 {
 
 				} elseif(ereg("^htmlrow_",$key)) {
 
+				} elseif(ereg("^raw_html_",$key)) {
+
 				} elseif(!$this->db[$counter]["type"][$key]) {
 					trigger_error("WT-Error: unknown edit-id '".$key."' called in function 'set_show'",E_USER_ERROR);
 				} else {
@@ -1550,6 +1562,8 @@ class cms2 {
 					echo "<td>".$value."</td><td>".($this->show_rightcell[$key] ? $this->show_rightcell[$key] : "&nbsp;").($this->show[$counter]["layout"][$key]["extratext"] ? $this->show[$counter]["layout"][$key]["extratext"] : "")."</td>";
 				} elseif(ereg("^htmlrow_",$key)) {
 					echo "<td colspan=\"2\">".$value."</td>";
+				} elseif(ereg("^raw_html_",$key)) {
+
 				} elseif($this->show[$counter]["layout"][$key]["colspan2"]) {
 					echo "<td colspan=\"2\"".($this->show[$counter]["layout"][$key]["align"] ? " align=\"".$this->show[$counter]["layout"][$key]["align"]."\"" : "").">".($this->show_rightcell[$key] ? $this->show_rightcell[$key] : "&nbsp;")."</td>";
 				} else {

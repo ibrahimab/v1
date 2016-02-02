@@ -1,9 +1,17 @@
 <?php
 
+use Chalet\CMS\Accommodation\ExtraDistances;
+
 $mustlogin=true;
 #$vars["acc_in_vars"]=true;
 
 include("admin/vars.php");
+
+if ($_GET["edit"]==1 || $_GET["add"]==1) {
+	// new extra Distances object
+	$extraDistances = new ExtraDistances($db, new \Configuration, intval($_GET["1k0"]), $_POST['external_input']['extradistance']);
+	$extraDistances->setUserID($login->user_id);
+}
 
 # wzt opvragen indien niet meegegeven met query_string
 if(!$_GET["wzt"]) {
@@ -638,6 +646,16 @@ if($_GET["wzt"]==1) {
 	}
 }
 
+// extra distances
+if (is_object($extraDistances)) {
+
+	$cms->edit_field(1, 0, 'raw_html', $extraDistances->formElementsController($vars['taal']));
+	if (!$vars["cmstaal"]) {
+		$cms->edit_field(1, 0, 'htmlrow', '<a href="#" class="add_extra_distance">extra afstand toevoegen</a>');
+	}
+}
+
+
 /**
  * Nieuw afbeelding systeem
  */
@@ -897,7 +915,7 @@ if($cms_form[1]->filled) {
 function form_before_goto($form) {
 	$db=new DB_sql;
 	$db2=new DB_sql;
-	global $login,$vars, $db0;
+	global $login,$vars, $db0, $extraDistances;
 
 	# datum pdf-upload vastleggen
 	if($form->settings["fullname"]=="cms_1") {
@@ -972,6 +990,9 @@ function form_before_goto($form) {
 			}
 		}
 	}
+
+	// save extra distances
+	$extraDistances->saveFormData();
 }
 
 function form_after_imagedelete($form) {
