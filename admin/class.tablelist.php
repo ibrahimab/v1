@@ -256,7 +256,10 @@ class tablelist {
 				$querystring = "?".$this->settings["systemid"]."page=";
 			}
 
-#			$return.="<p>";
+			if (substr($querystring, 0, 2) == '?&') {
+				$querystring = '?' . substr($querystring, 2);
+			}
+
 			$maxpage=ceil($aantal/$this->settings["max_results_per_page"]);
 			if($maxpage>10) {
 				$startpage=$this->page-4;
@@ -296,6 +299,10 @@ class tablelist {
 	}
 
 	function table($cssclass="tl_table",$counter="",$style="") {
+
+		if (!$counter && $this->settings["systemid"]) {
+			$counter = $this->settings["systemid"];
+		}
 
 		if($_GET[$counter."page"]) {
 			$this->page=$_GET[$counter."page"];
