@@ -65,6 +65,6 @@ abstract class Endpoint
             $result = $encoder->fix($result);
         }
 
-        return json_encode($result);
+        return $result;
     }
 }
