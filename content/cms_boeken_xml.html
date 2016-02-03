@@ -1,5 +1,24 @@
 <?php
 
+/**
+ * Supplier of arkiane uses two versions of their api
+ *
+ * @var $arkiane2008
+ * @var $arkiane2011
+ *
+ * Arkiane-leveranciers:
+ * Flaine Immobilier(12)
+ * Deux Alpes Voyages(17)
+ * Agence des Belleville(18)
+ * Oxygène Immobilier(19)
+ * Centrale des Hauts Forts(20)
+ * Nexity (22)
+ * 3 Vallées Immobilier (26)
+ *
+ */
+$arkiane     = [12, 17, 18, 19, 20, 22, 26];
+$arkiane2008 = [12, 17, 18, 19, 20, 26];
+$arkiane2011 = [22];
 
 function save_aan_leverancier_doorgegeven_naam() {
 
@@ -102,59 +121,57 @@ if($gegevens["stap1"]["leverancierscode"] and !$vars["lokale_testserver"] and !$
 				}
 
 
-			} elseif($xml_type==7 or $xml_type==10 or $xml_type==12 or $xml_type==17 or $xml_type==18 or $xml_type==19 or $xml_type==20 or $xml_type==22 or $xml_type==26) { // Arkiane
-				#
-				# Alle Arkiane-sites
-				#
+			} elseif (in_array($xml_type, $arkiane)) {
 
-				if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-					$comment="THIS IS A TEST!!! NOT A REAL BOOKING";
-					$gegevens["stap2"]["achternaam"]="TEST";
-					$gegevens["stap2"]["voornaam"]="TEST";
-					$gegevens["stap2"]["tussenvoegsel"]="";
+				if ($vars["lokale_testserver"] || $vars["acceptatie_testserver"]) {
+
+					$comment = "THIS IS A TEST!!! NOT A REAL BOOKING";
+					$gegevens["stap2"]["achternaam"]    = "TEST";
+					$gegevens["stap2"]["voornaam"]      = "TEST";
+					$gegevens["stap2"]["tussenvoegsel"] = "";
 				} else {
 					$comment="";
 				}
 
-				# CIS nog niet actief (op verzoek van Barteld; 27-11-2012)
+				// Deux Alpes Voyages
+				$arkiane_url[12] = "http://xml.arkiane.com/xml_v2.asp?app=LS&clt=122&top=3037&qry=ins_opti@top_id='CHALE'";
 
-				# CIS / Bellecôte Chalets (VVE)
-#				$arkiane_url[7]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=ins_opti@top_id='CHALE'";
+				// Flaine Immobilier
+				$arkiane_url[17] = "http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=142&top=227&qry=ins_opti@top_id='FICHA'";
 
-				# CIS Immobilier
-#				$arkiane_url[10]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=87&qry=ins_opti@top_id='CHALE'";
+				// Agence des Belleville
+				$arkiane_url[18] = "http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&top=58&qry=ins_opti@top_id='CHALE'";
 
-				# Deux Alpes Voyages
-				$arkiane_url[12]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=122&top=3037&qry=ins_opti@top_id='CHALE'";
+				// Oxygène Immobilier
+				$arkiane_url[19] = "http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=ins_opti@top_id='CHANL'";
 
-				# Flaine Immobilier
-				$arkiane_url[17]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=142&top=227&qry=ins_opti@top_id='FICHA'";
+				// Centrale des Hauts Forts
+				$arkiane_url[20] = "http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=ins_opti@top_id='CHALE'";
 
-				# Agence des Belleville
-				$arkiane_url[18]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&top=58&qry=ins_opti@top_id='CHALE'";
+				// Nexity
+				$arkiane_url[22] = "http://xml.arkiane.com/api/api/xml_v2?agency=259&site=1&username=TO_chalet&password=cha0133&application=lv&qry=ins_opti";
 
-				# Oxygène Immobilier
-				$arkiane_url[19]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=ins_opti@top_id='CHANL'";
+				// 3 Vallées Immobilier
+				$arkiane_url[26] = "http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=264&top=58&qry=ins_opti@top_id='CHALE'";
 
-				# Centrale des Hauts Forts
-				$arkiane_url[20]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=ins_opti@top_id='CHALE'";
-
-				# Nexis
-				$arkiane_url[22]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=ins_opti@top_id='CHALE'";
-
-				# 3 Vallées Immobilier
-				$arkiane_url[26]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=264&top=58&qry=ins_opti@top_id='CHALE'";
-
-				$xml_url=$arkiane_url[$xml_type].",@lot_ref='".urlencode($value)."',@begin='".urlencode(date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"]))."',@end='".urlencode(date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]))."',@price='',@civi='M',@name='".urlencode(($gegevens["stap2"]["tussenvoegsel"] ? $gegevens["stap2"]["tussenvoegsel"]." " : "").$gegevens["stap2"]["achternaam"])."',@firstname='".urlencode($gegevens["stap2"]["voornaam"])."',@addr1='".urlencode("Wipmolenlaan 3")."',@addr2='',@addr3='',@postcode='".urlencode("3447 GJ")."',@city='".urlencode("Woerden")."',@country='".urlencode("The Netherlands")."',@tel='".urlencode("+31348434649")."',@fax='".urlencode("+31348690752")."',@email='".urlencode("info@chalet.nl")."',@comments='".urlencode($comment)."',@lang=''";
-
-				if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-					// echo wt_he($xml_url)."<hr>";
-					$xml_url=$unixdir."xml/arkiana_xml_bestelling_testxml.xml";
+				if (in_array($xml_type, $arkiane2008)) {
+					$xml_url = $arkiane_url[$xml_type] . ",@lot_ref='" . urlencode($value) . "',@begin='" . urlencode(date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])) . "',@end='" . urlencode(date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"])) . "',@price='',@civi='M',@name='" . urlencode(($gegevens["stap2"]["tussenvoegsel"] ? $gegevens["stap2"]["tussenvoegsel"] . " " : "") . $gegevens["stap2"]["achternaam"]) . "',@firstname='" . urlencode($gegevens["stap2"]["voornaam"]) . "',@addr1='" . urlencode("Wipmolenlaan 3") . "',@addr2='',@addr3='',@postcode='" . urlencode("3447 GJ") . "',@city='" . urlencode("Woerden") . "',@country='" . urlencode("The Netherlands") . "',@tel='" . urlencode("+31348434649") . "',@fax='" . urlencode("+31348690752") . "',@email='" . urlencode("info@chalet.nl") . "',@comments='" . urlencode($comment) . "',@lang=''";
 				}
-				$xml=simplexml_load_file($xml_url);
-				if(is_object($xml)) {
+				else {
 
-					if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+				// $arkiane2011
+					$xml_url = $arkiane_url[$xml_type] . ",@lot_ref=" . urlencode($value) . ",@begin=". urlencode(date("d/m/Y",$gegevens["stap1"]["aankomstdatum_exact"])) . ",@end=" . urlencode(date("d/m/Y",$gegevens["stap1"]["vertrekdatum_exact"])) . ",@price=,@civi=M,@name=" . urlencode(($gegevens["stap2"]["tussenvoegsel"] ? $gegevens["stap2"]["tussenvoegsel"] . " " : "") . $gegevens["stap2"]["achternaam"]) . ",@firstname=" . urlencode($gegevens["stap2"]["voornaam"]) . ",@addr1=" . urlencode("Wipmolenlaan 3") . ",@addr2=,@addr3=,@postcode=" . urlencode("3447 GJ") . ",@city=" . urlencode("Woerden") . ",@country=" . urlencode("The Netherlands") . ",@tel=" . urlencode("+31348434649") . ",@fax=" . urlencode("+31348690752") . ",@email=" . urlencode("info@chalet.nl") . ",@comments=" . urlencode($comment) . ",@lang=";
+				}
+
+
+				// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+				// 	// echo wt_he($xml_url)."<hr>";
+				// 	$xml_url=$unixdir."xml/arkiana_xml_bestelling_testxml.xml";
+				// }
+				$xml = simplexml_load_file ($xml_url);
+				if (is_object($xml)) {
+
+					if ($vars["lokale_testserver"] || $vars["acceptatie_testserver"]) {
 						// echo "<pre>";
 
 						// echo "\n\n1\n";
@@ -172,7 +189,7 @@ if($gegevens["stap1"]["leverancierscode"] and !$vars["lokale_testserver"] and !$
 						// echo "</pre>";
 					}
 
-					if($xml->LINE->err) {
+					if ($xml->LINE->err) {
 						echo "<b>Foutmelding bij accommodatie ".$value.":</b> <span class=\"error\">".wt_he(utf8_decode($xml->LINE->err))."</span><br>";
 					} else {
 						$reserveringsnummer=trim(utf8_decode($xml->LINE->resa_no));
@@ -195,6 +212,7 @@ if($gegevens["stap1"]["leverancierscode"] and !$vars["lokale_testserver"] and !$
 					print_r($xml);
 					echo "</pre><hr>";
 				}
+
 			} elseif($xml_type==13 or $xml_type==15) {
 				#
 				# Eurogroup en Des Neiges
