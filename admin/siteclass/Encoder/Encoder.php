@@ -77,4 +77,14 @@ class Encoder implements EncoderInterface
 
         return $result;
     }
+
+    public function fix($array)
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            $result[iconv('CP1252', 'UTF-8', $key)] = (is_array($value) ? $this->fix($value) : (is_string($value) ? iconv('CP1252', 'UTF-8', $value) : $value));
+        }
+
+        return $result;
+    }
 }

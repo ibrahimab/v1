@@ -3,6 +3,8 @@
 		"phpoffice/phpexcel": "1.8.*",
 		"predis/predis": "1.0.1",
 		"gorkalaucirica/hipchat-v2-api-client": "^1.5",
-		"phpoffice/phpword": "0.11"
+		"phpoffice/phpword": "0.11",
+		"symfony/http-foundation": "^3.0",
+		"symfony/var-dumper": "^3.0"
 	}
 }
