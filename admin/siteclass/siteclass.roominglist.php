@@ -1,11 +1,13 @@
 <?php
 
-
 /**
- * roominglist
- */
-
-class roominglist {
+ * class to create roominglists and arrival lists
+ *
+ * @package default
+ * @author  Jeroen Boschman <jeroen@webtastic.nl>
+ **/
+class roominglist
+{
 
 	public $totaal;
 	public $leverancier_id;
@@ -35,7 +37,8 @@ class roominglist {
 	private $colspan;
 	private $ms_word = false;
 
-	function __construct() {
+	function __construct()
+	{
 
 		// Roominglist totaal of Roominglist op datum (=aankomstlijst)
 		$this->totaal = true;
@@ -44,11 +47,14 @@ class roominglist {
 		$this->van = mktime( 0, 0, 0, date( "m" ), date( "d" ), date( "Y" ) );
 	}
 
-	public function vergelijk_lijsten() {
-
-		//
-		// Vergelijk de oude met de nieuwe roominglist
-		//
+	/**
+	 * Compare old and new roominglist.
+	 * Check for changes and save number of changes in field `roominglist_aantal_wijzigingen`
+	 *
+	 * @return void
+	 **/
+	public function vergelijk_lijsten()
+	{
 
 		$db = new DB_sql;
 		$db2 = new DB_sql;
@@ -98,11 +104,16 @@ class roominglist {
 		}
 	}
 
-	public function vergelijk_lijsten_arrivals() {
 
-		//
-		// Vergelijk de oude met de nieuwe aankomstlijst
-		//
+	/**
+	 * Compare old and new arrival list.
+	 * Check for changes and save number of changes in table `leverancier_aankomstlijst`
+	 *
+	 * @return void
+	 **/
+	public function vergelijk_lijsten_arrivals()
+	{
+
 
 		$db = new DB_sql;
 		$db2 = new DB_sql;
@@ -156,7 +167,15 @@ class roominglist {
 		}
 	}
 
-	private function cleanupCompare($html) {
+	/**
+	 * remove html between '<!-- ignore_in_changes_check_start -->' and '<!-- ignore_in_changes_check_end -->'
+	 * This is used to ignore the html between these tags when comparing old and new
+	 *
+	 * @param string $html
+	 * @return string
+	 **/
+	private function cleanupCompare($html)
+	{
 
 		$clean_html = $html;
 		$clean_html = preg_replace("@<\!-- ignore_in_changes_check_start -->.*?<\!-- ignore_in_changes_check_end -->@", "", $clean_html);
@@ -165,7 +184,14 @@ class roominglist {
 		return $clean_html;
 	}
 
-	public function create_list($ms_word = false) {
+	/**
+	 * create roominglist / arrival list
+	 *
+	 * @param boolean $ms_word generate output that can be used in an MS Word File
+	 * @return array
+	 **/
+	public function create_list($ms_word = false)
+	{
 
 		global $vars, $mustlogin;
 
@@ -359,9 +385,6 @@ class roominglist {
 					$accnaam_kort_aanvullend.=" <i>(our name: ".wt_he( $db->f( "accommodatie" ).( $db->f( "type" ) ? " ".$db->f( "type" ) : "" ) ).")</i>";
 				}
 				$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
-
-
-
 
 				$naam=$db->f( "aan_leverancier_doorgegeven_naam" );
 
@@ -619,10 +642,7 @@ class roominglist {
 
 				$regels[$sortkey] .= $this->renderParticipantsTable($participants, $bookingdata);
 			}
-
 		}
-
-
 
 		//
 		// eigenaar_blokkering
@@ -662,12 +682,7 @@ class roominglist {
 			}
 			$regels[$sortkey].="<td valign=\"top\">&nbsp;</td><td valign=\"top\">".( $db->f( "tekst_extra_options" ) ? nl2br( wt_he( $db->f( "tekst_extra_options" ) ) ) : "&nbsp;" )."</td></tr>";
 
-
-
-
 		}
-
-
 
 		//
 		// process regels
@@ -791,13 +806,21 @@ class roominglist {
 
 	}
 
-	private function renderParticipantsTable($participants, $bookingdata) {
+	/**
+	 * render the html for the table with all participants per booking
+	 *
+	 * @param array $participants participants data
+	 * @param array $bookingdata booking data
+	 * @return string
+	 **/
+	private function renderParticipantsTable($participants, $bookingdata)
+	{
 
 		$html = '';
 
 		$html .= "<!-- ignore_in_changes_check_start -->";
 
-		$html .= "<tr style='mso-yfti-irow:1;page-break-inside:avoid;color:#777777'><td colspan=\"".$this->colspan."\">";
+		$html .= "<tr style='color:#777777'><td colspan=\"".$this->colspan."\">";
 		$html .= "<table style='table-layout:fixed;'>";
 
 
