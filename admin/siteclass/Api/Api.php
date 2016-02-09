@@ -20,6 +20,12 @@ class Api
     /** @var integer */
     const API_ENDPOINT_PRICE_TABLE      = 3;
 
+    /** @var integer */
+    const API_ENDPOINT_STARTING_PRICE   = 4;
+
+    /** @var integer */
+    const API_ENDPOINT_FEATURES         = 5;
+
     /**
      * @var integer
      */
@@ -43,6 +49,8 @@ class Api
         self::API_ENDPOINT_ADDITIONAL_COSTS,
         self::API_ENDPOINT_BOOKING,
         self::API_ENDPOINT_PRICE_TABLE,
+        self::API_ENDPOINT_STARTING_PRICE,
+        self::API_ENDPOINT_FEATURES,
     ];
 
     /**
@@ -77,6 +85,14 @@ class Api
 
             case self::API_ENDPOINT_PRICE_TABLE:
                 return new PriceTable($this->request);
+            break;
+
+            case self::API_ENDPOINT_STARTING_PRICE:
+                return new StartingPrice($this->request);
+            break;
+
+            case self::API_ENDPOINT_FEATURES:
+                return new Features($this->request);
             break;
         }
     }
