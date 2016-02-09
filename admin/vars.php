@@ -310,7 +310,7 @@ $vars["path"]=$path;
 $vars["unixdir"]=$unixdir;
 
 /**
- * ANVR/SGR & Calamiteitenfonds
+ * ANVR/SGR/Calamiteitenfonds/Zoover
  *
  *
  * + ------------------------------------------------------------ +
@@ -322,10 +322,30 @@ $vars["unixdir"]=$unixdir;
  * + ------------------------------------------------------------ +
  * + SGR      | - | + | - | + | - | - | + | - | - | - | - | + | + +
  * + ------------------------------------------------------------ +
+ * + Zoover   | + | - | - | - | - | - | - | - | - | - | + | + | - +
+ * + ------------------------------------------------------------ +
  */
-$vars['anvr']  = ['C', 'T', 'B', 'V', 'X', 'Z', 'I', 'K'];
-$vars['sgr_c'] = ['C', 'T', 'V', 'X', 'Z', 'I'];
-$vars['sgr']   = ['E', 'Q', 'H', 'B', 'K'];
+$vars['anvr']   = ['C', 'T', 'B', 'V', 'X', 'Z', 'I', 'K'];
+$vars['sgr_c']  = ['C', 'T', 'V', 'X', 'Z', 'I'];
+$vars['sgr']    = ['E', 'Q', 'H', 'B', 'K'];
+$vars['zoover'] = [
+
+    'C' => [
+
+        'link'  => 'http://www.zooverawards.nl/chalet',
+        'image' => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016.png',
+    ],
+    'I' => [
+
+        'link'  => 'http://www.zooverawards.nl/italissima',
+        'image' => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016.png',
+    ],
+    'K' => [
+
+        'link'  => 'http://www.zooverawards.nl/italissima',
+        'image' => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016.png',
+    ],
+];
 
 /*
  * Enable this to track conversion again
