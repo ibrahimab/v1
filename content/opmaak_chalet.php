@@ -255,9 +255,8 @@ echo "</td></tr></table>";
 echo "</div>\n";
 
 // Zoover-awards
-if($vars["website"]=="C" || $vars["website"] == "B") {
-    echo "<a href=\"" . $vars['path'] . "zooverawards2015\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\" style=\"right: 120px; top: 20px;\"><img src=\"".wt_he($vars["path"]."pic/tijdelijk/zoover/chalet/zoover-1.png")."\"></a>";
-    echo "<a href=\"" . $vars['path'] . "zooverawards2015\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\" style=\"top: 20px;\"><img src=\"".wt_he($vars["path"]."pic/tijdelijk/zoover/chalet/zoover-2.png")."\"></a>";
+if (in_array($vars['website'], array_keys($vars['zoover']))) {
+	echo '<a href="' . $vars['zoover'][$vars['website']]['link'] . '" target="_blank" class="zoover_awards analytics_track_external_click"><img src="' . $vars['zoover'][$vars['website']]['image'] . '" /></a>';
 }
 
 echo "<div id=\"topfoto\">";

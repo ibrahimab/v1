@@ -211,9 +211,9 @@ if($vars["italissima_topfoto"]) {
 }
 echo "\" width=\"760\" height=\"160\" alt=\"\" />";
 
-// Zoover-awards o/p italissima.nl en italissima.be
-if($vars["website"]=="I" || $vars["website"] == "K") {
-    echo "<a href=\"" . $vars['path'] . "zooverawards2015\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\" style=\"top: 12px; right: 12px;\"><img src=\"".wt_he($vars["path"]."pic/tijdelijk/zoover/italissima/zoover.png")."\"></a>";
+// Zoover-awards
+if (in_array($vars['website'], array_keys($vars['zoover']))) {
+	echo '<a href="' . $vars['zoover'][$vars['website']]['link'] . '" target="_blank" class="zoover_awards analytics_track_external_click"><img src="' . $vars['zoover'][$vars['website']]['image'] . '" /></a>';
 }
 
 echo "</div>\n"; # afsluiten topfoto
