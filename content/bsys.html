@@ -547,11 +547,11 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 					} else {
 						echo "<tr><td valign=\"top\" width=\"175\">Aantal personen</td><td>".$gegevens["stap1"]["aantalpersonen"]."</td></tr>";
 					}
-					echo "<tr".(ereg("ANN_",$gegevens["stap1"]["gewijzigd"]) ?  " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Annuleringsverzekering</td><td>".($gegevens["stap1"]["annverz_aantalpersonen"] ? "ja" : "nee")."</td></tr>";
-					echo "<tr".(ereg("OPM_OPTIES",$gegevens["stap1"]["gewijzigd"]) ?  " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Opmerkingen m.b.t. opties</td><td>".nl2br(wt_he($gegevens["stap1"]["opmerkingen_opties"]))."&nbsp;</td></tr>";
-					echo "<tr><td valign=\"top\" width=\"175\">Opmerkingen stap 5</td><td>".nl2br(wt_he($gegevens["stap1"]["opmerkingen_boeker"]))."&nbsp;</td></tr>";
-					echo "<tr".(ereg("SCHADEVERZEKERING",$gegevens["stap1"]["gewijzigd"]) ?  " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Schade Logies Verblijven</td><td>".($gegevens["stap1"]["schadeverzekering"] ? "ja" : "nee")."&nbsp;</td></tr>";
-					if(ereg("OPTIES_NA_GEBOORTEDATUM",$gegevens["stap1"]["gewijzigd"])) {
+					echo "<tr".(preg_match("@ANN_@",$gegevens["stap1"]["gewijzigd"]) ? " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Annuleringsverzekering</td><td>".($gegevens["stap1"]["annverz_aantalpersonen"] ? "ja" : "nee")."</td></tr>";
+					echo "<tr".(preg_match("@OPM_OPTIES@",$gegevens["stap1"]["gewijzigd"]) ? " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Opmerkingen m.b.t. opties</td><td>".nl2br(wt_he($gegevens["stap1"]["opmerkingen_opties"]))."&nbsp;</td></tr>";
+					echo "<tr".(preg_match("@OPM_STAP5@",$gegevens["stap1"]["gewijzigd"]) ? " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Opmerkingen stap 5</td><td>".nl2br(wt_he($gegevens["stap1"]["opmerkingen_boeker"]))."&nbsp;</td></tr>";
+					echo "<tr".(preg_match("@SCHADEVERZEKERING@",$gegevens["stap1"]["gewijzigd"]) ? " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Schade Logies Verblijven</td><td>".($gegevens["stap1"]["schadeverzekering"] ? "ja" : "nee")."&nbsp;</td></tr>";
+					if(preg_match("@OPTIES_NA_GEBOORTEDATUM@",$gegevens["stap1"]["gewijzigd"])) {
 						echo "<tr style=\"background-color:#FFA6AA;\"><td valign=\"top\" width=\"175\" colspan=\"2\">Let op: er zijn opties gewist n.a.v. geboortedatum-wijzigingen</td></tr>";
 					}
 					echo "</table>";
@@ -948,5 +948,3 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		}
 	}
 }
-
-?>

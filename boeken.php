@@ -1,6 +1,5 @@
 <?php
 
-
 $init_loginclass_voor_chaletmedewerkers=true;
 
 if(!$mustlogin and !$boeking_wijzigen) {
@@ -2791,19 +2790,24 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 		} elseif($_GET["stap"]==4) {
 
-			# opmerkingen_opties en wijzigingen opslaan
+			// changes in damage insurance (schadeverzekering)
 			if($boeking_wijzigen and $gegevens["stap1"]["gezien"]) {
-				if($form->input["opmerkingen_opties"]) {
-					$gegevens["stap1"]["gewijzigd"].="\nOPM_OPTIES";
-				}
 				if(!$form->input["schadeverzekering"]) $form->input["schadeverzekering"]=0;
 				if($schadeverzekering_checkbox_getoond and $form->input["schadeverzekering"]<>$gegevens["stap1"]["schadeverzekering"]) {
 					$gegevens["stap1"]["gewijzigd"].="\nSCHADEVERZEKERING";
 				}
 			}
 
-
+			// changes in option-remarks
 			if($form->input["opmerkingen_opties"]) {
+
+				if (!preg_match("@OPM_OPTIES@", $gegevens["stap1"]["gewijzigd"])) {
+
+					// mark the option-remarks as changed
+					$gegevens["stap1"]["gewijzigd"] .= "\nOPM_OPTIES";
+
+				}
+
 				if($boeking_wijzigen) {
 					if($gegevens["stap1"]["opmerkingen_opties"]) {
 						$gegevens["stap1"]["opmerkingen_opties"].="\n\n";
@@ -2948,8 +2952,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$gegevens["stap1"]["commissie"]=$gegevens["stap1"]["accinfo"]["commissie"]+$gegevens["stap1"]["reisbureau_aanpassing_commissie"];
 			}
 
+			if ($form->input["opmerkingen_boeker"]) {
+				// mark the booking-remarks as changed
+				$gegevens["stap1"]["gewijzigd"] .= "\nOPM_STAP5";
+			}
+
 			# Gegevens opslaan
-			$db->query("UPDATE boeking SET verkoop='".addslashes($gegevens["stap1"]["verkoop"])."', accprijs='".addslashes($gegevens["stap1"]["accprijs"])."', ".($gegevens["stap1"]["reisbureau_user_id"] ? "commissie='".addslashes($gegevens["stap1"]["commissie"])."', " : "")."opmerkingen_boeker='".addslashes($form->input["opmerkingen_boeker"])."', ".($form->input["referentiekeuze"] ? "referentiekeuze='".addslashes($form->input["referentiekeuze"])."', " : "").($form->input["verzendmethode_reisdocumenten"] ? "verzendmethode_reisdocumenten='".addslashes($form->input["verzendmethode_reisdocumenten"])."', " : "")."bevestigdatum=NOW()".$setquery_inkoop." WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+			$db->query("UPDATE boeking SET verkoop='".addslashes($gegevens["stap1"]["verkoop"])."', accprijs='".addslashes($gegevens["stap1"]["accprijs"])."', ".($gegevens["stap1"]["reisbureau_user_id"] ? "commissie='".addslashes($gegevens["stap1"]["commissie"])."', " : "")."opmerkingen_boeker='".addslashes($form->input["opmerkingen_boeker"])."', ".($form->input["referentiekeuze"] ? "referentiekeuze='".addslashes($form->input["referentiekeuze"])."', " : "").($form->input["verzendmethode_reisdocumenten"] ? "verzendmethode_reisdocumenten='".addslashes($form->input["verzendmethode_reisdocumenten"])."', " : "")."gewijzigd='".addslashes($gegevens["stap1"]["gewijzigd"])."', bevestigdatum=NOW()".$setquery_inkoop." WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 
 			# E-mailadres en wachtwoord opslaan in boekinguser
 			$db->query("SELECT user_id, password FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
