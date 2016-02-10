@@ -251,6 +251,8 @@ RewriteCond %{REMOTE_ADDR} !^89\.200\.202\.34
 RewriteCond %{REMOTE_ADDR} !^62\.194\.11\.6
 # Ibrahim
 RewriteCond %{REMOTE_ADDR} !^62\.194\.208\.250
+# web server for api
+RewriteCond %{REMOTE_ADDR} !^87\.250\.157\.205
 
 RewriteRule ^(.*)$ https://www.chalet.nl/error_msg.php?t=1 [L,R=301]
 
