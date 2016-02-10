@@ -6,7 +6,7 @@ use Chalet\Api\Auth\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-$request  = Request::createFromGlobals();
+$request = Request::createFromGlobals();
 
 try {
 
