@@ -981,6 +981,8 @@ while(list($key,$value)=@each($xml_urls)) {
 					$prices				  = new PricesParser($xml, $feedFetcher, $testsysteem);
 					$xml_brutoprijs[$key] = $prices->parse();
 				}
+
+				$xml_laatsteimport_leverancier[$key] = true;
 			}
 		} else {
 			// trigger_error("_notice: URL ".$value2." onbereikbaar of geen valide XML",E_USER_NOTICE);
