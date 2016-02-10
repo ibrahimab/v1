@@ -541,6 +541,9 @@ RewriteRule ^zoover/?$ /zooverawards2015 [L,R=301]
 RewriteRule ^zooverawards2015/$ /zooverawards2015 [L,R=301]
 RewriteRule ^zooverawards2015$ zoover-awards.php?%{QUERY_STRING}
 
+RewriteRule ^zooverawards2016/$ /zooverawards2016 [L,R=301]
+RewriteRule ^zooverawards2016$ zoover-2016.php?%{QUERY_STRING}
+
 #
 # afgelopen acties
 #

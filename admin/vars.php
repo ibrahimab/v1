@@ -332,18 +332,31 @@ $vars['zoover'] = [
 
     'C' => [
 
-        'link'  => 'http://www.zooverawards.nl/chalet',
-        'image' => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016.png',
+        'website'   => 'C',
+        'link'      => 'https://www.zooverawards.nl/chalet',
+        'image'     => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016.png',
+        'big_image' => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016-big.jpg',
+    ],
+    'B' => [
+
+        'website'   => 'C',
+        'link'      => 'https://www.zooverawards.nl/chalet',
+        'image'     => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016.png',
+        'big_image' => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016-big.jpg',
     ],
     'I' => [
 
-        'link'  => 'http://www.zooverawards.nl/italissima',
-        'image' => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016.png',
+        'website'   => 'I',
+        'link'      => 'https://www.zooverawards.nl/italissima',
+        'image'     => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016.png',
+        'big_image' => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016-big.jpg',
     ],
     'K' => [
 
-        'link'  => 'http://www.zooverawards.nl/italissima',
-        'image' => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016.png',
+        'website'   => 'I',
+        'link'      => 'https://www.zooverawards.nl/italissima',
+        'image'     => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016.png',
+        'big_image' => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016-big.jpg',
     ],
 ];
 

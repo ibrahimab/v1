@@ -213,7 +213,7 @@ echo "\" width=\"760\" height=\"160\" alt=\"\" />";
 
 // Zoover-awards
 if (in_array($vars['website'], array_keys($vars['zoover']))) {
-	echo '<a href="' . $vars['zoover'][$vars['website']]['link'] . '" target="_blank" class="zoover_awards analytics_track_external_click"><img src="' . $vars['zoover'][$vars['website']]['image'] . '" /></a>';
+	echo '<a href="' . $vars['zoover'][$vars['website']]['link'] . '" class="zoover_awards analytics_track_external_click"><img src="' . $vars['zoover'][$vars['website']]['image'] . '" /></a>';
 }
 
 echo "</div>\n"; # afsluiten topfoto
