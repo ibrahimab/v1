@@ -75,15 +75,11 @@ $(document).ready(function() {
 		<td>Backup-server</td>
 	</tr>
 	<tr>
-		<td><a href="http://ibrahim.chalet.nl/chalet/">ibrahim.chalet.nl</a></td>
-		<td>Test-website op de pc van Ibrahim</td>
+		<td><a href="http://docs.chalet.nl">docs.chalet.nl</a></td>
+		<td>Interne Wiki</td>
 	</tr>
 	<tr>
-		<td><a href="http://chalet-dev.web.netromtest.ro">www.chalet-dev.web.netromtest.ro</a></td>
-		<td>Test-website bij NetRom</td>
-	</tr>
-	<tr>
-		<td><a href="https://www.chalet.nl/webkleuren.php">www.chalet.nl</a></td>
+		<td><a href="https://www.chalet.nl/webkleuren.php">www.chalet.nl/webkleuren.php</a></td>
 		<td>Gebruikte kleurencombinaties</td>
 	</tr>
 	<tr>
@@ -141,8 +137,8 @@ $(document).ready(function() {
 		<td>Wi-Fi netwerk</td>
 	</tr>
 	<tr>
-		<td><a href="https://accounts.google.com/ServiceLogin">chaletbackup@gmail.com</a></td>
-		<td>Wkj8uhU7a4</td>
+		<td><a href="https://accounts.google.com/ServiceLogin">chaletmailbackup@gmail.com</a></td>
+		<td></td>
 		<td>Backup van alle automatische e-mail</td>
 	</tr>
 
@@ -209,6 +205,10 @@ $(document).ready(function() {
 		<td>Aanbod Italië Engelstalig</td>
 	</tr>
 </table>
+
+<br />
+
+<p><i>Versie 01/02/2016</i></p>
 
 </body>
 
