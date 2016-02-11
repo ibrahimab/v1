@@ -22,7 +22,7 @@ class StartingPrice extends Endpoint
         self::API_METHOD_GET_STARTING_PRICES => [
 
             'method'   => 'getStartingPrices',
-            'required' => ['type_id'],
+            'required' => [],
         ],
     ];
 
@@ -32,7 +32,8 @@ class StartingPrice extends Endpoint
     public function getStartingPrices()
     {
         $startingPrice = new \vanafprijs();
+        $data          = json_decode($this->request->getContent(), true);
 
-        return $startingPrice->get_vanafprijs(implode(',', $this->request->query->get('type_id')));
+        return (count($data) > 0 ? ($startingPrice->get_vanafprijs(implode(',', $data['type_id']))) : []);
     }
 }
