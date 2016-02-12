@@ -262,7 +262,16 @@ if($boeking_bepaalt_taal and $_GET["bid"]) {
 
 # Testsite bepalen
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or (defined("wt_test") and wt_test===true)) {
-	$vars["testsite"]=file_get_contents($unixdir."tmp/testsite.txt");
+
+	// default testsite to chalet.nl if it does not exist
+	if (!file_exists($unixdir . 'tmp/testsite.txt')) {
+
+		$vars['website'] = 'C';
+		file_put_contents($unixdir . 'tmp/testsite.txt', $vars['website']);
+
+	} else {
+		$vars['testsite'] = file_get_contents($unixdir . 'tmp/testsite.txt');
+	}
 }
 
 if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
