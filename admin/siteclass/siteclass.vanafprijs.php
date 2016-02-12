@@ -3,8 +3,7 @@
 /**
 * class to pre-calculate the minimum prices (vanafprijs) per type
 *
-* @author: Jeroen Boschman (jeroen@webtastic.nl)
-* @since: 2015-06-09 10:00
+* @author  Jeroen Boschman <jeroen@webtastic.nl>
 */
 
 class vanafprijs extends chaletDefault
@@ -12,6 +11,13 @@ class vanafprijs extends chaletDefault
 
 	/**  object for bijkomendekosten */
 	private $bk;
+
+	/**
+	 * whether the class is used by the new website (through the api)
+	 *
+	 * @var boolean
+	 **/
+	public $newWebsite = false;
 
 	/**
 	 * call the parent constructor
@@ -288,4 +294,3 @@ class vanafprijs extends chaletDefault
 
 	}
 }
-

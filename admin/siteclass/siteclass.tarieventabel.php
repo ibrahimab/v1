@@ -27,6 +27,12 @@ class tarieventabel {
 
 	private $config;
 
+	/**
+	 * whether the class is used by the new website (through the api)
+	 *
+	 * @var boolean
+	 **/
+	public $newWebsite = false;
 
 	/**
 	 * set default values
