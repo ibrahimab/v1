@@ -1,11 +1,15 @@
 <?php
 
-
-#
-#
-# Bepalen welke website wordt opgevraagd
-#
-#
+/**
+ * Website-controller:
+ * - determine which website is active
+ * - configuration of each website
+ *
+ * For a list of these sites see:
+ * https://github.com/Chalet/Website-Chalet.nl/wiki/Verschillende-websites-en-bijbehorende-variabelen
+ *
+ * @author  Jeroen Boschman <jeroen@webtastic.nl>
+ **/
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro" or defined("wt_test")) {
 	$vars["lokale_testserver"]=true;
@@ -38,6 +42,21 @@ if($vars["lokale_testserver"]) {
 	$vars["cms_basehref"]="https://www.chalet.nl/";
 }
 
+//
+// alowed hostnames per site (only C (Chalet.nl) for now)
+// @todo: add other sites (E, D, T, B, Z, V, Q, I, K, H, X, Y)
+//
+$allowed_hostnames = [
+	'C' => [
+		'www.chalet.nl',
+		'www2.chalet.nl',
+		'wwwtest.chalet.nl',
+		'web01.chalet.nl',
+		'web02.chalet.nl',
+		'test.chalet.nl',
+		'legacy.chalet.nl',
+	]
+];
 
 #
 # Websitetype en seizoentype bepalen
@@ -45,8 +64,10 @@ if($vars["lokale_testserver"]) {
 $_SERVER["HTTP_HOST"]=strtolower($_SERVER["HTTP_HOST"]);
 if(substr($_SERVER["HTTP_HOST"],-3)==":80") $_SERVER["HTTP_HOST"]=substr($_SERVER["HTTP_HOST"],0,-3);
 if(substr($_SERVER["HTTP_HOST"],-1)==".") $_SERVER["HTTP_HOST"]=substr($_SERVER["HTTP_HOST"],0,-1);
-if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="wwwtest.chalet.nl" or $_SERVER["HTTP_HOST"]=="web01.chalet.nl" or $_SERVER["HTTP_HOST"]=="web02.chalet.nl" or $_SERVER["HTTP_HOST"]=="test.chalet.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="C")) {
-	# Chalet.nl Winter
+if($cron or in_array($_SERVER["HTTP_HOST"], $allowed_hostnames['C']) or ($vars["lokale_testserver"] and $vars["testsite"]=="C")) {
+	//
+	// Chalet.nl
+	//
 	$vars["websitetype"]=1;
 	$vars["websitenaam"]="Chalet.nl";
 	$vars["langewebsitenaam"]="Chalet.nl B.V.";
@@ -70,26 +91,26 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["trustpilot_code"]="bd82d1c7@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
 
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		$vars["docdata_payments"] = array(
-			"docdata_idl" => array(
-				"title"	=> 	"iDEAL",
-				"icon"	=>	"pic/payment_icons/ideal.png",
-				"by"	=> 	"idl",
-				"country" => array("NL")
-			),
-			"docdata_mrc" => array(
-				"title" =>	"MrCash",
-				"icon"	=>	"pic/payment_icons/mrcash.png",
-				"by"	=>	"mrc",
-				"country" => array("BE"),
-			)
-		);
+	$vars["docdata_payments"] = array(
+		"docdata_idl" => array(
+			"title"	=> 	"iDEAL",
+			"icon"	=>	"pic/payment_icons/ideal.png",
+			"by"	=> 	"idl",
+			"country" => array("NL")
+		),
+		"docdata_mrc" => array(
+			"title" =>	"MrCash",
+			"icon"	=>	"pic/payment_icons/mrcash.png",
+			"by"	=>	"mrc",
+			"country" => array("BE"),
+		)
+	);
 
-		$vars['docdata_payments_hide_logos'] = ['docdata_mrc'];
-	// }
+	$vars['docdata_payments_hide_logos'] = ['docdata_mrc'];
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or $_SERVER["HTTP_HOST"]=="test.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="E")) {
-	# Winter Chalet.eu Engelstalig
+	//
+	// Chalet.eu Engelstalig
+	//
 	$vars["websitetype"]=1;
 	$vars["websitenaam"]="Chalet.eu";
 	$vars["langewebsitenaam"]="Chalet.eu";
@@ -109,35 +130,35 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]="4-VeMFxufQbX";
 	$vars["trustpilot_code"]="5aa723efa5@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		$vars["docdata_payments"] = array(
-			"docdata_vi" => array(
-				"title"	=> 	"Visa",
-				"icon"	=>	"pic/payment_icons/visa.png",
-				"by"	=> 	"vi"
-			),
-			"docdata_mc" => array(
-				"title"	=> 	"MasterCard",
-				"icon"	=>	"pic/payment_icons/mastercard.png",
-				"by"	=> 	"mc"
-			),
-			"docdata_idl" => array(
-				"title"	=> 	"iDEAL",
-				"icon"	=>	"pic/payment_icons/ideal.png",
-				"by"	=> 	"idl",
-				"country" => array("NL")
-			),
-			"docdata_mrc" => array(
-				"title" =>	"Mister Cash",
-				"icon"	=>	"pic/payment_icons/mrcash.png",
-				"by"	=>	"mrc",
-				"country" => array("BE")
-			)
-		);
-		$vars['docdata_payments_hide_logos'] = ['docdata_idl', 'docdata_mrc'];
-	// }
+	$vars["docdata_payments"] = array(
+		"docdata_vi" => array(
+			"title"	=> 	"Visa",
+			"icon"	=>	"pic/payment_icons/visa.png",
+			"by"	=> 	"vi"
+		),
+		"docdata_mc" => array(
+			"title"	=> 	"MasterCard",
+			"icon"	=>	"pic/payment_icons/mastercard.png",
+			"by"	=> 	"mc"
+		),
+		"docdata_idl" => array(
+			"title"	=> 	"iDEAL",
+			"icon"	=>	"pic/payment_icons/ideal.png",
+			"by"	=> 	"idl",
+			"country" => array("NL")
+		),
+		"docdata_mrc" => array(
+			"title" =>	"Mister Cash",
+			"icon"	=>	"pic/payment_icons/mrcash.png",
+			"by"	=>	"mrc",
+			"country" => array("BE")
+		)
+	);
+	$vars['docdata_payments_hide_logos'] = ['docdata_idl', 'docdata_mrc'];
 } elseif($_SERVER["HTTP_HOST"]=="www.chaletonline.de" or $_SERVER["HTTP_HOST"]=="test.chaletonline.de" or ($vars["lokale_testserver"] and $vars["testsite"]=="D")) {
-	# Chaletonline.de (Duitstalig)
+	//
+	// Chaletonline.de (Duitstalig)
+	//
 	$vars["websitetype"]=1;
 	$vars["websitenaam"]="Chaletonline.de";
 	$vars["langewebsitenaam"]="Chaletonline.de";
@@ -170,7 +191,9 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 		),
 	);
 } elseif($_SERVER["HTTP_HOST"]=="www.chalettour.nl" or $_SERVER["HTTP_HOST"]=="test.chalettour.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="T")) {
-	# Chalettour Winter
+	//
+	// Chalettour Winter
+	//
 	$vars["websitetype"]=4;
 	$vars["websitenaam"]="Chalettour.nl";
 	$vars["langewebsitenaam"]="Chalettour.nl";
@@ -190,7 +213,9 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.be" or $_SERVER["HTTP_HOST"]=="test.chalet.be" or ($vars["lokale_testserver"] and $vars["testsite"]=="B")) {
-	# Chalet.be Winter
+	//
+	// Chalet.be Winter
+	//
 	$vars["websitetype"]=1;
 	$vars["websitenaam"]="Chalet.be";
 	$vars["langewebsitenaam"]="Chalet.be";
@@ -211,18 +236,18 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]="3-eex4-wCgtM";
 	$vars["trustpilot_code"]="959caf69@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		$vars["docdata_payments"] = array(
-			"docdata_mrc" => array(
-				"title" => 	"Mister Cash",
-				"icon"	=>	"pic/payment_icons/mrcash.png",
-				"by"	=>	"mrc",
-				"country" => array("BE")
-			)
-		);
-	// }
+	$vars["docdata_payments"] = array(
+		"docdata_mrc" => array(
+			"title" => 	"Mister Cash",
+			"icon"	=>	"pic/payment_icons/mrcash.png",
+			"by"	=>	"mrc",
+			"country" => array("BE")
+		)
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl" or $_SERVER["HTTP_HOST"]=="test.zomerhuisje.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="Z")) {
-	# Zomerhuisje.nl
+	//
+	// Zomerhuisje.nl
+	//
 	$vars["websitetype"]=3;
 	$vars["websitenaam"]="Zomerhuisje.nl";
 	$vars["langewebsitenaam"]="Zomerhuisje.nl";
@@ -244,19 +269,20 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["trustpilot_code"]="47c47023@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		$vars["docdata_payments"] = array(
-			"docdata_idl" => array(
-				"title"	=> 	"iDEAL",
-				"icon"	=>	"pic/payment_icons/ideal.png",
-				"by"	=> 	"idl",
-				"country" => array("NL")
-			)
-		);
-	// }
+	$vars["docdata_payments"] = array(
+		"docdata_idl" => array(
+			"title"	=> 	"iDEAL",
+			"icon"	=>	"pic/payment_icons/ideal.png",
+			"by"	=> 	"idl",
+			"country" => array("NL")
+		)
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.eu" or $_SERVER["HTTP_HOST"]=="test.zomerhuisje.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="N")) {
-	# Zomerhuisje.eu (NIET MEER IN GEBRUIK!)
+	//
+	// Zomerhuisje.eu
+	//
+	// NOT IN USE ANYMORE!
+	//
 	$vars["websitetype"]=3;
 	$vars["websitenaam"]="Zomerhuisje.eu";
 	$vars["langewebsitenaam"]="Zomerhuisje.eu";
@@ -275,7 +301,9 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
 } elseif($_SERVER["HTTP_HOST"]=="www.chaletsinvallandry.nl" or $_SERVER["HTTP_HOST"]=="test.chaletsinvallandry.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="V")) {
-	# Chaletsinvallandry.nl
+	//
+	// Chaletsinvallandry.nl
+	//
 	$vars["websitetype"]=6;
 	$vars["websitenaam"]="Chalets in Vallandry";
 	$vars["langewebsitenaam"]="Chalets in Vallandry";
@@ -294,19 +322,18 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["wederverkoop"]=true;
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		$vars["docdata_payments"] = array(
-			"docdata_idl" => array(
-				"title"	=> 	"iDEAL",
-				"icon"	=>	"pic/payment_icons/ideal.png",
-				"by"	=> 	"idl",
-				"country" => array("NL")
-			)
-		);
-	// }
+	$vars["docdata_payments"] = array(
+		"docdata_idl" => array(
+			"title"	=> 	"iDEAL",
+			"icon"	=>	"pic/payment_icons/ideal.png",
+			"by"	=> 	"idl",
+			"country" => array("NL")
+		)
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.chaletsinvallandry.com" or $_SERVER["HTTP_HOST"]=="test.chaletsinvallandry.com" or $_SERVER["HTTP_HOST"]=="chalet-chaletsinvallandry.web.netromtest.ro" or ($vars["lokale_testserver"] and $vars["testsite"]=="Q")) {
-	# Chaletsinvallandry.com
+	//
+	// Chaletsinvallandry.com
+	//
 	$vars["websitetype"]=6;
 	$vars["websitenaam"]="Chalets in Vallandry";
 	$vars["langewebsitenaam"]="Chalets in Vallandry";
@@ -325,35 +352,34 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["wederverkoop"]=true;
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		$vars["docdata_payments"] = array(
-			"docdata_vi" => array(
-				"title"	=> 	"Visa",
-				"icon"	=>	"pic/payment_icons/visa.png",
-				"by"	=> 	"vi"
-			),
-			"docdata_mc" => array(
-				"title"	=> 	"MasterCard",
-				"icon"	=>	"pic/payment_icons/mastercard.png",
-				"by"	=> 	"mc"
-			),
-			"docdata_idl" => array(
-				"title"	=> 	"iDeal",
-				"icon"	=>	"pic/payment_icons/ideal.png",
-				"by"	=> 	"idl",
-				"country" => array("NL")
-			),
-			"docdata_mrc" => array(
-				"title" =>	"MrCash",
-				"icon"	=>	"pic/payment_icons/mrcash.png",
-				"by"	=>	"mrc",
-				"country" => array("BE")
-			)
-		);
-	// }
+	$vars["docdata_payments"] = array(
+		"docdata_vi" => array(
+			"title"	=> 	"Visa",
+			"icon"	=>	"pic/payment_icons/visa.png",
+			"by"	=> 	"vi"
+		),
+		"docdata_mc" => array(
+			"title"	=> 	"MasterCard",
+			"icon"	=>	"pic/payment_icons/mastercard.png",
+			"by"	=> 	"mc"
+		),
+		"docdata_idl" => array(
+			"title"	=> 	"iDeal",
+			"icon"	=>	"pic/payment_icons/ideal.png",
+			"by"	=> 	"idl",
+			"country" => array("NL")
+		),
+		"docdata_mrc" => array(
+			"title" =>	"MrCash",
+			"icon"	=>	"pic/payment_icons/mrcash.png",
+			"by"	=>	"mrc",
+			"country" => array("BE")
+		)
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.italissima.nl" or $_SERVER["HTTP_HOST"]=="test.italissima.nl" or $_SERVER["HTTP_HOST"]=="chalet-italissima.web.netromtest.ro" or ($vars["lokale_testserver"] and $vars["testsite"]=="I")) {
-	# Italissima.nl
+	//
+	// Italissima.nl
+	//
 	$vars["websitetype"]=7;
 	$vars["websitenaam"]="Italissima";
 	$vars["langewebsitenaam"]="Italissima";
@@ -376,19 +402,18 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]="1-ePbASwCpnf";
 	$vars["trustpilot_code"]="b69417c8@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		$vars["docdata_payments"] = array(
-			"docdata_idl" => array(
-				"title"	=> 	"iDEAL",
-				"icon"	=>	"pic/payment_icons/ideal.png",
-				"by"	=> 	"idl",
-				"country" => array("NL")
-			)
-		);
-	// }
+	$vars["docdata_payments"] = array(
+		"docdata_idl" => array(
+			"title"	=> 	"iDEAL",
+			"icon"	=>	"pic/payment_icons/ideal.png",
+			"by"	=> 	"idl",
+			"country" => array("NL")
+		)
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.italissima.be" or $_SERVER["HTTP_HOST"]=="test.italissima.be" or $_SERVER["HTTP_HOST"]=="chalet-italissimabe.web.netromtest.ro" or ($vars["lokale_testserver"] and $vars["testsite"]=="K")) {
-	# Italissima.be
+	//
+	// Italissima.be
+	//
 	$vars["websitetype"]=7;
 	$vars["websitenaam"]="Italissima";
 	$vars["langewebsitenaam"]="Italissima";
@@ -409,20 +434,18 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]="1-ePbASwCpnf";
 	$vars["trustpilot_code"]="eaacc6b4@trustpilotservice.com";
 	$vars["valt_onder_bedrijf"]=1;
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		$vars["docdata_payments"] = array(
-			"docdata_mrc" => array(
-				"title" =>	"MrCash",
-				"icon"	=>	"pic/payment_icons/mrcash.png",
-				"by"	=>	"mrc",
-				"country" => array("BE")
-			)
-		);
-	// }
+	$vars["docdata_payments"] = array(
+		"docdata_mrc" => array(
+			"title" =>	"MrCash",
+			"icon"	=>	"pic/payment_icons/mrcash.png",
+			"by"	=>	"mrc",
+			"country" => array("BE")
+		)
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.italyhomes.eu" or $_SERVER["HTTP_HOST"]=="test.italyhomes.eu" or $_SERVER["HTTP_HOST"]=="chalet-italyhomes.web.netromtest.ro" or ($vars["lokale_testserver"] and $vars["testsite"]=="H")) {
-
-	# Italyhomes.eu
+	//
+	// Italyhomes.eu
+	//
 	$vars["websitetype"]=7;
 	$vars["websitenaam"]="Italyhomes";
 	$vars["langewebsitenaam"]="Italyhomes";
@@ -444,19 +467,12 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["trustpilot_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		// $vars["docdata_payments"] = array(
-		// 	"docdata_idl" => array(
-		// 		"title"	=> 	"iDEAL",
-		// 		"icon"	=>	"pic/payment_icons/ideal.png",
-		// 		"by"	=> 	"idl",
-		// 		"country" => array("NL")
-		// 	)
-		// );
-	// }
 } elseif($_SERVER["HTTP_HOST"]=="www.superski.nl" or $_SERVER["HTTP_HOST"]=="test.superski.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="W")) {
-	# SuperSki
+	//
+	// SuperSki
+	//
+	// NOT IN USE ANYMORE!
+	//
 	$vars["websitetype"]=8;
 	$vars["websitenaam"]="SuperSki";
 	$vars["langewebsitenaam"]="SuperSki";
@@ -476,7 +492,9 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
 } elseif($_SERVER["HTTP_HOST"]=="www.venturasol.nl" or $_SERVER["HTTP_HOST"]=="test.venturasol.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="X")) {
-	# Venturasol Wintersport
+	//
+	// Venturasol Wintersport
+	//
 	$vars["websitetype"]=9;
 	$vars["websitenaam"]="Venturasol Wintersport";
 	$vars["langewebsitenaam"]="Venturasol Wintersport";
@@ -495,19 +513,10 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["schadeverzekering_mogelijk"]=1;
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
-	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	// 	$vars["docdata_payments"] = array(
-	// 		"docdata_idl" => array(
-	// 			"title"	=> 	"iDEAL",
-	// 			"icon"	=>	"pic/payment_icons/ideal.png",
-	// 			"by"	=> 	"idl",
-	// 			"country" => array("NL")
-	// 		)
-	// 	);
-	// }
 } elseif($_SERVER["HTTP_HOST"]=="www.venturasolvacances.nl" or $_SERVER["HTTP_HOST"]=="test.venturasolvacances.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="Y")) {
-	# Venturasol Vacances
+	//
+	// Venturasol Vacances
+	//
 	$vars["websitetype"]=9;
 	$vars["websitenaam"]="Venturasol Vacances";
 	$vars["langewebsitenaam"]="Venturasol Vacances";
@@ -526,7 +535,9 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=2;
 } else {
-	# Onbekend welke site er wordt opgevraagd
+	//
+	// Onbekend welke site er wordt opgevraagd
+	//
 	if(ereg("chalet\.nl",$_SERVER["HTTP_HOST"])) {
 		header("Location: https://www.chalet.nl/");
 	} elseif(ereg("chalet\.eu",$_SERVER["HTTP_HOST"])) {
