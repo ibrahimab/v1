@@ -32,6 +32,7 @@ class Features extends Endpoint
     public function getStartingPrices()
     {
         $features = new \kenmerken();
+        $features->newWebsite = true;
 
         return $features->get_kenmerken($this->request->query->get('type_id'), $this->request->query->get('data'));
     }

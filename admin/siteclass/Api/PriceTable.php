@@ -39,6 +39,7 @@ class PriceTable extends Endpoint
     public function getTable()
     {
         $table = new \tarieventabel;
+        $table->newWebsite = true;
         $table->show_afwijkend_legenda  = $this->request->query->getBoolean('legenda', true);
         $table->toon_interne_informatie = $this->request->query->getBoolean('internal', false);
         $table->toon_beschikbaarheid    = $this->request->query->getBoolean('availability', false);

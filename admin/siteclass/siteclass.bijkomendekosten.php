@@ -3,25 +3,20 @@
 use Chalet\RedisInterface;
 
 /**
-* Bijkomende kosten
-*/
-
-
-/*
-
-todo:
-- doorlezen CMS-27 en vergelijken met ontwikkelde functionaliteit: alles afgedekt?
-
-
-
-eventueel later:
-- accommodatie-niveau per regel opslaan
-
-bespreken:
-- waar is "borg" "niet van toepassing" voor nodig?
-- gegevens overnemen bij "accommodatie kopieren" nodig?
-
-*/
+ * Additional Costs (bijkomende kosten - bkk)
+ *
+ * - enter and save them (through the CMS)
+ * - (pre)calculate them
+ * - request them
+ * - render html to show them
+ *
+ * Summary: way too much for just one class :-)
+ *
+ * @todo: refactor this bastard
+ *
+ * @package Chalet
+ * @author  Jeroen Boschman <jeroen@webtastic.nl>
+ **/
 
 class bijkomendekosten {
 
@@ -29,6 +24,13 @@ class bijkomendekosten {
 	public $arrangement = false;
 	public $zoek_en_boek_popup = false;
 	public $pre_calculate = false;
+
+	/**
+	 * whether the class is used by the new website (through the api)
+	 *
+	 * @var boolean
+	 **/
+	public $newWebsite = false;
 
 	function __construct($id=0, $soort="type") {
 
@@ -2109,5 +2111,3 @@ class bijkomendekosten {
 		return $return;
 	}
 }
-
-?>

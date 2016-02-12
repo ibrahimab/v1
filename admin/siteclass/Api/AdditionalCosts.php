@@ -68,6 +68,7 @@ class AdditionalCosts extends Endpoint
     {
         $additionalCosts = new \bijkomendekosten($this->request->query->getInt('type_id'), 'type');
         $additionalCosts->setRedis(new \wt_redis);
+        $additionalCosts->newWebsite = true;
         $additionalCosts->seizoen_id = $this->request->query->getInt('season_id');
 
         $get     = array_replace($_GET, ['endpoint' => Api::API_ENDPOINT_BOOKING, 'method' => Booking::API_METHOD_GET_BOOKING_INFO]);
