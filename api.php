@@ -1,4 +1,5 @@
 <?php
+$geen_tracker_cookie = true;
 require 'admin/vars.php';
 
 use Chalet\Api\Api;
