@@ -18,13 +18,6 @@ define("sunnycars_partner_link", "https://partner.sunnycars.nl/ak/743147/");
 // include bkk (bijkomende kosten) in total price?
 define("include_bkk", false);
 
-// Netrom?
-if($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
-	define("netrom_testserver",true);
-} else {
-	define("netrom_testserver",false);
-}
-
 // is this the backup-server?
 if($_SERVER["SERVER_ADDR"]=="149.210.172.200") {
 	$vars["backup_server"] = true;
@@ -68,13 +61,8 @@ if(isset($url[(count($url)-1)]) and !$url[(count($url)-1)]) unset($url[(count($u
 	// $vars["wt_disable_error_handler"]=true;
 // }
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or netrom_testserver or (defined("wt_test") and wt_test===true)) {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or (defined("wt_test") and wt_test===true)) {
 	$vars["lokale_testserver"]=true;
-
-	if(netrom_testserver) {
-		$vars["wt_disable_error_handler"]=true;
-		$vars["lokale_testserver_mailadres"]="chalet@netrom.ro";
-	}
 }
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
@@ -136,6 +124,11 @@ if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$
 	} else {
 		$vars["lokale_testserver_mailadres"]="testform_ss@webtastic.nl";
 	}
+}
+
+// is this the legacy-server?
+if(preg_match("@^legacy\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/legacy-app/@", $unixdir)) {
+	$vars['legacy_server'] = true;
 }
 
 #
