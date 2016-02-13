@@ -30,14 +30,6 @@ if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == t
 	// Switch to test domain
 	$site_url = str_replace("www.", "test.", $site_url);
 
-} elseif(netrom_testserver) {
-
-	// Errors display: true | false
-	define ('DEVELOPMENT_ENVIRONMENT',true);
-
-	// Payment module mode: test | production
-	define('MODULE_MODE', 'test');
-
 } else {
 
 	// Live server
