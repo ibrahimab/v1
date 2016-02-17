@@ -257,8 +257,11 @@ $db->query("UPDATE aanbieding SET tonen=0 WHERE tonen=1 AND einddatum IS NOT NUL
 # Controleren op XML-imports: al 24 uur geen import
 #
 if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
-	$gisteren=mktime(12,0,0,date("m"),date("d")-1,date("Y"));
+
 	$db->query("SELECT leverancier_id, naam, UNIX_TIMESTAMP(xml_laatsteimport) AS xml_laatsteimport FROM leverancier WHERE xml_type>0 ORDER BY naam;");
+	// check one-time-per-day xml-imports: last 24hours no import
+ 	$dailyImportSuppliers = [23];
+ 	$gisteren = mktime((in_array($db->f('xml_type'), $dailyImportSuppliers) ? 0 : 12), 0, 0, date('m'), date('d') - 1, date('Y'));
 	while($db->next_record()) {
 		if(date("Ymd",$db->f("xml_laatsteimport"))<date("Ymd",$gisteren)) {
 			$leverancier_geen_import.="<li><a href=\"https://www.chalet.nl/cms_leveranciers.php?show=8&beheerder=0&8k0=".$db->f("leverancier_id")."\" target=\"_blank\">".wt_he($db->f("naam"))."</a></li>";
