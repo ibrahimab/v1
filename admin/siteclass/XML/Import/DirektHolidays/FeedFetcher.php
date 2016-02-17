@@ -127,7 +127,7 @@ class FeedFetcher
 		}
 
 		if (true === $this->test) {
-			return simplexml_load_file($this->availabilityFile);
+			return $this->loadXml($this->availabilityFile);
 		}
 
 		$data = <<<XML
@@ -137,7 +137,7 @@ class FeedFetcher
 			</AvailRequestSegments>
 		</OTA_HotelAvailRQ>
 XML;
-		return simplexml_load_string($this->post($this->availabilityUrl, $data));
+		return $this->loadXml($this->post($this->availabilityUrl, $data));
 	}
 
 	/**
@@ -150,7 +150,7 @@ XML;
 		}
 
 		if (true === $this->test) {
-			return simplexml_load_file($this->pricesFile);
+			return $this->loadXml($this->pricesFile);
 		}
 
 		$data = <<<XML
@@ -160,7 +160,7 @@ XML;
 			</RatePlans>
 		</OTA_HotelRatePlanRQ>
 XML;
-		return simplexml_load_string($this->post($this->pricesUrl, $data));
+		return $this->loadXml($this->post($this->pricesUrl, $data));
 	}
 
 	/**
@@ -173,7 +173,7 @@ XML;
 		}
 
 		if (true === $this->test) {
-			return simplexml_load_file($this->productsFile);
+			return $this->loadXml($this->productsFile);
 		}
 
 		$data = <<<XML
@@ -183,7 +183,7 @@ XML;
 			</HotelProducts>
 		</OTA_HotelProductRQ>
 XML;
-		return simplexml_load_string($this->post($this->productsUrl, $data));
+		return $this->loadXml($this->post($this->productsUrl, $data));
 	}
 
 	/**
@@ -211,5 +211,36 @@ XML;
 		curl_close($request);
 
 		return $response;
+	}
+
+	/**
+	 * @param string $xml
+	 *
+	 * @return SimpleXMLElement
+	 * @throws InvalidArgumentException
+	 */
+	public function loadXml($xml)
+	{
+		// supress php errors
+		libxml_use_internal_errors(true);
+
+		// try to load xml from string
+		$xml = simplexml_load_string($xml);
+
+		// getting errors
+		$errors = libxml_get_errors();
+
+		// and clearing the errors
+		libxml_clear_errors();
+
+		// enable php warnings for other parts of the system
+		libxml_use_internal_errors(false);
+
+		// throw exception if error arises
+		if (count($errors) > 0) {
+			throw new \InvalidArgumentException('XML string being loaded is not valid');
+		}
+
+		return $xml;
 	}
 }
