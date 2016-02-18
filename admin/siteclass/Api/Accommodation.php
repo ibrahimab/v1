@@ -22,7 +22,7 @@ class Accommodation extends Endpoint
         self::API_METHOD_GET_INFO => [
 
             'method'   => 'getInfo',
-            'required' => ['type_id', 'arrival_date', 'persons'],
+            'required' => ['type_id'],
         ],
     ];
 
@@ -31,8 +31,10 @@ class Accommodation extends Endpoint
      */
     public function getInfo()
     {
-        $data = $this->request->query->all();
+        $typeId      = $this->request->query->get('type_id');
+        $arrivalDate = $this->request->query->get('arrival_date', 0);
+        $persons     = $this->request->query->get('persons', 0);
 
-        return \accinfo($data['type_id'], $data['arrival_date'], $data['persons']);
+        return \accinfo($typeId, $arrivalDate, $persons);
     }
 }
