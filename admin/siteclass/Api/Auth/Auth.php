@@ -2,7 +2,6 @@
 namespace Chalet\Api\Auth;
 
 use Chalet\Api\Auth\UnauthorizedException;
-use Chalet\RedisInterface;
 
 /**
  * @author  Ibrahim Abdullah <ibrahim@chalet.nl>
@@ -11,22 +10,20 @@ use Chalet\RedisInterface;
 class Auth
 {
 	/**
-	 * @var RedisInterface
+	 * @var array
 	 */
-	private $redis;
+	private $allowed;
 
 	/**
 	 * @param RedisInterface $redis
 	 */
-	public function __construct(RedisInterface $redis)
+	public function __construct(array $allowed)
 	{
-		$this->redis = $redis;
+		$this->allowed = $allowed;
 	}
 
 	/**
-	 * Check if user exists in our database by calculating
-	 * signature. If authenticated, generate token to be sent back
-	 * for a single request.
+	 * Check if ip address is allowed to send api requests
 	 *
 	 * @param string $user
 	 * @param string $signature
@@ -34,32 +31,12 @@ class Auth
 	 * @return string
 	 * @throws AuthenticationFailedException
 	 */
-	public function authenticate($token)
+	public function authenticate($address)
 	{
-		if (false === $this->redis->exists('api:legacy:token')) {
-			throw new UnauthorizedException('Invalid token');
+		if (false === in_array($address, $this->allowed)) {
+			throw new UnauthorizedException('IP address is not allowed to send requests');
 		}
-
-		if ($token !== $this->redis->get('api:legacy:token')) {
-			throw new UnauthorizedException('Invalid token');
-		}
-
-		$newToken = $this->generateToken();
-
-		$this->redis->set('api:legacy:token', $newToken);
 
 		return true;
-	}
-
-	/**
-	 * @param string $user
-	 * @param string $signature
-	 *
-	 * @return string
-	 */
-	private function generateToken()
-	{
-		$secret = getenv('API_LEGACY_SECRET') ?: 'chalet-v2';
-		return hash_hmac('sha256', time() . $key, $key);
 	}
 }
