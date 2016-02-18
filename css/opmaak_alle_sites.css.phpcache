@@ -3000,6 +3000,12 @@ nieuwe tarieventabel
 	overflow-x: hidden;
 }
 
+.tarieventabel_toelichting .header {
+	color: inherit;
+	font-variant: normal;
+	font-weight: normal;
+}
+
 .tarieventabel_toelichting h1 {
 	font-size: 12px;
 	font-weight: bold;

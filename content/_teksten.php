@@ -2851,6 +2851,10 @@ $txt["nl"]["toonaccommodatie"]["boeknu"]="Boek nu";
 $txt["de"]["toonaccommodatie"]["boeknu"]="Jetzt buchen";
 $txt["en"]["toonaccommodatie"]["boeknu"]="Book now";
 
+$txt["nl"]["toonaccommodatie"]["optie-aanvragen"]="Optie aanvragen";
+$txt["de"]["toonaccommodatie"]["optie-aanvragen"]="Option anfragen";
+$txt["en"]["toonaccommodatie"]["optie-aanvragen"]="Option request";
+
 $txt["nl"]["toonaccommodatie"]["beschikbaarheidcontroleren"]="Beschikbaarheid controleren";
 $txt["de"]["toonaccommodatie"]["beschikbaarheidcontroleren"]="Verfügbarkeit kontrollieren";
 $txt["en"]["toonaccommodatie"]["beschikbaarheidcontroleren"]="Check availability";
@@ -3688,6 +3692,11 @@ $txt["en_z"]["themas"]["inleiding"]="-";
 $txt["nl"]["tarieventabel"]["tarieven"]="Prijzen";
 $txt["de"]["tarieventabel"]["tarieven"]="Preise";
 $txt["en"]["tarieventabel"]["tarieven"]="Prices";
+
+// API (website v2)
+$txt["nl"]["tarieventabel"]["prijs-en-beschikbaarheid"]="Prijs & beschikbaarheid";
+$txt["de"]["tarieventabel"]["prijs-en-beschikbaarheid"]="";
+$txt["en"]["tarieventabel"]["prijs-en-beschikbaarheid"]="";
 
 $txt["nl"]["tarieventabel"]["ineuros"]="in euro's";
 $txt["de"]["tarieventabel"]["ineuros"]="in Euro";

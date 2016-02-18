@@ -110,7 +110,7 @@ class tarieventabel {
 
 
 		// link to new season
-		if($this->config->seizoentype==1) {
+		if($this->config->seizoentype==1 && !$this->newWebsite) {
 			if($this->seizoen_counter>1) {
 				$return .= "<div class=\"tarieventabel_nextseason\"><a href=\"#\" class=\"tarieventabel_jump_jaarmaand\" data-jaarmaand=\"".date("Ym", $this->seizoeninfo[$this->last_seizoen_id]["begin"])."\">".html("nualteboeken", "tarieventabel", array("v_seizoennaam"=>$this->seizoeninfo[$this->last_seizoen_id]["naam"]))." &raquo;</a></div>";
 			} else {
@@ -139,7 +139,7 @@ class tarieventabel {
 			}
 		}
 
-		if($this->config->websitetype<>4) {
+		if ($this->config->websitetype<>4 && !$this->newWebsite) {
 			//
 			// tekst "hulp bij online boeken" tonen
 			//
@@ -282,6 +282,7 @@ class tarieventabel {
 		// book-button
 		$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\">".html("boeknu", "toonaccommodatie")." &raquo;</button>";
 
+
 		if($this->toon_commissie and $this->commissie[$aankomstdatum]>0) {
 
 			// calculate commission
@@ -330,6 +331,7 @@ class tarieventabel {
 		$this->tarieven_uit_database();
 
 		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+		$bijkomendekosten->newWebsite = $this->newWebsite;
 		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->seizoen_id = $this->seizoen_id;
 		$bijkomendekosten->pre_boeken = true;
@@ -420,6 +422,7 @@ class tarieventabel {
 		$this->tarieven_uit_database();
 
 		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+		$bijkomendekosten->newWebsite = $this->newWebsite;
 		$bijkomendekosten->setRedis(new wt_redis);
 
 		if (preg_match("@,@", $this->seizoen_id)) {
@@ -444,7 +447,7 @@ class tarieventabel {
 		$return .= "<div class=\"tarieventabel_totaalprijs tarieventabel_totaalprijs_exclude_bkk\">";
 
 		$return .= "<table>";
-		$return .= "<tr class=\"\"><td colspan=\"5\">".ucfirst(datum("DAG D MAAND JJJJ", $this->unixtime_week[$aankomstdatum], $this->config->taal))." ";
+		$return .= "<tr><td colspan=\"5\" class=\"header\">".ucfirst(datum("DAG D MAAND JJJJ", $this->unixtime_week[$aankomstdatum], $this->config->taal))." ";
 		if ($aantalpersonen==1) {
 			$return .= html("met-1-persoon", "tarieventabel");
 		} else {
@@ -508,8 +511,20 @@ class tarieventabel {
 
 		$return .= "</td><td>&nbsp;&euro;&nbsp;</td><td class=\"tarieventabel_totaalprijs_specificatie_popup_bedrag\">".number_format($totaalbedrag_chalet_nl, 2, ",", ".")."</td></tr>";
 
-		// book-button
-		$return .= "<tr><td colspan=\"3\">&nbsp;</td><td colspan=\"2\"><button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\">".html("boeknu", "toonaccommodatie")." &raquo;</button></td></tr>";
+		if ($this->newWebsite) {
+
+			// book-button
+			$return .= "<tr><td colspan=\"5\">";
+			$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\" class=\"button tiny radius right button-book\">".html("boeknu", "toonaccommodatie")."</button>";
+			$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\" class=\"button tiny radius right button-option-request\">".html("optie-aanvragen", "toonaccommodatie")."</button>";
+			$return .=" </td></tr>";
+
+		} else {
+			// book-button
+			$return .= "<tr><td colspan=\"3\">&nbsp;</td><td colspan=\"2\"><button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\">".html("boeknu", "toonaccommodatie")." &raquo;</button></td></tr>";
+
+		}
+
 
 		if(!$isMobile) {
 			$return .= "<tr><td colspan=\"5\" class=\"tarieventabel_totaalprijs_opmerking2\">".html("klik-op-datum-personen", "tarieventabel")."</td></tr>";
@@ -608,7 +623,14 @@ class tarieventabel {
 
 		$return .= "<div class=\"tarieventabel_top\">";
 		$return .= "<div class=\"tarieventabel_top_left\">";
-		$return .= "<h1>".html("tarieven","tarieventabel")."</h1>";
+		$return .= "<h1>";
+
+		if ($this->newWebsite) {
+			$return .= html("prijs-en-beschikbaarheid","tarieventabel");
+		} else {
+			$return .= html("tarieven","tarieventabel");
+		}
+		$return .= "</h1>";
 
 		if($this->meerdere_valuta) {
 			$return .= "<span class=\"tarieventabel_top_valutanaam\" data-euro=\"".html("ineuros","tarieventabel")."\" data-gbp=\"".html("inponden","tarieventabel")."\">";
@@ -730,6 +752,7 @@ class tarieventabel {
 				$this->min_personen_tonen=$this->max_personen_tonen-4;
 			}
 
+			$return .= '<div class="tarieventabel_tables_wrapper">';
 
 			$return.="<table cellspacing=\"0\" cellpadding=\"0\" class=\"tarieventabel_border tarieventabel_titels_links\">";
 			$return.="<tr class=\"tarieventabel_maanden".($this->toon_interne_informatie ? "" : " tarieventabel_maanden_top")."\"><td class=\"tarieventabel_maanden_leeg\">&nbsp;</td></tr>";
@@ -806,13 +829,14 @@ class tarieventabel {
 
 			// regels met aantal personen tonen
 			foreach ($this->aantalpersonen_array as $key => $value) {
-				$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($this->aantalpersonen==$key && !$this->aankomstdatum ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
+				$return.="<tr class=\"number-of-persons ".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($this->aantalpersonen==$key && !$this->aankomstdatum ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
 			}
-
 
 			$return.="</table>";
 
 			$return .= $this->tabel_tarieven();
+
+			$return .= '</div>'; // close tarieventabel_table_content
 
 			// minder personen open/dichtklappen
 			$return.="<div class=\"tarieventabel_toggle_toon_verberg\">";
@@ -1451,6 +1475,7 @@ class tarieventabel {
 		}
 
 		$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+		$bijkomendekosten->newWebsite = $this->newWebsite;
 		$bijkomendekosten->setRedis(new wt_redis);
 		$bijkomendekosten->arrangement = $this->arrangement;
 		$bijkomendekosten->accinfo = $this->accinfo;
@@ -1562,6 +1587,7 @@ class tarieventabel {
 			$db2 = new DB_sql;
 
 			$bijkomendekosten = new bijkomendekosten;
+			$bijkomendekosten->newWebsite = $this->newWebsite;
 			$bijkomendekosten->setRedis(new wt_redis);
 
 			// Accinfo

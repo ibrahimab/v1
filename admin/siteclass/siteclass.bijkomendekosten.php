@@ -311,7 +311,7 @@ class bijkomendekosten {
 					}
 					if( $kopieer_button_text and $kopieer_seizoen_id ) {
 						// copy season button
-						$return .= "<div class=\"cms_bk_kopieer cms_bk_kopieer_season\" data-last_seizoen_id=\"".intval($kopieer_seizoen_id)."\" data-seizoen_id=\"".intval($this->seizoen_id)."\" data-id=\"".intval($this->id)."\"><button>".$kopieer_button_text."</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-ebebeb.gif\"><br />&nbsp;&nbsp;&nbsp;<i>Let op: bestaande gegevens worden direct overschreven.</i></div>";
+						$return .= "<div class=\"cms_bk_kopieer cms_bk_kopieer_season\" data-last_seizoen_id=\"".intval($kopieer_seizoen_id)."\" data-seizoen_id=\"".intval($this->seizoen_id)."\" data-id=\"".intval($this->id)."\"><button>".$kopieer_button_text."</button>&nbsp;&nbsp;<img src=\"".$this->getImageRoot()."pic/ajax-loader-ebebeb.gif\"><br />&nbsp;&nbsp;&nbsp;<i>Let op: bestaande gegevens worden direct overschreven.</i></div>";
 					}
 				}
 
@@ -341,7 +341,7 @@ class bijkomendekosten {
 
 				$return .= "<div class=\"cms_bk_kopieer\">";
 				$return .= "Kopieer bijkomende kosten van: <input type=\"text\" name=\"copy_from_type\" autocomplete=\"off\" placeholder=\"type-code\">";
-				$return .= "<button>kopieer kosten &raquo;</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-ebebeb.gif\">";
+				$return .= "<button>kopieer kosten &raquo;</button>&nbsp;&nbsp;<img src=\"".$this->getImageRoot()."pic/ajax-loader-ebebeb.gif\">";
 				$return .= "</div>";
 
 
@@ -365,7 +365,7 @@ class bijkomendekosten {
 
 				$return .= "<div style=\"text-align:right;margin-top:15px;margin-bottom:15px;\"><input type=\"checkbox\" name=\"bijkomendekosten_checked\" value=\"1\" id=\"bijkomendekosten_checked_".$key."\"".($this->cms_data_bijkomendekosten_checked[$key] ? " checked" : "")."><label for=\"bijkomendekosten_checked_".$key."\">&nbsp;alle bijkomende kosten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." (".wt_he($value).") zijn gecontroleerd&nbsp;</label></div>";
 
-				$return .= "<input type=\"submit\" value=\"OPSLAAN\"><img src=\"".$vars["path"]."pic/ajax-loader-transparent.gif\" class=\"ajaxloader\">";
+				$return .= "<input type=\"submit\" value=\"OPSLAAN\"><img src=\"".$this->getImageRoot()."pic/ajax-loader-transparent.gif\" class=\"ajaxloader\">";
 				$return .= "<div class=\"clear\"></div>";
 
 				if($this->other_type_data) {
@@ -1185,7 +1185,7 @@ class bijkomendekosten {
 						// $info_link = "<a href=\"".wt_he($vars["path"]."popup.php?fancybox=1&tid=".intval($this->id)."&id=bijkomendekosten&bkid=".$db->f("bijkomendekosten_id"))."\" class=\"popup_fancybox\" rel=\"nofollow\">";
 
 						if($value["omschrijving"]) {
-							$html .= "&thinsp;".$info_link."<img src=\"".$vars["path"]."pic/information_icon_with_padding.png\" /></a> ";
+							$html .= "&thinsp;".$info_link."<img src=\"".$this->getImageRoot()."pic/information_icon_with_padding.png\" /></a> ";
 						} else {
 							$html .= " ";
 						}
@@ -1326,7 +1326,7 @@ class bijkomendekosten {
 						// info-icon
 						if($value["toelichting"]) {
 							$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".wt_he($vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bksid=".$key)."');return false;\">";
-							$kosten["html"][$cat][$key] .= "&thinsp;".$info_link."<img src=\"".$vars["path"]."pic/information_icon_with_padding.png\" /></a> ";
+							$kosten["html"][$cat][$key] .= "&thinsp;".$info_link."<img src=\"".$this->getImageRoot()."pic/information_icon_with_padding.png\" /></a> ";
 						}
 
 						if($value["verplicht"]==2 and $value["bedrag"]=="0.00") {
@@ -1417,7 +1417,7 @@ class bijkomendekosten {
 
 						$html .= wt_he($db->f("naam"));
 						if($db->f("omschrijving")) {
-							$html .= "&thinsp;".$info_link."<img src=\"".$vars["path"]."pic/information_icon_with_padding.png\" /></a> ";
+							$html .= "&thinsp;".$info_link."<img src=\"".$this->getImageRoot()."pic/information_icon_with_padding.png\" /></a> ";
 						} else {
 							$html .= " ";
 						}
@@ -2053,7 +2053,10 @@ class bijkomendekosten {
 		$variabele_kosten = $this->get_variable_costs();
 
 
+		$return .= '<div class="tarieventabel_bkk_groups">';
+
 		if(is_array($kosten["inclusief"])) {
+			$return .= '<div class="tarieventabel_bkk_group">';
 			$return .= "<h1>";
 			if(constant("include_bkk")===true) {
 				$return .= html("getoonde-prijs-inclusief","tarieventabel");
@@ -2069,16 +2072,20 @@ class bijkomendekosten {
 				}
 			}
 			$return .= "</ul>";
+			$return .= '</div>'; // close .tarieventabel_bkk_group
 		}
 		if(is_array($kosten["uitbreiding"])) {
+			$return .= '<div class="tarieventabel_bkk_group">';
 			$return .= "<h1>".html("uitbreidingsmogelijkheden","tarieventabel").":</h1>";
 			$return .= "<ul>";
 			foreach ($kosten["uitbreiding"] as $key => $value) {
 				$return .= "<li>".$value."</li>";
 			}
 			$return .= "</ul>";
+			$return .= '</div>'; // close .tarieventabel_bkk_group
 		}
 		if(is_array($kosten["diversen"])) {
+			$return .= '<div class="tarieventabel_bkk_group">';
 			$return .= "<h1>".html("diversen","tarieventabel").":</h1>";
 			$return .= "<ul>";
 			foreach ($kosten["diversen"] as $key => $value) {
@@ -2090,7 +2097,10 @@ class bijkomendekosten {
 				}
 			}
 			$return .= "</ul>";
+			$return .= '</div>'; // close .tarieventabel_bkk_group
 		}
+
+		$return .= '</div>'; // close .tarieventabel_bkk_groups
 
 		$return .= "<div class=\"tarieventabel_kosten_ter_plaatse_indicatief\">";
 		if($this->accinfo["begincode"]=="Z") {
@@ -2100,14 +2110,32 @@ class bijkomendekosten {
 		}
 		$return .= "</div>";
 
-		if(!$isMobile){
+		if(!$isMobile && !$this->newWebsite) {
 			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
-			if(!$vars["wederverkoop"]) {
-					$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->id)."&ap=".wt_he($_GET["ap"])."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
+			if (!$vars["wederverkoop"]) {
+				$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->id)."&ap=".wt_he($_GET["ap"])."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
 			}
 			$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
 		}
 
 		return $return;
 	}
+
+	/**
+	 * get the root for images, based on newWebsite
+	 *
+	 * @return string
+	 **/
+	private function getImageRoot()
+	{
+		// @todo: convert to DI
+		global $vars;
+
+		if ($this->newWebsite) {
+			return 'https://www.chalet.nl/';
+		} else {
+			return $vars['path'];
+		}
+	}
+
 }
