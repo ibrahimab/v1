@@ -636,16 +636,7 @@ class tarieventabel {
 			//
 			$return.="<div class=\"tarieventabel_top_interne_link\">Wederverkoop:&nbsp;";
 			if($this->accinfo["wederverkoop"]) $return.="ja"; else $return.="nee";
-			$return.="&nbsp;&nbsp;&nbsp;<a href=\"";
-			if ($this->config->acceptatie_testserver) {
-				$return .= "http://test.chalet.nl";
-			} elseif ($this->config->website<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-				$return .= "https://www.chalet.nl";
-			}
-			if($this->config->lokale_testserver) {
-				$return.="/chalet";
-			}
-
+			$return.="&nbsp;&nbsp;&nbsp;<a href=\"" . $this->config->cmspath;
 			if(preg_match("@,@",$this->seizoen_id,$regs)) {
 				$seizoenid_array=explode(",",$this->seizoen_id);
 				$seizoenid=max($seizoenid_array);
@@ -653,7 +644,7 @@ class tarieventabel {
 				$seizoenid=$this->seizoen_id;
 			}
 
-			$return.=ereg_replace("[a-z]+/$","",$this->config->path)."cms_tarieven.php?sid=".$seizoenid."&tid=".$this->type_id."&from=".urlencode("http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie")."\" title=\"tarieven bewerken\">";
+			$return.="cms_tarieven.php?sid=".$seizoenid."&tid=".$this->type_id."&from=".urlencode("http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie")."\" title=\"tarieven bewerken\">";
 			$return.="<img src=\"".$this->config->path."pic/class.cms_edit.gif\" border=\"0\" alt=\"Tarieven bewerken\" width=\"14\" height=\"14\"></a>";
 			$return.="</div>";
 			$return.="<div class=\"clear\"></div>\n";

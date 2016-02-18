@@ -1425,7 +1425,7 @@ if($db->next_record()) {
 			echo "<div style=\"margin-top:5px;margin-bottom:10px;padding:5px;border:1px solid #878481;width:650px;\" class=\"noprint\">Archief tarieven en beschikbaarheid:<br>";
 			while($db2->next_record()) {
 				echo "&bull;&nbsp;&nbsp;&nbsp;";
-				echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.chalet.nl/")."cms_tarieven.php?from=".wt_he(urlencode("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))."&sid=".$db2->f("seizoen_id")."&tid=".wt_he($typeid)."\">".wt_he($db2->f("naam"))."</a><br/>";
+				echo "<a href=\"".$vars["cmspath"]."cms_tarieven.php?from=".wt_he(urlencode("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))."&sid=".$db2->f("seizoen_id")."&tid=".wt_he($typeid)."\">".wt_he($db2->f("naam"))."</a><br/>";
 			}
 			echo "</div>\n";
 		}
@@ -1890,26 +1890,10 @@ if($db->next_record()) {
 	}
 
 	if($voorkant_cms) {
-		echo "<li><a href=\"";
-		if ($vars["acceptatie_testserver"]) {
-			echo "http://test.chalet.nl";
-		} elseif($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-			echo "https://www.chalet.nl";
-		}
-		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-			echo "/chalet";
-		}
-		echo ereg_replace("[a-z]+/$","",$path)."cms_accommodaties.php?wzt=".$db->f("wzt")."&show=1&1k0=".$accinfo["accommodatie_id"]."\" target=\"_blank\">Accommodatie bewerken</a></li>";
-		echo "<li><a href=\"";
-		if ($vars["acceptatie_testserver"]) {
-			echo "http://test.chalet.nl";
-		} elseif($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-			echo "https://www.chalet.nl";
-		}
-		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-			echo "/chalet";
-		}
-		echo ereg_replace("[a-z]+/$","",$path)."cms_types.php?wzt=".$db->f("wzt")."&show=2&2k0=".$typeid."\" target=\"_blank\">Type bewerken</a></li>";
+		echo "<li><a href=\"" . $vars["cmspath"];
+		echo "cms_accommodaties.php?wzt=".$db->f("wzt")."&show=1&1k0=".$accinfo["accommodatie_id"]."\" target=\"_blank\">Accommodatie bewerken</a></li>";
+		echo "<li><a href=\"" . $vars["cmspath"];
+		echo "cms_types.php?wzt=".$db->f("wzt")."&show=2&2k0=".$typeid."\" target=\"_blank\">Type bewerken</a></li>";
 		echo "<li><a href=\"".wt_he($_SERVER["REQUEST_URI"]).(ereg("\?",$_SERVER["REQUEST_URI"]) ? "&cmsuit=1" : "?cmsuit=1")."\">Zonder interne informatie</a></li>";
 	}
 

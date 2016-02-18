@@ -135,7 +135,7 @@ hr {
 			echo " - ".wt_he($db->f("naam"));
 
 			if($voorkant_cms) {
-				echo "&nbsp;&nbsp;<span class=\"kleinfont\"><a href=\"".wt_he("https://www.chalet.nl/cms_skigebieden.php?show=5&wzt=".$vars["seizoentype"]."&5k0=".$skigebiedid)."\" target=\"_blank\">".($vars["seizoentype"]==1 ? "skigebied" : "regio")." bewerken</a></span>";
+				echo "&nbsp;&nbsp;<span class=\"kleinfont\"><a href=\"".wt_he($vars["cmspath"] . "cms_skigebieden.php?show=5&wzt=".$vars["seizoentype"]."&5k0=".$skigebiedid)."\" target=\"_blank\">".($vars["seizoentype"]==1 ? "skigebied" : "regio")." bewerken</a></span>";
 			}
 
 
@@ -179,9 +179,9 @@ hr {
 		echo "</div>";
 		echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landid."-".$db->f("skigebied_id")."\">".html("review_aggregate_link_chalet","toonskigebied",array("v_skigebied"=>$db->f("naam"), "v_accommodations"=>$available_accomodations))." &raquo;</a>";
 		if ($vars["websitetype"] == 1 and (int)$review_aggregate_array["v_votes"] > 1 and (int)$available_accomodations > 0)
-			echo "<div itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\">" . 
+			echo "<div itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\">" .
 				html("review_aggregate_chalet","toonskigebied", $review_aggregate_array)
-				. "</div>";			
+				. "</div>";
 	} elseif($vars["websitetype"]==7) {
 		echo "<div id=\"toonskigebied_splits_links\">";
 
@@ -280,7 +280,7 @@ hr {
 		if ((int)$available_accomodations > 0) {
 			$review_aggregate_array["h_10"] = "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=5-".$db->f("skigebied_id")."\">";
 			$review_aggregate_array["h_11"] = "&nbsp;&raquo;</a>";
-			echo "<div id=\"toonplaats_kenmerken_3\" itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\">". 
+			echo "<div id=\"toonplaats_kenmerken_3\" itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\">".
 			html("review_aggregate_link_italissima","toonskigebied", $review_aggregate_array) . (((int)$review_aggregate_array["v_votes"] > 1) ? html("review_aggregate_italissima","toonskigebied", $review_aggregate_array)  : "")
 			. "</div>";
 		}

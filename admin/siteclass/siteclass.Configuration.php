@@ -45,11 +45,11 @@ class Configuration
 		$this->configdata["seizoentype_namen"]               = $vars["seizoentype_namen"];
 		$this->configdata["bk_eenheid"]                      = $vars["bk_eenheid"];
 		$this->configdata["development_team_mail"]           = $vars["development_team_mail"];
+		$this->configdata["cmspath"]                         = $vars["cmspath"];
 
 		$this->configdata["isMobile"]                        = $isMobile;
 		$this->configdata["voorkant_cms"]                    = $voorkant_cms;
 	}
-
 
 	/**
 	 * Use php5-overloading to get the wanted variable

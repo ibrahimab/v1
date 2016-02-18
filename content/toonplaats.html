@@ -37,7 +37,7 @@ if(!$db->next_record()) {
 	if($vars["websitetype"]<>6) {
 		echo "<div>".$toplinks;
 		if($voorkant_cms) {
-			echo "&nbsp;&nbsp;<span class=\"kleinfont\"><a href=\"".wt_he("https://www.chalet.nl/cms_plaatsen.php?show=4&wzt=".$vars["seizoentype"]."&4k0=".$plaatsid)."\" target=\"_blank\">plaats bewerken</a></span>";
+			echo "&nbsp;&nbsp;<span class=\"kleinfont\"><a href=\"".wt_he($vars["cmspath"]."cms_plaatsen.php?show=4&wzt=".$vars["seizoentype"]."&4k0=".$plaatsid)."\" target=\"_blank\">plaats bewerken</a></span>";
 		}
 		echo "</div>";
 	}
@@ -52,7 +52,7 @@ if(!$db->next_record()) {
 		"h_4"=>"<span itemprop=\"average\">",
 		"v_best"=>"10",
 		"h_5" => "<span style='display:none' itemprop=\"best\">",
-		"v_votes"=> $place_review["counter"], 
+		"v_votes"=> $place_review["counter"],
 		"h_6" => "<span itemprop=\"votes\">",
 		"h_7" => "<br/>");
 
@@ -73,12 +73,12 @@ if(!$db->next_record()) {
 		echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=pl".$plaatsid. "\">".html("review_aggregate_link_italissima","toonplaats",array("v_toonplaats"=>$db->f("naam"), "v_accommodations"=>$available_accomodations))." &raquo;</a>";
 	if((int)$review_aggregate_array["v_votes"] > 1 && (int)$available_accomodations > 0) {
 		if ($vars["websitetype"] == 1)
-			echo "<div itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\">" . 
+			echo "<div itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\">" .
 				html("review_aggregate_chalet","toonplaats", $review_aggregate_array)
 				. "</div>";
 		else if ($vars["websitetype"] == 7)
 			echo "<div itemscope itemtype=\"http://data-vocabulary.org/Review-aggregate\">".
-				html("review_aggregate_italissima","toonplaats", $review_aggregate_array) 
+				html("review_aggregate_italissima","toonplaats", $review_aggregate_array)
 				."</div>";
 	}
 	$inquery=$db->f("plaats_id");
