@@ -659,15 +659,22 @@ if($_GET["cmscss"]) {
 	$thfontsize="0.8em";
 }
 
-$vars["cmspath"]="https://www.chalet.nl/";
+// link to CMS
+$vars["cmspath"] = 'https://www.chalet.nl/';
 if($vars["lokale_testserver"]) {
+
 	$suffix = (defined('wt_test_url_suffix') ? (wt_test_url_suffix) : '/chalet');
 	$vars["basehref"]="http://".$_SERVER["HTTP_HOST"].$suffix.$path;
 	$path=$suffix.$path;
 	$vars["cmspath"]=$path;
+
 }
+
 if($vars["acceptatie_testserver"]) {
+
 	$vars["basehref"] = preg_replace("@^https?://www\.@","http://test.", $vars["basehref"]);
+	$vars["cmspath"] = 'http://test.chalet.nl/';
+
 }
 
 #
