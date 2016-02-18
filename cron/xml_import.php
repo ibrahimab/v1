@@ -329,14 +329,21 @@ if (shouldImportSlowSupplier(23, $current_hour) || $argv[1]) {
 
 # Direkt Holidays
 $feedFetcher = new FeedFetcher($testsysteem);
-$feedFetcher->setAvailabilityFile($test_tmpdir.'direktholidays/beschikbaarheid.xml')
-			->setPricesFile($test_tmpdir.'direktholidays/prijzen.xml')
-			->setProductsFile($test_tmpdir.'direktholidays/producten.xml');
+$feedFetcher->setAvailabilityFile($test_tmpdir . 'direktholidays/beschikbaarheid.xml')
+			->setPricesFile($test_tmpdir . 'direktholidays/prijzen.xml')
+			->setProductsFile($test_tmpdir . 'direktholidays/producten.xml');
 
-$xml_urls[24][1]	= true;
-$xml_urls[24][2]	= true;
-$custom_urls[24][1] = $feedFetcher->fetch(FeedFetcher::TYPE_AVAILABILITY);
-$custom_urls[24][2] = $feedFetcher->fetch(FeedFetcher::TYPE_PRICES);
+$xml_urls[24][1] = true;
+$xml_urls[24][2] = true;
+
+try {
+
+	$custom_urls[24][1] = $feedFetcher->fetch(FeedFetcher::TYPE_AVAILABILITY);
+	$custom_urls[24][2] = $feedFetcher->fetch(FeedFetcher::TYPE_PRICES);
+
+} catch (\InvalidArgumentException $e) {
+	trigger_error("_notice: XML feed DirektHolidays voor tarieven en beschikbaarheid onbereikbaar of geen valide XML", E_USER_NOTICE);
+}
 
 # Alpin Rentals
 $soap_urls[25] = $unixdir."suppliers/newyseservice/index.php";
