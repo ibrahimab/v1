@@ -34,7 +34,7 @@ class StartingPrice extends Endpoint
         $startingPrice = new \vanafprijs();
         $startingPrice->newWebsite = true;
 
-        $data          = json_decode($this->request->getContent(), true);
+        $data = json_decode($this->request->getContent(), true);
 
         return (count($data) > 0 ? ($startingPrice->get_vanafprijs(implode(',', $data['type_id']))) : []);
     }

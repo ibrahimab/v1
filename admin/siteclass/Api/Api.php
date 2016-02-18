@@ -1,5 +1,4 @@
 <?php
-
 namespace Chalet\Api;
 
 use Chalet\Api\Exception as ApiException;
@@ -26,6 +25,12 @@ class Api
     /** @var integer */
     const API_ENDPOINT_FEATURES         = 5;
 
+    /** @var integer */
+    const API_ENDPOINT_ACCOMMODATION    = 6;
+
+    /** @var integer */
+    const API_ENDPOINT_TRAVELSUM        = 7;
+
     /**
      * @var integer
      */
@@ -51,6 +56,8 @@ class Api
         self::API_ENDPOINT_PRICE_TABLE,
         self::API_ENDPOINT_STARTING_PRICE,
         self::API_ENDPOINT_FEATURES,
+        self::API_ENDPOINT_ACCOMMODATION,
+        self::API_ENDPOINT_TRAVELSUM,
     ];
 
     /**
@@ -93,6 +100,14 @@ class Api
 
             case self::API_ENDPOINT_FEATURES:
                 return new Features($this->request);
+            break;
+
+            case self::API_ENDPOINT_ACCOMMODATION:
+                return new Accommodation($this->request);
+            break;
+
+            case self::API_ENDPOINT_TRAVELSUM:
+                return new Travelsum($this->request);
             break;
         }
     }

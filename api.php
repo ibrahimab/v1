@@ -11,8 +11,8 @@ $request = Request::createFromGlobals();
 
 try {
 
-    $auth = new Auth(new wt_redis);
-    $auth->authenticate($request->get('token'));
+    $auth = new Auth(['127.0.0.1']);
+    $auth->authenticate($request->getClientIp());
 
     $api      = new Api($request);
     $endpoint = $api->getEndpoint();

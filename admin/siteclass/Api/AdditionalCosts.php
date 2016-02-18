@@ -1,5 +1,4 @@
 <?php
-
 namespace Chalet\Api;
 
 use Symfony\Component\HttpFoundation\Request;
