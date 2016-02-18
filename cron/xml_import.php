@@ -978,8 +978,14 @@ while(list($key,$value)=@each($xml_urls)) {
 
 				} elseif ($key2 === 2) {
 
-					$prices				  = new PricesParser($xml, $feedFetcher, $testsysteem);
-					$xml_brutoprijs[$key] = $prices->parse();
+					try {
+
+						$prices				  = new PricesParser($xml, $feedFetcher, $testsysteem);
+						$xml_brutoprijs[$key] = $prices->parse();
+
+					} catch (\InvalidArgumentException $e) {
+						trigger_error("_notice: XML feed DirektHolidays voor tarieven onbereikbaar of geen valide XML", E_USER_NOTICE);
+					}
 				}
 
 				$xml_laatsteimport_leverancier[$key] = true;
