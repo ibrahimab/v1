@@ -779,21 +779,22 @@ if($db->next_record()) {
 		$liggingCounter -= 1;
 	}
 
+	$extraDistancesHtml = [];
+
 	if ($liggingCounter > 0) {
 
 		$extraDistances     = new ExtraDistances(new ExtraDistancesRepository(new DB_Sql(), $vars['taal']));
 		$distances          = $extraDistances->all($db->f('accommodatie_id'));
-		$extraDistancesHtml = [];
 
 		foreach ($distances as $distance) {
 
-			if ($liggingCounter === 0) {
-				break;
-			}
-
 			$extraDistancesHtml[] = '<tr><td width="175" nowrap>' . txt('afstandtot', 'toonaccommodatie') . ' ' . $distance['name'] . '</td><td>' . wt_he(distance::show($distance['distance'], $distance['addition']));
-			$ligging             .= $liggingHtml(txt('afstandtot', 'toonaccommodatie') . ' ' . $distance['name'], $distance['distance'], $distance['addition']);
-			$liggingCounter      -= 1;
+
+			if ($liggingCounter > 0) {
+
+				$ligging             .= $liggingHtml(txt('afstandtot', 'toonaccommodatie') . ' ' . $distance['name'], $distance['distance'], $distance['addition']) . '<br />';
+				$liggingCounter      -= 1;
+			}
 		}
 	}
 
