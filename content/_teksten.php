@@ -3350,6 +3350,10 @@ $txt["nl"]["toonaccommodatie"]["meerfotos"]="meer foto's";
 $txt["de"]["toonaccommodatie"]["meerfotos"]="mehr Bilder";
 $txt["en"]["toonaccommodatie"]["meerfotos"]="more photos";
 
+$txt["nl"]["toonaccommodatie"]["afstandtot"]="Afstand tot";
+$txt["de"]["toonaccommodatie"]["afstandtot"]="Entfernung";
+$txt["en"]["toonaccommodatie"]["afstandtot"]="Distance to";
+
 
 #
 # Beoordelingen van een accommodatie (bijv. https://www.chalet.nl/beoordelingen.php?typeid=240)

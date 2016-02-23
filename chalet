@@ -1,0 +1,3 @@
+#!/bin/sh
+
+php --php-ini /etc/php5/cli/php-test.ini `pwd`/vendor/bin/phpunit --bootstrap tests/bootstrap.php tests/

@@ -1,4 +1,6 @@
 <?php
+use Chalet\Frontend\Accommodation\ExtraDistances\ExtraDistances;
+use Chalet\Frontend\Accommodation\ExtraDistances\Repository as ExtraDistancesRepository;
 
 #
 # Favorieten-popup tonen en correct positioneren
@@ -744,39 +746,66 @@ if($db->next_record()) {
 		echo "</div>";
 	}
 
-    if ($vars['website'] === 'I') {
 
-        // ligging
-        $ligging     = '';
-        $liggingHtml = function($label, $distance, $extra) {
-            return $label . ': ' . wt_he(distance::show($distance, $extra));
-        };
 
-        if ($db->f('afstandwinkel') || $db->f('afstandwinkel') == '0') {
-            $ligging .= $liggingHtml(html('afstandtotwinkels', 'toonaccommodatie'), $db->f('afstandwinkel'), $db->f('afstandwinkelextra')) . '<br />';
-        }
+	// ligging
+	$ligging        = '';
+	$liggingCounter = 4;
+	$liggingHtml    = function($label, $distance, $extra) {
+	    return $label . ': ' . wt_he(distance::show($distance, $extra));
+	};
 
-        if ($db->f('afstandrestaurant') || $db->f('afstandrestaurant') == '0') {
-			$ligging .= $liggingHtml(html('afstandrestaurantbar', 'toonaccommodatie'), $db->f('afstandrestaurant'), $db->f('afstandrestaurantextra')) . '<br />';
+	if ($db->f('afstandwinkel') || $db->f('afstandwinkel') == '0') {
+
+	    $ligging .= $liggingHtml(html('afstandtotwinkels', 'toonaccommodatie'), $db->f('afstandwinkel'), $db->f('afstandwinkelextra')) . '<br />';
+	    $liggingCounter -= 1;
+	}
+
+	if ($db->f('afstandrestaurant') || $db->f('afstandrestaurant') == '0') {
+
+		$ligging .= $liggingHtml(html('afstandrestaurantbar', 'toonaccommodatie'), $db->f('afstandrestaurant'), $db->f('afstandrestaurantextra')) . '<br />';
+		$liggingCounter -= 1;
+	}
+
+	if ($db->f('afstandstrand') || $db->f('afstandstrand') == '0') {
+
+	    $ligging .= $liggingHtml(html('afstandstrand', 'toonaccommodatie'), $db->f('afstandstrand'), $db->f('afstandstrandextra')) . '<br />';
+	    $liggingCounter -= 1;
+	}
+
+	if ($db->f('afstandbekendestad') && $db->f('bekendestad')) {
+
+		$ligging .= $liggingHtml(html('afstandbekendestad', 'toonaccommodatie', ['v_stad' => $db->f('bekendestad')]), $db->f('afstandbekendestad') * 1000, $db->f('afstandbekendestadextra')) . '<br />';
+		$liggingCounter -= 1;
+	}
+
+	$extraDistancesHtml = [];
+
+	if ($liggingCounter > 0) {
+
+		$extraDistances     = new ExtraDistances(new ExtraDistancesRepository(new DB_Sql(), $vars['taal']));
+		$distances          = $extraDistances->all($db->f('accommodatie_id'));
+
+		foreach ($distances as $distance) {
+
+			$extraDistancesHtml[] = '<tr><td width="175" nowrap>' . txt('afstandtot', 'toonaccommodatie') . ' ' . $distance['name'] . '</td><td>' . wt_he(distance::show($distance['distance'], $distance['addition']));
+
+			if ($liggingCounter > 0) {
+
+				$ligging             .= $liggingHtml(txt('afstandtot', 'toonaccommodatie') . ' ' . $distance['name'], $distance['distance'], $distance['addition']) . '<br />';
+				$liggingCounter      -= 1;
+			}
 		}
+	}
 
-        if ($db->f('afstandstrand') || $db->f('afstandstrand') == '0') {
-            $ligging .= $liggingHtml(html('afstandstrand', 'toonaccommodatie'), $db->f('afstandstrand'), $db->f('afstandstrandextra')) . '<br />';
-        }
+	if (!empty($ligging) && $vars['website'] === 'I') {
 
-		if ($db->f('afstandbekendestad') && $db->f('bekendestad')) {
-			$ligging .= $liggingHtml(html('afstandbekendestad', 'toonaccommodatie', ['v_stad' => $db->f('bekendestad')]), $db->f('afstandbekendestad') * 1000, $db->f('afstandbekendestadextra'));
-		}
+		$liggingHtml  = '<div style="margin-top: 15px;">';
+		$liggingHtml .= '<h3 class="minder_opvallend">' . html('ligging', 'toonaccommodatie') . '</h3>';
+		$liggingHtml .= $ligging;
+		$liggingHtml .= '</div>';
 
-        if (!empty($ligging)) {
-
-			$liggingHtml  = '<div style="margin-top: 15px;">';
-			$liggingHtml .= '<h3 class="minder_opvallend">' . html('ligging', 'toonaccommodatie') . '</h3>';
-			$liggingHtml .= $ligging;
-			$liggingHtml .= '</div>';
-
-			echo $liggingHtml;
-		}
+		echo $liggingHtml;
 	}
 
 	echo "</div>";
@@ -983,7 +1012,7 @@ if($db->next_record()) {
 	// known city / bekende stad
 	if($db->f("afstandbekendestad") and $db->f("bekendestad")) echo "<tr><td width=\"175\" nowrap>".html("afstandbekendestad","toonaccommodatie", array("v_stad"=>$db->f( "bekendestad" )))."</td><td>".wt_he(distance::show($db->f("afstandbekendestad")*1000 ,$db->f("afstandbekendestadextra")))."</td></tr>";
 
-
+	echo implode('', $extraDistancesHtml);
 
 	echo "</table>";
 	if(($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
