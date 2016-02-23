@@ -779,22 +779,18 @@ if($db->next_record()) {
 		$liggingCounter -= 1;
 	}
 
+	$extraDistances     = new ExtraDistances(new ExtraDistancesRepository(new DB_Sql(), $vars['taal']));
+	$distances          = $extraDistances->all($db->f('accommodatie_id'));
 	$extraDistancesHtml = [];
 
-	if ($liggingCounter > 0) {
+	foreach ($distances as $distance) {
 
-		$extraDistances     = new ExtraDistances(new ExtraDistancesRepository(new DB_Sql(), $vars['taal']));
-		$distances          = $extraDistances->all($db->f('accommodatie_id'));
+		$extraDistancesHtml[] = '<tr><td width="175" nowrap>' . txt('afstandtot', 'toonaccommodatie') . ' ' . $distance['name'] . '</td><td>' . wt_he(distance::show($distance['distance'], $distance['addition']));
 
-		foreach ($distances as $distance) {
+		if ($liggingCounter > 0) {
 
-			$extraDistancesHtml[] = '<tr><td width="175" nowrap>' . txt('afstandtot', 'toonaccommodatie') . ' ' . $distance['name'] . '</td><td>' . wt_he(distance::show($distance['distance'], $distance['addition']));
-
-			if ($liggingCounter > 0) {
-
-				$ligging             .= $liggingHtml(txt('afstandtot', 'toonaccommodatie') . ' ' . $distance['name'], $distance['distance'], $distance['addition']) . '<br />';
-				$liggingCounter      -= 1;
-			}
+			$ligging             .= $liggingHtml(txt('afstandtot', 'toonaccommodatie') . ' ' . $distance['name'], $distance['distance'], $distance['addition']) . '<br />';
+			$liggingCounter      -= 1;
 		}
 	}
 
