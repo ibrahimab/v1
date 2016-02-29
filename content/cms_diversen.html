@@ -255,13 +255,13 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	// correct titles
 	for($i=1;$i<=13;$i++) {
 		if ($i==10) {
-			$stats_name[$i] = "Criticasters";
+			$stats_name[$i] = "Criticasters (=1-6)";
 		} elseif ($i==11) {
-			$stats_name[$i] = "Passief tevreden";
+			$stats_name[$i] = "Passief tevreden (=7+8)";
 		} elseif ($i==12) {
-			$stats_name[$i] = "Promotors";
+			$stats_name[$i] = "Promotors (=9+10)";
 		} elseif ($i==13) {
-			$stats_name[$i] = "Net Promoter Score";
+			$stats_name[$i] = "Net Promoter Score (=Promotors-/-Criticasters)";
 		} else {
 			$stats_name[$i] = str_replace("over [[v_websitenaam]]", "", $txt["nl"]["enquete"]["vraag3_".$i]);
 		}
