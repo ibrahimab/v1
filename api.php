@@ -1,4 +1,8 @@
 <?php
+
+
+// http://legacy.chalet.nl/api.php?endpoint=3&token=0&type_id=15&season_id=27&method=1
+
 $geen_tracker_cookie = true;
 require 'admin/vars.php';
 
@@ -30,5 +34,7 @@ try {
         'message' => $e->getMessage(),
     ]);
 }
+
+if (is)
 
 return $response->send();
