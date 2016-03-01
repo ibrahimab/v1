@@ -3695,8 +3695,8 @@ $txt["en"]["tarieventabel"]["tarieven"]="Prices";
 
 // API (website v2)
 $txt["nl"]["tarieventabel"]["prijs-en-beschikbaarheid"]="Prijs & beschikbaarheid";
-$txt["de"]["tarieventabel"]["prijs-en-beschikbaarheid"]="";
-$txt["en"]["tarieventabel"]["prijs-en-beschikbaarheid"]="";
+$txt["de"]["tarieventabel"]["prijs-en-beschikbaarheid"]="Preis & Verfügbarkeit";
+$txt["en"]["tarieventabel"]["prijs-en-beschikbaarheid"]="Prices & availability";
 
 $txt["nl"]["tarieventabel"]["ineuros"]="in euro's";
 $txt["de"]["tarieventabel"]["ineuros"]="in Euro";
