@@ -379,24 +379,31 @@ class form2 {
 
 		$this->settings["message"]["error_float"]["nl"]="alleen cijfers en een komma toegestaan";
 		$this->settings["message"]["error_float"]["en"]="only digits and a comma allowed";
+		$this->settings["message"]["error_float"]["fr"]="seulement chiffres et une virgule autorisé";
 
 		$this->settings["message"]["error_float_toomany"]["nl"]="maximum aantal decimalen";
 		$this->settings["message"]["error_float_toomany"]["en"]="maximum number of decimals";
+		$this->settings["message"]["error_float_toomany"]["fr"]="nombre maximal de décimales";
 
 		$this->settings["message"]["error_integer"]["nl"]="alleen cijfers toegestaan";
 		$this->settings["message"]["error_integer"]["en"]="only digits allowed";
+		$this->settings["message"]["error_integer"]["fr"]="seuls les chiffres autorisés";
 
 		$this->settings["message"]["error_currency"]["nl"]="voer de hele euro's, vervolgens een komma en dan de centen in";
-		$this->settings["message"]["error_currency"]["en"]="enter euro's, a comma and then cents";
+		$this->settings["message"]["error_currency"]["en"]="enter euros, a comma and then cents";
+		$this->settings["message"]["error_currency"]["fr"]="entrez euros, une virgule, puis cents";
 
 		$this->settings["message"]["error_url"]["nl"]="geen correcte url (inclusief 'http://')";
 		$this->settings["message"]["error_url"]["en"]="not a valid url (including 'http://')";
+		$this->settings["message"]["error_url"]["fr"]="pas une URL valide (inclus 'http://')";
 
 		$this->settings["message"]["error_foutedatum"]["nl"]="onjuiste datum";
 		$this->settings["message"]["error_foutedatum"]["en"]="wrong date";
+		$this->settings["message"]["error_foutedatum"]["fr"]="date erronée";
 
 		$this->settings["message"]["error_foutetijd"]["nl"]="onjuiste tijd";
 		$this->settings["message"]["error_foutetijd"]["en"]="wrong time";
+		$this->settings["message"]["error_foutetijd"]["fr"]="mauvaise heure";
 
 		$this->settings["message"]["error_onvolledigedatum"]["nl"]="onvolledige datum";
 		$this->settings["message"]["error_onvolledigedatum"]["en"]="incomplete date";
@@ -404,6 +411,7 @@ class form2 {
 
 		$this->settings["message"]["error_onvolledigedatumtijd"]["nl"]="onvolledige datum/tijd";
 		$this->settings["message"]["error_onvolledigedatumtijd"]["en"]="incomplete date/time";
+		$this->settings["message"]["error_onvolledigedatumtijd"]["fr"]="date/heure incomplète";
 
 		$this->settings["message"]["error_img_size"]["nl"]="onjuiste afmetingen (moet _VAL1_ x _VAL2_ pixels zijn)";
 		$this->settings["message"]["error_img_size"]["en"]="wrong size (must be _VAL1_ x _VAL2_ pixels)";
@@ -437,15 +445,19 @@ class form2 {
 
 		$this->settings["message"]["error_filetype"]["nl"]="onjuist bestandsformaat";
 		$this->settings["message"]["error_filetype"]["en"]="wrong file format";
+		$this->settings["message"]["error_filetype"]["fr"]="mauvais type de fichier";
 
 		$this->settings["message"]["error_filetype_jpg"]["nl"]="onjuist bestandsformaat (moet jpg zijn)";
 		$this->settings["message"]["error_filetype_jpg"]["en"]="wrong file format (must be jpg)";
+		$this->settings["message"]["error_filetype_jpg"]["fr"]="mauvais type de fichier (doit être jpg)";
 
 		$this->settings["message"]["error_filetype_gif"]["nl"]="onjuist bestandsformaat (moet gif zijn)";
 		$this->settings["message"]["error_filetype_gif"]["en"]="wrong file format (must be gif)";
+		$this->settings["message"]["error_filetype_gif"]["fr"]="mauvais type de fichier (doit être gif)";
 
 		$this->settings["message"]["error_filetype_png"]["nl"]="onjuist bestandsformaat (moet png zijn)";
 		$this->settings["message"]["error_filetype_png"]["en"]="wrong file format (must be png)";
+		$this->settings["message"]["error_filetype_png"]["fr"]="mauvais type de fichier (doit être png)";
 
 		$this->settings["message"]["error_password_strong"]["nl"]="minimaal 6 tekens met zowel cijfers als letters";
 		$this->settings["message"]["error_password_strong"]["en"]="use at least 6 characters width both letters and numbers";
@@ -453,6 +465,7 @@ class form2 {
 
 		$this->settings["message"]["error_password_superstrong"]["nl"]="minimaal 6 tekens met cijfers, letters, hoofd- en kleine letters";
 		$this->settings["message"]["error_password_superstrong"]["en"]="use at least 6 characters width both letters (lowercase and uppercase) and numbers";
+		$this->settings["message"]["error_password_superstrong"]["fr"]="utiliser au moins 6 caractères avec les deux lettres (minuscules et majuscules) et les numéros";
 
 		$this->settings["message"]["error_password_spaces"]["nl"]="spaties zijn niet toegestaan";
 		$this->settings["message"]["error_password_spaces"]["en"]="spaces are not allowed";
@@ -487,7 +500,11 @@ class form2 {
 		if(!$this->settings["message"][$title][$this->settings["language"]]) {
 			trigger_error("WT-Error: no ".$this->settings["language"]." translation for ".$title,E_USER_NOTICE);
 
-			$this->settings["message"][$title][$this->settings["language"]] = $this->settings["message"][$title]["nl"];
+			if ($this->settings["message"][$title]["en"]) {
+				$this->settings["message"][$title][$this->settings["language"]] = $this->settings["message"][$title]["en"];
+			} else {
+				$this->settings["message"][$title][$this->settings["language"]] = $this->settings["message"][$title]["nl"];
+			}
 		}
 		$return=$this->settings["message"][$title][$this->settings["language"]];
 		while(list($key,$value)=@each($value_array)) {
