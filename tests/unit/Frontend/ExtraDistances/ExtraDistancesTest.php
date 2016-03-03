@@ -1,5 +1,5 @@
 <?php
-namespace Chalet\Test\Unit\ExtraDistances;
+namespace Chalet\Test\Unit\Frontend\ExtraDistances;
 
 use Chalet\Frontend\Accommodation\ExtraDistances\ExtraDistances;
 use Chalet\Frontend\Accommodation\ExtraDistances\Repository;
