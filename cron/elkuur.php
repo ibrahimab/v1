@@ -37,20 +37,6 @@ $huidig_uur = date("H");
 
 #wt_mail("jeroen@webtastic.nl","elk uur","mail elk uur");
 
-
-// Wisselkoers pond opvragen
-if($huidig_uur==10 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
-
-	$koers_json = file_get_contents('https://rate-exchange.herokuapp.com/fetchRate?from=EUR&to=GBP');
-	if ($koers_json) {
-
-		$koers_array = json_decode($koers_json, true);
-		if (isset($koers_array['Rate'])) {
-			$db->query('UPDATE diverse_instellingen SET wisselkoers_pond = ' . round(floatval($koers_array['Rate']), 4) . ' WHERE diverse_instellingen_id=1;');
-		}
-	}
-}
-
 // aanbetaling1 vastzetten na 15 dagen
 if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test12") {
 	$vijftien_dagen_geleden = date("Y-m-d", mktime(0,0,0,date("m"), date("d")-15, date("Y")));
