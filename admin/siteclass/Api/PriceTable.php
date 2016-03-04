@@ -16,6 +16,11 @@ class PriceTable extends Endpoint
     const API_METHOD_GET_TABLE = 1;
 
     /**
+     * @var integer
+     */
+    const API_METHOD_GET_TOTAL_PRICE = 2;
+
+    /**
      * @var string
      */
     const DEFAULT_CURRENCY     = 'euro';
@@ -28,9 +33,17 @@ class PriceTable extends Endpoint
         self::API_METHOD_GET_TABLE => [
 
             'method'   => 'getTable',
-            'required' => ['type_id', 'season_id'],
+            'required' => ['type_id'],
             'optional' => ['legenda', 'weekendski', 'internal', 'availability', 'commission', 'multiple_currencies', 'active_currency'],
         ],
+
+        self::API_METHOD_GET_TOTAL_PRICE => [
+
+            'method'   => 'getTotalPrice',
+            'required' => ['type_id', 'season_id_inquery', 'number_of_persons', 'date'],
+            'optional' => [],
+        ],
+
     ];
 
     /**
@@ -44,7 +57,6 @@ class PriceTable extends Endpoint
         $table->toon_interne_informatie = $this->request->query->getBoolean('internal', false);
         $table->toon_beschikbaarheid    = $this->request->query->getBoolean('availability', false);
         $table->toon_commissie          = $this->request->query->getBoolean('commission', false);
-        $table->seizoen_id              = implode(', ', [0, $this->request->query->get('season_id')]);
         $table->type_id                 = $this->request->query->get('type_id');
 
         if (true === $this->request->query->getBoolean('weekendski', false)) {
@@ -74,6 +86,41 @@ class PriceTable extends Endpoint
                 $result['offer_active'] = true;
             }
         }
+
+        return $result;
+    }
+
+    /**
+     * price table: click to show total amount
+     *
+     * @return array
+     */
+    public function getTotalPrice()
+    {
+        $totalPrice = new \tarieventabel;
+        $totalPrice->newWebsite = true;
+
+        $totalPrice->type_id = $this->request->query->get('type_id');
+        $totalPrice->seizoen_id = $this->request->query->get('season_id_inquery');
+
+        //
+        // @todo: show commission for resale-websites with loged in partner
+        //
+        // commissie tonen aan reisagenten?
+        // if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_commissie_inzien"]) or ($voorkant_cms and $_COOKIE["loginuser"]["chalet"]<>15 and $_COOKIE["loginuser"]["chalet"]<>26))) {
+        //     $totalPrice->toon_commissie = true;
+        // }
+
+        //
+        // @todo: include_bkk (when necessary)
+        //
+        // if(constant("include_bkk")===true) {
+        //     $return["html"]=$tarieventabel_object->info_totaalprijs($_GET["ap"], $_GET["d"]);
+        // }
+
+        $result = [
+            'html' => $totalPrice->specificatie_totaalprijs_below_pricetable($this->request->query->get('number_of_persons'), $this->request->query->get('date')),
+        ];
 
         return $result;
     }

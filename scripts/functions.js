@@ -2343,7 +2343,7 @@ $(document).ready(function() {
 			});
 
 
-			// tarieventabel: meer/minder personen tonen
+			// tarieventabel: toggle commission
 			$(document).on("click", "a.tarieventabel_totaalprijs_toggle_commissie", function(event) {
 
 				event.preventDefault();

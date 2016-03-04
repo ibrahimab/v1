@@ -1,6 +1,7 @@
 <?php
 
 use Chalet\RedisInterface;
+use Chalet\AdditionalCosts\WeekDependentPriceRenderer;
 
 /**
  * Additional Costs (bijkomende kosten - bkk)
@@ -1160,7 +1161,6 @@ class bijkomendekosten {
 			//
 			foreach ($this->data_var[$this->seizoen_id] as $key => $value) {
 
-
 				unset($html);
 
 				if( is_array( $value["verkoop"] ) ) {
@@ -1179,12 +1179,22 @@ class bijkomendekosten {
 
 					if(isset($min)) {
 
+						if ($min < $max) {
+							$week_determines_price = true;
+						} else {
+							$week_determines_price = false;
+						}
+
 						$html .= wt_he($value["naam"]);
 
-						$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".$vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bkid=".$key."');return false;\" rel=\"nofollow\">";
-						// $info_link = "<a href=\"".wt_he($vars["path"]."popup.php?fancybox=1&tid=".intval($this->id)."&id=bijkomendekosten&bkid=".$db->f("bijkomendekosten_id"))."\" class=\"popup_fancybox\" rel=\"nofollow\">";
+						if ($this->newWebsite) {
+							$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".$vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bkid=".$key."');return false;\" rel=\"nofollow\">";
+							$info_link = '<a href="#" class="bkk_toggle_more_information" data-bkid="' . $key . '">';
+						} else {
+							$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".$vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bkid=".$key."');return false;\" rel=\"nofollow\">";
+						}
 
-						if($value["omschrijving"]) {
+						if ($value["omschrijving"] && !$this->newWebsite) {
 							$html .= "&thinsp;".$info_link."<img src=\"".$this->getImageRoot()."pic/information_icon_with_padding.png\" /></a> ";
 						} else {
 							$html .= " ";
@@ -1201,10 +1211,22 @@ class bijkomendekosten {
 							$html .= html("korting","vars")." ";
 						}
 						$html .= html("perpersoonafk", "tarieventabel");
-						if($min<$max) {
+						if ($week_determines_price) {
 							$html .= " ".$info_link.html("afhankelijk-van-week", "tarieventabel")."</a>";
 						}
 						$html .= ")";
+
+						if($value["omschrijving"] && $this->newWebsite) {
+							if (!$week_determines_price) {
+								$html	.= ' - ' . $info_link . html("meerinformatie", "bijkomendekosten") . '&nbsp;&raquo;</a>';
+							}
+							$html .= '<div class="bkk_more_information" data-bkid="' . $key . '">' . nl2br(wt_he($value["omschrijving"]));
+							if ($week_determines_price) {
+								$weekDependentPriceRenderer = new WeekDependentPriceRenderer($db, $this->accinfo, $this->id, $key, $this->seizoen_id);
+								$html .= $weekDependentPriceRenderer->render();
+							}
+							$html .= '</div>';
+						}
 
 						if ($this->zoek_en_boek_popup) {
 							if ($_GET["ap"]) {
@@ -1323,10 +1345,12 @@ class bijkomendekosten {
 						//
 						$kosten["html"][$cat][$key] = wt_he($value["naam"]);
 
-						// info-icon
 						if($value["toelichting"]) {
-							$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".wt_he($vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bksid=".$key)."');return false;\">";
-							$kosten["html"][$cat][$key] .= "&thinsp;".$info_link."<img src=\"".$this->getImageRoot()."pic/information_icon_with_padding.png\" /></a> ";
+							if (!$this->newWebsite) {
+								// info-icon
+								$info_link = "<a href=\"#\" onclick=\"popwindow(500,0,'".wt_he($vars["path"]."popup.php?tid=".intval($this->id)."&id=bijkomendekosten&bksid=".$key)."');return false;\">";
+								$kosten["html"][$cat][$key] .= "&thinsp;".$info_link."<img src=\"".$this->getImageRoot()."pic/information_icon_with_padding.png\" /></a> ";
+							}
 						}
 
 						if($value["verplicht"]==2 and $value["bedrag"]=="0.00") {
@@ -1359,6 +1383,12 @@ class bijkomendekosten {
 						} elseif($value["verplicht"]==3) {
 							$kosten["html"][$cat][$key] .= " (".$vars["bk_verplicht"][3].")";
 						}
+
+						if($value["toelichting"] && $this->newWebsite) {
+							$kosten["html"][$cat][$key]	.= ' - <a href="#" class="bkk_toggle_more_information" data-bkid="' . $key . '">' . html("meerinformatie", "bijkomendekosten") . '&nbsp;&raquo;</a>';
+							$kosten["html"][$cat][$key]	.= '<div class="bkk_more_information" data-bkid="' . $key . '">' . nl2br(wt_he($value["toelichting"])) . '</div>';
+						}
+
 					}
 				}
 			}
@@ -1367,7 +1397,13 @@ class bijkomendekosten {
 		$reserveringskosten_calamiteiten = (in_array($vars['website'], $vars['sgr_c']));
 		$kosten["html"]["inclusief"]["reserveringskosten"] = html("reserveringskosten" . ($reserveringskosten_calamiteiten ? '_calamiteiten' : ''), "vars")." (&euro; " . toonreserveringskosten($vars['reserveringskosten'])." ".html("perboeking", "vars").")";
 
-		$kosten["html"]["uitbreiding"]["extraopties"] = html("bekijk-ook-extra-opties","tarieventabel",array("h_1"=>"<a href=\"#extraopties\">","h_2"=>" &raquo;</a>"));
+		if ($this->newWebsite) {
+			$extraOptionsLink = 'extras';
+		} else {
+			$extraOptionsLink = 'extraopties';
+		}
+
+		$kosten["html"]["uitbreiding"]["extraopties"] = html("bekijk-ook-extra-opties","tarieventabel",array("h_1"=>"<a href=\"#" . $extraOptionsLink . "\">","h_2"=>" &raquo;</a>"));
 
 		return $kosten;
 	}

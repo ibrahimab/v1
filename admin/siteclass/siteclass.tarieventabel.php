@@ -106,8 +106,18 @@ class tarieventabel {
 
 		$db = new DB_sql;
 
-		$this->tarieven_uit_database();
+		if ($this->newWebsite) {
+			//
+			// get current season_id's
+			//
+			$this->seizoen_id = "0";
+			$db->query("SELECT DISTINCT t.seizoen_id FROM seizoen s, tarief t WHERE s.tonen>1 AND s.type='" . intval($this->config->seizoentype) . "' AND s.seizoen_id=t.seizoen_id AND t.type_id='".intval($this->type_id)."' ORDER BY s.begin, s.eind;");
+			while ($db->next_record()) {
+				$this->seizoen_id .= "," . $db->f("seizoen_id");
+			}
+		}
 
+		$this->tarieven_uit_database();
 
 		// link to new season
 		if($this->config->seizoentype==1 && !$this->newWebsite) {
@@ -1506,7 +1516,7 @@ class tarieventabel {
 
 				$toelichting .= "<div class=\"tarieventabel_toelichting_all_seasons\">";
 
-				$toelichting .= "<div class=\"tarieventabel_toelichting_active_season\"></div>";
+				$toelichting .= "<div class=\"tarieventabel_toelichting_active_season\" data-tarieventabel_maxpos=\"0\" data-active_seizoen_id=\"0\"></div>";
 
 				foreach ($toelichting_season as $seizoen_id => $value) {
 
