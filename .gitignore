@@ -45,6 +45,5 @@ csv/
 # besides localtest.php
 localtest.php
 
-# textmate properties
-.tm_properties
-.settings
+# ignore serverconf define constants file
+admin/serverconf/define_constants-dev.php
