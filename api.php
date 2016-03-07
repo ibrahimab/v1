@@ -35,6 +35,4 @@ try {
     ]);
 }
 
-if (is)
-
 return $response->send();
