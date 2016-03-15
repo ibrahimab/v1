@@ -3007,7 +3007,7 @@ $txt["de"]["toonaccommodatie"]["omgeving"]="Umgebung";
 $txt["en"]["toonaccommodatie"]["omgeving"]="Surroundings";
 
 $txt["nl"]["toonaccommodatie"]["meerinformatie"]="meer informatie";
-$txt["de"]["toonaccommodatie"]["meerinformatie"]="Weitere Informationen ";
+$txt["de"]["toonaccommodatie"]["meerinformatie"]="Weitere Informationen";
 $txt["en"]["toonaccommodatie"]["meerinformatie"]="more information";
 
 $txt["nl"]["toonaccommodatie"]["gratis"]="gratis";
@@ -4229,6 +4229,10 @@ $txt["en"]["bijkomendekosten"]["totaalprijs-op-basis-1-persoon"]="Total price ba
 $txt["nl"]["bijkomendekosten"]["totaalprijs-op-basis-x-personen"]="Totaalprijs op basis van [[v_aantal]] personen";
 $txt["de"]["bijkomendekosten"]["totaalprijs-op-basis-x-personen"]="Gesamtpreis für [[v_aantal]] Personen";
 $txt["en"]["bijkomendekosten"]["totaalprijs-op-basis-x-personen"]="Total price based on [[v_aantal]] persons";
+
+$txt["nl"]["bijkomendekosten"]["meerinformatie"]="meer informatie";
+$txt["de"]["bijkomendekosten"]["meerinformatie"]="Weitere Informationen";
+$txt["en"]["bijkomendekosten"]["meerinformatie"]="more information";
 
 
 #
