@@ -9,6 +9,7 @@ require 'admin/vars.php';
 use Chalet\Api\Api;
 use Chalet\Api\Auth\Auth;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 $request = Request::createFromGlobals();
@@ -28,6 +29,7 @@ try {
 } catch (\Exception $e) {
 
     $response = new JsonResponse();
+    $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
     $response->setData([
 
         'type' => 'error',
