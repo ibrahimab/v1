@@ -260,7 +260,7 @@ class xmlExport extends chaletDefault
 			$mainImage = $this->imageFetcher->main($type_id, $db->f('accommodatie_id'));
 			$allImages = $this->imageFetcher->all($type_id, $db->f('accommodatie_id'));
 			$i         = 0;
-			$images    = [++$i => $mainImage];
+			$images    = [++$i => $this->config->basehref . 'pic/cms/' . $mainImage['directory'] . '/' . $mainImage['filename']];
 
 			foreach ($allImages as $image) {
 
