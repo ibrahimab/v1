@@ -1,5 +1,5 @@
 <?php
-namespace Chalet\Test\Unit\ExtraDistances;
+namespace Chalet\Test\Unit\Frontend\ExtraDistances;
 
 use Chalet\Test\Unit\TestCase as UnitTestCase;
 use DB_Sql;

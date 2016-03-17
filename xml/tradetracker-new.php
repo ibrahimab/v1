@@ -1,5 +1,7 @@
 <?php
-
+use Chalet\Frontend\Images\Images;
+use Chalet\Frontend\Images\TypeRepository;
+use Chalet\Frontend\Images\AccommodationRepository;
 
 //
 // XML-export van alle accommodaties t.b.v. TradeTracker
@@ -17,7 +19,11 @@ $unixdir="../";
 include("../admin/vars.php");
 
 
+$imagesFetcher = new Images(new TypeRepository($vars['mongodb']['wrapper']), new AccommodationRepository($vars['mongodb']['wrapper']));
+$imagesFetcher->setDefaultImage('accommodaties', '0.jpg');
+
 $xmlTradetracker = new xmlTradetracker;
+$xmlTradetracker->setImageFetcher($imagesFetcher);
 
 if($_GET["aanbiedingen"]) {
 	$xmlTradetracker->aanbieding = true;
