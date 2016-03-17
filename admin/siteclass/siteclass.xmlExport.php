@@ -259,8 +259,8 @@ class xmlExport extends chaletDefault
 
 			$mainImage = $this->imageFetcher->main($type_id, $db->f('accommodatie_id'));
 			$allImages = $this->imageFetcher->all($type_id, $db->f('accommodatie_id'));
-			$images    = [];
 			$i         = 0;
+			$images    = [++$i => $mainImage];
 
 			foreach ($allImages as $image) {
 
