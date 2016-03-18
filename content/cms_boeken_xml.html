@@ -18,8 +18,8 @@
  *
  */
 $arkiane     = [12, 17, 18, 19, 20, 22, 26, 27];
-$arkiane2008 = [12, 17, 18, 19, 20, 26, 27];
-$arkiane2011 = [22];
+$arkiane2008 = [12, 17, 18, 19, 26, 27];
+$arkiane2011 = [20, 22];
 
 function save_aan_leverancier_doorgegeven_naam() {
 
@@ -147,7 +147,7 @@ if($gegevens["stap1"]["leverancierscode"] and !$vars["lokale_testserver"] and !$
 				$arkiane_url[19] = "http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=ins_opti@top_id='CHANL'";
 
 				// Centrale des Hauts Forts
-				$arkiane_url[20] = "http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=ins_opti@top_id='CHALE'";
+				$arkiane_url[20] = "http://xml.arkiane.com/api/api/xml_v2?agency=169&site=1&username=TO_chalet&password=cha0133&application=lv&qry=ins_opti";
 
 				// Nexity
 				$arkiane_url[22] = "http://xml.arkiane.com/api/api/xml_v2?agency=259&site=1&username=TO_chalet&password=cha0133&application=lv&qry=ins_opti";

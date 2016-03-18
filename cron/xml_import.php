@@ -371,9 +371,16 @@ if($testsysteem) {
 	// $xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 	// $xml_urls[17][1]=$test_tmpdir."lev.xml";
 	// $xml_urls[18][1]=$test_tmpdir."agence.xml";
+<<<<<<< HEAD
 	// $xml_urls[19][1]=$test_tmpdir."/oxy1.xml";
 	// $xml_urls[20][1]=$tmpdir . "/locative_availability.xml";
 	// $xml_urls[20][2]=$tmpdir . "/locative_tarifs.xml";	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
+=======
+	// $xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
+	// $xml_urls[20][1]=$tmpdir . "/locative_availability.xml";
+	// $xml_urls[20][2]=$tmpdir . "/locative_tarifs.xml";
+	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
+>>>>>>> [CMS-228]
 	// $xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
 	// $xml_urls[22][1]=$tmpdir . "/nexity-unavailability-new.xml"; # beschikbaarheid
 	// $xml_urls[22][2]=$tmpdir . "/nexity-price-new.xml"; # prijzen
@@ -451,9 +458,15 @@ if(intval($argv[1])>0) {
  * Agence des Cimes (27)
  *
  */
+<<<<<<< HEAD
 $arkiane2008  = [12, 17, 18, 19, 26];
 $arkiane2011  = [20, 22, 27];
 $allSuppliers = [1, 2, 3, 5, 6, 8, 11,
+=======
+$arkiane2008  = [12, 17, 18, 19, 26, 27];
+$arkiane2011  = [20, 22];
+$allSuppliers = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11,
+>>>>>>> [CMS-228]
                  12, 13, 14, 15, 16, 17, 18, 19,
                  20, 21, 22, 23, 24, 25, 26, 27];
 
