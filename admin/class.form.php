@@ -994,7 +994,7 @@ class form2 {
 			if(!$this->fields["options"][$id]["endyear"]) $this->fields["options"][$id]["endyear"]=adodb_date("Y")+4;
 
 			if($this->fields["layout"][$id]["calendar"]) {
-				$return.="<img src=\"".$this->settings["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$this->settings["path"]."class.form_calendar.php?nm=".urlencode($this->settings["formname"])."&lang=".$this->settings["language"]."&input=".$id."&month='+document.".$this->settings["formname"].".elements['input[".$id."][month]'].value+'&year='+document.".$this->settings["formname"].".elements['input[".$id."][year]'].value, '_blank', 'scrollbars=no,width=345,height=250,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"".$this->message("kalender")."\" class=\"wtform_calendar_img\" style=\"cursor: pointer\">&nbsp;";
+				$return.="<img src=\"".$this->settings["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$this->settings["path"]."class.form_calendar.php?nm=".urlencode($this->settings["formname"])."&lang=".$this->settings["language"]."&input=".$id."&month='+document.".$this->settings["formname"].".elements['input[".$id."][month]'].value+'&year='+document.".$this->settings["formname"].".elements['input[".$id."][year]'].value, '_blank', 'scrollbars=no,width=345,height=270,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"".$this->message("kalender")."\" class=\"wtform_calendar_img\" style=\"cursor: pointer\">&nbsp;";
 			}
 
 			# Dag
