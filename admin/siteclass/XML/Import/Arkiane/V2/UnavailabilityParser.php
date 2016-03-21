@@ -60,6 +60,10 @@ class UnavailabilityParser
 
         foreach($this->xml as $line) {
 
+            if (!isset($line->Planning->o_debut || !isset($line->Planning->o_fin)) {
+                continue;
+            }
+
             $start  = \DateTime::createFromFormat('d/m/Y', trim($line->Planning->o_debut));
             $start->setTime(0, 0, 0);
 

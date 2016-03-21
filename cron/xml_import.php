@@ -371,7 +371,7 @@ if($testsysteem) {
 	// $xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 	// $xml_urls[17][1]=$test_tmpdir."lev.xml";
 	// $xml_urls[18][1]=$test_tmpdir."agence.xml";
-	// $xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
+	// $xml_urls[19][1]=$tmpdir."/oxy.xml";
 	// $xml_urls[20][1]="/tmp/locative.xml";
 	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
 	// $xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
