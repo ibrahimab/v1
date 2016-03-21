@@ -60,7 +60,7 @@ class UnavailabilityParser
 
         foreach($this->xml as $line) {
 
-            if (!isset($line->Planning->o_debut || !isset($line->Planning->o_fin)) {
+            if (!isset($line->Planning->o_debut) || !isset($line->Planning->o_fin)) {
                 continue;
             }
 

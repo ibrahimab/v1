@@ -54,7 +54,7 @@ class PricesParser
 
         foreach ($this->xml as $line) {
 
-            if (!isset($line->Tarif->t_debut) {
+            if (!isset($line->Tarif->t_debut)) {
                 continue;
             }
 
