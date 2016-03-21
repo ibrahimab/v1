@@ -82,19 +82,28 @@ class UnavailabilityParser
             $weekend = $start->getTimestamp();
             $lastWeekend = $end->getTimestamp();
 
+            // convert begin and end dates to saturdays
+            $startWeekend = new \DateTime();
+            $startWeekend->setTimestamp($weekend);
+
+            $endWeekend = new \DateTime();
+            $endWeekend->setTimestamp($lastWeekend);
+
+            if ($startWeekend->format('w') != 6) {
+                $weekend = laatstezaterdag($weekend);
+            }
+
+            if ($endWeekend->format('w') != 6) {
+                $lastWeekend = komendezaterdag($lastWeekend);
+            }
+
             while ($weekend < $lastWeekend) {
 
                 $weekendDate = new \DateTime();
                 $weekendDate->setTimestamp($weekend);
 
-                // actual arrival date: niet_beschikbaar
+                 // actual arrival date: niet_beschikbaar
                 $unavailable[$typeID][$weekend] = true;
-
-                if ($weekendDate->format('w') != 6) {
-
-                    $altweek = laatstezaterdag($weekend);
-                    $unavailable[$typeID][$altweek] = true;
-                }
 
                 $weekend = $weekendDate->modify('+7 days')->getTimestamp();
             }
