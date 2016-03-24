@@ -212,8 +212,10 @@ if($vars["italissima_topfoto"]) {
 echo "\" width=\"760\" height=\"160\" alt=\"\" />";
 
 // Zoover-awards
-if (in_array($vars['website'], array_keys($vars['zoover']))) {
-	echo '<a href="' . $vars['zoover'][$vars['website']]['link'] . '" class="zoover_awards analytics_track_external_click"><img src="' . $vars['zoover'][$vars['website']]['image'] . '" /></a>';
+if (in_array($vars['website'], $vars['zoover'])) {
+
+	echo '<a href="' . $vars['path'] . 'zooverawards2015" target="_blank" class="zoover_awards analytics_track_external_click" style="top: 20px;">' .
+         '<img src="' . $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover.png" /></a>';
 }
 
 echo "</div>\n"; # afsluiten topfoto

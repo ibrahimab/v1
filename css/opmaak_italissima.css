@@ -1296,9 +1296,13 @@ ul.wie-zijn-wij > li ul li {
 .zoover_awards {
 
 	display: block;
+	background-color: red;
 	position: absolute;
-	top: 10px;
-	right: 10px;
+	top: 30px;
+	right: 0;
+	-webkit-box-shadow: -4px 4px 3px -1px rgba(50, 50, 50, 0.8);
+	-moz-box-shadow: -4px 4px 3px -1px rgba(50, 50, 50, 0.8);
+	box-shadow: -4px 4px 3px -1px rgba(50, 50, 50, 0.8);
 }
 
 .zoover_awards:hover {

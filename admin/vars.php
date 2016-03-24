@@ -292,37 +292,7 @@ $vars["unixdir"]=$unixdir;
 $vars['anvr']   = ['C', 'T', 'B', 'V', 'X', 'Z', 'I', 'K'];
 $vars['sgr_c']  = ['C', 'T', 'V', 'X', 'Z', 'I'];
 $vars['sgr']    = ['E', 'Q', 'H', 'B', 'K'];
-$vars['zoover'] = [
-
-    'C' => [
-
-        'website'   => 'C',
-        'link'      => 'https://www.zooverawards.nl/chalet',
-        'image'     => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016.png',
-        'big_image' => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016-big.jpg',
-    ],
-    'B' => [
-
-        'website'   => 'C',
-        'link'      => 'https://www.zooverawards.nl/chalet',
-        'image'     => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016.png',
-        'big_image' => $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2016-big.jpg',
-    ],
-    'I' => [
-
-        'website'   => 'I',
-        'link'      => 'https://www.zooverawards.nl/italissima',
-        'image'     => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016.png',
-        'big_image' => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016-big.jpg',
-    ],
-    'K' => [
-
-        'website'   => 'I',
-        'link'      => 'https://www.zooverawards.nl/italissima',
-        'image'     => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016.png',
-        'big_image' => $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover-2016-big.jpg',
-    ],
-];
+$vars['zoover'] = ['C', 'B', 'I', 'K'];
 
 /*
  * Enable this to track conversion again
