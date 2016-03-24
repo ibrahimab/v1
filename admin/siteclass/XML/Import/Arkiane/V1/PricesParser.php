@@ -58,13 +58,12 @@ class PricesParser
                 continue;
             }
 
-            $typeID   = trim($tarif->lot_ref);
             $start    = \DateTime::createFromFormat('d/m/Y', trim($tarif->ptar_debut));
             $start->setTime(0, 0, 0);
 
             $unixtime = $start->getTimestamp();
 
-            $prices[$typeID][$unixtime] = trim($tarif->promo_montant);
+            $prices[$unixtime] = trim($tarif->promo_montant);
         }
 
         return $prices;

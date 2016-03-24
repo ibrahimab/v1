@@ -348,8 +348,8 @@ $xml_urls[27][2]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=252&top=114&qry=t
 #
 if($testsysteem) {
 
-	$xml_urls  = [];
-	$soap_urls = [];
+	// $xml_urls  = [];
+	// $soap_urls = [];
 	// $xml_urls[2][]=$test_tmpdir."alpenchalets.xml";
 	// $xml_urls[3][]=$test_tmpdir."skifrance.xml";
 	// $xml_urls[4][]=$test_tmpdir."results.xml";
@@ -1659,12 +1659,12 @@ while($db->next_record()) {
 			try {
 
 				$prices = new V1\PricesParser($xml);
-				$xml_brutoprijs[$db->f('xml_type')][$db->f('type_id')] = $prices->parse();
+				$xml_brutoprijs[$db->f('xml_type')][$value] = $prices->parse();
 
 				if (isset($xml_niet_beschikbaar[$db->f('xml_type')][$value])){
 
 					foreach ($xml_niet_beschikbaar[$db->f('xml_type')][$value] as $weekend => $bool) {
-						$nietbeschikbaar[$value][$db->f('type_id')][$weekend]++;
+						$nietbeschikbaar[$db->f("xml_type")][$db->f('type_id')][$weekend]++;
 						$xml_laatsteimport[$db->f('type_id')] = true;
 					}
 				}
@@ -1771,22 +1771,6 @@ while($db->next_record()) {
 
 			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
 
-		} elseif($db->f("xml_type")==17) {
-			#
-			# Leverancier Alpin Rentals Kaprun
-			#
-
-			# Beschikbaarheid
-			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
-				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
-				while(list($key2,$value2)=each($xml_beschikbaar[$db->f("xml_type")][$value])) {
-					$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]+=$value2;
-					$xml_laatsteimport[$db->f("type_id")]=true;
-				}
-			}
-
-			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
-
 		} elseif($db->f("xml_type")==21) {
 			#
 			# Leverancier Ville in Italia
@@ -1838,7 +1822,7 @@ while($db->next_record()) {
 		} elseif($db->f("xml_type")==25) {
 
 			#
-			# Leverancier AlpinRentals
+			# Alpin Rentals Kaprun
 			#
 			# Beschikbaarheid
 			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
