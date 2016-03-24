@@ -84,17 +84,11 @@ class UnavailabilityParser
             $lastWeekend = $end->getTimestamp();
 
             // convert begin and end dates to saturdays
-            $startWeekend = new \DateTime();
-            $startWeekend->setTimestamp($weekend);
-
-            $endWeekend = new \DateTime();
-            $endWeekend->setTimestamp($lastWeekend);
-
-            if ($startWeekend->format('w') != 6) {
+            if ($start->format('w') != 6) {
                 $weekend = laatstezaterdag($weekend);
             }
 
-            if ($endWeekend->format('w') != 6) {
+            if ($end->format('w') != 6) {
                 $lastWeekend = komendezaterdag($lastWeekend);
             }
 
