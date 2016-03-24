@@ -295,8 +295,8 @@ $xml_urls[19][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=extr
 #$xml_urls[19][2]="Oxygène Immobilier" (tarieven werken met losse XML's per accommodatie)
 
 # Centrale des Hauts Forts (via Arkiane)
-$xml_urls[20][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=extr_plng@top_id='CHALE'";
-#$xml_urls[20][2]="Centrale des Hauts Forts" (tarieven werken met losse XML's per accommodatie)
+$xml_urls[20][1]="http://xml.arkiane.com/api/api/xml_v2?agency=169&site=1&username=TO_chalet&password=cha0133&application=lv&qry=to_get_planning";
+$xml_urls[20][2]="http://xml.arkiane.com/api/api/xml_v2?agency=169&site=1&username=TO_chalet&password=cha0133&application=lv&qry=to_get_tarifs";
 
 # Ville in Italia
 $xml_urls[21][1]="https://secure.villeinitalia.com/protAgency/AvailableFile.jsp"; # beschikbaarheid
@@ -371,9 +371,9 @@ if($testsysteem) {
 	// $xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 	// $xml_urls[17][1]=$test_tmpdir."lev.xml";
 	// $xml_urls[18][1]=$test_tmpdir."agence.xml";
-	// $xml_urls[19][1]=$tmpdir."/oxy.xml";
-	// $xml_urls[20][1]="/tmp/locative.xml";
-	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
+	// $xml_urls[19][1]=$test_tmpdir."/oxy1.xml";
+	// $xml_urls[20][1]=$tmpdir . "/locative_availability.xml";
+	// $xml_urls[20][2]=$tmpdir . "/locative_tarifs.xml";	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
 	// $xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
 	// $xml_urls[22][1]=$tmpdir . "/nexity-unavailability-new.xml"; # beschikbaarheid
 	// $xml_urls[22][2]=$tmpdir . "/nexity-price-new.xml"; # prijzen
@@ -441,8 +441,8 @@ if(intval($argv[1])>0) {
  * @var $arkiane2011
  *
  * Arkiane-leveranciers:
- * Flaine Immobilier(12)
- * Deux Alpes Voyages(17)
+ * Deux Alpes Voyages(12)
+ * Flaine Immobilier(17)
  * Agence des Belleville(18)
  * Oxygène Immobilier(19)
  * Centrale des Hauts Forts(20)
@@ -451,18 +451,11 @@ if(intval($argv[1])>0) {
  * Agence des Cimes (27)
  *
  */
-$arkiane2008 = [12, 17, 18, 19, 20, 26];
-$arkiane2011 = [22, 27];
-$allSuppliers = [1, 2, 3, 5, 6, 7, 8, 9, 10, 11,
-                 12, 13, 14, 15, 16, 17, 18, 19,
+$arkiane2008  = [12, 17, 18, 26];
+$arkiane2011  = [20, 22, 27];
+$allSuppliers = [1, 2, 3, 5, 6, 8, 11,
+                 12, 13, 14, 15, 16, 17, 18,
                  20, 21, 22, 23, 24, 25, 26, 27];
-
-/**
- * Arkiane fix types sunday to sunday
- *
- * 7224 = PEPPA (Nexity)
- */
-$arkianeSundayTypes = [7224];
 
 if($testsysteem) {
 	// echo wt_dump($xml_urls, false);
@@ -601,15 +594,13 @@ while(list($key,$value)=@each($xml_urls)) {
 
 				/*
 
-				$arkiane2008 = [12, 17, 18, 19, 20, 26]
+				$arkiane2008 = [12, 17, 18, 19, 26]
 				Arkiane-leveranciers:
 
 				Deux Alpes Voyages
 				Flaine Immobilier
 				Agence des Belleville
 				Oxygène Immobilier
-				Centrale des Hauts Forts
-				Nexity
 				3 Vallées Immobilier
 
 				*/
@@ -1890,7 +1881,7 @@ while($db->next_record()) {
 							}
 
 							# Rekening houden met afwijkende verblijfsduur ("Aankomst (afwijking in dagen)" op accommodatieniveau)
-							if ($db->f("aankomst_plusmin") && !$zaterdag_wijziging_toegepast && !in_array($db->f('type_id'), $arkianeSundayTypes)) {
+							if ($db->f("aankomst_plusmin") && !$zaterdag_wijziging_toegepast) {
 								$key2=mktime(0,0,0,date("m",$key2),date("d",$key2)-$db->f("aankomst_plusmin"),date("Y",$key2));
 							}
 
