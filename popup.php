@@ -2,6 +2,11 @@
 
 if(ereg("^cms_",$_GET["id"])) {
 	$mustlogin=true;
+
+	if ($_GET["id"]=="cms_mail_klanten_vorig_seizoen_bewerken") {
+		$boeking_bepaalt_taal = true;
+	}
+
 	include("admin/vars.php");
 
 } else {

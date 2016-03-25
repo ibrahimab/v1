@@ -1451,11 +1451,23 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 	#
 	global $db,$vars,$txt,$txta,$gegevens,$login;
 	if($boekingid) {
+
+		$vars["boeking_bepaalt_taal"] = true;
+
+		// get booking language
+		$db->query("SELECT taal FROM boeking WHERE boeking_id='".intval($boekingid)."';");
+		if ($db->next_record()) {
+			$vars["taal"] = $db->f("taal");
+		}
+
+		// soortaccommodatie in correct language
+		$vars["soortaccommodatie"]=array(1=>txt("chalet","vars"),2=>txt("appartement","vars"),3=>txt("hotel","vars"),4=>txt("chaletappartement","vars"),6=>txt("vakantiewoning","vars"),7=>txt("villa","vars"),8=>txt("kasteel","vars"),9=>txt("vakantiepark","vars"),10=>txt("agriturismo","vars"),11=>txt("domein","vars"),12=>txt("pension","vars"));
+
 		$gegevens=get_boekinginfo($boekingid);
 		$taal=$gegevens["stap1"]["taal"];
 
-		$db->query("SELECT s.naam FROM seizoen s, diverse_instellingen d WHERE ".($gegevens["stap1"]["accinfo"]["wzt"]==2 ? "zomer" : "winter")."_huidig_seizoen_id=seizoen_id AND d.diverse_instellingen_id=1;");
-		if($db->next_record()) {
+		$db->query("SELECT s.naam" . $vars["ttv"] . " AS naam FROM seizoen s, diverse_instellingen d WHERE ".($gegevens["stap1"]["accinfo"]["wzt"]==2 ? "zomer" : "winter")."_huidig_seizoen_id=seizoen_id AND d.diverse_instellingen_id=1;");
+		if ($db->next_record()) {
 			$seizoennaam=$db->f("naam");
 		}
 
@@ -1469,24 +1481,25 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 		$return["status_klanten_vorig_seizoen"]=$gegevens["stap1"]["status_klanten_vorig_seizoen"];
 		$return["website"]=$gegevens["stap1"]["website"];
 
-
-
 		if($gegevens["stap1"]["mailtekst_klanten_vorig_seizoen"]) {
+
 			$return["body"].=$gegevens["stap1"]["mailtekst_klanten_vorig_seizoen"];
 			$return["bewerkt"]=true;
 
 		} else {
+
 			$db->query("SELECT boeking_id FROM boeking_enquete WHERE boeking_id='".addslashes($boekingid)."' AND vraag4=2;");
 			if($db->next_record()) {
+
 				# "Ja, mail me over andere accommodaties/bestemmingen"
 				$return["body"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_".$gegevens["stap1"]["accinfo"]["wzt"]];
 				$return["subject"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_subject_".$gegevens["stap1"]["accinfo"]["wzt"]];
 
 			} else {
+
 				# "Ja, mail me over deze accommodatie"
 				$return["body"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_".$gegevens["stap1"]["accinfo"]["wzt"]];
 				$return["subject"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_subject_".$gegevens["stap1"]["accinfo"]["wzt"]];
-
 
 			}
 
@@ -1499,18 +1512,9 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 			$return["body"]=ereg_replace("\[LINK_CATERING\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "http://dev.webtastic.nl/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]])."rebook.php?goto=zoekenboekcatering&bid=".$boekingid."&c=".substr(sha1($boekingid."_WT_488439fk3"),0,8)."&utm_source=email&utm_medium=email&utm_campaign=mail-volgend-seizoen-klant",$return["body"]);
 			$return["body"]=ereg_replace("\[LINK_ACC\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "http://dev.webtastic.nl/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]])."rebook.php?goto=accommodatie&bid=".$boekingid."&c=".substr(sha1($boekingid."_WT_488439fk3"),0,8)."&utm_source=email&utm_medium=email&utm_campaign=mail-volgend-seizoen-klant",$return["body"]);
 			$return["body"]=ereg_replace("\[LINK_CONTACT\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "http://dev.webtastic.nl/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]])."rebook.php?goto=contact&bid=".$boekingid."&c=".substr(sha1($boekingid."_WT_488439fk3"),0,8)."&utm_source=email&utm_medium=email&utm_campaign=mail-volgend-seizoen-klant",$return["body"]);
-
 			$return["body"]=ereg_replace("\[ACCOMMODATIENAAM\]",ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"],$return["body"]);
 			$return["body"]=ereg_replace("\[SOORTACCOMMODATIE\]",$gegevens["stap1"]["accinfo"]["soortaccommodatie"],$return["body"]);
-
-			// $return["body"]=ereg_replace("\[DATUM\]",DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal),$return["body"]);
-			// $return["body"]=ereg_replace("\[EERDERE_BOEKING\]",DATUM("D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal)." - ".$gegevens["stap1"]["accinfo"]["plaats"]." / ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"],$return["body"]);
-			// $return["body"]=ereg_replace("\[ACCOMMODATIELINK\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" ? "http://dev.webtastic.nl/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]]).$gegevens["stap1"]["accinfo"]["url_zonderpad"],$return["body"]);
-			// $return["body"]=ereg_replace("\[LINK\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" ? "http://dev.webtastic.nl/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]])."rebook.php?bid=".$boekingid."&c=".substr(sha1($boekingid."_WT_488439fk3"),0,8),$return["body"]);
-			// $return["body"]=ereg_replace("\[NAAM_MEDEWERKER\]",$login->vars["voornaam"],$return["body"]);
-			// $return["body"]=ereg_replace("\[EMAIL\]",$gegevens["stap1"]["website_specifiek"]["email"],$return["body"]);
-			// $return["body"]=ereg_replace("\[BASEHREF\]",$gegevens["stap1"]["website_specifiek"]["basehref"],$return["body"]);
-#			$return["body"]=ereg_replace("\[NAAM_MEDEWERKER\]",wt_naam($login->vars["voornaam"],$login->vars["tussenvoegsel"],$login->vars["achternaam"]),$return["body"]);
+			$return["body"]=ereg_replace("\[SEIZOEN\]",$seizoennaam,$return["body"]);
 		}
 
 		$return["subject"]=ereg_replace("\[SEIZOEN\]",$seizoennaam,$return["subject"]);
@@ -1518,6 +1522,7 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 		$return["subject"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["subject"]);
 
 		return $return;
+
 	} else {
 		return false;
 	}
