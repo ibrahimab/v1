@@ -31,5 +31,3 @@ if($_GET["testmail"]) {
 } else {
 	echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&testmail=1")."\">Stuur testmail aan <i>".wt_he($login->vars["email"])."</i> &raquo;</a><br/>(let op: eventuele wijzigingen in de tekst moeten eerst worden opgeslagen)</p>";
 }
-
-?>

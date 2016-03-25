@@ -2,6 +2,7 @@
 
 set_time_limit(0);
 $mustlogin=true;
+$boeking_bepaalt_taal=true;
 include("admin/vars.php");
 
 if(!$login->has_priv("24")) {
@@ -24,5 +25,3 @@ if($_POST["boekingsgegevens"]) {
 }
 
 $layout->display_all($cms->page_title);
-
-?>

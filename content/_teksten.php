@@ -704,38 +704,44 @@ $txt["en"]["vars"]["terug_naar_boven"]="Back to top";
 # winter NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_1"]="Beste [NAAM],
 
-Deze winter ben je via [WEBSITE] op wintersport geweest en ben je in de volgende accommodatie verbleven: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
+Deze winter ben je via [WEBSITE] op wintersport geweest. We hopen dat je terugkijkt op een fijne vakantie. Je verbleef in: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
 
-Wij willen je daarom als eerste laten weten dat dit [SOORTACCOMMODATIE], evenals een aantal andere accommodaties, nu al te boeken is voor het volgende winterseizoen. Het is belangrijk om te weten dat deze prijzen voortaan inclusief bijkomende kosten vermeld worden. Bij de prijstabel vind je een overzicht waardoor het in een oogopslag duidelijk is wat de totaalprijs is en kom je achteraf niet voor onaangename verrassingen te staan.
+Goed nieuws! Je kunt je alvast verheugen op je volgende wintersportvakantie want dit [SOORTACCOMMODATIE] kan vanaf nu geboekt worden voor [SEIZOEN], evenals een groot aantal andere accommodaties.
 
-Elk jaar constateren we weer dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.
+[b]Goed om te weten[/b]
+Met name de grote accommodaties zijn erg populair en worden vroeg geboekt. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is. Daarvoor raden we je aan niet te lang te wachten met beslissen.
 
-[b]Klantvoordeel[/b]
-We geven je nu een [b]optie van [OPTIEDAGEN] dagen[/b] in plaats van de gebruikelijke 3-daagse optie, om je de kans te geven rustig met je reisgenoten te overleggen. Via een van de twee onderstaande links kun je gebruik maken van dit voordeel:
-[ul][li][link=[LINK_ACC]]Een vrijblijvende optie van [OPTIEDAGEN] dagen nemen op [ACCOMMODATIENAAM][/link][/li]
-[li][link=[LINK_ALGEMEEN]]Een andere accommodatie zoeken uit ons actuele aanbod voor winter 2015/2016 en te profiteren van de extra lange optie[/link][/li][/ul]
-Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
+[b]Extra klantvoordeel[/b]
+We bieden je als klant de mogelijkheid om nu een [b]extra lange optie van [OPTIEDAGEN] dagen[/b] te nemen in plaats van de gebruikelijke 3-daagse optie. Zo heb je de tijd om rustig met je reisgenoten te overleggen. Via de twee onderstaande links kun je gebruik maken van dit voordeel:
+[ul][li][link=[LINK_ACC]]Een vrijblijvende optie van [OPTIEDAGEN] dagen op [ACCOMMODATIENAAM][/link][/li]
+[li][link=[LINK_ALGEMEEN]] Een vrijblijvende optie van [OPTIEDAGEN] dagen op een andere accommodatie uit ons actuele aanbod voor [SEIZOEN] [/link][/li][/ul]
+[b]Advies op maat?[/b]
+Je kunt er ook voor kiezen om ons je wensen te [link=[LINK_CONTACT]]mailen[/link] zodat je van ons vrijblijvend een passend advies ontvangt.
 
-Alvast veel vakantie-voorpret toegewenst!
+Winterse groet,
 
 [ondertekening]";
 
 # winter DE
 $txt["de"]["vars"]["mail_klanten_vorig_seizoen_1"]="Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
-Sie sind diesen Winter über [WEBSITE] in den Wintersporturlaub gefahren und verblieben dabei in folgender Unterkunft: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
+In der vergangenen Saison haben Sie Ihren Winterurlaub bei uns gebucht. Wir hoffen, Sie hatten einen schönen Urlaub im [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
 
-Wir informieren Sie deshalb zuerst, dass dieses [SOORTACCOMODATIE], sowie einige andere Unterkünfte, jetzt schon buchbar sind für die nächste Wintersaison.
+Gute Neuigkeiten! Sie können sich bereits jetzt auf Ihren nächsten Winterurlaub freuen, Ihr [SOORTACCOMMODATIE] können sie ab sofort für [SEIZOEN] buchen, oder Sie wählen aus einer der vielen anderen Unterkünfte.
 
-Jedes Jahr stellen wir wieder fest, dass vor allem die großen Unterkünfte sehr beliebt sind und früh gebucht werden. Dieses ist vor allem der Fall bei den Weihnachts- und Frühlingsferien, wo die Nachfrage momentan schon groß ist. Wir raten Ihnen deshalb, nicht zu lange zu warten bei der Wahl Ihrer Unterkunft.
+[b]Gut zu wissen[/b]
+Speziell die größeren Unterkünfte sind sehr beliebt und werden früh gebucht. Dies gilt vor allem für die Urlaubszeit zu Weihnachten und Silvester sowie in den Ferienterminen im Februar. Die Nachfrage ist bereits sehr hoch. Daher raten wir Ihnen nicht zu lange mit der Entscheidung für Ihren nächsten Winterurlaub zu warten.
 
-[b]Kundenvorteil[/b]
-Wir geben Ihnen jetzt eine [b] Option von [OPTIEDAGEN] Tagen[/b] statt der gewöhnlichen dreitägigen Option, damit Sie zusammen mit Ihren Mitreisenden in aller Ruhe überlegen können. Klicken Sie auf einen der unten stehenden Links um diesen Vorteil zu benutzen:
-[ul][li][link=[LINK_ACC]]Eine unverbindliche Option von [OPTIEDAGEN] Tagen nehmen auf [ACCOMMODATIENAAM][/link][/li]
-[li][link=[LINK_ALGEMEEN]]Eine andere Unterkunft suchen aus unserem aktuellen Angebot für Winter 2015/2016 und den Vorteil der extra langen Option zu nutzen [/link][/li][/ul]
-Sie können uns natürlich auch eine [link=[LINK_CONTACT]]E-Mail[/link] mit Ihren Wünschen schreiben.  Lassen Sie sich unverbindlich beraten.
+[b]Spezieller Kundenvorteil[/b]
+Wir bieten Ihnen als Stammkunden die Möglichkeit eine [b]längere Option von [OPTIEDAGEN] Tagen[/b] als der üblichen 3 Tage in Anspruch zu nehmen. So haben Sie Zeit um in Ruhe mit Ihren Mitreisenden eine endgültige Entscheidung zu treffen.
 
-Wir wünschen Ihnen im Voraus viel Urlaubsvorfreude!
+Via der beiden unten angeführten links können Sie diesen Vorteil in Anspruch nehmen:
+[ul][li][link=[LINK_ACC]]Eine freibleibende Option von [OPTIEDAGEN] Tagen für das  [ACCOMMODATIENAAM][/link][/li]
+[li][link=[LINK_ALGEMEEN]]Eine freibleibende Option von [OPTIEDAGEN] Tagen für eine andere Unterkunft aus unserem aktuellen Angebot für [SEIZOEN].[/link][/li][/ul]
+[b]Empfehlung nach Maß[/b]
+Gerne können Sie uns Ihren Wunsch per [link=[LINK_CONTACT]]E-Mail[/link] zuschicken, dann erhalten Sie von uns ein freibleibendes, auf Sie angepasstes Angebot.
+
+Winterliche Grüße,
 
 [ondertekening]";
 
@@ -746,12 +752,13 @@ This past winter you went on a winter holiday via [WEBSITE] and you were staying
 
 That's why we want you to be the first to know that this [SOORTACCOMMODATIE], and other accommodations, can already be be booked for the next winter season.
 
-Every year we notice that the big accommodations are very popular and are booked early. This is especially true for the Christmas and spring holidays, which are already in high demand. So we recommend you don't wait too long to start your search.
+Every year we find that our accommodations are booked earlier and earlier. This is especially true for the Christmas break and half-term vacation. These weeks are already in high demand, so we recommend not waiting too long to start your search.
 
 [b]Your advantage[/b]
-We can now give you an [b]option of [OPTIEDAGEN] days[/b] instead of the normal 3-day option, to give you the chance to discuss with fellow travelers. Through one of the two links below you can make use of this advantage:
-[ul][li][link=[LINK_ACC]]A noncommital option of [OPTIEDAGEN] days on [ACCOMMODATIENAAM][/link][/li]
-[li][link=[LINK_ALGEMEEN]]Search for another already available accommodation for the 2015/2016 winter season and take advantage of the same extra long option[/link][/li][/ul]
+We can now give you an [b]option of [OPTIEDAGEN] days[/b] instead of the normal 3-day option, to give you the chance to discuss with your fellow travelers. Through one of the two links below you can make use of this advantage:
+
+[ul][li][link=[LINK_ACC]]A noncommittal option of [OPTIEDAGEN] days on [ACCOMMODATIENAAM][/link][/li]
+[li][link=[LINK_ALGEMEEN]]Search for another already available accommodation for [SEIZOEN] and take advantage of the same extra long option[/link][/li][/ul]
 Of course it is also possible to send us your wishes [link=[LINK_CONTACT]]by e-mail[/link]. We will gladly give you proper advice to help you find a fitting accommodation.
 
 We wish you a lot of fun with your search!
@@ -780,7 +787,7 @@ Sehr geehrter Herr / Sehr geehrte Frau [ACHTERNAAM],
 
 Sie sind über [WEBSITE] in den Urlaub gefahren und verblieben dabei in folgender Unterkunft: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
 
-Wir informieren Sie deshalb zuerst, dass diese(s) [SOORTACCOMODATIE], sowie einige andere Unterkünfte, jetzt schon buchbar sind für die nächste Saison.
+Wir informieren Sie deshalb zuerst, dass diese(s) [SOORTACCOMMODATIE], sowie einige andere Unterkünfte, jetzt schon buchbar sind für die nächste Saison.
 
 [b]Kundenvorteil[/b]
 Wir geben Ihnen jetzt eine [b] Option von [OPTIEDAGEN] Tagen[/b] statt der gewöhnlichen dreitägigen Option, damit Sie zusammen mit Ihren Mitreisenden in aller Ruhe überlegen können. Klicken Sie auf einen der unten stehenden Links um diesen Vorteil zu benutzen:
