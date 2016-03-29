@@ -13,7 +13,7 @@ use Chalet\XML\Import\Arkiane\V2;
 /*
 
 
-every supplier at 03, 11, 15 and 19 h. Interhome only at 03h.
+every supplier at 03, 11, 15 and 19 h. Interhome only at 03h. Pierre & Vacances only at 11h
 
 
 
@@ -451,10 +451,10 @@ if(intval($argv[1])>0) {
  * Agence des Cimes (27)
  *
  */
-$arkiane2008  = [12, 17, 18, 26];
+$arkiane2008  = [12, 17, 18, 19, 26];
 $arkiane2011  = [20, 22, 27];
 $allSuppliers = [1, 2, 3, 5, 6, 8, 11,
-                 12, 13, 14, 15, 16, 17, 18,
+                 12, 13, 14, 15, 16, 17, 18, 19,
                  20, 21, 22, 23, 24, 25, 26, 27];
 
 if($testsysteem) {

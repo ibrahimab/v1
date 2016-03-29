@@ -54,12 +54,12 @@ class PricesParser
 
         foreach ($this->xml as $tarif) {
 
-            if (!isset($tarif->ptar_debut)) {
-                continue;
-            }
-
             $start    = \DateTime::createFromFormat('d/m/Y', trim($tarif->ptar_debut));
             $start->setTime(0, 0, 0);
+
+            if (false === $start) {
+                continue;
+            }
 
             $unixtime = $start->getTimestamp();
 
