@@ -647,12 +647,17 @@ class Login {
 
 		# cookies plaatsen
 		$time=time()+($this->settings["cookie"]["timeinminutes"]*60);
+
+		// backwards compatible with other projects of Jeroen
+		// @TODO: Remove this if all projects from jeroen have been updated to use this setting
+		$this->settings['cookies']['domain'] = (isset($this->settings['cookies']['domain']) ? $this->settings['cookies']['domain'] : '');
+
 		if(floatval(phpversion())>5.2) {
-			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
-			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
+			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
+			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
 		} else {
-			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/","",$this->settings["cookies"]["secure"]);
-			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"]);
+			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"]);
+			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"]);
 		}
 		setcookie("lin[".$this->settings["name"]."]","dl0j82",$time,"/"); # willekeurige waardie die (ook zonder https) aangeeft dat iemand is ingelogd
 		if($this->settings["extra_unsafe_cookie"]) {

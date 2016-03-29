@@ -97,6 +97,7 @@ if($mustlogin) {
 	$login->settings["recheck_userdata"]=true;
 	$login->settings["save_user_agent"]=true;
 	$login->settings["salt"]=$vars["salt"];
+	$login->settings['cookies']['domain'] = ('.' . $vars['websiteinfo']['domain'][$vars['website']]);
 
 	$login->settings["loginblocktime"]=600; # 10 minuten geblokkeerd
 

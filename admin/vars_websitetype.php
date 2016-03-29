@@ -914,6 +914,15 @@ $vars["websiteinfo"]["livechat_code"]["C"]="2-PTFmcHUgtM";
 $vars["websiteinfo"]["seizoentype"]["C"]=1;
 $vars["websiteinfo"]["schadeverzekering_mogelijk"]["C"]=1;
 
+$domain = parse_url($vars['basehref'], PHP_URL_HOST);
+$domainParts = explode('.', $domain);
+
+if (count($domainParts) > 2) {
+	$domain = $domainParts[1] . '.' . $domainParts[2];
+}
+
+$vars['websiteinfo']['domain'][$vars['website']] = $domain;
+
 # Diverse vars
 
 $vars["websites"]=array("C"=>"Chalet.nl Winter","Z"=>"Zomerhuisje.nl","W"=>"SuperSki (niet meer actief)","E"=>"Chalet.eu Engelstalig Winter","S"=>"Chalet.eu Engelstalig Zomer (niet meer actief)","T"=>"Chalettour.nl Winter","O"=>"Chalettour.nl Zomer (niet meer actief)","B"=>"Chalet.be Winter","D"=>"Chaletonline.de Duitstalig Winter","N"=>"Zomerhuisje.eu (niet meer actief)","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima.nl","K"=>"Italissima.be","H"=>"Italyhomes.eu","X"=>"Venturasol Wintersport","Y"=>"Venturasol Vacances");
