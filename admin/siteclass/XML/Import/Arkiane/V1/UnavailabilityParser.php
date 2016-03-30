@@ -61,14 +61,14 @@ class UnavailabilityParser
 
         foreach($this->xml as $line) {
 
-            if (!isset($line->ocpt_debut) || !isset($line->ocpt_fin)) {
+            $start  = \DateTime::createFromFormat('d/m/Y', trim($line->ocpt_debut));
+            $end    = \DateTime::createFromFormat('d/m/Y', trim($line->ocpt_fin));
+
+            if (false === $start || false === $end) {
                 continue;
             }
 
-            $start  = \DateTime::createFromFormat('d/m/Y', trim($line->ocpt_debut));
             $start->setTime(0, 0, 0);
-
-            $end    = \DateTime::createFromFormat('d/m/Y', trim($line->ocpt_fin));
             $end->setTime(0, 0, 0);
 
             $typeID = trim($line->lot_ref);
