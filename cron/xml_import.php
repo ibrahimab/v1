@@ -373,7 +373,8 @@ if($testsysteem) {
 	// $xml_urls[18][1]=$test_tmpdir."agence.xml";
 	// $xml_urls[19][1]=$test_tmpdir."/oxy1.xml";
 	// $xml_urls[20][1]=$tmpdir . "/locative_availability.xml";
-	// $xml_urls[20][2]=$tmpdir . "/locative_tarifs.xml";	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
+	// $xml_urls[20][2]=$tmpdir . "/locative_tarifs.xml";
+	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
 	// $xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
 	// $xml_urls[22][1]=$tmpdir . "/nexity-unavailability-new.xml"; # beschikbaarheid
 	// $xml_urls[22][2]=$tmpdir . "/nexity-price-new.xml"; # prijzen
@@ -451,6 +452,7 @@ if(intval($argv[1])>0) {
  * Agence des Cimes (27)
  *
  */
+
 $arkiane2008  = [12, 17, 18, 19, 26];
 $arkiane2011  = [20, 22, 27];
 $allSuppliers = [1, 2, 3, 5, 6, 8, 11,
