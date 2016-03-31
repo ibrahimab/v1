@@ -1033,59 +1033,65 @@ while(list($key,$value)=@each($soap_urls)) {
 		//
 		if(file_exists($value)) {
 
-			// Marche Holiday
-			require_once($value);
+			try {
 
-			$marcheHolidays = new MarcheHolidays();
+					// Marche Holiday
+				require_once($value);
 
-			// Get the last dates for each season type (winter=1, summer=2)
-			$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
+				$marcheHolidays = new MarcheHolidays();
 
-			$db->query($q);
-			while($db->next_record()) {
-				$endDate[$db->f("type")][] = $db->f("end");
-				$startDate[$db->f("type")][] = $db->f("begin");
-			}
+				// Get the last dates for each season type (winter=1, summer=2)
+				$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
 
-			// Get all accommodations from Marche Holiday (229)
-			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '229' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
-			$db->query($q);
-
-			// Loop through all the database accommodations
-			while($db->next_record()) {
-
-				if($db->f("leverancierscode_negeertarief") != NULL) {
-					$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
-					$leverancierscode = explode(",",$db->f("leverancierscode"));
-
-					$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
-					$accCode = array_shift($accCode);
-				} else {
-					$accCode = $db->f("leverancierscode");
+				$db->query($q);
+				while($db->next_record()) {
+					$endDate[$db->f("type")][] = $db->f("end");
+					$startDate[$db->f("type")][] = $db->f("begin");
 				}
 
-				$seasonId = $db->f("wzt");
+				// Get all accommodations from Marche Holiday (229)
+				$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '229' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
+				$db->query($q);
 
-				foreach($endDate[$seasonId] as $endDatekey => $endDateValue) {
-					$x = strtotime($endDateValue);
-					$end_date = strtotime("+ 7 days", $x);
-					$end_date = date("Y-m-d", $end_date);
+				// Loop through all the database accommodations
+				while($db->next_record()) {
 
-					$start_date = $startDate[$seasonId][$endDatekey];
-					if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
-						$start_date = date("Y-m-d");
+					if($db->f("leverancierscode_negeertarief") != NULL) {
+						$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
+						$leverancierscode = explode(",",$db->f("leverancierscode"));
+
+						$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
+						$accCode = array_shift($accCode);
+					} else {
+						$accCode = $db->f("leverancierscode");
 					}
 
-					if($availability = $marcheHolidays->getAvailability($accCode, $start_date, $end_date)) {
-						// Get the availability
-						if(isset($xml_beschikbaar[$key][$accCode])) {
-								$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-						} else {
-								$xml_beschikbaar[$key][$accCode] = $availability;
+					$seasonId = $db->f("wzt");
+
+					foreach($endDate[$seasonId] as $endDatekey => $endDateValue) {
+						$x = strtotime($endDateValue);
+						$end_date = strtotime("+ 7 days", $x);
+						$end_date = date("Y-m-d", $end_date);
+
+						$start_date = $startDate[$seasonId][$endDatekey];
+						if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+							$start_date = date("Y-m-d");
+						}
+
+						if($availability = $marcheHolidays->getAvailability($accCode, $start_date, $end_date)) {
+							// Get the availability
+							if(isset($xml_beschikbaar[$key][$accCode])) {
+									$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+							} else {
+									$xml_beschikbaar[$key][$accCode] = $availability;
+							}
 						}
 					}
+					if(!isset($xml_beschikbaar[$key][$accCode])) $xml_beschikbaar[$key][$accCode] = array();
 				}
-				if(!isset($xml_beschikbaar[$key][$accCode])) $xml_beschikbaar[$key][$accCode] = array();
+
+			} catch (\InvalidArgumentException $e) {
+				trigger_error("_notice: XML feed Marche Holiday voor beschikbaarheid onbereikbaar of geen valide XML", E_USER_NOTICE);
 			}
 
 			// Update last import date for supplier.

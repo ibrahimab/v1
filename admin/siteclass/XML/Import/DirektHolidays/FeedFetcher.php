@@ -1,6 +1,8 @@
 <?php
 namespace Chalet\XML\Import\DirektHolidays;
 
+use Chalet\XML\Import\XMLLoader;
+
 /**
  * @author	Ibrahim Abdullah <ibrahim@chalet.nl>
  * @package Chalet
@@ -127,7 +129,7 @@ class FeedFetcher
 		}
 
 		if (true === $this->test) {
-			return $this->loadXml($this->availabilityFile);
+			return XMLLoader::load($this->availabilityFile);
 		}
 
 		$data = <<<XML
@@ -137,7 +139,7 @@ class FeedFetcher
 			</AvailRequestSegments>
 		</OTA_HotelAvailRQ>
 XML;
-		return $this->loadXml($this->post($this->availabilityUrl, $data));
+		return XMLLoader::load($this->post($this->availabilityUrl, $data));
 	}
 
 	/**
@@ -150,7 +152,7 @@ XML;
 		}
 
 		if (true === $this->test) {
-			return $this->loadXml($this->pricesFile);
+			return XMLLoader::load($this->pricesFile);
 		}
 
 		$data = <<<XML
@@ -160,7 +162,7 @@ XML;
 			</RatePlans>
 		</OTA_HotelRatePlanRQ>
 XML;
-		return $this->loadXml($this->post($this->pricesUrl, $data));
+		return XMLLoader::load($this->post($this->pricesUrl, $data));
 	}
 
 	/**
@@ -173,7 +175,7 @@ XML;
 		}
 
 		if (true === $this->test) {
-			return $this->loadXml($this->productsFile);
+			return XMLLoader::load($this->productsFile);
 		}
 
 		$data = <<<XML
@@ -183,7 +185,7 @@ XML;
 			</HotelProducts>
 		</OTA_HotelProductRQ>
 XML;
-		return $this->loadXml($this->post($this->productsUrl, $data));
+		return XMLLoader::load($this->post($this->productsUrl, $data));
 	}
 
 	/**
@@ -211,36 +213,5 @@ XML;
 		curl_close($request);
 
 		return $response;
-	}
-
-	/**
-	 * @param string $xml
-	 *
-	 * @return SimpleXMLElement
-	 * @throws InvalidArgumentException
-	 */
-	public function loadXml($xml)
-	{
-		// supress php errors
-		libxml_use_internal_errors(true);
-
-		// try to load xml from string
-		$xml = simplexml_load_string($xml);
-
-		// getting errors
-		$errors = libxml_get_errors();
-
-		// and clearing the errors
-		libxml_clear_errors();
-
-		// enable php warnings for other parts of the system
-		libxml_use_internal_errors(false);
-
-		// throw exception if error arises
-		if (count($errors) > 0) {
-			throw new \InvalidArgumentException('XML string being loaded is not valid');
-		}
-
-		return $xml;
 	}
 }
