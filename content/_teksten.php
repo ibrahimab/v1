@@ -5356,7 +5356,7 @@ $txt["en"]["boeken"]["ikwilgraaglidworden"]="-";
 $txt["nl_z"]["boeken"]["ikwilgraaglidworden"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en_z"]["boeken"]["ikwilgraaglidworden"]="-";
 
-$txt["nl"]["boeken"]["jaikwildezeboekingplaatsen"]="Ja, ik wil deze boeking plaatsen en ga akkoord met de [[h_1]][[l1]][[h_3]][[/l1]][[h_2]] van [[v_websitenaam]]. Bij gebleken beschikbaarheid komt deze accommodatie definitief op mijn naam te staan.";
+$txt["nl"]["boeken"]["jaikwildezeboekingplaatsen"]="Ja, ik wil deze definitieve boeking plaatsen en ga akkoord met de [[h_1]][[l1]][[h_3]][[/l1]][[h_2]] van [[v_websitenaam]]. Bij gebleken beschikbaarheid komt deze accommodatie definitief op mijn naam te staan.";
 $txt["de"]["boeken"]["jaikwildezeboekingplaatsen"]="Ja, ich möchte diese Buchung durchführen und stimme den [[h_1]][[l1]]Allgemeinen Geschäftsbedingungen[[/l1]][[h_2]] von [[v_websitenaam]] zu. Wenn die Verfügbarkeit bestätigt ist wird diese Unterkunft verbindlich auf meinen Namen festgelegt. ";
 $txt["en"]["boeken"]["jaikwildezeboekingplaatsen"]="Yes, I want to make this booking and agree with the [[h_1]][[l1]]general terms and conditions[[/l1]][[h_2]] of [[v_websitenaam]]. If available, this accommodation will be definitely booked in my name.";
 

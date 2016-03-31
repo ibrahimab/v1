@@ -15,19 +15,19 @@ require_once 'vendor/phpoffice/phpword/src/PhpWord/Autoloader.php';
  * @package Chalet
  */
 class TermsGenerator {
-	
+
 	const PDF_RENDERER  = 'admin/tcpdf';
-	const TEMPLATE_FILE = 'pdf/templates/template-v3.docx';
+	const TEMPLATE_FILE = 'pdf/templates/template-v4.docx';
 	const TMP_LOCATION  = 'tmp';
-	const TERMS_VERSION = '03/09/2015';
-	
+	const TERMS_VERSION = '31/03/2016';
+
 	private static $autoloader  = true;
 	private static $pdfRenderer = 'admin/tcpdf';
-	
+
 	public static function generate($website) {
-		
+
 		if (true === self::$autoloader) {
-			
+
 			self::$autoloader = false;
 			Autoloader::register();
 		}
@@ -35,7 +35,7 @@ class TermsGenerator {
 		$root	 	= dirname(dirname(dirname(__FILE__))) . '/';
 		$tmpFile 	= $root . self::TMP_LOCATION . '/tmp-' . time() . '.docx';
 		$resultFile = $root . self::TMP_LOCATION . '/result-' . time() . '.pdf';
-		
+
 		$doc = new Template($root . self::TEMPLATE_FILE);
 		$doc->setValue('name', $website);
 		$doc->setValue('version', self::TERMS_VERSION);
