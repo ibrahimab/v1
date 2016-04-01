@@ -381,6 +381,7 @@ if($vars["wederverkoop"]) {
 		$login_rb->settings["loginform_nobr"]=true;
 		$login_rb->settings["extra_unsafe_cookie"]="rbli"; # ReisBureauLogIn
 		$login_rb->settings["salt"]=$vars["salt"];
+		$login_rb->settings['cookies']['domain'] = ('.' . $vars['websiteinfo']['domain'][$vars['website']]);
 
 		if($vars["reisbureau_mustlogin"]) {
 			$login_rb->settings["mustlogin"]=true;
@@ -458,6 +459,7 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["extra_unsafe_cookie"]="levli";
 		$login_lev->settings["mustlogin"]=true;
 		$login_lev->settings["salt"]=$vars["salt"];
+		$login_lev->settings['cookies']['domain'] = ('.' . $vars['websiteinfo']['domain'][$vars['website']]);
 
 		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and !$vars["wwwtest"]) {
 			$login_lev->settings["mustlogin_via_https"]=true;
@@ -1274,6 +1276,7 @@ if($boeking_wijzigen) {
 	$login->settings["save_user_agent"]=true;
 
 	$login->settings["salt"]=$vars["salt"];
+	$login_lev->settings['cookies']['domain'] = ('.' . $vars['websiteinfo']['domain'][$vars['website']]);
 
 	$login->end_declaration();
 
@@ -1364,6 +1367,7 @@ if($boeking_wijzigen) {
 		$login->settings["sysop"]="<a href=\"http://www.webtastic.nl/6.html\">WebTastic</a>";
 		$login->settings["save_user_agent"]=true;
 		$login->settings["salt"]=$vars["salt"];
+		$login_lev->settings['cookies']['domain'] = ('.' . $vars['websiteinfo']['domain'][$vars['website']]);
 		$login->settings["loginblocktime"]=600; # 10 minuten geblokkeerd
 
 		$login->end_declaration();
