@@ -240,7 +240,7 @@ $custom_urls = [];
 $xml_urls[2][1]="http://alpenchaletsbookings.com/avSync.phtml?asId=1";
 
 # Ski France
-$xml_urls[3][1]="https://ski-france-db.com/jobs/avSync.phtml?asId=18";
+$xml_urls[3][1]="https://ski-france-db.com/jobs/avSync.phtml?asId=1";
 
 # CGH
 $xml_urls[4][1]="http://www.cgh-partenaires.com/results.xml";
@@ -351,7 +351,7 @@ if($testsysteem) {
 	// $xml_urls  = [];
 	// $soap_urls = [];
 	// $xml_urls[2][]=$test_tmpdir."alpenchalets.xml";
-	// $xml_urls[3][1]=$test_tmpdir."skifrance.xml";
+	// $xml_urls[3][]=$test_tmpdir."skifrance.xml";
 	// $xml_urls[4][]=$test_tmpdir."results.xml";
 	// $csv_urls[5]=$test_tmpdir."dispo.csv";
 	// $xml_urls[6][1]=$test_tmpdir."Vakanzen.xml";
@@ -384,7 +384,6 @@ if($testsysteem) {
 	// $xml_urls[27][2]=$tmpdir . '/cimes_prices.xml'; // prijzen
 	unset($http_login[21]);
 }
-
 
 
 #
@@ -1577,7 +1576,6 @@ while($db->next_record()) {
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
-
 		} elseif($db->f("xml_type")==4) {
 			#
 			# Leverancier CGH
@@ -2100,7 +2098,6 @@ while($db->next_record()) {
 				}
 
 				# beschikbaarheid opslaan
-
 				$db2->query("SELECT dag, waarde FROM xml_import_flex_temp WHERE xml_type='".$db->f("xml_type")."' AND xmlcode='".addslashes($value)."' AND var='beschikbaar';");
 				while($db2->next_record()) {
 					if($db2->f("waarde")<>$flex_voorraad_xml[$db2->f("dag")] and isset($flex_voorraad_bijwerken[$db2->f("dag")])) {
@@ -2142,7 +2139,7 @@ if($testsysteem) {
 	// echo wt_dump_with_unixtime($nietbeschikbaar);
 	// echo wt_dump($aantal_beschikbaar);
 	// echo wt_dump_with_unixtime($xml_brutoprijs);
-	// echo wt_dump_with_unixtime($beschikbaar);
+	echo wt_dump_with_unixtime($beschikbaar);
 
 	// echo wt_dump($tarief_season);
 	// exit;
