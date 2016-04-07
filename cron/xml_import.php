@@ -240,7 +240,7 @@ $custom_urls = [];
 $xml_urls[2][1]="http://alpenchaletsbookings.com/avSync.phtml?asId=1";
 
 # Ski France
-$xml_urls[3][1]="https://ski-france-db.com/jobs/avSync.phtml?asId=1";
+$xml_urls[3][1]="https://ski-france-db.com/jobs/avSync.phtml?asId=18";
 
 # CGH
 $xml_urls[4][1]="http://www.cgh-partenaires.com/results.xml";
@@ -2139,7 +2139,7 @@ if($testsysteem) {
 	// echo wt_dump_with_unixtime($nietbeschikbaar);
 	// echo wt_dump($aantal_beschikbaar);
 	// echo wt_dump_with_unixtime($xml_brutoprijs);
-	echo wt_dump_with_unixtime($beschikbaar);
+	// echo wt_dump_with_unixtime($beschikbaar);
 
 	// echo wt_dump($tarief_season);
 	// exit;
