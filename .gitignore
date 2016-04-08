@@ -47,3 +47,6 @@ localtest.php
 
 # ignore serverconf define constants file
 admin/serverconf/define_constants-dev.php
+
+# symbolic link to new website
+version2

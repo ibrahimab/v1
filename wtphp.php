@@ -1,7 +1,5 @@
 <?php
 
-echo "Test git-7";
-phpinfo();
-exit;
+echo wt_server_name;
 
-?>
+phpinfo();
