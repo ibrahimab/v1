@@ -1,6 +1,6 @@
 AddType application/x-httpd-php .php .php3 .php4 .phtml .phpcache
 php_flag magic_quotes_gpc off
-php_value memory_limit 64M
+php_value memory_limit 128M
 php_value error_reporting 5111
 
 AddDefaultCharset ISO-8859-1
@@ -10,6 +10,8 @@ AddType text/x-component .htc
 
 ErrorDocument 404 /404.php
 ErrorDocument 403 /403.php
+
+RewriteEngine On
 
 #
 # Geen enkele pagina tonen wegens werkzaamheden
@@ -24,8 +26,6 @@ ErrorDocument 403 /403.php
 #RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
 # RewriteRule ^(.*)$ unavailable.php
 
-
-RewriteEngine On
 
 #
 # Sites die niet meer bestaan forwarden met een 301
@@ -227,6 +227,8 @@ RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
 #
 # Test-server alleen beschikbaar voor bepaalde IP-adressen
 #
+# test.chalet.nl, test.chalet.be, etc...
+#
 RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
 RewriteCond %{REQUEST_URI} !wt_git_autopull\.php [NC]
 RewriteCond %{REQUEST_URI} !wtphp\.php [NC]
@@ -255,6 +257,8 @@ RewriteCond %{REMOTE_ADDR} !^62\.194\.208\.250
 RewriteCond %{REMOTE_ADDR} !^77\.161\.240\.196
 # web server for api
 RewriteCond %{REMOTE_ADDR} !^87\.250\.157\.198
+# local access
+RewriteCond %{REMOTE_ADDR} !^127\.0\.0\.1
 
 RewriteRule ^(.*)$ https://www.chalet.nl/error_msg.php?t=1 [L,R=301]
 
@@ -266,6 +270,162 @@ RewriteRule ^(.*)$ https://www.chalet.nl/error_msg.php?t=2 [L,R=301]
 # Test and legacy servers: serve robots.txt with full disallow
 RewriteCond %{HTTP_HOST} ^(test|legacy)\..*\..* [NC]
 RewriteRule ^robots\.txt$ robots_block.txt
+
+#
+# rewrites to combine current and new site
+#
+
+# Set the correct Symfony environment
+
+# development
+SetEnvIf Host "^local\..*" USE_SYMFONY_ENV=app_dev
+
+# staging
+SetEnvIf Host "^test\..*" USE_SYMFONY_ENV=app_stag
+
+# production
+RewriteCond %{HTTP_HOST} ^www\..*\..* [NC]
+RewriteCond %{HTTP_USER_AGENT} "938JKDJH773991" [NC]
+RewriteCond %{REMOTE_ADDR} ^(31\.223\.173\.113|213\.125\.152\.154)$
+RewriteRule .* - [E=USE_SYMFONY_ENV:app]
+
+# Symfony
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^_profiler /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^_wdt /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+# assets
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^bundles/(.*) /version2/web/bundles/$1 [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^js/(.*) /version2/web/js/$1 [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} =="app_dev"
+RewriteRule ^images/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^images/(.*) /version2/web/images/$1 [QSA,L]
+
+# use images live site
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^chalet-pic/(.*) https://www.chalet.nl/pic/cms/$1 [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^version1/(.*) https://www.chalet.nl/$1 [QSA,L]
+
+# ajax call autocomplete
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^autocomplete/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+# ajax call search
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^search/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+# ajax call additional-costs
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^additional-costs/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+# ajax call favorites
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^types/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+# ajax call github
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^github/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+# ajax call monitor
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^monitor /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+# homepage
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^index\.php$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+# other pages
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^zoek-en-boek\.php$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^weekendski\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^aanbiedingen\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^accommodatie/(.*)$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^skigebieden\.php$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^contact\.php$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^wintersport/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^land/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^skigebied/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^plaats/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^themas\.php$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^nieuwsbrief$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^prijs-berekenen/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^opgeslagen-accommodatie /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^bekeken-accommodaties /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^zoekopdrachten /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^verzekeringen\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^blog /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^veel-gestelde-vragen /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^algemenevoorwaarden\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^disclaimer\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^privacy-statement\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^sitemap /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^vraag-ons-advies\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^wie-zijn-wij\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+
+
+
 
 # Oude seizoenspagina doorsturen naar nieuw seizoen
 RewriteRule ^zomer2013\.php$ /zomer2014.php [L,R=301]

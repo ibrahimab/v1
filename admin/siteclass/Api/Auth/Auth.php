@@ -34,7 +34,7 @@ class Auth
 	public function authenticate($address)
 	{
 		if (false === in_array($address, $this->allowed)) {
-			throw new UnauthorizedException('IP address is not allowed to send requests');
+			throw new UnauthorizedException('IP address ' . $address . ' is not allowed to send requests');
 		}
 
 		return true;
