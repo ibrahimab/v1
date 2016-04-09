@@ -55,6 +55,7 @@ $allowed_hostnames = [
 		'web02.chalet.nl',
 		'test.chalet.nl',
 		'legacy.chalet.nl',
+		'legacy-accept.chalet.nl',
 	]
 ];
 

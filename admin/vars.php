@@ -127,8 +127,13 @@ if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$
 }
 
 // is this the legacy-server?
-if(preg_match("@^legacy\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/legacy-app/@", $unixdir)) {
+if (preg_match("@^legacy\.@", $_SERVER["HTTP_HOST"])) {
 	$vars['legacy_server'] = true;
+}
+
+// is this the legacy-accept-server?
+if (preg_match("@^legacy-accept\.@", $_SERVER["HTTP_HOST"]) or preg_match("@/legacy-app/@", $unixdir)) {
+	$vars['legacy_accept_server'] = true;
 }
 
 #
