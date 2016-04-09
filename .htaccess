@@ -79,6 +79,7 @@ RewriteCond %{HTTP_HOST} !^web[0-9]{2}\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !^dev\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !^local\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !^legacy\..*\..* [NC]
+RewriteCond %{HTTP_HOST} !^legacy-accept\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !^wwwtest\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !postvak\.net [NC]
 RewriteCond %{HTTP_HOST} !netromtest [NC]
@@ -135,6 +136,7 @@ RewriteCond %{HTTP_HOST} !^test\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^dev\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^local\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^legacy\.chalet\.nl [NC]
+RewriteCond %{HTTP_HOST} !^legacy-accept\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^web[0-9]{2}\.chalet\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
@@ -268,7 +270,7 @@ RewriteCond %{SERVER_PORT} 443
 RewriteRule ^(.*)$ https://www.chalet.nl/error_msg.php?t=2 [L,R=301]
 
 # Test and legacy servers: serve robots.txt with full disallow
-RewriteCond %{HTTP_HOST} ^(test|legacy)\..*\..* [NC]
+RewriteCond %{HTTP_HOST} ^(test|legacy|legacy-accept)\..*\..* [NC]
 RewriteRule ^robots\.txt$ robots_block.txt
 
 #

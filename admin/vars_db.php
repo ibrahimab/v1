@@ -30,7 +30,7 @@ if(defined("wt_server_name") and (wt_server_name=="backup" or wt_server_name=="d
 	$mysqlsettings["host"]="87.250.157.202";# Hostname bij provider
 }
 
-if (true === $vars["acceptatie_testserver"] || true === $vars['legacy_server']) {
+if (true === $vars["acceptatie_testserver"] || true === $vars['legacy_accept_server']) {
 	$mysqlsettings["name"]["remote"]="dbtest_chalet"; # database-name for acceptance-server
 }
 $mysqlsettings["name"]["local"]="dbtest_chalet"; # database-name for testing purposes
