@@ -36,6 +36,6 @@ class StartingPrice extends Endpoint
 
         $data = json_decode($this->request->getContent(), true);
 
-        return (count($data) > 0 ? ($startingPrice->get_vanafprijs(implode(',', $data['type_id']))) : []);
+        return (count($data['type_id']) > 0 ? ($startingPrice->get_vanafprijs(implode(',', $data['type_id']))) : []);
     }
 }
