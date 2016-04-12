@@ -1065,7 +1065,7 @@ if($form->okay) {
 
 				if (in_array($gegevens['stap1']['website'], $vars['anvr']) && $form->input["voorwaardenmeesturen"]) {
 
-					$generated = TermsGenerator::generate($gegevens['stap1']['websitenaam']);
+					$generated = TermsGenerator::generate($vars['websiteinfo']['websitenaam'][$gegevens['stap1']['website']]);
 
 					$settings['attachment']['pdf/ANVR_voorwaarden.pdf'] = 'ANVR_voorwaarden.pdf';
 					$settings['attachment'][$generated] 		        = 'Aanvullende_Voorwaarden.pdf';

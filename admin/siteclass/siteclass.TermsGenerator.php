@@ -39,6 +39,7 @@ class TermsGenerator {
 		$doc = new Template($root . self::TEMPLATE_FILE);
 		$doc->setValue('name', $website);
 		$doc->setValue('version', self::TERMS_VERSION);
+		$doc->setValue('bullet', html_entity_decode('&bull;'));
 		$doc->saveAs($tmpFile);
 
 		Settings::setPdfRendererPath($root . self::PDF_RENDERER);
