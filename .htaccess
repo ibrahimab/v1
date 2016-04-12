@@ -280,10 +280,15 @@ RewriteRule ^robots\.txt$ robots_block.txt
 # Set the correct Symfony environment
 
 # development
-SetEnvIf Host "^local\..*" USE_SYMFONY_ENV=app_dev
+#SetEnvIf Host "^local\..*" USE_SYMFONY_ENV=app_dev
+RewriteCond %{HTTP_HOST} ^local\..*\..* [NC]
+RewriteCond %{HTTP_USER_AGENT} "938JKDJH773991" [NC]
+RewriteRule .* - [E=USE_SYMFONY_ENV:app_dev]
 
 # staging
-SetEnvIf Host "^test\..*" USE_SYMFONY_ENV=app_stag
+RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
+RewriteCond %{HTTP_USER_AGENT} "938JKDJH773991" [NC]
+RewriteRule .* - [E=USE_SYMFONY_ENV:app_stag]
 
 # production
 RewriteCond %{HTTP_HOST} ^www\..*\..* [NC]
