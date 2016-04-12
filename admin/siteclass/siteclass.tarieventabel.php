@@ -1536,7 +1536,7 @@ class tarieventabel {
 		}
 
 		if($toelichting) {
-			$return .= "<div class=\"tarieventabel_toelichting\">";
+			$return .= "<div id=\"prijsinfo\" class=\"tarieventabel_toelichting\">";
 
 			// info totaalprijs
 			$return .= "<div class=\"tarieventabel_totaalprijs_wrapper\">";
