@@ -4040,6 +4040,28 @@ function affiliate_tracking($sale=false, $toon_tradetracker=true, $data) {
 		# bedrag
 		$tradetracker_bedrag="";
 
+	} elseif($vars["website"]=="D") {
+
+		#
+		# TradeTracker Chaletonline.de
+		#
+		# campaignID
+		$tradetracker_campaignID="22525";
+
+		# productID
+		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+			$tradetracker_productID="33373";
+		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="33372";
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
+			$tradetracker_productID="33371";
+		} else {
+			$tradetracker_productID="32960";
+		}
+
+		# bedrag
+		$tradetracker_bedrag="";
+
 	} elseif($vars["website"]=="E") {
 
 		#
