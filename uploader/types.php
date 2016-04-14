@@ -62,8 +62,8 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                                 <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" />
                             </a>
                         </span>
-                        <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
-                        <input data-role="main-image" type="hidden" name="main_images[small_above]"<?php echo (isset($mainImages['small_above']) ? ' value="' . $mainImages['small_above']['_id'] . '"' : ''); ?> />
+                        <img data-role="main-image" style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
+                        <input type="hidden" name="main_images[small_above]"<?php echo (isset($mainImages['small_above']) ? ' value="' . $mainImages['small_above']['_id'] . '"' : ''); ?> />
                     </div>
                     <div style="position: relative;" class="row" data-role="main-images" data-type="small-below">
                         <span class="clear-main-image"<?php echo (isset($mainImages['small_below']) ? '' : ' style="display:none;"') ?>>
@@ -71,8 +71,8 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                                 <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" />
                             </a>
                         </span>
-                        <img style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
-                        <input data-role="main-image" type="hidden" name="main_images[small_below]"<?php echo (isset($mainImages['small_below']) ? ' value="' . $mainImages['small_below']['_id'] . '"' : ''); ?> />
+                        <img data-role="main-image" style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
+                        <input type="hidden" name="main_images[small_below]"<?php echo (isset($mainImages['small_below']) ? ' value="' . $mainImages['small_below']['_id'] . '"' : ''); ?> />
                     </div>
                 </div>
             </div>
