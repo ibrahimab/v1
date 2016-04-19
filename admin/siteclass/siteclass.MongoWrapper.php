@@ -51,6 +51,14 @@ class MongoWrapper
 	}
 
 	/**
+	 * @return MongoDB
+	 */
+	public function getDatabase()
+	{
+		return $this->db;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function connected()

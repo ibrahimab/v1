@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $fileinfo      = pathinfo($headers['X_FILENAME']);
     $rank          = intval($headers['X_RANK']);
-    $filename      = time() . '-' . $rank . '.' . $fileinfo['extension'];
+    $filename      = $headers['X_FILE_ID'] . '-' . $rank . '.' . strtolower($fileinfo['extension']);
     $directory     = $headers['X_COLLECTION'];
     $destination   = dirname(dirname(__FILE__)) . '/pic/cms/' . $directory;
 
