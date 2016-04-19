@@ -1,4 +1,5 @@
 <?php
+
 include '../admin/vars.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -43,9 +44,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $fileinfo      = pathinfo($headers['X_FILENAME']);
     $rank          = intval($headers['X_RANK']);
-    $filename      = $headers['X_FILE_ID'] . '-' . $rank . '.' . strtolower($fileinfo['extension']);
     $directory     = $headers['X_COLLECTION'];
     $destination   = dirname(dirname(__FILE__)) . '/pic/cms/' . $directory;
+
+    /* determine filename: check for available filenames */
+    $photoCounter  = $rank;
+    while (true) {
+
+        $filename = $headers['X_FILE_ID'] . '-' . $photoCounter . '.' . strtolower($fileinfo['extension']);
+
+        if (file_exists($destination . '/' . $filename)) {
+            $photoCounter += 1;
+        } else {
+            break;
+        }
+
+    }
 
     imagejpeg($new, $destination . '/' . $filename, 100);
     imagedestroy($new);
