@@ -82,7 +82,7 @@ foreach ($images as $image) {
 	            <ul data-role="sortable-list">
 	                <?php foreach ($images as $image) : ?>
 	                <li data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
-	                    <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>?c=<?php echo filemtime('pic/cms/' . $image['directory'] . '/' . $image['filename']); ?>" />
+	                    <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>?c=<?php echo filemtime($vars["unixdir"] . 'pic/cms/' . $image['directory'] . '/' . $image['filename']); ?>" />
 	                    <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen voor nieuwe site" value="<?php echo $image['label']; ?>" />
 	                    <div><input type="checkbox" id="under_<?php echo $image['_id']; ?>" name="under[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['under']) && true === $image['under'] ? ' checked="checked"' : ''); ?> /> <label for="under_<?php echo $image['_id']; ?>">Altijd onderaan</label></div>
 						<?php if (isset($image['type']) && in_array($image['type'], ['big', 'small'])) : ?>
