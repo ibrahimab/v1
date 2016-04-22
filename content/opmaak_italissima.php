@@ -214,7 +214,7 @@ echo "\" width=\"760\" height=\"160\" alt=\"\" />";
 // Zoover-awards
 if (in_array($vars['website'], $vars['zoover'])) {
 
-	echo '<a href="' . $vars['path'] . 'zooverawards2015" target="_blank" class="zoover_awards analytics_track_external_click" style="top: 20px;">' .
+	echo '<a href="' . $vars['path'] . 'zoover-awards-2015" class="zoover_awards" style="top: 20px;">' .
          '<img src="' . $vars['path'] . 'pic/tijdelijk/zoover/italissima/zoover.png" /></a>';
 }
 

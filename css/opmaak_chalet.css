@@ -836,15 +836,10 @@ form {
 }
 
 .zoover_awards {
-
 	display: block;
-	background-color: red;
 	position: absolute;
-	top: 30px;
-	right: 0;
-	-webkit-box-shadow: -4px 4px 3px -1px rgba(50, 50, 50, 1);
-	-moz-box-shadow: -4px 4px 3px -1px rgba(50, 50, 50, 1);
-	box-shadow: -4px 4px 3px -1px rgba(50, 50, 50, 1);
+	top: 25px;
+	right: 145px;
 }
 
 .zoover_awards:hover {
