@@ -84,7 +84,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                 <ul data-role="sortable-list">
                     <?php foreach ($images as $image) : ?>
                     <li class="type-image" data-role="sortable-item" data-id="<?php echo $image['_id']; ?>">
-                        <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>?c=<?php echo filemtime('pic/cms/' . $image['directory'] . '/' . $image['filename']); ?>" />
+                        <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $image['directory'] . '/' . $image['filename'];?>?c=<?php echo filemtime($vars["unixdir"] . 'pic/cms/' . $image['directory'] . '/' . $image['filename']); ?>" />
                         <input type="text"   name="label[<?php echo $image['_id']; ?>]" placeholder="Tekst toevoegen voor nieuwe site" value="<?php echo $image['label']; ?>" />
                         <?php if (isset($image['type']) && in_array($image['type'], ['big', 'small'])) : ?>
                             <div><input type="checkbox" id="always_<?php echo $image['_id']; ?>" name="always[<?php echo $image['_id']; ?>]" style="width: auto;" value="1"<?php echo (isset($image['always']) && true === $image['always'] ? ' checked="checked"' : ''); ?> /> <label for="always_<?php echo $image['_id']; ?>">Ook gewoon tonen (=topfoto)</label></div>
@@ -98,7 +98,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                     <?php endforeach; ?>
                     <?php foreach ($accommodationImages as $accommodationImage) : ?>
                         <li>
-                            <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $accommodationImage['directory'] . '/' . $accommodationImage['filename']; ?>?c=<?php echo filemtime('pic/cms' . $accommodationImage['directory'] . '/' . $accommodationImage['filename']); ?>" />
+                            <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $accommodationImage['directory'] . '/' . $accommodationImage['filename']; ?>?c=<?php echo filemtime($vars["unixdir"] . 'pic/cms' . $accommodationImage['directory'] . '/' . $accommodationImage['filename']); ?>" />
                             <input type="text" value="<?php echo $accommodationImage['label']; ?>" disabled="disabled" />
                         </li>
                     <?php endforeach; ?>
