@@ -72,7 +72,7 @@ class filesync {
 	}
 
 
-	function add_to_filesync_table($file, $delete=false) {
+	public static function add_to_filesync_table($file, $delete=false) {
 		// save file to table `filesync`
 
 		$file = preg_replace("@/var/www/chalet.nl/html/@", "", $file);
@@ -241,6 +241,3 @@ class filesync {
 		return $return;
 	}
 }
-
-
-?>
