@@ -98,7 +98,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                     <?php endforeach; ?>
                     <?php foreach ($accommodationImages as $accommodationImage) : ?>
                         <li>
-                            <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $accommodationImage['directory'] . '/' . $accommodationImage['filename']; ?>?c=<?php echo filemtime($vars["unixdir"] . 'pic/cms' . $accommodationImage['directory'] . '/' . $accommodationImage['filename']); ?>" />
+                            <img class="preview-image" src="<?php echo $vars['path']; ?>pic/cms/<?php echo $accommodationImage['directory'] . '/' . $accommodationImage['filename']; ?>?c=<?php echo filemtime($vars["unixdir"] . 'pic/cms/' . $accommodationImage['directory'] . '/' . $accommodationImage['filename']); ?>" />
                             <input type="text" value="<?php echo $accommodationImage['label']; ?>" disabled="disabled" />
                         </li>
                     <?php endforeach; ?>
