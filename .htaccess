@@ -709,12 +709,25 @@ RewriteRule ^kixx$ actie-kixx.php?%{QUERY_STRING}
 RewriteRule ^interview/$ /interview [L,R=301]
 RewriteRule ^interview$ interview.php
 
-RewriteRule ^zoover/?$ /zooverawards2015 [L,R=301]
-RewriteRule ^zooverawards2015/$ /zooverawards2015 [L,R=301]
-RewriteRule ^zooverawards2015$ zoover-awards.php?%{QUERY_STRING}
+#
+# Zoover Awards
+#
+RewriteCond %{HTTP_HOST} !italissima [NC]
+RewriteRule ^zooverawards2015 /zoover-awards-2016 [L,R=301]
 
-RewriteRule ^zooverawards2016/$ /zooverawards2016 [L,R=301]
-RewriteRule ^zooverawards2016$ zoover-2016.php?%{QUERY_STRING}
+RewriteCond %{HTTP_HOST} !italissima [NC]
+RewriteRule ^zooverawards2016 /zoover-awards-2016 [L,R=301]
+
+RewriteCond %{HTTP_HOST} italissima [NC]
+RewriteRule ^zooverawards2016 /zoover-awards-2015 [L,R=301]
+
+RewriteCond %{HTTP_HOST} italissima [NC]
+RewriteRule ^zooverawards2015 /zoover-awards-2015 [L,R=301]
+
+RewriteRule ^zoover/?$ /zoover-awards-2016 [L,R=301]
+RewriteRule ^zooverawards2016/$ /zoover-awards-2016 [L,R=301]
+RewriteRule ^zoover-awards-201[5-6]$ zoover-awards.php?%{QUERY_STRING}
+
 
 #
 # afgelopen acties

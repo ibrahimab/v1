@@ -257,11 +257,8 @@ echo "</div>\n";
 // Zoover-awards
 if (in_array($vars['website'], $vars['zoover'])) {
 
-	echo '<a href="' . $vars['path'] . 'zooverawards2015" target="_blank" class="zoover_awards analytics_track_external_click" style="right: 120px; top: 20px;">' .
-         '<img src="' . $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-1.png" /></a>' .
-
-         '<a href="' . $vars['path'] . 'zooverawards2015" target="_blank" class="zoover_awards analytics_track_external_click" style="top: 20px;">' .
-         '<img src="' . $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-2.png" /></a>';
+	echo '<a href="' . $vars['path'] . 'zoover-awards-2016" class="zoover_awards">' .
+         '<img src="' . $vars['path'] . 'pic/tijdelijk/zoover/chalet/zoover-winner-2016.png" /></a>';
 }
 
 echo "<div id=\"topfoto\">";
