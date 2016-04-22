@@ -173,7 +173,10 @@ if($login_lev->logged_in) {
 		}
 	}
 	unset($typeid_algehad);
-	$db->seek();
+
+	if ($db->num_rows()) {
+		$db->seek();
+	}
 
 	if(($_GET["t"]==2 or $_GET["t"]==3 or $_GET["t"]==4) and !$_GET["tid"]) {
 		# Kies een accommodatie
