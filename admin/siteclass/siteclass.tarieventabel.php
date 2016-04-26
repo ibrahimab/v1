@@ -19,6 +19,7 @@ class tarieventabel {
 	public $toon_interne_informatie;
 	public $toon_beschikbaarheid;
 	public $toon_commissie;
+	public $requested_from_uri;
 
 	private $actieve_kolom;
 	private $bk_fetched;
@@ -49,7 +50,7 @@ class tarieventabel {
 		$this->toon_commissie          = false;
 		$this->meerdere_valuta         = false;
 		$this->show_afwijkend_legenda  = false;
-
+		$this->requested_from_uri      = "http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie";
 
 
 		if ( !$settings["ignore_get_values"] ) {
@@ -676,8 +677,14 @@ class tarieventabel {
 				$seizoenid=$this->seizoen_id;
 			}
 
-			$return.="cms_tarieven.php?sid=".$seizoenid."&tid=".$this->type_id."&from=".urlencode("http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie")."\" title=\"tarieven bewerken\">";
-			$return.="<img src=\"".$this->config->path."pic/class.cms_edit.gif\" border=\"0\" alt=\"Tarieven bewerken\" width=\"14\" height=\"14\"></a>";
+			$return.="cms_tarieven.php?sid=".$seizoenid."&tid=".$this->type_id."&from=".urlencode($this->requested_from_uri)."\" title=\"tarieven bewerken\">";
+
+			if ($this->newWebsite) {
+				$editImgUrl = '/bundles/app/img/internal/edit-pricetable.gif';
+			} else {
+				$editImgUrl = $this->config->path . 'pic/class.cms_edit.gif';
+			}
+			$return.="<img src=\"" . $editImgUrl . "\" border=\"0\" alt=\"Tarieven bewerken\" width=\"14\" height=\"14\"></a>";
 			$return.="</div>";
 			$return.="<div class=\"clear\"></div>\n";
 		}
@@ -1197,14 +1204,18 @@ class tarieventabel {
 						$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
 					}
 
-
 					$return.="<td class=\"".trim($class)."\">";
 
 					if($this->voorraad[$key0][$key]) {
 						if($key0=="aflopen_allotment") {
 							$return.=date("d/m",$this->voorraad[$key0][$key]);
 						} elseif($key0=="voorraad_bijwerken") {
-							$return.="&nbsp;<img src=\"".$this->config->path."pic/vinkje.gif\">&nbsp;";
+							if ($this->newWebsite) {
+								$tickImgUrl = '/bundles/app/img/internal/tick.gif';
+							} else {
+								$tickImgUrl = $this->config->path . 'pic/vinkje.gif';
+							}
+							$return.="&nbsp;<img src=\"". $tickImgUrl . "\">&nbsp;";
 						} else {
 							$return .= $this->voorraad[$key0][$key];
 						}
