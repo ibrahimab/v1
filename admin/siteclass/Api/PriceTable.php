@@ -34,7 +34,7 @@ class PriceTable extends Endpoint
 
             'method'   => 'getTable',
             'required' => ['type_id'],
-            'optional' => ['date', 'number_of_persons', 'legenda', 'weekendski', 'internal', 'availability', 'commission', 'multiple_currencies', 'active_currency'],
+            'optional' => ['date', 'number_of_persons', 'requested_from_uri', 'legenda', 'weekendski', 'internal', 'availability', 'commission', 'multiple_currencies', 'active_currency'],
         ],
 
         self::API_METHOD_GET_TOTAL_PRICE => [
@@ -60,6 +60,7 @@ class PriceTable extends Endpoint
         $table->type_id                 = $this->request->query->get('type_id');
         $table->aantalpersonen          = $this->request->query->get('number_of_persons');
         $table->aankomstdatum           = $this->request->query->get('date');
+        $table->requested_from_uri      = $this->request->query->get('requested_from_uri');
 
         if (true === $this->request->query->getBoolean('weekendski', false)) {
             $table->show_afwijkend_legenda = false;
