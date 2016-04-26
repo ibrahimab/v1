@@ -245,7 +245,7 @@ class tarieventabel {
 		}
 		$totaalbedrag = $totaalbedrag_aleen_acc + $this->tarief_alleen_bk[$aantalpersonen][$aankomstdatum];
 
-		if( $this->config->voorkant_cms ) {
+		if( $this->config->voorkant_cms || ($this->newWebsite && $this->toon_interne_informatie)) {
 
 			$email_text .= date("d/m/Y", $this->unixtime_week[$aankomstdatum]);
 			$email_text .= " ";
@@ -496,7 +496,7 @@ class tarieventabel {
 		$return .= "<tr class=\"tarieventabel_totaalprijs_specificatie_popup_bold\"><td colspan=\"2\">&nbsp;</td><td>".html("totaal-aan-chalet-nl", "bijkomendekosten", array("v_websitenaam"=>$this->config->websitenaam));
 
 
-		if( $this->config->voorkant_cms ) {
+		if( $this->config->voorkant_cms || ($this->newWebsite && $this->toon_interne_informatie)) {
 
 			$email_text .= date("d/m/Y", $this->unixtime_week[$aankomstdatum]);
 			$email_text .= " ";
