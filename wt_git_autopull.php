@@ -10,7 +10,7 @@
 
 
 // webhook 2:
-// to deploy production branch to live-servers web01.chalet.nl and web02.chalet.nl
+// to deploy master branch to live-servers web01.chalet.nl and web02.chalet.nl
 // url: http://www2.chalet.nl/wt_git_autopull.php?git-deploy=1
 
 
@@ -79,7 +79,7 @@ if($argv[1]=="cron") {
 
 		if( $_GET["git-deploy"] ) {
 
-			if(preg_match("@production$@",$obj["ref"])) {
+			if(preg_match("@master@",$obj["ref"])) {
 				touch($checkfile);
 			}
 
@@ -101,5 +101,3 @@ if($argv[1]=="cron") {
 	}
 	echo "OK";
 }
-
-?>
