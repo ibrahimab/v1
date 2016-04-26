@@ -625,6 +625,25 @@ class tarieventabel {
 	}
 
 	/**
+	 * get list of archived seasons (to show to cms users)
+	 *
+	 * @return array
+	 **/
+	private function getArchiveSeasons() {
+
+		$db = new DB_sql;
+
+		$seasons = [];
+
+		$db->query("SELECT s.seizoen_id, s.naam FROM seizoen s, accommodatie a, type t WHERE UNIX_TIMESTAMP(s.eind)>".(time()-86400*360)." AND t.type_id='".addslashes($this->type_id)."' AND t.accommodatie_id=a.accommodatie_id AND a.wzt=s.type AND s.seizoen_id IN (SELECT ".addslashes($this->config->seizoentype_namen[$this->accinfo["wzt"]])."_toon_tarievenlink_seizoen_id AS seizoen_id FROM diverse_instellingen) ORDER BY s.begin;");
+		while($db->next_record()) {
+			$seasons[$db->f("seizoen_id")] = $db->f("naam");
+		}
+
+		return $seasons;
+	}
+
+	/**
 	 * create html for the top of the price table
 	 *
 	 * @return string $return
@@ -634,6 +653,27 @@ class tarieventabel {
 
 		$return .= "<div class=\"tarieventabel_top\">";
 		$return .= "<div class=\"tarieventabel_top_left\">";
+
+		if ($this->newWebsite && $this->toon_interne_informatie) {
+
+			//
+			// show list of archived seasons to cms users
+			//
+
+			$archiveSeasons = $this->getArchiveSeasons();
+
+			if (count($archiveSeasons) > 0) {
+				$return .= 'Archief tarieven en beschikbaarheid:<ul>';
+				foreach ($archiveSeasons as $seasonId => $seasonName) {
+					$return .= '<li>';
+					$return .= "<a href=\"" . wt_he($this->config->cmspath."cms_tarieven.php?from=" . urlencode($this->requested_from_uri) . "&sid=" . $seasonId . "&tid=" . $this->type_id) . "\">";
+					$return .= wt_he($seasonName) . "</a>";
+					$return .= '</li>';
+				}
+				$return .= '</ul>';
+			}
+		}
+
 		$return .= "<h1>";
 
 		if ($this->newWebsite) {
