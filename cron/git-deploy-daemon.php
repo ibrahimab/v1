@@ -52,7 +52,7 @@ for($i=1; $i<=60; $i++) {
 
 		unlink($checkfile);
 
-		exec("cd /home/chaletnl/Website-Chalet.nl/;git fetch origin;git checkout production;git reset --hard origin/production", $git_output);
+		exec("cd /home/chaletnl/Website-Chalet.nl/;git fetch origin;git checkout master;git reset --hard origin/master", $git_output);
 
 		exec("/usr/bin/sitecopy -r /home/chaletnl/.sitecopyrc -p /home/chaletnl/.sitecopy --list chalet_web01", $sitecopy_output1);
 
@@ -71,7 +71,7 @@ for($i=1; $i<=60; $i++) {
 		$log1 = preg_replace("@^.*These items have been changed since the last update:(.*)sitecopy: The remote.*$@s", "\\1", $sitecopy_output1);
 		$log1 = trim($log1);
 
-		$hipchat_msg = "Auto-notify: pushed production-commit(s) deployed to web01 and web02. Changed files: ".$log1;
+		$hipchat_msg = "Auto-notify: pushed master-commit(s) deployed to web01 and web02. Changed files: ".$log1;
 
 		mail("chaletmailbackup+systemlog@gmail.com","git-deploy Chalet.nl","Deployed ".date("r")."\n\n\n".$hipchat_msg."\n\n\n".$git_output."\n\n\n".$sitecopy_output1."\n\n\n".$sitecopy_output2."\n\n\n".$sitecopy_output3);
 
@@ -91,5 +91,3 @@ for($i=1; $i<=60; $i++) {
 	}
 	sleep(1);
 }
-
-?>
