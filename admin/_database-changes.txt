@@ -3,6 +3,9 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+03-may-2016 13:55
+ALTER TABLE `diverse_instellingen` ADD `winter_no_price_show_unavailable` TINYINT NOT NULL DEFAULT '0' AFTER `zomer_toon_tarievenlink_seizoen_id`, ADD `summer_no_price_show_unavailable` TINYINT NOT NULL DEFAULT '0' AFTER `winter_no_price_show_unavailable`;
+
 29-jan-2016 18:11
 CREATE TABLE `accommodatie_extra_distance` ( `accommodatie_id` INT NOT NULL , `counter` INT NOT NULL , `name` VARCHAR(255) NOT NULL , `name_de` VARCHAR(255) NOT NULL , `name_en` VARCHAR(255) NOT NULL , `name_fr` VARCHAR(255) NOT NULL , `distance` INT NOT NULL , `addition` VARCHAR(255) NULL DEFAULT NULL , `addition_de` VARCHAR(255) NULL DEFAULT NULL , `addition_en` VARCHAR(255) NULL DEFAULT NULL , `addition_fr` VARCHAR(255) NULL DEFAULT NULL , `adddatetime` DATETIME NOT NULL, `editdatetime` DATETIME NOT NULL, PRIMARY KEY (`accommodatie_id`, `counter`)) ENGINE = MyISAM;
 
