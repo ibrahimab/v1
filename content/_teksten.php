@@ -2950,7 +2950,7 @@ $txt["nl"]["toonaccommodatie"]["geldigheid"]="Geldigheid";
 $txt["de"]["toonaccommodatie"]["geldigheid"]="Gültigkeit";
 $txt["en"]["toonaccommodatie"]["geldigheid"]="Validity";
 
-$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor komende winter zijn momenteel nog geen tarieven bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
+$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor komende winter zijn momenteel nog geen prijzen bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
 $txt["de"]["toonaccommodatie"]["tarievennognietbekend"]="Für den nächsten Winter sind im Moment noch keine Preise bekannt. Bitte [[l1]]kontaktieren[[/l1]] Sie uns für eine Preisindikation. ";
 $txt["en"]["toonaccommodatie"]["tarievennognietbekend"]="The rates for this accommodation are not yet known. Please [[l1]]contact[[/l1]] us so that we can check the rate for you.";
 
