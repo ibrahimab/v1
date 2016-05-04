@@ -24,6 +24,9 @@ foreach ($images as $image) {
 
 $accommodations      = $mongodb->getCollection('accommodations');
 $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'under' => true]);
+$accImages           = $accommodations->find(['file_id' => $accommodationId, 'type' => ['$in' => ['big', 'small_above', 'small_below']]]);
+$accImages           = array_column(iterator_to_array($accImages), null, 'type');
+
 ?>
 <link rel="stylesheet" href="<?php echo $vars['path'];?>uploader/assets/css/app.css" />
 <link rel="stylesheet" href="<?php echo $vars['path'];?>uploader/assets/css/vendor/jquery/jquery.cropper.min.css" />
@@ -42,7 +45,9 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
         <img data-role="cropper" style="height: 500px; display: none;" />
     </div>
     <hr />
-    <b>Huidige afbeeldingen</b>
+    <b style="float:left; margin-left: 10px;">Huidige afbeeldingen</b>
+    <b style="float:left; margin-left: 460px;">Accommodatie afbeeldingen</b>
+    <div class="clear">&nbsp;</div>
     <div data-role="update-form">
         <div class="container">
             <div class="main">
@@ -52,7 +57,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                             <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" class="clear-main-image-icon" />
                         </a>
                     </span>
-                    <img data-role="main-image" style="width: 434px; height: 326px;" src="<?php echo $vars['path'] . (isset($mainImages['big']) ? ('pic/cms/' . $mainImages['big']['directory'] . '/' . $mainImages['big']['filename']) : ($placeholder)); ?>" />
+                    <img data-role="main-image" style="width: 400px; height: 258px;" src="<?php echo $vars['path'] . (isset($mainImages['big']) ? ('pic/cms/' . $mainImages['big']['directory'] . '/' . $mainImages['big']['filename']) : ($placeholder)); ?>" />
                     <input type="hidden" data-main-images-type="big" name="main_images[big]"<?php echo (isset($mainImages['big']) ? ' value="' . $mainImages['big']['_id'] . '"' : ''); ?> />
                 </div>
                 <div class="col">
@@ -62,7 +67,7 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                                 <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" />
                             </a>
                         </span>
-                        <img data-role="main-image" style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
+                        <img data-role="main-image" style="width: 183px; height: 129px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
                         <input type="hidden" data-main-images-type="small-above" name="main_images[small_above]"<?php echo (isset($mainImages['small_above']) ? ' value="' . $mainImages['small_above']['_id'] . '"' : ''); ?> />
                     </div>
                     <div style="position: relative;" class="row" data-role="main-images" data-type="small-below">
@@ -71,8 +76,22 @@ $accommodationImages = $accommodations->find(['file_id' => $accommodationId, 'un
                                 <img src="<?php echo $vars['path']; ?>pic/class.cms_delete.gif" />
                             </a>
                         </span>
-                        <img data-role="main-image" style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
+                        <img data-role="main-image" style="width: 183px; height: 129px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
                         <input type="hidden" data-main-images-type="small-below" name="main_images[small_below]"<?php echo (isset($mainImages['small_below']) ? ' value="' . $mainImages['small_below']['_id'] . '"' : ''); ?> />
+                    </div>
+                </div>
+            </div>
+            <div class="main" style="margin-left:10px;">
+                <div style="margin-left: 5px;display: inline-block;float: left;width: 5px;background-color: #000;height: 258px;margin-right: 5px;"></div>
+                <div class="col" style="margin-right: 5px; position: relative;">
+                    <img style="width: 400px; height: 258px;" src="<?php echo $vars['path'] . (isset($accImages['big']) ? ('pic/cms/' . $accImages['big']['directory'] . '/' . $accImages['big']['filename']) : ($placeholder)); ?>" />
+                </div>
+                <div class="col">
+                    <div style="position: relative;" class="row">
+                        <img style="width: 183px; height: 129px;" src="<?php echo $vars['path'] . (isset($accImages['small_above']) ? ('pic/cms/' . $accImages['small_above']['directory'] . '/' . $accImages['small_above']['filename']) : ($placeholder)); ?>" />
+                    </div>
+                    <div style="position: relative;" class="row">
+                        <img style="width: 183px; height: 129px;" src="<?php echo $vars['path'] . (isset($accImages['small_below']) ? ('pic/cms/' . $accImages['small_below']['directory'] . '/' . $accImages['small_below']['filename']) : ($placeholder)); ?>" />
                     </div>
                 </div>
             </div>
