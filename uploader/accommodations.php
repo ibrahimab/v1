@@ -51,7 +51,7 @@ foreach ($images as $image) {
                         </a>
                     </span>
 	                <img data-role="main-image" style="width: 434px; height: 326px;" src="<?php echo $vars['path'] . (isset($mainImages['big']) ? ('pic/cms/' . $mainImages['big']['directory'] . '/' . $mainImages['big']['filename']) : ($placeholder)); ?>" />
-	                <input type="hidden" name="main_images[big]"<?php echo (isset($mainImages['big']) ? ' value="' . $mainImages['big']['_id'] . '"' : ''); ?> />
+	                <input type="hidden" data-main-images-type="big" name="main_images[big]"<?php echo (isset($mainImages['big']) ? ' value="' . $mainImages['big']['_id'] . '"' : ''); ?> />
 	            </div>
 	            <div class="col">
 	                <div style="position: relative;" class="row" data-role="main-images" data-type="small-above">
@@ -61,7 +61,7 @@ foreach ($images as $image) {
                             </a>
                         </span>
 	                    <img data-role="main-image" style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_above']) ? ('pic/cms/' . $mainImages['small_above']['directory'] . '/' . $mainImages['small_above']['filename']) : ($placeholder)); ?>" />
-	                    <input type="hidden" name="main_images[small_above]"<?php echo (isset($mainImages['small_above']) ? ' value="' . $mainImages['small_above']['_id'] . '"' : ''); ?> />
+	                    <input type="hidden" data-main-images-type="small-above" name="main_images[small_above]"<?php echo (isset($mainImages['small_above']) ? ' value="' . $mainImages['small_above']['_id'] . '"' : ''); ?> />
 	                </div>
 	                <div style="position: relative;" class="row" data-role="main-images" data-type="small-below">
                         <span class="clear-main-image"<?php echo (isset($mainImages['small_below']) ? '' : ' style="display:none;"') ?>>
@@ -70,7 +70,7 @@ foreach ($images as $image) {
                             </a>
                         </span>
 	                    <img data-role="main-image" style="width: 217px; height: 163px;" src="<?php echo $vars['path'] . (isset($mainImages['small_below']) ? ('pic/cms/' . $mainImages['small_below']['directory'] . '/' . $mainImages['small_below']['filename']) : ($placeholder)); ?>" />
-	                    <input type="hidden" name="main_images[small_below]"<?php echo (isset($mainImages['small_below']) ? ' value="' . $mainImages['small_below']['_id'] . '"' : ''); ?> />
+	                    <input type="hidden" data-main-images-type="small-below" name="main_images[small_below]"<?php echo (isset($mainImages['small_below']) ? ' value="' . $mainImages['small_below']['_id'] . '"' : ''); ?> />
 	                </div>
 	            </div>
 	        </div>
@@ -234,6 +234,7 @@ foreach ($images as $image) {
 
                     jq('[data-role="main-images"][data-type="' + type + '"] img[data-role="main-image"]').attr('src', '<?php echo $placeholder; ?>');
                     jq('[data-role="main-images"][data-type="' + type + '"] span').hide();
+                    jq('[data-main-images-type="' + type + '"]').val('');
                 }
             });
         }
