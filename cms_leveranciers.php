@@ -38,6 +38,10 @@ if($_GET["beheerder"]) {
 $cms->settings[8]["list"]["edit_icon"]=true;
 $cms->settings[8]["list"]["delete_icon"]=true;
 
+if ($_GET["back_to_show"]) {
+	$cms->settings[8]["show"]["goto_changed_record"] = true;
+}
+
 $cms->db[8]["where"]="beheerder='".addslashes($_GET["beheerder"])."'";
 $cms->db[8]["set"]="beheerder='".addslashes($_GET["beheerder"])."'";
 
