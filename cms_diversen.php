@@ -223,7 +223,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$form->field_select(0,"zomer_toon_tarievenlink_seizoen_id","Zomer",array("field"=>"zomer_toon_tarievenlink_seizoen_id"),"",array("selection"=>$vars["seizoenen"][2]));
 
 	$form->field_htmlrow("","<hr><b>Tonen bij accommodatie zonder beschikbaarheid (nieuwe website)</b><br /><br />Toon accommodaties zonder beschikbaarheid als");
-	$form->field_select(0,"winter_no_price_show_unavailable","Winter",array("field"=>"winter_toon_tarievenlink_seizoen_id"),"",array("selection"=>array(0 =>"niet meer beschikbaar", 1=>"prijzen nog onbekend")));
+	$form->field_select(0,"winter_no_price_show_unavailable","Winter",array("field"=>"winter_no_price_show_unavailable"),"",array("selection"=>array(1 =>"niet meer beschikbaar", 2=>"prijzen nog onbekend")));
 
 	$form->field_htmlrow("","<hr><b>XML-import handmatig starten</b><br><br><i>Na opslaan wordt de import binnen 1 minuut gestart (tenzij er op dit moment al een XML-import draait; dan start de import zodra die andere import is afgerond).</i>");
 	$form->field_select(0,"handmatige_xmlimport_id","Leverancier",array("field"=>"handmatige_xmlimport_id"),"",array("selection"=>$vars["xml_type"]));
