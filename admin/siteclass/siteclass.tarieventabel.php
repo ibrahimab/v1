@@ -251,7 +251,16 @@ class tarieventabel {
 			$email_text .= " ";
 			$email_text .= $this->accinfo["plaats"]." / ".$this->accinfo["accnaam"]." (".txt("mailcopy-max", "tarieventabel")." ".$this->accinfo["maxaantalpersonen"]." ".($this->accinfo["maxaantalpersonen"]==1 ? txt("persoon", "tarieventabel") : txt("personen", "tarieventabel")).")";
 			$email_text .= "\n";
-			$email_text .= txt("mailcopy-voor-omschrijving", "tarieventabel").": ".$this->accinfo["url"];
+
+			$copy_url = $this->accinfo["url"];
+
+			if ($this->newWebsite) {
+				$copy_url = str_replace("http://", "https://", $copy_url);
+				$copy_url = str_replace("legacy-accept.", "www.", $copy_url);
+				$copy_url = str_replace("legacy.", "www.", $copy_url);
+			}
+
+			$email_text .= txt("mailcopy-voor-omschrijving", "tarieventabel").": ".$copy_url;
 			$email_text .= "\n";
 			if($this->accinfo["wzt"]==1) {
 				if($aantalpersonen==1) {
@@ -502,7 +511,16 @@ class tarieventabel {
 			$email_text .= " ";
 			$email_text .= $this->accinfo["plaats"]." / ".$this->accinfo["accnaam"]." (".txt("mailcopy-max", "tarieventabel")." ".$this->accinfo["maxaantalpersonen"]." ".($this->accinfo["maxaantalpersonen"]==1 ? txt("persoon", "tarieventabel") : txt("personen", "tarieventabel")).")";
 			$email_text .= "\n";
-			$email_text .= txt("mailcopy-voor-omschrijving", "tarieventabel").": ".$this->accinfo["url"];
+
+			$copy_url = $this->accinfo["url"];
+
+			if ($this->newWebsite) {
+				$copy_url = str_replace("http://", "https://", $copy_url);
+				$copy_url = str_replace("legacy-accept.", "www.", $copy_url);
+				$copy_url = str_replace("legacy.", "www.", $copy_url);
+			}
+
+			$email_text .= txt("mailcopy-voor-omschrijving", "tarieventabel").": ".$copy_url;
 			$email_text .= "\n";
 			if($this->arrangement) {
 				if($aantalpersonen==1) {

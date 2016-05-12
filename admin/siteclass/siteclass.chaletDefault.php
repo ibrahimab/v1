@@ -25,7 +25,7 @@ class chaletDefault
 	{
 		$this->setConfiguration(new Configuration());
 	}
-	
+
 	/**
 	 * Inject Configuration class
 	 *
@@ -87,4 +87,3 @@ class chaletDefault
 		unset($this->data[$name]);
 	}
 }
-

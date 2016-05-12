@@ -183,4 +183,49 @@ class kenmerken extends chaletDefault
 		return $toon_kenmerken;
 
 	}
+
+
+	/**
+	 * convert comma seperated list of kenmerken-id's to an key-array of active kenmerken
+	 *
+	 * @param integer type_id of wanted accommodation-type
+	 * @param array already available database-data (type, accommodatie, plaats, skigebied)
+	 * @return array
+	 */
+	public function get_kenmerken_backend( $type_id, $kenmerken_array = "" )
+	{
+
+		global $vars;
+
+		$this->type_id = $type_id;
+
+		$return = [];
+
+		if(!is_array($kenmerken_array) ) {
+			$kenmerken_array = $this->query_database();
+		}
+
+		$featureTypes = [
+			'type'         => 'type',
+			'accommodatie' => 'accommodatie',
+			'plaats'       => 'plaats',
+			'skigebied'    => ($this->config->seizoentype == 1 ? 'skigebied' : 'regio'),
+		];
+
+		foreach ($featureTypes as $featureType => $featureName) {
+			$kenmerken = explode(',', $kenmerken_array[$featureType]);
+
+			foreach ($kenmerken as $featureKey) {
+				if ($vars["kenmerken_" . $featureType . "_" . $this->config->seizoentype][$featureKey]) {
+					$return[$featureName][] = $vars["kenmerken_" . $featureType . "_" . $this->config->seizoentype][$featureKey];
+				}
+			}
+			if (is_array($return[$featureName])) {
+				sort($return[$featureName]);
+			}
+		}
+
+		return $return;
+	}
+
 }
