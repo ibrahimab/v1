@@ -469,7 +469,24 @@ class tarieventabel {
 		$return .= "<div class=\"tarieventabel_totaalprijs tarieventabel_totaalprijs_exclude_bkk\">";
 
 		$return .= "<table>";
-		$return .= "<tr><td colspan=\"5\" class=\"header\">".ucfirst(datum("DAG D MAAND JJJJ", $this->unixtime_week[$aankomstdatum], $this->config->taal))." ";
+		$return .= "<tr><td colspan=\"5\" class=\"header\">".datum("DAG D MAAND JJJJ", $this->unixtime_week[$aankomstdatum], $this->config->taal)." ";
+
+		reset($this->unixtime_week);
+		while(key($this->unixtime_week) != $aankomstdatum) {
+			next($this->unixtime_week);
+
+			$temp_teller++;
+			if ($temp_teller>1000) {
+				trigger_error( "departure date not found",E_USER_NOTICE );
+				exit;
+			}
+		}
+		$departure_date = next($this->unixtime_week);
+
+		$return .= ' - ';
+		$return .= datum("DAG D MAAND JJJJ", $departure_date, $this->config->taal);
+		$return .= ' ';
+
 		if ($aantalpersonen==1) {
 			$return .= html("met-1-persoon", "tarieventabel");
 		} else {
