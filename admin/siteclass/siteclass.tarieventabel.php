@@ -183,9 +183,11 @@ class tarieventabel {
 
 		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($this->config->path.txt("menu_boeken").".php?tid=".$this->type_id . (isset($this->verblijfsduur) ? '&fdu=' . $this->verblijfsduur : '') . (!$this->arrangement && $this->aantalpersonen ? "&ap=".intval($this->aantalpersonen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\" data-scroll_first_monthyear=\"".wt_he($this->scroll_first_monthyear)."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_id_inquery=\"".wt_he($this->seizoen_id)."\">";
 
+		// pre-fetch table-content (to determine some values needed in tabel_top())
+		$tableContent = $this->tabel_content();
 
 		$return .= $this->tabel_top();
-		$return .= $this->tabel_content();
+		$return .= $tableContent;
 		$return .= $this->tabel_bottom();
 
 		$return .= $this->show_bijkomendekosten();
@@ -662,6 +664,25 @@ class tarieventabel {
 	}
 
 	/**
+	 * get what to show when there are no prices available
+	 *
+	 * @return integer
+	 **/
+	private function getNoPriceShowUnavailable()
+	{
+
+		$db = new DB_sql;
+
+		$fieldname = $this->config->seizoentype_namen[$this->accinfo["wzt"]] . '_no_price_show_unavailable';
+
+		$db->query("SELECT " . $fieldname . " AS no_price_show_unavailable FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+		$db->next_record();
+
+		return $db->f('no_price_show_unavailable');
+
+	}
+
+	/**
 	 * create html for the top of the price table
 	 *
 	 * @return string $return
@@ -701,21 +722,41 @@ class tarieventabel {
 		}
 		$return .= "</h1>";
 
-		if($this->meerdere_valuta) {
-			$return .= "<span class=\"tarieventabel_top_valutanaam\" data-euro=\"".html("ineuros","tarieventabel")."\" data-gbp=\"".html("inponden","tarieventabel")."\">";
-			if($this->actieve_valuta=="gbp") {
-				$return .= html("inponden","tarieventabel");
+		if (!$this->tarieven_getoond && $this->newWebsite) {
+
+
+			$return .= '<div class="no-prices-explanation">';
+
+			if ($this->getNoPriceShowUnavailable() == 1) {
+
+				$huidig_seizoen = $this->seizoeninfo[$this->first_seizoen_id]["naam"];
+				$volgend_seizoen = $this->seizoeninfo[$this->last_seizoen_id]["naam"];
+
+				$return .= html("geentarieven_accvol","toonaccommodatie",array("v_accommodatienaam"=>$this->accinfo["accnaam"],"v_huidigseizoen"=>$huidig_seizoen,"v_volgendseizoen"=>$volgend_seizoen,"l1"=>"contact?accid=".$this->type_id));
+
+			} else {
+				$return .= html("tarievennognietbekend","toonaccommodatie",array("l1"=>"contact?accid=".$this->type_id));
+			}
+
+			$return .= '</div>';
+
+		} else {
+			if($this->meerdere_valuta) {
+				$return .= "<span class=\"tarieventabel_top_valutanaam\" data-euro=\"".html("ineuros","tarieventabel")."\" data-gbp=\"".html("inponden","tarieventabel")."\">";
+				if($this->actieve_valuta=="gbp") {
+					$return .= html("inponden","tarieventabel");
+				} else {
+					$return .= html("ineuros","tarieventabel");
+				}
+				$return .= "</span>";
 			} else {
 				$return .= html("ineuros","tarieventabel");
 			}
-			$return .= "</span>";
-		} else {
-			$return .= html("ineuros","tarieventabel");
-		}
-		if($this->arrangement) {
-			$return .= ", ".html("perpersooninclskipas","tarieventabel");
-		} else {
-			$return .= ", ".html("perpersoon","tarieventabel");
+			if($this->arrangement) {
+				$return .= ", ".html("perpersooninclskipas","tarieventabel");
+			} else {
+				$return .= ", ".html("perpersoon","tarieventabel");
+			}
 		}
 
 		$return .= "</div>"; // afsluiten .tarieventabel_top_left
