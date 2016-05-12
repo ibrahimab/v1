@@ -1869,7 +1869,7 @@ function wt_dump($array,$html=true) {
 	return $return;
 }
 
-function wt_mail($to,$subject,$body,$from="",$fromname="",$returnpath="") {
+function wt_mail($to,$subject,$body,$from="",$fromname="",$returnpath="",$list_unsubscribe_header="") {
 	if(!$fromname) {
 		if(defined("wt_mail_fromname")) {
 			$fromname=wt_mail_fromname;
@@ -1891,6 +1891,11 @@ function wt_mail($to,$subject,$body,$from="",$fromname="",$returnpath="") {
 	$mail->to=$to;
 	$mail->subject=$subject;
 	$mail->plaintext=$body;
+
+	if ($list_unsubscribe_header) {
+		$mail->extraheaders = "List-Unsubscribe: " . $list_unsubscribe_header;
+	}
+
 	$mail->send();
 }
 
