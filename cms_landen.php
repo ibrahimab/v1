@@ -36,6 +36,8 @@ $cms->settings[6]["list"]["delete_icon"]=true;
 $cms->db_field(6,"text","naam");
 if($vars["cmstaal"]) $cms->db_field(6,"text","naam_".$vars["cmstaal"]);
 $cms->db_field(6,"text","altnaam");
+$cms->db_field(6,"text","seonaam");
+if($vars["cmstaal"]) $cms->db_field(6,"text","seonaam_".$vars["cmstaal"]);
 if($_GET["add"]==6) {
 	$cms->db_field(6,"text","begincode");
 } else {
@@ -103,7 +105,18 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(6,1,"naam");
 }
 
+$seoinfo = 'Deze naam zal gebruikt worden als naam van dit land in de url balk.';
+
+if($vars["cmstaal"]) {
+	$cms->edit_field(6,0,"seonaam","Seonaam NL","",array("noedit"=>true));
+	$cms->edit_field(6,1,"seonaam_".$vars["cmstaal"],"Seonaam ".strtoupper($vars["cmstaal"]), "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam_' . $vars['cmstaal'] . ']"]']], ['info' => $seoinfo]);
+} else {
+	$cms->edit_field(6,1,"seonaam", "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam]']], ['info' => $seoinfo]);
+}
+
+
 $cms->edit_field(6,0,"altnaam","Alternatieve spelling");
+
 $cms->edit_field(6,1,"begincode","Begincode voor accommodaties");
 $cms->edit_field(6,1,"isocode","ISO-code van dit land");
 $cms->edit_field(6,0,"htmlrow","<hr><b>Google</b><br><br><i>Gebruik geen sitenamen in Google-teksten (dit wordt automatisch door het systeem gedaan).</i>");

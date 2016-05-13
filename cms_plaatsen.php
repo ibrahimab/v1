@@ -91,6 +91,9 @@ $cms->db[4]["set"]="wzt='".addslashes($_GET["wzt"])."'";
 $cms->db_field(4,"text","naam");
 if($vars["cmstaal"]) $cms->db_field(4,"text","naam_".$vars["cmstaal"]);
 
+$cms->db_field(4,"text","seonaam");
+if($vars["cmstaal"]) $cms->db_field(4,"text","seonaam_".$vars["cmstaal"]);
+
 
 # inactieve sites uitzetten
 while(list($key,$value)=each($vars["websites_inactief"])) {
@@ -197,6 +200,17 @@ if($vars["cmstaal"]) {
 } else {
 	$cms->edit_field(4,1,"naam");
 }
+
+$seoinfo = 'Deze naam zal gebruikt worden als naam van deze plaats in de url balk.';
+
+if($vars["cmstaal"]) {
+	$cms->edit_field(4,0,"seonaam","Seonaam NL","",array("noedit"=>true));
+	$cms->edit_field(4,1,"seonaam_".$vars["cmstaal"],"Seonaam ".strtoupper($vars["cmstaal"]), "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam_' . $vars['cmstaal'] . ']"]']], ['info' => $seoinfo]);
+} else {
+	$cms->edit_field(4,1,"seonaam", "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam]']], ['info' => $seoinfo]);
+}
+
+
 $cms->edit_field(4,0,"altnaam","Zoekwoorden (zoekformulier)");
 $cms->edit_field(4,0,"altnaam_zichtbaar","Alternatieve spelling (zoekformulier)");
 $cms->edit_field(4,0,"htmlrow","<hr><b>Google</b><br><br><i>Gebruik geen sitenamen in Google-teksten (dit wordt automatisch door het systeem gedaan).</i>");

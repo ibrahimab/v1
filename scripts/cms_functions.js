@@ -1041,9 +1041,9 @@ $(document).ready(function() {
 		});
 
 		$.post( "cms/wtjson.php?t=bk_opmerkingen_intern"
-		       +"&soort="+form.find("input[name='soort']").val()
-		       +"&id="+form.find("input[name='id']").val()
-		       ,
+			   +"&soort="+form.find("input[name='soort']").val()
+			   +"&id="+form.find("input[name='id']").val()
+			   ,
 				{ "bk_opmerkingen_intern": $(".cms_bk_opmerkingen_intern textarea").val() }
 		);
 
@@ -1286,7 +1286,7 @@ $(document).ready(function() {
 
 		// get hightest counter
 		var counter = $(".extra_distance").map(function() {
-		    return parseInt($(this).data("counter"), 10);
+			return parseInt($(this).data("counter"), 10);
 		}).get();
 		var new_counter = Math.max.apply(Math, counter) + 1;
 
@@ -1920,15 +1920,15 @@ var check_iban = (function(e){var t=e.replace(/ /g,"").toUpperCase(),n="",r=true
  */
 var euro_to_float = function(number) {
 
-    return parseFloat(number
+	return parseFloat(number
 
-                      // first replace all non-essential characters
-                      .replace(/[^0-9,]/g, '')
+					  // first replace all non-essential characters
+					  .replace(/[^0-9,]/g, '')
 
-                      // then replace the points with comma's
-                      .replace(/,/g, '.')
+					  // then replace the points with comma's
+					  .replace(/,/g, '.')
 
-    ) || 0; // or return 0 for NaN
+	) || 0; // or return 0 for NaN
 };
 
 /**
@@ -1947,42 +1947,42 @@ var euro_to_float = function(number) {
  */
 function dialog_form(selector, size, labels, submit_handler, close_handler) {
 
-    var dialog       = null;
-    var form         = $(selector).find('form');
-    var submit_label = labels.submit;
-    var cancel_label = labels.cancel || null;
-    var options      = {
+	var dialog       = null;
+	var form         = $(selector).find('form');
+	var submit_label = labels.submit;
+	var cancel_label = labels.cancel || null;
+	var options      = {
 
-        autoOpen: false,
-        width:    size['width'],
-        height:   size['height'],
-        modal:    true,
-        buttons:  {}
-    };
+		autoOpen: false,
+		width:    size['width'],
+		height:   size['height'],
+		modal:    true,
+		buttons:  {}
+	};
 
-    if (undefined !== close_handler) {
+	if (undefined !== close_handler) {
 
-        options.close = function() {
-            close_handler.apply(dialog, [form]);
-        }
-    }
+		options.close = function() {
+			close_handler.apply(dialog, [form]);
+		}
+	}
 
-    /**
-     * This button does not close the dialog for you.
-     * That is the responsibility of the submit handler!
-     */
-    options.buttons[submit_label] = function() {
-        submit_handler.apply(dialog, [form]);
-    };
+	/**
+	 * This button does not close the dialog for you.
+	 * That is the responsibility of the submit handler!
+	 */
+	options.buttons[submit_label] = function() {
+		submit_handler.apply(dialog, [form]);
+	};
 
-    if (null !== cancel_label) {
+	if (null !== cancel_label) {
 
-        options.buttons[cancel_label] = function() {
-            dialog.dialog('close');
-        };
-    }
+		options.buttons[cancel_label] = function() {
+			dialog.dialog('close');
+		};
+	}
 
-    return dialog = $(selector).dialog(options);
+	return dialog = $(selector).dialog(options);
 }
 
 /**
@@ -1995,28 +1995,28 @@ function dialog_form(selector, size, labels, submit_handler, close_handler) {
  */
 function popup_dialog(title, message, submit_handler) {
 
-    var popup_dialog_template = '<div data-role="dialog-form" data-dialog="popup-dialog">' +
-                                     '<h1 data-role="popup-dialog-title"></h1>'            +
-                                     '<p data-role="popup-dialog-message"></p>'            +
-                                '</div>';
+	var popup_dialog_template = '<div data-role="dialog-form" data-dialog="popup-dialog">' +
+									 '<h1 data-role="popup-dialog-title"></h1>'            +
+									 '<p data-role="popup-dialog-message"></p>'            +
+								'</div>';
 
-    // the popup dialog html is lazily instantiated, only when needed is it created
-    if ($('[data-dialog="popup-dialog"]').length === 0) {
-        $('body').append(popup_dialog_template);
-    }
+	// the popup dialog html is lazily instantiated, only when needed is it created
+	if ($('[data-dialog="popup-dialog"]').length === 0) {
+		$('body').append(popup_dialog_template);
+	}
 
-    var popup_dialog_element = $('[data-dialog="popup-dialog"]');
+	var popup_dialog_element = $('[data-dialog="popup-dialog"]');
 
-    popup_dialog_element.find('[data-role="popup-dialog-title"]').text(title);
-    popup_dialog_element.find('[data-role="popup-dialog-message"]').text(message);
+	popup_dialog_element.find('[data-role="popup-dialog-title"]').text(title);
+	popup_dialog_element.find('[data-role="popup-dialog-message"]').text(message);
 
-    return dialog_form('[data-dialog="popup-dialog"]', {width: 400, height: 300}, {submit: 'OK'}, function() {
+	return dialog_form('[data-dialog="popup-dialog"]', {width: 400, height: 300}, {submit: 'OK'}, function() {
 
 		this.dialog('close');
 		if (undefined !== submit_handler) {
-	    	submit_handler.apply(this);
-	    }
-    });
+			submit_handler.apply(this);
+		}
+	});
 }
 
 /**
@@ -2026,12 +2026,12 @@ function popup_dialog(title, message, submit_handler) {
 function validate_refund_form(form, success) {
 
    /**
-    * This method is called when someone submits the form
-    * It validates, and when successfull sends the request further
-    *
-    * @context $.dialog
-    * @see {dialog_form()}
-    */
+	* This method is called when someone submits the form
+	* It validates, and when successfull sends the request further
+	*
+	* @context $.dialog
+	* @see {dialog_form()}
+	*/
    var error_class = 'ui-state-error';
    var fields      = {};
    var errors      = [];
@@ -2047,40 +2047,40 @@ function validate_refund_form(form, success) {
    var use_iban = fields.iban !== 'n.n.b.';
 
    /**
-    * Performing some validations. The following elements are checked:
-    * - name
-    * - amount
-    *   => has to be greater than 0
-    * - iban
-    * - description
-    *   => has to start with @see(prefix) according to JIRA-CMS-75
-    *   => has to be a maximum of 140 characters according to JIRA-CMS-75
-    */
+	* Performing some validations. The following elements are checked:
+	* - name
+	* - amount
+	*   => has to be greater than 0
+	* - iban
+	* - description
+	*   => has to start with @see(prefix) according to JIRA-CMS-75
+	*   => has to be a maximum of 140 characters according to JIRA-CMS-75
+	*/
    if ($.trim(fields.name) === '') {
 
-       form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-name"]').addClass(error_class);
-       errors.push('name');
+	   form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-name"]').addClass(error_class);
+	   errors.push('name');
    }
 
    if (euro_to_float(fields.amount) <= 0) {
 
-       form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-amount"]').addClass(error_class);
-       errors.push('amount');
+	   form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-amount"]').addClass(error_class);
+	   errors.push('amount');
    }
 
    if ((use_iban && false === check_iban(fields.iban)) || ($.trim(fields.iban) === '')) {
 
-       form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-iban"]').addClass(error_class);
-       errors.push('iban');
+	   form.find('[data-role="refund-request-form-label"][for="refund-request-form-label-iban"]').addClass(error_class);
+	   errors.push('iban');
    }
 
    if (errors.length === 0) {
 
-       // no errors were found, send request
-       this.dialog('close');
+	   // no errors were found, send request
+	   this.dialog('close');
 
-       // call success callback and pass in the fields
-       success(fields);
+	   // call success callback and pass in the fields
+	   success(fields);
    }
 }
 
@@ -2093,42 +2093,42 @@ function validate_refund_form(form, success) {
  */
 function create_refund_form(selector) {
 
-    // error class
-    var error_class = 'ui-state-error';
+	// error class
+	var error_class = 'ui-state-error';
 
-    return dialog_form(selector, {width: 400, height: 400}, {submit: 'Toevoegen', cancel: 'Annuleren'}, function(form) {
+	return dialog_form(selector, {width: 400, height: 400}, {submit: 'Toevoegen', cancel: 'Annuleren'}, function(form) {
 
-        validate_refund_form.apply(this, [form, function(fields) {
+		validate_refund_form.apply(this, [form, function(fields) {
 
-            // appending boeking_id
-            fields['boeking_id'] = form.data('reservation-id');
+			// appending boeking_id
+			fields['boeking_id'] = form.data('reservation-id');
 
-            $.ajax({
+			$.ajax({
 
-                type:    'post',
-                url:     'ajax/refund_request.php',
-                data:    fields,
-                success: function() {
-                    window.location.reload();
-                },
-                error:   function() {
+				type:    'post',
+				url:     'ajax/refund_request.php',
+				data:    fields,
+				success: function() {
+					window.location.reload();
+				},
+				error:   function() {
 
-                    popup_dialog('Fout', 'Retourbetaling verzoek is niet gelukt', function() {
-                    	window.location.reload();
-                    }).dialog('open');
-                }
-            });
-        }]);
+					popup_dialog('Fout', 'Retourbetaling verzoek is niet gelukt', function() {
+						window.location.reload();
+					}).dialog('open');
+				}
+			});
+		}]);
 
-    }, function(form) {
+	}, function(form) {
 
-        /**
-         * This method handles the close event of the dialog
-         * Reset the form and remove all error labels
-         */
-        form.get(0).reset();
-        form.find('[data-role="refund-request-form-label"]').removeClass(error_class);
-    });
+		/**
+		 * This method handles the close event of the dialog
+		 * Reset the form and remove all error labels
+		 */
+		form.get(0).reset();
+		form.find('[data-role="refund-request-form-label"]').removeClass(error_class);
+	});
 }
 
 /**
@@ -2141,56 +2141,56 @@ function create_refund_form(selector) {
  */
 function update_refund_form(selector, fields) {
 
-    // error class
-    var error_class = 'ui-state-error';
+	// error class
+	var error_class = 'ui-state-error';
 
-    // setting form data
-    var form = $(selector).find('form');
+	// setting form data
+	var form = $(selector).find('form');
 
-    form.get(0).reset();
-    for (var i in fields) {
+	form.get(0).reset();
+	for (var i in fields) {
 
-        if (fields.hasOwnProperty(i)) {
-            form.find('[name="' + i + '"]').val(fields[i]);
-        }
-    }
+		if (fields.hasOwnProperty(i)) {
+			form.find('[name="' + i + '"]').val(fields[i]);
+		}
+	}
 
-    return dialog_form(selector, {width: 400, height: 400}, {submit: 'Aanpassen', cancel: 'Annuleren'}, function(form) {
+	return dialog_form(selector, {width: 400, height: 400}, {submit: 'Aanpassen', cancel: 'Annuleren'}, function(form) {
 
-        validate_refund_form.apply(this, [form, function(form_data) {
+		validate_refund_form.apply(this, [form, function(form_data) {
 
-            // appending retour ID
-            form_data['boeking_retour_id'] = fields['boeking_retour_id'];
+			// appending retour ID
+			form_data['boeking_retour_id'] = fields['boeking_retour_id'];
 
-            // appending boeking_id
-            form_data['boeking_id'] = form.data('reservation-id');
+			// appending boeking_id
+			form_data['boeking_id'] = form.data('reservation-id');
 
-            $.ajax({
+			$.ajax({
 
-                type:    'put',
-                url:     'ajax/refund_request.php',
-                data:    form_data,
-                success: function() {
-                    window.location.reload();
-                },
-                error:   function() {
+				type:    'put',
+				url:     'ajax/refund_request.php',
+				data:    form_data,
+				success: function() {
+					window.location.reload();
+				},
+				error:   function() {
 
-                    popup_dialog('Fout', 'Retourbetaling verzoek is niet aangepast', function() {
-                    	window.location.reload();
-                    }).dialog('open');
-                }
-            });
-        }]);
+					popup_dialog('Fout', 'Retourbetaling verzoek is niet aangepast', function() {
+						window.location.reload();
+					}).dialog('open');
+				}
+			});
+		}]);
 
-    }, function(form) {
+	}, function(form) {
 
-        /**
-         * This method handles the close event of the dialog
-         * Reset the form and remove all error labels
-         */
-        form.get(0).reset();
-        form.find('[data-role="refund-request-form-label"]').removeClass(error_class);
-    });
+		/**
+		 * This method handles the close event of the dialog
+		 * Reset the form and remove all error labels
+		 */
+		form.get(0).reset();
+		form.find('[data-role="refund-request-form-label"]').removeClass(error_class);
+	});
 }
 
 function mark_refund(node, id, rows) {
@@ -2205,7 +2205,7 @@ function mark_refund(node, id, rows) {
 		data: {method: method, id: id},
 		success: function(data) {
 
-    		if (data.type === 'success') {
+			if (data.type === 'success') {
 
 				if (undefined !== rows) {
 
@@ -2213,11 +2213,11 @@ function mark_refund(node, id, rows) {
 							rows.remove();
 						});
 
-    			}
+				}
 
-    		} else {
-    			popup_dialog('Fout', 'Het verwerken van de retourbetaling is niet gelukt').dialog('open');
-    		}
+			} else {
+				popup_dialog('Fout', 'Het verwerken van de retourbetaling is niet gelukt').dialog('open');
+			}
 		},
 		error: function() {
 			popup_dialog('Fout', 'Het verwerken van de retourbetaling is niet gelukt').dialog('open');
@@ -2321,66 +2321,99 @@ function update_language_fields() {
 	}
 }
 
-$(function() {
+/**
+ * Slugify strings
+ *
+ * @param string name
+ *
+ * @return string
+ */
+function slugify(text)
+{
+	return text.toString()
+			   .replace(/\s+/g, '-')           // Replace spaces with -
+			   .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+			   .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+			   .replace(/^-+/, '')             // Trim - from start of text
+			   .replace(/-+$/, '');            // Trim - from end of text
+}
 
-    /**
-     * Binding the event that will show the dialog on click
-     * only when the entire DOM is ready
-     */
-    $('body').on('click', '[data-role="create-refund-request"]', function(event) {
+(function(jq) {
 
-        event.preventDefault();
-        create_refund_form('[data-role="dialog-form"][data-dialog="refund-request-dialog"]').dialog('open');
-    });
+	jq(function() {
 
-    $('body').on('click', '[data-role="update-refund-request"]', function(event) {
+		/**
+		 * Binding the event that will show the dialog on click
+		 * only when the entire DOM is ready
+		 */
+		jq('body').on('click', '[data-role="create-refund-request"]', function(event) {
 
-        event.preventDefault();
-        update_refund_form('[data-role="dialog-form"][data-dialog="refund-request-dialog"]', $(this).data('form-data')).dialog('open');
-    });
+			event.preventDefault();
+			create_refund_form('[data-role="dialog-form"][data-dialog="refund-request-dialog"]').dialog('open');
+		});
 
-    /**
-     * This function will it possible to select the contents of
-     * an element when clicked.
-     */
-    $('body').on('click', '[data-role="select-contents"]', function(event) {
+		jq('body').on('click', '[data-role="update-refund-request"]', function(event) {
 
-    	event.preventDefault();
+			event.preventDefault();
+			update_refund_form('[data-role="dialog-form"][data-dialog="refund-request-dialog"]', jq(this).data('form-data')).dialog('open');
+		});
 
-    	var selection = window.getSelection();
-        var range     = document.createRange();
+		/**
+		 * This function will it possible to select the contents of
+		 * an element when clicked.
+		 */
+		jq('body').on('click', '[data-role="select-contents"]', function(event) {
 
-        range.selectNodeContents(this);
-        selection.removeAllRanges();
-        selection.addRange(range);
-    });
+			event.preventDefault();
 
-    /**
-     * This method listens to marking refund actions and removes the row from DOM when successful.
-     */
-    $('body').on('click', '[data-role="mark-refund"]', function(event) {
+			var selection = window.getSelection();
+			var range     = document.createRange();
 
-    	event.preventDefault();
+			range.selectNodeContents(this);
+			selection.removeAllRanges();
+			selection.addRange(range);
+		});
 
-    	var element = $(this);
-    	var id 		= element.data('id');
+		/**
+		 * This method listens to marking refund actions and removes the row from DOM when successful.
+		 */
+		jq('body').on('click', '[data-role="mark-refund"]', function(event) {
 
-    	mark_refund(this, id, element.parents('tr'));
-    });
+			event.preventDefault();
 
-    $('body').on('change keyup paste', '[data-role="max-length"]', function() {
+			var element = jq(this);
+			var id 		= element.data('id');
 
-    	var element = $(this);
-    	var val     = $.trim(element.val());
-    	var length  = val.length;
-    	var max     = element.data('max-length');
+			mark_refund(this, id, element.parents('tr'));
+		});
 
-    	if (length > max) {
-    		element.val(val.substring(0, max));
-    	}
+		jq('body').on('change keyup paste', '[data-role="max-length"]', function() {
 
-    	if (element.data('max-length-view')) {
-    		$('[data-view="' + element.data('max-length-view') + '"]').text(length > max ? max : (length < 0 ? 0 : length));
-    	}
-    });
-});
+			var element = jq(this);
+			var val     = jq.trim(element.val());
+			var length  = val.length;
+			var max     = element.data('max-length');
+
+			if (length > max) {
+				element.val(val.substring(0, max));
+			}
+
+			if (element.data('max-length-view')) {
+				jq('[data-view="' + element.data('max-length-view') + '"]').text(length > max ? max : (length < 0 ? 0 : length));
+			}
+		});
+
+		jq('body').on('focus', '[data-role="seoname"]', function(event) {
+
+			var element = jq(this);
+			var name    = jq(element.data('name-field'));
+			console.log(name);
+			console.log(element.val());
+
+			if (element.val() === '' && name.val() !== '') {
+				element.val(slugify(name.val()));
+			}
+		});
+	});
+
+})($);

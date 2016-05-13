@@ -80,6 +80,9 @@ $cms->db[5]["set"]="wzt='".addslashes($_GET["wzt"])."'";
 $cms->db_field(5,"text","naam");
 if($vars["cmstaal"]) $cms->db_field(5,"text","naam_".$vars["cmstaal"]);
 
+$cms->db_field(5,"text","seonaam");
+if($vars["cmstaal"]) $cms->db_field(5,"text","seonaam_".$vars["cmstaal"]);
+
 # inactieve sites uitzetten
 while(list($key,$value)=each($vars["websites_inactief"])) {
 	unset($vars["websites_wzt"][$_GET["wzt"]][$key]);
@@ -186,6 +189,16 @@ if($vars["cmstaal"]) {
 } else {
 	$cms->edit_field(5,1,"naam");
 }
+
+$seoinfo = 'Deze naam zal gebruikt worden als naam van dit skigebied in de url balk.';
+
+if($vars["cmstaal"]) {
+	$cms->edit_field(5,1,"seonaam", "Seonaam NL","",array("noedit"=>true));
+	$cms->edit_field(5,1,"seonaam_".$vars["cmstaal"], "Seonaam ".strtoupper($vars["cmstaal"]), "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam_' . $vars['cmstaal'] . ']"]']], ['info' => $seoinfo]);
+} else {
+	$cms->edit_field(5,1,"seonaam", "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam]']], ['info' => $seoinfo]);
+}
+
 $cms->edit_field(5,0,"altnaam","Zoekwoorden (zoekformulier)");
 $cms->edit_field(5,0,"altnaam_zichtbaar","Alternatieve spelling (zoekformulier)");
 if($vars["cmstaal"]) {
