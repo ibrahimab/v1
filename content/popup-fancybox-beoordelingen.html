@@ -129,6 +129,23 @@ if(is_array($enquete)) {
 		include("css/toonaccommodatie.css");
 	}
 
+	$mongodb = $vars['mongodb']['wrapper'];
+	$files = [
+
+		'a' => iterator_to_array($mongodb->getAllMainFiles('accommodations', [intval($accinfo['accommodatieid'])])),
+		't' => iterator_to_array($mongodb->getAllMainFiles('types', [intval($accinfo['typeid'])])),
+	];
+
+	if (count($files['t']) > 0) {
+		$file = current($files['t']);
+	} else {
+		$file = current($files['a']);
+	}
+
+	if (is_array($file)) {
+		$accinfo['hoofdfoto'] = 'pic/cms/' . $file['directory'] . '/' . $file['filename'];
+	}
+
 	echo "</style>";
 
 	echo "<div id=\"beoordeling_wrapper\">";
