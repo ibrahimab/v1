@@ -64,7 +64,7 @@ while($db->next_record()) {
 
 if(!$_GET["edit"] and !$_GET["add"]) {
 	# Link naar plaatsen bepalen
-	$db->query("SELECT plaats_id, naam FROM plaats WHERE wzt='".addslashes($_GET["wzt"])."';");
+	$db->query("SELECT plaats_id, naam, seonaam" . $vars['ttv'] . " FROM plaats WHERE wzt='".addslashes($_GET["wzt"])."';");
 	while($db->next_record()) {
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 			$url="/chalet/";
@@ -73,7 +73,7 @@ if(!$_GET["edit"] and !$_GET["add"]) {
 		} else {
 			$url="https://www.chalet.nl/";
 		}
-		$url=$url."plaats/".wt_convert2url_seo($db->f("naam"))."/";
+		$url=$url."plaats/".$db->f("seonaam" . $vars['ttv'])."/";
 		$plaatslink[$db->f("plaats_id")]="<a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($url)."</a>";
 	}
 }
