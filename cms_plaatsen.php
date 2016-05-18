@@ -196,18 +196,18 @@ if($skigebied_toon_op_homepage) {
 }
 if($vars["cmstaal"]) {
 	$cms->edit_field(4,1,"naam", "Naam NL","",array("noedit"=>true));
-	$cms->edit_field(4,1,"naam_".$vars["cmstaal"], "Naam ".strtoupper($vars["cmstaal"]));
+	$cms->edit_field(4,1,"naam_".$vars["cmstaal"], "Naam ".strtoupper($vars["cmstaal"]), "", [], ['data_field' => ['role' => 'generate-seoname', 'seo-field' => 'input[name="input[seonaam_' . $vars['cmstaal'] . ']"]']]);
 } else {
-	$cms->edit_field(4,1,"naam");
+	$cms->edit_field(4,1,"naam", "", [], ['data_field' => ['role' => 'generate-seo', 'seo-field' => 'input[name="input[seonaam]"]']]);
 }
 
-$seoinfo = 'Deze naam zal gebruikt worden als naam van deze plaats in de url balk.';
+$seoinfo = 'Deze naam zal gebruikt worden als naam van deze plaats in de url balk. Bjorn is verantwoordelijk voor dit veld.';
 
 if($vars["cmstaal"]) {
 	$cms->edit_field(4,0,"seonaam","Seonaam NL","",array("noedit"=>true));
-	$cms->edit_field(4,1,"seonaam_".$vars["cmstaal"],"Seonaam ".strtoupper($vars["cmstaal"]), "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam_' . $vars['cmstaal'] . ']"]']], ['info' => $seoinfo]);
+	$cms->edit_field(4,1,"seonaam_".$vars["cmstaal"],"Seonaam ".strtoupper($vars["cmstaal"]));
 } else {
-	$cms->edit_field(4,1,"seonaam", "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam]']], ['info' => $seoinfo]);
+	$cms->edit_field(4,1,"seonaam");
 }
 
 
@@ -384,12 +384,25 @@ $cms->show_field(4,"pdfplattegrond","Plattegrond");
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(4);
 if($cms_form[4]->filled) {
+
 	# Controle of juiste taal wel actief is
 	if(!$vars["cmstaal"]) {
 		while(list($key,$value)=each($_POST["input"])) {
 			if(ereg("^omschrijving_",$key)) {
 				$cms_form[4]->error("taalprobleem","De CMS-taal is gewijzigd tijdens het bewerken. Opslaan is niet mogelijk. Ga terug naar het CMS-hoofdmenu en kies de gewenste taal",false,true);
 			}
+		}
+	}
+
+	# Controle uniekheid seonaam
+	$db->query("SELECT COUNT(1) AS count FROM plaats
+				WHERE  seonaam" . $vars['ttv'] . " != '" . $cms_form[4]->input['seonaam' . $vars['ttv']] . "'
+				AND    plaats_id <> " . intval($_GET['4k0']));
+
+	if ($count = $db->next_record()) {
+
+		if ($db->f('count') > 0) {
+			$cms_form[4]->error('seonaam' . $vars['ttv'], 'Seonaam bestaat al in de database, kies een andere seonaam', false, true);
 		}
 	}
 

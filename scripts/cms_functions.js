@@ -2403,15 +2403,13 @@ function slugify(text)
 			}
 		});
 
-		jq('body').on('focus', '[data-role="seoname"]', function(event) {
+		jq('body').on('blur', '[data-role="generate-seo"]', function(event) {
 
 			var element = jq(this);
-			var name    = jq(element.data('name-field'));
-			console.log(name);
-			console.log(element.val());
+			var field   = jq(element.data('seo-field'));
 
-			if (element.val() === '' && name.val() !== '') {
-				element.val(slugify(name.val()));
+			if (element.val() !== '') {
+				field.val(slugify(element.val()));
 			}
 		});
 	});

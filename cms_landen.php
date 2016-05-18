@@ -100,18 +100,18 @@ if($_GET["wzt"]==2) {
 }
 if($vars["cmstaal"]) {
 	$cms->edit_field(6,0,"naam","Naam NL","",array("noedit"=>true));
-	$cms->edit_field(6,1,"naam_".$vars["cmstaal"],"Naam ".strtoupper($vars["cmstaal"]));
+	$cms->edit_field(6,1,"naam_".$vars["cmstaal"],"Naam ".strtoupper($vars["cmstaal"]), "", [], ['data_field' => ['role' => 'generate-seoname', 'seo-field' => 'input[name="input[seonaam_' . $vars['cmstaal'] . ']"]']]);
 } else {
-	$cms->edit_field(6,1,"naam");
+	$cms->edit_field(6,1,"naam", "", [], ['data_field' => ['role' => 'generate-seo', 'seo-field' => 'input[name="input[seonaam]"]']]);
 }
 
-$seoinfo = 'Deze naam zal gebruikt worden als naam van dit land in de url balk.';
+$seoinfo = 'Deze naam zal gebruikt worden als naam van dit land in de url balk. Bjorn is verantwoordelijk voor dit veld.';
 
 if($vars["cmstaal"]) {
 	$cms->edit_field(6,0,"seonaam","Seonaam NL","",array("noedit"=>true));
-	$cms->edit_field(6,1,"seonaam_".$vars["cmstaal"],"Seonaam ".strtoupper($vars["cmstaal"]), "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam_' . $vars['cmstaal'] . ']"]']], ['info' => $seoinfo]);
+	$cms->edit_field(6,1,"seonaam_".$vars["cmstaal"],"Seonaam ".strtoupper($vars["cmstaal"]), "", [], [], ['info' => $seoinfo]);
 } else {
-	$cms->edit_field(6,1,"seonaam", "", ['data_field' => ['role' => 'seoname', 'name-field' => 'input[name="input[naam]']], ['info' => $seoinfo]);
+	$cms->edit_field(6,1,"seonaam", "", [], [], ['info' => $seoinfo]);
 }
 
 
@@ -247,6 +247,19 @@ if($_GET["wzt"]==2) {
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(6);
 if($cms_form[6]->filled) {
+
+	# Controle uniekheid seonaam
+	$db->query("SELECT COUNT(1) AS count FROM land
+				WHERE  seonaam" . $vars['ttv'] . " = '" . $cms_form[4]->input['seonaam' . $vars['ttv']] . "'
+				AND    land_id <> " . intval($_GET['5k0']));
+
+	if ($db->next_record()) {
+
+		if ($db->f('count') > 0) {
+			$cms_form[6]->error('seonaam' . $vars['ttv'], 'Seonaam bestaat al in de database, kies een andere seonaam', false, true);
+		}
+	}
+
 	if($cms_form[6]->input["begincode"]) {
 		$db->query("SELECT naam FROM land WHERE begincode='".addslashes($cms_form[6]->input["begincode"])."' AND land_id<>'".addslashes($_GET["6k0"])."';");
 		if($db->next_record()) {
