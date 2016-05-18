@@ -280,20 +280,19 @@ RewriteRule ^robots\.txt$ robots_block.txt
 # Set the correct Symfony environment
 
 # development
-#SetEnvIf Host "^local\..*" USE_SYMFONY_ENV=app_dev
 RewriteCond %{HTTP_HOST} ^local\..*\..* [NC]
 RewriteCond %{HTTP_USER_AGENT} "938JKDJH773991" [NC]
 RewriteRule .* - [E=USE_SYMFONY_ENV:app_dev]
 
 # staging
 RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
-RewriteCond %{HTTP_USER_AGENT} "938JKDJH773991" [NC]
+#RewriteCond %{HTTP_USER_AGENT} "938JKDJH773991" [NC]
 RewriteRule .* - [E=USE_SYMFONY_ENV:app_stag]
 
 # production
 RewriteCond %{HTTP_HOST} ^www\..*\..* [NC]
 RewriteCond %{HTTP_USER_AGENT} "938JKDJH773991" [NC]
-RewriteCond %{REMOTE_ADDR} ^(31\.223\.173\.113|213\.125\.152\.154)$
+RewriteCond %{REMOTE_ADDR} ^(213\.125\.152\.154|31\.223\.173\.113|87\.214\.228\.200|37\.34\.56\.191)$
 RewriteRule .* - [E=USE_SYMFONY_ENV:app]
 
 # Symfony
@@ -390,6 +389,9 @@ RewriteRule ^themas\.php$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
 
 RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
 RewriteRule ^nieuwsbrief$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^boeken\.php$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
 
 RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
 RewriteRule ^prijs-berekenen/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
@@ -562,6 +564,8 @@ RewriteRule ^destinations\.php$ bestemmingen.php?%{QUERY_STRING}
 # Oude blog-afbeeldingen nog aanbieden
 RewriteRule pic/cms/blog/([0-9]{1,})\.jpg /pic/cms/blog/$1-1.jpg [R=301,L]
 
+# rewrite boeken-iframe.php
+RewriteRule ^connect-legacy-to-new-via-iframe/boeken.php$ connect-legacy-to-new-via-iframe/iframe.php [L,QSA]
 
 #
 # Rewriten van .php-pagina's

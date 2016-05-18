@@ -73,21 +73,30 @@ $unixdir = dirname(dirname(__FILE__)) . "/";
 
 
 // Mobile detect class
-include_once($unixdir . "lib/mobile-detect/Mobile_Detect.php");
-$detect = new Mobile_Detect();
+if (!empty($connect_legacy_new_iframe)) {
 
-if(isset($_COOKIE["siteVer"]) && ($_COOKIE["siteVer"] == "desktop")) {
 	$isMobile = false;
+	$onMobile = false;
+
 } else {
-	$isMobile = (($detect->isMobile() && !$detect->isTablet()) || (isset($_COOKIE["siteVer"]) && ($_COOKIE["siteVer"] == "mobile")));
-}
 
-if(isset($_GET["setmobile"])) {
-	setcookie("siteVer","mobile",0,"/");
-	$isMobile = true;
-}
+	include_once($unixdir . "lib/mobile-detect/Mobile_Detect.php");
+	$detect = new Mobile_Detect();
 
-$onMobile = ($detect->isMobile() && !$detect->isTablet());
+	if(isset($_COOKIE["siteVer"]) && ($_COOKIE["siteVer"] == "desktop")) {
+		$isMobile = false;
+	} else {
+		$isMobile = (($detect->isMobile() && !$detect->isTablet()) || (isset($_COOKIE["siteVer"]) && ($_COOKIE["siteVer"] == "mobile")));
+	}
+
+	if(isset($_GET["setmobile"])) {
+		setcookie("siteVer","mobile",0,"/");
+		$isMobile = true;
+	}
+
+	$onMobile = ($detect->isMobile() && !$detect->isTablet());
+
+}
 
 # Bestanden includen
 if($isMobile) {
