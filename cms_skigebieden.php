@@ -331,7 +331,8 @@ if($cms_form[5]->filled) {
 
 	# Controle uniekheid seonaam
 	$db->query("SELECT COUNT(1) AS count FROM skigebied
-				WHERE  seonaam" . $vars['ttv'] . " != '" . $cms_form[4]->input['seonaam' . $vars['ttv']] . "'
+				WHERE  seonaam" . $vars['ttv'] . " = '" . $cms_form[4]->input['seonaam' . $vars['ttv']] . "'
+				AND    wzt = " . $_GET['wzt'] . "
 				AND    skigebied_id <> " . intval($_GET['5k0']));
 
 	if ($count = $db->next_record()) {

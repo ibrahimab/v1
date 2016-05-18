@@ -396,7 +396,8 @@ if($cms_form[4]->filled) {
 
 	# Controle uniekheid seonaam
 	$db->query("SELECT COUNT(1) AS count FROM plaats
-				WHERE  seonaam" . $vars['ttv'] . " != '" . $cms_form[4]->input['seonaam' . $vars['ttv']] . "'
+				WHERE  seonaam" . $vars['ttv'] . " = '" . $cms_form[4]->input['seonaam' . $vars['ttv']] . "'
+				AND    wzt = " . $_GET['wzt'] . "
 				AND    plaats_id <> " . intval($_GET['4k0']));
 
 	if ($count = $db->next_record()) {
