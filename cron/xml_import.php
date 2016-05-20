@@ -295,8 +295,8 @@ $xml_urls[19][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=extr
 #$xml_urls[19][2]="Oxygène Immobilier" (tarieven werken met losse XML's per accommodatie)
 
 # Centrale des Hauts Forts (via Arkiane)
-$xml_urls[20][1]="http://xml.arkiane.com/api/api/xml_v2?agency=169&site=1&username=TO_chalet&password=cha0133&application=lv&qry=to_get_planning";
-$xml_urls[20][2]="http://xml.arkiane.com/api/api/xml_v2?agency=169&site=1&username=TO_chalet&password=cha0133&application=lv&qry=to_get_tarifs";
+// $xml_urls[20][1]="http://xml.arkiane.com/api/api/xml_v2?agency=169&site=1&username=TO_chalet&password=cha0133&application=lv&qry=to_get_planning";
+// $xml_urls[20][2]="http://xml.arkiane.com/api/api/xml_v2?agency=169&site=1&username=TO_chalet&password=cha0133&application=lv&qry=to_get_tarifs";
 
 # Ville in Italia
 $xml_urls[21][1]="https://secure.villeinitalia.com/protAgency/AvailableFile.jsp"; # beschikbaarheid
@@ -454,10 +454,10 @@ if(intval($argv[1])>0) {
  */
 
 $arkiane2008  = [12, 17, 18, 19, 26];
-$arkiane2011  = [20, 22, 27];
+$arkiane2011  = [22, 27];
 $allSuppliers = [1, 2, 3, 5, 6, 8, 11,
                  12, 13, 14, 15, 16, 17, 18, 19,
-                 20, 21, 22, 23, 24, 25, 26, 27];
+                 21, 22, 23, 24, 25, 26, 27];
 
 if($testsysteem) {
 	// echo wt_dump($xml_urls, false);
