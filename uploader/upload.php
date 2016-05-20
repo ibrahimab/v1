@@ -22,9 +22,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $headers       = getallheaders();
     $image         = imagecreatefromstring(file_get_contents('php://input'));
     $cropData      = json_decode($headers['X_CROP_DATA'], true);
+
+    if (!is_array($cropData)) {
+
+        jsonResponse([
+
+            'type'    => 'error',
+            'message' => 'crop data is not valid',
+            'crop'    => $cropData,
+        ]);
+    }
+
     $cropData      = array_map('ceil', $cropData);
     $cropData      = array_map('intval', $cropData);
     $new           = imagecrop($image, $cropData);
+
+    if (false === is_resource($new)) {
+
+        jsonResponse([
+
+            'type'    => 'error',
+            'message' => 'Could not create new image resource',
+            'crop'    => $cropData,
+        ]);
+    }
 
     $size          = ['width' => imagesx($new), 'height' => imagesy($new)];
     $size['ratio'] = rounddown(ratio($size['width'], $size['height']), 2);
