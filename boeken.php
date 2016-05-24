@@ -3213,7 +3213,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 			$klantemailsettings = [];
 			if ($vars['website'] === 'D') {
-				$klantemailsettings['attachment']['pdf/Sicherungsschein.pdf'] = 'Sicherungsschein.pdf';
+				// temporarily disabled (CMS-441)
+				// $klantemailsettings['attachment']['pdf/Sicherungsschein.pdf'] = 'Sicherungsschein.pdf';
 			}
 
 			// opmaakmail sturen

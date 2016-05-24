@@ -1072,7 +1072,8 @@ if($form->okay) {
 				}
 
 				if ($gegevens['stap1']['website'] === 'D') {
-					$settings['attachment']['pdf/Sicherungsschein.pdf'] = 'Sicherungsschein.pdf';
+					// temporarily disabled (CMS-441)
+					// $settings['attachment']['pdf/Sicherungsschein.pdf'] = 'Sicherungsschein.pdf';
 				}
 
 				verstuur_opmaakmail($gegevens["stap1"]["website"],$to,"",$subject,$html,$settings);
