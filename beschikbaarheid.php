@@ -248,7 +248,7 @@ if($form->okay) {
 		}
 		$db->query("INSERT INTO optieaanvraag SET ".$setquery.";");
 
-		if($werknemer_optieaanvraag and $db->insert_id()) {
+		if (!$connect_legacy_new_iframe && $werknemer_optieaanvraag && $db->insert_id()) {
 			header("Location: http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_optieaanvragen.php?show=35&status=2&35k0=".$db->insert_id());
 			exit;
 		}
@@ -585,6 +585,6 @@ if($form->okay) {
 
 $form->end_declaration();
 
-include "content/opmaak.php";
-
-?>
+if (!$connect_legacy_new_iframe) {
+	include "content/opmaak.php";
+}

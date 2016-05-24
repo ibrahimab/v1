@@ -2,8 +2,26 @@
 
 if($_GET["fo"]=="frm") {
 	echo html("uwbeschikbaarheidaanvraagisverzonden".($_GET["o"] ? "_optie" : ""),"beschikbaarheid")."<p>".html("zsmcontroleren","beschikbaarheid")."<p>";
-	echo html("mochtunogvragenhebben","beschikbaarheid",array("l1"=>"contact?accid=".$_GET["tid"]));
-	if($_GET["back"]) echo "<p><a href=\"http://".$_SERVER["HTTP_HOST"].$_GET["back"]."\">&lt;&nbsp;&lt;&nbsp;".html("terugnaardeaccommodatiegegevens","beschikbaarheid")."</a>";
+
+	if ($connect_legacy_new_iframe) {
+		$target = ' target="_parent"';
+	} else {
+		$target = '';
+	}
+
+	$ahref = '<a href="/contact.php?accid=' . intval($_GET["tid"]) . '"' . $target .'>';
+
+	echo html("mochtunogvragenhebben","beschikbaarheid",array("h_1"=>$ahref, "h_2"=>"</a>"));
+	if ($_GET["back"]) {
+
+		if (preg_match("@^http@", $_GET["back"])) {
+			$backUrl = $_GET["back"];
+		} else {
+			$backUrl = "http://".$_SERVER["HTTP_HOST"].$_GET["back"];
+		}
+		echo '<p><a href="' . wt_he($backUrl) . '"' . $target . '>&laquo;&nbsp;' . html("terugnaardeaccommodatiegegevens","beschikbaarheid") .'</a>';
+
+	}
 
 	$extrainfo_tradetracker="Formulier ingevuld: ".date("d-m-Y").", ".date("H:i")."u.";
 	if(!$vars["rebook"]) {
@@ -22,5 +40,3 @@ if($_GET["fo"]=="frm") {
 	}
 	$form->display_all();
 }
-
-?>

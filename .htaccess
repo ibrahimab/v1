@@ -394,6 +394,9 @@ RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
 RewriteRule ^boeken\.php$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
 
 RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^beschikbaarheid\.php$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
 RewriteRule ^prijs-berekenen/ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
 
 RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
@@ -564,8 +567,11 @@ RewriteRule ^destinations\.php$ bestemmingen.php?%{QUERY_STRING}
 # Oude blog-afbeeldingen nog aanbieden
 RewriteRule pic/cms/blog/([0-9]{1,})\.jpg /pic/cms/blog/$1-1.jpg [R=301,L]
 
-# rewrite boeken-iframe.php
+# rewrite legacy iframe.php
 RewriteRule ^connect-legacy-to-new-via-iframe/boeken.php$ connect-legacy-to-new-via-iframe/iframe.php [L,QSA]
+RewriteRule ^connect-legacy-to-new-via-iframe/beschikbaarheid.php$ connect-legacy-to-new-via-iframe/iframe.php [L,QSA]
+RewriteRule ^connect-legacy-to-new-via-iframe/class.form_calendar.php$ class.form_calendar.php [L,QSA]
+RewriteRule ^connect-legacy-to-new-via-iframe/pic/(.*)$ pic/$1 [L,QSA]
 
 #
 # Rewriten van .php-pagina's

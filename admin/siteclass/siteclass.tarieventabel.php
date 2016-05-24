@@ -564,7 +564,7 @@ class tarieventabel {
 			// book-button
 			$return .= "<tr><td colspan=\"5\">";
 			$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\" class=\"button tiny radius right button-book\">".html("boeknu", "toonaccommodatie")."</button>";
-			$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\" class=\"button tiny radius right button-option-request\">".html("optie-aanvragen", "toonaccommodatie")."</button>";
+			$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\" class=\"button tiny radius right button-option-request\" data-tid=\"" . $this->type_id . "\" data-url=\"/beschikbaarheid.php\">".html("optie-aanvragen", "toonaccommodatie")."</button>";
 			$return .=" </td></tr>";
 
 		} else {
