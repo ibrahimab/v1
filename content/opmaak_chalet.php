@@ -109,6 +109,12 @@ if($vars["zoekenboek_overlay_doorschuiven"]<>0) {
 if($vars["jquery_fancybox"]) {
 	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
 }
+
+# My booking new website
+if ($my_booking && ($_SERVER["USE_SYMFONY_ENV"] || $vars["lokale_testserver"])) {
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/mybooking-new-website.css?cache=".@filemtime("css/mybooking-new-website.css")."\" />\n";
+}
+
 if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
 	#
 	# Chatsysteem
