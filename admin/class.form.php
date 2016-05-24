@@ -258,6 +258,8 @@ class form2 {
 		$this->settings["add_to_filesync_table"] = false;
 		$this->settings["add_to_filesync_table_source"] = 0;
 
+		$this->settings["html5_fields"] = false;
+
 
 		// Cross-site request forgery - http://css-tricks.com/serious-form-security/
 		$this->settings["prevent_csrf"]=false;
@@ -1333,7 +1335,12 @@ class form2 {
 					$this->value[$id]=$_GET["pv_".$id];
 				}
 			}
-			$return.="<input type=\"text\" name=\"input[".$id."]\" value=\"";
+			if ($this->fields["checktype"][$id] == 'email' && $this->settings["html5_fields"]) {
+				$inputtype = 'email';
+			} else {
+				$inputtype = 'text';
+			}
+			$return.="<input type=\"" . $inputtype . "\" name=\"input[".$id."]\" value=\"";
 			if(isset($this->value[$id])) {
 				if(($this->fields["checktype"][$id]=="currency" or $this->fields["checktype"][$id]=="float")and !$this->filled) {
 					# Indien currency/float: punt in komma veranderen

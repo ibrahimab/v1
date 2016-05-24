@@ -214,6 +214,10 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 	$form->settings["layout"]["goto_aname"]="kop";
 	$form->settings["language"]=$vars["taal"];
 
+	if ($connect_legacy_new_iframe) {
+		$form->settings["html5_fields"] = true;
+	}
+
 	if(($mustlogin or $voorkant_cms) and $_GET["stap"]==4) {
 		# Submit-button bovenaan weergeven
 		$form->settings["layout"]["top_submit_button"]=true;
@@ -1186,9 +1190,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$form->field_yesno("schadeverzekering","<b>".html("ikwileenschadeverzekering","boeken")."</b>","",array("selection"=>$schadeverzekering_checkbox),"",array("title_html"=>true));
 				if(!$mustlogin) {
 					if(!$isMobile) {
-						$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=schadeverzekering')\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
+						$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small small-link-to-extra-info\"><a href=\"javascript:popwindow(650,0,'".$vars["path"]."popup.php?id=schadeverzekering')\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
 					} else {
-						$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small\"><a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=schadeverzekering\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
+						$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small small-link-to-extra-info\"><a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=schadeverzekering\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
 					}
 				}
 			}
@@ -1213,11 +1217,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			}
 			$form->field_yesno("annuleringsverzekering","<b>".html("ikwileenannuleringsverzekering","boeken")."</b>","",array("selection"=>$ann_verz_checkbox),"",array("title_html"=>true,"onclick"=>"annverz(".$gegevens["stap1"]["aantalpersonen"].",this.checked)"));
 			if(!$mustlogin) {
-#				$form->field_htmlrow("ann_toelichting",html("wanneermaareendeelvandegroep","boeken")."<p><span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
+#				$form->field_htmlrow("ann_toelichting",html("wanneermaareendeelvandegroep","boeken")."<p><span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'".$vars["path"]."popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
 				if(!$isMobile) {
-					$form->field_htmlrow("ann_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
+					$form->field_htmlrow("ann_toelichting","<span class=\"x-small small-link-to-extra-info\"><a href=\"javascript:popwindow(650,0,'".$vars["path"]."popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
 				} else {
-					$form->field_htmlrow("ann_toelichting","<span class=\"x-small\"><a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=annuleringsverzekering\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
+					$form->field_htmlrow("ann_toelichting","<span class=\"x-small small-link-to-extra-info\"><a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=annuleringsverzekering\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
 				}
 			}
 		}
@@ -1281,9 +1285,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						if($mustlogin or !$gegevens["stap_voltooid"][5] or $gegevens["stap1"]["wijzigen_toegestaan"] or $dagen_na_bevestigdatum<=3) {
 							if($optie_soort["meerinformatie"][$key] and !$mustlogin) {
 								if(!$isMobile) {
-									$veldnaam=wt_he($value)."<span class=\"x-small\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?id=opties&amp;gid=".$optie_soort["optiegroepid"][$key]."');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+									$veldnaam=wt_he($value)."<span class=\"x-small small-link-to-extra-info\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?id=opties&amp;gid=".$optie_soort["optiegroepid"][$key]."');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
 								} else {
-									$veldnaam=wt_he($value)."<span class=\"x-small\"><br><span class=\"noprint\">(<a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=opties&amp;gid=".$optie_soort["optiegroepid"][$key]."\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+									$veldnaam=wt_he($value)."<span class=\"x-small small-link-to-extra-info\"><br><span class=\"noprint\">(<a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=opties&amp;gid=".$optie_soort["optiegroepid"][$key]."\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
 								}
 							} else {
 								$veldnaam=$value;
@@ -1334,9 +1338,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						$veldnaam=html("annuleringsverzekering","boeken");
 					} else {
 						if(!$isMobile) {
-							$veldnaam=html("annuleringsverzekering","boeken")."<span class=\"x-small\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(650,0,'".$vars["path"]."popup.php?id=annuleringsverzekering');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+							$veldnaam=html("annuleringsverzekering","boeken")."<span class=\"x-small small-link-to-extra-info\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(650,0,'".$vars["path"]."popup.php?id=annuleringsverzekering');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
 						} else {
-							$veldnaam=html("annuleringsverzekering","boeken")."<span class=\"x-small\"><br><span class=\"noprint\">(<a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=annuleringsverzekering\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+							$veldnaam=html("annuleringsverzekering","boeken")."<span class=\"x-small small-link-to-extra-info\"><br><span class=\"noprint\">(<a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=annuleringsverzekering\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
 						}
 					}
 					$form->field_select(0,"annverz_".$i,$veldnaam,"",array("selection"=>$annverz_keuze),array("selection"=>$annverz_array,"empty_is_0"=>true),array("title_html"=>true));
@@ -1387,7 +1391,14 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		}
 
 		$reissomtabel=reissom_tabel($gegevens,$accinfo,array("tonen_verbergen"=>true));
-		$form->field_htmlrow("","<hr><b>".txt("samenstellingreissom","boeken")."</b><p><table class=\"table\" style=\"width:".($isMobile?"100%":"660px").";\">".$reissomtabel."</table><hr>");
+
+		if ($isMobile) {
+			$table_inline_style = 'width:100%;';
+		} elseif (!$connect_legacy_new_iframe) {
+			$table_inline_style = 'width:660px';
+		}
+
+		$form->field_htmlrow("","<hr><b>".txt("samenstellingreissom","boeken")."</b><p><table class=\"table\" style=\"".$table_inline_style."\">".$reissomtabel."</table><hr>");
 		$reissomtabel=reissom_tabel($gegevens,$accinfo);
 
 		if($gegevens["stap1"]["opmerkingen_opties"]) {
@@ -1435,7 +1446,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_yesno("akkoord",html("jaikwildezeboekingplaatsen","boeken", array("h_1" => "</label>",
 																						   "h_2" => "<label for=\"yesnoakkoord\">",
 																						   'h_3' => (in_array($vars['website'], $vars['anvr']) ? 'voorwaarden' : 'algemene voorwaarden'),
-																						   "l1" => "javascript:popwindow(600,0,'popup.php?id=" . (in_array($vars['website'], $vars['anvr']) ? 'voorwaarden' : 'algemenevoorwaarden') ."');",
+																						   "l1" => "javascript:popwindow(600,0,'".$vars["path"]."popup.php?id=" . (in_array($vars['website'], $vars['anvr']) ? 'voorwaarden' : 'algemenevoorwaarden') ."');",
 																						   "v_websitenaam" => $vars["websitenaam"])),"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
 
 		} else {
@@ -3392,6 +3403,6 @@ if(!$mustlogin and !$accinfo["tonen"]) {
 
 if($mustlogin) {
 	$layout->display_all($cms->page_title);
-} else {
+} elseif (!$connect_legacy_new_iframe) {
 	include "content/opmaak.php";
 }
