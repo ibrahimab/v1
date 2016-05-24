@@ -6,10 +6,17 @@
 
 $connect_legacy_new_iframe = true;
 
-if($_GET["calc"]) {
+$setIframeUrl = false;
+
+if ($_GET["calc"]) {
     include "../calc.php";
+} elseif($_GET["option-request"]) {
+    include "../beschikbaarheid.php";
 } else {
+
     include "../boeken.php";
+    $setIframeUrl = true;
+
 }
 
 ?><!doctype html>
@@ -41,7 +48,12 @@ if($_GET["calc"]) {
     }
 
     jQuery( document ).ready(function() {
-        window.parent.postMessage(["setIframeUrl", window.location.href ], "*");
+        <?php
+        if ($setIframeUrl) { ?>
+
+            window.parent.postMessage(["setIframeUrl", window.location.href ], "*");
+
+        <?php } ?>
     });
 
     </script>
@@ -193,7 +205,6 @@ if($_GET["calc"]) {
 
         table.table tr td:first-child {
             display: block;
-            /*background-color: red;*/
             padding-top: 5px;
             width: 100%;
         }
@@ -201,7 +212,6 @@ if($_GET["calc"]) {
         table.table tr td:nth-child(2), table.table tr td:nth-child(3), table.table tr td:nth-child(4), table.table tr td:nth-child(5), table.table tr td:nth-child(6), table.table tr td:nth-child(7), table.table tr td:nth-child(8), table.table tr td:nth-child(9), table.table tr td:nth-child(10), table.table tr td:nth-child(11) {
             display: inline-block;
             padding-bottom: 5px;
-            /*background-color: yellow;*/
         }
 
         .small-link-to-extra-info {
@@ -216,8 +226,10 @@ if($_GET["calc"]) {
 
     <?php
 
-    if($_GET["calc"]) {
+    if ($_GET["calc"]) {
         include "../content/calc.html";
+    } elseif($_GET["option-request"]) {
+        include "../content/beschikbaarheid.html";
     } else {
         include "../content/boeken.html";
     }

@@ -5014,13 +5014,13 @@ $txt["nl"]["beschikbaarheid"]["zsmcontroleren"]="Wij zullen je aanvraag zo spoed
 $txt["de"]["beschikbaarheid"]["zsmcontroleren"]="Wir werden Ihre Anfrage schnellstmöglich kontrollieren und Sie informieren ob die Unterkunft noch Verfügbar ist.";
 $txt["en"]["beschikbaarheid"]["zsmcontroleren"]="We will deal with your request as soon as possible and let you know if the accommodation is still available.";
 
-$txt["nl"]["beschikbaarheid"]["mochtunogvragenhebben"]="Als je nog vragen hebt, dan kun je altijd [[l1]]contact[[/l1]] met ons opnemen.";
-$txt["de"]["beschikbaarheid"]["mochtunogvragenhebben"]="Falls Sie noch fragen haben können sie uns jederzeit [[l1]]kontaktieren[[/l1]]";
-$txt["en"]["beschikbaarheid"]["mochtunogvragenhebben"]="If you any other questions, please [[l1]]contact[[/l1]] us.";
+$txt["nl"]["beschikbaarheid"]["mochtunogvragenhebben"]="Als je nog vragen hebt, dan kun je altijd [[h_1]]contact[[h_2]] met ons opnemen.";
+$txt["de"]["beschikbaarheid"]["mochtunogvragenhebben"]="Falls Sie noch fragen haben können sie uns jederzeit [[h_1]]kontaktieren[[h_2]]";
+$txt["en"]["beschikbaarheid"]["mochtunogvragenhebben"]="If you any other questions, please [[h_1]]contact[[h_2]] us.";
 
-$txt["nl"]["beschikbaarheid"]["terugnaardeaccommodatiegegevens"]="Terug naar de accommodatiegegevens.";
-$txt["de"]["beschikbaarheid"]["terugnaardeaccommodatiegegevens"]="Zurück zu den Unterkunftsdaten ";
-$txt["en"]["beschikbaarheid"]["terugnaardeaccommodatiegegevens"]="Back to the accommodation data.";
+$txt["nl"]["beschikbaarheid"]["terugnaardeaccommodatiegegevens"]="Terug naar de accommodatiegegevens";
+$txt["de"]["beschikbaarheid"]["terugnaardeaccommodatiegegevens"]="Zurück zu den Unterkunftsdaten";
+$txt["en"]["beschikbaarheid"]["terugnaardeaccommodatiegegevens"]="Back to the accommodation data";
 
 #
 # Pagina accommodatie boeken (bijvoorbeeld https://www.chalet.nl/boeken.php?tid=225)
