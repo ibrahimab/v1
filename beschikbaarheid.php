@@ -36,6 +36,10 @@ if($_GET["o"]) {
 	$obl=1;
 }
 
+if ($connect_legacy_new_iframe) {
+	$form->settings["html5_fields"] = true;
+}
+
 # _field: (obl),id,title,db,prevalue,options,layout
 
 $accinfo=accinfo($_GET["tid"]);
