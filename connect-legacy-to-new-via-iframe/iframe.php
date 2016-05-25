@@ -15,17 +15,23 @@ $iframe_files = [
     'book' => 'boeken',
 ];
 
-if ($iframe_files[$_GET['iframe']]) {
+$iframe_type = $_GET['iframe'];
 
-    include '../' . $iframe_files[$_GET['iframe']] . '.php';
+if (!$iframe_type) {
+    $iframe_type = 'book';
+}
 
-    if (in_array($_GET['iframe'], ['book'])) {
+if ($iframe_files[$iframe_type]) {
+
+    include '../' . $iframe_files[$iframe_type] . '.php';
+
+    if (in_array($iframe_type, ['book'])) {
         $setIframeUrl = true;
     }
 
 } else {
     echo 'error';
-    trigger_error('iframe file ' . $_GET['iframe'] . ' not found', E_USER_NOTICE);
+    trigger_error('iframe file ' . $iframe_type . ' not found', E_USER_NOTICE);
     exit;
 }
 
@@ -242,11 +248,11 @@ if ($iframe_files[$_GET['iframe']]) {
     </style>
 
   </head>
-  <body onLoad="resize();" onresize="resize();" class="iframe-<?php echo wt_he($_GET['iframe']); ?>">
+  <body onLoad="resize();" onresize="resize();" class="iframe-<?php echo wt_he($iframe_type); ?>">
 
     <?php
 
-    include '../content/' . $iframe_files[$_GET['iframe']] . '.html';
+    include '../content/' . $iframe_files[$iframe_type] . '.html';
 
     ?>
 
