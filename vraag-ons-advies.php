@@ -19,6 +19,9 @@ $form->settings["language"]=$vars["taal"];
 # Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 $form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
 
+if ($connect_legacy_new_iframe) {
+	$form->settings["html5_fields"] = true;
+}
 
 #_field: (obl),id,title,db,prevalue,options,layout
 if($vars["seizoentype"]==2) {
@@ -60,7 +63,20 @@ for($i=1;$i<=40;$i++) {
 $vars["soortaccommodatie_keuzes"]=array(1=>txt("soortaccommodatie_1","vraagonsadvies"),2=>txt("soortaccommodatie_2","vraagonsadvies"),3=>txt("soortaccommodatie_3","vraagonsadvies"),4=>txt("soortaccommodatie_4","vraagonsadvies"),5=>txt("soortaccommodatie_5","vraagonsadvies"),6=>txt("soortaccommodatie_6","vraagonsadvies"));
 
 if(!$isMobile) {
-	$form->field_htmlrow("","<div style=\"width:650px;margin-bottom:15px;\"><b><i>".html("forminleiding","vraagonsadvies")."</i></b></div>");
+
+	if ($connect_legacy_new_iframe) {
+
+		$inline_style_width = '';
+		$inline_style_info  = '';
+
+	} else {
+
+		$inline_style_width = 'width:650px;';
+		$inline_style_info  = 'width:480px;';
+
+	}
+
+	$form->field_htmlrow("","<div style=\"" . $inline_style_width . "margin-bottom:15px;\"><b><i>".html("forminleiding","vraagonsadvies")."</i></b></div>");
 	$form->field_text(0,"bestemming",txt("bestemming","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:4px;font-size:0.8em;\">".html("bestemming_uitleg","vraagonsadvies")."</div>"));
 	if($vars["seizoentype"]==2) {
 	$form->field_select(0,"verblijfsduur",txt("verblijfsduur","vraagonsadvies"),"","",array("selection"=>$vars["verblijfsduur"],"optgroup"=>array("1"=>txt("aantalweken"),"3n"=>txt("aantalnachten"))));
@@ -68,7 +84,7 @@ if(!$isMobile) {
 		$form->field_select(0,"verblijfsduur",txt("verblijfsduur","vraagonsadvies"),"","",array("selection"=>$vars["verblijfsduur"]));
 	}
 	#$form->field_htmlcol("","&nbsp;",array("html"=>"<i>".html("verblijf_tussen_uitleg","vraagonsadvies")."</i></b></div>"),"",array("title_html"=>true));
-	$form->field_htmlrow("","<div style=\"width:650px;\"><i>".html("verblijf_tussen_uitleg","vraagonsadvies")."</i></div>");
+	$form->field_htmlrow("","<div style=\"" . $inline_style_width . "\"><i>".html("verblijf_tussen_uitleg","vraagonsadvies")."</i></div>");
 	$form->field_date(0,"verblijf_tussen_van",txt("verblijf_tussen_van","vraagonsadvies"),"","",array("startyear"=>date("Y"),"endyear"=>date("Y")+1),array("calendar"=>true));
 	$form->field_date(0,"verblijf_tussen_tot",txt("verblijf_tussen_tot","vraagonsadvies"),"","",array("startyear"=>date("Y"),"endyear"=>date("Y")+1),array("calendar"=>true));
 	$form->field_select(0,"aantalvolwassenen",txt("aantalvolwassenen","vraagonsadvies"),"","",array("selection"=>$vars["aantalvolwassenen"]));
@@ -82,11 +98,11 @@ if(!$isMobile) {
 	if($vars["seizoentype"]==2) {
 		$form->field_select(0,"budgetindicatie",txt("budgetindicatie","vraagonsadvies"),"","",array("selection"=>$vars["budgetindicatie_keuzes"]));
 	} else {
-		$form->field_select(0,"budgetindicatie",txt("budgetindicatie","vraagonsadvies"),"","",array("selection"=>$vars["budgetindicatie_keuzes"]),array("add_html_after_title"=>"<div style=\"margin-top:4px;font-size:0.8em;\">(".html("inclusiefskipas","vraagonsadvies").")</div>"));
+		$form->field_select(0,"budgetindicatie",txt("budgetindicatie","vraagonsadvies"),"","",array("selection"=>$vars["budgetindicatie_keuzes"]),array("add_html_after_title"=>"<div style=\"margin-top:4px;font-size:0.8em;\">(".html("huurprijs-accommodatie","vraagonsadvies").")</div>"));
 	}
-	$form->field_textarea(0,"toelichting",txt("toelichting","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:2px;margin-bottom:3px;font-size:0.8em;width:480px;\">".html("toelichting_uitleg","vraagonsadvies")."</div>"));
-	$form->field_text(0,"naam",txt("naam","vraagonsadvies"));
-	$form->field_email(1,"email",txt("emailadres","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:4px;font-size:0.8em;width:480px;\">".html("ditmailadreszalniet","vraagonsadvies")."</div>"));
+	$form->field_textarea(0,"toelichting",txt("toelichting","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:2px;margin-bottom:3px;font-size:0.8em;" . $inline_style_info . "\">".html("toelichting_uitleg","vraagonsadvies")."</div>"));
+	$form->field_text(1,"naam",txt("naam","vraagonsadvies"));
+	$form->field_email(1,"email",txt("emailadres","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:4px;font-size:0.8em;" . $inline_style_info . "\">".html("ditmailadreszalniet","vraagonsadvies")."</div>"));
 	$form->field_text(0,"telefoonnummer",txt("telefoonnummer","vraagonsadvies"),"","","",array("add_html_after_title"=>"<div style=\"margin-top:4px;font-size:0.8em;\">(".html("indiengewenst","vraagonsadvies").")</div>"));
 } else {
 	// Mobile form
@@ -191,6 +207,6 @@ if($form->okay) {
 }
 $form->end_declaration();
 
-include "content/opmaak.php";
-
-?>
+if (!$connect_legacy_new_iframe) {
+	include "content/opmaak.php";
+}

@@ -8,15 +8,25 @@ $connect_legacy_new_iframe = true;
 
 $setIframeUrl = false;
 
-if ($_GET["calc"]) {
-    include "../calc.php";
-} elseif($_GET["option-request"]) {
-    include "../beschikbaarheid.php";
+$iframe_files = [
+    'calc' => 'calc',
+    'option-request' => 'beschikbaarheid',
+    'ask-our-advice' => 'vraag-ons-advies',
+    'book' => 'boeken',
+];
+
+if ($iframe_files[$_GET['iframe']]) {
+
+    include '../' . $iframe_files[$_GET['iframe']] . '.php';
+
+    if (in_array($_GET['iframe'], ['book'])) {
+        $setIframeUrl = true;
+    }
+
 } else {
-
-    include "../boeken.php";
-    $setIframeUrl = true;
-
+    echo 'error';
+    trigger_error('iframe file ' . $_GET['iframe'] . ' not found', E_USER_NOTICE);
+    exit;
 }
 
 ?><!doctype html>
@@ -106,6 +116,12 @@ if ($_GET["calc"]) {
         font-weight: 300;
         margin: 0;
         padding: 0;
+    }
+
+    .wtform_input {
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 300;
     }
 
     body {
@@ -217,22 +233,20 @@ if ($_GET["calc"]) {
         .small-link-to-extra-info {
             display: none;
         }
+
+        body.iframe-ask-our-advice .wtform_calendar_img {
+            display: none;
+        }
     }
 
     </style>
 
   </head>
-  <body onLoad="resize();" onresize="resize();">
+  <body onLoad="resize();" onresize="resize();" class="iframe-<?php echo wt_he($_GET['iframe']); ?>">
 
     <?php
 
-    if ($_GET["calc"]) {
-        include "../content/calc.html";
-    } elseif($_GET["option-request"]) {
-        include "../content/beschikbaarheid.html";
-    } else {
-        include "../content/boeken.html";
-    }
+    include '../content/' . $iframe_files[$_GET['iframe']] . '.html';
 
     ?>
 

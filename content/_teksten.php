@@ -7921,7 +7921,7 @@ $txt["nl"]["vraagonsadvies"]["verblijfsduur"]="Verblijfsduur";
 $txt["de"]["vraagonsadvies"]["verblijfsduur"]="Aufenthaltsdauer";
 $txt["en"]["vraagonsadvies"]["verblijfsduur"]="Length of stay";
 
-$txt["nl"]["vraagonsadvies"]["verblijf_tussen_uitleg"]="Vul hieronder de gewenste aankomst- en vertrekdata in of geef de periode aan waarbinnen je vakantie plaats kan vinden.";
+$txt["nl"]["vraagonsadvies"]["verblijf_tussen_uitleg"]="Vul hieronder de gewenste aankomst- en vertrekdata in of geef de periode aan waarin je vakantie plaats kan vinden.";
 $txt["de"]["vraagonsadvies"]["verblijf_tussen_uitleg"]="Bitte geben Sie unten die gewünschten Ankunfts- und Abreisedaten ein oder den Zeitraum, in dem der Urlaub stattfinden soll.";
 $txt["en"]["vraagonsadvies"]["verblijf_tussen_uitleg"]="Fill in the preferred arrival- and departure dates below or inform us about the period in which your holiday can take place.";
 
@@ -8003,9 +8003,12 @@ $txt["nl"]["vraagonsadvies"]["budgetindicatie"]="Budgetindicatie";
 $txt["de"]["vraagonsadvies"]["budgetindicatie"]="Geschätztes Reisebudget";
 $txt["en"]["vraagonsadvies"]["budgetindicatie"]="Budget indication";
 
-$txt["nl"]["vraagonsadvies"]["inclusiefskipas"]="inclusief skipas";
-$txt["de"]["vraagonsadvies"]["inclusiefskipas"]="Skipass inklusive";
-$txt["en"]["vraagonsadvies"]["inclusiefskipas"]="including ski lift pass";
+$txt["nl"]["vraagonsadvies"]["huurprijs-accommodatie"]="huurprijs accommodatie";
+$txt["de"]["vraagonsadvies"]["huurprijs-accommodatie"]="Skipass inklusive";
+$txt["en"]["vraagonsadvies"]["huurprijs-accommodatie"]="including ski lift pass";
+
+$nieuwe_vertaling["de"]["vraagonsadvies"]["huurprijs-accommodatie"]=true;
+$nieuwe_vertaling["en"]["vraagonsadvies"]["huurprijs-accommodatie"]=true;
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_1"]="geen";
 $txt["de"]["vraagonsadvies"]["budgetindicatie_1"]="Keines";
@@ -8043,9 +8046,16 @@ $txt["nl"]["vraagonsadvies"]["toelichting"]="Toelichting op je reiswensen";
 $txt["de"]["vraagonsadvies"]["toelichting"]="Erläuterung Ihrer Reisewünsche";
 $txt["en"]["vraagonsadvies"]["toelichting"]="Explanation about your holiday wishes";
 
-$txt["nl"]["vraagonsadvies"]["toelichting_uitleg"]="Bijvoorbeeld: faciliteiten en voorkeuren";
+$txt["nl"]["vraagonsadvies"]["toelichting_uitleg"]="Bijvoorbeeld: faciliteiten, ligging, aantal km piste en overige wensen";
 $txt["de"]["vraagonsadvies"]["toelichting_uitleg"]="Zum Beispiel: Annehmlichkeiten und Präferenzen";
 $txt["en"]["vraagonsadvies"]["toelichting_uitleg"]="For example: facilities and preferences";
+
+$nieuwe_vertaling["de"]["vraagonsadvies"]["toelichting_uitleg"]=true;
+$nieuwe_vertaling["en"]["vraagonsadvies"]["toelichting_uitleg"]=true;
+
+$txt["nl_z"]["vraagonsadvies"]["toelichting_uitleg"]="Bijvoorbeeld: faciliteiten en voorkeuren";
+$txt["de_z"]["vraagonsadvies"]["toelichting_uitleg"]="Zum Beispiel: Annehmlichkeiten und Präferenzen";
+$txt["en_z"]["vraagonsadvies"]["toelichting_uitleg"]="For example: facilities and preferences";
 
 $txt["nl"]["vraagonsadvies"]["naam"]="Naam";
 $txt["de"]["vraagonsadvies"]["naam"]="Name";
