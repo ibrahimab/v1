@@ -1,5 +1,7 @@
 <?php
 
+$my_booking = true;
+
 include("admin/vars.php");
 
 $robot_noindex=true;

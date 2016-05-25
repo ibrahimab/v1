@@ -1,5 +1,6 @@
 <?php
 
+$my_booking = true;
 $boeking_wijzigen=true;
 $vars["verberg_zoekenboeklinks"]=true;
 $vars["verberg_directnaar"]=true;
@@ -37,5 +38,3 @@ if(!$_GET) {
 }
 
 include "content/opmaak.php";
-
-?>

@@ -1,6 +1,6 @@
 <?php
 
-
+$my_booking = true;
 $boeking_wijzigen=true;
 $robot_noindex=true;
 $vars["verberg_lastacc"]=true;

@@ -1,0 +1,37 @@
+
+
+#hoofdmenu {
+    visibility: hidden;
+}
+
+#submenu {
+    visibility: hidden;
+}
+
+#footerWrap {
+    visibility: hidden;
+}
+
+#directnaar {
+    display: none;
+}
+
+#zoekenboek_overlay {
+    display: none;
+}
+
+#breadcrumb_wrapper {
+    visibility: hidden;
+}
+
+#kleinelogos {
+    visibility: hidden;
+}
+
+#laatstbekeken {
+    display: none;
+}
+
+a.zoover_awards {
+    visibility: hidden;
+}
