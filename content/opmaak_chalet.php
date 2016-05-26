@@ -338,10 +338,6 @@ if($vars["docdata_payments"]) {
 	}
 }
 
-if ($vars['website'] === 'D') {
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#a7.9\" class=\"reisegarantlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/reise_garant_hoofdmenu.png\" height=\"27\" alt=\"Reisegarant\" /></a>";
-}
-
 echo "</div><!-- END #kleinelogos -->\n";
 echo "</div><!--END #hoofdmenubalk-->\n";
 echo "</div>\n";

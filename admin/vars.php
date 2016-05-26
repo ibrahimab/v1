@@ -305,7 +305,7 @@ $vars["unixdir"]=$unixdir;
  */
 $vars['anvr']   = ['C', 'T', 'B', 'V', 'X', 'Z', 'I', 'K'];
 $vars['sgr_c']  = ['C', 'T', 'V', 'X', 'Z', 'I'];
-$vars['sgr']    = ['E', 'Q', 'H', 'B', 'K'];
+$vars['sgr']    = ['E', 'Q', 'H', 'B', 'K', 'D'];
 $vars['zoover'] = ['C', 'B', 'I', 'K'];
 
 /*
