@@ -8004,11 +8004,8 @@ $txt["de"]["vraagonsadvies"]["budgetindicatie"]="Geschätztes Reisebudget";
 $txt["en"]["vraagonsadvies"]["budgetindicatie"]="Budget indication";
 
 $txt["nl"]["vraagonsadvies"]["huurprijs-accommodatie"]="huurprijs accommodatie";
-$txt["de"]["vraagonsadvies"]["huurprijs-accommodatie"]="Skipass inklusive";
-$txt["en"]["vraagonsadvies"]["huurprijs-accommodatie"]="including ski lift pass";
-
-$nieuwe_vertaling["de"]["vraagonsadvies"]["huurprijs-accommodatie"]=true;
-$nieuwe_vertaling["en"]["vraagonsadvies"]["huurprijs-accommodatie"]=true;
+$txt["de"]["vraagonsadvies"]["huurprijs-accommodatie"]="Mietpreis Unterkunft";
+$txt["en"]["vraagonsadvies"]["huurprijs-accommodatie"]="rental price accommodation";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_1"]="geen";
 $txt["de"]["vraagonsadvies"]["budgetindicatie_1"]="Keines";
@@ -8047,11 +8044,8 @@ $txt["de"]["vraagonsadvies"]["toelichting"]="Erläuterung Ihrer Reisewünsche";
 $txt["en"]["vraagonsadvies"]["toelichting"]="Explanation about your holiday wishes";
 
 $txt["nl"]["vraagonsadvies"]["toelichting_uitleg"]="Bijvoorbeeld: faciliteiten, ligging, aantal km piste en overige wensen";
-$txt["de"]["vraagonsadvies"]["toelichting_uitleg"]="Zum Beispiel: Annehmlichkeiten und Präferenzen";
-$txt["en"]["vraagonsadvies"]["toelichting_uitleg"]="For example: facilities and preferences";
-
-$nieuwe_vertaling["de"]["vraagonsadvies"]["toelichting_uitleg"]=true;
-$nieuwe_vertaling["en"]["vraagonsadvies"]["toelichting_uitleg"]=true;
+$txt["de"]["vraagonsadvies"]["toelichting_uitleg"]="Zum Beispiel: Leistungen, Lage, Anzahl Kilometer Pisten und übrige Wünsche";
+$txt["en"]["vraagonsadvies"]["toelichting_uitleg"]="For example: facilities, location, number of ski slopes and preferences";
 
 $txt["nl_z"]["vraagonsadvies"]["toelichting_uitleg"]="Bijvoorbeeld: faciliteiten en voorkeuren";
 $txt["de_z"]["vraagonsadvies"]["toelichting_uitleg"]="Zum Beispiel: Annehmlichkeiten und Präferenzen";
