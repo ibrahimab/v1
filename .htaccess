@@ -292,7 +292,7 @@ RewriteRule .* - [E=USE_SYMFONY_ENV:app_stag]
 # production
 RewriteCond %{HTTP_HOST} ^www\.chalet\.nl [NC]
 RewriteCond %{HTTP_USER_AGENT} "938JKDJH773991" [NC]
-RewriteCond %{REMOTE_ADDR} ^(213\.125\.152\.154|31\.223\.173\.113|87\.214\.228\.200|37\.34\.56\.191)$
+RewriteCond %{REMOTE_ADDR} ^(213\.125\.152\.154|31\.223\.173\.113|87\.214\.228\.200|37\.34\.56\.191|62\.194\.208\.250)$
 RewriteRule .* - [E=USE_SYMFONY_ENV:app]
 
 # Symfony
