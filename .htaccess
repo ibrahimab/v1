@@ -435,8 +435,8 @@ RewriteRule ^vraag-ons-advies\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA
 RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
 RewriteRule ^wie-zijn-wij\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
 
-
-
+RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
+RewriteRule ^zoover-awards$ /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
 
 
 # Oude seizoenspagina doorsturen naar nieuw seizoen
@@ -722,21 +722,11 @@ RewriteRule ^interview$ interview.php
 #
 # Zoover Awards
 #
-RewriteCond %{HTTP_HOST} !italissima [NC]
-RewriteRule ^zooverawards2015 /zoover-awards-2016 [L,R=301]
+RewriteRule ^zooverawards201[5-6] /zoover-awards [L,R=301]
 
-RewriteCond %{HTTP_HOST} !italissima [NC]
-RewriteRule ^zooverawards2016 /zoover-awards-2016 [L,R=301]
-
-RewriteCond %{HTTP_HOST} italissima [NC]
-RewriteRule ^zooverawards2016 /zoover-awards-2015 [L,R=301]
-
-RewriteCond %{HTTP_HOST} italissima [NC]
-RewriteRule ^zooverawards2015 /zoover-awards-2015 [L,R=301]
-
-RewriteRule ^zoover/?$ /zoover-awards-2016 [L,R=301]
-RewriteRule ^zooverawards2016/$ /zoover-awards-2016 [L,R=301]
-RewriteRule ^zoover-awards-201[5-6]$ zoover-awards.php?%{QUERY_STRING}
+RewriteRule ^zoover/?$ /zoover-awards [L,R=301]
+RewriteRule ^zooverawards2016/$ /zoover-awards [L,R=301]
+RewriteRule ^zoover-awards$ zoover-awards.php?%{QUERY_STRING}
 
 
 #
