@@ -415,7 +415,7 @@ RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
 RewriteRule ^blog /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
 
 RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
-RewriteRule ^veel-gestelde-vragen /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
+RewriteRule ^veelgestelde-vragen /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
 
 RewriteCond %{ENV:USE_SYMFONY_ENV} !=""
 RewriteRule ^algemenevoorwaarden\.php /version2/web/%{ENV:USE_SYMFONY_ENV}.php [QSA,L]
