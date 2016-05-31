@@ -723,9 +723,9 @@ RewriteRule ^interview$ interview.php
 # Zoover Awards
 #
 RewriteRule ^zooverawards201[5-6] /zoover-awards [L,R=301]
+RewriteRule ^zoover-awards-201[5-6] /zoover-awards [L,R=301]
 
 RewriteRule ^zoover/?$ /zoover-awards [L,R=301]
-RewriteRule ^zooverawards2016/$ /zoover-awards [L,R=301]
 RewriteRule ^zoover-awards$ zoover-awards.php?%{QUERY_STRING}
 
 
