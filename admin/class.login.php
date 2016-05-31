@@ -151,7 +151,6 @@ class Login {
 
 			if(!isset($this->settings["font"]["size"])) $this->settings["font"]["size"]="2";
 			if(!isset($this->settings["cookie"]["timeinminutes"])) $this->settings["cookie"]["timeinminutes"]="525600";
-			if (!isset($this->settings['cookies']['domain'])) $this->settings['cookie']['domain'] = '';
 
 			// Indien rememberpassword=false: altijd cookies wissen
 			if(!$this->settings["settings"]["rememberpassword"] and ($_COOKIE["loginuser"][$this->settings["name"]] or $_COOKIE["loginsessionid"][$this->settings["name"]])) {
@@ -475,10 +474,10 @@ class Login {
 	function delete_all_cookies() {
 		// Cookie wissen
 		if(floatval(phpversion())>5.2) {
-			setcookie("loginuser[".$this->settings["name"]."]","",time()-864000,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
+			setcookie("loginuser[".$this->settings["name"]."]","",time()-864000,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
 			setcookie("loginsessionid[".$this->settings["name"]."]","",time()-864000,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
 		} else {
-			setcookie("loginuser[".$this->settings["name"]."]","",time()-864000,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"]);
+			setcookie("loginuser[".$this->settings["name"]."]","",time()-864000,"/","",$this->settings["cookies"]["secure"]);
 			setcookie("loginsessionid[".$this->settings["name"]."]","",time()-864000,"/","",$this->settings["cookies"]["secure"]);
 		}
 		setcookie("lin[".$this->settings["name"]."]","",time()-864000,"/");
@@ -641,13 +640,12 @@ class Login {
 		} else {
 			$time=0;
 		}
-
 		if(floatval(phpversion())>5.2) {
-			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
-			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
+			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
+			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
 		} else {
-			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"]);
-			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"]);
+			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/","",$this->settings["cookies"]["secure"]);
+			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"]);
 		}
 		// willekeurige waardie die (ook zonder https) aangeeft dat iemand is ingelogd
 		setcookie("lin[".$this->settings["name"]."]","dl0j82",$time,"/");
@@ -795,11 +793,11 @@ class Login {
 									}
 								}
 								if(floatval(phpversion())>5.2) {
-									setcookie("loginuser[".$this->settings["name"]."]",$temp_userid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
-									setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
+									setcookie("loginuser[".$this->settings["name"]."]",$temp_userid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
+									setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
 								} else {
-									setcookie("loginuser[".$this->settings["name"]."]",$temp_userid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"]);
-									setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/",$this->settings['cookies']['domain'],$this->settings["cookies"]["secure"]);
+									setcookie("loginuser[".$this->settings["name"]."]",$temp_userid,$time,"/","",$this->settings["cookies"]["secure"]);
+									setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"]);
 								}
 								// willekeurige waardie die (ook zonder https) aangeeft dat iemand is ingelogd
 								setcookie("lin[".$this->settings["name"]."]","dl0j82",$time,"/");
