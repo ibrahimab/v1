@@ -93,6 +93,8 @@ if($mustlogin) {
 	$login->settings["name"]="chalet";
 	$login->settings["language"]="nl";
 	$login->settings["mailpassword_attempt"]=false;
+	$login->settings["log_wronglogin"] = true;
+	$login->settings["loginpogingen"] = 10;
 	$login->settings["sysop"]="<a href=\"http://www.webtastic.nl/6.html\">WebTastic</a>";
 	$login->settings["recheck_userdata"]=true;
 	$login->settings["save_user_agent"]=true;

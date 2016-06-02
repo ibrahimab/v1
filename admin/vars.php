@@ -1379,6 +1379,7 @@ if($boeking_wijzigen) {
 		$login->settings["name"]="chalet";
 		$login->settings["language"]="nl";
 		$login->settings["mailpassword_attempt"]=false;
+		$login->settings["log_wronglogin"]=true;
 		$login->settings["sysop"]="<a href=\"http://www.webtastic.nl/6.html\">WebTastic</a>";
 		$login->settings["save_user_agent"]=true;
 		$login->settings["salt"]=$vars["salt"];

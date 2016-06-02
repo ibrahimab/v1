@@ -3,6 +3,9 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+02-jun-2016 20:26
+ALTER TABLE `user` ADD `wronglogin_log` TEXT NULL DEFAULT NULL ;
+
 03-may-2016 13:55
 ALTER TABLE `diverse_instellingen` ADD `winter_no_price_show_unavailable` TINYINT NOT NULL DEFAULT '0' AFTER `zomer_toon_tarievenlink_seizoen_id`, ADD `summer_no_price_show_unavailable` TINYINT NOT NULL DEFAULT '0' AFTER `winter_no_price_show_unavailable`;
 
