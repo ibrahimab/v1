@@ -160,5 +160,3 @@ if($_GET["cmssearch"]) {
 }
 
 $layout->display_all();
-
-?>

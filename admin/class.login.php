@@ -51,6 +51,7 @@ class Login {
 			if(!isset($this->settings["loginblocktime"])) $this->settings["loginblocktime"]=900; // 15 minutes blocked after 6 incorrect attempts
 			if(!isset($this->settings["username_type"])) $this->settings["username_type"]="text"; // <input type=""> : text of email
 			if(!isset($this->settings["uniqueid_ip_validtime"])) $this->settings["uniqueid_ip_validtime"]=86400*365; // login is 1 jaar geldig
+			if(!isset($this->settings["log_wronglogin"])) $this->settings["log_wronglogin"]=false; // log false login attempts to database-field wronglogin_log
 
 			if(!isset($this->settings["loginform_nobr"])) $this->settings["loginform_nobr"]=false;
 			if(!isset($this->settings["settings"]["rememberpassword"])) $this->settings["settings"]["rememberpassword"]=true;
@@ -450,25 +451,44 @@ class Login {
 	}
 
 	function wronglogin($userid) {
-		$db=new DB_sql;
-		$db->query("SELECT ".$this->settings["db"]["fielduserid"].", wrongtime, wronghost, wrongcount FROM ".$this->settings["db"]["tablename"]." WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($userid)."';");
-		if($db->next_record()) {
-			if(!eregi($_SERVER["REMOTE_ADDR"],$db->f("wronghost"))) $wronghost=", wronghost='".addslashes($_SERVER["REMOTE_ADDR"])."\n".addslashes($db->f("wronghost"))."'";
-			if($db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {
-				$wrongcount=$db->f("wrongcount")+1;
-				if($wrongcount>($this->settings["loginpogingen"]+1)) {
-					$wrongtime=$db->f("wrongtime");
+
+		if (!$this->wronglogin_saved) {
+
+			$db=new DB_sql;
+			$db->query("SELECT ".$this->settings["db"]["fielduserid"].", wrongtime, wronghost, wrongcount". ($this->settings["log_wronglogin"] ? ", wronglogin_log" : "")." FROM ".$this->settings["db"]["tablename"]." WHERE ".$this->settings["db"]["fielduserid"]."='".intval($userid)."';");
+			if ($db->next_record()) {
+				if(!eregi($_SERVER["REMOTE_ADDR"],$db->f("wronghost"))) $wronghost=", wronghost='".addslashes($_SERVER["REMOTE_ADDR"])."\n".addslashes($db->f("wronghost"))."'";
+				if($db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {
+					$wrongcount=$db->f("wrongcount")+1;
+					if($wrongcount>($this->settings["loginpogingen"]+1)) {
+						$wrongtime=$db->f("wrongtime");
+					} else {
+						$wrongtime=time();
+					}
 				} else {
+					$wrongcount=1;
 					$wrongtime=time();
 				}
-			} else {
-				$wrongcount=1;
-				$wrongtime=time();
+
+				if ($this->settings["log_wronglogin"]) {
+
+					$new_text = date("r") . " " . $_SERVER["REMOTE_ADDR"] . " " . $_SERVER["HTTP_USER_AGENT"] . " " . 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+					$wronglogin_log_insert = ", wronglogin_log='" . addslashes(trim($new_text) . "\n" . trim($db->f('wronglogin_log'))) . "'";
+				}
+
+
+				$db->query("UPDATE ".$this->settings["db"]["tablename"]." SET wrongtime='".addslashes($wrongtime)."'".$wronghost.", wrongcount='".addslashes($wrongcount)."'" . $wronglogin_log_insert . " WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($db->f($this->settings["db"]["fielduserid"]))."';");
+
+				$this->wronglogin_saved = true;
+
 			}
-			$db->query("UPDATE ".$this->settings["db"]["tablename"]." SET wrongtime='".addslashes($wrongtime)."'".$wronghost.", wrongcount='".addslashes($wrongcount)."' WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($db->f($this->settings["db"]["fielduserid"]))."';");
+
+			// Alle cookies wissen
+			$this->delete_all_cookies();
+
 		}
-		// Alle cookies wissen
-		$this->delete_all_cookies();
+
 	}
 
 	function delete_all_cookies() {
@@ -852,18 +872,10 @@ class Login {
 							}
 						} else {
 							// Cookie klopt niet
-							if($_COOKIE["loginsessionid"][$this->settings["name"]]) {
-								$this->wronglogin($db->f("user_id"));
-								$wrongcount=$db->f("wrongcount")+1;
+							if ($_COOKIE["loginsessionid"][$this->settings["name"]]) {
 
-								// wt_mail("jeroen@webtastic.nl","Loginclass ".$this->settings["name"]." - ".$db->f($this->settings["db"]["fieldusername"]),"loginsessionid-cookie: ===".$_COOKIE["loginsessionid"][$this->settings["name"]]."===\nuniqueid-database: ===".$uniqueid."===\n\n".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-
-								if($wrongcount>$this->settings["loginpogingen"] and $db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {
-									// Mailtje sturen
-									// $foutloginmail="Account ".$db->f($this->settings["db"]["fieldusername"])." tijdelijk geblokeerd (tot ".date("d-m-Y, H:i",($db->f("wrongtime")+$this->settings["loginblocktime"]))." uur)\nsession\n";
-									// $foutloginmail.="loginsessionid: ===".$_COOKIE["loginsessionid"][$this->settings["name"]]."===";
-									// $this->sendmail($foutloginmail);
-									// $this->errormessage=ereg_replace("blocktime=","blocktime=".($db->f("wrongtime")+$this->settings["loginblocktime"]),$this->settings["message"]["wronglogintemp"]);
+								if (!preg_match("@json\.php@", $_SERVER["SCRIPT_FILENAME"])) {
+									$this->wronglogin($db->f("user_id"));
 								}
 							}
 						}
@@ -930,8 +942,13 @@ class Login {
 				// Nog niet ingelogd? Ga naar loginpagina
 				if(!$this->settings["checkloginpage"]) $this->settings["checkloginpage"]=$this->settings["loginpage"];
 				if($this->settings["mustlogin"] and $this->settings["loginpage"] and !ereg($this->settings["checkloginpage"]."$",$_SERVER["PHP_SELF"])) {
-					$_SESSION["LOGIN"][$this->settings["name"]]["comefromurl"]=$this->currenturl();
-					$this->reload($this->settings["loginpage"]);
+
+					if (!$_GET["keep_session_alive"] && !$GLOBALS["rpc_json"] && !preg_match("@rpc_json\.php@", $_SERVER["REQUEST_URI"]) && !preg_match("@wtjson\.php@", $_SERVER["REQUEST_URI"])) {
+
+						$_SESSION["LOGIN"][$this->settings["name"]]["comefromurl"]=$this->currenturl();
+						$this->reload($this->settings["loginpage"]);
+
+					}
 				}
 			}
 		}
