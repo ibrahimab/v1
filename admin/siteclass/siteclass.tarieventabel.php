@@ -1159,7 +1159,7 @@ class tarieventabel {
 	{
 
 		// regel met maanden
-		$return.="<tr class=\"tarieventabel_maanden\">";
+		$return.="<tr class=\"tarieventabel_maanden tarieventabel_maanden_" . $data_counter . "\">";
 		$kolomteller=0;
 		foreach ($this->maand as $key => $value) {
 			$kolomteller++;
@@ -2288,6 +2288,3 @@ class tarieventabel {
 		return $return;
 	}
 }
-
-
-?>

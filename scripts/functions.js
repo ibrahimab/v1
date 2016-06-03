@@ -2481,7 +2481,7 @@ $(document).ready(function() {
 					var eindpos = 0;
 					var nieuwpos = 0;
 					var maxpos = 0;
-					$(".tarieventabel_maanden td").each(function() {
+					$(".tarieventabel_maanden_1 td").each(function() {
 						if($(this).data("maand-kolom")) {
 
 							eindpos=parseInt($(this).data("maand-kolom"))*67;
@@ -2492,7 +2492,7 @@ $(document).ready(function() {
 									nieuwpos=eindpos;
 								}
 							} else {
-								if(nieuwpos==0 && eindpos>leftPos) {
+								if(nieuwpos==0 && eindpos>(leftPos + 1)) {
 									nieuwpos=eindpos;
 								}
 							}
